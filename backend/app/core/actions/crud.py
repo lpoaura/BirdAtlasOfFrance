@@ -12,6 +12,25 @@ CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
 
+class BaseReadOnlyActions(Generic[ModelType]):
+    def __init__(self, model: Type[ModelType]):
+        """Base class that can be extend by other action classes.
+           Provides basic CRUD and listing operations.
+
+        :param model: The SQLAlchemy model
+        :type model: Type[ModelType]
+        """
+        self.model = model
+
+    def get_all(
+        self, db: Session, *, skip: int = 0, limit: int = 100
+    ) -> List[ModelType]:
+        return db.query(self.model).offset(skip).limit(limit).all()
+
+    def get(self, db: Session, id: int) -> Optional[ModelType]:
+        return db.query(self.model).filter(self.model.id == id).first()
+
+
 class BaseActions(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(self, model: Type[ModelType]):
         """Base class that can be extend by other action classes.
@@ -56,29 +75,10 @@ class BaseActions(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
-        return db_obj
+        return db_ob
 
-    def remove(self, db: Session, *, id: UUID4) -> ModelType:
+    def remove(self, db: Session, *, id: int) -> ModelType:
         obj = db.query(self.model).get(id)
         db.delete(obj)
         db.commit()
         return obj
-
-
-class BaseReadOnlyActions(Generic[ModelType]):
-    def __init__(self, model: Type[ModelType]):
-        """Base class that can be extend by other action classes.
-           Provides basic CRUD and listing operations.
-
-        :param model: The SQLAlchemy model
-        :type model: Type[ModelType]
-        """
-        self.model = model
-
-    def get_all(
-        self, db: Session, *, skip: int = 0, limit: int = 100
-    ) -> List[ModelType]:
-        return db.query(self.model).offset(skip).limit(limit).all()
-
-    def get(self, db: Session, id: UUID4) -> Optional[ModelType]:
-        return db.query(self.model).filter(self.model.id == id).first()
