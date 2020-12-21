@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+
+  backend:
+    build: backend/
+    container_name: odf-backend
+    volumes:
+      - ./backend/app:/app
+    ports:
+      - ${APP_PORT:-8000}:8000
+    environment: 
+      DEBUG: "true"
