@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+
+  backend:
+    container_name: odf-backend
+    ports:
+      - ${APP_PORT:-8000}:8000
