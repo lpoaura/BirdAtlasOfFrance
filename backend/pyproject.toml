@@ -5,7 +5,7 @@ description = ""
 authors = ["lpofredc <frederic.cloitre@lpo.fr>"]
 
 [tool.poetry.scripts]
-start = "app.main:app"
+dev_back = "uvicorn app.main:app --reload"
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -17,6 +17,7 @@ databases = {extras = ["postgresql"], version = "^0.4.1"}
 uvicorn = "^0.13.1"
 python-dotenv = "^0.15.0"
 GeoAlchemy2 = "^0.8.4"
+coloredlogs = "^15.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
