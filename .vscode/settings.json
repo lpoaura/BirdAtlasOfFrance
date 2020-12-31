@@ -1,3 +1,7 @@
 {
-    "python.pythonPath": "/home/fcloitre/.pyenv/versions/odf/bin/python"
+    "python.pythonPath": "/home/fcloitre/Dev/odf/backend/.venv/app-fCnrqpUu-py3.7/bin/python",
+    "python.linting.pylintEnabled": false,
+    "python.linting.mypyEnabled": true,
+    "python.linting.enabled": true,
+    "restructuredtext.confPath": ""
 }

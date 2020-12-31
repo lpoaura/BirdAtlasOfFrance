@@ -4,7 +4,7 @@ from pydantic import BaseSettings, PostgresDsn, validator
 
 
 class Settings(BaseSettings):
-    POSTGRES_SERVER: str
+    POSTGRES_HOST: str
     POSTGRES_PORT: str
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
@@ -20,9 +20,9 @@ class Settings(BaseSettings):
             scheme="postgresql",
             user=values.get("POSTGRES_USER"),
             password=values.get("POSTGRES_PASSWORD"),
-            host=values.get("POSTGRES_SERVER"),
+            host=values.get("POSTGRES_HOST"),
             port=values.get("POSTGRES_PORT"),
-            path=f"/{values.get('POSTGRES_DB') or  ''}",
+            path=f"/{values.get('POSTGRES_DB') or  ''}?application_name=odf_api",
         )
 
     class Config:
