@@ -5,10 +5,10 @@ services:
   backend:
     image: lpoaura/odf:latest
     env_file: 
-      - backend/.env
+      - ./backend/.env
     container_name: odf-backend
     ports:
-      - 8000:8000
+      - 8001:80
     environment:
       POSTGRES_HOST: $POSTGRES_HOST
       POSTGRES_DB: $POSTGRES_DB

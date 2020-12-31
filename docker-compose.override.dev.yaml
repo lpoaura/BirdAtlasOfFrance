@@ -5,9 +5,12 @@ services:
   backend:
     build: backend/
     container_name: odf-backend
+    env_file: 
+      - ./backend/.env
     volumes:
       - ./backend/app:/app
     ports:
-      - ${APP_PORT:-8000}:8000
+      - ${APP_PORT:-8000}:80
     environment: 
       DEBUG: "true"
+      LOG_LEVEL: "debug"
