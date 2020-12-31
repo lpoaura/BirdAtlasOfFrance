@@ -19,6 +19,7 @@ python-dotenv = "^0.15.0"
 GeoAlchemy2 = "^0.8.4"
 coloredlogs = "^15.0"
 loguru = "^0.5.3"
+geojson-pydantic = "^0.2.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
