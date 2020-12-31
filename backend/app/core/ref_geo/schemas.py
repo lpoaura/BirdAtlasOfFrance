@@ -1,6 +1,10 @@
-from typing import Optional
+from typing import List, Optional
 
-from pydantic import BaseModel, UUID4
+# from geojson_pydantic import Feature, Geometry
+from geojson_pydantic.features import Feature, FeatureCollection, Geometry
+
+# from geojson_pydantic.geometries import Geometry
+from pydantic import BaseModel
 
 
 # Shared properties
@@ -28,3 +32,32 @@ class BibAreasTypes(BibAreasTypesInDBase):
 # Additional properties stored in DB
 class BibAreasTypesInDB(BibAreasTypesInDBase):
     pass
+
+
+class LAreasBase(BaseModel):
+    area_name: str
+    area_code: str
+    # geom: Geometry
+    source: Optional[str] = None
+    area_type: BibAreasTypes
+
+
+class LAreasBaseInDBase(LAreasBase):
+    id_area: int
+    id_type: int
+
+    class Config:
+        orm_mode = True
+
+
+class LAreas(LAreasBaseInDBase):
+    pass
+
+
+class LAreasGeoJson(Feature):
+    properties: LAreasBase
+    type: str = "multipolygon"
+
+
+class LAreasGeoJsonList(FeatureCollection):
+    features: List[LAreasGeoJson]

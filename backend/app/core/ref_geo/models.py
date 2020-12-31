@@ -1,14 +1,5 @@
 from geoalchemy2 import Geometry
-from sqlalchemy import (
-    ForeignKey,
-    Column,
-    Integer,
-    BigInteger,
-    String,
-    Text,
-    Float,
-    DateTime,
-)
+from sqlalchemy import BigInteger, Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.core.db import Base
