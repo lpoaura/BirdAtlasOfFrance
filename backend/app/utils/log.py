@@ -10,9 +10,7 @@ from pydantic import BaseSettings
 
 
 class LoggingLevel(str, Enum):
-    """
-    Allowed log levels for the application
-    """
+    """Allowed log levels for the application"""
 
     CRITICAL: str = "CRITICAL"
     ERROR: str = "ERROR"
@@ -24,15 +22,13 @@ class LoggingLevel(str, Enum):
 class LoggingSettings(BaseSettings):
     """Configure your service logging using a LoggingSettings instance.
 
-    All arguments are optional.
+    Args:
+        level (str, optional): the minimum log-level to log. Default to "DEBUG".
+        format (str, optional): the logformat to use. Default to "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> | <level>{message}</level>".
+        filepath (Path, optional): the path where to store the logfiles. Default to None.
+        rotation (str, optional): when to rotate the logfile. Default to "1 days".
+        retention (str, optional): when to remove logfiles. Default to "1 months".
 
-    Arguments:
-
-        level (str): the minimum log-level to log. (default: "DEBUG")
-        format (str): the logformat to use. (default: "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> | <level>{message}</level>")
-        filepath (Path): the path where to store the logfiles. (default: None)
-        rotation (str): when to rotate the logfile. (default: "1 days")
-        retention (str): when to remove logfiles. (default: "1 months")
     """
 
     level: LoggingLevel = "DEBUG"
@@ -51,6 +47,12 @@ class LoggingSettings(BaseSettings):
 
 
 class InterceptHandler(logging.Handler):
+    """[summary]
+
+    Args:
+        logging ([type]): [description]
+    """
+
     def emit(self, record):
         # Get corresponding Loguru level if it exists
         try:
@@ -76,20 +78,17 @@ def setup_logger(
 ) -> Logger:
     """Define the global logger to be used by your entire service.
 
-    Arguments:
-
-        level: the minimum log-level to log.
-        format: the logformat to use.
-        filepath: the path where to store the logfiles.
-        rotation: when to rotate the logfile.
-        retention: when to remove logfiles.
+    Args:
+        level (str): The minimum log-level to log.
+        format (str): The logformat to use.
+        filepath (Optional[Path], optional): The path where to store the logfiles. Defaults to None.
+        rotation (Optional[str], optional): When to rotate the logfile.. Defaults to None.
+        retention (Optional[str], optional): When to remove logfiles.. Defaults to None.
 
     Returns:
-
-        the logger to be used by the service.
+        Logger: The logger to be used by the service.
 
     References:
-
         - [Loguru: Intercepting logging logs #247](https://github.com/Delgan/loguru/issues/247)
         - [Gunicorn: generic logging options #1572](https://github.com/benoitc/gunicorn/issues/1572#issuecomment-638391953)
     """
@@ -132,14 +131,14 @@ def setup_logger(
 def setup_logger_from_settings(settings: Optional[LoggingSettings] = None) -> Logger:
     """Define the global logger to be used by your entire service.
 
-    Arguments:
-
-        settings: the logging settings to apply.
+    Args:
+        settings (Optional[LoggingSettings], optional): The logging settings to apply. Defaults to None.
 
     Returns:
+        Logger: The logger instance.
 
-        the logger instance.
     """
+
     # Parse from env when no settings are given
     if not settings:
         settings = LoggingSettings()
