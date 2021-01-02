@@ -1,3 +1,4 @@
+import logging
 from typing import List, Optional
 
 # from geojson_pydantic import Feature, Geometry
@@ -5,6 +6,8 @@ from geojson_pydantic.features import Feature, FeatureCollection, Geometry
 
 # from geojson_pydantic.geometries import Geometry
 from pydantic import BaseModel
+
+logger = logging.getLogger(__name__)
 
 
 # Shared properties
@@ -25,7 +28,7 @@ class BibAreasTypesInDBase(BibAreasTypesBase):
 
 
 # Additional properties to return via API
-class BibAreasTypes(BibAreasTypesInDBase):
+class BibAreasTypesSchema(BibAreasTypesInDBase):
     pass
 
 
@@ -37,27 +40,25 @@ class BibAreasTypesInDB(BibAreasTypesInDBase):
 class LAreasBase(BaseModel):
     area_name: str
     area_code: str
-    # geom: Geometry
-    source: Optional[str] = None
-    area_type: BibAreasTypes
 
 
 class LAreasBaseInDBase(LAreasBase):
     id_area: int
     id_type: int
+    source: Optional[str]
 
     class Config:
         orm_mode = True
 
 
-class LAreas(LAreasBaseInDBase):
+class LAreasSchema(LAreasBaseInDBase):
     pass
 
 
-class LAreasGeoJson(Feature):
+class LAreasFeatureProperties(Feature):
     properties: LAreasBase
-    type: str = "multipolygon"
+    type: str = "Feature"
 
 
 class LAreasGeoJsonList(FeatureCollection):
-    features: List[LAreasGeoJson]
+    features: List[LAreasFeatureProperties]
