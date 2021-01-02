@@ -1,6 +1,13 @@
-from typing import Optional
+import logging
+from typing import List, Optional
 
-from pydantic import BaseModel, UUID4
+# from geojson_pydantic import Feature, Geometry
+from geojson_pydantic.features import Feature, FeatureCollection, Geometry
+
+# from geojson_pydantic.geometries import Geometry
+from pydantic import BaseModel
+
+logger = logging.getLogger(__name__)
 
 
 # Shared properties
@@ -21,10 +28,37 @@ class BibAreasTypesInDBase(BibAreasTypesBase):
 
 
 # Additional properties to return via API
-class BibAreasTypes(BibAreasTypesInDBase):
+class BibAreasTypesSchema(BibAreasTypesInDBase):
     pass
 
 
 # Additional properties stored in DB
 class BibAreasTypesInDB(BibAreasTypesInDBase):
     pass
+
+
+class LAreasBase(BaseModel):
+    area_name: str
+    area_code: str
+
+
+class LAreasBaseInDBase(LAreasBase):
+    id_area: int
+    id_type: int
+    source: Optional[str]
+
+    class Config:
+        orm_mode = True
+
+
+class LAreasSchema(LAreasBaseInDBase):
+    pass
+
+
+class LAreasFeatureProperties(Feature):
+    properties: LAreasBase
+    type: str = "Feature"
+
+
+class LAreasGeoJsonList(FeatureCollection):
+    features: List[LAreasFeatureProperties]
