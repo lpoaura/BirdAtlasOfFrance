@@ -1,6 +1,8 @@
+import logging
 from typing import Any, List
 
 from fastapi import APIRouter, Depends, HTTPException
+from geoalchemy2 import functions as geofunctions
 from geojson_pydantic.features import FeatureCollection
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
@@ -8,7 +10,10 @@ from starlette.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
 from app.core.db import get_db
 
 from .actions import bib_areas_types, l_areas
+from .models import BibAreasTypes, LAreas
 from .schemas import BibAreasTypes, LAreasGeoJson, LAreasGeoJsonList
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -41,9 +46,13 @@ def get_bibareastypes(*, db: Session = Depends(get_db), id_type: int) -> Any:
     response_model=LAreasGeoJsonList,
     tags=["ref_geo"],
 )
-def list_lareas(db: Session = Depends(get_db), skip: int = 0, limit: int = 100) -> Any:
-    lareas = l_areas.get_all(db=db, skip=skip, limit=limit)
-    return lareas
+def list_lareas(db: Session = Depends(get_db)) -> Any:
+    # lareas = l_areas.get_all(db=db, skip=skip, limit=limit)
+    lareas = db.query(
+        LAreas.area_code, LAreas.area_name, geofunctions.ST_AsGeoJSON(LAreas.geom)
+    ).all()
+    gdata = LAreasGeoJsonList.features = lareas
+    return gdata
 
 
 @router.get(
@@ -55,5 +64,5 @@ def list_lareas(db: Session = Depends(get_db), skip: int = 0, limit: int = 100) 
 def get_lareas(*, db: Session = Depends(get_db), id_area: int) -> Any:
     lareas = l_areas.get(db=db, id_area=id_area)
     if not lareas:
-        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Post not found")
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Get not found")
     return lareas

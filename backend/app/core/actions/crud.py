@@ -1,3 +1,4 @@
+import logging
 from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 
 from fastapi.encoders import jsonable_encoder
@@ -5,6 +6,8 @@ from pydantic import UUID4, BaseModel
 from sqlalchemy.orm import Session
 
 from app.core.db import Base
+
+logger = logging.getLogger(__name__)
 
 # Define custom types for SQLAlchemy model, and Pydantic schemas
 ModelType = TypeVar("ModelType", bound=Base)
@@ -22,10 +25,10 @@ class BaseReadOnlyActions(Generic[ModelType]):
         """
         self.model = model
 
-    def get_all(
-        self, db: Session, *, skip: int = 0, limit: int = 100
-    ) -> List[ModelType]:
-        return db.query(self.model).offset(skip).limit(limit).all()
+    def get_all(self, db: Session, *, skip: int = 0, limit: int = 100) -> List[ModelType]:
+        q = db.query(self.model).offset(skip).limit(limit)
+        logger.debug(f"query for model {self.model} is: \n {q}")
+        return q.all()
 
     def get(self, db: Session, id: int) -> Optional[ModelType]:
         return db.query(self.model).filter(self.model.id == id).first()
@@ -41,9 +44,7 @@ class BaseActions(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         """
         self.model = model
 
-    def get_all(
-        self, db: Session, *, skip: int = 0, limit: int = 100
-    ) -> List[ModelType]:
+    def get_all(self, db: Session, *, skip: int = 0, limit: int = 100) -> List[ModelType]:
         return db.query(self.model).offset(skip).limit(limit).all()
 
     def get(self, db: Session, id: UUID4) -> Optional[ModelType]:
@@ -58,11 +59,7 @@ class BaseActions(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db_obj
 
     def update(
-        self,
-        db: Session,
-        *,
-        db_obj: ModelType,
-        obj_in: Union[UpdateSchemaType, Dict[str, Any]]
+        self, db: Session, *, db_obj: ModelType, obj_in: Union[UpdateSchemaType, Dict[str, Any]]
     ) -> ModelType:
         obj_data = jsonable_encoder(db_obj)
         if isinstance(obj_in, dict):
