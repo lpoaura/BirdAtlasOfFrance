@@ -6,7 +6,7 @@ from typing import Any, List
 
 import uvicorn
 from fastapi import FastAPI
-from fastapi.logger import logger
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
 from app.core.ref_geo.routers import router as ref_geo_router
@@ -16,6 +16,22 @@ from .utils import log
 
 app = FastAPI(title="BirdAtlasOfFrance API")
 logger = log.setup_logger_from_settings()
+
+origins = [
+    "http://localhost",
+    "http://localhost:8888",
+    "http://127.0.0.1",
+    "http://127.0.0.1:8888",
+    "http://127.0.0.1:5500",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
