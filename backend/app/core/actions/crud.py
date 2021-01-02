@@ -27,7 +27,7 @@ class BaseReadOnlyActions(Generic[ModelType]):
 
     def get_all(self, db: Session, *, skip: int = 0, limit: int = 100) -> List[ModelType]:
         q = db.query(self.model).offset(skip).limit(limit)
-        logger.debug(f"query for model {self.model} is: \n {q}")
+        logger.debug(f"{q}")
         return q.all()
 
     def get(self, db: Session, id: int) -> Optional[ModelType]:

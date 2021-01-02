@@ -1,17 +1,18 @@
+import json
 import logging
-from typing import Any, List
+from typing import Any, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from geoalchemy2 import functions as geofunctions
-from geojson_pydantic.features import FeatureCollection
+from geojson_pydantic.features import Feature, FeatureCollection
 from sqlalchemy.orm import Session
-from starlette.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
+from starlette.status import HTTP_404_NOT_FOUND
 
 from app.core.db import get_db
 
 from .actions import bib_areas_types, l_areas
 from .models import BibAreasTypes, LAreas
-from .schemas import BibAreasTypes, LAreasGeoJson, LAreasGeoJsonList
+from .schemas import BibAreasTypesSchema, LAreasFeatureProperties, LAreasGeoJsonList
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +21,7 @@ router = APIRouter()
 
 @router.get(
     "/bibareastypes",
-    response_model=List[BibAreasTypes],
+    response_model=List[BibAreasTypesSchema],
     tags=["ref_geo"],
 )
 def list_bibareastypes(db: Session = Depends(get_db), skip: int = 0, limit: int = 100) -> Any:
@@ -30,8 +31,8 @@ def list_bibareastypes(db: Session = Depends(get_db), skip: int = 0, limit: int 
 
 @router.get(
     "/bibareastypes/{id_type}",
-    response_model=BibAreasTypes,
-    responses={HTTP_404_NOT_FOUND: {"model": BibAreasTypes}},
+    response_model=BibAreasTypesSchema,
+    responses={HTTP_404_NOT_FOUND: {"model": BibAreasTypesSchema}},
     tags=["ref_geo"],
 )
 def get_bibareastypes(*, db: Session = Depends(get_db), id_type: int) -> Any:
@@ -42,23 +43,33 @@ def get_bibareastypes(*, db: Session = Depends(get_db), id_type: int) -> Any:
 
 
 @router.get(
-    "/lareas",
-    response_model=LAreasGeoJsonList,
+    "/lareas/{type_code}",
+    response_model=FeatureCollection,
     tags=["ref_geo"],
 )
-def list_lareas(db: Session = Depends(get_db)) -> Any:
+def list_lareas(
+    db: Session = Depends(get_db), type_code: str = "COM", limit: Optional[int] = None
+) -> Any:
     # lareas = l_areas.get_all(db=db, skip=skip, limit=limit)
-    lareas = db.query(
-        LAreas.area_code, LAreas.area_name, geofunctions.ST_AsGeoJSON(LAreas.geom)
-    ).all()
-    gdata = LAreasGeoJsonList.features = lareas
-    return gdata
+    lareas = l_areas.get_feature_list(db=db, type_code=type_code, limit=limit)
+    features = []
+    for a in lareas:
+        f = LAreasFeatureProperties(
+            properties={"area_name": a.area_name, "area_code": a.area_code},
+            geometry=json.loads(a.geometry),
+            id=a.id_area,
+            # bbox=a.bbox,
+        )
+        features.append(f)
+
+    collection = FeatureCollection(features=features)
+    return collection
 
 
 @router.get(
     "/lareas/{id_area}",
-    response_model=LAreasGeoJson,
-    responses={HTTP_404_NOT_FOUND: {"model": LAreasGeoJson}},
+    response_model=FeatureCollection,
+    responses={HTTP_404_NOT_FOUND: {"model": LAreasFeatureProperties}},
     tags=["ref_geo"],
 )
 def get_lareas(*, db: Session = Depends(get_db), id_area: int) -> Any:
