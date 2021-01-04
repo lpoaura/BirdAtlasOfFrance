@@ -10,10 +10,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import RedirectResponse
 
+from app import __version__
 from app.core.ref_geo.routers import router as ref_geo_router
-
-from . import __version__
-from .utils import log
+from app.utils import log
 
 app = FastAPI(title="BirdAtlasOfFrance API")
 app.add_middleware(GZipMiddleware, minimum_size=1000)
