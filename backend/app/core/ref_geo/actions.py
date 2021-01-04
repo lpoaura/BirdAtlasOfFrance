@@ -2,6 +2,9 @@ import logging
 from typing import List, Optional
 
 from geoalchemy2 import functions
+
+# from sqlalchemy_utils.functions import json_sql
+from sqlalchemy import func
 from sqlalchemy.orm import Query, Session
 
 from app.core.actions.crud import BaseReadOnlyActions
@@ -28,12 +31,16 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
 
     def query_data4features(self, db: Session) -> Query:
         q = db.query(
-            LAreas.id_area,
-            LAreas.area_code,
-            LAreas.area_name,
+            LAreas.id_area.label("id"),
+            func.json_build_object(
+                "area_code",
+                LAreas.area_code,
+                "area_name",
+                LAreas.area_name,
+            ).label("properties"),
             functions.ST_AsGeoJSON(functions.ST_Transform(LAreas.geom, 4326)).label("geometry"),
-            # functions.ST_Envelope(LAreas.geom).label("bbox"),
         )
+        logger.debug(f"{q}")
         return q
 
     def get_feature_list(

@@ -52,16 +52,16 @@ def list_lareas(
 ) -> Any:
     # lareas = l_areas.get_all(db=db, skip=skip, limit=limit)
     lareas = l_areas.get_feature_list(db=db, type_code=type_code, limit=limit)
+    # features = [LAreasFeatureProperties.from_orm(a) for a in lareas]
+    # features = List[LAreasFeatureProperties](lareas)
     features = []
     for a in lareas:
         f = LAreasFeatureProperties(
-            properties={"area_name": a.area_name, "area_code": a.area_code},
+            properties=a.properties,
             geometry=json.loads(a.geometry),
-            id=a.id_area,
-            # bbox=a.bbox,
+            id=a.id,
         )
         features.append(f)
-
     collection = FeatureCollection(features=features)
     return collection
 
