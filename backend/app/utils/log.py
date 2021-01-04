@@ -1,5 +1,6 @@
 import logging
 import sys
+import time
 from enum import Enum
 from pathlib import Path
 from typing import Optional
@@ -7,6 +8,10 @@ from typing import Optional
 from loguru import logger
 from loguru._logger import Logger
 from pydantic import BaseSettings
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
+
+from app.utils.config import settings
 
 
 class LoggingLevel(str, Enum):
@@ -31,7 +36,7 @@ class LoggingSettings(BaseSettings):
 
     """
 
-    level: LoggingLevel = "DEBUG"
+    level: LoggingLevel = settings.LOG_LEVEL
     format: str = (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
         "<level>{level: <8}</level> | "
@@ -150,3 +155,19 @@ def setup_logger_from_settings(settings: Optional[LoggingSettings] = None) -> Lo
         settings.rotation,
         settings.retention,
     )
+
+
+if settings.LOG_LEVEL == "DEBUG":
+
+    @event.listens_for(Engine, "before_cursor_execute")
+    def before_cursor_execute(conn, cursor, statement, parameters, context, executemany):
+        conn.info.setdefault("query_start_time", []).append(time.time())
+        q = statement % parameters
+        logger.debug(f"Start Query:\n{q}")
+
+    @event.listens_for(Engine, "after_cursor_execute")
+    def after_cursor_execute(conn, cursor, statement, parameters, context, executemany):
+        total = time.time() - conn.info["query_start_time"].pop(-1)
+        q = statement % parameters
+        logger.debug(f"Query Complete!")
+        logger.debug(f"Total Time: {total}")

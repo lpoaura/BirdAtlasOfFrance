@@ -8,6 +8,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import Query, Session
 
 from app.core.actions.crud import BaseReadOnlyActions
+from app.utils.db import database
 
 from .models import BibAreasTypes, LAreas
 
@@ -19,7 +20,6 @@ class BibAreasTypesActions(BaseReadOnlyActions[BibAreasTypes]):
 
     def get_id_from_code(self, db: Session, code: str) -> Optional[int]:
         q = db.query(self.model.id_type).filter(self.model.type_code == code)
-        logger.debug(f"{q}")
         return q.first().id_type
 
 
@@ -40,7 +40,6 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
             ).label("properties"),
             functions.ST_AsGeoJSON(functions.ST_Transform(LAreas.geom, 4326)).label("geometry"),
         )
-        logger.debug(f"{q}")
         return q
 
     def get_feature_list(
@@ -77,7 +76,6 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
             )
         if limit:
             q = q.limit(limit)
-        logger.debug(q)
         return q.all()
 
 

@@ -3,16 +3,14 @@ import logging
 from typing import Any, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
-from geoalchemy2 import functions as geofunctions
-from geojson_pydantic.features import Feature, FeatureCollection
+from geojson_pydantic.features import FeatureCollection
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_404_NOT_FOUND
 
-from app.utils.db import get_db
+from app.utils.db import get_db, settings
 
 from .actions import bib_areas_types, l_areas
-from .models import BibAreasTypes, LAreas
-from .schemas import BibAreasTypesSchema, LAreasFeatureProperties, LAreasGeoJsonList
+from .schemas import BibAreasTypesSchema, LAreasFeatureProperties
 
 logger = logging.getLogger(__name__)
 
@@ -53,15 +51,12 @@ def list_lareas(
     limit: Optional[int] = None,
     envelope: Optional[str] = None,
 ) -> Any:
-
+    logger.debug(settings.SQLALCHEMY_DATABASE_URI)
     if envelope:
         logger.debug(f"envelop qs: {envelope}")
         envelope = [float(c) for c in envelope.split(",")]
     logger.debug(f"envelop {envelope} {type(envelope)}")
-    # lareas = l_areas.get_all(db=db, skip=skip, limit=limit)
     lareas = l_areas.get_feature_list(db=db, type_code=type_code, limit=limit, envelope=envelope)
-    # features = [LAreasFeatureProperties.from_orm(a) for a in lareas]
-    # features = List[LAreasFeatureProperties](lareas)
     features = []
     for a in lareas:
         f = LAreasFeatureProperties(
