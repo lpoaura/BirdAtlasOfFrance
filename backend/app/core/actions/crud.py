@@ -5,7 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import UUID4, BaseModel
 from sqlalchemy.orm import Session
 
-from app.core.db import Base
+from app.utils.db import Base
 
 logger = logging.getLogger(__name__)
 

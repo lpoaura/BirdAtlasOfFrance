@@ -1,8 +1,7 @@
 from geoalchemy2 import Geometry
-from sqlalchemy import (Column, DateTime, Float, ForeignKey, Integer, String,
-                        Text)
+from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String, Text
 
-from app.core.db import Base
+from app.utils.db import Base
 
 
 class TSources(Base):
@@ -20,12 +19,8 @@ class TSources(Base):
 class CorObserverSynthese(Base):
     __tablename__ = "cor_observer_synthese"
     __table_args__ = {"schema": "gn_synthese"}
-    id_synthese = Column(
-        Integer, ForeignKey("gn_synthese.synthese.id_synthese"), primary_key=True
-    )
-    id_role = Column(
-        Integer, ForeignKey("utilisateurs.t_roles.id_role"), primary_key=True
-    )
+    id_synthese = Column(Integer, ForeignKey("gn_synthese.synthese.id_synthese"), primary_key=True)
+    id_role = Column(Integer, ForeignKey("utilisateurs.t_roles.id_role"), primary_key=True)
 
 
 corAreaSynthese = Table(

@@ -8,7 +8,7 @@ from geojson_pydantic.features import Feature, FeatureCollection
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_404_NOT_FOUND
 
-from app.core.db import get_db
+from app.utils.db import get_db
 
 from .actions import bib_areas_types, l_areas
 from .models import BibAreasTypes, LAreas
