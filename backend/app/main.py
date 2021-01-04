@@ -13,8 +13,10 @@ from fastapi.responses import RedirectResponse
 from app import __version__
 from app.core.ref_geo.routers import router as ref_geo_router
 from app.utils import log
+from app.utils.config import settings
+from app.utils.db import database
 
-app = FastAPI(title="BirdAtlasOfFrance API")
+app = FastAPI(title=settings.APP_NAME)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 logger = log.setup_logger_from_settings()
 
@@ -35,6 +37,16 @@ app.add_middleware(
 )
 
 
+@app.on_event("startup")
+async def startup():
+    await database.connect()
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    await database.disconnect()
+
+
 @app.get("/")
 async def root():
     logger.debug("Hello!")
@@ -42,13 +54,15 @@ async def root():
     return RedirectResponse("/docs")
 
 
-@app.get("/pong")
-async def pong():
-    logger.error("Error log")
-    logger.warning("Warning log")
-    logger.info("Info log")
-    logger.debug("Debug log")
-    return {"ping": "pong"}
+if settings.LOG_LEVEL == "DEBUG":
+
+    @app.get("/pong")
+    async def pong():
+        logger.error("Error log")
+        logger.warning("Warning log")
+        logger.info("Info log")
+        logger.debug("Debug log")
+        return {"ping": "pong"}
 
 
 app.include_router(ref_geo_router)
