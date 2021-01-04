@@ -48,10 +48,18 @@ def get_bibareastypes(*, db: Session = Depends(get_db), id_type: int) -> Any:
     tags=["ref_geo"],
 )
 def list_lareas(
-    db: Session = Depends(get_db), type_code: str = "COM", limit: Optional[int] = None
+    db: Session = Depends(get_db),
+    type_code: str = "COM",
+    limit: Optional[int] = None,
+    envelope: Optional[str] = None,
 ) -> Any:
+
+    if envelope:
+        logger.debug(f"envelop qs: {envelope}")
+        envelope = [float(c) for c in envelope.split(",")]
+    logger.debug(f"envelop {envelope} {type(envelope)}")
     # lareas = l_areas.get_all(db=db, skip=skip, limit=limit)
-    lareas = l_areas.get_feature_list(db=db, type_code=type_code, limit=limit)
+    lareas = l_areas.get_feature_list(db=db, type_code=type_code, limit=limit, envelope=envelope)
     # features = [LAreasFeatureProperties.from_orm(a) for a in lareas]
     # features = List[LAreasFeatureProperties](lareas)
     features = []

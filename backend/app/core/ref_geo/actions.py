@@ -44,7 +44,11 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
         return q
 
     def get_feature_list(
-        self, db: Session, type_code: str = "COM", limit: Optional[int] = None
+        self,
+        db: Session,
+        type_code: str = "COM",
+        limit: Optional[int] = None,
+        envelope: Optional[List] = None,
     ) -> List:
         """[summary]
 
@@ -59,6 +63,18 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
         id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
         q = self.query_data4features(db=db)
         q = q.filter(LAreas.id_type == id_type)
+        if envelope:
+            q = q.filter(
+                functions.ST_Intersects(
+                    LAreas.geom,
+                    functions.ST_Transform(
+                        functions.ST_MakeEnvelope(
+                            envelope[0], envelope[1], envelope[2], envelope[3], 4326
+                        ),
+                        2154,
+                    ),
+                )
+            )
         if limit:
             q = q.limit(limit)
         logger.debug(q)
