@@ -11,6 +11,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import RedirectResponse
 
 from app import __version__
+from app.core.prospecting.routers import router as prospecting_router
 from app.core.ref_geo.routers import router as ref_geo_router
 from app.utils import log
 from app.utils.config import settings
@@ -66,6 +67,7 @@ if settings.LOG_LEVEL == "DEBUG":
 
 
 app.include_router(ref_geo_router)
+app.include_router(prospecting_router)
 
 
 def main():
