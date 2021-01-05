@@ -1,7 +1,6 @@
-from geoalchemy2 import Geometry, Multi
-from sqlalchemy import BigInteger, Column, DateTime, Float, ForeignKey, Integer, String
+from geoalchemy2 import Geometry
+from sqlalchemy import Column, Float, Integer, String
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import relationship
 
 from app.utils.db import Base
 
