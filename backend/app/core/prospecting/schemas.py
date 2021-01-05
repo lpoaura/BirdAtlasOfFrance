@@ -9,6 +9,18 @@ from pydantic import BaseModel
 logger = logging.getLogger(__name__)
 
 
+class AreaKnowledgeLevelDetailSchema(BaseModel):
+    """[summary]
+
+    Args:
+        BaseModel ([type]): [description]
+    """
+
+    old_count: int
+    new_count: int
+    percent_knowledge: float
+
+
 class AreaKnowledgeLevelPropertiesSchema(BaseModel):
     """[summary]
 
@@ -18,9 +30,9 @@ class AreaKnowledgeLevelPropertiesSchema(BaseModel):
 
     area_name: str
     area_code: str
-    count_taxa_old: int
-    count_taxa_new: int
-    percent_knowledge: float
+    all_period: AreaKnowledgeLevelDetailSchema
+    breeding: AreaKnowledgeLevelDetailSchema
+    wintering: AreaKnowledgeLevelDetailSchema
 
     class Config:
         orm_mode = True

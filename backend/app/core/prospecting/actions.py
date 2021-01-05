@@ -2,6 +2,7 @@ import logging
 from typing import List, Optional
 
 from geoalchemy2 import functions
+
 # from sqlalchemy_utils.functions import json_sql
 from sqlalchemy import func
 from sqlalchemy.orm import Query, Session
@@ -25,12 +26,33 @@ class AreaKnowledgeLevelActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
                 AreaKnowledgeLevel.area_code,
                 "area_name",
                 AreaKnowledgeLevel.area_name,
-                "count_taxa_old",
-                AreaKnowledgeLevel.count_taxa_old,
-                "count_taxa_new",
-                AreaKnowledgeLevel.count_taxa_new,
-                "percent_knowledge",
-                AreaKnowledgeLevel.percent_knowledge,
+                "all_period",
+                func.json_build_object(
+                    "old_count",
+                    AreaKnowledgeLevel.allperiod_count_taxa_old,
+                    "new_count",
+                    AreaKnowledgeLevel.allperiod_count_taxa_new,
+                    "percent_knowledge",
+                    AreaKnowledgeLevel.allperiod_percent_knowledge,
+                ),
+                "breeding",
+                func.json_build_object(
+                    "old_count",
+                    AreaKnowledgeLevel.breeding_count_taxa_old,
+                    "new_count",
+                    AreaKnowledgeLevel.breeding_count_taxa_new,
+                    "percent_knowledge",
+                    AreaKnowledgeLevel.breeding_percent_knowledge,
+                ),
+                "wintering",
+                func.json_build_object(
+                    "old_count",
+                    AreaKnowledgeLevel.wintering_count_taxa_old,
+                    "new_count",
+                    AreaKnowledgeLevel.wintering_count_taxa_new,
+                    "percent_knowledge",
+                    AreaKnowledgeLevel.wintering_percent_knowledge,
+                ),
             ).label("properties"),
             AreaKnowledgeLevel.geojson_geom.label("geometry"),
         )
