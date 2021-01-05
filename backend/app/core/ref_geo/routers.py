@@ -3,16 +3,14 @@ import logging
 from typing import Any, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
-from geoalchemy2 import functions as geofunctions
-from geojson_pydantic.features import Feature, FeatureCollection
+from geojson_pydantic.features import FeatureCollection
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_404_NOT_FOUND
 
-from app.core.db import get_db
+from app.utils.db import get_db, settings
 
 from .actions import bib_areas_types, l_areas
-from .models import BibAreasTypes, LAreas
-from .schemas import BibAreasTypesSchema, LAreasFeatureProperties, LAreasGeoJsonList
+from .schemas import BibAreasTypesSchema, LAreasFeatureProperties
 
 logger = logging.getLogger(__name__)
 
@@ -48,20 +46,25 @@ def get_bibareastypes(*, db: Session = Depends(get_db), id_type: int) -> Any:
     tags=["ref_geo"],
 )
 def list_lareas(
-    db: Session = Depends(get_db), type_code: str = "COM", limit: Optional[int] = None
+    db: Session = Depends(get_db),
+    type_code: str = "COM",
+    limit: Optional[int] = None,
+    envelope: Optional[str] = None,
 ) -> Any:
-    # lareas = l_areas.get_all(db=db, skip=skip, limit=limit)
-    lareas = l_areas.get_feature_list(db=db, type_code=type_code, limit=limit)
+    logger.debug(settings.SQLALCHEMY_DATABASE_URI)
+    if envelope:
+        logger.debug(f"envelop qs: {envelope}")
+        envelope = [float(c) for c in envelope.split(",")]
+    logger.debug(f"envelop {envelope} {type(envelope)}")
+    lareas = l_areas.get_feature_list(db=db, type_code=type_code, limit=limit, envelope=envelope)
     features = []
     for a in lareas:
         f = LAreasFeatureProperties(
-            properties={"area_name": a.area_name, "area_code": a.area_code},
+            properties=a.properties,
             geometry=json.loads(a.geometry),
-            id=a.id_area,
-            # bbox=a.bbox,
+            id=a.id,
         )
         features.append(f)
-
     collection = FeatureCollection(features=features)
     return collection
 

@@ -1,17 +1,24 @@
+import logging
 from typing import Any
 
+import databases
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import as_declarative
 from sqlalchemy.orm import sessionmaker
 
-from .config import settings
+from app.utils.config import settings
+
+logger = logging.getLogger(__name__)
 
 engine = create_engine(
     settings.SQLALCHEMY_DATABASE_URI,
     pool_pre_ping=True,
+    echo=False,
     connect_args={"application_name": settings.APP_SYSNAME},
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+database = databases.Database(url=settings.SQLALCHEMY_DATABASE_URI)
 
 
 @as_declarative()

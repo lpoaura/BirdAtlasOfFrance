@@ -2,7 +2,7 @@ from geoalchemy2 import Geometry
 from sqlalchemy import BigInteger, Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from app.core.db import Base
+from app.utils.db import Base
 
 
 class BibAreasTypes(Base):

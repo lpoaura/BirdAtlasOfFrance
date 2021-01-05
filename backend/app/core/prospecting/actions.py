@@ -2,43 +2,37 @@ import logging
 from typing import List, Optional
 
 from geoalchemy2 import functions
-
 # from sqlalchemy_utils.functions import json_sql
 from sqlalchemy import func
 from sqlalchemy.orm import Query, Session
 
 from app.core.actions.crud import BaseReadOnlyActions
-from app.utils.db import database
+from app.core.ref_geo.actions import bib_areas_types
 
-from .models import BibAreasTypes, LAreas
+from .models import AreaKnowledgeLevel
 
 logger = logging.getLogger(__name__)
 
 
-class BibAreasTypesActions(BaseReadOnlyActions[BibAreasTypes]):
-    """Post actions with basic CRUD operations"""
-
-    def get_id_from_code(self, db: Session, code: str) -> Optional[int]:
-        q = db.query(self.model.id_type).filter(self.model.type_code == code)
-        return q.first().id_type
-
-
-bib_areas_types = BibAreasTypesActions(BibAreasTypes)
-
-
-class LAreasActions(BaseReadOnlyActions[LAreas]):
+class AreaKnowledgeLevelActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
     """Post actions with basic CRUD operations"""
 
     def query_data4features(self, db: Session) -> Query:
         q = db.query(
-            LAreas.id_area.label("id"),
+            AreaKnowledgeLevel.id_area.label("id"),
             func.json_build_object(
                 "area_code",
-                LAreas.area_code,
+                AreaKnowledgeLevel.area_code,
                 "area_name",
-                LAreas.area_name,
+                AreaKnowledgeLevel.area_name,
+                "count_taxa_old",
+                AreaKnowledgeLevel.count_taxa_old,
+                "count_taxa_new",
+                AreaKnowledgeLevel.count_taxa_new,
+                "percent_knowledge",
+                AreaKnowledgeLevel.percent_knowledge,
             ).label("properties"),
-            functions.ST_AsGeoJSON(functions.ST_Transform(LAreas.geom, 4326)).label("geometry"),
+            AreaKnowledgeLevel.geojson_geom.label("geometry"),
         )
         return q
 
@@ -61,23 +55,19 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
         """
         id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
         q = self.query_data4features(db=db)
-        q = q.filter(LAreas.id_type == id_type)
+        q = q.filter(AreaKnowledgeLevel.id_type == id_type)
         if envelope:
             q = q.filter(
                 functions.ST_Intersects(
-                    LAreas.geom,
-                    functions.ST_Transform(
-                        functions.ST_MakeEnvelope(
-                            envelope[0], envelope[1], envelope[2], envelope[3], 4326
-                        ),
-                        2154,
+                    AreaKnowledgeLevel.geom,
+                    functions.ST_MakeEnvelope(
+                        envelope[0], envelope[1], envelope[2], envelope[3], 4326
                     ),
-                )
+                ),
             )
         if limit:
             q = q.limit(limit)
         return q.all()
 
 
-bib_areas_types = BibAreasTypesActions(BibAreasTypes)
-l_areas = LAreasActions(LAreas)
+area_knowledge_level = AreaKnowledgeLevelActions(AreaKnowledgeLevel)
