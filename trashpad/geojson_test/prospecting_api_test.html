@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="map" style="height: 100vh;"></div>
+</body>
+<script>
+    let map = L.map('map').setView([45, 5], 8)
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            map.panTo(L.latLng(position.coords.latitude, position.coords.longitude))
+
+        })
+    }
+
+    function percent_knowledge(d) {
+        return d >= 1 ? '#FC4E2A' :
+            d > 0.5 ? '#FD8D3C' :
+                d > 0.2 ? '#FEB24C' :
+                    d > 0.1 ? '#FED976' :
+                        '#FFEDA0';
+    };
+
+
+    function MyStyle(feature) {
+        return {
+            fillColor: percent_knowledge(feature.properties.all_period.percent_knowledge),
+            color: "#f00",
+            weight: 0.2,
+            opacity: 1,
+            fillOpacity: 1
+        }
+    };
+    let x = [map.getBounds().getWest(), map.getBounds().getEast()];
+    let y = [map.getBounds().getNorth(), map.getBounds().getSouth()];
+    console.log(Math.min.apply(Math, x))
+    var envelop = [Math.min.apply(Math, x), Math.min.apply(Math, y), Math.max.apply(Math, x), Math.max.apply(Math, y)];
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'OSM' }).addTo(map)
+    axios.get('http://127.0.0.1:8888/area_knowledge_level/M10?envelope=' + envelop)
+        .then(response => {
+            console.log(response.data)
+            var ml = L.geoJSON(response.data, {
+                style: function (f, l) {
+                    return {
+                        fillColor: percent_knowledge(f.properties.all_period.percent_knowledge),
+                        color: "#f00",
+                        weight: 0.2,
+                        opacity: 1,
+                        fillOpacity: 0.5
+                    }
+                },
+                onEachFeature: function (f, l) {
+                    l.bindPopup('<pre>' + JSON.stringify(f.properties, null, ' ').replace(/[\{\}"]/g, '') + '</pre>');
+                }
+            });
+            ml.addTo(map);
+            // map.fitBounds(ml.getBounds());
+        });
+    map.on("moveend",
+        function () {
+            let x = [map.getBounds().getWest(), map.getBounds().getEast()];
+            let y = [map.getBounds().getNorth(), map.getBounds().getSouth()];
+            console.log("x", x);
+            console.log("y", y);
+            console.log(Math.min.apply(Math, x))
+            console.log("ENvelop: ", Math.min.apply(Math, x), Math.min.apply(Math, y), Math.max.apply(Math, x), Math.max.apply(Math, y));
+        });
+</script>
