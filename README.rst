@@ -29,7 +29,7 @@ Licence
 Team
 ====
 
-* `@eguilley <https://github.com/eguilley>`_ (`LPO Auvergne-Rhône-Alpes <https://github.com/lpoaura/>`_), main developer
+* `@eguilley <https://github.com/eguilley>`_ (`LPO Auvergne-Rhône-Alpes <https://github.com/lpoaura/>`_), project manager/main developer
 * `@lpofredc <https://github.com/lpofredc/>`_ (`LPO Auvergne-Rhône-Alpes <https://github.com/lpoaura/>`_), main developer
 * `@jgc <https://github.com/jgc>`_ (`LPO Auvergne-Rhône-Alpes <https://github.com/lpoaura/>`_), coordinator
 
