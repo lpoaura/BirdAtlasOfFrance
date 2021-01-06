@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import logging
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from geojson_pydantic.features import Feature, FeatureCollection
 from pydantic import BaseModel
@@ -16,9 +16,9 @@ class AreaKnowledgeLevelDetailSchema(BaseModel):
         BaseModel ([type]): [description]
     """
 
-    old_count: int
-    new_count: int
-    percent_knowledge: float
+    old_count: Union[None, int]
+    new_count: Union[None, int]
+    percent_knowledge: Union[None, float]
 
 
 class AreaKnowledgeLevelPropertiesSchema(BaseModel):
