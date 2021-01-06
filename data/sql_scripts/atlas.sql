@@ -1,8 +1,11 @@
 CREATE SCHEMA IF NOT EXISTS atlas
 ;
 
+
+
 DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_knowledge_level
 ;
+
 
 CREATE MATERIALIZED VIEW atlas.mv_area_knowledge_level AS
 WITH
