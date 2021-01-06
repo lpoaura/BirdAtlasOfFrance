@@ -10,7 +10,7 @@
     <div id="map" style="height: 100vh;"></div>
 </body>
 <script>
-    let map = L.map('map').setView([45, 5], 10)
+    let map = L.map('map').setView([45, 5], 8)
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
             map.panTo(L.latLng(position.coords.latitude, position.coords.longitude))
@@ -29,7 +29,7 @@
 
     function MyStyle(feature) {
         return {
-            fillColor: percent_knowledge(feature.properties.percent_knowledge),
+            fillColor: percent_knowledge(feature.properties.all_period.percent_knowledge),
             color: "#f00",
             weight: 0.2,
             opacity: 1,
@@ -47,7 +47,7 @@
             var ml = L.geoJSON(response.data, {
                 style: function (f, l) {
                     return {
-                        fillColor: percent_knowledge(f.properties.percent_knowledge),
+                        fillColor: percent_knowledge(f.properties.all_period.percent_knowledge),
                         color: "#f00",
                         weight: 0.2,
                         opacity: 1,
