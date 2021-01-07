@@ -18,7 +18,23 @@ from app.utils import log
 from app.utils.config import settings
 from app.utils.db import database
 
-app = FastAPI(title=settings.APP_NAME)
+tags_metadata = [
+    {
+        "name": "core",
+        "description": "Core APIs, globally used in app",
+    },
+    {
+        "name": "prospecting",
+        "description": "APIs dedicated to atlas prospecting modules",
+    },
+    {
+        "name": "ref_geo",
+        "description": "APIs dedicated to GeoNature ref_geo module",
+    },
+]
+
+
+app = FastAPI(title=settings.APP_NAME, openapi_tags=tags_metadata)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 logger = log.setup_logger_from_settings()
 
@@ -50,7 +66,7 @@ async def shutdown():
     await database.disconnect()
 
 
-@app.get("/")
+@app.get("/", tags=["core"])
 async def root():
     logger.debug("Hello!")
     # return {"message": "Welcome to Atlas bird of France API"}
@@ -59,7 +75,7 @@ async def root():
 
 if settings.LOG_LEVEL == "DEBUG":
 
-    @app.get("/pong")
+    @app.get("/pong", tags=["core"])
     async def pong():
         logger.error("Error log")
         logger.warning("Warning log")
