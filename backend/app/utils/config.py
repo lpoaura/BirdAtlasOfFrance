@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     LOG_LEVEL: Optional[str] = "INFO"
     APP_NAME: Optional[str] = "Bird atlas of France"
     APP_SYSNAME: Optional[str] = "odf_api"
+    API_PREFIX: Optional[str] = "/api/v1"
 
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
