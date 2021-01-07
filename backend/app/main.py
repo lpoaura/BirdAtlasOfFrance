@@ -1,5 +1,3 @@
-from typing import Any, List
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Backend entry point"""
@@ -84,9 +82,9 @@ if settings.LOG_LEVEL == "DEBUG":
         return {"ping": "pong"}
 
 
-app.include_router(ref_geo_router)
-app.include_router(prospecting_router)
-app.include_router(search_router)
+app.include_router(ref_geo_router, prefix=settings.API_PREFIX)
+app.include_router(prospecting_router, prefix=settings.API_PREFIX)
+app.include_router(search_router, prefix=settings.API_PREFIX)
 
 
 def main():
