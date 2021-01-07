@@ -5,6 +5,7 @@ import databases
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import as_declarative
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.sql.functions import ReturnTypeFromArgs
 
 from app.utils.config import settings
 
