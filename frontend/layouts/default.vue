@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app>
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -57,7 +57,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span>&copy; {{ new Date().getFullYear() }} </span>
     </v-footer>
   </v-app>
 </template>
@@ -72,13 +72,23 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: 'Accueil',
           to: '/',
         },
         {
           icon: 'mdi-chart-bubble',
           title: 'Inspire',
           to: '/inspire',
+        },
+        {
+          icon: 'mdi-compass',
+          title: 'Prospection',
+          to: '/prospecting',
+        },
+        {
+          icon: 'mdi-paw',
+          title: 'Fiche espèce',
+          to: '/species-card/1',
         },
       ],
       miniVariant: false,
