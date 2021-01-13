@@ -1,5 +1,5 @@
-<!-- Débuger initiateEnvelope() -->
-<!-- Reste à développer : Au clic sur une maille, centrage sur la maille -->
+<!-- Débuger initiateEnvelope() : le GeoJSON n'est pas chargé -->
+<!-- Débuger la MaJ du GeoJSON quand on bouge la carte : async fetch -->
 <template>
   <div>
     <span> Center : {{ center }} </span><br />
@@ -20,7 +20,11 @@
           @update:bounds="updateEnvelope"
         >
           <l-tile-layer :url="url" :attribution="attribution" />
-          <l-geo-json :geojson="geojson" :options-style="setGeojsonStyle" />
+          <l-geo-json
+            :geojson="geojson"
+            :options="setGeojsonOptions"
+            :options-style="setGeojsonStyle"
+          />
         </l-map>
       </client-only>
     </div>
@@ -40,14 +44,19 @@ export default {
   },
   // props: {
   //   areasData: {
-  //     type: Object,
+  //     type: Object,6
   //     required: true,
   //   },
   // },
   async fetch() {
-    console.log('pass')
+    console.log('[async fetch]')
+    this.axiosSource = this.$axios.CancelToken.source()
+    // console.log('Source : ' + this.axiosSource)
     this.geojson = await this.$axios.$get(
-      `http://127.0.0.1:8888/api/v1/area_knowledge_level/M10?envelope=${this.envelope}`
+      `http://127.0.0.1:8888/api/v1/area_knowledge_level/M10?envelope=${this.envelope}`,
+      {
+        cancelToken: this.axiosSource.token,
+      }
     )
   },
   data: () => ({
@@ -60,7 +69,37 @@ export default {
     envelope: null,
     geojson: null,
     indeterminate: true,
+    axiosSource: null,
   }),
+  computed: {
+    setGeojsonStyle() {
+      return (feature, layer) => {
+        // console.log('[setGeojsonStyle]')
+        return {
+          fillColor: this.setAreaColor(
+            feature.properties.breeding.percent_knowledge
+          ),
+          color: '#FFFFFF',
+          weight: 0.8,
+          opacity: 1,
+          fillOpacity: 0.5,
+        }
+      }
+    },
+    setGeojsonOptions() {
+      return {
+        onEachFeature: this.onEachFeature,
+      }
+    },
+    onEachFeature() {
+      return (feature, layer) => {
+        // console.log('[onEachFeature]')
+        layer.on({
+          click: this.zoomToFeature.bind(this),
+        })
+      }
+    },
+  },
   mounted() {
     console.log('mounted')
     if (navigator.geolocation) {
@@ -71,17 +110,25 @@ export default {
   },
   methods: {
     initiateEnvelope() {
-      console.log('initiateEnvelope')
+      console.log('[initiateEnvelope]')
       const initBounds = this.$refs.myMap.mapObject.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
       this.$fetch() // Ne fonctionne pas
     },
     updateEnvelope(newBounds) {
-      console.log('updateEnvelope')
+      console.log('[updateEnvelope]')
+      // console.log('1/ pending ? ' + this.$fetchState.pending)
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
       if (this.$refs.myMap.mapObject.getZoom() <= this.previousZoom) {
+        if (this.$fetchState.pending) {
+          console.log('Already loading...')
+          // this.axiosSource.cancel('OPERATION CANCELED')
+          // this.axiosSource = this.$axios.CancelToken.source()
+        }
+        // console.log('2/ pending ? ' + this.$fetchState.pending)
+        // console.log('error ? ' + this.$fetchState.error)
         this.$fetch()
       }
       this.previousZoom = this.$refs.myMap.mapObject.getZoom()
@@ -108,21 +155,8 @@ export default {
         ? '#FED976'
         : '#FFEDA0'
     },
-  },
-  computed: {
-    setGeojsonStyle() {
-      return (feature, layer) => {
-        console.log('setGeojsonStyle')
-        return {
-          fillColor: this.setAreaColor(
-            feature.properties.breeding.percent_knowledge
-          ),
-          color: '#f00',
-          weight: 0.2,
-          opacity: 1,
-          fillOpacity: 0.5,
-        }
-      }
+    zoomToFeature(event) {
+      this.$refs.myMap.mapObject.fitBounds(event.target.getBounds())
     },
   },
 }
