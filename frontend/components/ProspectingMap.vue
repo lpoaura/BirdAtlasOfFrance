@@ -32,7 +32,7 @@
 </template>
 
 <script>
-// import L from 'leaflet'
+import L from 'leaflet'
 import { LMap, LTileLayer, LGeoJson } from 'vue2-leaflet'
 import 'leaflet/dist/leaflet.css'
 
@@ -42,12 +42,17 @@ export default {
     LTileLayer,
     LGeoJson,
   },
-  // props: {
-  //   areasData: {
-  //     type: Object,6
-  //     required: true,
-  //   },
-  // },
+  props: {
+    selectedTerritoryBounds: {
+      type: Object,
+      required: false,
+    },
+  },
+  watch: {
+    selectedTerritoryBounds(newVal, oldVal) {
+      this.zoomToTerritory(newVal)
+    },
+  },
   async fetch() {
     console.log('[async fetch]')
     this.axiosSource = this.$axios.CancelToken.source()
@@ -157,6 +162,15 @@ export default {
     },
     zoomToFeature(event) {
       this.$refs.myMap.mapObject.fitBounds(event.target.getBounds())
+    },
+    zoomToTerritory(bounds) {
+      const firstCorner = L.latLng(bounds._northEast.lat, bounds._northEast.lng)
+      const secondCorner = L.latLng(
+        bounds._southWest.lat,
+        bounds._southWest.lng
+      )
+      const latLngBounds = L.latLngBounds(firstCorner, secondCorner)
+      this.$refs.myMap.mapObject.fitBounds(latLngBounds)
     },
   },
 }
