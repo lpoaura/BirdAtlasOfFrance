@@ -3,10 +3,10 @@
     <v-select
       v-model="selectedSeason"
       :items="seasonsList"
+      disabled
       label="Choisir une saison"
-    >
-      {{ season }}
-    </v-select>
+      prepend-icon="mdi-weather-sunny"
+    ></v-select>
     <!-- <span>{{ selectedSeason }}</span> -->
   </div>
 </template>
@@ -15,7 +15,7 @@
 export default {
   data: () => ({
     seasonsList: ['Reproduction', 'Hiver', 'Toutes saisons'],
-    selectedSeason: null,
+    selectedSeason: 'Reproduction',
   }),
 }
 </script>
