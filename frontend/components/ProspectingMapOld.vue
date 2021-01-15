@@ -1,12 +1,13 @@
+<!-- Débuger initiateEnvelope() : le GeoJSON n'est pas chargé -->
+<!-- Débuger la MaJ du GeoJSON quand on bouge la carte : async fetch -->
 <template>
   <div>
-    <!-- <span> Center : {{ center }} </span><br />
+    <span> Center : {{ center }} </span><br />
     <span> Bounds : {{ bounds }} </span><br />
-    <span> Envelope : {{ envelope }} </span><br /> -->
-    <!-- <span> GeoJSON : {{ geojson }}</span><br /><br /> -->
-    <div v-if="isLoading" id="loading">
+    <span> Envelope : {{ envelope }} </span><br /><br />
+    <div v-if="$fetchState.pending" id="loading">
       <v-progress-circular :indeterminate="indeterminate" />
-      <span>Map is loading...</span>
+      <span>Map loading...</span>
     </div>
     <div id="map-wrap" style="height: 100vh">
       <client-only>
@@ -51,9 +52,17 @@ export default {
     selectedTerritoryBounds(newVal) {
       this.zoomToTerritory(newVal)
     },
-    envelope(newVal) {
-      this.updateGeojson(newVal)
-    },
+  },
+  async fetch() {
+    console.log('[async fetch]')
+    this.axiosSource = this.$axios.CancelToken.source()
+    // console.log('Source : ' + this.axiosSource)
+    this.geojson = await this.$axios.$get(
+      `http://127.0.0.1:8888/api/v1/area_knowledge_level/M10?envelope=${this.envelope}`,
+      {
+        cancelToken: this.axiosSource.token,
+      }
+    )
   },
   data: () => ({
     zoom: 12,
@@ -66,8 +75,6 @@ export default {
     geojson: null,
     indeterminate: true,
     axiosSource: null,
-    axiosError: null,
-    isLoading: false,
   }),
   computed: {
     setGeojsonStyle() {
@@ -99,7 +106,7 @@ export default {
     },
   },
   mounted() {
-    // console.log('mounted')
+    console.log('mounted')
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.center = [position.coords.latitude, position.coords.longitude]
@@ -108,15 +115,28 @@ export default {
   },
   methods: {
     initiateEnvelope() {
-      // console.log('[initiateEnvelope]')
+      console.log('[initiateEnvelope]')
       const initBounds = this.$refs.myMap.mapObject.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
+      this.$fetch() // Ne fonctionne pas
     },
     updateEnvelope(newBounds) {
-      // console.log('[updateEnvelope]')
+      console.log('[updateEnvelope]')
+      // console.log('1/ pending ? ' + this.$fetchState.pending)
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
+      if (this.$refs.myMap.mapObject.getZoom() <= this.previousZoom) {
+        if (this.$fetchState.pending) {
+          console.log('Already loading...')
+          // this.axiosSource.cancel('OPERATION CANCELED')
+          // this.axiosSource = this.$axios.CancelToken.source()
+        }
+        // console.log('2/ pending ? ' + this.$fetchState.pending)
+        // console.log('error ? ' + this.$fetchState.error)
+        this.$fetch()
+      }
+      this.previousZoom = this.$refs.myMap.mapObject.getZoom()
     },
     defineEnvelope(bounds) {
       const x = [bounds.getWest(), bounds.getEast()]
@@ -128,37 +148,6 @@ export default {
         Math.max.apply(Math, y),
       ]
       return envelope
-    },
-    updateGeojson(envelope) {
-      // console.log('[updateGeojson]')
-      if (this.$refs.myMap.mapObject.getZoom() <= this.previousZoom) {
-        if (this.axiosSource != null) {
-          this.axiosSource.cancel('Resquest has been canceled')
-        }
-        const cancelToken = this.$axios.CancelToken
-        this.axiosSource = cancelToken.source()
-        this.isLoading = true
-        this.$axios
-          .get(
-            `http://127.0.0.1:8888/api/v1/area_knowledge_level/M10?envelope=${this.envelope}`,
-            {
-              cancelToken: this.axiosSource.token,
-            }
-          )
-          .then((response) => {
-            this.geojson = response.data
-          })
-          .catch((error) => {
-            this.axiosError = error
-          })
-          .finally(() => {
-            if (this.axiosError == null) {
-              this.isLoading = false
-            }
-            this.axiosError = null
-          })
-      }
-      this.previousZoom = this.$refs.myMap.mapObject.getZoom()
     },
     setAreaColor(percent) {
       return percent >= 1

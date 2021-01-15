@@ -1,10 +1,11 @@
 <template>
   <div>
-    <h1>Page de prospection</h1>
-    <v-row justify="center" align="center">
-      <v-col cols="2">
+    <v-row justify="center">
+      <v-col cols="3">
+        <h1>Page de prospection</h1>
         <seasons />
-        <h3>Se rendre en...</h3>
+        <area-search-bar />
+        <h4>Se rendre en...</h4>
         <clickable-territory
           v-for="territory in territoriesData"
           :key="territory.name"
@@ -12,7 +13,7 @@
           @selectedTerritory="updateSelectedTerritory"
         />
       </v-col>
-      <v-col cols="10">
+      <v-col cols="9">
         <prospecting-map :selected-territory-bounds="selectedTerritoryBounds" />
       </v-col>
     </v-row>
@@ -21,12 +22,14 @@
 
 <script>
 import ProspectingMap from '~/components/ProspectingMap.vue'
+import AreaSearchBar from '~/components/AreaSearchBar.vue'
 import ClickableTerritory from '~/components/ClickableTerritory.vue'
 import Seasons from '~/components/Seasons.vue'
 
 export default {
   components: {
     'prospecting-map': ProspectingMap,
+    'area-search-bar': AreaSearchBar,
     'clickable-territory': ClickableTerritory,
     seasons: Seasons,
   },
