@@ -40,7 +40,7 @@
     console.log(Math.min.apply(Math, x))
     var envelop = [Math.min.apply(Math, x), Math.min.apply(Math, y), Math.max.apply(Math, x), Math.max.apply(Math, y)];
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'OSM' }).addTo(map)
-    axios.get('http://127.0.0.1:8888/area_knowledge_level/M10?envelope=' + envelop)
+    axios.get('http://127.0.0.1:8888/api/v1/area_knowledge_level/M10?envelope=' + envelop)
         .then(response => {
             console.log(response.data)
             var ml = L.geoJSON(response.data, {
