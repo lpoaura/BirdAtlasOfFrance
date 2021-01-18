@@ -44,7 +44,7 @@ class MvSearchTaxaActions(BaseReadOnlyActions[MvSearchTaxa]):
 
     def get_search_list(self, db: Session, limit: int, search: str = None) -> List:
         search = search.lower()
-        search_string = f"%{search}%"f
+        search_string = f"%{search}%"
         q = db.query(
             self.model.code,
             self.model.name,
