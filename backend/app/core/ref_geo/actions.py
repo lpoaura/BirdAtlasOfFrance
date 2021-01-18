@@ -61,6 +61,7 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
         """
         id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
         q = self.query_data4features(db=db)
+        # logger.debug(f"Q {q}\n{type(q.)}\n{dir(q)}")
         q = q.filter(LAreas.id_type == id_type)
         if envelope:
             q = q.filter(
@@ -74,8 +75,10 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
                     ),
                 )
             )
+        logger.debug("\n".join([f"{o}: {dir(o)}\t{type(o)}" for o in dir(q)]))
         if limit:
             q = q.limit(limit)
+
         return q.all()
 
 
