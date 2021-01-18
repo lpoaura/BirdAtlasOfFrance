@@ -3,7 +3,8 @@
     <v-select
       v-model="selectedSeason"
       :items="seasonsList"
-      disabled
+      item-text="name"
+      item-value="value"
       label="Choisir une saison"
       prepend-icon="mdi-weather-sunny"
     ></v-select>
@@ -14,8 +15,17 @@
 <script>
 export default {
   data: () => ({
-    seasonsList: ['Reproduction', 'Hiver', 'Toutes saisons'],
-    selectedSeason: 'Reproduction',
+    seasonsList: [
+      { name: 'Reproduction', value: 'breeding' },
+      { name: 'Hiver', value: 'wintering' },
+      { name: 'Toutes saisons', value: ' all_period' },
+    ],
+    selectedSeason: 'breeding',
   }),
+  watch: {
+    selectedSeason(newVal) {
+      this.$emit('selectedSeason', newVal)
+    },
+  },
 }
 </script>

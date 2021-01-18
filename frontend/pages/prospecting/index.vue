@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-col cols="3">
         <h1>Page de prospection</h1>
-        <seasons />
+        <seasons @selectedSeason="updateSelectedSeason" />
         <area-search-bar />
         <h4>Se rendre en...</h4>
         <clickable-territory
@@ -14,7 +14,10 @@
         />
       </v-col>
       <v-col cols="9">
-        <prospecting-map :selected-territory-bounds="selectedTerritoryBounds" />
+        <prospecting-map
+          :selected-territory-bounds="selectedTerritoryBounds"
+          :selected-season="selectedSeason"
+        />
       </v-col>
     </v-row>
   </div>
@@ -82,10 +85,14 @@ export default {
       },
     ],
     selectedTerritoryBounds: null,
+    selectedSeason: 'breeding',
   }),
   methods: {
     updateSelectedTerritory(bounds) {
       this.selectedTerritoryBounds = bounds
+    },
+    updateSelectedSeason(season) {
+      this.selectedSeason = season
     },
   },
 }
