@@ -19,6 +19,7 @@ class AreaKnowledgeLevelActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
     """Post actions with basic CRUD operations"""
 
     def query_data4features(self, db: Session) -> Query:
+
         q = db.query(
             AreaKnowledgeLevel.id_area.label("id"),
             func.json_build_object(
@@ -89,6 +90,7 @@ class AreaKnowledgeLevelActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
             )
         if limit:
             q = q.limit(limit)
+        logger.debug(f"Q {dir(q)}")
         return q.all()
 
 

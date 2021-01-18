@@ -2,10 +2,9 @@ import logging
 from typing import Any
 
 import databases
-from sqlalchemy import create_engine
+from sqlalchemy import MetaData, create_engine
 from sqlalchemy.ext.declarative import as_declarative
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.sql.functions import ReturnTypeFromArgs
 
 from app.utils.config import settings
 
@@ -18,6 +17,8 @@ engine = create_engine(
     connect_args={"application_name": settings.APP_SYSNAME},
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+metadata = MetaData()
 
 database = databases.Database(url=settings.SQLALCHEMY_DATABASE_URI)
 
