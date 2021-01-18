@@ -7,7 +7,7 @@ from geojson_pydantic.features import FeatureCollection
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_404_NOT_FOUND
 
-from app.utils.db import get_db, settings
+from app.utils.db import get_db
 
 from .actions import bib_areas_types, l_areas
 from .schemas import BibAreasTypesSchema, LAreasFeatureProperties
@@ -51,7 +51,6 @@ def list_lareas(
     limit: Optional[int] = None,
     envelope: Optional[str] = None,
 ) -> Any:
-    logger.debug(settings.SQLALCHEMY_DATABASE_URI)
     if envelope:
         logger.debug(f"envelop qs: {envelope}")
         envelope = [float(c) for c in envelope.split(",")]
