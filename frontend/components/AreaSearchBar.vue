@@ -10,7 +10,7 @@
       :search-input.sync="search"
       hide-no-data
       clearable
-      item-text="name"
+      item-text="html_repr"
       item-value="code"
       label="Rechercher une commune"
       placeholder="Tapez le nom d'une commune..."
@@ -30,17 +30,15 @@ export default {
     search: null,
   }),
   watch: {
-    search(val) {
-      // Areas have already been loaded
-      if (this.areas.length > 0) return
+    search(newVal) {
       // Areas have already been requested
       if (this.isLoading) return
-      this.isLoading = true
       // Lazily load input areas
-      fetch(
-        'http://localhost:8888/api/v1/search?limit=1000&search=a&type_code=COM'
-      )
-        .then((response) => response.json())
+      this.isLoading = true
+      this.$axios
+        .$get(
+          `http://localhost:8888/api/v1/search?limit=10&type_code=COM&search=${newVal}`
+        )
         .then((data) => {
           this.areas = data
         })

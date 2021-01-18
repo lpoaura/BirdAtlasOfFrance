@@ -2,8 +2,9 @@
   <div>
     <!-- <span> Center : {{ center }} </span><br />
     <span> Bounds : {{ bounds }} </span><br />
-    <span> Envelope : {{ envelope }} </span><br /> -->
-    <!-- <span> GeoJSON : {{ geojson }}</span><br /><br /> -->
+    <span> Envelope : {{ envelope }} </span><br />
+    <span> GeoJSON : {{ geojson }}</span><br />
+    <span>{{ selectedSeason }}</span><br /><br /> -->
     <div v-if="isLoading" id="loading">
       <v-progress-circular :indeterminate="indeterminate" />
       <span>Map is loading...</span>
@@ -21,8 +22,8 @@
           <l-tile-layer :url="url" :attribution="attribution" />
           <l-geo-json
             :geojson="geojson"
-            :options="setGeojsonOptions"
-            :options-style="setGeojsonStyle"
+            :options="geojsonOptions"
+            :options-style="geojsonStyle"
           />
         </l-map>
       </client-only>
@@ -46,13 +47,18 @@ export default {
       type: Object,
       required: false,
     },
+    selectedSeason: {
+      type: String,
+      required: true,
+      default: 'breeding',
+    },
   },
   watch: {
-    selectedTerritoryBounds(newVal) {
-      this.zoomToTerritory(newVal)
-    },
     envelope(newVal) {
       this.updateGeojson(newVal)
+    },
+    selectedTerritoryBounds(newVal) {
+      this.zoomToTerritory(newVal)
     },
   },
   data: () => ({
@@ -70,21 +76,32 @@ export default {
     isLoading: false,
   }),
   computed: {
-    setGeojsonStyle() {
+    geojsonStyle() {
+      let season = this.selectedSeason // Nécessaire pour déclencher le changement de style
       return (feature, layer) => {
         // console.log('[setGeojsonStyle]')
+        season = this.selectedSeason // À améliorer
         return {
-          fillColor: this.setAreaColor(
-            feature.properties.breeding.percent_knowledge
-          ),
-          color: '#FFFFFF',
           weight: 0.8,
+          color: '#FFFFFF',
           opacity: 1,
+          fillColor:
+            season === 'breeding'
+              ? this.setFeatureColorBreeding(
+                  feature.properties.breeding.percent_knowledge
+                )
+              : season === 'wintering'
+              ? this.setFeatureColorWintering(
+                  feature.properties.wintering.percent_knowledge
+                )
+              : this.setFeatureColorAllPeriod(
+                  feature.properties.all_period.percent_knowledge
+                ),
           fillOpacity: 0.5,
         }
       }
     },
-    setGeojsonOptions() {
+    geojsonOptions() {
       return {
         onEachFeature: this.onEachFeature,
       }
@@ -107,17 +124,6 @@ export default {
     }
   },
   methods: {
-    initiateEnvelope() {
-      // console.log('[initiateEnvelope]')
-      const initBounds = this.$refs.myMap.mapObject.getBounds()
-      this.bounds = initBounds
-      this.envelope = this.defineEnvelope(initBounds)
-    },
-    updateEnvelope(newBounds) {
-      // console.log('[updateEnvelope]')
-      this.bounds = newBounds
-      this.envelope = this.defineEnvelope(newBounds)
-    },
     defineEnvelope(bounds) {
       const x = [bounds.getWest(), bounds.getEast()]
       const y = [bounds.getNorth(), bounds.getSouth()]
@@ -129,6 +135,17 @@ export default {
       ]
       return envelope
     },
+    initiateEnvelope() {
+      // console.log('[initiateEnvelope]')
+      const initBounds = this.$refs.myMap.mapObject.getBounds()
+      this.bounds = initBounds
+      this.envelope = this.defineEnvelope(initBounds)
+    },
+    updateEnvelope(newBounds) {
+      // console.log('[updateEnvelope]')
+      this.bounds = newBounds
+      this.envelope = this.defineEnvelope(newBounds)
+    },
     updateGeojson(envelope) {
       // console.log('[updateGeojson]')
       if (this.$refs.myMap.mapObject.getZoom() <= this.previousZoom) {
@@ -139,14 +156,14 @@ export default {
         this.axiosSource = cancelToken.source()
         this.isLoading = true
         this.$axios
-          .get(
+          .$get(
             `http://127.0.0.1:8888/api/v1/area_knowledge_level/M10?envelope=${this.envelope}`,
             {
               cancelToken: this.axiosSource.token,
             }
           )
-          .then((response) => {
-            this.geojson = response.data
+          .then((data) => {
+            this.geojson = data
           })
           .catch((error) => {
             this.axiosError = error
@@ -160,7 +177,7 @@ export default {
       }
       this.previousZoom = this.$refs.myMap.mapObject.getZoom()
     },
-    setAreaColor(percent) {
+    setFeatureColorBreeding(percent) {
       return percent >= 1
         ? '#FC4E2A'
         : percent > 0.5
@@ -170,6 +187,28 @@ export default {
         : percent > 0.1
         ? '#FED976'
         : '#FFEDA0'
+    },
+    setFeatureColorWintering(percent) {
+      return percent >= 1
+        ? '#03045E'
+        : percent > 0.5
+        ? '#023E8A'
+        : percent > 0.2
+        ? '#0077B6'
+        : percent > 0.1
+        ? '#00B4D8'
+        : '#90E0EF'
+    },
+    setFeatureColorAllPeriod(percent) {
+      return percent >= 1
+        ? '#1b4332'
+        : percent > 0.5
+        ? '#2d6a4f'
+        : percent > 0.2
+        ? '#52b788'
+        : percent > 0.1
+        ? '#95d5b2'
+        : '#d8f3dc'
     },
     zoomToFeature(event) {
       this.$refs.myMap.mapObject.fitBounds(event.target.getBounds())
