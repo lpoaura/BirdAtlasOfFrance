@@ -1,3 +1,4 @@
+<!-- Créer une unique fonction setFeatureColor -->
 <template>
   <div>
     <!-- <span> Center : {{ center }} </span><br />
@@ -8,7 +9,7 @@
       <v-progress-circular :indeterminate="indeterminate" />
       <span>Map is loading...</span>
     </div>
-    <div id="map-wrap" style="height: 100vh">
+    <div id="map-wrap" style="height: 80vh">
       <client-only>
         <l-map
           ref="myMap"
@@ -24,6 +25,17 @@
             :options="geojsonOptions"
             :options-style="geojsonStyle"
           />
+          <l-control :position="'bottomright'">
+            <legend-content
+              :categoriesColors="
+                selectedSeason === 'breeding'
+                  ? breedingCategoriesColors
+                  : selectedSeason === 'wintering'
+                  ? winteringCategoriesColors
+                  : allPeriodCategoriesColors
+              "
+            />
+          </l-control>
         </l-map>
       </client-only>
     </div>
@@ -34,12 +46,14 @@
 import L from 'leaflet'
 import { LMap, LTileLayer, LGeoJson } from 'vue2-leaflet'
 import 'leaflet/dist/leaflet.css'
+import LegendContent from '~/components/LegendContent.vue'
 
 export default {
   components: {
     LMap,
     LTileLayer,
     LGeoJson,
+    LegendContent,
   },
   props: {
     selectedSeason: {
@@ -76,10 +90,31 @@ export default {
     attribution: 'OSM',
     envelope: null,
     geojson: null,
-    indeterminate: true,
     axiosSource: null,
     axiosError: null,
     isLoading: false,
+    breedingCategoriesColors: [
+      '#FFEDA0',
+      '#FED976',
+      '#FEB24C',
+      '#FD8D3C',
+      '#FC4E2A',
+    ],
+    winteringCategoriesColors: [
+      '#90E0EF',
+      '#00B4D8',
+      '#0077B6',
+      '#023E8A',
+      '#03045E',
+    ],
+    allPeriodCategoriesColors: [
+      '#d8f3dc',
+      '#95d5b2',
+      '#52b788',
+      '#2d6a4f',
+      '#1b4332',
+    ],
+    indeterminate: true,
   }),
   computed: {
     geojsonStyle() {
@@ -103,7 +138,7 @@ export default {
               : this.setFeatureColorAllPeriod(
                   feature.properties.all_period.percent_knowledge
                 ),
-          fillOpacity: 0.5,
+          fillOpacity: 0.6,
         }
       }
     },

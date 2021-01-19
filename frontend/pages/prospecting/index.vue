@@ -1,26 +1,45 @@
 <template>
   <div>
-    <v-row justify="center">
-      <v-col cols="3">
-        <h1>Page de prospection</h1>
-        <seasons @selectedSeason="updateSelectedSeason" />
-        <area-search-bar @selectedCity="updateSelectedCity" />
-        <h4>Se rendre en...</h4>
-        <clickable-territory
-          v-for="territory in territoriesData"
-          :key="territory.name"
-          :territory-data="territory"
-          @selectedTerritory="updateSelectedTerritory"
-        />
-      </v-col>
-      <v-col cols="9">
-        <prospecting-map
-          :selected-season="selectedSeason"
-          :selected-city-bounds="selectedCityBounds"
-          :selected-territory-bounds="selectedTerritoryBounds"
-        />
-      </v-col>
-    </v-row>
+    <v-container>
+      <v-row>
+        <v-col cols="3">
+          <h1>Page de prospection</h1>
+          <seasons @selectedSeason="updateSelectedSeason" />
+          <area-search-bar @selectedCity="updateSelectedCity" />
+          <h4>Se rendre en...</h4>
+          <clickable-territory
+            v-for="territory in territoriesData"
+            :key="territory.name"
+            :territory-data="territory"
+            @selectedTerritory="updateSelectedTerritory"
+          />
+        </v-col>
+        <v-col cols="9">
+          <prospecting-map
+            :selected-season="selectedSeason"
+            :selected-city-bounds="selectedCityBounds"
+            :selected-territory-bounds="selectedTerritoryBounds"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-navigation-drawer
+      v-model="drawer"
+      :mini-variant="miniVariant"
+      fixed
+      app
+      right
+    >
+      <v-container>
+        <v-row align="center">
+          <v-col cols="12">
+            <div class="text-center">
+              <h3>Tableau de bord de la maille consultée</h3>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-navigation-drawer>
   </div>
 </template>
 
@@ -44,6 +63,8 @@ export default {
   //     )
   //   },
   data: () => ({
+    drawer: true,
+    miniVariant: false,
     territoriesData: [
       {
         name: 'Auvergne-Rhône-Alpes',

@@ -1,4 +1,6 @@
 .vscode
+
+# Vetur (VS Code) configuration file
 vetur.config.js
 
 # Docker env file
