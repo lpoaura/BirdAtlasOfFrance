@@ -3,8 +3,7 @@
     <!-- <span> Center : {{ center }} </span><br />
     <span> Bounds : {{ bounds }} </span><br />
     <span> Envelope : {{ envelope }} </span><br />
-    <span> GeoJSON : {{ geojson }}</span><br />
-    <span>{{ selectedSeason }}</span><br /><br /> -->
+    <span> GeoJSON : {{ geojson }}</span><br /><br /> -->
     <div v-if="isLoading" id="loading">
       <v-progress-circular :indeterminate="indeterminate" />
       <span>Map is loading...</span>
@@ -43,19 +42,25 @@ export default {
     LGeoJson,
   },
   props: {
-    selectedTerritoryBounds: {
-      type: Object,
-      required: false,
-    },
     selectedSeason: {
       type: String,
       required: true,
       default: 'breeding',
     },
+    selectedCityBounds: {
+      type: Array,
+      required: false,
+    },
+    selectedTerritoryBounds: {
+      type: Object,
+      required: false,
+    },
   },
   watch: {
-    envelope(newVal) {
-      this.updateGeojson(newVal)
+    selectedCityBounds(newVal) {
+      if (newVal != null) {
+        this.zoomToArea(newVal)
+      }
     },
     selectedTerritoryBounds(newVal) {
       this.zoomToTerritory(newVal)
@@ -64,6 +69,7 @@ export default {
   data: () => ({
     zoom: 12,
     previousZoom: 100,
+    isProgramaticZoom: false,
     center: [48.85341, 2.3488],
     bounds: null,
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -140,20 +146,27 @@ export default {
       const initBounds = this.$refs.myMap.mapObject.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
+      this.updateGeojson(this.envelope)
     },
     updateEnvelope(newBounds) {
       // console.log('[updateEnvelope]')
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
+      this.updateGeojson(this.envelope)
     },
     updateGeojson(envelope) {
       // console.log('[updateGeojson]')
-      if (this.$refs.myMap.mapObject.getZoom() <= this.previousZoom) {
-        if (this.axiosSource != null) {
-          this.axiosSource.cancel('Resquest has been canceled')
-        }
-        const cancelToken = this.$axios.CancelToken
-        this.axiosSource = cancelToken.source()
+      if (this.axiosSource != null) {
+        this.axiosSource.cancel('Resquest has been canceled')
+      }
+      const cancelToken = this.$axios.CancelToken
+      this.axiosSource = cancelToken.source()
+      if (
+        !(
+          this.isProgramaticZoom === false &&
+          this.$refs.myMap.mapObject.getZoom() > this.previousZoom
+        )
+      ) {
         this.isLoading = true
         this.$axios
           .$get(
@@ -166,6 +179,7 @@ export default {
             this.geojson = data
           })
           .catch((error) => {
+            // console.log(error)
             this.axiosError = error
           })
           .finally(() => {
@@ -176,6 +190,7 @@ export default {
           })
       }
       this.previousZoom = this.$refs.myMap.mapObject.getZoom()
+      this.isProgramaticZoom = false
     },
     setFeatureColorBreeding(percent) {
       return percent >= 1
@@ -211,8 +226,14 @@ export default {
         : '#d8f3dc'
     },
     zoomToFeature(event) {
+      this.isProgramaticZoom = true
       this.$refs.myMap.mapObject.fitBounds(event.target.getBounds())
     },
+    zoomToArea(bounds) {
+      this.isProgramaticZoom = true
+      this.$refs.myMap.mapObject.fitBounds(bounds)
+    },
+    // À supprimer lorsque les emprises de région/DOM-TOM seront dispos
     zoomToTerritory(bounds) {
       const firstCorner = L.latLng(bounds._northEast.lat, bounds._northEast.lng)
       const secondCorner = L.latLng(
@@ -220,6 +241,7 @@ export default {
         bounds._southWest.lng
       )
       const latLngBounds = L.latLngBounds(firstCorner, secondCorner)
+      this.isProgramaticZoom = true
       this.$refs.myMap.mapObject.fitBounds(latLngBounds)
     },
   },
