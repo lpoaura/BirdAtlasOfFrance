@@ -8,7 +8,6 @@
       label="Choisir une saison"
       prepend-icon="mdi-weather-sunny"
     ></v-select>
-    <!-- <span>{{ selectedSeason }}</span> -->
   </div>
 </template>
 

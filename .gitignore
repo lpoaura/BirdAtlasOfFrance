@@ -1,4 +1,5 @@
 .vscode
+vetur.config.js
 
 # Docker env file
 .env
