@@ -19,18 +19,16 @@
 <script>
 export default {
   data: () => ({
-    selectedCity: null,
-    areas: [],
-    isLoading: false,
     search: null,
+    isLoading: false,
+    areas: [],
+    selectedCity: null,
   }),
   watch: {
     selectedCity(newVal) {
       this.$emit('selectedCity', newVal)
     },
     search(newVal) {
-      // Areas have already been requested
-      // if (this.isLoading) return
       this.isLoading = true
       this.$axios
         .$get(
