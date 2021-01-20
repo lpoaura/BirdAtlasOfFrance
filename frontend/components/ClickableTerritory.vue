@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <v-card @click="selectTerritory">
-      <v-card-text>
-        <span>{{ territoryData.name }}</span>
-      </v-card-text>
-    </v-card>
-  </div>
+  <v-list-item @click="selectTerritory">
+    <v-list-item-title>
+      <span>{{ territoryData.name }}</span>
+    </v-list-item-title>
+  </v-list-item>
 </template>
 
 <script>

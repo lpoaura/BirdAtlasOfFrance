@@ -7,34 +7,57 @@
           <seasons @selectedSeason="updateSelectedSeason" />
           <area-search-bar @selectedCity="updateSelectedCity" />
           <h4>Se rendre en...</h4>
-          <clickable-territory
-            v-for="territory in territoriesData"
-            :key="territory.name"
-            :territory-data="territory"
-            @selectedTerritory="updateSelectedTerritory"
-          />
+          <v-list dense>
+            <clickable-territory
+              v-for="territory in territoriesData"
+              :key="territory.name"
+              :territory-data="territory"
+              @selectedTerritory="updateSelectedTerritory"
+            />
+          </v-list>
         </v-col>
         <v-col cols="9">
           <prospecting-map
             :selected-season="selectedSeason"
             :selected-city-bounds="selectedCityBounds"
             :selected-territory-bounds="selectedTerritoryBounds"
+            @clickedFeature="updateClickedFeature"
           />
         </v-col>
       </v-row>
     </v-container>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      fixed
-      app
-      right
-    >
+    <!-- Créer un nouveau composant pour le tableau de bord de la maille -->
+    <v-navigation-drawer v-model="drawer" fixed app right>
       <v-container>
         <v-row align="center">
           <v-col cols="12">
+            <v-btn icon @click.stop="drawer = !drawer">
+              <v-icon>mdi-close-box</v-icon>
+            </v-btn>
             <div class="text-center">
               <h3>Tableau de bord de la maille consultée</h3>
+            </div>
+            <br />
+            <div v-if="clickedFeature != null">
+              <h4 class="text-center">
+                Complétude de prospection<br />
+                {{
+                  selectedSeason === 'breeding'
+                    ? Math.round(
+                        clickedFeature.breeding.percent_knowledge * 100
+                      )
+                    : selectedSeason === 'wintering'
+                    ? Math.round(
+                        clickedFeature.wintering.percent_knowledge * 100
+                      )
+                    : Math.round(
+                        clickedFeature.all_period.percent_knowledge * 100
+                      )
+                }}
+                %
+              </h4>
+              <br />
+              <span>{{ clickedFeature }}</span>
             </div>
           </v-col>
         </v-row>
@@ -64,7 +87,6 @@ export default {
   //   },
   data: () => ({
     drawer: true,
-    miniVariant: false,
     territoriesData: [
       {
         name: 'Auvergne-Rhône-Alpes',
@@ -109,6 +131,7 @@ export default {
     selectedSeason: 'breeding',
     selectedCityBounds: null,
     selectedTerritoryBounds: null,
+    clickedFeature: null,
   }),
   methods: {
     updateSelectedSeason(season) {
@@ -119,6 +142,10 @@ export default {
     },
     updateSelectedTerritory(bounds) {
       this.selectedTerritoryBounds = bounds
+    },
+    updateClickedFeature(featureProperties) {
+      this.drawer = true
+      this.clickedFeature = featureProperties
     },
   },
 }

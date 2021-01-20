@@ -32,7 +32,7 @@ export default {
       this.isLoading = true
       this.$axios
         .$get(
-          `http://localhost:8888/api/v1/search_areas?limit=10&type_code=COM&search=${newVal}`
+          `http://localhost:8888/api/v1/search_areas?limit=50&type_code=COM&search=${newVal}`
         )
         .then((data) => {
           this.areas = data

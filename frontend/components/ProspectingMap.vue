@@ -27,12 +27,12 @@
           />
           <l-control :position="'bottomright'">
             <legend-content
-              :categoriesColors="
+              :featuresColors="
                 selectedSeason === 'breeding'
-                  ? breedingCategoriesColors
+                  ? breedingFeaturesColors
                   : selectedSeason === 'wintering'
-                  ? winteringCategoriesColors
-                  : allPeriodCategoriesColors
+                  ? winteringFeaturesColors
+                  : allPeriodFeaturesColors
               "
             />
           </l-control>
@@ -93,27 +93,29 @@ export default {
     axiosSource: null,
     axiosError: null,
     isLoading: false,
-    breedingCategoriesColors: [
+    featuresClasses: [0.1, 0.2, 0.5, 1],
+    breedingFeaturesColors: [
       '#FFEDA0',
       '#FED976',
       '#FEB24C',
       '#FD8D3C',
       '#FC4E2A',
     ],
-    winteringCategoriesColors: [
+    winteringFeaturesColors: [
       '#90E0EF',
       '#00B4D8',
       '#0077B6',
       '#023E8A',
       '#03045E',
     ],
-    allPeriodCategoriesColors: [
+    allPeriodFeaturesColors: [
       '#d8f3dc',
       '#95d5b2',
       '#52b788',
       '#2d6a4f',
       '#1b4332',
     ],
+    clickedFeature: null,
     indeterminate: true,
   }),
   computed: {
@@ -126,18 +128,13 @@ export default {
           weight: 0.8,
           color: '#FFFFFF',
           opacity: 1,
-          fillColor:
+          fillColor: this.setFeatureColor(
             season === 'breeding'
-              ? this.setFeatureColorBreeding(
-                  feature.properties.breeding.percent_knowledge
-                )
+              ? feature.properties.breeding.percent_knowledge
               : season === 'wintering'
-              ? this.setFeatureColorWintering(
-                  feature.properties.wintering.percent_knowledge
-                )
-              : this.setFeatureColorAllPeriod(
-                  feature.properties.all_period.percent_knowledge
-                ),
+              ? feature.properties.wintering.percent_knowledge
+              : feature.properties.all_period.percent_knowledge
+          ),
           fillOpacity: 0.6,
         }
       }
@@ -149,9 +146,13 @@ export default {
     },
     onEachFeature() {
       return (feature, layer) => {
-        // console.log('[onEachFeature]')
+        // console.log('[onEachFeature]', feature.properties)
         layer.on({
-          click: this.zoomToFeature.bind(this),
+          click: (e) => {
+            this.clickedFeature = feature.properties
+            this.$emit('clickedFeature', this.clickedFeature)
+            this.zoomToFeature(e)
+          },
         })
       }
     },
@@ -227,38 +228,22 @@ export default {
       this.previousZoom = this.$refs.myMap.mapObject.getZoom()
       this.isProgramaticZoom = false
     },
-    setFeatureColorBreeding(percent) {
-      return percent >= 1
-        ? '#FC4E2A'
-        : percent > 0.5
-        ? '#FD8D3C'
-        : percent > 0.2
-        ? '#FEB24C'
-        : percent > 0.1
-        ? '#FED976'
-        : '#FFEDA0'
-    },
-    setFeatureColorWintering(percent) {
-      return percent >= 1
-        ? '#03045E'
-        : percent > 0.5
-        ? '#023E8A'
-        : percent > 0.2
-        ? '#0077B6'
-        : percent > 0.1
-        ? '#00B4D8'
-        : '#90E0EF'
-    },
-    setFeatureColorAllPeriod(percent) {
-      return percent >= 1
-        ? '#1b4332'
-        : percent > 0.5
-        ? '#2d6a4f'
-        : percent > 0.2
-        ? '#52b788'
-        : percent > 0.1
-        ? '#95d5b2'
-        : '#d8f3dc'
+    setFeatureColor(percent) {
+      const featuresColors =
+        this.selectedSeason === 'breeding'
+          ? this.breedingFeaturesColors
+          : this.selectedSeason === 'wintering'
+          ? this.winteringFeaturesColors
+          : this.allPeriodFeaturesColors
+      return percent >= this.featuresClasses[3]
+        ? featuresColors[4]
+        : percent > this.featuresClasses[2]
+        ? featuresColors[3]
+        : percent > this.featuresClasses[1]
+        ? featuresColors[2]
+        : percent > this.featuresClasses[0]
+        ? featuresColors[1]
+        : featuresColors[0]
     },
     zoomToFeature(event) {
       this.isProgramaticZoom = true
