@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <v-select
-      v-model="selectedSeason"
-      :items="seasonsList"
-      item-text="name"
-      item-value="value"
-      label="Choisir une saison"
-      prepend-icon="mdi-weather-sunny"
-    ></v-select>
-  </div>
+  <v-select
+    v-model="selectedSeason"
+    :items="seasonsList"
+    item-text="name"
+    item-value="value"
+    label="Choisir une saison"
+    prepend-icon="mdi-weather-sunny"
+  ></v-select>
 </template>
 
 <script>

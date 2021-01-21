@@ -1,6 +1,5 @@
-<!-- Créer une unique fonction setFeatureColor -->
 <template>
-  <div>
+  <v-container>
     <!-- <span> Center : {{ center }} </span><br />
     <span> Bounds : {{ bounds }} </span><br />
     <span> Envelope : {{ envelope }} </span><br />
@@ -27,7 +26,7 @@
           />
           <l-control :position="'bottomright'">
             <legend-content
-              :featuresColors="
+              :features-colors="
                 selectedSeason === 'breeding'
                   ? breedingFeaturesColors
                   : selectedSeason === 'wintering'
@@ -39,7 +38,7 @@
         </l-map>
       </client-only>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -64,10 +63,12 @@ export default {
     selectedCityBounds: {
       type: Array,
       required: false,
+      default: null,
     },
     selectedTerritoryBounds: {
       type: Object,
       required: false,
+      default: null,
     },
   },
   watch: {

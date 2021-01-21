@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <v-autocomplete
-      v-model="selectedCity"
-      :items="areas"
-      :loading="isLoading"
-      :search-input.sync="search"
-      hide-no-data
-      clearable
-      item-text="html_repr"
-      item-value="bounds"
-      label="Rechercher une commune"
-      placeholder="Tapez le nom d'une commune..."
-      prepend-icon="mdi-map-marker"
-    ></v-autocomplete>
-  </div>
+  <v-autocomplete
+    v-model="selectedCity"
+    :items="areas"
+    :loading="isLoading"
+    :search-input.sync="search"
+    hide-no-data
+    clearable
+    item-text="html_repr"
+    item-value="bounds"
+    label="Rechercher une commune"
+    placeholder="Tapez le nom d'une commune..."
+    prepend-icon="mdi-map-marker"
+  ></v-autocomplete>
 </template>
 
 <script>

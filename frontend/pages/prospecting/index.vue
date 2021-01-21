@@ -4,7 +4,7 @@
       <v-row>
         <v-col cols="3">
           <h1>Page de prospection</h1>
-          <seasons @selectedSeason="updateSelectedSeason" />
+          <seasons-select @selectedSeason="updateSelectedSeason" />
           <area-search-bar @selectedCity="updateSelectedCity" />
           <h4>Se rendre en...</h4>
           <v-list dense>
@@ -26,43 +26,11 @@
         </v-col>
       </v-row>
     </v-container>
-    <!-- Créer un nouveau composant pour le tableau de bord de la maille -->
-    <v-navigation-drawer v-model="drawer" fixed app right>
-      <v-container>
-        <v-row align="center">
-          <v-col cols="12">
-            <v-btn icon @click.stop="drawer = !drawer">
-              <v-icon>mdi-close-box</v-icon>
-            </v-btn>
-            <div class="text-center">
-              <h3>Tableau de bord de la maille consultée</h3>
-            </div>
-            <br />
-            <div v-if="clickedFeature != null">
-              <h4 class="text-center">
-                Complétude de prospection<br />
-                {{
-                  selectedSeason === 'breeding'
-                    ? Math.round(
-                        clickedFeature.breeding.percent_knowledge * 100
-                      )
-                    : selectedSeason === 'wintering'
-                    ? Math.round(
-                        clickedFeature.wintering.percent_knowledge * 100
-                      )
-                    : Math.round(
-                        clickedFeature.all_period.percent_knowledge * 100
-                      )
-                }}
-                %
-              </h4>
-              <br />
-              <span>{{ clickedFeature }}</span>
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-navigation-drawer>
+    <feature-dashboard
+      :clicked-feature="clickedFeature"
+      :drawer="drawer"
+      :selected-season="selectedSeason"
+    />
   </div>
 </template>
 
@@ -70,14 +38,16 @@
 import ProspectingMap from '~/components/ProspectingMap.vue'
 import AreaSearchBar from '~/components/AreaSearchBar.vue'
 import ClickableTerritory from '~/components/ClickableTerritory.vue'
-import Seasons from '~/components/Seasons.vue'
+import SeasonsSelect from '~/components/SeasonsSelect.vue'
+import FeatureDashboard from '~/components/FeatureDashboard.vue'
 
 export default {
   components: {
     'prospecting-map': ProspectingMap,
     'area-search-bar': AreaSearchBar,
     'clickable-territory': ClickableTerritory,
-    seasons: Seasons,
+    'seasons-select': SeasonsSelect,
+    'feature-dashboard': FeatureDashboard,
   },
   //   async fetch() {
   //     console.log('[async fetch]')

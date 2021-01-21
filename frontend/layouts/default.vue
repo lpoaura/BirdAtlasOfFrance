@@ -35,9 +35,9 @@
       </v-btn>
       <v-btn icon @click.stop="fixed = !fixed">
         <v-icon>mdi-minus</v-icon>
-      </v-btn>
+      </v-btn> -->
       <v-toolbar-title v-text="title" />
-      <v-spacer />
+      <!-- <v-spacer />
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
       </v-btn> -->
@@ -77,11 +77,6 @@ export default {
           to: '/',
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
-        },
-        {
           icon: 'mdi-compass',
           title: 'Prospection',
           to: '/prospecting',
@@ -91,11 +86,21 @@ export default {
           title: 'Fiche espèce',
           to: '/species-card/1',
         },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Vuetify example',
+          to: '/vuetify-example',
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Inspire',
+          to: '/inspire',
+        },
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      // title: 'Vuetify.js',
+      title: 'Atlas des Oiseaux de France',
     }
   },
 }
