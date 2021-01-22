@@ -149,10 +149,11 @@ export default {
       return (feature, layer) => {
         // console.log('[onEachFeature]', feature.properties)
         layer.on({
-          click: (e) => {
+          click: (event) => {
             this.clickedFeature = feature.properties
             this.$emit('clickedFeature', this.clickedFeature)
-            this.zoomToFeature(e)
+            // this.highlightFeature(event)
+            this.zoomToFeature(event)
           },
         })
       }
@@ -245,6 +246,13 @@ export default {
         : percent > this.featuresClasses[0]
         ? featuresColors[1]
         : featuresColors[0]
+    },
+    highlightFeature(event) {
+      event.target.setStyle({
+        color: '#323232',
+        weight: 5,
+      })
+      event.target.bringToFront()
     },
     zoomToFeature(event) {
       this.isProgramaticZoom = true
