@@ -82,11 +82,6 @@ export default {
           to: '/prospecting',
         },
         {
-          icon: 'mdi-paw',
-          title: 'Fiche espèce',
-          to: '/species-card/1',
-        },
-        {
           icon: 'mdi-chart-bubble',
           title: 'Vuetify example',
           to: '/vuetify-example',

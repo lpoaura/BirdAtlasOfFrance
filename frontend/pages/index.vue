@@ -4,8 +4,26 @@
       <div class="text-center">
         <h1>Page d'accueil</h1>
       </div>
+      <species-search-bar @selectedSpecies="updateSelectedSpecies" />
     </v-col>
   </v-row>
 </template>
 
-<script></script>
+<script>
+import SpeciesSearchBar from '~/components/SpeciesSearchBar.vue'
+
+export default {
+  components: {
+    'species-search-bar': SpeciesSearchBar,
+  },
+  data: () => ({
+    selectedSpecies: null,
+  }),
+  methods: {
+    updateSelectedSpecies(species) {
+      this.selectedSpecies = species
+      this.$router.push({ path: `/species-card/${species}` })
+    },
+  },
+}
+</script>
