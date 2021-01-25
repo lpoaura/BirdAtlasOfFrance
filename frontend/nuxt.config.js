@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - frontend',
+    titleTemplate: '%s | Atlas des Oiseaux de France',
     title: 'frontend',
     meta: [
       { charset: 'utf-8' },
@@ -14,7 +14,9 @@ export default {
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: [],
+  css: [
+    '~/assets/style.css'
+  ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [],

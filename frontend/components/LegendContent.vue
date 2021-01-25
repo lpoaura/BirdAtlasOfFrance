@@ -1,5 +1,5 @@
 <template>
-  <div class="mapLegend">
+  <div class="mapControl">
     <div class="text-center">
       <h4>Complétude (%)</h4>
     </div>
@@ -25,20 +25,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.mapLegend {
-  padding: 10px 10px;
-  background-color: rgba(255, 255, 255, 1);
-  border-color: rgb(255, 255, 255);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
-}
-.mapLegend i {
-  width: 18px;
-  height: 18px;
-  float: left;
-  margin-right: 10px;
-  opacity: 0.6;
-}
-</style>

@@ -17,12 +17,14 @@
           </v-list>
         </v-col>
         <v-col cols="9">
-          <prospecting-map
-            :selected-season="selectedSeason"
-            :selected-city-bounds="selectedCityBounds"
-            :selected-territory-bounds="selectedTerritoryBounds"
-            @clickedFeature="updateClickedFeature"
-          />
+          <client-only>
+            <lazy-prospecting-map
+              :selected-season="selectedSeason"
+              :selected-city-bounds="selectedCityBounds"
+              :selected-territory-bounds="selectedTerritoryBounds"
+              @clickedFeature="updateClickedFeature"
+            />
+          </client-only>
         </v-col>
       </v-row>
     </v-container>
@@ -35,7 +37,6 @@
 </template>
 
 <script>
-import ProspectingMap from '~/components/ProspectingMap.vue'
 import AreaSearchBar from '~/components/AreaSearchBar.vue'
 import ClickableTerritory from '~/components/ClickableTerritory.vue'
 import SeasonsSelect from '~/components/SeasonsSelect.vue'
@@ -43,7 +44,11 @@ import FeatureDashboard from '~/components/FeatureDashboard.vue'
 
 export default {
   components: {
-    'prospecting-map': ProspectingMap,
+    'lazy-prospecting-map': () => {
+      if (process.client) {
+        return import('~/components/ProspectingMap.vue')
+      }
+    },
     'area-search-bar': AreaSearchBar,
     'clickable-territory': ClickableTerritory,
     'seasons-select': SeasonsSelect,
@@ -117,6 +122,9 @@ export default {
       this.drawer = true
       this.clickedFeature = featureProperties
     },
+  },
+  head: {
+    title: 'Prospection',
   },
 }
 </script>
