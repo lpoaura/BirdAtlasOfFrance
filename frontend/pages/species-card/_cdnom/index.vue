@@ -9,5 +9,8 @@ export default {
       return this.$route.params.cdnom
     },
   },
+  head: {
+    title: 'Fiche espèce',
+  },
 }
 </script>

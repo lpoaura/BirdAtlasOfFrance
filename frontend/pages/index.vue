@@ -25,5 +25,8 @@ export default {
       this.$router.push({ path: `/species-card/${species}` })
     },
   },
+  head: {
+    title: 'Accueil',
+  },
 }
 </script>

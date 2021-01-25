@@ -1,49 +1,47 @@
 <template>
-  <v-container>
+  <div id="map-wrap" style="height: 80vh">
     <!-- <span> Center : {{ center }} </span><br />
     <span> Bounds : {{ bounds }} </span><br />
     <span> Envelope : {{ envelope }} </span><br />
     <span> GeoJSON : {{ geojson }}</span><br /><br /> -->
-    <div v-if="isLoading" id="loading">
-      <v-progress-circular :indeterminate="indeterminate" />
-      <span>Map is loading...</span>
-    </div>
-    <div id="map-wrap" style="height: 80vh">
-      <client-only>
-        <l-map
-          ref="myMap"
-          :zoom="zoom"
-          :center="center"
-          style="z-index: 0"
-          @ready="initiateEnvelope"
-          @update:bounds="updateEnvelope"
-        >
-          <l-tile-layer :url="url" :attribution="attribution" />
-          <l-geo-json
-            :geojson="geojson"
-            :options="geojsonOptions"
-            :options-style="geojsonStyle"
-          />
-          <l-control :position="'bottomright'">
-            <legend-content
-              :features-colors="
-                selectedSeason === 'breeding'
-                  ? breedingFeaturesColors
-                  : selectedSeason === 'wintering'
-                  ? winteringFeaturesColors
-                  : allPeriodFeaturesColors
-              "
-            />
-          </l-control>
-        </l-map>
-      </client-only>
-    </div>
-  </v-container>
+    <l-map
+      ref="myMap"
+      :zoom="zoom"
+      :center="center"
+      style="z-index: 0"
+      @ready="initiateEnvelope"
+      @update:bounds="updateEnvelope"
+    >
+      <l-tile-layer :url="url" :attribution="attribution" />
+      <l-geo-json
+        :geojson="geojson"
+        :options="geojsonOptions"
+        :options-style="geojsonStyle"
+      />
+      <l-control v-if="isLoading" :position="'topright'">
+        <div class="mapControl">
+          <v-progress-circular :indeterminate="indeterminate" />
+          <span>Loading</span>
+        </div>
+      </l-control>
+      <l-control :position="'bottomright'">
+        <legend-content
+          :features-colors="
+            selectedSeason === 'breeding'
+              ? breedingFeaturesColors
+              : selectedSeason === 'wintering'
+              ? winteringFeaturesColors
+              : allPeriodFeaturesColors
+          "
+        />
+      </l-control>
+    </l-map>
+  </div>
 </template>
 
 <script>
 import L from 'leaflet'
-import { LMap, LTileLayer, LGeoJson } from 'vue2-leaflet'
+import { LMap, LTileLayer, LGeoJson, LControl } from 'vue2-leaflet'
 import 'leaflet/dist/leaflet.css'
 import LegendContent from '~/components/LegendContent.vue'
 
@@ -52,6 +50,7 @@ export default {
     LMap,
     LTileLayer,
     LGeoJson,
+    LControl,
     LegendContent,
   },
   props: {
@@ -69,16 +68,6 @@ export default {
       type: Object,
       required: false,
       default: null,
-    },
-  },
-  watch: {
-    selectedCityBounds(newVal) {
-      if (newVal != null) {
-        this.zoomToArea(newVal)
-      }
-    },
-    selectedTerritoryBounds(newVal) {
-      this.zoomToTerritory(newVal)
     },
   },
   data: () => ({
@@ -157,6 +146,16 @@ export default {
           },
         })
       }
+    },
+  },
+  watch: {
+    selectedCityBounds(newVal) {
+      if (newVal != null) {
+        this.zoomToArea(newVal)
+      }
+    },
+    selectedTerritoryBounds(newVal) {
+      this.zoomToTerritory(newVal)
     },
   },
   mounted() {
