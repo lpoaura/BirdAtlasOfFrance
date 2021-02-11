@@ -14,7 +14,6 @@
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
             map.panTo(L.latLng(position.coords.latitude, position.coords.longitude))
-
         })
     }
 
@@ -26,7 +25,6 @@
                         '#FFEDA0';
     };
 
-
     function MyStyle(feature) {
         return {
             fillColor: percent_knowledge(feature.properties.all_period.percent_knowledge),
@@ -36,6 +34,7 @@
             fillOpacity: 1
         }
     };
+
     let x = [map.getBounds().getWest(), map.getBounds().getEast()];
     let y = [map.getBounds().getNorth(), map.getBounds().getSouth()];
     console.log(Math.min.apply(Math, x))
