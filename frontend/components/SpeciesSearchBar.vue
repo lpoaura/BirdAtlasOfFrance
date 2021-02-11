@@ -36,6 +36,7 @@ export default {
           this.species = data
         })
         .catch((error) => {
+          // eslint-disable-next-line
           console.log(error)
         })
         .finally(() => (this.isLoading = false))
