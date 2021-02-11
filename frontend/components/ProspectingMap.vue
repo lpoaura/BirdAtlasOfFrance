@@ -1,3 +1,4 @@
+<!-- Ne pas considérer les mailles liées aux mers/océans -->
 <template>
   <div id="map-wrap" style="height: 80vh">
     <!-- <span> Center : {{ center }} </span><br />
@@ -13,6 +14,14 @@
       @update:bounds="updateEnvelope"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
+      <!-- <l-circle
+        :lat-lng="circle.center"
+        :radius="circle.radius"
+        :color="circle.color"
+        :fill-color="circle.fillColor"
+        :fill-opacity="circle.fillOpacity"
+        :weight="circle.weight"
+      /> -->
       <l-geo-json
         :geojson="geojson"
         :options="geojsonOptions"
@@ -41,14 +50,13 @@
 
 <script>
 import L from 'leaflet'
-import { LMap, LTileLayer, LGeoJson, LControl } from 'vue2-leaflet'
-import 'leaflet/dist/leaflet.css'
+import { LMap, LGeoJson, LControl } from 'vue2-leaflet'
+// import 'leaflet/dist/leaflet.css'
 import LegendContent from '~/components/LegendContent.vue'
 
 export default {
   components: {
     LMap,
-    LTileLayer,
     LGeoJson,
     LControl,
     LegendContent,
@@ -71,6 +79,14 @@ export default {
     },
   },
   data: () => ({
+    circle: {
+      center: [50.503906, 4.476982],
+      radius: 4000,
+      color: '#FF0000',
+      fillColor: '#FF0000',
+      fillOpacity: 1,
+      weight: 0,
+    },
     zoom: 12,
     previousZoom: 100,
     isProgramaticZoom: false,
@@ -109,6 +125,29 @@ export default {
     indeterminate: true,
   }),
   computed: {
+    // mapOptions() {
+    //   return {
+    //     zoomControl: false,
+    //   }
+    // },
+    geojsonOptions() {
+      return {
+        onEachFeature: this.onEachFeature,
+      }
+    },
+    onEachFeature() {
+      return (feature, layer) => {
+        // console.log('[onEachFeature]', feature.properties)
+        layer.on({
+          click: (event) => {
+            this.clickedFeature = feature.properties
+            this.$emit('clickedFeature', this.clickedFeature)
+            // this.highlightFeature(event)
+            this.zoomToFeature(event)
+          },
+        })
+      }
+    },
     geojsonStyle() {
       let season = this.selectedSeason // Nécessaire pour déclencher le changement de style
       return (feature, layer) => {
@@ -127,24 +166,6 @@ export default {
           ),
           fillOpacity: 0.6,
         }
-      }
-    },
-    geojsonOptions() {
-      return {
-        onEachFeature: this.onEachFeature,
-      }
-    },
-    onEachFeature() {
-      return (feature, layer) => {
-        // console.log('[onEachFeature]', feature.properties)
-        layer.on({
-          click: (event) => {
-            this.clickedFeature = feature.properties
-            this.$emit('clickedFeature', this.clickedFeature)
-            // this.highlightFeature(event)
-            this.zoomToFeature(event)
-          },
-        })
       }
     },
   },
@@ -275,3 +296,9 @@ export default {
   },
 }
 </script>
+
+<!-- <style>
+.leaflet-container {
+  background: #fff;
+}
+</style> -->
