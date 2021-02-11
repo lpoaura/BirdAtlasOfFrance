@@ -1,93 +1,121 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
+  <v-container fluid>
+    <home-nav-bar />
+    <div class="reverse-image"></div>
+    <div class="original-image"></div>
+    <div class="search-section">
+      <div class="search-content">
+        <div class="search-text">Hello</div>
+        <div class="search-bar">Hello</div>
       </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation </a
-            >.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+    </div>
+    <div class="cards-section"></div>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="8" md="6">
+        <species-search-bar @selectedSpecies="updateSelectedSpecies" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import HomeNavBar from '~/components/HomeNavBar.vue'
+import SpeciesSearchBar from '~/components/SpeciesSearchBar.vue'
 
 export default {
+  // async asyncData({ $content }) {
+  //   const news1 = await $content('news/news-1').fetch()
+  //   return { news1 }
+  // },
   components: {
-    Logo,
-    VuetifyLogo,
+    'home-nav-bar': HomeNavBar,
+    'species-search-bar': SpeciesSearchBar,
+  },
+  data: () => ({
+    selectedSpecies: null,
+  }),
+  methods: {
+    updateSelectedSpecies(species) {
+      this.selectedSpecies = species
+      this.$router.push({ path: `/species-card/${species}` })
+    },
+  },
+  head: {
+    title: 'Accueil',
   },
 }
 </script>
+
+<style scoped>
+.container--fluid {
+  padding: 0;
+}
+
+.reverse-image {
+  position: absolute;
+  background-image: url('/home-picture-1.jpg');
+  width: 540px;
+  height: 735px;
+}
+
+.original-image {
+  position: absolute;
+  background-image: url('/home-picture-2.jpg');
+  width: 901px;
+  height: 735px;
+  left: 540px;
+}
+
+.search-section {
+  background: linear-gradient(
+      180deg,
+      rgba(8, 43, 8, 0.95) 0%,
+      rgba(8, 43, 8, 0.75) 10.25%,
+      rgba(8, 43, 8, 0.2) 20.95%,
+      rgba(8, 43, 8, 0.2) 31.47%,
+      rgba(8, 43, 8, 0.2) 100%
+    ),
+    linear-gradient(
+      89.84deg,
+      rgba(8, 43, 8, 0.7) 0.14%,
+      rgba(8, 43, 8, 0.7) 37.28%,
+      rgba(8, 43, 8, 0) 74.41%,
+      rgba(8, 43, 8, 0.21) 99.86%
+    );
+  position: absolute;
+  z-index: 5;
+  width: 100%;
+  height: 735px;
+  display: flex;
+}
+
+.search-content {
+  background-color: coral;
+  width: 912px;
+  height: 302px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.search-text {
+  background-color: teal;
+  width: 100%;
+  height: 182px;
+}
+
+.search-bar {
+  background-color: yellow;
+  width: 770px;
+  height: 72px;
+}
+
+.cards-section {
+  background-color: yellowgreen;
+  width: 100%;
+  height: 856px;
+  left: 0;
+  top: 0;
+}
+</style>
