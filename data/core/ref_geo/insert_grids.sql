@@ -1,3 +1,10 @@
+/*
+INSERT GRIDS
+------------
+Insert grids query
+*/
+
+
 BEGIN
 ;
 
@@ -27,7 +34,9 @@ $$
                 RAISE NOTICE '% / %',
                     line.schemaname,
                     line.tablename;
-                EXECUTE format('INSERT INTO ref_geo.l_areas (id_type, area_code, area_name, geom) SELECT $1, cd_sig, cd_sig, geom FROM %I.%I', line.schemaname , line.tablename ) USING area_type;
+                EXECUTE format(
+                        'INSERT INTO ref_geo.l_areas (id_type, area_code, area_name, geom) SELECT $1, cd_sig, cd_sig, geom FROM %I.%I',
+                        line.schemaname, line.tablename) USING area_type;
             END LOOP;
     END;
 $$
@@ -35,6 +44,3 @@ $$
 
 COMMIT
 ;
-
---
--- ROLLBACK ;
