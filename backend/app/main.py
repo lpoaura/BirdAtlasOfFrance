@@ -37,7 +37,7 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 logger = log.setup_logger_from_settings()
 
 origins = [
-    # Localhost  URLs
+    #  Localhost  URLs
     "http://localhost",
     "http://127.0.0.1",
     # API Urls
@@ -48,7 +48,6 @@ origins = [
     "http://127.0.0.1:3000",
     # VSCode live server default URL
     "http://127.0.0.1:5500",
-
 ]
 
 app.add_middleware(
