@@ -29,9 +29,10 @@ $$
         END
         $func$
             LANGUAGE plpgsql;
-        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_knowledge_list_taxa;
+
 
         /* Materialized view to list all taxa in area */
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_knowledge_list_taxa;
         CREATE MATERIALIZED VIEW atlas.mv_area_knowledge_list_taxa AS
         WITH
             atlas_code AS (
@@ -71,7 +72,6 @@ $$
                 WHERE
                     tcse.taxo_group LIKE 'Oiseaux'
                     and synthese.cd_nom not in (select cd_nom from atlas.t_excluded_taxa)
-                LIMIT 10
         )
           , new_data_allperiod AS (
             SELECT DISTINCT
@@ -196,7 +196,7 @@ $$
           , split_part(nom_vern, ',', 1)                                                       AS common_name
           , old_data_allperiod.count_data                                                      AS all_period_count_data_old
           , new_data_allperiod.count_data                                                      AS all_period_count_data_new
-          , coalesce(new_data_allperiod.last_obs, coalesce(old_data_allperiod.last_obs, NULL)) AS all_periode_last_obs
+          , coalesce(new_data_allperiod.last_obs, coalesce(old_data_allperiod.last_obs, NULL)) AS all_period_last_obs
           , new_data_breeding.count_data                                                       AS breeding_count_data_new
           , new_data_breeding.breeding_status                                                  AS breeding_status_new
           , old_data_breeding.count_data                                                       AS breeding_count_data_old

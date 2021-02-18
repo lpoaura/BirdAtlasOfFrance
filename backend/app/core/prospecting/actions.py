@@ -10,7 +10,7 @@ from sqlalchemy.orm import Query, Session
 from app.core.actions.crud import BaseReadOnlyActions
 from app.core.ref_geo.actions import bib_areas_types
 
-from .models import AreaKnowledgeLevel
+from .models import AreaKnowledgeLevel, AreaKnowledgeTaxaList
 
 logger = logging.getLogger(__name__)
 
@@ -94,4 +94,51 @@ class AreaKnowledgeLevelActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
         return q.all()
 
 
+class AreaKnowledgeTaxaListActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
+    """Post actions with basic CRUD operations"""
+
+    def get_area_taxa_list(self, db: Session, id_area: int, limit: Optional[int] = None) -> List:
+
+        q = db.query(
+            AreaKnowledgeTaxaList.id_area,
+            AreaKnowledgeTaxaList.cd_nom,
+            AreaKnowledgeTaxaList.sci_name,
+            AreaKnowledgeTaxaList.common_name,
+            func.json_build_object(
+                "last_obs",
+                AreaKnowledgeTaxaList.all_period_last_obs,
+                "new_count",
+                AreaKnowledgeTaxaList.all_period_count_data_new,
+                "old_count",
+                AreaKnowledgeTaxaList.all_period_count_data_old,
+            ).label("all_period"),
+            func.json_build_object(
+                "last_obs",
+                AreaKnowledgeTaxaList.wintering_last_obs,
+                "new_count",
+                AreaKnowledgeTaxaList.wintering_count_data_new,
+                "old_count",
+                AreaKnowledgeTaxaList.wintering_count_data_old,
+            ).label("wintering"),
+            func.json_build_object(
+                "last_obs",
+                AreaKnowledgeTaxaList.breeding_last_obs,
+                "new_count",
+                AreaKnowledgeTaxaList.breeding_count_data_new,
+                "new_status",
+                AreaKnowledgeTaxaList.breeding_status_new,
+                "old_count",
+                AreaKnowledgeTaxaList.breeding_count_data_old,
+                "old_status",
+                AreaKnowledgeTaxaList.breeding_status_old,
+            ).label("breeding"),
+        ).filter(AreaKnowledgeTaxaList.id_area == id_area)
+
+        if limit:
+            q = q.limit(limit)
+        logger.debug(f"Q {dir(q)}")
+        return q.all()
+
+
 area_knowledge_level = AreaKnowledgeLevelActions(AreaKnowledgeLevel)
+area_knowledge_taxa_list = AreaKnowledgeTaxaListActions(AreaKnowledgeTaxaList)

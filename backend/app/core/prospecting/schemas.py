@@ -62,3 +62,45 @@ class AreaKnowledgeLevelGeoJson(FeatureCollection):
 
     class Config:
         orm_mode = True
+
+
+class AreaKnowledgeTaxaListGenericDetailSchema(BaseModel):
+    """[summary]
+
+    Args:
+        BaseModel ([type]): [description]
+    """
+
+    last_obs: int
+    new_count: Union[None, int]
+    old_count: Union[None, int]
+
+
+class AreaKnowledgeTaxaListBreedingDetailSchema(AreaKnowledgeTaxaListGenericDetailSchema):
+    """[summary]
+
+    Args:
+        AreaKnowledgeTaxaListGenericDetailSchema ([type]): [description]
+    """
+
+    new_status: Union[None, str]
+    old_status: Union[None, str]
+
+
+class AreaKnowledgeTaxaListSchema(BaseModel):
+    """[summary]
+
+    Args:
+        BaseModel ([type]): [description]
+    """
+
+    id_area: int
+    cd_nom: int
+    sci_name: str
+    common_name: Optional[str]
+    all_period: AreaKnowledgeTaxaListGenericDetailSchema
+    wintering: AreaKnowledgeTaxaListGenericDetailSchema
+    breeding: AreaKnowledgeTaxaListBreedingDetailSchema
+
+    class Config:
+        orm_mode = True
