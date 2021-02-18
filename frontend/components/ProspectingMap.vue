@@ -228,7 +228,7 @@ export default {
         this.isLoading = true
         this.$axios
           .$get(
-            `http://127.0.0.1:8888/api/v1/area_knowledge_level/M10?envelope=${this.envelope}`,
+            `http://localhost:8888/api/v1/area_knowledge_level/M10?envelope=${this.envelope}`,
             {
               cancelToken: this.axiosSource.token,
             }
