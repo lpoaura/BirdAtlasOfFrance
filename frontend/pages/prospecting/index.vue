@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container fluid>
     <v-container>
       <v-row>
         <v-col cols="3">
@@ -33,7 +33,7 @@
       :drawer="drawer"
       :selected-season="selectedSeason"
     />
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -124,7 +124,13 @@ export default {
     },
   },
   head: {
-    title: 'Prospection',
+    title: 'Carte de prospection',
   },
 }
 </script>
+
+<style scoped>
+div.container.container--fluid {
+  padding-top: 80px;
+}
+</style>

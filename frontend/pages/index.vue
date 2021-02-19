@@ -1,5 +1,4 @@
-<!-- Définir la taille max pour chaque élément -->
-<!-- Afficher la taille max si la hauteur d'écran descend sous une certaine valeur -->
+<!-- Définir les tailles min et max pour chaque élément -->
 <template>
   <v-container fluid>
     <search-section />
@@ -25,9 +24,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.container--fluid {
-  padding: 0;
-}
-</style>
