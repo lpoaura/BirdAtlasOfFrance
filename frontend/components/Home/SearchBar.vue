@@ -15,7 +15,7 @@
       <div class="SearchSplit"></div>
       <div class="SelectTypeWrapper">
         <div class="SelectedTypeContent" @click="openOrCloseSelectBox">
-          <div class="SelectedTypeText">{{ selectedTypeLabel }}</div>
+          <div class="SelectedTypeText">{{ selectedType.label }}</div>
           <img
             class="SelectedTypeChevron"
             :src="
@@ -31,7 +31,7 @@
             :key="index"
             class="SelectItem"
             :style="[
-              type.label === selectedTypeLabel
+              type.label === selectedType.label
                 ? {
                     'background-color': 'rgba(238, 206, 37, 0.4)',
                     color: '#7b6804',
@@ -87,10 +87,11 @@ export default {
         routerPath: '/species-card/',
       },
     ],
-    selectedTypeLabel: 'Espèce',
-    selectedTypeApi:
-      'http://localhost:8888/api/v1/search_taxa?limit=10&search=',
-    selectedTypeRouterPath: '/species-card/',
+    selectedType: {
+      label: 'Espèce',
+      api: 'http://localhost:8888/api/v1/search_taxa?limit=10&search=',
+      routerPath: '/species-card/',
+    },
     selectIsOpen: false,
   }),
   watch: {
@@ -99,7 +100,7 @@ export default {
         this.autocompleteIsOpen = false
       } else {
         this.$axios
-          .$get(this.selectedTypeApi + `${newVal}`)
+          .$get(this.selectedType.api + `${newVal}`)
           .then((data) => {
             if (data.length > 0) {
               this.autocompleteIsOpen = true
@@ -117,7 +118,7 @@ export default {
   },
   methods: {
     updateSelectedData(data) {
-      this.$router.push({ path: this.selectedTypeRouterPath + `${data.code}` })
+      this.$router.push({ path: this.selectedType.routerPath + `${data.code}` })
     },
     clearResults() {
       this.autocompleteIsOpen = false
@@ -125,9 +126,7 @@ export default {
     },
     updateSelectedType(type) {
       this.selectIsOpen = false
-      this.selectedTypeLabel = type.label
-      this.selectedTypeApi = type.api
-      this.selectedTypeRouterPath = type.routerPath
+      this.selectedType = type
       this.updateSearch(this.search)
     },
     openOrCloseSelectBox() {
@@ -138,7 +137,7 @@ export default {
         this.autocompleteIsOpen = false
       } else {
         this.$axios
-          .$get(this.selectedTypeApi + `${newVal}`)
+          .$get(this.selectedType.api + `${newVal}`)
           .then((data) => {
             if (data.length > 0) {
               this.autocompleteIsOpen = true

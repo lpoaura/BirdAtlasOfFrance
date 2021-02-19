@@ -4,22 +4,31 @@
       <img src="/ODF-logo-white.svg" />
     </div>
     <nav>
-      <div class="HomeNavItem">Accueil</div>
-      <router-link
+      <nuxt-link
         v-for="(item, index) in navItems"
         :key="index"
         :to="item.routerPath"
         class="NavItem"
-        >{{ item.label }}</router-link
+        :style="[
+          $route.path === item.routerPath
+            ? {
+                'font-weight': 'bold',
+                'border-bottom': '3px solid #fcfcfc',
+              }
+            : {
+                'font-weight': 'normal',
+              },
+        ]"
+        >{{ item.label }}</nuxt-link
       >
     </nav>
     <div class="HeaderIcons">
-      <router-link to="#" class="Icon">
+      <nuxt-link to="#" class="Icon">
         <img src="/language-white.svg"
-      /></router-link>
-      <router-link to="/support" class="Icon"
+      /></nuxt-link>
+      <nuxt-link to="/support" class="Icon"
         ><img src="/support-white.svg"
-      /></router-link>
+      /></nuxt-link>
     </div>
   </header>
 </template>
@@ -28,6 +37,10 @@
 export default {
   data: () => ({
     navItems: [
+      {
+        label: 'Accueil',
+        routerPath: '/',
+      },
       {
         label: 'Espèces',
         routerPath: '#',
@@ -78,21 +91,10 @@ nav {
 .NavItem {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
-  font-weight: normal;
   text-decoration: none;
   font-size: 14px;
   line-height: 14px;
   color: #fcfcfc;
-}
-
-.HomeNavItem {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 14px;
-  color: #fcfcfc;
-  border-bottom: 3px solid #fcfcfc;
 }
 
 .HeaderIcons {

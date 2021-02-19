@@ -1,4 +1,3 @@
-<!-- Header scroll -->
 <!-- Définir la taille max pour chaque élément -->
 <!-- Afficher la taille max si la hauteur d'écran descend sous une certaine valeur -->
 <template>
