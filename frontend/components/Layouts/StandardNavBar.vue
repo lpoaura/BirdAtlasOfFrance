@@ -1,8 +1,8 @@
 <template>
   <header>
-    <div class="ODFLogo">
+    <nuxt-link to="/" class="ODFLogo">
       <img src="/ODF-logo-black.svg" />
-    </div>
+    </nuxt-link>
     <nav>
       <nuxt-link
         v-for="(item, index) in navItems"

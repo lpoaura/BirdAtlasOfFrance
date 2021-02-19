@@ -1,8 +1,9 @@
-<!-- NavBar différente selon les pages -->
 <template>
   <v-app>
-    <transparent-nav-bar v-if="$route.path === '/' && !scrolled" />
-    <standard-nav-bar v-else />
+    <transition name="navBar">
+      <transparent-nav-bar v-if="$route.path === '/' && !scrolled" />
+      <standard-nav-bar v-else />
+    </transition>
     <v-main>
       <nuxt />
     </v-main>
@@ -26,9 +27,6 @@ export default {
       fixed: false,
       scrolled: false,
     }
-  },
-  created() {
-    console.log('route : ' + this.$route.path)
   },
   beforeMount() {
     window.addEventListener('scroll', this.debounce(this.handleScroll))
@@ -59,3 +57,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.navBar-enter-active,
+.navBar-leave-active {
+  transition: opacity 0.3s;
+}
+.navBar-enter,
+.navBar-leave-to {
+  opacity: 0;
+}
+</style>

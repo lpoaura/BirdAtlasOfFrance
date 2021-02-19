@@ -6,7 +6,7 @@ module.exports = {
     'selector-type-no-unknown': [
       true,
       {
-        ignoreTypes: ['/^v-/'],
+        ignoreTypes: ['/^v-/', '/^nuxt-/'],
       },
     ],
   },

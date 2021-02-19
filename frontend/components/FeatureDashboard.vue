@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer v-model="drawer" fixed app right>
-    <v-container>
+    <v-container style="padding-top: 80px">
       <v-row align="center">
         <v-col cols="12">
           <v-btn icon @click.stop="drawer = !drawer">
