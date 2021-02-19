@@ -32,7 +32,11 @@ tags_metadata = [
 ]
 
 
-app = FastAPI(title=settings.APP_NAME, openapi_tags=tags_metadata)
+app = FastAPI(
+    title=settings.APP_NAME,
+    description=f"{settings.APP_NAME} API Backend",
+    openapi_tags=tags_metadata,
+)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 logger = log.setup_logger_from_settings()
 
