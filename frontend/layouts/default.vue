@@ -1,7 +1,8 @@
 <!-- NavBar différente selon les pages -->
 <template>
   <v-app>
-    <home-nav-bar />
+    <transparent-nav-bar v-if="$route.path === '/' && !scrolled" />
+    <standard-nav-bar v-else />
     <v-main>
       <nuxt />
     </v-main>
@@ -12,39 +13,49 @@
 </template>
 
 <script>
-import HomeNavBar from '~/components/Layouts/HomeNavBar.vue'
+import TransparentNavBar from '~/components/Layouts/TransparentNavBar.vue'
+import StandardNavBar from '~/components/Layouts/StandardNavBar.vue'
 
 export default {
   components: {
-    'home-nav-bar': HomeNavBar,
+    'transparent-nav-bar': TransparentNavBar,
+    'standard-nav-bar': StandardNavBar,
   },
   data() {
     return {
-      clipped: false,
-      drawer: false,
       fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Accueil',
-          to: '/',
-        },
-        {
-          icon: 'mdi-compass',
-          title: 'Prospection',
-          to: '/prospecting',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Vuetify example',
-          to: '/vuetify-example',
-        },
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Atlas des Oiseaux de France',
+      scrolled: false,
     }
+  },
+  created() {
+    console.log('route : ' + this.$route.path)
+  },
+  beforeMount() {
+    window.addEventListener('scroll', this.debounce(this.handleScroll))
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.debounce(this.handleScroll))
+  },
+  methods: {
+    debounce(fn) {
+      // This holds the requestAnimationFrame reference, so we can cancel it if we wish
+      let frame
+      // The debounce function returns a new function that can receive a variable number of arguments
+      return (...params) => {
+        // If the frame variable has been defined, clear it now, and queue for next frame
+        if (frame) {
+          cancelAnimationFrame(frame)
+        }
+        // Queue our function call for the next frame
+        frame = requestAnimationFrame(() => {
+          // Call our function and pass any params we received
+          fn(...params)
+        })
+      }
+    },
+    handleScroll() {
+      this.scrolled = window.scrollY > 0
+    },
   },
 }
 </script>

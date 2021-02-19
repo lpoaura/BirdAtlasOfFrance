@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="CardsContent">
-      <router-link
+      <nuxt-link
         v-for="(card, index) in cards"
         :key="index"
         :to="card.routerPath"
@@ -25,7 +25,7 @@
       >
         <img class="CardsIcon" :src="card.icon" />
         <div class="CardsTitle" v-html="card.title"></div>
-      </router-link>
+      </nuxt-link>
     </div>
   </section>
 </template>
