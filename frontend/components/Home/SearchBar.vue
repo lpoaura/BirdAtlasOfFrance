@@ -1,7 +1,9 @@
 <!-- Bouton jaune de recherche : afficher les recherches populaires -->
-<!-- Fermer la barre de recherche lorsque l'utilisateur clique en dehors -->
 <template>
-  <div class="AutocompleteWrapper">
+  <div
+    v-click-outside="closeSearchBarOpenedElements"
+    class="AutocompleteWrapper"
+  >
     <input v-model="search" type="text" placeholder="Rechercher" />
     <div class="AutocompleteAdvanced">
       <div class="CloseIconBox">
@@ -69,6 +71,21 @@
 
 <script>
 export default {
+  // directives: {
+  //   clickOutside: {
+  //     bind(el, binding, vnode) {
+  //       el.clickOutsideEvent = function (event) {
+  //         if (!(el === event.target || el.contains(event.target))) {
+  //           vnode.context[binding.expression](event)
+  //         }
+  //       }
+  //       document.body.addEventListener('click', el.clickOutsideEvent)
+  //     },
+  //     unbind(el) {
+  //       document.body.removeEventListener('click', el.clickOutsideEvent)
+  //     },
+  //   },
+  // },
   data: () => ({
     search: '',
     dataList: [],
@@ -131,6 +148,10 @@ export default {
     },
     openOrCloseSelectBox() {
       this.selectIsOpen = !this.selectIsOpen
+    },
+    closeSearchBarOpenedElements() {
+      this.autocompleteIsOpen = false
+      this.selectIsOpen = false
     },
     updateSearch(newVal) {
       if (newVal === '' || newVal.length < 3) {
