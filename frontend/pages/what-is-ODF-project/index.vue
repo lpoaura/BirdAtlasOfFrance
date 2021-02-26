@@ -252,6 +252,7 @@ menu {
 
 .PageSection {
   background-color: rgba(57, 118, 90, 0.1);
+  min-height: calc(100vh - 334px);
   padding: 0 18%;
 }
 

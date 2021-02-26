@@ -1,3 +1,4 @@
+<!-- Créer un composant avec des props pour le pie chart -->
 <template>
   <section class="KeyDataSection">
     <div class="KeyDataTitle">L'Atlas en quelques chiffres...</div>
@@ -37,9 +38,7 @@
       </div>
       <div class="KeyDataCard">
         <div class="KeyDataBlock">
-          <div class="KeyDataBlockIcon" style="color: red">
-            Graphe à venir...
-          </div>
+          <div class="KeyDataBlockIcon"><svg class="pieChartSvg"></svg></div>
           <div class="KeyDataBlockContent">
             <div class="KeyDataBlockData">???</div>
             <div class="KeyDataBlockText" style="text-align: center">
@@ -51,7 +50,7 @@
           <div class="KeyDataBlockDetails">
             <div
               class="KeyDataBlockDetailsDot"
-              style="background-color: #2a9d8f"
+              :style="{ 'background-color': pieChartColors[0] }"
             ></div>
             <div class="KeyDataBlockDetailsContent">
               <div class="KeyDataBlockText" style="font-weight: 500">
@@ -63,7 +62,7 @@
           <div class="KeyDataBlockDetails">
             <div
               class="KeyDataBlockDetailsDot"
-              style="background-color: #264653"
+              :style="{ 'background-color': pieChartColors[1] }"
             ></div>
             <div class="KeyDataBlockDetailsContent">
               <div class="KeyDataBlockText" style="font-weight: 500">
@@ -77,6 +76,57 @@
     </div>
   </section>
 </template>
+
+<script>
+const d3 = require('d3')
+
+export default {
+  data: () => ({
+    pieChartColors: ['#2A9D8F', '#264653'],
+  }),
+  mounted() {
+    // Get pie chart size
+    const pieChartHeight = parseFloat(
+      d3.select('.KeyDataBlockIcon').style('height')
+    )
+    // Get pie chart svg and set size
+    const pieChartSvg = d3
+      .select('.pieChartSvg')
+      .attr('width', pieChartHeight)
+      .attr('height', pieChartHeight)
+    // Define pie chart colors
+    const color = d3.scaleOrdinal(this.pieChartColors)
+    // Define pie chart shape
+    const arcPath = d3
+      .arc()
+      .outerRadius(pieChartHeight / 2)
+      .innerRadius(pieChartHeight / 5)
+    // Define data
+    const data = [
+      { hours: 2374, label: 'Période de reproduction' },
+      { hours: 1394, label: "Période d'hivernage" },
+    ]
+    const pieChartData = d3.pie().value(function (d) {
+      return d.hours
+    })(data)
+    // Create pie chart
+    pieChartSvg
+      .append('g')
+      .attr(
+        'transform',
+        `translate(${pieChartHeight / 2}, ${pieChartHeight / 2})`
+      )
+      .selectAll('path')
+      .data(pieChartData)
+      .join('path')
+      .attr('class', 'arc')
+      .attr('d', arcPath)
+      .attr('fill', function (d) {
+        return color(d.data.label)
+      })
+  },
+}
+</script>
 
 <style scoped>
 .KeyDataSection {

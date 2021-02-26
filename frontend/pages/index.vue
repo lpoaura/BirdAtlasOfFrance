@@ -1,4 +1,3 @@
-<!-- Définir les tailles min et max pour chaque élément -->
 <template>
   <v-container fluid>
     <search-section />

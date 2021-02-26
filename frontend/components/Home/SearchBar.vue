@@ -170,7 +170,7 @@ export default {
 .AutocompleteWrapper input {
   background: #fff;
   width: 100%;
-  height: 8vh;
+  height: clamp(46px, 8vh, 72px);
   border: none;
   outline: none;
   box-sizing: border-box;
@@ -188,9 +188,9 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  height: 8vh;
+  height: clamp(46px, 8vh, 72px);
   border-radius: 16px;
-  padding: 0 1.3vh;
+  padding: 0 max(1.3vh, 7px);
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -208,7 +208,7 @@ export default {
 
 .SearchSplit {
   width: 0;
-  height: 5.6vh;
+  height: clamp(30px, 5.6vh, 50px);
   border: 1px solid rgba(38, 38, 38, 0.1);
   margin-left: 1.8vw;
 }
@@ -222,7 +222,7 @@ export default {
 
 .SelectedTypeContent {
   width: 100%;
-  height: 8vh;
+  height: clamp(46px, 8vh, 72px);
   margin-bottom: 5px;
   padding: 0 1.8vw;
   cursor: pointer;
@@ -267,14 +267,14 @@ export default {
 
 .SearchIconBox {
   background: #eece25;
-  width: 5.4vh;
-  height: 5.4vh;
+  width: clamp(34px, 5.4vh, 48px);
+  height: clamp(34px, 5.4vh, 48px);
   border-radius: 8px;
   display: flex;
 }
 
 .SearchIcon {
-  height: 2.4vh;
+  height: clamp(14px, 2.25vh, 20px);
   margin: auto;
 }
 
