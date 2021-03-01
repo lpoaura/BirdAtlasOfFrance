@@ -8,11 +8,12 @@ from sqlalchemy.orm import Session
 
 from app.utils.db import get_db, settings
 
-from .actions import area_knowledge_level
+from .actions import area_knowledge_level, area_knowledge_taxa_list
 from .schemas import (
     AreaKnowledgeLevelFeatureSchema,
     AreaKnowledgeLevelGeoJson,
     AreaKnowledgeLevelPropertiesSchema,
+    AreaKnowledgeTaxaListSchema,
 )
 
 logger = logging.getLogger(__name__)
@@ -24,6 +25,19 @@ router = APIRouter()
     "/area_knowledge_level/{type_code}",
     response_model=AreaKnowledgeLevelGeoJson,
     tags=["prospecting"],
+    summary="Areas list with general statistics per zone within a bounding box",
+    description="""# Area list
+
+This return a list of areas filtered by type (`type_code`) 
+and within a geographic bounding box (`envelope`) with general stats:
+* All period:
+  * Count taxa in previous atlas as `old_count` ;
+  * Count taxa in this atlas as `new_count` ;
+  * Percent knowlegde calculated by Count taa in previous `(count_new/count_old)`.
+* wintering, same as all period ;
+* Breeding, same as all period.
+
+    """,
 )
 def list_area_knowledge_level(
     db: Session = Depends(get_db),
@@ -48,3 +62,16 @@ def list_area_knowledge_level(
         )
         features.append(f)
     return AreaKnowledgeLevelGeoJson(features=features)
+
+
+@router.get(
+    "/area/list_taxa/{id_area}",
+    response_model=List[AreaKnowledgeTaxaListSchema],
+    tags=["prospecting"],
+    summary="List of species by area with qualitative data",
+)
+def area_list_taxa(
+    id_area: int, db: Session = Depends(get_db), limit: Optional[int] = None
+) -> Any:
+    taxa_list = area_knowledge_taxa_list.get_area_taxa_list(db=db, id_area=id_area)
+    return taxa_list
