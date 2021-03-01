@@ -71,7 +71,7 @@ class AreaKnowledgeTaxaListGenericDetailSchema(BaseModel):
         BaseModel ([type]): [description]
     """
 
-    last_obs: int
+    last_obs: Union[None, int]
     new_count: Union[None, int]
     old_count: Union[None, int]
 
