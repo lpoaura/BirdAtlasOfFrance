@@ -7,7 +7,7 @@ div.container.container--fluid {
 
 .mapControl {
   padding: 10px 10px;
-  background-color: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 1);
   border-color: rgb(255, 255, 255);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   border-radius: 5px;

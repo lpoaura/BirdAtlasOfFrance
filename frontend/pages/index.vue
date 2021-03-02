@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import SearchSection from '~/components/Home/SearchSection.vue'
-import KeyDataSection from '~/components/Home/KeyDataSection.vue'
+import SearchSection from '~/components/home/SearchSection.vue'
+import KeyDataSection from '~/components/home/KeyDataSection.vue'
 
 export default {
   // async asyncData({ $content }) {

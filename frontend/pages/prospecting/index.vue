@@ -118,9 +118,9 @@ export default {
     updateSelectedTerritory(bounds) {
       this.selectedTerritoryBounds = bounds
     },
-    updateClickedFeature(featureProperties) {
+    updateClickedFeature(feature) {
       this.drawer = true
-      this.clickedFeature = featureProperties
+      this.clickedFeature = feature
     },
   },
   head: {

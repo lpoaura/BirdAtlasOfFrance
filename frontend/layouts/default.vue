@@ -2,7 +2,7 @@
   <v-app>
     <transition name="navBar">
       <transparent-nav-bar
-        v-if="$route.path === '/' && !scrolled"
+        v-if="['/', '/get-involved'].includes($route.path) && !scrolled"
         :nav-items="navItems"
       />
       <standard-nav-bar v-else :nav-items="navItems" />
@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import TransparentNavBar from '~/components/Layouts/TransparentNavBar.vue'
-import StandardNavBar from '~/components/Layouts/StandardNavBar.vue'
+import TransparentNavBar from '~/components/layouts/TransparentNavBar.vue'
+import StandardNavBar from '~/components/layouts/StandardNavBar.vue'
 
 export default {
   components: {
@@ -47,7 +47,7 @@ export default {
       },
       {
         label: 'À propos',
-        routerPath: '#',
+        routerPath: '/about',
       },
     ],
   }),

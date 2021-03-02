@@ -1,7 +1,7 @@
 <template>
   <header>
     <nuxt-link to="/" class="ODFLogo">
-      <img src="/ODF-logo-black.svg" />
+      <img src="/nav-bar/ODF-logo-white.svg" />
     </nuxt-link>
     <nav>
       <nuxt-link
@@ -13,7 +13,7 @@
           $route.path === item.routerPath
             ? {
                 'font-weight': 'bold',
-                'border-bottom': '3px solid #262626',
+                'border-bottom': '3px solid #fcfcfc',
               }
             : {
                 'font-weight': 'normal',
@@ -24,10 +24,10 @@
     </nav>
     <div class="HeaderIcons">
       <nuxt-link to="#" class="ButtonsIcons"
-        ><img class="Icon" src="/language-FR-black.svg"
+        ><img class="Icon" src="/nav-bar/language-FR-white.svg"
       /></nuxt-link>
       <nuxt-link to="/support" class="ButtonsIcons"
-        ><img class="Icon" src="/support-black.svg"
+        ><img class="Icon" src="/nav-bar/support-white.svg"
       /></nuxt-link>
     </div>
   </header>
@@ -48,11 +48,9 @@ export default {
 header {
   position: fixed;
   z-index: 10;
-  background-color: #fcfcfc;
   width: 100%;
   height: 80px;
   padding: 0 5%;
-  border-bottom: 1px solid #efefef;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -75,11 +73,10 @@ nav {
 .NavItem {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
-  font-weight: normal;
   text-decoration: none;
   font-size: 14px;
   line-height: 14px;
-  color: #262626;
+  color: #fcfcfc;
 }
 
 .HeaderIcons {
@@ -89,7 +86,7 @@ nav {
 }
 
 .ButtonsIcons {
-  background-color: rgba(38, 38, 38, 0.1);
+  background: rgba(252, 252, 252, 0.2);
   width: 32px;
   height: 32px;
   border-radius: 4px;
