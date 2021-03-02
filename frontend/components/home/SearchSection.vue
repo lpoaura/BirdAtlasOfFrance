@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import SearchBar from '~/components/Home/SearchBar.vue'
+import SearchBar from '~/components/home/SearchBar.vue'
 
 export default {
   components: {
@@ -40,22 +40,22 @@ export default {
   data: () => ({
     cards: [
       {
-        icon: '/book.svg',
+        icon: '/home/book.svg',
         title: 'Consulter les<br />fiches espèces',
         routerPath: '#',
       },
       {
-        icon: '/prospecting.svg',
+        icon: '/home/prospecting.svg',
         title: 'Voir la carte<br />de prospection',
         routerPath: '/prospecting',
       },
       {
-        icon: '/protocol.svg',
+        icon: '/home/protocol.svg',
         title: 'Découvrir<br />les protocoles',
         routerPath: '/get-involved',
       },
       {
-        icon: '/ODF.svg',
+        icon: '/home/ODF.svg',
         title: "Qu'est-ce que le projet Oiseaux de France ?",
         routerPath: '/what-is-ODF-project',
       },
@@ -90,7 +90,7 @@ export default {
       rgba(47, 92, 105, 0) 74.41%,
       rgba(47, 92, 105, 0.27) 99.86%
     ),
-    url('/home-picture.png') 0 0 / 1635px, rgba(47, 92, 105, 1);
+    url('/home/home-picture.png') 0 0 / 1635px, rgba(47, 92, 105, 1);
   width: 100%;
   height: 85%;
   display: flex;
@@ -155,7 +155,7 @@ a.Vocabulary::after {
   z-index: -1;
   left: 0;
   bottom: 0;
-  background-color: rgba(238, 206, 37, 0.6);
+  background: rgba(238, 206, 37, 0.6);
   content: '';
   width: 100%;
   height: 48%;
@@ -165,7 +165,7 @@ a.Vocabulary::after {
 a.Vocabulary:hover::after {
   bottom: 0;
   height: 2px;
-  background-color: rgba(238, 206, 37, 1);
+  background: rgba(238, 206, 37, 1);
 }
 
 .SearchBar {
@@ -185,7 +185,6 @@ a.Vocabulary:hover::after {
   padding: 1.6vw;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .Card {
@@ -218,5 +217,9 @@ a.Vocabulary:hover::after {
   line-height: clamp(20px, 3.2vh, 24px);
   color: #262626;
   text-align: center;
+}
+
+.Card:hover .CardsTitle {
+  color: #7b6804;
 }
 </style>

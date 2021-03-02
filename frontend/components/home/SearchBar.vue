@@ -35,12 +35,12 @@
             :style="[
               type.label === selectedType.label
                 ? {
-                    'background-color': 'rgba(238, 206, 37, 0.4)',
+                    background: 'rgba(238, 206, 37, 0.4)',
                     color: '#7b6804',
                     'font-weight': 600,
                   }
                 : {
-                    'background-color': '#fcfcfc',
+                    background: '#fcfcfc',
                     color: '#262626',
                     'font-weight': 'normal',
                   },
@@ -310,7 +310,7 @@ export default {
 }
 
 .AutocompleteItem:hover {
-  background-color: rgba(238, 206, 37, 0.4);
+  background: rgba(238, 206, 37, 0.4);
   color: #7b6804;
   font-weight: 600;
 }

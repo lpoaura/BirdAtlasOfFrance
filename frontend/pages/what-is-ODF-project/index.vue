@@ -1,3 +1,4 @@
+<!-- Mettre à jour les modifs du figma -->
 <template>
   <v-container fluid>
     <header>
@@ -5,7 +6,7 @@
         <img class="ODFLogo" src="/ODF-logo-detailed.svg" />
         <div class="HeaderText">
           <div class="HeaderTitle">Le projet ODF</div>
-          <div class="HeaderSubtitle">Oiseaux de France</div>
+          <div class="HeaderSubtitle">Répartitions, Tendances et Effectifs</div>
         </div>
       </div>
       <div class="HeaderMenu">
@@ -20,7 +21,7 @@
             :style="[
               item === selectedMenuItem
                 ? {
-                    'background-color': 'rgba(57, 118, 90, 0.1)',
+                    background: 'rgba(57, 118, 90, 0.1)',
                     color: '#39765a',
                     'font-weight': 'bold',
                   }
@@ -40,23 +41,27 @@
       <div v-if="selectedMenuItem === 'Description'" class="PageContent">
         <div class="PageTitle">Les grandes lignes du projet</div>
         <div class="PageText">
-          Oiseaux de France (ODF) est le plus ambitieux projet de science
-          participative en cours sur les oiseaux. Il vise à mettre à jour et
-          diffuser l’état des connaissances de l'avifaune française en période
-          de nidification et d'hivernage, en métropole et en Outre-Mer. Une
-          première !
+          <div>
+            Oiseaux de France (ODF) est le plus ambitieux projet de
+            <b>science participative</b> en cours sur les oiseaux. Il vise à
+            mettre à jour et diffuser l’état des connaissances de l'avifaune
+            française en période de nidification et d'hivernage,
+            <b>en France métropolitaine et en Outre-Mer</b>. Une première !
+          </div>
         </div>
         <img style="width: 80%" src="/what-is-ODF-project/Manakin.svg" />
         <div class="PageTitle">
           Connaître la répartition de toutes les espèces
         </div>
         <div class="PageText">
-          Il s'agit de cartographier précisément la répartition de toutes les
-          espèces de France en période de nidification et d'hivernage. En
-          métropole, les cartes seront restituées selon selon le maillage
-          utilisé par les précédents atlas des oiseaux, à savoir des mailles de
-          10 x 10 km. En outremer, le grain de restitution pourra varier selon
-          les contextes locaux.
+          <div>
+            Il s'agit de cartographier précisément la <b>répartition</b> de
+            toutes les espèces de France en période de nidification et
+            d'hivernage. En métropole, les cartes seront restituées selon le
+            maillage utilisé par les précédents Atlas, à savoir des mailles de
+            10 x 10 km. Dans les départements et territoires ultra-marins, le
+            grain de restitution variera selon les contextes locaux.
+          </div>
         </div>
         <img
           style="width: 70%"
@@ -64,10 +69,11 @@
         />
         <div class="PageTitle">Évaluer les tendances démographiques</div>
         <div class="PageText">
-          L'évaluation de la tendance des espèces se fera par l’intermédiaire
-          des dispositifs de surveillance nationaux déjà mis en place (STOC,
-          SHOC, STOM, Observatoire Rapaces et Dénombrement des oiseaux d'eau de
-          la mi-janvier).
+          <div>
+            L'évaluation de la tendance des espèces se basera sur les
+            dispositifs de surveillance nationaux existants (STOC, SHOC, STOM,
+            Observatoire Rapaces, comptage Wetlands...).
+          </div>
         </div>
         <img
           style="width: 70%"
@@ -79,8 +85,7 @@
           En complément des carrés rapaces, de l'enquête LIMAT ou d’autres
           enquêtes ciblant des cortèges d’espèces (hérons coloniaux, oiseaux
           marins nicheurs), une méthode basée sur les EPOC-ODF va être déployée
-          pour atteindre cet ambitieux objectif spécialement sur les Oiseaux
-          communs.
+          pour atteindre cet ambitieux objectif.
         </div>
       </div>
       <div v-else-if="selectedMenuItem === 'Participer'" class="PageContent">
@@ -90,14 +95,14 @@
             Contribuer à Oiseaux de France peut se faire de bien des manières en
             fonction de votre disponibilité et de vos connaissances
             ornithologiques. Le plus simple est de saisir systématiquement vos
-            observations, idéalement par listes complètes, en attribuant un code
+            observations, idéalement par liste complète, en attribuant un code
             de reproduction pour les oiseaux nicheurs.<br /><br />
             <b
-              >Transmettre le plus d'EPOC possible est un autre moyen facile de
+              >Transmettre le plus d'EPOC possible est un autre moyen de
               contribuer.</b
             ><br /><br />
             S'engager dans des suivis plus standardisés exige plus de temps et
-            une solide connaissance des oiseaux, mais cet engagement est riche
+            une solide connaissance des oiseaux. Mais cet engagement est riche
             de satisfaction et permet d'acquérir une connaissance intime de
             l'avifaune et des milieux que vous prospectez.
           </div>
@@ -110,7 +115,10 @@
           src="/what-is-ODF-project/protocols-outline.svg"
         />
       </div>
-      <div v-else class="PageContent">
+      <div
+        v-else-if="selectedMenuItem === 'Qui sommes-nous ?'"
+        class="PageContent"
+      >
         <div class="PageTitle">Un site ODF ?</div>
         <div class="PageText">
           <div>
@@ -140,6 +148,9 @@
           <img class="Logo" src="/what-is-ODF-project/NaturaList-logo.svg" />
         </div>
       </div>
+      <div v-else class="PageContent">
+        <div class="PageTitle">Coming soon...</div>
+      </div>
     </section>
   </v-container>
 </template>
@@ -147,7 +158,12 @@
 <script>
 export default {
   data: () => ({
-    menuItems: ['Description', 'Participer', 'Qui sommes-nous ?'],
+    menuItems: [
+      'Description',
+      'Participer',
+      'Qui sommes-nous ?',
+      'Nos partenaires',
+    ],
     selectedMenuItem: 'Description',
   }),
   methods: {
@@ -156,7 +172,7 @@ export default {
     },
   },
   head: {
-    title: 'ODF késako ?',
+    title: 'ODF quésaco ?',
   },
 }
 </script>
@@ -167,11 +183,11 @@ div.container.container--fluid {
 }
 
 header {
-  background-color: #fcfcfc;
+  background: #fcfcfc;
   border-bottom: 1px solid rgba(51, 105, 80, 0.2);
   width: 100%;
   height: 254px;
-  padding: 2.4% 18%;
+  padding: 2.4% 16%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -240,8 +256,8 @@ menu {
 
 .MenuItem {
   border-radius: 8px;
-  padding: 2.5% 8%;
-  margin-left: 4%;
+  padding: 2.5% 5%;
+  margin-left: 1%;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
@@ -251,9 +267,9 @@ menu {
 }
 
 .PageSection {
-  background-color: rgba(57, 118, 90, 0.1);
+  background: rgba(57, 118, 90, 0.1);
   min-height: calc(100vh - 334px);
-  padding: 0 18%;
+  padding: 0 16% 2% 16%;
 }
 
 .PageContent {

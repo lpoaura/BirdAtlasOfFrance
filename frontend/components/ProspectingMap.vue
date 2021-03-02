@@ -140,7 +140,7 @@ export default {
         // console.log('[onEachFeature]', feature.properties)
         layer.on({
           click: (event) => {
-            this.clickedFeature = feature.properties
+            this.clickedFeature = feature
             this.$emit('clickedFeature', this.clickedFeature)
             // this.highlightFeature(event)
             this.zoomToFeature(event)

@@ -5,7 +5,7 @@
     <div class="KeyDataContent">
       <div class="KeyDataCard">
         <div class="KeyDataBlock">
-          <img class="KeyDataBlockIcon" src="/species-number.svg" />
+          <img class="KeyDataBlockIcon" src="/home/species-number.svg" />
           <div class="KeyDataBlockContent">
             <div class="KeyDataBlockData">???</div>
             <div class="KeyDataBlockText" style="text-align: center">
@@ -17,7 +17,7 @@
           <div class="KeyDataBlockDetails">
             <img
               class="KeyDataBlockDetailsIcon"
-              src="/breeding-species-number.svg"
+              src="/home/breeding-species-number.svg"
             />
             <div class="KeyDataBlockDetailsContent">
               <div class="KeyDataBlockDetailsData">???</div>
@@ -27,7 +27,7 @@
           <div class="KeyDataBlockDetails">
             <img
               class="KeyDataBlockDetailsIcon"
-              src="/winter-species-number.svg"
+              src="/home/winter-species-number.svg"
             />
             <div class="KeyDataBlockDetailsContent">
               <div class="KeyDataBlockDetailsData">???</div>
@@ -50,7 +50,7 @@
           <div class="KeyDataBlockDetails">
             <div
               class="KeyDataBlockDetailsDot"
-              :style="{ 'background-color': pieChartColors[0] }"
+              :style="{ background: pieChartColors[0] }"
             ></div>
             <div class="KeyDataBlockDetailsContent">
               <div class="KeyDataBlockText" style="font-weight: 500">
@@ -62,7 +62,7 @@
           <div class="KeyDataBlockDetails">
             <div
               class="KeyDataBlockDetailsDot"
-              :style="{ 'background-color': pieChartColors[1] }"
+              :style="{ background: pieChartColors[1] }"
             ></div>
             <div class="KeyDataBlockDetailsContent">
               <div class="KeyDataBlockText" style="font-weight: 500">
