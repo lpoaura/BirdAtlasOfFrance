@@ -32,19 +32,26 @@ tags_metadata = [
 ]
 
 
-app = FastAPI(title=settings.APP_NAME, openapi_tags=tags_metadata)
+app = FastAPI(
+    title=settings.APP_NAME,
+    description=f"{settings.APP_NAME} API Backend",
+    openapi_tags=tags_metadata,
+)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 logger = log.setup_logger_from_settings()
 
 origins = [
+    #  Localhost  URLs
     "http://localhost",
-    "http://localhost:8888",
     "http://127.0.0.1",
+    # API Urls
+    "http://localhost:8888",
     "http://127.0.0.1:8888",
-    "http://127.0.0.1:5500",
-    "http://127.0.0.1:*",
+    # Dev Frontend URL
+    "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://localhost:*",
+    # VSCode live server default URL
+    "http://127.0.0.1:5500",
 ]
 
 app.add_middleware(

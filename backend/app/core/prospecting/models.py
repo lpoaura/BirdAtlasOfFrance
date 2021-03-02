@@ -7,7 +7,9 @@ from app.utils.db import Base, metadata
 
 class AreaKnowledgeLevel(Base):
     __tablename__ = "mv_area_knowledge_level"
-    __table_args__ = {"schema": "atlas"}
+    __table_args__ = {
+        "schema": "atlas",
+    }
     id_area = Column(Integer, primary_key=True)
     id_type = Column(Integer)
     area_name = Column(String)
@@ -45,3 +47,25 @@ MvAreaKnowledgeLevel = Table(
     Column("geojson_geom", JSONB),
     schema="atlas",
 )
+
+
+class AreaKnowledgeTaxaList(Base):
+    __tablename__ = "mv_area_knowledge_list_taxa"
+    __table_args__ = {
+        "schema": "atlas",
+    }
+    id_area = Column(Integer, primary_key=True)
+    cd_nom = Column(Integer, primary_key=True)
+    sci_name = Column(String)
+    common_name = Column(String)
+    all_period_count_data_old = Column(Integer)
+    all_period_count_data_new = Column(Integer)
+    all_period_last_obs = Column(Integer)
+    breeding_count_data_new = Column(Integer)
+    breeding_status_new = Column(String)
+    breeding_count_data_old = Column(Integer)
+    breeding_status_old = Column(String)
+    breeding_last_obs = Column(Integer)
+    wintering_count_data_old = Column(Integer)
+    wintering_count_data_new = Column(Integer)
+    wintering_last_obs = Column(Integer)
