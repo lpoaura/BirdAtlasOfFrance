@@ -9,6 +9,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import RedirectResponse
 
 from app import __version__
+from app.core.general.routers import router as main_router
 from app.core.prospecting.routers import router as prospecting_router
 from app.core.ref_geo.routers import router as ref_geo_router
 from app.core.search.routers import router as search_router
@@ -37,6 +38,7 @@ app = FastAPI(
     description=f"{settings.APP_NAME} API Backend",
     openapi_tags=tags_metadata,
 )
+
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 logger = log.setup_logger_from_settings()
 
@@ -53,6 +55,8 @@ origins = [
     # VSCode live server default URL
     "http://127.0.0.1:5500",
 ]
+
+origins.append(settings.APP_URL)
 
 app.add_middleware(
     CORSMiddleware,
@@ -94,6 +98,7 @@ if settings.LOG_LEVEL == "DEBUG":
 app.include_router(ref_geo_router, prefix=settings.API_PREFIX)
 app.include_router(prospecting_router, prefix=settings.API_PREFIX)
 app.include_router(search_router, prefix=settings.API_PREFIX)
+app.include_router(main_router, prefix=settings.API_PREFIX)
 
 
 def main():
