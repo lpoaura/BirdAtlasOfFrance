@@ -23,11 +23,11 @@
       >
     </nav>
     <div class="HeaderIcons">
-      <nuxt-link to="#" class="Icon">
-        <img src="/language-black.svg"
+      <nuxt-link to="#" class="ButtonsIcons"
+        ><img class="Icon" src="/language-FR-black.svg"
       /></nuxt-link>
-      <nuxt-link to="/support" class="Icon"
-        ><img src="/support-black.svg"
+      <nuxt-link to="/support" class="ButtonsIcons"
+        ><img class="Icon" src="/support-black.svg"
       /></nuxt-link>
     </div>
   </header>
@@ -35,30 +35,12 @@
 
 <script>
 export default {
-  data: () => ({
-    navItems: [
-      {
-        label: 'Accueil',
-        routerPath: '/',
-      },
-      {
-        label: 'Espèces',
-        routerPath: '#',
-      },
-      {
-        label: 'Carte',
-        routerPath: '/prospecting',
-      },
-      {
-        label: 'Participer',
-        routerPath: '/get-involved',
-      },
-      {
-        label: 'À propos',
-        routerPath: '#',
-      },
-    ],
-  }),
+  props: {
+    navItems: {
+      type: Array,
+      required: true,
+    },
+  },
 }
 </script>
 
@@ -102,12 +84,21 @@ nav {
 
 .HeaderIcons {
   flex: 1;
-  height: 30%;
   display: flex;
   justify-content: flex-end;
 }
 
+.ButtonsIcons {
+  background-color: rgba(38, 38, 38, 0.1);
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  margin-left: 4%;
+  display: flex;
+}
+
 .Icon {
-  margin-left: 8%;
+  height: 16px;
+  margin: auto;
 }
 </style>

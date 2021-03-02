@@ -71,21 +71,6 @@
 
 <script>
 export default {
-  // directives: {
-  //   clickOutside: {
-  //     bind(el, binding, vnode) {
-  //       el.clickOutsideEvent = function (event) {
-  //         if (!(el === event.target || el.contains(event.target))) {
-  //           vnode.context[binding.expression](event)
-  //         }
-  //       }
-  //       document.body.addEventListener('click', el.clickOutsideEvent)
-  //     },
-  //     unbind(el) {
-  //       document.body.removeEventListener('click', el.clickOutsideEvent)
-  //     },
-  //   },
-  // },
   data: () => ({
     search: '',
     dataList: [],
@@ -93,20 +78,19 @@ export default {
     typeList: [
       {
         label: 'Espèce',
-        api: 'http://localhost:8888/api/v1/search_taxa?limit=10&search=',
+        api: '/search_taxa?limit=10&search=',
         routerPath: '/species-card/',
       },
       {
         label: 'Commune',
-        api:
-          'http://localhost:8888/api/v1/search_areas?limit=10&type_code=COM&search=',
+        api: '/search_areas?limit=10&type_code=COM&search=',
         // À MODIFIER
         routerPath: '/species-card/',
       },
     ],
     selectedType: {
       label: 'Espèce',
-      api: 'http://localhost:8888/api/v1/search_taxa?limit=10&search=',
+      api: '/search_taxa?limit=10&search=',
       routerPath: '/species-card/',
     },
     selectIsOpen: false,
@@ -307,7 +291,7 @@ export default {
 }
 
 .AutocompleteResults {
-  padding: 0 1% 2% 1%;
+  padding: 1% 1% 2% 1%;
   overflow: auto;
 }
 

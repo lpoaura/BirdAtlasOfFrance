@@ -7,8 +7,8 @@
             Explorer l'Atlas<br />des Oiseaux de France
           </div>
           <div class="SearchSubtitle">
-            (Re)découvrez les oiseaux présents sur le territoire français, et
-            les <a class="Vocabulary" href="#">mailles</a> près de chez vous
+            (Re)découvrez les oiseaux présents sur le territoire français, leurs
+            répartitions, tendances et effectifs
           </div>
         </div>
         <div class="SearchBar">
@@ -132,7 +132,7 @@ export default {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 16px;
+  font-size: clamp(12px, 1.2vw, 16px);
   line-height: 24px;
   color: #fff;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);

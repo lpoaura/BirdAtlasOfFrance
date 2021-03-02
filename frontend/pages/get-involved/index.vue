@@ -16,4 +16,11 @@ export default {
 div.container.container--fluid {
   padding-top: 80px;
 }
+
+.CardsSection {
+  background-color: rgba(47, 92, 105, 0.76);
+  position: relative;
+  width: 100%;
+  height: 460px;
+}
 </style>

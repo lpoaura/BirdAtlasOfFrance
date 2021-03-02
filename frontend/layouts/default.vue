@@ -1,8 +1,11 @@
 <template>
   <v-app>
     <transition name="navBar">
-      <transparent-nav-bar v-if="$route.path === '/' && !scrolled" />
-      <standard-nav-bar v-else />
+      <transparent-nav-bar
+        v-if="$route.path === '/' && !scrolled"
+        :nav-items="navItems"
+      />
+      <standard-nav-bar v-else :nav-items="navItems" />
     </transition>
     <v-main>
       <nuxt />
@@ -22,12 +25,32 @@ export default {
     'transparent-nav-bar': TransparentNavBar,
     'standard-nav-bar': StandardNavBar,
   },
-  data() {
-    return {
-      fixed: false,
-      scrolled: false,
-    }
-  },
+  data: () => ({
+    fixed: false,
+    scrolled: false,
+    navItems: [
+      {
+        label: 'Accueil',
+        routerPath: '/',
+      },
+      // {
+      //   label: 'Espèces',
+      //   routerPath: '#',
+      // },
+      {
+        label: 'Carte',
+        routerPath: '/prospecting',
+      },
+      {
+        label: 'Participer',
+        routerPath: '/get-involved',
+      },
+      {
+        label: 'À propos',
+        routerPath: '#',
+      },
+    ],
+  }),
   beforeMount() {
     window.addEventListener('scroll', this.debounce(this.handleScroll))
   },
