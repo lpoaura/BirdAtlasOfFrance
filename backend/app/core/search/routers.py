@@ -17,7 +17,16 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-@router.get("/search_areas", response_model=List[MvSearchAreasSchema], tags=["core"])
+@router.get(
+    "/search_areas",
+    response_model=List[MvSearchAreasSchema],
+    tags=["core"],
+    summary="Area search API by type code",
+    description="""# Area search by type code
+
+Search area by type code using area name and code
+    """,
+)
 def search_areas(
     db: Session = Depends(get_db),
     limit: int = 10,
@@ -30,7 +39,16 @@ def search_areas(
     return rsearch
 
 
-@router.get("/search_taxa", response_model=List[MvSearchTaxaSchema], tags=["core"])
+@router.get(
+    "/search_taxa",
+    response_model=List[MvSearchTaxaSchema],
+    tags=["core"],
+    summary="Taxa search API",
+    description="""# Taxa search
+
+Search taxa by scientific name, common name or official cd_ref
+""",
+)
 def search_taxa(
     db: Session = Depends(get_db), limit: int = 10, search: Optional[str] = None
 ) -> Any:
