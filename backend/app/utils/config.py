@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     APP_NAME: Optional[str] = "Bird atlas of France"
     APP_SYSNAME: Optional[str] = "odf_api"
     API_PREFIX: Optional[str] = "/api/v1"
+    APP_URL: str
 
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
