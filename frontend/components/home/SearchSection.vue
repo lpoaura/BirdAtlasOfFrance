@@ -57,7 +57,7 @@ export default {
       {
         icon: '/home/ODF.svg',
         title: "Qu'est-ce que le projet Oiseaux de France ?",
-        routerPath: '/what-is-ODF-project',
+        routerPath: '/about/what-is-ODF-project',
       },
     ],
   }),
