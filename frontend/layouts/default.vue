@@ -2,7 +2,10 @@
   <v-app>
     <transition name="navBar">
       <transparent-nav-bar
-        v-if="['/', '/get-involved'].includes($route.path) && !scrolled"
+        v-if="
+          ['/', '/get-involved', '/get-involved/'].includes($route.path) &&
+          !scrolled
+        "
         :nav-items="navItems"
       />
       <standard-nav-bar v-else :nav-items="navItems" />

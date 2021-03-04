@@ -1,5 +1,3 @@
-<!-- Replacer l'image non tronquée -->
-<!-- Changer la classe du chip selon Repro ou Hivernage -->
 <template>
   <v-container fluid>
     <section class="IntroSection">
@@ -14,11 +12,11 @@
         </div>
       </div>
       <div class="HelpingCardsContent">
+        <nuxt-link to="#" class="HelpingCard"
+          >Découvrir les bases de la prospection</nuxt-link
+        >
         <nuxt-link to="/get-involved/which-protocol-to-use" class="HelpingCard"
           >Quel dispositif dois-je utiliser ?</nuxt-link
-        >
-        <nuxt-link to="/about/how-to-get-involved" class="HelpingCard"
-          >Comment participer ?</nuxt-link
         >
       </div>
     </section>
@@ -34,7 +32,12 @@
           <img class="ProtocolsCardsIcon" :src="card.icon" />
           <div class="ProtocolsCardsTitle">{{ card.title }}</div>
           <div class="ProtocolsCardsSubtitle">{{ card.subtitle }}</div>
-          <div class="ProtocolsCardsChip">{{ card.season }}</div>
+          <div
+            class="ProtocolsCardsChip"
+            :class="[card.season === 'Reproduction' ? 'breeding' : 'wintering']"
+          >
+            {{ card.season }}
+          </div>
         </nuxt-link>
       </div>
     </section>
@@ -67,7 +70,7 @@ export default {
         season: 'Reproduction',
       },
       {
-        icon: null,
+        icon: '/get-involved/Observatoire-Rapaces-logo.svg',
         title: 'Observatoire Rapaces',
         subtitle: '',
         routerPath: '#',
@@ -78,7 +81,7 @@ export default {
         title: 'LIMAT',
         subtitle: 'Limicoles et Anatidés Nicheurs',
         routerPath: '#',
-        season: 'Hivernage',
+        season: 'Reproduction',
       },
       {
         icon: '/get-involved/SHOC-logo.svg',
@@ -92,7 +95,7 @@ export default {
         title: 'Wetlands',
         subtitle: "Recensement des Oiseaux d'Eau",
         routerPath: '#',
-        season: 'Reproduction',
+        season: 'Hivernage',
       },
     ],
   }),
@@ -111,7 +114,14 @@ export default {
 
 .BackgroundPicture {
   position: relative;
-  background: url('/get-involved/get-involved-picture.svg') 0 0 / auto,
+  background: linear-gradient(
+      94.13deg,
+      rgba(37, 39, 69, 0.46) 5.97%,
+      rgba(37, 39, 69, 0.76) 38.61%,
+      rgba(37, 39, 69, 0.76) 76.76%,
+      rgba(37, 39, 69, 0) 98.47%
+    ),
+    url('/get-involved/get-involved-picture.png') center / 100%,
     rgba(47, 92, 105, 1);
   width: 100%;
   height: 87%;
@@ -189,7 +199,6 @@ export default {
 
 .HelpingCard:hover {
   background: rgba(238, 206, 37, 0.2);
-  color: #7b6804;
 }
 
 .ProtocolsSection {
@@ -230,10 +239,6 @@ export default {
   transition: 0.3s;
 }
 
-.ProtocolsCard:hover {
-  background: rgba(238, 206, 37, 0.2);
-}
-
 .ProtocolsCardsIcon {
   height: 48px;
   margin-bottom: 12px;
@@ -249,10 +254,6 @@ export default {
   text-align: center;
   margin-bottom: 4px;
   transition: 0.3s;
-}
-
-.ProtocolsCard:hover .ProtocolsCardsTitle {
-  color: #7b6804;
 }
 
 .ProtocolsCardsSubtitle {
@@ -271,7 +272,6 @@ export default {
 }
 
 .ProtocolsCardsChip {
-  background: #eece25;
   opacity: 0;
   border-radius: 61px;
   font-family: 'Poppins', sans-serif;
@@ -279,8 +279,17 @@ export default {
   font-weight: 0;
   font-size: 0;
   line-height: 0;
-  color: #000;
   transition: 0.3s;
+}
+
+.ProtocolsCardsChip.breeding {
+  background: #fb7971;
+  color: #000;
+}
+
+.ProtocolsCardsChip.wintering {
+  background: #9eb9ff;
+  color: #fcfcfc;
 }
 
 .ProtocolsCard:hover .ProtocolsCardsChip {

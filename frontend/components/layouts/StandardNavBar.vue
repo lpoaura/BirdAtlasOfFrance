@@ -10,7 +10,7 @@
         :to="item.routerPath"
         class="NavItem"
         :style="[
-          $route.path === item.routerPath
+          [item.routerPath, `${item.routerPath}/`].includes($route.path)
             ? {
                 'font-weight': 'bold',
                 'border-bottom': '3px solid #262626',
