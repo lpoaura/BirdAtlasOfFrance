@@ -1,7 +1,8 @@
+<!-- Utiliser l'API -->
 <!-- Créer un composant avec des props pour le pie chart -->
 <template>
   <section class="KeyDataSection">
-    <div class="KeyDataTitle">L'Atlas en quelques chiffres...</div>
+    <h2 class="KeyDataTitle">L'Atlas en quelques chiffres...</h2>
     <div class="KeyDataContent">
       <div class="KeyDataCard">
         <div class="KeyDataBlock">

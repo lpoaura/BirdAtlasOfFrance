@@ -5,8 +5,8 @@
       <div class="HeaderContent">
         <img class="ODFLogo" src="/ODF-logo-detailed.svg" />
         <div class="HeaderText">
-          <div class="HeaderTitle">Le projet ODF</div>
-          <div class="HeaderSubtitle">Répartitions, Tendances et Effectifs</div>
+          <h1 class="HeaderTitle">Le projet ODF</h1>
+          <h6 class="HeaderSubtitle">Répartitions, Tendances et Effectifs</h6>
         </div>
       </div>
       <div class="HeaderMenu">
@@ -39,7 +39,7 @@
     </header>
     <section class="PageSection">
       <div v-if="selectedMenuItem === 'Description'" class="PageContent">
-        <div class="PageTitle">Les grandes lignes du projet</div>
+        <h2 class="PageTitle">Les grandes lignes du projet</h2>
         <div class="PageText">
           <div>
             Oiseaux de France (ODF) est le plus ambitieux projet de
@@ -50,9 +50,9 @@
           </div>
         </div>
         <img style="width: 80%" src="/what-is-ODF-project/Manakin.svg" />
-        <div class="PageTitle">
+        <h2 class="PageTitle">
           Connaître la répartition de toutes les espèces
-        </div>
+        </h2>
         <div class="PageText">
           <div>
             Il s'agit de cartographier précisément la <b>répartition</b> de
@@ -67,7 +67,7 @@
           style="width: 70%"
           src="/what-is-ODF-project/Atlas-illustration.svg"
         />
-        <div class="PageTitle">Évaluer les tendances démographiques</div>
+        <h2 class="PageTitle">Évaluer les tendances démographiques</h2>
         <div class="PageText">
           <div>
             L'évaluation de la tendance des espèces se basera sur les
@@ -79,7 +79,7 @@
           style="width: 70%"
           src="/what-is-ODF-project/trends-illustration.svg"
         />
-        <div class="PageTitle">Estimer les tailles des populations</div>
+        <h2 class="PageTitle">Estimer les tailles des populations</h2>
         <div class="PageText">
           Il s'agit d'obtenir des effectifs fiables pour un maximum d'espèces.
           En complément des carrés rapaces, de l'enquête LIMAT ou d’autres
@@ -89,7 +89,7 @@
         </div>
       </div>
       <div v-else-if="selectedMenuItem === 'Participer'" class="PageContent">
-        <div class="PageTitle">Comment participer ?</div>
+        <h2 class="PageTitle">Comment participer ?</h2>
         <div class="PageText">
           <div>
             Contribuer à Oiseaux de France peut se faire de bien des manières en
@@ -119,7 +119,7 @@
         v-else-if="selectedMenuItem === 'Qui sommes-nous ?'"
         class="PageContent"
       >
-        <div class="PageTitle">Un site ODF ?</div>
+        <h2 class="PageTitle">Un site ODF ?</h2>
         <div class="PageText">
           <div>
             Le site
@@ -149,7 +149,7 @@
         </div>
       </div>
       <div v-else class="PageContent">
-        <div class="PageTitle">Coming soon...</div>
+        <h2 class="PageTitle">Coming soon...</h2>
       </div>
     </section>
   </v-container>

@@ -1,16 +1,16 @@
 <template>
-  <section class="SearchSection">
+  <main class="SearchSection">
     <div class="HomePicture">
       <div class="SearchContent">
-        <div class="SearchText">
-          <div class="SearchTitle">
+        <header class="SearchText">
+          <h1 class="SearchTitle">
             Explorer l'Atlas<br />des Oiseaux de France
-          </div>
-          <div class="SearchSubtitle">
+          </h1>
+          <label class="SearchSubtitle">
             (Re)découvrez les oiseaux présents sur le territoire français, leurs
             répartitions, tendances et effectifs
-          </div>
-        </div>
+          </label>
+        </header>
         <div class="SearchBar">
           <search-bar />
         </div>
@@ -27,7 +27,7 @@
         <div class="CardsTitle" v-html="card.title"></div>
       </nuxt-link>
     </div>
-  </section>
+  </main>
 </template>
 
 <script>
@@ -51,7 +51,7 @@ export default {
       },
       {
         icon: '/home/protocol.svg',
-        title: 'Découvrir<br />les protocoles',
+        title: 'Découvrir<br />les dispositifs',
         routerPath: '/get-involved',
       },
       {
@@ -217,9 +217,5 @@ a.Vocabulary:hover::after {
   line-height: clamp(20px, 3.2vh, 24px);
   color: #262626;
   text-align: center;
-}
-
-.Card:hover .CardsTitle {
-  color: #7b6804;
 }
 </style>
