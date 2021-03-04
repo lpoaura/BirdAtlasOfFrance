@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container fluid>
     <v-container>
       <v-row>
         <v-col cols="3">
@@ -33,7 +33,7 @@
       :drawer="drawer"
       :selected-season="selectedSeason"
     />
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -57,7 +57,7 @@ export default {
   //   async fetch() {
   //     console.log('[async fetch]')
   //     this.territoriesData = await this.$axios.$get(
-  //       `http://127.0.0.1:8888/api/v1/...`
+  //       `http://localhost:8888/api/v1/...`
   //     )
   //   },
   data: () => ({
@@ -118,13 +118,19 @@ export default {
     updateSelectedTerritory(bounds) {
       this.selectedTerritoryBounds = bounds
     },
-    updateClickedFeature(featureProperties) {
+    updateClickedFeature(feature) {
       this.drawer = true
-      this.clickedFeature = featureProperties
+      this.clickedFeature = feature
     },
   },
   head: {
-    title: 'Prospection',
+    title: 'Carte de prospection',
   },
 }
 </script>
+
+<style scoped>
+div.container.container--fluid {
+  padding-top: 80px;
+}
+</style>

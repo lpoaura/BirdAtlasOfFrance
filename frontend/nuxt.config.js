@@ -10,14 +10,14 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ['~/assets/style.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: ['~/plugins/directives.js'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -43,7 +43,20 @@ export default {
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  loading: false,
+  axios: {
+    baseURL: 'http://localhost:8888/api/v1',
+  },
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL,
+    },
+  },
+  // publicRuntimeConfig: {
+  //   axios: {
+  //     browserBaseURL: process.env.BROWSER_BASE_URL
+  //   }
+  // },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {

@@ -1,5 +1,7 @@
 <template>
-  <h1>Fiche espèce {{ cdnom }}</h1>
+  <v-container fluid>
+    <h1>Fiche espèce {{ cdnom }}</h1>
+  </v-container>
 </template>
 
 <script>
@@ -14,3 +16,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+div.container.container--fluid {
+  padding-top: 80px;
+}
+</style>

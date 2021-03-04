@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer v-model="drawer" fixed app right>
-    <v-container>
+    <v-container style="padding-top: 80px">
       <v-row align="center">
         <v-col cols="12">
           <v-btn icon @click.stop="drawer = !drawer">
@@ -16,16 +16,18 @@
               {{
                 toPercent(
                   selectedSeason === 'breeding'
-                    ? clickedFeature.breeding.percent_knowledge
+                    ? clickedFeature.properties.breeding.percent_knowledge
                     : selectedSeason === 'wintering'
-                    ? clickedFeature.wintering.percent_knowledge
-                    : clickedFeature.all_period.percent_knowledge
+                    ? clickedFeature.properties.wintering.percent_knowledge
+                    : clickedFeature.properties.all_period.percent_knowledge
                 )
               }}
               %
             </h4>
             <br />
-            <span>{{ clickedFeature }}</span>
+            <b>id : {{ clickedFeature.id }}</b
+            ><br />
+            <span>{{ clickedFeature.properties }}</span>
           </div>
         </v-col>
       </v-row>
