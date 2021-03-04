@@ -23,6 +23,10 @@ tags_metadata = [
         "description": "Core APIs, globally used in app",
     },
     {
+        "name": "main",
+        "description": "Main APIs, used in home page",
+    },
+    {
         "name": "prospecting",
         "description": "APIs dedicated to atlas prospecting modules",
     },
@@ -96,9 +100,9 @@ if settings.LOG_LEVEL == "DEBUG":
 
 
 app.include_router(ref_geo_router, prefix=settings.API_PREFIX)
-app.include_router(prospecting_router, prefix=settings.API_PREFIX)
-app.include_router(search_router, prefix=settings.API_PREFIX)
 app.include_router(main_router, prefix=settings.API_PREFIX)
+app.include_router(search_router, prefix=settings.API_PREFIX)
+app.include_router(prospecting_router, prefix=settings.API_PREFIX)
 
 
 def main():
