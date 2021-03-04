@@ -69,3 +69,19 @@ class AreaKnowledgeTaxaList(Base):
     wintering_count_data_old = Column(Integer)
     wintering_count_data_new = Column(Integer)
     wintering_last_obs = Column(Integer)
+
+
+class AreaDashboard(Base):
+    __tablename__ = "mv_area_dashboard"
+    __table_args__ = {
+        "schema": "atlas",
+    }
+    id_area = Column(Integer, primary_key=True)
+    last_date = Column(Integer)
+    data_count = Column(Integer)
+    taxa_count_all_period = Column(Integer)
+    taxa_count_wintering = Column(Integer)
+    taxa_count_breeding = Column(Integer)
+    prospecting_hours_all_period = Column(Integer)
+    prospecting_hours_wintering = Column(Integer)
+    prospecting_hours_breeding = Column(Integer)
