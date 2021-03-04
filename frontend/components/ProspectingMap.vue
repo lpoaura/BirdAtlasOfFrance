@@ -140,7 +140,7 @@ export default {
         // console.log('[onEachFeature]', feature.properties)
         layer.on({
           click: (event) => {
-            this.clickedFeature = feature.properties
+            this.clickedFeature = feature
             this.$emit('clickedFeature', this.clickedFeature)
             // this.highlightFeature(event)
             this.zoomToFeature(event)
@@ -227,12 +227,9 @@ export default {
       ) {
         this.isLoading = true
         this.$axios
-          .$get(
-            `http://127.0.0.1:8888/api/v1/area_knowledge_level/M10?envelope=${this.envelope}`,
-            {
-              cancelToken: this.axiosSource.token,
-            }
-          )
+          .$get(`/area_knowledge_level/M10?envelope=${this.envelope}`, {
+            cancelToken: this.axiosSource.token,
+          })
           .then((data) => {
             this.geojson = data
           })
@@ -241,7 +238,7 @@ export default {
             this.axiosError = error
           })
           .finally(() => {
-            if (this.axiosError == null) {
+            if (this.axiosError === null) {
               this.isLoading = false
             }
             this.axiosError = null

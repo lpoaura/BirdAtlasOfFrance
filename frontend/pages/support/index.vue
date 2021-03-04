@@ -1,18 +1,13 @@
 <template>
   <v-container fluid>
-    <h1>Fiche espèce {{ cdnom }}</h1>
+    <h1>Comment pouvons-nous vous aider ?</h1>
   </v-container>
 </template>
 
 <script>
 export default {
-  computed: {
-    cdnom() {
-      return this.$route.params.cdnom
-    },
-  },
   head: {
-    title: 'Fiche espèce',
+    title: 'Support',
   },
 }
 </script>
