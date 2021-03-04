@@ -65,8 +65,10 @@ $$
                         atlas.t_excluded_taxa);
         CREATE UNIQUE INDEX i_unique_data_for_atlas_id_synthese ON atlas.mv_data_for_atlas (id_synthese);
         CREATE INDEX i_data_for_atlas_cdnom ON atlas.mv_data_for_atlas (cd_nom);
-        CREATE INDEX i_data_for_atlas_idarea ON atlas.mv_data_for_atlas (idarea);
-        CREATE INDEX i_data_for_atlas_idarea ON atlas.mv_data_for_atlas (bird_breed_code);
+        CREATE INDEX i_data_for_atlas_idarea ON atlas.mv_data_for_atlas (id_area);
+        CREATE INDEX i_data_for_atlas_bird_breeding_code ON atlas.mv_data_for_atlas (bird_breed_code);
+        CREATE INDEX i_data_for_atlas_synthese ON atlas.mv_data_for_atlas (id_synthese);
+        CREATE INDEX i_data_for_atlas_new_data_all_period ON atlas.mv_data_for_atlas (new_data_all_period);
 
         COMMIT;
     END

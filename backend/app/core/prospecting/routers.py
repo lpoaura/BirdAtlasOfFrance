@@ -8,8 +8,9 @@ from sqlalchemy.orm import Session
 
 from app.utils.db import get_db, settings
 
-from .actions import area_knowledge_level, area_knowledge_taxa_list
+from .actions import area_dashboard, area_knowledge_level, area_knowledge_taxa_list
 from .schemas import (
+    AreaDashboardSchema,
     AreaKnowledgeLevelFeatureSchema,
     AreaKnowledgeLevelGeoJson,
     AreaKnowledgeLevelPropertiesSchema,
@@ -75,3 +76,15 @@ def area_list_taxa(
 ) -> Any:
     taxa_list = area_knowledge_taxa_list.get_area_taxa_list(db=db, id_area=id_area)
     return taxa_list
+
+
+@router.get(
+    "/area/general_stats/{id_area}",
+    response_model=AreaDashboardSchema,
+    tags=["prospecting"],
+    summary="General stats by area",
+)
+def area_general_stats(id_area: int, db: Session = Depends(get_db)) -> Any:
+    genstats = area_dashboard.get_area_stats(db=db, id_area=id_area)
+    logger.debug(f"GenStats {genstats}")
+    return genstats

@@ -10,7 +10,7 @@ from sqlalchemy.orm import Query, Session
 from app.core.actions.crud import BaseReadOnlyActions
 from app.core.ref_geo.actions import bib_areas_types
 
-from .models import AreaKnowledgeLevel, AreaKnowledgeTaxaList
+from .models import AreaDashboard, AreaKnowledgeLevel, AreaKnowledgeTaxaList
 
 logger = logging.getLogger(__name__)
 
@@ -140,5 +140,22 @@ class AreaKnowledgeTaxaListActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
         return q.all()
 
 
+class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
+    """Post actions with basic CRUD operations"""
+
+    def get_area_stats(self, db: Session, id_area: int, limit: Optional[int] = None) -> Query:
+        q = db.query(
+            AreaDashboard.last_date,
+            AreaDashboard.taxa_count_all_period,
+            AreaDashboard.taxa_count_breeding,
+            AreaDashboard.taxa_count_wintering,
+            AreaDashboard.prospecting_hours_all_period,
+            AreaDashboard.prospecting_hours_breeding,
+            AreaDashboard.prospecting_hours_wintering,
+        ).filter(AreaDashboard.id_area == id_area)
+        return q.first()
+
+
 area_knowledge_level = AreaKnowledgeLevelActions(AreaKnowledgeLevel)
 area_knowledge_taxa_list = AreaKnowledgeTaxaListActions(AreaKnowledgeTaxaList)
+area_dashboard = AreaDashboardActions(AreaDashboardActions)
