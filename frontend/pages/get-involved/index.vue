@@ -2,17 +2,19 @@
   <v-container fluid>
     <section class="IntroSection">
       <div class="BackgroundPicture">
-        <div class="IntroContent">
-          <div class="IntroTitle">Participer via les dispositifs de suivi</div>
-          <div class="IntroSubtitle">
+        <header class="IntroContent">
+          <h1 class="IntroTitle">Participer via les dispositifs de suivi</h1>
+          <h4 class="IntroSubtitle">
             Déterminer les <b>tendances</b> d'évolution et les
             <b>effectifs</b> chez les oiseaux<br />nécessite l'utilisation de
             dispositifs de suivi <b>adaptés</b>.
-          </div>
-        </div>
+          </h4>
+        </header>
       </div>
       <div class="HelpingCardsContent">
-        <nuxt-link to="#" class="HelpingCard"
+        <nuxt-link
+          to="/about/what-is-ODF-project#get-involved"
+          class="HelpingCard"
           >Découvrir les bases de la prospection</nuxt-link
         >
         <nuxt-link to="/get-involved/which-protocol-to-use" class="HelpingCard"
@@ -21,7 +23,7 @@
       </div>
     </section>
     <section class="ProtocolsSection">
-      <div class="ProtocolsTitle">Tous les dispositifs</div>
+      <h2 class="ProtocolsTitle">Tous les dispositifs</h2>
       <div class="ProtocolsCardsContent">
         <nuxt-link
           v-for="(card, index) in protocolsCards"
@@ -202,7 +204,6 @@ export default {
 }
 
 .ProtocolsSection {
-  min-height: calc(100vh - 480px);
   padding-left: 13vw;
   padding-bottom: 1%;
 }

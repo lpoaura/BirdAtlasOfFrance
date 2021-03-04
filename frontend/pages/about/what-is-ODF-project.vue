@@ -17,9 +17,10 @@
           <div
             v-for="(item, index) in menuItems"
             :key="index"
+            :to="item.routerPath"
             class="MenuItem"
             :style="[
-              item === selectedMenuItem
+              item.routerPath === selectedMenuItem
                 ? {
                     background: 'rgba(57, 118, 90, 0.1)',
                     color: '#39765a',
@@ -32,13 +33,73 @@
             ]"
             @click="updateSelectedMenuItem(item)"
           >
-            {{ item }}
+            {{ item.label }}
           </div>
         </menu>
       </div>
     </header>
     <section class="PageSection">
-      <div v-if="selectedMenuItem === 'Description'" class="PageContent">
+      <div v-if="selectedMenuItem === '#get-involved'" class="PageContent">
+        <h2 class="PageTitle">Comment participer ?</h2>
+        <div class="PageText">
+          <div>
+            Contribuer à Oiseaux de France peut se faire de bien des manières en
+            fonction de votre disponibilité et de vos connaissances
+            ornithologiques. Le plus simple est de saisir systématiquement vos
+            observations, idéalement par liste complète, en attribuant un code
+            de reproduction pour les oiseaux nicheurs.<br /><br />
+            <b
+              >Transmettre le plus d'EPOC possible est un autre moyen de
+              contribuer.</b
+            ><br /><br />
+            S'engager dans des suivis plus standardisés exige plus de temps et
+            une solide connaissance des oiseaux. Mais cet engagement est riche
+            de satisfaction et permet d'acquérir une connaissance intime de
+            l'avifaune et des milieux que vous prospectez.
+          </div>
+          <nuxt-link to="/get-involved" class="PrimaryButton"
+            >Découvrir les dispositifs</nuxt-link
+          >
+        </div>
+        <img
+          style="width: 64%"
+          src="/what-is-ODF-project/protocols-outline.svg"
+        />
+      </div>
+      <div v-else-if="selectedMenuItem === '#who-we-are'" class="PageContent">
+        <h2 class="PageTitle">Un site ODF ?</h2>
+        <div class="PageText">
+          <div>
+            Le site
+            <nuxt-link to="/">www.oiseauxdefrance.org</nuxt-link> est un portail
+            de restitution qui permet de consulter les données collectées dans
+            le cadre d’ODF de manière synthétique. Les cartes de répartition
+            ainsi que les listes d’espèces notées dans chaque mailles sont mises
+            à jour en temps réel. Par l’intermédiaire d’un module dédié aux
+            prospections, les observateurs peuvent visualiser les secteurs qui
+            nécessitent des prospections pour compléter les listes d’espèces ou
+            bien ajouter des EPOCs. Par ailleurs, cette plateforme propose des
+            fiches descriptives pour chaque espèce, récapitulant l'ensemble des
+            connaissances acquises.<br /><br />
+            <b
+              >La collecte des données se fera toujours sur les outils actuels,
+              Faune-France ou NaturaList.</b
+            >
+          </div>
+        </div>
+        <div class="ToolsLogos">
+          <img
+            class="Logo"
+            src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg"
+            style="margin-right: 15%"
+          />
+          <img class="Logo" src="/what-is-ODF-project/NaturaList-logo.svg" />
+        </div>
+      </div>
+      <div v-else-if="selectedMenuItem === '#partners'" class="PageContent">
+        <h2 class="PageTitle">Coming soon...</h2>
+      </div>
+      <div v-else class="PageContent">
         <h2 class="PageTitle">Les grandes lignes du projet</h2>
         <div class="PageText">
           <div>
@@ -88,69 +149,6 @@
           pour atteindre cet ambitieux objectif.
         </div>
       </div>
-      <div v-else-if="selectedMenuItem === 'Participer'" class="PageContent">
-        <h2 class="PageTitle">Comment participer ?</h2>
-        <div class="PageText">
-          <div>
-            Contribuer à Oiseaux de France peut se faire de bien des manières en
-            fonction de votre disponibilité et de vos connaissances
-            ornithologiques. Le plus simple est de saisir systématiquement vos
-            observations, idéalement par liste complète, en attribuant un code
-            de reproduction pour les oiseaux nicheurs.<br /><br />
-            <b
-              >Transmettre le plus d'EPOC possible est un autre moyen de
-              contribuer.</b
-            ><br /><br />
-            S'engager dans des suivis plus standardisés exige plus de temps et
-            une solide connaissance des oiseaux. Mais cet engagement est riche
-            de satisfaction et permet d'acquérir une connaissance intime de
-            l'avifaune et des milieux que vous prospectez.
-          </div>
-          <nuxt-link to="/get-involved" class="PrimaryButton"
-            >Découvrir les dispositifs</nuxt-link
-          >
-        </div>
-        <img
-          style="width: 64%"
-          src="/what-is-ODF-project/protocols-outline.svg"
-        />
-      </div>
-      <div
-        v-else-if="selectedMenuItem === 'Qui sommes-nous ?'"
-        class="PageContent"
-      >
-        <h2 class="PageTitle">Un site ODF ?</h2>
-        <div class="PageText">
-          <div>
-            Le site
-            <nuxt-link to="/">www.oiseauxdefrance.org</nuxt-link> est un portail
-            de restitution qui permet de consulter les données collectées dans
-            le cadre d’ODF de manière synthétique. Les cartes de répartition
-            ainsi que les listes d’espèces notées dans chaque mailles sont mises
-            à jour en temps réel. Par l’intermédiaire d’un module dédié aux
-            prospections, les observateurs peuvent visualiser les secteurs qui
-            nécessitent des prospections pour compléter les listes d’espèces ou
-            bien ajouter des EPOCs. Par ailleurs, cette plateforme propose des
-            fiches descriptives pour chaque espèce, récapitulant l'ensemble des
-            connaissances acquises.<br /><br />
-            <b
-              >La collecte des données se fera toujours sur les outils actuels,
-              Faune-France ou NaturaList.</b
-            >
-          </div>
-        </div>
-        <div class="ToolsLogos">
-          <img
-            class="Logo"
-            src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg"
-            style="margin-right: 15%"
-          />
-          <img class="Logo" src="/what-is-ODF-project/NaturaList-logo.svg" />
-        </div>
-      </div>
-      <div v-else class="PageContent">
-        <h2 class="PageTitle">Coming soon...</h2>
-      </div>
     </section>
   </v-container>
 </template>
@@ -159,16 +157,20 @@
 export default {
   data: () => ({
     menuItems: [
-      'Description',
-      'Participer',
-      'Qui sommes-nous ?',
-      'Nos partenaires',
+      { label: 'Description', routerPath: '' },
+      { label: 'Participer', routerPath: '#get-involved' },
+      { label: 'Qui sommes-nous ?', routerPath: '#who-we-are' },
+      { label: 'Nos partenaires', routerPath: '#partners' },
     ],
-    selectedMenuItem: 'Description',
+    selectedMenuItem: '',
   }),
+  mounted() {
+    this.selectedMenuItem = this.$route.hash
+  },
   methods: {
     updateSelectedMenuItem(item) {
-      this.selectedMenuItem = item
+      this.selectedMenuItem = item.routerPath
+      this.$router.push(`${item.routerPath}`)
     },
   },
   head: {
@@ -261,6 +263,7 @@ menu {
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
+  text-decoration: none;
   font-size: 14px;
   line-height: 21px;
   white-space: nowrap;
@@ -268,7 +271,8 @@ menu {
 
 .PageSection {
   background: rgba(57, 118, 90, 0.1);
-  min-height: calc(100vh - 334px);
+
+  /* min-height: calc(100vh - 334px); */
   padding: 0 16% 2% 16%;
 }
 

@@ -1,6 +1,6 @@
 <!-- À REVOIR... -->
 <template>
-  <nav>Hey</nav>
+  <nav></nav>
 </template>
 
 <script>
