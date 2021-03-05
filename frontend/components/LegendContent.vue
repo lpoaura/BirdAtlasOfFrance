@@ -1,5 +1,5 @@
 <template>
-  <div class="mapControl">
+  <div class="MapControl">
     <div class="text-center">
       <h4>Complétude (%)</h4>
     </div>

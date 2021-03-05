@@ -10,9 +10,16 @@
           v-for="(card, index) in speciesGroupsCards"
           :key="index"
           class="Card speciesGroups"
+          :class="[selectedSpeciesGroup === card.title ? 'selected' : '']"
           @click="updateSelectedSpeciesGroup(card.title)"
         >
-          <div class="SpeciesGroupsCardsIcon" :class="card.class"></div>
+          <div
+            class="SpeciesGroupsCardsIcon"
+            :class="[
+              card.class,
+              selectedSpeciesGroup === card.title ? 'selected' : '',
+            ]"
+          ></div>
           <div class="CardsTitle">{{ card.title }}</div>
           <div class="CardsSubtitle">{{ card.subtitle }}</div>
         </div>
@@ -142,7 +149,6 @@ export default {
   methods: {
     updateSelectedSpeciesGroup(speciesGroup) {
       this.selectedSpeciesGroup = speciesGroup
-      console.log(this.selectedSpeciesGroup)
     },
   },
   head: {
@@ -158,7 +164,7 @@ div.container.container--fluid {
 
 header {
   width: 100%;
-  margin: 32px 0 50px 0;
+  margin: 32px 0;
   display: flex;
   justify-content: center;
 }
@@ -214,6 +220,11 @@ header {
   background: rgba(238, 206, 37, 0.2);
 }
 
+.Card.speciesGroups.selected {
+  background: rgba(238, 206, 37, 0.2);
+  border: 3px solid #eece25;
+}
+
 .SpeciesGroupsCardsIcon {
   width: 54px;
   height: 54px;
@@ -224,7 +235,8 @@ header {
   background: url('/get-involved/common-birds-no-color.svg') 0 0 / 100%;
 }
 
-.Card:hover .SpeciesGroupsCardsIcon.commonBirds {
+.Card:hover .SpeciesGroupsCardsIcon.commonBirds,
+.SpeciesGroupsCardsIcon.commonBirds.selected {
   background: url('/get-involved/common-birds-color.svg') 0 0 / 100%;
 }
 
@@ -232,7 +244,8 @@ header {
   background: url('/get-involved/raptors-no-color.svg') 0 0 / 100%;
 }
 
-.Card:hover .SpeciesGroupsCardsIcon.raptors {
+.Card:hover .SpeciesGroupsCardsIcon.raptors,
+.SpeciesGroupsCardsIcon.raptors.selected {
   background: url('/get-involved/raptors-color.svg') 0 0 / 100%;
 }
 
@@ -240,7 +253,8 @@ header {
   background: url('/get-involved/water-birds-no-color.svg') 0 0 / 100%;
 }
 
-.Card:hover .SpeciesGroupsCardsIcon.waterBirds {
+.Card:hover .SpeciesGroupsCardsIcon.waterBirds,
+.SpeciesGroupsCardsIcon.waterBirds.selected {
   background: url('/get-involved/water-birds-color.svg') 0 0 / 100%;
 }
 
@@ -248,7 +262,8 @@ header {
   background: url('/get-involved/other-birds-no-color.svg') 0 0 / 100%;
 }
 
-.Card:hover .SpeciesGroupsCardsIcon.otherBirds {
+.Card:hover .SpeciesGroupsCardsIcon.otherBirds,
+.SpeciesGroupsCardsIcon.otherBirds.selected {
   background: url('/get-involved/other-birds-color.svg') 0 0 / 100%;
 }
 

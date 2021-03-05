@@ -9,15 +9,12 @@
         :key="index"
         :to="item.routerPath"
         class="NavItem"
-        :style="[
-          [item.routerPath, `${item.routerPath}/`].includes($route.path)
-            ? {
-                'font-weight': 'bold',
-                'border-bottom': '3px solid #262626',
-              }
-            : {
-                'font-weight': 'normal',
-              },
+        :class="[
+          [item.routerPath, `${item.routerPath}/`].includes(
+            `/${$route.path.substring(1).split('/')[0]}`
+          )
+            ? 'selected'
+            : '',
         ]"
         >{{ item.label }}</nuxt-link
       >
@@ -80,6 +77,11 @@ nav {
   font-size: 14px;
   line-height: 14px;
   color: #262626;
+}
+
+.NavItem.selected {
+  font-weight: bold;
+  border-bottom: 3px solid #262626;
 }
 
 .HeaderIcons {

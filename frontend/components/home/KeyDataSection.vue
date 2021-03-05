@@ -1,4 +1,3 @@
-<!-- Utiliser l'API -->
 <!-- Créer un composant avec des props pour le pie chart -->
 <template>
   <section class="KeyDataSection">
@@ -8,7 +7,9 @@
         <div class="KeyDataBlock">
           <img class="KeyDataBlockIcon" src="/home/species-number.svg" />
           <div class="KeyDataBlockContent">
-            <div class="KeyDataBlockData">???</div>
+            <div class="KeyDataBlockData">
+              {{ keyData.count_taxa.all_period }}
+            </div>
             <div class="KeyDataBlockText" style="text-align: center">
               espèces recensées<br />sur la période 2019 - 2023
             </div>
@@ -21,7 +22,9 @@
               src="/home/breeding-species-number.svg"
             />
             <div class="KeyDataBlockDetailsContent">
-              <div class="KeyDataBlockDetailsData">???</div>
+              <div class="KeyDataBlockDetailsData">
+                {{ keyData.count_taxa.breeding }}
+              </div>
               <div class="KeyDataBlockText">espèces nicheuses</div>
             </div>
           </div>
@@ -31,7 +34,9 @@
               src="/home/winter-species-number.svg"
             />
             <div class="KeyDataBlockDetailsContent">
-              <div class="KeyDataBlockDetailsData">???</div>
+              <div class="KeyDataBlockDetailsData">
+                {{ keyData.count_taxa.wintering }}
+              </div>
               <div class="KeyDataBlockText">espèces hivernantes</div>
             </div>
           </div>
@@ -41,7 +46,9 @@
         <div class="KeyDataBlock">
           <div class="KeyDataBlockIcon"><svg class="pieChartSvg"></svg></div>
           <div class="KeyDataBlockContent">
-            <div class="KeyDataBlockData">???</div>
+            <div class="KeyDataBlockData">
+              {{ keyData.prospecting_hours.all_period }}
+            </div>
             <div class="KeyDataBlockText" style="text-align: center">
               heures de prospection<br />sur la période 2019 - 2023
             </div>
@@ -57,7 +64,15 @@
               <div class="KeyDataBlockText" style="font-weight: 500">
                 Période de reproduction
               </div>
-              <div class="KeyDataBlockText">??% | ???? heures</div>
+              <div class="KeyDataBlockText">
+                {{
+                  Math.round(
+                    (keyData.prospecting_hours.breeding /
+                      keyData.prospecting_hours.all_period) *
+                      100
+                  )
+                }}% | {{ keyData.prospecting_hours.breeding }} heures
+              </div>
             </div>
           </div>
           <div class="KeyDataBlockDetails">
@@ -69,7 +84,15 @@
               <div class="KeyDataBlockText" style="font-weight: 500">
                 Période d'hivernage
               </div>
-              <div class="KeyDataBlockText">??% | ???? heures</div>
+              <div class="KeyDataBlockText">
+                {{
+                  Math.round(
+                    (keyData.prospecting_hours.wintering /
+                      keyData.prospecting_hours.all_period) *
+                      100
+                  )
+                }}% | {{ keyData.prospecting_hours.wintering }} heures
+              </div>
             </div>
           </div>
         </div>
@@ -82,7 +105,11 @@
 const d3 = require('d3')
 
 export default {
+  async fetch() {
+    this.keyData = await this.$axios.$get('/api/v1/general_stats')
+  },
   data: () => ({
+    keyData: {},
     pieChartColors: ['#2A9D8F', '#264653'],
   }),
   mounted() {

@@ -1,4 +1,3 @@
-<!-- Mettre à jour les modifs du figma -->
 <template>
   <v-container fluid>
     <header>
@@ -19,18 +18,7 @@
             :key="index"
             :to="item.routerPath"
             class="MenuItem"
-            :style="[
-              item.routerPath === selectedMenuItem
-                ? {
-                    background: 'rgba(57, 118, 90, 0.1)',
-                    color: '#39765a',
-                    'font-weight': 'bold',
-                  }
-                : {
-                    color: '#000000',
-                    'font-weight': 'normal',
-                  },
-            ]"
+            :class="[item.routerPath === selectedMenuItem ? 'selected' : '']"
             @click="updateSelectedMenuItem(item)"
           >
             {{ item.label }}
@@ -43,8 +31,8 @@
         <h2 class="PageTitle">Comment participer ?</h2>
         <div class="PageText">
           <div>
-            Contribuer à Oiseaux de France peut se faire de bien des manières en
-            fonction de votre disponibilité et de vos connaissances
+            Contribuer à Oiseaux de France peut se faire de bien des manières,
+            en fonction de votre disponibilité et de vos connaissances
             ornithologiques. Le plus simple est de saisir systématiquement vos
             observations, idéalement par liste complète, en attribuant un code
             de reproduction pour les oiseaux nicheurs.<br /><br />
@@ -62,6 +50,7 @@
           >
         </div>
         <img
+          class="Picture"
           style="width: 64%"
           src="/what-is-ODF-project/protocols-outline.svg"
         />
@@ -74,7 +63,7 @@
             <nuxt-link to="/">www.oiseauxdefrance.org</nuxt-link> est un portail
             de restitution qui permet de consulter les données collectées dans
             le cadre d’ODF de manière synthétique. Les cartes de répartition
-            ainsi que les listes d’espèces notées dans chaque mailles sont mises
+            ainsi que les listes d’espèces notées dans chaque maille sont mises
             à jour en temps réel. Par l’intermédiaire d’un module dédié aux
             prospections, les observateurs peuvent visualiser les secteurs qui
             nécessitent des prospections pour compléter les listes d’espèces ou
@@ -87,12 +76,8 @@
             >
           </div>
         </div>
-        <div class="ToolsLogos">
-          <img
-            class="Logo"
-            src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg"
-            style="margin-right: 15%"
-          />
+        <div class="Picture" style="width: 24%">
+          <img class="Logo" src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg" />
           <img class="Logo" src="/what-is-ODF-project/NaturaList-logo.svg" />
         </div>
       </div>
@@ -110,7 +95,14 @@
             <b>en France métropolitaine et en Outre-Mer</b>. Une première !
           </div>
         </div>
-        <img style="width: 80%" src="/what-is-ODF-project/Manakin.svg" />
+        <img
+          class="Picture"
+          style="width: 80%"
+          src="/what-is-ODF-project/Manakin.svg"
+        />
+        <div class="PictureLegend">
+          <b>Manakin à tête d'or</b>, Guyane © Pieter Verheij
+        </div>
         <h2 class="PageTitle">
           Connaître la répartition de toutes les espèces
         </h2>
@@ -118,16 +110,22 @@
           <div>
             Il s'agit de cartographier précisément la <b>répartition</b> de
             toutes les espèces de France en période de nidification et
-            d'hivernage. En métropole, les cartes seront restituées selon le
-            maillage utilisé par les précédents Atlas, à savoir des mailles de
-            10 x 10 km. Dans les départements et territoires ultra-marins, le
-            grain de restitution variera selon les contextes locaux.
+            d'hivernage. En France métropolitaine, les cartes seront restituées
+            selon le maillage utilisé par les précédents Atlas, à savoir des
+            mailles de 10 x 10 km. Dans les départements et territoires
+            ultra-marins, le grain de restitution variera selon les contextes
+            locaux.
           </div>
         </div>
         <img
+          class="Picture"
           style="width: 70%"
           src="/what-is-ODF-project/Atlas-illustration.svg"
         />
+        <div class="PictureLegend">
+          Carte de répartition en période de reproduction du Busard cendré
+          (extrait de Issa & Muller 2015)
+        </div>
         <h2 class="PageTitle">Évaluer les tendances démographiques</h2>
         <div class="PageText">
           <div>
@@ -137,9 +135,24 @@
           </div>
         </div>
         <img
+          class="Picture"
           style="width: 70%"
-          src="/what-is-ODF-project/trends-illustration.svg"
+          src="/what-is-ODF-project/trends-chart.svg"
         />
+        <div class="PictureLegend" style="margin-bottom: 12px">
+          Tendances d’évolution des Oiseaux Communs en fonction des différents
+          cortèges
+        </div>
+        <div class="ChartLegend">
+          <div
+            v-for="(item, index) in chartLegendItems"
+            :key="index"
+            class="ChartLegendLabel"
+          >
+            <i :style="{ background: item.color }"></i>
+            {{ item.label }}
+          </div>
+        </div>
         <h2 class="PageTitle">Estimer les tailles des populations</h2>
         <div class="PageText">
           Il s'agit d'obtenir des effectifs fiables pour un maximum d'espèces.
@@ -160,9 +173,16 @@ export default {
       { label: 'Description', routerPath: '' },
       { label: 'Participer', routerPath: '#get-involved' },
       { label: 'Qui sommes-nous ?', routerPath: '#who-we-are' },
-      { label: 'Nos partenaires', routerPath: '#partners' },
+      { label: 'Partenaires', routerPath: '#partners' },
     ],
     selectedMenuItem: '',
+    chartLegendItems: [
+      { label: 'Généralistes', color: '#CE1717' },
+      { label: 'Milieux forestiers', color: '#0BCCCC' },
+      { label: 'Toutes espèces', color: '#70149F' },
+      { label: 'Milieux bâtis', color: '#6E9D9D' },
+      { label: 'Milieux agricoles', color: '#167216' },
+    ],
   }),
   mounted() {
     this.selectedMenuItem = this.$route.hash
@@ -263,17 +283,25 @@ menu {
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
+  font-weight: normal;
   text-decoration: none;
   font-size: 14px;
   line-height: 21px;
+  color: #000;
   white-space: nowrap;
+}
+
+.MenuItem.selected {
+  background: rgba(57, 118, 90, 0.1);
+  font-weight: bold;
+  color: #39765a;
 }
 
 .PageSection {
   background: rgba(57, 118, 90, 0.1);
 
   /* min-height: calc(100vh - 334px); */
-  padding: 0 16% 2% 16%;
+  padding: 1% 16%;
 }
 
 .PageContent {
@@ -285,7 +313,7 @@ menu {
 
 .PageTitle {
   width: 100%;
-  margin: 4vh 0 2.5vh 0;
+  margin: 10px 0 20px 0;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: bold;
@@ -301,7 +329,7 @@ menu {
   box-sizing: border-box;
   border-radius: 16px;
   padding: 2.8vh 2.8vh;
-  margin-bottom: 4vh;
+  margin-bottom: 30px;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -311,6 +339,48 @@ menu {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.Picture {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.PictureLegend {
+  margin-bottom: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #000;
+}
+
+.ChartLegend {
+  width: 100%;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.ChartLegend i {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  float: left;
+  margin-right: 8px;
+}
+
+.ChartLegendLabel {
+  margin-right: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 15px;
+  color: #000;
+  white-space: nowrap;
 }
 
 .PrimaryButton {
@@ -325,11 +395,6 @@ menu {
   font-size: 12px;
   line-height: 18px;
   color: #fcfcfc;
-}
-
-.ToolsLogos {
-  margin: auto;
-  display: flex;
 }
 
 .Logo {
