@@ -1,3 +1,4 @@
+<!-- Footer -->
 <template>
   <v-app>
     <transition name="navBar">
