@@ -17,7 +17,7 @@
       <div class="SearchSplit"></div>
       <div class="SelectTypeWrapper">
         <div class="SelectedTypeContent" @click="openOrCloseSelectBox">
-          <div class="SelectedTypeText">{{ selectedType.label }}</div>
+          <span class="SelectedTypeText">{{ selectedType.label }}</span>
           <img
             class="SelectedTypeChevron"
             :src="

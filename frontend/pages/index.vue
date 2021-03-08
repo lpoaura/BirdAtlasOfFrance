@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <search-section />
-    <key-data-section />
+    <key-data-section :key-data="keyData" />
   </v-container>
 </template>
 
@@ -17,6 +17,10 @@ export default {
   components: {
     'search-section': SearchSection,
     'key-data-section': KeyDataSection,
+  },
+  async asyncData({ $axios }) {
+    const keyData = await $axios.$get('/api/v1/general_stats')
+    return { keyData }
   },
   head: {
     title: 'Accueil',

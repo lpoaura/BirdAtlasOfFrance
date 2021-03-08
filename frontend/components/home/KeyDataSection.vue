@@ -7,12 +7,12 @@
         <div class="KeyDataBlock">
           <img class="KeyDataBlockIcon" src="/home/species-number.svg" />
           <div class="KeyDataBlockContent">
-            <div class="KeyDataBlockData">
+            <span class="KeyDataBlockData">
               {{ keyData.count_taxa.all_period }}
-            </div>
-            <div class="KeyDataBlockText" style="text-align: center">
+            </span>
+            <span class="KeyDataBlockText" style="text-align: center">
               espèces recensées<br />sur la période 2019 - 2023
-            </div>
+            </span>
           </div>
         </div>
         <div class="KeyDataBlock">
@@ -22,10 +22,10 @@
               src="/home/breeding-species-number.svg"
             />
             <div class="KeyDataBlockDetailsContent">
-              <div class="KeyDataBlockDetailsData">
+              <span class="KeyDataBlockDetailsData">
                 {{ keyData.count_taxa.breeding }}
-              </div>
-              <div class="KeyDataBlockText">espèces nicheuses</div>
+              </span>
+              <span class="KeyDataBlockText">espèces nicheuses</span>
             </div>
           </div>
           <div class="KeyDataBlockDetails">
@@ -34,10 +34,10 @@
               src="/home/winter-species-number.svg"
             />
             <div class="KeyDataBlockDetailsContent">
-              <div class="KeyDataBlockDetailsData">
+              <span class="KeyDataBlockDetailsData">
                 {{ keyData.count_taxa.wintering }}
-              </div>
-              <div class="KeyDataBlockText">espèces hivernantes</div>
+              </span>
+              <span class="KeyDataBlockText">espèces hivernantes</span>
             </div>
           </div>
         </div>
@@ -46,25 +46,25 @@
         <div class="KeyDataBlock">
           <div class="KeyDataBlockIcon"><svg class="pieChartSvg"></svg></div>
           <div class="KeyDataBlockContent">
-            <div class="KeyDataBlockData">
+            <span class="KeyDataBlockData">
               {{ keyData.prospecting_hours.all_period }}
-            </div>
-            <div class="KeyDataBlockText" style="text-align: center">
+            </span>
+            <span class="KeyDataBlockText" style="text-align: center">
               heures de prospection<br />sur la période 2019 - 2023
-            </div>
+            </span>
           </div>
         </div>
         <div class="KeyDataBlock">
           <div class="KeyDataBlockDetails">
             <div
               class="KeyDataBlockDetailsDot"
-              :style="{ background: pieChartColors[0] }"
+              :style="{ background: pieChartBreedingColor }"
             ></div>
             <div class="KeyDataBlockDetailsContent">
-              <div class="KeyDataBlockText" style="font-weight: 500">
+              <span class="KeyDataBlockText" style="font-weight: 500">
                 Période de reproduction
-              </div>
-              <div class="KeyDataBlockText">
+              </span>
+              <span class="KeyDataBlockText">
                 {{
                   Math.round(
                     (keyData.prospecting_hours.breeding /
@@ -72,19 +72,19 @@
                       100
                   )
                 }}% | {{ keyData.prospecting_hours.breeding }} heures
-              </div>
+              </span>
             </div>
           </div>
           <div class="KeyDataBlockDetails">
             <div
               class="KeyDataBlockDetailsDot"
-              :style="{ background: pieChartColors[1] }"
+              :style="{ background: pieChartWinteringColor }"
             ></div>
             <div class="KeyDataBlockDetailsContent">
-              <div class="KeyDataBlockText" style="font-weight: 500">
+              <span class="KeyDataBlockText" style="font-weight: 500">
                 Période d'hivernage
-              </div>
-              <div class="KeyDataBlockText">
+              </span>
+              <span class="KeyDataBlockText">
                 {{
                   Math.round(
                     (keyData.prospecting_hours.wintering /
@@ -92,7 +92,7 @@
                       100
                   )
                 }}% | {{ keyData.prospecting_hours.wintering }} heures
-              </div>
+              </span>
             </div>
           </div>
         </div>
@@ -105,12 +105,15 @@
 const d3 = require('d3')
 
 export default {
-  async fetch() {
-    this.keyData = await this.$axios.$get('/api/v1/general_stats')
+  props: {
+    keyData: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
-    keyData: {},
-    pieChartColors: ['#2A9D8F', '#264653'],
+    pieChartBreedingColor: '#2A9D8F',
+    pieChartWinteringColor: '#264653',
   }),
   mounted() {
     // Get pie chart size
@@ -123,7 +126,10 @@ export default {
       .attr('width', pieChartHeight)
       .attr('height', pieChartHeight)
     // Define pie chart colors
-    const color = d3.scaleOrdinal(this.pieChartColors)
+    const color = d3.scaleOrdinal([
+      this.pieChartBreedingColor,
+      this.pieChartWinteringColor,
+    ])
     // Define pie chart shape
     const arcPath = d3
       .arc()
@@ -131,8 +137,14 @@ export default {
       .innerRadius(pieChartHeight / 5)
     // Define data
     const data = [
-      { hours: 2374, label: 'Période de reproduction' },
-      { hours: 1394, label: "Période d'hivernage" },
+      {
+        hours: this.keyData.prospecting_hours.breeding,
+        label: 'Période de reproduction',
+      },
+      {
+        hours: this.keyData.prospecting_hours.wintering,
+        label: "Période d'hivernage",
+      },
     ]
     const pieChartData = d3.pie().value(function (d) {
       return d.hours

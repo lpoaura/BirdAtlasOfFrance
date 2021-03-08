@@ -1,3 +1,4 @@
+<!-- min-height à gérer -->
 <template>
   <v-container fluid>
     <header>
@@ -9,11 +10,11 @@
         </div>
       </div>
       <div class="HeaderMenu">
-        <div class="HeaderLastUpdate">
+        <span class="HeaderLastUpdate">
           Dernière actualisation le 7 janvier 2020
-        </div>
+        </span>
         <menu>
-          <div
+          <span
             v-for="(item, index) in menuItems"
             :key="index"
             :to="item.routerPath"
@@ -22,7 +23,7 @@
             @click="updateSelectedMenuItem(item)"
           >
             {{ item.label }}
-          </div>
+          </span>
         </menu>
       </div>
     </header>
@@ -30,7 +31,7 @@
       <div v-if="selectedMenuItem === '#get-involved'" class="PageContent">
         <h2 class="PageTitle">Comment participer ?</h2>
         <div class="PageText">
-          <div>
+          <span>
             Contribuer à Oiseaux de France peut se faire de bien des manières,
             en fonction de votre disponibilité et de vos connaissances
             ornithologiques. Le plus simple est de saisir systématiquement vos
@@ -44,7 +45,7 @@
             une solide connaissance des oiseaux. Mais cet engagement est riche
             de satisfaction et permet d'acquérir une connaissance intime de
             l'avifaune et des milieux que vous prospectez.
-          </div>
+          </span>
           <nuxt-link to="/get-involved" class="PrimaryButton"
             >Découvrir les dispositifs</nuxt-link
           >
@@ -58,7 +59,7 @@
       <div v-else-if="selectedMenuItem === '#who-we-are'" class="PageContent">
         <h2 class="PageTitle">Un site ODF ?</h2>
         <div class="PageText">
-          <div>
+          <span>
             Le site
             <nuxt-link to="/">www.oiseauxdefrance.org</nuxt-link> est un portail
             de restitution qui permet de consulter les données collectées dans
@@ -74,9 +75,9 @@
               >La collecte des données se fera toujours sur les outils actuels,
               Faune-France ou NaturaList.</b
             >
-          </div>
+          </span>
         </div>
-        <div class="Picture" style="width: 24%">
+        <div class="Picture" style="width: 240px">
           <img class="Logo" src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg" />
           <img class="Logo" src="/what-is-ODF-project/NaturaList-logo.svg" />
         </div>
@@ -87,27 +88,27 @@
       <div v-else class="PageContent">
         <h2 class="PageTitle">Les grandes lignes du projet</h2>
         <div class="PageText">
-          <div>
+          <span>
             Oiseaux de France (ODF) est le plus ambitieux projet de
             <b>science participative</b> en cours sur les oiseaux. Il vise à
             mettre à jour et diffuser l’état des connaissances de l'avifaune
             française en période de nidification et d'hivernage,
             <b>en France métropolitaine et en Outre-Mer</b>. Une première !
-          </div>
+          </span>
         </div>
         <img
           class="Picture"
           style="width: 80%"
           src="/what-is-ODF-project/Manakin.svg"
         />
-        <div class="PictureLegend">
+        <span class="PictureLegend">
           <b>Manakin à tête d'or</b>, Guyane © Pieter Verheij
-        </div>
+        </span>
         <h2 class="PageTitle">
           Connaître la répartition de toutes les espèces
         </h2>
         <div class="PageText">
-          <div>
+          <span>
             Il s'agit de cartographier précisément la <b>répartition</b> de
             toutes les espèces de France en période de nidification et
             d'hivernage. En France métropolitaine, les cartes seront restituées
@@ -115,51 +116,53 @@
             mailles de 10 x 10 km. Dans les départements et territoires
             ultra-marins, le grain de restitution variera selon les contextes
             locaux.
-          </div>
+          </span>
         </div>
         <img
           class="Picture"
           style="width: 70%"
           src="/what-is-ODF-project/Atlas-illustration.svg"
         />
-        <div class="PictureLegend">
+        <span class="PictureLegend">
           Carte de répartition en période de reproduction du Busard cendré
           (extrait de Issa & Muller 2015)
-        </div>
+        </span>
         <h2 class="PageTitle">Évaluer les tendances démographiques</h2>
         <div class="PageText">
-          <div>
+          <span>
             L'évaluation de la tendance des espèces se basera sur les
             dispositifs de surveillance nationaux existants (STOC, SHOC, STOM,
             Observatoire Rapaces, comptage Wetlands...).
-          </div>
+          </span>
         </div>
         <img
           class="Picture"
           style="width: 70%"
           src="/what-is-ODF-project/trends-chart.svg"
         />
-        <div class="PictureLegend" style="margin-bottom: 12px">
+        <span class="PictureLegend" style="margin-bottom: 12px">
           Tendances d’évolution des Oiseaux Communs en fonction des différents
           cortèges
-        </div>
+        </span>
         <div class="ChartLegend">
-          <div
+          <span
             v-for="(item, index) in chartLegendItems"
             :key="index"
             class="ChartLegendLabel"
           >
             <i :style="{ background: item.color }"></i>
             {{ item.label }}
-          </div>
+          </span>
         </div>
         <h2 class="PageTitle">Estimer les tailles des populations</h2>
         <div class="PageText">
-          Il s'agit d'obtenir des effectifs fiables pour un maximum d'espèces.
-          En complément des carrés rapaces, de l'enquête LIMAT ou d’autres
-          enquêtes ciblant des cortèges d’espèces (hérons coloniaux, oiseaux
-          marins nicheurs), une méthode basée sur les EPOC-ODF va être déployée
-          pour atteindre cet ambitieux objectif.
+          <span>
+            Il s'agit d'obtenir des effectifs fiables pour un maximum d'espèces.
+            En complément des carrés rapaces, de l'enquête LIMAT ou d’autres
+            enquêtes ciblant des cortèges d’espèces (hérons coloniaux, oiseaux
+            marins nicheurs), une méthode basée sur les EPOC-ODF va être
+            déployée pour atteindre cet ambitieux objectif.
+          </span>
         </div>
       </div>
     </section>
@@ -299,6 +302,7 @@ menu {
 
 .PageSection {
   background: rgba(57, 118, 90, 0.1);
+  width: 100%;
 
   /* min-height: calc(100vh - 334px); */
   padding: 1% 16%;
