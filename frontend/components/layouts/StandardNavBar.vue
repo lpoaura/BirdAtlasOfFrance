@@ -23,8 +23,8 @@
       <nuxt-link to="#" class="ButtonsIcons"
         ><img class="Icon" src="/nav-bar/language-FR-black.svg"
       /></nuxt-link>
-      <nuxt-link to="/support" class="ButtonsIcons"
-        ><img class="Icon" src="/nav-bar/support-black.svg"
+      <nuxt-link to="/about/contact" class="ButtonsIcons"
+        ><img class="Icon" src="/nav-bar/contact-black.svg"
       /></nuxt-link>
     </div>
   </header>

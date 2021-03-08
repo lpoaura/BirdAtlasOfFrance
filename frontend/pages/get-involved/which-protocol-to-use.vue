@@ -9,19 +9,19 @@
         <div
           v-for="(card, index) in speciesGroupsCards"
           :key="index"
-          class="Card speciesGroups"
+          class="Card"
           :class="[selectedSpeciesGroup === card.title ? 'selected' : '']"
           @click="updateSelectedSpeciesGroup(card.title)"
         >
           <div
-            class="SpeciesGroupsCardsIcon"
+            class="CardsIcon"
             :class="[
               card.class,
               selectedSpeciesGroup === card.title ? 'selected' : '',
             ]"
           ></div>
-          <div class="CardsTitle">{{ card.title }}</div>
-          <div class="CardsSubtitle">{{ card.subtitle }}</div>
+          <h6 class="CardsTitle">{{ card.title }}</h6>
+          <span class="CardsSubtitle">{{ card.subtitle }}</span>
         </div>
       </div>
     </section>
@@ -32,30 +32,18 @@
           aux <b>{{ selectedSpeciesGroup.toLowerCase() }}</b>
         </span>
       </h2>
-      <div class="CardsContent">
-        <nuxt-link
-          v-for="(card, index) in resultsCards"
-          :key="index"
-          :to="card.routerPath"
-          class="Card protocols"
-        >
-          <img class="ProtocolsCardsIcon" :src="card.icon" />
-          <div class="CardsTitle">{{ card.title }}</div>
-          <div class="CardsSubtitle">{{ card.subtitle }}</div>
-          <div
-            class="ProtocolsCardsChip"
-            :class="[card.season === 'Reproduction' ? 'breeding' : 'wintering']"
-          >
-            {{ card.season }}
-          </div>
-        </nuxt-link>
-      </div>
+      <protocols-cards :species-group-filter="selectedSpeciesGroup" />
     </section>
   </v-container>
 </template>
 
 <script>
+import ProtocolsCards from '~/components/get-involved/ProtocolsCards.vue'
+
 export default {
+  components: {
+    'protocols-cards': ProtocolsCards,
+  },
   data: () => ({
     speciesGroupsCards: [
       {
@@ -80,70 +68,16 @@ export default {
       },
     ],
     selectedSpeciesGroup: null,
-    protocolsCards: [
-      {
-        icon: '/get-involved/EPOC-logo.svg',
-        title: 'EPOC',
-        subtitle: "Estimation des Populations d'Oiseaux Communs",
-        routerPath: '#',
-        season: 'Reproduction',
-        speciesGroup: 'Oiseaux communs',
-      },
-      {
-        icon: '/get-involved/STOC-logo.svg',
-        title: 'STOC',
-        subtitle: 'Suivi Temporel des Oiseaux Communs',
-        routerPath: '#',
-        season: 'Reproduction',
-        speciesGroup: 'Oiseaux communs',
-      },
-      {
-        icon: '/get-involved/STOM-logo.svg',
-        title: 'STOM',
-        subtitle: 'Suivi Temporel des Oiseaux de Montagne',
-        routerPath: '#',
-        season: 'Reproduction',
-        speciesGroup: 'Autres',
-      },
-      {
-        icon: '/get-involved/Observatoire-Rapaces-logo.svg',
-        title: 'Observatoire Rapaces',
-        subtitle: '',
-        routerPath: '#',
-        season: 'Reproduction',
-        speciesGroup: 'Rapaces',
-      },
-      {
-        icon: '/get-involved/LIMAT-logo.svg',
-        title: 'LIMAT',
-        subtitle: 'Limicoles et Anatidés Nicheurs',
-        routerPath: '#',
-        season: 'Reproduction',
-        speciesGroup: 'Autres',
-      },
-      {
-        icon: '/get-involved/SHOC-logo.svg',
-        title: 'SHOC',
-        subtitle: 'Suivi Hivernal des Oiseaux Communs',
-        routerPath: '#',
-        season: 'Hivernage',
-        speciesGroup: 'Oiseaux communs',
-      },
-      {
-        icon: '/get-involved/Wetlands-logo.svg',
-        title: 'Wetlands',
-        subtitle: "Recensement des Oiseaux d'Eau",
-        routerPath: '#',
-        season: 'Hivernage',
-        speciesGroup: "Oiseaux d'eau",
-      },
-    ],
   }),
   computed: {
     resultsCards() {
-      return this.protocolsCards.filter((card) => {
-        return card.speciesGroup === this.selectedSpeciesGroup
-      })
+      if (this.selectedSpeciesGroup === null) {
+        return this.protocolsCards
+      } else {
+        return this.protocolsCards.filter((card) => {
+          return card.speciesGroup === this.selectedSpeciesGroup
+        })
+      }
     },
   },
   methods: {
@@ -175,7 +109,6 @@ header {
   font-weight: bold;
   font-size: 32px;
   line-height: 48px;
-  align-items: center;
   color: #000;
 }
 
@@ -216,54 +149,54 @@ header {
   align-items: center;
 }
 
-.Card.speciesGroups:hover {
+.Card:hover {
   background: rgba(238, 206, 37, 0.2);
 }
 
-.Card.speciesGroups.selected {
+.Card.selected {
   background: rgba(238, 206, 37, 0.2);
   border: 3px solid #eece25;
 }
 
-.SpeciesGroupsCardsIcon {
+.CardsIcon {
   width: 54px;
   height: 54px;
   margin-bottom: 16px;
 }
 
-.SpeciesGroupsCardsIcon.commonBirds {
+.CardsIcon.commonBirds {
   background: url('/get-involved/common-birds-no-color.svg') 0 0 / 100%;
 }
 
-.Card:hover .SpeciesGroupsCardsIcon.commonBirds,
-.SpeciesGroupsCardsIcon.commonBirds.selected {
+.Card:hover .CardsIcon.commonBirds,
+.CardsIcon.commonBirds.selected {
   background: url('/get-involved/common-birds-color.svg') 0 0 / 100%;
 }
 
-.SpeciesGroupsCardsIcon.raptors {
+.CardsIcon.raptors {
   background: url('/get-involved/raptors-no-color.svg') 0 0 / 100%;
 }
 
-.Card:hover .SpeciesGroupsCardsIcon.raptors,
-.SpeciesGroupsCardsIcon.raptors.selected {
+.Card:hover .CardsIcon.raptors,
+.CardsIcon.raptors.selected {
   background: url('/get-involved/raptors-color.svg') 0 0 / 100%;
 }
 
-.SpeciesGroupsCardsIcon.waterBirds {
+.CardsIcon.waterBirds {
   background: url('/get-involved/water-birds-no-color.svg') 0 0 / 100%;
 }
 
-.Card:hover .SpeciesGroupsCardsIcon.waterBirds,
-.SpeciesGroupsCardsIcon.waterBirds.selected {
+.Card:hover .CardsIcon.waterBirds,
+.CardsIcon.waterBirds.selected {
   background: url('/get-involved/water-birds-color.svg') 0 0 / 100%;
 }
 
-.SpeciesGroupsCardsIcon.otherBirds {
+.CardsIcon.otherBirds {
   background: url('/get-involved/other-birds-no-color.svg') 0 0 / 100%;
 }
 
-.Card:hover .SpeciesGroupsCardsIcon.otherBirds,
-.SpeciesGroupsCardsIcon.otherBirds.selected {
+.Card:hover .CardsIcon.otherBirds,
+.CardsIcon.otherBirds.selected {
   background: url('/get-involved/other-birds-color.svg') 0 0 / 100%;
 }
 
@@ -286,43 +219,5 @@ header {
   line-height: 18px;
   text-align: center;
   color: rgba(38, 38, 38, 0.6);
-}
-
-.ProtocolsCardsIcon {
-  height: 48px;
-  margin-bottom: 12px;
-}
-
-.Card.protocols:hover .CardsSubtitle {
-  margin-bottom: 12px;
-}
-
-.ProtocolsCardsChip {
-  opacity: 0;
-  border-radius: 61px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 0;
-  font-size: 0;
-  line-height: 0;
-  transition: 0.3s;
-}
-
-.ProtocolsCardsChip.breeding {
-  background: #fb7971;
-  color: #000;
-}
-
-.ProtocolsCardsChip.wintering {
-  background: #9eb9ff;
-  color: #fcfcfc;
-}
-
-.Card:hover .ProtocolsCardsChip {
-  opacity: 1;
-  padding: 2.5% 8%;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 18px;
 }
 </style>

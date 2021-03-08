@@ -1,3 +1,5 @@
+<!-- Supprimer la vignette Espèces -->
+<!-- Ajouter l'auteur de la photo -->
 <template>
   <main class="SearchSection">
     <div class="HomePicture">
@@ -24,7 +26,7 @@
         class="Card"
       >
         <img class="CardsIcon" :src="card.icon" />
-        <div class="CardsTitle" v-html="card.title"></div>
+        <h6 class="CardsTitle" v-html="card.title"></h6>
       </nuxt-link>
     </div>
   </main>
