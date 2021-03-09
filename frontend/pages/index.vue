@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <search-section />
-    <key-data-section :key-data="keyData" />
+    <key-data-section />
   </v-container>
 </template>
 
@@ -17,30 +17,6 @@ export default {
   components: {
     'search-section': SearchSection,
     'key-data-section': KeyDataSection,
-  },
-  data: () => ({
-    keyData: {
-      prospecting_hours: {
-        all_period: 0,
-        breeding: 0,
-        wintering: 0,
-      },
-      count_taxa: {
-        all_period: 0,
-        breeding: 0,
-        wintering: 0,
-      },
-    },
-  }),
-  mounted() {
-    this.$axios
-      .$get('/api/v1/general_stats')
-      .then((data) => {
-        this.keyData = data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
   },
   head: {
     title: 'Accueil',
