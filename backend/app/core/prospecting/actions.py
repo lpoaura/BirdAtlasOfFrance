@@ -146,12 +146,13 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
     def get_area_stats(self, db: Session, id_area: int, limit: Optional[int] = None) -> Query:
         q = db.query(
             AreaDashboard.last_date,
+            AreaDashboard.data_count,
             AreaDashboard.taxa_count_all_period,
-            AreaDashboard.taxa_count_breeding,
             AreaDashboard.taxa_count_wintering,
+            AreaDashboard.taxa_count_breeding,
             AreaDashboard.prospecting_hours_all_period,
-            AreaDashboard.prospecting_hours_breeding,
             AreaDashboard.prospecting_hours_wintering,
+            AreaDashboard.prospecting_hours_breeding,
         ).filter(AreaDashboard.id_area == id_area)
         return q.first()
 
