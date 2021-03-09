@@ -6,8 +6,8 @@ from sqlalchemy.orm import Session
 
 from app.utils.db import get_db
 
-from .actions import general_stats
-from .schemas import GeneralStatsSchema
+from .actions import general_stats, knowledge_level_general_stats
+from .schemas import GeneralStatsSchema, KnowledgeLevelGeneralStatsSchema
 
 logger = logging.getLogger(__name__)
 
@@ -15,10 +15,10 @@ router = APIRouter()
 
 
 @router.get(
-    "/general_stats",
+    "/period_stats",
     response_model=GeneralStatsSchema,
     tags=["main"],
-    summary="Areas list with general statistics per zone within a bounding box",
+    summary="General stats",
     description="""# General stats
 
 Platform general stats for home page:
@@ -31,7 +31,28 @@ Periods are:
 * breeding (only breeding observations)
     """,
 )
-def general_stats_data(db: Session = Depends(get_db)) -> Any:
+def period_stats(db: Session = Depends(get_db)) -> Any:
     q = general_stats.query(db=db)
+    logger.debug(q)
+    return q
+
+
+@router.get(
+    "/knowledge_level",
+    response_model=KnowledgeLevelGeneralStatsSchema,
+    tags=["main"],
+    summary="Global knowledge level",
+    description="""# Global knowledge level
+
+Global knowledge level for atlas, from area counts categorized by knowledge level:
+* from 0 to 25%
+* from 25 to 50%
+* from 50 to 75%
+* from 75 to 100%
+* over 100%
+    """,
+)
+def knowledge_level_general_stats_data(db: Session = Depends(get_db)) -> Any:
+    q = knowledge_level_general_stats.query(db=db)
     logger.debug(q)
     return q
