@@ -1,3 +1,4 @@
+<!-- Photo -->
 <template>
   <v-container fluid>
     <section class="IntroSection">
@@ -21,6 +22,29 @@
     </section>
     <section class="QuestionsSection">
       <h2 class="QuestionsTitle">Questions fréquentes</h2>
+      <div
+        v-for="question in questions"
+        :key="question.index"
+        class="QuestionsBlock"
+      >
+        <div
+          class="QuestionsContent"
+          @click="updateQuestionStatus(question.index)"
+        >
+          <span class="QuestionsText">{{ question.label }}</span>
+          <img
+            class="QuestionsChevron"
+            :src="
+              question.isOpen
+                ? '/select-chevron-up.svg'
+                : '/select-chevron-down.svg'
+            "
+          />
+        </div>
+        <span v-if="question.isOpen" class="ResponsesText">{{
+          question.response
+        }}</span>
+      </div>
     </section>
   </v-container>
 </template>
@@ -58,7 +82,33 @@ export default {
         routerPath: '#',
       },
     ],
+    questions: [
+      {
+        index: 0,
+        label: "Comment participer à l'Atlas ?",
+        response: 'Réponse',
+        isOpen: false,
+      },
+      {
+        index: 1,
+        label: 'Question ?',
+        response: 'Réponse',
+        isOpen: false,
+      },
+      {
+        index: 2,
+        label: 'Question ?',
+        response: 'Réponse',
+        isOpen: false,
+      },
+    ],
+    selectedQuestion: null,
   }),
+  methods: {
+    updateQuestionStatus(index) {
+      this.questions[index].isOpen = !this.questions[index].isOpen
+    },
+  },
   head: {
     title: 'À propos',
   },
@@ -67,7 +117,6 @@ export default {
 
 <style scoped>
 .IntroSection {
-  /* border-bottom: 5px solid red; */
   position: relative;
   width: 100%;
   height: 536px;
@@ -171,7 +220,7 @@ export default {
 .QuestionsSection {
   background: rgba(57, 118, 90, 0.1);
   width: 100%;
-  padding: 1% 22%;
+  padding: 0 22% 20px 22%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -187,7 +236,43 @@ export default {
   color: #262626;
 }
 
-.Question {
+.QuestionsBlock {
   width: 100%;
+  border-bottom: 1px solid rgba(57, 118, 90, 0.1);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.QuestionsContent {
+  width: 100%;
+  margin-bottom: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.QuestionsText {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #262626;
+}
+
+.QuestionsChevron {
+  width: 11px;
+}
+
+.ResponsesText {
+  width: 100%;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
 }
 </style>
