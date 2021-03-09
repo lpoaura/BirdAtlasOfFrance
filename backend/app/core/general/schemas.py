@@ -33,3 +33,20 @@ class GeneralStatsSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class KnowledgeLevelGeneralStatsSchema(BaseModel):
+    """[summary]
+
+    Args:
+        BaseModel ([type]): [description]
+    """
+
+    from0to25: int
+    from25to50: int
+    from50to75: int
+    from75to100: int
+    over100: int
+
+    class Config:
+        orm_mode = True

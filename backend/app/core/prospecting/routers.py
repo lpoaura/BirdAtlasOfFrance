@@ -3,7 +3,6 @@ import logging
 from typing import Any, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
-from geojson_pydantic.features import FeatureCollection
 from sqlalchemy.orm import Session
 
 from app.utils.db import get_db, settings
@@ -23,13 +22,13 @@ router = APIRouter()
 
 
 @router.get(
-    "/area_knowledge_level/{type_code}",
+    "/area/knowledge_level/{type_code}",
     response_model=AreaKnowledgeLevelGeoJson,
     tags=["prospecting"],
     summary="Areas list with general statistics per zone within a bounding box",
     description="""# Area list
 
-This return a list of areas filtered by type (`type_code`) 
+This return a list of areas filtered by type (`type_code`)
 and within a geographic bounding box (`envelope`) with general stats:
 * All period:
   * Count taxa in previous atlas as `old_count` ;
@@ -40,7 +39,7 @@ and within a geographic bounding box (`envelope`) with general stats:
 
     """,
 )
-def list_area_knowledge_level(
+def area_list_knowledge_level(
     db: Session = Depends(get_db),
     type_code: str = "M10",
     limit: Optional[int] = None,
@@ -55,6 +54,8 @@ def list_area_knowledge_level(
         db=db, type_code=type_code, limit=limit, envelope=envelope
     )
     features = []
+    if len(areas) == 0:
+        HTTPException(status_code=404, detail="Data not found")
     for a in areas:
         f = AreaKnowledgeLevelFeatureSchema(
             properties=(AreaKnowledgeLevelPropertiesSchema(**a.properties)),
@@ -66,15 +67,18 @@ def list_area_knowledge_level(
 
 
 @router.get(
-    "/area/list_taxa/{id_area}",
+    "/area/taxa_list/{id_area}",
     response_model=List[AreaKnowledgeTaxaListSchema],
     tags=["prospecting"],
     summary="List of species by area with qualitative data",
 )
-def area_list_taxa(
+def area_taxa_list(
     id_area: int, db: Session = Depends(get_db), limit: Optional[int] = None
 ) -> Any:
     taxa_list = area_knowledge_taxa_list.get_area_taxa_list(db=db, id_area=id_area)
+    logger.debug(taxa_list)
+    if len(taxa_list) == 0:
+        raise HTTPException(status_code=404, detail="Data not found")
     return taxa_list
 
 
@@ -85,6 +89,8 @@ def area_list_taxa(
     summary="General stats by area",
 )
 def area_general_stats(id_area: int, db: Session = Depends(get_db)) -> Any:
-    genstats = area_dashboard.get_area_stats(db=db, id_area=id_area)
-    logger.debug(f"GenStats {genstats}")
-    return genstats
+    q = area_dashboard.get_area_stats(db=db, id_area=id_area)
+    logger.debug(f"GenStats {q}")
+    if not q:
+        raise HTTPException(status_code=404, detail="Data not found")
+    return q

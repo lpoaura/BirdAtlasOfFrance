@@ -114,13 +114,15 @@ class AreaDashboardSchema(BaseModel):
         BaseModel ([type]): [description]
     """
 
-    id_area: int
+    # id_area: int
     last_date: datetime.date
     data_count: int
-    taxa_count: int
     taxa_count_all_period: int
     taxa_count_wintering: int
     taxa_count_breeding: int
-    prospecting_hours_all_period: int
-    prospecting_hours_wintering: int
-    prospecting_hours_breeding: int
+    prospecting_hours_all_period: float
+    prospecting_hours_wintering: float
+    prospecting_hours_breeding: float
+
+    class Config:
+        orm_mode = True
