@@ -1,4 +1,3 @@
-<!-- Créer un composant avec des props pour le pie chart -->
 <template>
   <section class="KeyDataSection">
     <h2 class="KeyDataTitle">L'Atlas en quelques chiffres...</h2>
@@ -142,6 +141,15 @@ export default {
     pieChartWinteringColor: '#264653',
     pieChartExtraColor: 'grey',
   }),
+  computed: {
+    extraProspectingHours() {
+      return (
+        this.keyData.prospecting_hours.all_period -
+        this.keyData.prospecting_hours.breeding -
+        this.keyData.prospecting_hours.wintering
+      )
+    },
+  },
   mounted() {
     this.$axios
       .$get('/api/v1/period_stats')
@@ -205,15 +213,6 @@ export default {
         // eslint-disable-next-line
         console.log(error)
       })
-  },
-  computed: {
-    extraProspectingHours() {
-      return (
-        this.keyData.prospecting_hours.all_period -
-        this.keyData.prospecting_hours.breeding -
-        this.keyData.prospecting_hours.wintering
-      )
-    },
   },
 }
 </script>
