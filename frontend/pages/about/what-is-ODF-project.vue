@@ -1,4 +1,3 @@
-<!-- min-height à gérer -->
 <template>
   <v-container fluid>
     <header>
@@ -303,8 +302,7 @@ menu {
 .PageSection {
   background: rgba(57, 118, 90, 0.1);
   width: 100%;
-
-  /* min-height: calc(100vh - 334px); */
+  min-height: calc(100vh - 334px);
   padding: 1% 16%;
 }
 
