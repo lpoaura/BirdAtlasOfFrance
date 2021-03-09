@@ -3,8 +3,13 @@
     <transition name="navBar">
       <transparent-nav-bar
         v-if="
-          ['/', '/get-involved', '/get-involved/'].includes($route.path) &&
-          !scrolled
+          [
+            '/',
+            '/get-involved',
+            '/get-involved/',
+            '/about',
+            '/about/',
+          ].includes($route.path) && !scrolled
         "
         :nav-items="navItems"
       />
@@ -13,23 +18,28 @@
     <v-main>
       <nuxt />
     </v-main>
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }} </span>
-    </v-footer>
+    <app-footer
+      v-if="
+        ['/', '/get-involved', '/get-involved/', '/about', '/about/'].includes(
+          $route.path
+        )
+      "
+    />
   </v-app>
 </template>
 
 <script>
 import TransparentNavBar from '~/components/layouts/TransparentNavBar.vue'
 import StandardNavBar from '~/components/layouts/StandardNavBar.vue'
+import Footer from '~/components/layouts/Footer.vue'
 
 export default {
   components: {
     'transparent-nav-bar': TransparentNavBar,
     'standard-nav-bar': StandardNavBar,
+    'app-footer': Footer,
   },
   data: () => ({
-    fixed: false,
     scrolled: false,
     navItems: [
       {

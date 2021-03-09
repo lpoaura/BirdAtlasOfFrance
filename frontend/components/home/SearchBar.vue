@@ -17,7 +17,7 @@
       <div class="SearchSplit"></div>
       <div class="SelectTypeWrapper">
         <div class="SelectedTypeContent" @click="openOrCloseSelectBox">
-          <div class="SelectedTypeText">{{ selectedType.label }}</div>
+          <span class="SelectedTypeText">{{ selectedType.label }}</span>
           <img
             class="SelectedTypeChevron"
             :src="
@@ -32,19 +32,7 @@
             v-for="(type, index) in typeList"
             :key="index"
             class="SelectItem"
-            :style="[
-              type.label === selectedType.label
-                ? {
-                    background: 'rgba(238, 206, 37, 0.4)',
-                    color: '#7b6804',
-                    'font-weight': 600,
-                  }
-                : {
-                    background: '#fcfcfc',
-                    color: '#262626',
-                    'font-weight': 'normal',
-                  },
-            ]"
+            :class="[type.label === selectedType.label ? 'selected' : '']"
             @click="updateSelectedType(type)"
           >
             {{ type.label }}
@@ -78,19 +66,19 @@ export default {
     typeList: [
       {
         label: 'Espèce',
-        api: '/search_taxa?limit=10&search=',
+        api: '/api/v1/search_taxa?limit=10&search=',
         routerPath: '/species-card/',
       },
       {
         label: 'Commune',
-        api: '/search_areas?limit=10&type_code=COM&search=',
+        api: '/api/v1/search_areas?limit=10&type_code=COM&search=',
         // À MODIFIER
         routerPath: '/species-card/',
       },
     ],
     selectedType: {
       label: 'Espèce',
-      api: '/search_taxa?limit=10&search=',
+      api: '/api/v1/search_taxa?limit=10&search=',
       routerPath: '/species-card/',
     },
     selectIsOpen: false,
@@ -266,8 +254,16 @@ export default {
   border-radius: 8px;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
+  font-weight: normal;
   font-size: 16px;
   line-height: 24px;
+  color: #262626;
+}
+
+.SelectItem.selected {
+  background: rgba(238, 206, 37, 0.4);
+  font-weight: 600;
+  color: #7b6804;
 }
 
 .SearchIconBox {

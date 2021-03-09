@@ -5,7 +5,7 @@ div.container.container--fluid {
   padding: 0;
 }
 
-.mapControl {
+.MapControl {
   padding: 10px 10px;
   background: rgba(255, 255, 255, 1);
   border-color: rgb(255, 255, 255);
@@ -13,7 +13,7 @@ div.container.container--fluid {
   border-radius: 5px;
 }
 
-.mapControl i {
+.MapControl i {
   width: 18px;
   height: 18px;
   float: left;
