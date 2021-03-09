@@ -95,6 +95,26 @@
               </span>
             </div>
           </div>
+          <!-- <div class="KeyDataBlockDetails">
+            <div
+              class="KeyDataBlockDetailsDot"
+              :style="{ background: pieChartExtraColor }"
+            ></div>
+            <div class="KeyDataBlockDetailsContent">
+              <span class="KeyDataBlockText" style="font-weight: 500">
+                Hors périodes
+              </span>
+              <span class="KeyDataBlockText">
+                {{
+                  Math.round(
+                    (extraProspectingHours /
+                      keyData.prospecting_hours.all_period) *
+                      100
+                  )
+                }}% | {{ extraProspectingHours }} heures
+              </span>
+            </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -105,65 +125,95 @@
 const d3 = require('d3')
 
 export default {
-  props: {
-    keyData: {
-      type: Object,
-      required: true,
-    },
-  },
   data: () => ({
+    keyData: {
+      prospecting_hours: {
+        all_period: 0,
+        breeding: 0,
+        wintering: 0,
+      },
+      count_taxa: {
+        all_period: 0,
+        breeding: 0,
+        wintering: 0,
+      },
+    },
     pieChartBreedingColor: '#2A9D8F',
     pieChartWinteringColor: '#264653',
+    pieChartExtraColor: 'grey',
   }),
   mounted() {
-    // Get pie chart size
-    const pieChartHeight = parseFloat(
-      d3.select('.KeyDataBlockIcon').style('height')
-    )
-    // Get pie chart svg and set size
-    const pieChartSvg = d3
-      .select('.pieChartSvg')
-      .attr('width', pieChartHeight)
-      .attr('height', pieChartHeight)
-    // Define pie chart colors
-    const color = d3.scaleOrdinal([
-      this.pieChartBreedingColor,
-      this.pieChartWinteringColor,
-    ])
-    // Define pie chart shape
-    const arcPath = d3
-      .arc()
-      .outerRadius(pieChartHeight / 2)
-      .innerRadius(pieChartHeight / 5)
-    // Define data
-    const data = [
-      {
-        hours: this.keyData.prospecting_hours.breeding,
-        label: 'Période de reproduction',
-      },
-      {
-        hours: this.keyData.prospecting_hours.wintering,
-        label: "Période d'hivernage",
-      },
-    ]
-    const pieChartData = d3.pie().value(function (d) {
-      return d.hours
-    })(data)
-    // Create pie chart
-    pieChartSvg
-      .append('g')
-      .attr(
-        'transform',
-        `translate(${pieChartHeight / 2}, ${pieChartHeight / 2})`
-      )
-      .selectAll('path')
-      .data(pieChartData)
-      .join('path')
-      .attr('class', 'arc')
-      .attr('d', arcPath)
-      .attr('fill', function (d) {
-        return color(d.data.label)
+    this.$axios
+      .$get('/api/v1/period_stats')
+      .then((data) => {
+        this.keyData = data
+        // Get pie chart size
+        const pieChartHeight = parseFloat(
+          d3.select('.KeyDataBlockIcon').style('height')
+        )
+        // Get pie chart svg and set size
+        const pieChartSvg = d3
+          .select('.pieChartSvg')
+          .attr('width', pieChartHeight)
+          .attr('height', pieChartHeight)
+        // Define pie chart colors
+        const color = d3.scaleOrdinal([
+          this.pieChartBreedingColor,
+          this.pieChartWinteringColor,
+          this.pieChartExtraColor,
+        ])
+        // Define pie chart shape
+        const arcPath = d3
+          .arc()
+          .outerRadius(pieChartHeight / 2)
+          .innerRadius(pieChartHeight / 5)
+        // Define data
+        const formattedData = [
+          {
+            hours: this.keyData.prospecting_hours.breeding,
+            label: 'Période de reproduction',
+          },
+          {
+            hours: this.keyData.prospecting_hours.wintering,
+            label: "Période d'hivernage",
+          },
+          {
+            hours: this.extraProspectingHours,
+            label: 'Hors périodes',
+          },
+        ]
+        const pieChartData = d3.pie().value(function (d) {
+          return d.hours
+        })(formattedData)
+        // Create pie chart
+        pieChartSvg
+          .append('g')
+          .attr(
+            'transform',
+            `translate(${pieChartHeight / 2}, ${pieChartHeight / 2})`
+          )
+          .selectAll('path')
+          .data(pieChartData)
+          .join('path')
+          .attr('class', 'arc')
+          .attr('d', arcPath)
+          .attr('fill', function (d) {
+            return color(d.data.label)
+          })
       })
+      .catch((error) => {
+        // eslint-disable-next-line
+        console.log(error)
+      })
+  },
+  computed: {
+    extraProspectingHours() {
+      return (
+        this.keyData.prospecting_hours.all_period -
+        this.keyData.prospecting_hours.breeding -
+        this.keyData.prospecting_hours.wintering
+      )
+    },
   },
 }
 </script>
