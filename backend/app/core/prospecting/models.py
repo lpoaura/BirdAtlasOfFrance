@@ -1,5 +1,5 @@
 from geoalchemy2 import Geometry
-from sqlalchemy import Column, Float, Integer, String, Table
+from sqlalchemy import DECIMAL, Column, Float, Integer, String, Table
 from sqlalchemy.dialects.postgresql import JSONB
 
 from app.utils.db import Base, metadata
@@ -82,6 +82,6 @@ class AreaDashboard(Base):
     taxa_count_all_period = Column(Integer)
     taxa_count_wintering = Column(Integer)
     taxa_count_breeding = Column(Integer)
-    prospecting_hours_all_period = Column(Integer)
-    prospecting_hours_wintering = Column(Integer)
-    prospecting_hours_breeding = Column(Integer)
+    prospecting_hours_all_period = Column(DECIMAL)
+    prospecting_hours_wintering = Column(DECIMAL)
+    prospecting_hours_breeding = Column(DECIMAL)
