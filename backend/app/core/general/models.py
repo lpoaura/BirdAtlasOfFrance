@@ -1,6 +1,4 @@
-from geoalchemy2 import Geometry
-from sqlalchemy import Column, Float, Integer, String, Table
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy import Column, Integer, Table
 
 from app.utils.db import Base, metadata
 
@@ -10,7 +8,8 @@ class GeneralStats(Base):
     __table_args__ = {
         "schema": "atlas",
     }
-    count_taxa_all_period = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    count_taxa_all_period = Column(Integer)
     count_taxa_breeding = Column(Integer)
     count_taxa_wintering = Column(Integer)
     prospecting_hours_all_period = Column(Integer)

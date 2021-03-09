@@ -23,63 +23,45 @@ $$
         /* Materialized view to list all taxa in area */
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_dashboard;
         CREATE MATERIALIZED VIEW atlas.mv_area_dashboard AS
-        (
         WITH
-            selected_forms AS (
-                SELECT DISTINCT
-                    name_source AS site
-                  , id_form     AS id
+            data_synth AS (
+                SELECT
+                    mv_data_for_atlas.id_area
+                  , max(date_min)                                             AS last_date
+                  , count(*)                                                  AS data_count
+                  , count(DISTINCT cd_nom) FILTER (WHERE new_data_all_period) AS taxa_count_all_period
+                  , count(DISTINCT cd_nom) FILTER (WHERE new_data_wintering)  AS taxa_count_wintering
+                  , count(DISTINCT cd_nom) FILTER (WHERE new_data_breeding)   AS taxa_count_breeding
                     FROM
-                        src_lpodatas.t_c_synthese_extended se
-                            JOIN gn_synthese.synthese ON se.id_synthese = synthese.id_synthese
-                            JOIN atlas.mv_data_for_atlas ON se.id_synthese = mv_data_for_atlas.id_synthese
-                            JOIN gn_synthese.t_sources ON synthese.id_source = t_sources.id_source
+                        atlas.mv_data_for_atlas
                     WHERE
-                        new_data_all_period)
-          , forms AS (
-            SELECT
-                (cast(item ->> 'date_start' AS DATE) + cast(item ->> 'time_start' AS TIME))               AS ts_start
-              , (cast(item ->> 'date_stop' AS DATE) + cast(item ->> 'time_stop' AS TIME))                 AS ts_stop
-              , extract(EPOCH FROM
-                        age((cast(item ->> 'date_stop' AS DATE) + cast(item ->> 'time_stop' AS TIME)),
-                            (cast(item ->> 'date_start' AS DATE) + cast(item ->> 'time_start' AS TIME)))) AS delta_secs
-              , extract(MONTH FROM cast(item ->> 'date_start' AS DATE)) IN (1, 12)                        AS wintering
-              , extract(MONTH FROM cast(item ->> 'date_start' AS DATE)) BETWEEN 4 AND 7                   AS breeding
-                FROM
-                    import_vn.forms_json
-                  , selected_forms
-                WHERE
-                      forms_json.item -> 'id_form_universal' ? selected_forms.id
-                  AND forms_json.site = selected_forms.site
-                  AND round(((extract(EPOCH FROM
-                                      age((cast(item ->> 'date_stop' AS DATE) + cast(item ->> 'time_stop' AS TIME)),
-                                          (cast(item ->> 'date_start' AS DATE) + cast(item ->> 'time_start' AS TIME))))) /
-                             3600)::NUMERIC, 2) < 1
-        )
+                        new_data_all_period
+                    GROUP BY
+                        mv_data_for_atlas.id_area)
+          , form_synth AS (SELECT
+                               mv_forms_for_atlas.id_area
+                             , round((sum(timelength_secs) / 3600)::numeric,1)                               AS prospecting_hours_all_period
+                             , round(((sum(timelength_secs) FILTER (WHERE is_wintering)) / 3600)::numeric,1) AS prospecting_hours_wintering
+                             , round(((sum(timelength_secs) FILTER (WHERE is_breeding)) / 3600)::numeric,1)  AS prospecting_hours_breeding
+                               FROM
+                                   atlas.mv_forms_for_atlas
+                               GROUP BY
+                                   mv_forms_for_atlas.id_area)
         SELECT
-            id_area
-          , max(date_min)                                             AS last_date
-          , count(*)                                                  AS data_count
-          , count(DISTINCT cd_nom) FILTER (WHERE new_data_all_period) AS taxa_count_all_period
-          , count(DISTINCT cd_nom) FILTER (WHERE new_data_wintering)  AS taxa_count_wintering
-          , count(DISTINCT cd_nom) FILTER (WHERE new_data_breeding)   AS taxa_count_breeding
-          , sum(delta_secs)                                           AS prospecting_hours_all_period
-          , sum(delta_secs) FILTER (WHERE wintering)                  AS prospecting_hours_wintering
-          , sum(delta_secs) FILTER (WHERE breeding)                   AS prospecting_hours_breeding
+            data_synth.*
+          , form_synth.prospecting_hours_all_period
+          , form_synth.prospecting_hours_wintering
+          , form_synth.prospecting_hours_breeding
             FROM
-                atlas.mv_data_for_atlas
-              , forms
-            WHERE
-                new_data_all_period
-            GROUP BY
-                id_area);
+                data_synth
+                    JOIN form_synth ON data_synth.id_area = form_synth.id_area;
         COMMENT ON MATERIALIZED VIEW atlas.mv_area_dashboard IS 'Statistiques générales par zonages';
         CREATE UNIQUE INDEX i_area_dashboard_id_area ON atlas.mv_area_dashboard (id_area);
         COMMIT;
     END
 $$
 ;
-
+select * from atlas.mv_area_dashboard;
 --
 -- SELECT *
 --     FROM
