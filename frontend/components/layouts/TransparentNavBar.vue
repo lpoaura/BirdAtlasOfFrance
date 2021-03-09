@@ -9,15 +9,12 @@
         :key="index"
         :to="item.routerPath"
         class="NavItem"
-        :style="[
-          [item.routerPath, `${item.routerPath}/`].includes($route.path)
-            ? {
-                'font-weight': 'bold',
-                'border-bottom': '3px solid #fcfcfc',
-              }
-            : {
-                'font-weight': 'normal',
-              },
+        :class="[
+          [item.routerPath, `${item.routerPath}/`].includes(
+            `/${$route.path.substring(1).split('/')[0]}`
+          )
+            ? 'selected'
+            : '',
         ]"
         >{{ item.label }}</nuxt-link
       >
@@ -26,8 +23,8 @@
       <nuxt-link to="#" class="ButtonsIcons"
         ><img class="Icon" src="/nav-bar/language-FR-white.svg"
       /></nuxt-link>
-      <nuxt-link to="/support" class="ButtonsIcons"
-        ><img class="Icon" src="/nav-bar/support-white.svg"
+      <nuxt-link to="/about/contact" class="ButtonsIcons"
+        ><img class="Icon" src="/nav-bar/contact-white.svg"
       /></nuxt-link>
     </div>
   </header>
@@ -73,10 +70,16 @@ nav {
 .NavItem {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
+  font-weight: normal;
   text-decoration: none;
   font-size: 14px;
   line-height: 14px;
   color: #fcfcfc;
+}
+
+.NavItem.selected {
+  font-weight: bold;
+  border-bottom: 3px solid #fcfcfc;
 }
 
 .HeaderIcons {

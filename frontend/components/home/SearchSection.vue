@@ -16,6 +16,7 @@
         </div>
       </div>
     </div>
+    <div class="PictureAuthor">Photo : Échasse blanche, John Doe</div>
     <div class="CardsContent">
       <nuxt-link
         v-for="(card, index) in cards"
@@ -24,7 +25,7 @@
         class="Card"
       >
         <img class="CardsIcon" :src="card.icon" />
-        <div class="CardsTitle" v-html="card.title"></div>
+        <h6 class="CardsTitle" v-html="card.title"></h6>
       </nuxt-link>
     </div>
   </main>
@@ -39,11 +40,11 @@ export default {
   },
   data: () => ({
     cards: [
-      {
-        icon: '/home/book.svg',
-        title: 'Consulter les<br />fiches espèces',
-        routerPath: '#',
-      },
+      // {
+      //   icon: '/home/book.svg',
+      //   title: 'Consulter les<br />fiches espèces',
+      //   routerPath: '#',
+      // },
       {
         icon: '/home/prospecting.svg',
         title: 'Voir la carte<br />de prospection',
@@ -56,8 +57,8 @@ export default {
       },
       {
         icon: '/home/ODF.svg',
-        title: "Qu'est-ce que le projet Oiseaux de France ?",
-        routerPath: '/what-is-ODF-project',
+        title: "Qu'est-ce que le projet<br />Oiseaux de France ?",
+        routerPath: '/about/what-is-ODF-project',
       },
     ],
   }),
@@ -173,6 +174,21 @@ a.Vocabulary:hover::after {
   height: clamp(46px, 24.5%, 72px);
 }
 
+.PictureAuthor {
+  position: absolute;
+  z-index: 1;
+  left: 13vw;
+  bottom: 31%;
+  width: 74vw;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 10px;
+  line-height: 15px;
+  text-align: right;
+  color: #fff;
+}
+
 .CardsContent {
   position: absolute;
   z-index: 1;
@@ -182,14 +198,14 @@ a.Vocabulary:hover::after {
   width: 74vw;
   height: 30%;
   border-radius: 24px;
-  padding: 1.6vw;
+  padding: 1.7vw;
   display: flex;
   justify-content: space-between;
 }
 
 .Card {
   background: #efefef;
-  width: 16.5vw;
+  width: 22.4vw;
   height: 100%;
   border-radius: 16px;
   padding: 0 2%;

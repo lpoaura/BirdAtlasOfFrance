@@ -29,7 +29,7 @@ export default {
     search(newVal) {
       this.isLoading = true
       this.$axios
-        .$get(`/search_areas?limit=50&type_code=COM&search=${newVal}`)
+        .$get(`/api/v1/search_areas?limit=50&type_code=COM&search=${newVal}`)
         .then((data) => {
           this.areas = data
         })

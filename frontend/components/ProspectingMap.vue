@@ -28,7 +28,7 @@
         :options-style="geojsonStyle"
       />
       <l-control v-if="isLoading" :position="'topright'">
-        <div class="mapControl">
+        <div class="MapControl">
           <v-progress-circular :indeterminate="indeterminate" />
           <span>Loading</span>
         </div>
@@ -227,7 +227,7 @@ export default {
       ) {
         this.isLoading = true
         this.$axios
-          .$get(`/area_knowledge_level/M10?envelope=${this.envelope}`, {
+          .$get(`/api/v1/area_knowledge_level/M10?envelope=${this.envelope}`, {
             cancelToken: this.axiosSource.token,
           })
           .then((data) => {
