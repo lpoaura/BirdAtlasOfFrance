@@ -3,7 +3,14 @@ version: "3"
 services:
 
   backend:
-    image: lpoaura/odf:latest
-    container_name: odf-backend
+    image: lpoaura/odf-backend:latest
+    container_name: odf_backend
     ports:
       - 8001:80
+
+  frontend:
+    image: lpoaura/odf-frontend:latest
+    container_name: odf_frontend
+    ports:
+      - 3000:3000
+
