@@ -10,10 +10,6 @@ import SearchSection from '~/components/home/SearchSection.vue'
 import KeyDataSection from '~/components/home/KeyDataSection.vue'
 
 export default {
-  // async asyncData({ $content }) {
-  //   const news1 = await $content('news/news-1').fetch()
-  //   return { news1 }
-  // },
   components: {
     'search-section': SearchSection,
     'key-data-section': KeyDataSection,

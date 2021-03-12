@@ -101,7 +101,7 @@
             ></div>
             <div class="KeyDataBlockDetailsContent">
               <span class="KeyDataBlockText" style="font-weight: 500">
-                Hors périodes
+                Autres saisons
               </span>
               <span class="KeyDataBlockText">
                 {{
@@ -187,7 +187,7 @@ export default {
           },
           {
             hours: this.extraProspectingHours,
-            label: 'Hors périodes',
+            label: 'Autres saisons',
           },
         ]
         const pieChartData = d3.pie().value(function (d) {
