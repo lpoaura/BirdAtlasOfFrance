@@ -74,7 +74,7 @@ export default {
         icon: '/get-involved/SHOC-logo.svg',
         title: 'SHOC',
         subtitle: 'Suivi Hivernal des Oiseaux Communs',
-        routerPath: '#',
+        routerPath: '/get-involved/shoc',
         season: 'Hivernage',
         speciesGroup: 'Oiseaux communs',
       },
