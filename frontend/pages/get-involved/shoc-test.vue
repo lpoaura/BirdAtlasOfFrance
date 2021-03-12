@@ -1,6 +1,3 @@
-<!-- Quels sont les protocoles qui ne respectent pas la bonne structure ? -->
-<!-- Voir pour utiliser Nuxt.js content -->
-<!-- Voir avec Jérémy pour l'intégration des bilans -->
 <template>
   <v-container fluid>
     <informative-header
