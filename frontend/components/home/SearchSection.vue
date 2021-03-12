@@ -25,7 +25,7 @@
         class="Card"
       >
         <img class="CardsIcon" :src="card.icon" />
-        <h6 class="CardsTitle" v-html="card.title"></h6>
+        <h6 class="CardsTitle" v-html="card.title">{{ someHTML }}</h6>
       </nuxt-link>
     </div>
   </main>
@@ -91,7 +91,7 @@ export default {
       rgba(47, 92, 105, 0) 74.41%,
       rgba(47, 92, 105, 0.27) 99.86%
     ),
-    url('/home/home-picture.png') 0 0 / 1635px, rgba(47, 92, 105, 1);
+    url('/home/home-picture.jpg') 0 0 / 100%, rgba(47, 92, 105, 1);
   width: 100%;
   height: 85%;
   display: flex;

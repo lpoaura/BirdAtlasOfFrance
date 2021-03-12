@@ -6,7 +6,7 @@ services:
     image: lpoaura/odf-backend:latest
     container_name: odf_backend
     ports:
-      - 8001:80
+      - 8888:80
 
   frontend:
     image: lpoaura/odf-frontend:latest
