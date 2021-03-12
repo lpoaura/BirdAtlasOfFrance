@@ -227,7 +227,7 @@ export default {
       ) {
         this.isLoading = true
         this.$axios
-          .$get(`/api/v1/area_knowledge_level/M10?envelope=${this.envelope}`, {
+          .$get(`/api/v1/area/knowledge_level/M10?envelope=${this.envelope}`, {
             cancelToken: this.axiosSource.token,
           })
           .then((data) => {

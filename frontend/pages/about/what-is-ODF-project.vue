@@ -1,36 +1,22 @@
+<!-- Partenaires -->
 <template>
   <v-container fluid>
-    <header>
-      <div class="HeaderContent">
-        <img class="ODFLogo" src="/ODF-logo-detailed.svg" />
-        <div class="HeaderText">
-          <h1 class="HeaderTitle">Le projet ODF</h1>
-          <h6 class="HeaderSubtitle">Répartitions, Tendances et Effectifs</h6>
-        </div>
-      </div>
-      <div class="HeaderMenu">
-        <span class="HeaderLastUpdate">
-          Dernière actualisation le 7 janvier 2020
-        </span>
-        <menu>
-          <span
-            v-for="(item, index) in menuItems"
-            :key="index"
-            :to="item.routerPath"
-            class="MenuItem"
-            :class="[item.routerPath === selectedMenuItem ? 'selected' : '']"
-            @click="updateSelectedMenuItem(item)"
-          >
-            {{ item.label }}
-          </span>
-        </menu>
-      </div>
-    </header>
-    <section class="PageSection">
-      <div v-if="selectedMenuItem === '#get-involved'" class="PageContent">
-        <h2 class="PageTitle">Comment participer ?</h2>
-        <div class="PageText">
-          <span>
+    <informative-header
+      :logo="logo"
+      :title="title"
+      :subtitle="subtitle"
+      :last-update="lastUpdate"
+      :menu-items="menuItems"
+      @selectedMenuItem="updateSelectedMenuItem"
+    />
+    <section class="InformativePageSection">
+      <div
+        v-if="selectedMenuItem === '#get-involved'"
+        class="InformativePageContent"
+      >
+        <h2 class="InformativePageTitle">Comment participer ?</h2>
+        <div class="InformativePageParagraph">
+          <span class="InformativePageText">
             Contribuer à Oiseaux de France peut se faire de bien des manières,
             en fonction de votre disponibilité et de vos connaissances
             ornithologiques. Le plus simple est de saisir systématiquement vos
@@ -50,15 +36,18 @@
           >
         </div>
         <img
-          class="Picture"
+          class="InformativePagePicture"
           style="width: 64%"
           src="/what-is-ODF-project/protocols-outline.svg"
         />
       </div>
-      <div v-else-if="selectedMenuItem === '#who-we-are'" class="PageContent">
-        <h2 class="PageTitle">Un site ODF ?</h2>
-        <div class="PageText">
-          <span>
+      <div
+        v-else-if="selectedMenuItem === '#who-we-are'"
+        class="InformativePageContent"
+      >
+        <h2 class="InformativePageTitle">Un site ODF ?</h2>
+        <div class="InformativePageParagraph">
+          <span class="InformativePageText">
             Le site
             <nuxt-link to="/">www.oiseauxdefrance.org</nuxt-link> est un portail
             de restitution qui permet de consulter les données collectées dans
@@ -76,18 +65,21 @@
             >
           </span>
         </div>
-        <div class="Picture" style="width: 240px">
+        <div class="InformativePagePicture" style="width: 240px">
           <img class="Logo" src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg" />
           <img class="Logo" src="/what-is-ODF-project/NaturaList-logo.svg" />
         </div>
       </div>
-      <div v-else-if="selectedMenuItem === '#partners'" class="PageContent">
-        <h2 class="PageTitle">Coming soon...</h2>
+      <div
+        v-else-if="selectedMenuItem === '#partners'"
+        class="InformativePageContent"
+      >
+        <h2 class="InformativePageTitle">Coming soon...</h2>
       </div>
-      <div v-else class="PageContent">
-        <h2 class="PageTitle">Les grandes lignes du projet</h2>
-        <div class="PageText">
-          <span>
+      <div v-else class="InformativePageContent">
+        <h2 class="InformativePageTitle">Les grandes lignes du projet</h2>
+        <div class="InformativePageParagraph">
+          <span class="InformativePageText">
             Oiseaux de France (ODF) est le plus ambitieux projet de
             <b>science participative</b> en cours sur les oiseaux. Il vise à
             mettre à jour et diffuser l’état des connaissances de l'avifaune
@@ -96,18 +88,18 @@
           </span>
         </div>
         <img
-          class="Picture"
+          class="InformativePagePicture"
           style="width: 80%"
           src="/what-is-ODF-project/Manakin.svg"
         />
-        <span class="PictureLegend">
+        <span class="InformativePagePictureLegend">
           <b>Manakin à tête d'or</b>, Guyane © Pieter Verheij
         </span>
-        <h2 class="PageTitle">
+        <h2 class="InformativePageTitle">
           Connaître la répartition de toutes les espèces
         </h2>
-        <div class="PageText">
-          <span>
+        <div class="InformativePageParagraph">
+          <span class="InformativePageText">
             Il s'agit de cartographier précisément la <b>répartition</b> de
             toutes les espèces de France en période de nidification et
             d'hivernage. En France métropolitaine, les cartes seront restituées
@@ -118,28 +110,30 @@
           </span>
         </div>
         <img
-          class="Picture"
+          class="InformativePagePicture"
           style="width: 70%"
           src="/what-is-ODF-project/Atlas-illustration.svg"
         />
-        <span class="PictureLegend">
+        <span class="InformativePagePictureLegend">
           Carte de répartition en période de reproduction du Busard cendré
           (extrait de Issa & Muller 2015)
         </span>
-        <h2 class="PageTitle">Évaluer les tendances démographiques</h2>
-        <div class="PageText">
-          <span>
+        <h2 class="InformativePageTitle">
+          Évaluer les tendances démographiques
+        </h2>
+        <div class="InformativePageParagraph">
+          <span class="InformativePageText">
             L'évaluation de la tendance des espèces se basera sur les
             dispositifs de surveillance nationaux existants (STOC, SHOC, STOM,
             Observatoire Rapaces, comptage Wetlands...).
           </span>
         </div>
         <img
-          class="Picture"
+          class="InformativePagePicture"
           style="width: 70%"
           src="/what-is-ODF-project/trends-chart.svg"
         />
-        <span class="PictureLegend" style="margin-bottom: 12px">
+        <span class="InformativePagePictureLegend" style="margin-bottom: 12px">
           Tendances d’évolution des Oiseaux Communs en fonction des différents
           cortèges
         </span>
@@ -153,9 +147,11 @@
             {{ item.label }}
           </span>
         </div>
-        <h2 class="PageTitle">Estimer les tailles des populations</h2>
-        <div class="PageText">
-          <span>
+        <h2 class="InformativePageTitle">
+          Estimer les tailles des populations
+        </h2>
+        <div class="InformativePageParagraph">
+          <span class="InformativePageText">
             Il s'agit d'obtenir des effectifs fiables pour un maximum d'espèces.
             En complément des carrés rapaces, de l'enquête LIMAT ou d’autres
             enquêtes ciblant des cortèges d’espèces (hérons coloniaux, oiseaux
@@ -169,8 +165,17 @@
 </template>
 
 <script>
+import InformativeHeader from '~/components/InformativeHeader.vue'
+
 export default {
+  components: {
+    'informative-header': InformativeHeader,
+  },
   data: () => ({
+    logo: '/ODF-logo-detailed.svg',
+    title: 'Le projet ODF',
+    subtitle: 'Répartitions, Tendances et Effectifs',
+    lastUpdate: '7 janvier 2021',
     menuItems: [
       { label: 'Description', routerPath: '' },
       { label: 'Participer', routerPath: '#get-involved' },
@@ -186,13 +191,9 @@ export default {
       { label: 'Milieux agricoles', color: '#167216' },
     ],
   }),
-  mounted() {
-    this.selectedMenuItem = this.$route.hash
-  },
   methods: {
-    updateSelectedMenuItem(item) {
-      this.selectedMenuItem = item.routerPath
-      this.$router.push(`${item.routerPath}`)
+    updateSelectedMenuItem(routerPath) {
+      this.selectedMenuItem = routerPath
     },
   },
   head: {
@@ -204,159 +205,6 @@ export default {
 <style scoped>
 div.container.container--fluid {
   padding-top: 80px;
-}
-
-header {
-  background: #fcfcfc;
-  border-bottom: 1px solid rgba(51, 105, 80, 0.2);
-  width: 100%;
-  height: 254px;
-  padding: 2.4% 16%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.HeaderContent {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.ODFLogo {
-  width: 130px;
-  margin-right: 3%;
-  border: 4px solid rgba(0, 0, 0, 0.05);
-  box-sizing: border-box;
-  border-radius: 24px;
-}
-
-.HeaderText {
-  height: 60%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.HeaderTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 40px;
-  line-height: 60px;
-  color: #262626;
-}
-
-.HeaderSubtitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 18px;
-  color: #262626;
-}
-
-.HeaderMenu {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.HeaderLastUpdate {
-  width: 50%;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  color: rgba(38, 38, 38, 0.4);
-}
-
-menu {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.MenuItem {
-  border-radius: 8px;
-  padding: 2.5% 5%;
-  margin-left: 1%;
-  cursor: pointer;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  text-decoration: none;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
-  white-space: nowrap;
-}
-
-.MenuItem.selected {
-  background: rgba(57, 118, 90, 0.1);
-  font-weight: bold;
-  color: #39765a;
-}
-
-.PageSection {
-  background: rgba(57, 118, 90, 0.1);
-  width: 100%;
-  min-height: calc(100vh - 334px);
-  padding: 1% 16%;
-}
-
-.PageContent {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.PageTitle {
-  width: 100%;
-  margin: 10px 0 20px 0;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 24px;
-  color: #000;
-}
-
-.PageText {
-  width: 100%;
-  background: #fcfcfc;
-  border: 1px solid rgba(51, 105, 80, 0.2);
-  box-sizing: border-box;
-  border-radius: 16px;
-  padding: 2.8vh 2.8vh;
-  margin-bottom: 30px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.Picture {
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.PictureLegend {
-  margin-bottom: 30px;
-  font-family: 'Poppins', sans-serif;
-  font-style: italic;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  color: #000;
 }
 
 .ChartLegend {

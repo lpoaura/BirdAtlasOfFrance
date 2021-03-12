@@ -1,4 +1,3 @@
-<!-- Créer un composant avec des props pour le pie chart -->
 <template>
   <section class="KeyDataSection">
     <h2 class="KeyDataTitle">L'Atlas en quelques chiffres...</h2>
@@ -102,7 +101,7 @@
             ></div>
             <div class="KeyDataBlockDetailsContent">
               <span class="KeyDataBlockText" style="font-weight: 500">
-                Hors périodes
+                Autres saisons
               </span>
               <span class="KeyDataBlockText">
                 {{
@@ -142,6 +141,15 @@ export default {
     pieChartWinteringColor: '#264653',
     pieChartExtraColor: 'grey',
   }),
+  computed: {
+    extraProspectingHours() {
+      return (
+        this.keyData.prospecting_hours.all_period -
+        this.keyData.prospecting_hours.breeding -
+        this.keyData.prospecting_hours.wintering
+      )
+    },
+  },
   mounted() {
     this.$axios
       .$get('/api/v1/period_stats')
@@ -179,7 +187,7 @@ export default {
           },
           {
             hours: this.extraProspectingHours,
-            label: 'Hors périodes',
+            label: 'Autres saisons',
           },
         ]
         const pieChartData = d3.pie().value(function (d) {
@@ -205,15 +213,6 @@ export default {
         // eslint-disable-next-line
         console.log(error)
       })
-  },
-  computed: {
-    extraProspectingHours() {
-      return (
-        this.keyData.prospecting_hours.all_period -
-        this.keyData.prospecting_hours.breeding -
-        this.keyData.prospecting_hours.wintering
-      )
-    },
   },
 }
 </script>
