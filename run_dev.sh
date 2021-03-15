@@ -21,7 +21,7 @@
 #     echo "Installation des dépendances du backend"
 #     cd backend
 #     poetry install
-    
+
 # }
 
 # install_front() {
@@ -31,8 +31,6 @@
 #     cd frontend
 #     nvm install
 # }
-
-
 
 dev_back() {
     cd backend
@@ -46,8 +44,11 @@ dev_front() {
     npm run dev
 }
 
-for value in $*
-do
+dev_all() {
+    dev_back && dev_front
+}
+
+for value in $*; do
     # if [ $value == "install_back" ]; then
     #     echo "Starting backend install"
     #     install_back
@@ -64,5 +65,8 @@ do
         echo "Starting frontend in dev mode"
         dev_front
     fi
+    if [ $value == "run_all" ]; then
+        echo "Starting frontend in dev mode"
+        dev_all
+    fi
 done
-
