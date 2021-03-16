@@ -1,4 +1,4 @@
-<!-- STOC, Observatoire Rapace -->
+<!-- Générer automatiquement les items du menu en fonction des fichiers md récupérés -->
 <template>
   <v-container fluid>
     <informative-header
@@ -9,19 +9,31 @@
       :menu-items="menuItems"
       @selectedMenuItem="updateSelectedMenuItem"
     />
-    <nuxt-content :document="protocolContent" />
+    <section class="InformativePageSection">
+      <nuxt-content
+        v-if="selectedMenuItem === '#get-involved'"
+        :document="protocolGetInvolved"
+      />
+      <div
+        v-else-if="selectedMenuItem === '#documents'"
+        class="InformativePageContent"
+      >
+        <div class="ProtocolsDocumentsContent">
+          <div class="ProtocolsDocumentsCard"></div>
+          <div class="ProtocolsDocumentsCard"></div>
+          <div class="ProtocolsDocumentsCard"></div>
+        </div>
+      </div>
+      <nuxt-content v-else :document="protocolDescription" />
+    </section>
   </v-container>
 </template>
 
 <script>
-import InformativeHeader from '~/components/InformativeHeader.vue'
-
 export default {
-  components: {
-    'informative-header': InformativeHeader,
-  },
   data: () => ({
-    protocolContent: {},
+    protocolDescription: {},
+    protocolGetInvolved: {},
     logo: '',
     title: '',
     subtitle: '',
@@ -37,16 +49,22 @@ export default {
     const protocol = this.$route.params.protocol
     this.$content(`protocols/${protocol}/description`)
       .fetch()
-      .then((content) => {
-        this.protocolContent = content
-        console.log(this.protocolContent)
-        this.logo = content.logo
-        this.title = content.title
-        this.subtitle = content.subtitle
-        this.lastUpdate = content.updatedAt
+      .then((description) => {
+        this.protocolDescription = description
+        this.logo = description.logo
+        this.title = description.title
+        this.subtitle = description.subtitle
+        this.lastUpdate = this.$formatDate(description.updatedAt)
       })
       .catch((error) => {
-        // eslint-disable-next-line
+        console.log(error)
+      })
+    this.$content(`protocols/${protocol}/participer`)
+      .fetch()
+      .then((getInvolved) => {
+        this.protocolGetInvolved = getInvolved
+      })
+      .catch((error) => {
         console.log(error)
       })
   },
@@ -64,5 +82,9 @@ export default {
 <style scoped>
 div.container.container--fluid {
   padding-top: 80px;
+}
+
+.InformativePageSection >>> .nuxt-content p {
+  margin-bottom: 20px;
 }
 </style>

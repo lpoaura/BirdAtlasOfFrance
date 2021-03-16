@@ -99,7 +99,6 @@ export default {
             }
           })
           .catch((error) => {
-            // eslint-disable-next-line
             console.log(error)
           })
       }
@@ -140,7 +139,6 @@ export default {
             }
           })
           .catch((error) => {
-            // eslint-disable-next-line
             console.log(error)
           })
       }
