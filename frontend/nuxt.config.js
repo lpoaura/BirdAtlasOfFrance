@@ -47,7 +47,7 @@ export default {
   css: ['~/assets/style.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ['~/plugins/directives.js'],
+  plugins: ['~/plugins/directives.js', '~/plugins/formatDate.js'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,

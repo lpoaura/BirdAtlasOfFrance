@@ -1,4 +1,4 @@
-<!-- Pages de chaque protocole -->
+<!-- À reprendre au feu vert de Thibault -->
 <template>
   <v-container fluid>
     <section class="IntroSection">
