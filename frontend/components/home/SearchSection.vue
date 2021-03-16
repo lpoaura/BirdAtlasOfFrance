@@ -25,7 +25,7 @@
         class="Card"
       >
         <img class="CardsIcon" :src="card.icon" />
-        <h6 class="CardsTitle" v-html="card.title">{{ someHTML }}</h6>
+        <h6 class="CardsTitle" v-html="card.title"></h6>
       </nuxt-link>
     </div>
   </main>
@@ -133,7 +133,7 @@ export default {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: clamp(12px, 1.2vw, 16px);
+  font-size: clamp(14px, 1.7vh, 16px);
   line-height: 24px;
   color: #fff;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
@@ -208,7 +208,7 @@ a.Vocabulary:hover::after {
   width: 22.4vw;
   height: 100%;
   border-radius: 16px;
-  padding: 0 2%;
+  padding: 1% 2%;
   text-decoration: none;
   display: flex;
   flex-direction: column;
@@ -221,8 +221,8 @@ a.Vocabulary:hover::after {
 }
 
 .CardsIcon {
-  height: 34%;
-  margin-bottom: 6%;
+  height: clamp(33.5px, 6vh, 56px);
+  margin-bottom: clamp(10px, 1.8vh, 18px);
 }
 
 .CardsTitle {
