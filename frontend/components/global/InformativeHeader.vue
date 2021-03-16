@@ -59,6 +59,7 @@ export default {
   }),
   mounted() {
     this.selectedMenuItem = this.$route.hash
+    this.$emit('selectedMenuItem', this.selectedMenuItem)
   },
   methods: {
     updateSelectedMenuItem(item) {
