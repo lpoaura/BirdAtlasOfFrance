@@ -25,7 +25,7 @@
         class="Card"
       >
         <img class="CardsIcon" :src="card.icon" />
-        <h6 class="CardsTitle" v-html="card.title">{{ someHTML }}</h6>
+        <h6 class="CardsTitle" v-html="card.title"></h6>
       </nuxt-link>
     </div>
   </main>
