@@ -1,3 +1,4 @@
+<!-- Séparateur de milliers -->
 <template>
   <section class="KeyDataSection">
     <h2 class="KeyDataTitle">L'Atlas en quelques chiffres...</h2>
@@ -15,7 +16,7 @@
           </div>
         </div>
         <div class="KeyDataBlock">
-          <div class="KeyDataBlockDetails">
+          <div class="KeyDataBlockDetails" style="height: 47%">
             <img
               class="KeyDataBlockDetailsIcon"
               src="/home/breeding-species-number.svg"
@@ -27,7 +28,7 @@
               <span class="KeyDataBlockText">espèces nicheuses</span>
             </div>
           </div>
-          <div class="KeyDataBlockDetails">
+          <div class="KeyDataBlockDetails" style="height: 47%">
             <img
               class="KeyDataBlockDetailsIcon"
               src="/home/winter-species-number.svg"
@@ -54,7 +55,7 @@
           </div>
         </div>
         <div class="KeyDataBlock">
-          <div class="KeyDataBlockDetails">
+          <div class="KeyDataBlockDetails" style="height: 30%">
             <div
               class="KeyDataBlockDetailsDot"
               :style="{ background: pieChartBreedingColor }"
@@ -74,7 +75,7 @@
               </span>
             </div>
           </div>
-          <div class="KeyDataBlockDetails">
+          <div class="KeyDataBlockDetails" style="height: 30%">
             <div
               class="KeyDataBlockDetailsDot"
               :style="{ background: pieChartWinteringColor }"
@@ -94,14 +95,14 @@
               </span>
             </div>
           </div>
-          <!-- <div class="KeyDataBlockDetails">
+          <div class="KeyDataBlockDetails" style="height: 30%">
             <div
               class="KeyDataBlockDetailsDot"
               :style="{ background: pieChartExtraColor }"
             ></div>
             <div class="KeyDataBlockDetailsContent">
               <span class="KeyDataBlockText" style="font-weight: 500">
-                Autres saisons
+                Périodes intermédiaires
               </span>
               <span class="KeyDataBlockText">
                 {{
@@ -113,7 +114,7 @@
                 }}% | {{ extraProspectingHours }} heures
               </span>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -210,7 +211,6 @@ export default {
           })
       })
       .catch((error) => {
-        // eslint-disable-next-line
         console.log(error)
       })
   },
@@ -295,7 +295,6 @@ export default {
 .KeyDataBlockDetails {
   background: rgba(57, 118, 90, 0.1);
   width: 100%;
-  height: 47%;
   border-radius: 8px;
   padding-left: 10%;
   padding-right: 2%;
