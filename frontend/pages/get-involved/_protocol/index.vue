@@ -73,8 +73,10 @@ export default {
       this.selectedMenuItem = routerPath
     },
   },
-  head: {
-    title: 'Fiche protocole',
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
   },
 }
 </script>

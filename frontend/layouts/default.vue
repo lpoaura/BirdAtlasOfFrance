@@ -3,13 +3,11 @@
     <transition name="navBar">
       <transparent-nav-bar
         v-if="
-          [
-            '/',
-            '/get-involved',
-            '/get-involved/',
-            '/about',
-            '/about/',
-          ].includes($route.path) && !scrolled
+          ['/', '/get-involved', '/about'].includes(
+            $route.path.endsWith('/') && $route.path.length > 1
+              ? $route.path.slice(0, -1)
+              : $route.path
+          ) && !scrolled
         "
         :nav-items="navItems"
       />
@@ -20,8 +18,10 @@
     </v-main>
     <app-footer
       v-if="
-        ['/', '/get-involved', '/get-involved/', '/about', '/about/'].includes(
-          $route.path
+        ['/', '/get-involved', '/about'].includes(
+          $route.path.endsWith('/') && $route.path.length > 1
+            ? $route.path.slice(0, -1)
+            : $route.path
         )
       "
     />
@@ -95,6 +95,14 @@ export default {
 </script>
 
 <style scoped>
+.theme--light.v-application {
+  background-color: var(--v-background-base, #fcfcfc) !important;
+}
+
+.theme--dark.v-application {
+  background-color: var(--v-background-base, #121212) !important;
+}
+
 .navBar-enter-active,
 .navBar-leave-active {
   transition: opacity 0.3s;

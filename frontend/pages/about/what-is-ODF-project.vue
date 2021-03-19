@@ -99,8 +99,10 @@ export default {
       this.selectedMenuItem = routerPath
     },
   },
-  head: {
-    title: 'ODF quésaco ?',
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
   },
 }
 </script>

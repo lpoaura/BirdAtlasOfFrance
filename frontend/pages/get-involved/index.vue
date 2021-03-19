@@ -35,8 +35,10 @@ export default {
   components: {
     'protocols-cards': ProtocolsCards,
   },
-  head: {
-    title: 'Participer',
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
   },
 }
 </script>

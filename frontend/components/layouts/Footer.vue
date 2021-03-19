@@ -1,3 +1,4 @@
+<!-- À mettre à jour -->
 <template>
   <footer>
     <img class="ODFLogo" src="/ODF-logo-detailed.svg" />
@@ -24,7 +25,7 @@
     </div>
     <section class="LPOSection">
       <div class="LPOContent">
-        <img class="LPOLogo" src="/footer/LPO-logo.svg" />
+        <img class="LPOLogo" src="/LPO-logo.svg" />
         <div class="LPOText">
           <span>
             Oiseaux de France est un projet porté par la Ligue de Protection des
@@ -47,12 +48,12 @@ export default {
     ],
     socialNetworksItems: [
       {
-        icon: '/footer/mail.svg',
+        icon: '/mail-filled.svg',
         title: 'Mail',
         subtitle:
           '<a href="mailto:oiseauxdefrance@lpo.fr">oiseauxdefrance@lpo.fr</a>',
       },
-      { icon: '/footer/youtube.svg', title: 'Youtube', subtitle: 'LPO' },
+      { icon: '/youtube.svg', title: 'Youtube', subtitle: 'LPO' },
     ],
   }),
 }

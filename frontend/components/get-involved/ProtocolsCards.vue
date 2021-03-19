@@ -32,7 +32,7 @@ export default {
     protocolsCards: [
       {
         icon: '/get-involved/EPOC-logo.svg',
-        title: 'EPOC',
+        title: 'EPOC & EPOC ODF',
         subtitle: "Estimation des Populations d'Oiseaux Communs",
         routerPath: '/get-involved/epoc',
         season: 'Reproduction',
@@ -68,7 +68,7 @@ export default {
         subtitle: 'Limicoles et Anatidés Nicheurs',
         routerPath: '/get-involved/limat',
         season: 'Reproduction',
-        speciesGroup: 'Autres',
+        speciesGroup: "Oiseaux d'eau",
       },
       {
         icon: '/get-involved/SHOC-logo.svg',

@@ -14,8 +14,10 @@ export default {
     'search-section': SearchSection,
     'key-data-section': KeyDataSection,
   },
-  head: {
-    title: 'Accueil',
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
   },
 }
 </script>

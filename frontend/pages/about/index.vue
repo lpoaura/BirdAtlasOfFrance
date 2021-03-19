@@ -20,7 +20,7 @@
         </nuxt-link>
       </div>
     </section>
-    <section class="QuestionsSection">
+    <!-- <section class="QuestionsSection">
       <h2 class="QuestionsTitle">Questions fréquentes</h2>
       <div
         v-for="question in questions"
@@ -36,8 +36,8 @@
             class="QuestionsChevron"
             :src="
               question.isOpen
-                ? '/select-chevron-up.svg'
-                : '/select-chevron-down.svg'
+                ? '/chevron-up.svg'
+                : '/chevron-down.svg'
             "
           />
         </div>
@@ -45,7 +45,7 @@
           question.response
         }}</span>
       </div>
-    </section>
+    </section> -->
   </v-container>
 </template>
 
@@ -54,28 +54,28 @@ export default {
   data: () => ({
     cards: [
       {
-        icon: '/home/ODF.svg',
+        icon: '/ODF.svg',
         title: 'Le projet ODF',
         subtitle:
           'Découvrez le projet Oiseaux de France, ses objectifs, ses acteurs et ses partenaires.',
         routerPath: '/about/what-is-ODF-project',
       },
       {
-        icon: '/about/mail.svg',
+        icon: '/mail.svg',
         title: 'Nous contacter',
         subtitle:
           'Une question ? Contactez la coordination nationale ou votre référent local.',
         routerPath: '/about/contact',
       },
       {
-        icon: '/home/protocol.svg',
+        icon: '/protocol.svg',
         title: 'Comment participer ?',
         subtitle:
           'Consultez les méthodes d’inventaire et les dispositifs de suivi.',
         routerPath: '/get-involved',
       },
       {
-        icon: '/about/glossary.svg',
+        icon: '/glossary.svg',
         title: 'Lexique',
         subtitle:
           'Retrouvez ici toutes les définitions des mots utilisés sur le projet ODF.',
@@ -109,8 +109,10 @@ export default {
       this.questions[index].isOpen = !this.questions[index].isOpen
     },
   },
-  head: {
-    title: 'À propos',
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
   },
 }
 </script>

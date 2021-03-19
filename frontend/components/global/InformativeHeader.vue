@@ -1,6 +1,6 @@
-<!-- Breadcrumb -->
 <template>
   <header>
+    <breadcrumb />
     <div class="HeaderContent">
       <div class="LogoWrapper">
         <img class="Logo" :src="logo" />
@@ -31,7 +31,12 @@
 </template>
 
 <script>
+import Breadcrumb from '~/components/layouts/Breadcrumb.vue'
+
 export default {
+  components: {
+    breadcrumb: Breadcrumb,
+  },
   props: {
     logo: {
       type: String,
@@ -76,8 +81,8 @@ header {
   background: #fcfcfc;
   border-bottom: 1px solid rgba(51, 105, 80, 0.2);
   width: 100%;
-  height: 254px;
-  padding: 2.4% 16%;
+  height: 262px;
+  padding: 1.4% 16%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
