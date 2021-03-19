@@ -41,22 +41,22 @@ export default {
   data: () => ({
     cards: [
       // {
-      //   icon: '/home/book.svg',
+      //   icon: '/book.svg',
       //   title: 'Consulter les<br />fiches espèces',
       //   routerPath: '#',
       // },
       {
-        icon: '/home/prospecting.svg',
+        icon: '/prospecting.svg',
         title: 'Voir la carte<br />de prospection',
         routerPath: '/prospecting',
       },
       {
-        icon: '/home/protocol.svg',
+        icon: '/protocol.svg',
         title: 'Découvrir<br />les dispositifs',
         routerPath: '/get-involved',
       },
       {
-        icon: '/home/ODF.svg',
+        icon: '/ODF.svg',
         title: "Qu'est-ce que le projet<br />Oiseaux de France ?",
         routerPath: '/about/what-is-ODF-project',
       },
