@@ -3,7 +3,14 @@
     <transition name="navBar">
       <transparent-nav-bar
         v-if="
-          ['/', '/get-involved', '/about'].includes(
+          [
+            '/',
+            '/en',
+            '/get-involved',
+            '/en/get-involved',
+            '/about',
+            '/en/about',
+          ].includes(
             $route.path.endsWith('/') && $route.path.length > 1
               ? $route.path.slice(0, -1)
               : $route.path
@@ -18,7 +25,14 @@
     </v-main>
     <app-footer
       v-if="
-        ['/', '/get-involved', '/about'].includes(
+        [
+          '/',
+          '/en',
+          '/get-involved',
+          '/en/get-involved',
+          '/about',
+          '/en/about',
+        ].includes(
           $route.path.endsWith('/') && $route.path.length > 1
             ? $route.path.slice(0, -1)
             : $route.path
@@ -41,29 +55,37 @@ export default {
   },
   data: () => ({
     scrolled: false,
-    navItems: [
-      {
-        label: 'Accueil',
-        routerPath: '/',
-      },
-      // {
-      //   label: 'Espèces',
-      //   routerPath: '#',
-      // },
-      {
-        label: 'Carte',
-        routerPath: '/prospecting',
-      },
-      {
-        label: 'Participer',
-        routerPath: '/get-involved',
-      },
-      {
-        label: 'À propos',
-        routerPath: '/about',
-      },
-    ],
   }),
+  computed: {
+    navItems() {
+      return [
+        {
+          // label: this.$t('home'),
+          label: 'Accueil',
+          routerPath: '/',
+        },
+        // {
+        //   label: 'Espèces',
+        //   routerPath: '#',
+        // },
+        {
+          // label: this.$t('map'),
+          label: 'Carte',
+          routerPath: '/prospecting',
+        },
+        {
+          // label: this.$t('get-involved'),
+          label: 'Participer',
+          routerPath: '/get-involved',
+        },
+        {
+          // label: this.$t('about'),
+          label: 'À propos',
+          routerPath: '/about',
+        },
+      ]
+    },
+  },
   beforeMount() {
     window.addEventListener('scroll', this.debounce(this.handleScroll))
   },

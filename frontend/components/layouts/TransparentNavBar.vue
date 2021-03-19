@@ -20,6 +20,7 @@
       >
     </nav>
     <div class="HeaderIcons">
+      <!-- <nuxt-link :to="switchLocalePath('en')" class="ButtonsIcons" -->
       <nuxt-link to="#" class="ButtonsIcons"
         ><img class="Icon" src="/nav-bar/language-FR-white.svg"
       /></nuxt-link>

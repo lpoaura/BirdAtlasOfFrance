@@ -14,24 +14,25 @@
 
 <script>
 export default {
-  data: () => ({
-    crumbs: [],
-  }),
-  mounted() {
-    const routeItems = this.$route.path.endsWith('/')
-      ? this.$route.path.slice(1, -1).split('/')
-      : this.$route.path.substring(1).split('/')
-    // console.log('routeItems : ' + routeItems)
-    let path = ''
-    routeItems.forEach((item) => {
-      path = `${path}/${item}`
-      // console.log('path : ' + path)
-      this.crumbs.push({
-        title: this.$getPageTitle(path),
-        routerPath: path,
+  computed: {
+    crumbs() {
+      const routeItems = this.$route.path.endsWith('/')
+        ? this.$route.path.slice(1, -1).split('/')
+        : this.$route.path.substring(1).split('/')
+      // console.log('routeItems : ' + routeItems)
+      let path = ''
+      const crumbs = []
+      routeItems.forEach((item) => {
+        path = `${path}/${item}`
+        // console.log('path : ' + path)
+        crumbs.push({
+          title: this.$getPageTitle(path),
+          routerPath: path,
+        })
+        // console.log('crumbs : ' + this.crumbs)
       })
-      // console.log('crumbs : ' + this.crumbs)
-    })
+      return crumbs
+    },
   },
 }
 </script>

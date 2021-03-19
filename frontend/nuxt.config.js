@@ -114,6 +114,7 @@ export default {
     '@nuxtjs/pwa',
     'nuxt-leaflet',
     '@nuxt/content',
+    // 'nuxt-i18n',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -131,6 +132,32 @@ export default {
       browserBaseURL: process.env.API_URL,
     },
   },
+
+  // i18n module configuration
+  // i18n: {
+  //   locales: [
+  //     { code: 'fr', iso: 'fr-FR', name: 'FR' },
+  //     { code: 'en', iso: 'en-US', name: 'EN' },
+  //   ],
+  //   defaultLocale: 'fr',
+  //   vueI18n: {
+  //     fallbackLocale: 'fr',
+  //     messages: {
+  //       fr: {
+  //         home: 'Accueil',
+  //         map: 'Carte',
+  //         'get-involved': 'Participer',
+  //         about: 'À propos',
+  //       },
+  //       en: {
+  //         home: 'Home',
+  //         map: 'Map',
+  //         'get-involved': 'Get involved',
+  //         about: 'About',
+  //       },
+  //     },
+  //   },
+  // },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
