@@ -48,7 +48,7 @@ export default {
     selectedMenuItem: '',
   }),
   mounted() {
-    // this.$content(`what-is-ODF-project`)
+    // this.$content(`fr/what-is-ODF-project`)
     //   .sortBy('order')
     //   .fetch()
     //   .then((test) => {
@@ -57,7 +57,7 @@ export default {
     //   .catch((error) => {
     //     console.log(error)
     //   })
-    this.$content(`what-is-ODF-project/description`)
+    this.$content(`fr/what-is-ODF-project/description`)
       .fetch()
       .then((description) => {
         this.pageDescription = description
@@ -69,7 +69,7 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-    this.$content(`what-is-ODF-project/participer`)
+    this.$content(`fr/what-is-ODF-project/participer`)
       .fetch()
       .then((getInvolved) => {
         this.pageGetInvolved = getInvolved
@@ -77,7 +77,7 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-    this.$content(`what-is-ODF-project/qui-sommes-nous`)
+    this.$content(`fr/what-is-ODF-project/qui-sommes-nous`)
       .fetch()
       .then((whoWeAre) => {
         this.pageWhoWeAre = whoWeAre
@@ -85,7 +85,7 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-    this.$content(`what-is-ODF-project/partenaires`)
+    this.$content(`fr/what-is-ODF-project/partenaires`)
       .fetch()
       .then((partners) => {
         this.pagePartners = partners

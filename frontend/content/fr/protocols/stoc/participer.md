@@ -6,7 +6,7 @@ title: STOC - Participer
 
 <div class="InformativePageParagraph">
 
-Vous savez identifier les oiseaux à la vue et à l'oreille et vous souhaitez participer au STOC ? Pour rejoindre le réseau national, contactez votre [coordinateur local](http://www.vigienature.fr/fr/observatoires/suivi-temporel-oiseaux-communs-stoc/j-integre-reseau-3414), ou, à défaut, la [coordination nationale](mailto:stoceps@mnhn.fr)
+Vous savez identifier les oiseaux à la vue et à l'oreille et vous souhaitez participer au STOC ? Pour rejoindre le réseau national, contactez votre [coordinateur local](http://www.vigienature.fr/fr/observatoires/suivi-temporel-oiseaux-communs-stoc/j-integre-reseau-3414), ou, à défaut, la [coordination nationale](mailto:stoceps@mnhn.fr).
 
 Fournissez au coordinateur le nom de la ou des communes autour desquelles vous souhaitez faire un STOC. Le coordinateur local vous fera parvenir par la suite une fiche visualisant sur fond de carte le carré à prospecter, ainsi qu'un carré de remplacement au cas où le premier serait inaccessible.
 

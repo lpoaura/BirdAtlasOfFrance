@@ -1,4 +1,4 @@
-<!-- Photo -->
+<!-- Transformer la photo au format jpg -->
 <template>
   <v-container fluid>
     <section class="IntroSection">
@@ -125,13 +125,13 @@ export default {
 }
 
 .BackgroundPicture {
-  border-bottom: 3px solid green;
   position: relative;
   background: linear-gradient(
-    180deg,
-    rgba(84, 90, 17, 0.85) 0%,
-    rgba(84, 90, 17, 0) 100%
-  );
+      180deg,
+      rgba(84, 90, 17, 0.85) 0%,
+      rgba(84, 90, 17, 0) 100%
+    ),
+    url('/about-picture.png') 0 610px / 100%, rgba(84, 90, 17, 1);
   width: 100%;
   height: 76%;
   display: flex;

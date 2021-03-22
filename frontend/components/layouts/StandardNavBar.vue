@@ -21,9 +21,9 @@
     </nav>
     <div class="HeaderIcons">
       <!-- <nuxt-link :to="switchLocalePath('en')" class="ButtonsIcons" -->
-      <nuxt-link to="#" class="ButtonsIcons"
+      <!-- <nuxt-link to="#" class="ButtonsIcons"
         ><img class="Icon" src="/nav-bar/language-FR-black.svg"
-      /></nuxt-link>
+      /></nuxt-link> -->
       <nuxt-link to="/about/contact" class="ButtonsIcons"
         ><img class="Icon" src="/nav-bar/contact-black.svg"
       /></nuxt-link>
