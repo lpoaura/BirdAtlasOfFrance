@@ -47,7 +47,7 @@ export default {
   }),
   mounted() {
     const protocol = this.$route.params.protocol
-    this.$content(`protocols/${protocol}/description`)
+    this.$content(`fr/protocols/${protocol}/description`)
       .fetch()
       .then((description) => {
         this.protocolDescription = description
@@ -59,7 +59,7 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-    this.$content(`protocols/${protocol}/participer`)
+    this.$content(`fr/protocols/${protocol}/participer`)
       .fetch()
       .then((getInvolved) => {
         this.protocolGetInvolved = getInvolved
