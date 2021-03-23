@@ -33,6 +33,14 @@ export default ({ app }, inject) => {
       routerPath: '/en/get-involved/epoc',
     },
     {
+      title: 'EPOC ODF',
+      routerPath: '/get-involved/epoc-odf',
+    },
+    {
+      title: 'EPOC ODF',
+      routerPath: '/en/get-involved/epoc-odf',
+    },
+    {
       title: 'STOC',
       routerPath: '/get-involved/stoc',
     },

@@ -1,3 +1,4 @@
+<!-- Largeur totale : 98.8 vw et non 100vw -->
 <template>
   <main class="SearchSection">
     <div class="HomePicture">
@@ -198,6 +199,8 @@ a.Vocabulary:hover::after {
   width: 74vw;
   height: 30%;
   border-radius: 24px;
+
+  /* padding: 1.6vw; */
   padding: 1.7vw;
   display: flex;
   justify-content: space-between;
@@ -205,6 +208,8 @@ a.Vocabulary:hover::after {
 
 .Card {
   background: #efefef;
+
+  /* width: 16.5vw; */
   width: 22.4vw;
   height: 100%;
   border-radius: 16px;
