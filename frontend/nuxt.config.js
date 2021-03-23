@@ -4,11 +4,68 @@ export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s | Atlas des Oiseaux de France',
-    title: 'frontend',
+    title: '',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          "Oiseaux de France est le plus ambitieux projet de science participative en cours sur les oiseaux. Il vise à mettre à jour et diffuser l’état des connaissances de l'avifaune française en période de nidification et d'hivernage, en France métropolitaine et en Outre-Mer.",
+      },
+      {
+        hid: 'og:type',
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        hid: 'og:url',
+        property: 'og:url',
+        content: 'https://www.oiseauxdefrance.org/',
+      },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: 'Atlas des Oiseaux de France',
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content:
+          "Oiseaux de France est le plus ambitieux projet de science participative en cours sur les oiseaux. Il vise à mettre à jour et diffuser l’état des connaissances de l'avifaune française en période de nidification et d'hivernage, en France métropolitaine et en Outre-Mer.",
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: '/home/home-picture.jpg',
+      },
+      {
+        hid: 'twitter:card',
+        property: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        hid: 'twitter:url',
+        property: 'twitter:url',
+        content: 'https://oiseauxdefrance.org/',
+      },
+      {
+        hid: 'twitter:title',
+        property: 'twitter:title',
+        content: 'Atlas des Oiseaux de France',
+      },
+      {
+        hid: 'twitter:description',
+        property: 'twitter:description',
+        content:
+          "Oiseaux de France est le plus ambitieux projet de science participative en cours sur les oiseaux. Il vise à mettre à jour et diffuser l’état des connaissances de l'avifaune française en période de nidification et d'hivernage, en France métropolitaine et en Outre-Mer.",
+      },
+      {
+        hid: 'twitter:image',
+        property: 'twitter:image',
+        content: '/home/home-picture.jpg',
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
@@ -47,7 +104,12 @@ export default {
   css: ['~/assets/style.css'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: ['~/plugins/directives.js', '~/plugins/formatDate.js'],
+  plugins: [
+    '~/plugins/directives.js',
+    '~/plugins/formatDate.js',
+    '~/plugins/thousandDelimiter.js',
+    '~/plugins/getPageTitle.js',
+  ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -72,12 +134,12 @@ export default {
     '@nuxtjs/pwa',
     'nuxt-leaflet',
     '@nuxt/content',
+    // 'nuxt-i18n',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   loading: false,
   axios: {
-    // baseURL: process.env.BASE_URL,
     baseURL: 'http://localhost:8888',
   },
   // privateRuntimeConfig: {
@@ -91,24 +153,57 @@ export default {
     },
   },
 
-  // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
-  // vuetify: {
-  //   customVariables: ['~/assets/variables.scss'],
-  //   theme: {
-  //     dark: false,
-  //     themes: {
-  //       dark: {
-  //         primary: colors.blue.darken2,
-  //         accent: colors.grey.darken3,
-  //         secondary: colors.amber.darken3,
-  //         info: colors.teal.lighten1,
-  //         warning: colors.amber.base,
-  //         error: colors.deepOrange.accent4,
-  //         success: colors.green.accent3,
+  // i18n module configuration
+  // i18n: {
+  //   locales: [
+  //     { code: 'fr', iso: 'fr-FR', name: 'FR' },
+  //     { code: 'en', iso: 'en-US', name: 'EN' },
+  //   ],
+  //   defaultLocale: 'fr',
+  //   vueI18n: {
+  //     fallbackLocale: 'fr',
+  //     messages: {
+  //       fr: {
+  //         home: 'Accueil',
+  //         map: 'Carte',
+  //         'get-involved': 'Participer',
+  //         about: 'À propos',
+  //       },
+  //       en: {
+  //         home: 'Home',
+  //         map: 'Map',
+  //         'get-involved': 'Get involved',
+  //         about: 'About',
   //       },
   //     },
   //   },
   // },
+
+  // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
+  vuetify: {
+    customVariables: ['~/assets/variables.scss'],
+    theme: {
+      options: {
+        customProperties: true,
+      },
+      dark: false,
+      themes: {
+        dark: {
+          background: '#121212',
+          //   primary: colors.blue.darken2,
+          //   accent: colors.grey.darken3,
+          //   secondary: colors.amber.darken3,
+          //   info: colors.teal.lighten1,
+          //   warning: colors.amber.base,
+          //   error: colors.deepOrange.accent4,
+          //   success: colors.green.accent3,
+        },
+        light: {
+          background: '#fcfcfc',
+        },
+      },
+    },
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},

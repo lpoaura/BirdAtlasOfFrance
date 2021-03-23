@@ -6,8 +6,10 @@
 
 <script>
 export default {
-  head: {
-    title: 'Support',
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
   },
 }
 </script>
