@@ -82,6 +82,24 @@ export default {
     ],
   },
 
+  pwa: {
+    meta: {
+      /* meta options */
+      name: 'Atlas des Oiseaux de France',
+      author: 'LPO Agir pour la Biodiversité',
+      theme_color: '#eb6a0aff',
+    },
+    manifest: {
+      name: 'Atlas des Oiseaux de France',
+      short_name: 'ODF',
+      lang: 'fr',
+      useWebmanifestExtension: false,
+    },
+    icon: {
+      /* icon options */
+    },
+  },
+
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ['~/assets/style.css'],
 
@@ -104,6 +122,8 @@ export default {
     '@nuxtjs/stylelint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    // https://go.nuxtjs.dev/pwa
+    '@nuxtjs/pwa',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
