@@ -107,10 +107,10 @@ export default {
         speciesGroup: ["Oiseaux d'eau"],
       },
       {
-        icon: null,
+        icon: '/get-involved/EPOC-ODF-logo.svg',
         title: 'Listes complètes et données ponctuelles',
-        subtitle: null,
-        routerPath: '#',
+        subtitle: 'Données opportunistes',
+        routerPath: '/get-involved/complete-lists',
         season: null,
         speciesGroup: ['Oiseaux communs', 'Rapaces', "Oiseaux d'eau"],
       },

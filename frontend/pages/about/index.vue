@@ -132,7 +132,7 @@ export default {
       rgba(84, 90, 17, 0.85) 0%,
       rgba(84, 90, 17, 0) 100%
     ),
-    url('/about-picture.png') 0 610px / 100%, rgba(84, 90, 17, 1);
+    url('/about-picture.png') 0 55% / 100%, rgba(84, 90, 17, 1);
   width: 100%;
   height: 76%;
   display: flex;
