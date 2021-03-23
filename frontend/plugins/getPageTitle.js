@@ -89,6 +89,14 @@ export default ({ app }, inject) => {
       routerPath: '/en/get-involved/wetlands',
     },
     {
+      title: 'Listes complètes et données ponctuelles',
+      routerPath: '/get-involved/complete-lists',
+    },
+    {
+      title: 'Listes complètes et données ponctuelles',
+      routerPath: '/en/get-involved/complete-lists',
+    },
+    {
       title: 'À propos',
       routerPath: '/about',
     },
