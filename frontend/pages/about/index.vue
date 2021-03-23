@@ -1,4 +1,5 @@
 <!-- Transformer la photo au format jpg -->
+<!-- Largeur totale : 98.8 vw et non 100vw -->
 <template>
   <v-container fluid>
     <section class="IntroSection">

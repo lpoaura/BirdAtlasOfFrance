@@ -1,4 +1,3 @@
-<!-- À reprendre au feu vert de Thibault -->
 <template>
   <v-container fluid>
     <section class="IntroSection">
@@ -12,18 +11,21 @@
           </h4>
         </header>
       </div>
-      <div class="CardsContent">
-        <nuxt-link to="/about/what-is-ODF-project#get-involved" class="Card"
-          >Découvrir les bases de la prospection</nuxt-link
-        >
-        <nuxt-link to="/get-involved/which-protocol-to-use" class="Card"
-          >Quel dispositif dois-je utiliser ?</nuxt-link
-        >
-      </div>
     </section>
+    <menu>
+      <span
+        v-for="(item, index) in menuItems"
+        :key="index"
+        :to="item.routerPath"
+        class="MenuItem"
+        :class="[item.label === selectedSpeciesGroup ? 'selected' : '']"
+        @click="updateSelectedSpeciesGroup(item)"
+      >
+        {{ item.label }}
+      </span>
+    </menu>
     <section class="ProtocolsSection">
-      <h2 class="ProtocolsTitle">Tous les dispositifs</h2>
-      <protocols-cards />
+      <protocols-cards :species-group-filter="selectedSpeciesGroup" />
     </section>
   </v-container>
 </template>
@@ -34,6 +36,27 @@ import ProtocolsCards from '~/components/get-involved/ProtocolsCards.vue'
 export default {
   components: {
     'protocols-cards': ProtocolsCards,
+  },
+  data: () => ({
+    menuItems: [
+      { label: 'Tous les dispositifs', routerPath: '' },
+      { label: 'Oiseaux communs', routerPath: '#common-birds' },
+      { label: 'Rapaces', routerPath: '#raptors' },
+      { label: "Oiseaux d'eau", routerPath: '#water-birds' },
+      // { label: 'autres', routerPath: '#other-birds' },
+    ],
+    // selectedMenuItem: '',
+    selectedSpeciesGroup: 'Tous les dispositifs',
+  }),
+  // mounted() {
+  //   this.selectedMenuItem = this.$route.hash
+  // },
+  methods: {
+    updateSelectedSpeciesGroup(item) {
+      this.selectedSpeciesGroup = item.label
+      // this.selectedMenuItem = item.routerPath
+      // this.$router.push(`${item.routerPath}`)
+    },
   },
   head() {
     return {
@@ -47,7 +70,7 @@ export default {
 .IntroSection {
   position: relative;
   width: 100%;
-  height: 470px;
+  height: 336px;
 }
 
 .BackgroundPicture {
@@ -62,7 +85,7 @@ export default {
     url('/get-involved/get-involved-picture.jpg') center / 100%,
     rgba(47, 92, 105, 1);
   width: 100%;
-  height: 87%;
+  height: 100%;
   display: flex;
 }
 
@@ -103,44 +126,8 @@ export default {
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
-.CardsContent {
-  position: absolute;
-  z-index: 1;
-  left: 13vw;
-  bottom: 0;
-  background: #fcfcfc;
-  width: 74vw;
-  height: 26%;
-  border-radius: 24px;
-  padding: 1.6vw;
-  display: flex;
-  justify-content: space-between;
-}
-
-.Card {
-  background: #efefef;
-  width: 34.6vw;
-  height: 100%;
-  border-radius: 16px;
-  padding: 0 2%;
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #262626;
-}
-
-.Card:hover {
-  background: rgba(238, 206, 37, 0.2);
-}
-
 .ProtocolsSection {
-  padding-left: 13vw;
+  padding-left: 4vw;
   padding-bottom: 1%;
 }
 
@@ -152,5 +139,33 @@ export default {
   line-height: 48px;
   margin-left: 1.6vw;
   margin-bottom: 1.6vw;
+}
+
+menu {
+  height: 100%;
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.MenuItem {
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 0 3px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
+  white-space: nowrap;
+}
+
+.MenuItem.selected {
+  background: rgba(57, 118, 90, 0.1);
+  font-weight: bold;
+  color: #39765a;
 }
 </style>

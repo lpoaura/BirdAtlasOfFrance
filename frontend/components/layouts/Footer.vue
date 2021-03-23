@@ -107,7 +107,7 @@ footer {
 .LPOSection {
   background: rgba(38, 38, 38, 0.1);
   height: 100px;
-  padding: 24px 2.6% 24px 2.6%;
+  padding: 24px 3%;
   border-radius: 8px;
   display: flex;
   align-items: center;
