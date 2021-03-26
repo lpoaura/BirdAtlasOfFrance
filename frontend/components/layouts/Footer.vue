@@ -38,7 +38,7 @@ export default {
     links: [
       { label: 'À propos', routerPath: '/about' },
       { label: 'Contact', routerPath: '/about/contact' },
-      { label: 'Mentions légales', routerPath: '#' },
+      { label: 'Mentions légales', routerPath: '/about/legal-notices' },
     ],
     socialNetworksItems: [
       {
