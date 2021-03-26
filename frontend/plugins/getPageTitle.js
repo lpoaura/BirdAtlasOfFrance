@@ -120,6 +120,14 @@ export default ({ app }, inject) => {
       title: 'Contact us',
       routerPath: '/en/about/contact',
     },
+    {
+      title: 'Mentions légales',
+      routerPath: '/about/legal-notices',
+    },
+    {
+      title: 'Legal notices',
+      routerPath: '/en/about/legal-notices',
+    },
   ]
   const getPageTitle = (route) => {
     const validRoute =

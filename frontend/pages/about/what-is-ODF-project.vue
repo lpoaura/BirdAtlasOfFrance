@@ -1,5 +1,5 @@
 <!-- Partenaires -->
-<!-- Générer automatiquement les items du menu en fonction des fichiers md récupérés -->
+<!-- Générer automatiquement la page entière (composant/v-show) en fonction des fichiers md récupérés -->
 <template>
   <v-container fluid>
     <informative-header
