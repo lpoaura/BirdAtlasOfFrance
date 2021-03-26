@@ -83,10 +83,6 @@ export default {
 
 <style scoped>
 div.container.container--fluid {
-  padding-top: 80px;
-}
-
-.InformativePageSection >>> .nuxt-content p {
-  margin-bottom: 20px;
+  padding-top: 68px;
 }
 </style>
