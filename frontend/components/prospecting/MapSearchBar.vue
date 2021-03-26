@@ -4,7 +4,11 @@
     v-click-outside="closeSearchBarOpenedElements"
     class="AutocompleteWrapper"
   >
-    <input v-model="search" type="text" placeholder="Rechercher" />
+    <input
+      v-model="search"
+      type="text"
+      placeholder="Rechercher une commune, une maille, une espèce..."
+    />
     <div class="AutocompleteAdvanced">
       <div class="CloseIconBox">
         <img
@@ -13,27 +17,6 @@
           src="/close.svg"
           @click="clearResults"
         />
-      </div>
-      <div class="SearchSplit"></div>
-      <div class="SelectTypeWrapper">
-        <div class="SelectedTypeContent" @click="openOrCloseSelectBox">
-          <span class="SelectedTypeText">{{ selectedType.label }}</span>
-          <img
-            class="SelectedTypeChevron"
-            :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
-          />
-        </div>
-        <div v-show="selectIsOpen" class="SelectBox">
-          <li
-            v-for="(type, index) in typeList"
-            :key="index"
-            class="SelectItem"
-            :class="[type.label === selectedType.label ? 'selected' : '']"
-            @click="updateSelectedType(type)"
-          >
-            {{ type.label }}
-          </li>
-        </div>
       </div>
       <div class="SearchIconBox">
         <img class="SearchIcon" src="/search.svg" />
@@ -154,46 +137,50 @@ export default {
 
 <style scoped>
 .AutocompleteWrapper {
+  position: absolute;
+  z-index: 5;
   background: #fff;
-  position: relative;
-  width: 100%;
+  width: 400px;
+  align-self: flex-start;
   border: 1px solid rgba(57, 118, 90, 0.1);
   box-sizing: border-box;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
-  border-radius: 16px;
+
+  /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.16); */
+  border-radius: 8px;
 }
 
 .AutocompleteWrapper input {
-  width: 100%;
-  height: clamp(46px, 8vh, 72px);
+  background: rgba(38, 38, 38, 0.03);
+  width: 400px;
+  height: 42px;
   border: none;
   outline: none;
   box-sizing: border-box;
-  border-radius: 16px;
+  border-radius: 8px;
   padding-left: 4%;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  color: rgba(38, 38, 38, 0.6);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgba(38, 38, 38, 0.4);
 }
 
 .AutocompleteAdvanced {
   position: absolute;
   top: 0;
   right: 0;
-  height: clamp(46px, 8vh, 72px);
-  border-radius: 16px;
-  padding: 0 max(1.3vh, 7px);
+  height: 42px;
+  border-radius: 8px;
+  padding: 0 6px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
 .CloseIconBox {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 .CloseIcon {
@@ -201,83 +188,17 @@ export default {
   cursor: pointer;
 }
 
-.SearchSplit {
-  width: 0;
-  height: clamp(30px, 5.6vh, 50px);
-  border: 1px solid rgba(38, 38, 38, 0.1);
-  margin-left: 1.8vw;
-}
-
-.SelectTypeWrapper {
-  width: 12.8vw;
-  align-self: flex-start;
-  display: flex;
-  flex-direction: column;
-}
-
-.SelectedTypeContent {
-  width: 100%;
-  height: clamp(46px, 8vh, 72px);
-  margin-bottom: 5px;
-  padding: 0 1.8vw;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.SelectedTypeText {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #262626;
-}
-
-.SelectedTypeChevron {
-  width: 0.74vw;
-}
-
-.SelectBox {
-  background: #fcfcfc;
-  width: 100%;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  padding: 0.8vw 0.8vw;
-  overflow: auto;
-}
-
-.SelectItem {
-  list-style: none;
-  width: 100%;
-  padding: 5% 1vw;
-  cursor: pointer;
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
-  color: #262626;
-}
-
-.SelectItem.selected {
-  background: rgba(238, 206, 37, 0.4);
-  font-weight: 600;
-  color: #7b6804;
-}
-
 .SearchIconBox {
   background: #eece25;
-  width: clamp(34px, 5.4vh, 48px);
-  height: clamp(34px, 5.4vh, 48px);
-  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+  border-radius: 4px;
   display: flex;
 }
 
 .SearchIcon {
-  height: clamp(14px, 2.25vh, 20px);
+  height: 16px;
   margin: auto;
 }
 
@@ -302,8 +223,8 @@ export default {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
+  font-size: 12px;
+  line-height: 18px;
   color: #262626;
 }
 

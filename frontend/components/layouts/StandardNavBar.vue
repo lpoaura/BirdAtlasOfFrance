@@ -48,9 +48,9 @@ header {
   z-index: 10;
   background: #fcfcfc;
   width: 100%;
-  height: 80px;
+  height: 68px;
   padding: 0 5%;
-  border-bottom: 1px solid #efefef;
+  border-bottom: 1px solid rgba(57, 118, 90, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -64,7 +64,7 @@ header {
 
 nav {
   flex: 2;
-  height: 47px;
+  height: 41px;
   align-self: flex-end;
   display: flex;
   justify-content: space-between;

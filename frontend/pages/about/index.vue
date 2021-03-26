@@ -1,5 +1,4 @@
 <!-- Transformer la photo au format jpg -->
-<!-- Largeur totale : 98.8 vw et non 100vw -->
 <template>
   <v-container fluid>
     <section class="IntroSection">
@@ -165,20 +164,20 @@ export default {
 .CardsContent {
   position: absolute;
   z-index: 1;
-  left: 13vw;
+  left: 12.5vw;
   bottom: 0;
   background: #fcfcfc;
-  width: 74vw;
+  width: 73.9vw;
   height: 48%;
   border-radius: 24px;
-  padding: 1.6vw;
+  padding: 1.5vw;
   display: flex;
   justify-content: space-between;
 }
 
 .Card {
   background: #efefef;
-  width: 16.5vw;
+  width: 16.6vw;
   height: 100%;
   border-radius: 16px;
   padding: 0 2%;

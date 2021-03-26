@@ -152,8 +152,12 @@ export default {
   transition: 0.3s;
 }
 
-.opportunistic {
+.ProtocolsCard.opportunistic {
   background: rgba(238, 206, 37, 0.2);
+}
+
+.ProtocolsCard.opportunistic:hover {
+  background: rgba(238, 206, 37, 0.8);
 }
 
 .ProtocolsCardsIcon {

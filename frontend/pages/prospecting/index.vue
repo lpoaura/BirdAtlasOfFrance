@@ -1,33 +1,34 @@
 <template>
   <v-container fluid>
-    <v-container>
-      <v-row>
-        <v-col cols="3">
-          <h1>Page de prospection</h1>
-          <seasons-select @selectedSeason="updateSelectedSeason" />
-          <area-search-bar @selectedCity="updateSelectedCity" />
-          <h4>Se rendre en...</h4>
-          <v-list dense>
-            <clickable-territory
-              v-for="territory in territoriesData"
-              :key="territory.name"
-              :territory-data="territory"
-              @selectedTerritory="updateSelectedTerritory"
-            />
-          </v-list>
-        </v-col>
-        <v-col cols="9">
-          <client-only>
-            <lazy-prospecting-map
-              :selected-season="selectedSeason"
-              :selected-city-bounds="selectedCityBounds"
-              :selected-territory-bounds="selectedTerritoryBounds"
-              @clickedFeature="updateClickedFeature"
-            />
-          </client-only>
-        </v-col>
-      </v-row>
-    </v-container>
+    <header>
+      <map-search-bar />
+    </header>
+    <v-row>
+      <v-col cols="3">
+        <h1>Page de prospection</h1>
+        <seasons-select @selectedSeason="updateSelectedSeason" />
+        <area-search-bar @selectedCity="updateSelectedCity" />
+        <h4>Se rendre en...</h4>
+        <v-list dense>
+          <clickable-territory
+            v-for="territory in territoriesData"
+            :key="territory.name"
+            :territory-data="territory"
+            @selectedTerritory="updateSelectedTerritory"
+          />
+        </v-list>
+      </v-col>
+      <v-col cols="9">
+        <client-only>
+          <lazy-prospecting-map
+            :selected-season="selectedSeason"
+            :selected-city-bounds="selectedCityBounds"
+            :selected-territory-bounds="selectedTerritoryBounds"
+            @clickedFeature="updateClickedFeature"
+          />
+        </client-only>
+      </v-col>
+    </v-row>
     <feature-dashboard
       :clicked-feature="clickedFeature"
       :drawer="drawer"
@@ -37,6 +38,8 @@
 </template>
 
 <script>
+import MapSearchBar from '~/components/prospecting/MapSearchBar.vue'
+
 import AreaSearchBar from '~/components/AreaSearchBar.vue'
 import ClickableTerritory from '~/components/ClickableTerritory.vue'
 import SeasonsSelect from '~/components/SeasonsSelect.vue'
@@ -44,6 +47,7 @@ import FeatureDashboard from '~/components/FeatureDashboard.vue'
 
 export default {
   components: {
+    'map-search-bar': MapSearchBar,
     'lazy-prospecting-map': () => {
       if (process.client) {
         return import('~/components/ProspectingMap.vue')
@@ -133,6 +137,18 @@ export default {
 
 <style scoped>
 div.container.container--fluid {
-  padding-top: 80px;
+  padding-top: 68px;
+}
+
+header {
+  position: relative;
+  background: #fcfcfc;
+  width: 100%;
+  height: 68px;
+  padding: 12px 2%;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(57, 118, 90, 0.1);
+  display: flex;
+  justify-content: space-between;
 }
 </style>

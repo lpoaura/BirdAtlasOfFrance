@@ -1,3 +1,5 @@
+/* INFO : total screen width = 98.9vw (not 100vw) */
+
 /* GLOBAL */
 div.container.container--fluid {
   padding: 0;
@@ -75,9 +77,9 @@ div.container.container--fluid {
   color: #000;
 }
 
-.InformativePageText,
-.nuxt-content p {
+.InformativePageSection .nuxt-content p {
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .nuxt-content ul {
@@ -123,6 +125,49 @@ div.container.container--fluid {
 }
 
 /* MAPS */
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+  width: 42px;
+  height: 74px;
+  background: #fcfcfc;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+  border: none;
+  border-radius: 8px;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control a {
+  width: 42px;
+  height: 37px;
+  line-height: 37px;
+  background: #fcfcfc;
+  border: none;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control a:first-child {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control a:last-child {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.GeolocationControl {
+  width: 42px;
+  height: 42px;
+  background: #fcfcfc;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+}
+
+.GeolocationControl .Icon {
+  width: 24px;
+  height: 24px;
+  margin: auto;
+}
+
 .MapControl {
   padding: 10px 10px;
   background: rgba(255, 255, 255, 1);
