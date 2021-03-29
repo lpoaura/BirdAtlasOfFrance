@@ -9,7 +9,7 @@ from pydantic import BaseModel
 logger = logging.getLogger(__name__)
 
 
-class GeneralStatsSubSchema(BaseModel):
+class GeneralStatsCountTaxaSubSchema(BaseModel):
     """[summary]
 
     Args:
@@ -21,6 +21,18 @@ class GeneralStatsSubSchema(BaseModel):
     wintering: int
 
 
+class GeneralStatsProspectingHoursSubSchema(BaseModel):
+    """[summary]
+
+    Args:
+        BaseModel ([type]): [description]
+    """
+
+    other_period: int
+    breeding: int
+    wintering: int
+
+
 class GeneralStatsSchema(BaseModel):
     """[summary]
 
@@ -28,8 +40,8 @@ class GeneralStatsSchema(BaseModel):
         BaseModel ([type]): [description]
     """
 
-    prospecting_hours: GeneralStatsSubSchema
-    count_taxa: GeneralStatsSubSchema
+    prospecting_hours: GeneralStatsProspectingHoursSubSchema
+    count_taxa: GeneralStatsCountTaxaSubSchema
 
     class Config:
         orm_mode = True
