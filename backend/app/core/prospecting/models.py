@@ -82,6 +82,6 @@ class AreaDashboard(Base):
     taxa_count_all_period = Column(Integer)
     taxa_count_wintering = Column(Integer)
     taxa_count_breeding = Column(Integer)
-    prospecting_hours_all_period = Column(DECIMAL)
+    prospecting_hours_other_period = Column(DECIMAL)
     prospecting_hours_wintering = Column(DECIMAL)
     prospecting_hours_breeding = Column(DECIMAL)
