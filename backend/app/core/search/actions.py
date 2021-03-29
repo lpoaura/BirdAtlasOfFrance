@@ -36,6 +36,7 @@ class MvSearchAreasActions(BaseReadOnlyActions[MvSearchAreas]):
             q = q.filter(self.model.search_string.like(func.unaccent(search_string)))
         if type_code is not None:
             q = q.filter(self.model.type_code == type_code)
+        q = q.order_by(func.length(self.model.name)).order_by(self.model.name.asc())
         return q.limit(limit).all()
 
 
@@ -52,6 +53,7 @@ class MvSearchTaxaActions(BaseReadOnlyActions[MvSearchTaxa]):
         )
         if search is not None:
             q = q.filter(self.model.search_string.like(func.unaccent(search_string)))
+        q = q.order_by(func.length(self.model.name)).order_by(self.model.name.asc())
         return q.limit(limit).all()
 
 
