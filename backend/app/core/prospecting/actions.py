@@ -150,9 +150,15 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
             AreaDashboard.taxa_count_all_period,
             AreaDashboard.taxa_count_wintering,
             AreaDashboard.taxa_count_breeding,
-            AreaDashboard.prospecting_hours_all_period,
-            AreaDashboard.prospecting_hours_wintering,
-            AreaDashboard.prospecting_hours_breeding,
+            func.coalesce(AreaDashboard.prospecting_hours_other_period, 0).label(
+                "prospecting_hours_other_period"
+            ),
+            func.coalesce(AreaDashboard.prospecting_hours_wintering, 0).label(
+                "prospecting_hours_wintering"
+            ),
+            func.coalesce(AreaDashboard.prospecting_hours_breeding, 0).label(
+                "prospecting_hours_breeding"
+            ),
         ).filter(AreaDashboard.id_area == id_area)
         return q.first()
 
