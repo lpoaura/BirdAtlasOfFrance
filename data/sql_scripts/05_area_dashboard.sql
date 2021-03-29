@@ -41,11 +41,11 @@ $$
             SELECT
                 mv_forms_for_atlas.id_area
               , round(((sum(timelength_secs) FILTER (WHERE NOT is_wintering
-                AND NOT is_breeding)) / 3600)::NUMERIC, 1)                                     AS prospecting_hours_other_period
+                AND NOT is_breeding)) / 3600)::NUMERIC, 1) AS prospecting_hours_other_period
               , round(((sum(timelength_secs) FILTER (WHERE is_wintering)) / 3600)::NUMERIC,
-                      1)                                                                       AS prospecting_hours_wintering
+                      1)                                   AS prospecting_hours_wintering
               , round(((sum(timelength_secs) FILTER (WHERE is_breeding)) / 3600)::NUMERIC,
-                      1)                                                                       AS prospecting_hours_breeding
+                      1)                                   AS prospecting_hours_breeding
                 FROM
                     atlas.mv_forms_for_atlas
                 GROUP BY
@@ -61,6 +61,38 @@ $$
                     JOIN form_synth ON data_synth.id_area = form_synth.id_area;
         COMMENT ON MATERIALIZED VIEW atlas.mv_area_dashboard IS 'Statistiques générales par zonages';
         CREATE UNIQUE INDEX i_area_dashboard_id_area ON atlas.mv_area_dashboard (id_area);
+
+
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_dashboard_distrib_in_time;
+        -- some minimum date
+        /* Materialized view to list all taxa in area */
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_dashboard_distrib_in_time;
+        CREATE MATERIALIZED VIEW atlas.mv_area_dashboard_distrib_in_time AS
+
+        SELECT
+            mv_data_for_atlas.id_area
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 1 )  AS jan
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 2 )  AS feb
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 3 )  AS mar
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 4 )  AS apr
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 5 )  AS may
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 6 )  AS jun
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 7 )  AS jul
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 8 )  AS aug
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 9 )  AS sep
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 10)  AS oct
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 11 ) AS nov
+          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 12 ) AS dec
+            FROM
+                atlas.mv_data_for_atlas
+            WHERE
+                new_data_all_period
+            GROUP BY
+                mv_data_for_atlas.id_area;
+        COMMENT ON MATERIALIZED VIEW atlas.mv_area_dashboard_distrib_in_time IS 'Distribution mensuelle des données par zone';
+        CREATE UNIQUE INDEX i_area_dashboard_distrib_in_time_id_area ON atlas.mv_area_dashboard_distrib_in_time (id_area);
+
+
         COMMIT;
     END
 $$
@@ -123,27 +155,3 @@ $$
 --             ts
 -- ;
 --
---
-select id_area from ref_geo.l_areas where area_code like '07019';
-
-SELECT atlas.mv_area_dashboard.last_date AS atlas_mv_area_dashboard_last_date, atlas.mv_area_dashboard.data_count AS atlas_mv_area_dashboard_data_count, atlas.mv_area_dashboard.taxa_count_all_period AS atlas_mv_area_dashboard_taxa_count_all_period, atlas.mv_area_dashboard.taxa_count_wintering AS atlas_mv_area_dashboard_taxa_count_wintering, atlas.mv_area_dashboard.taxa_count_breeding AS atlas_mv_area_dashboard_taxa_count_breeding, atlas.mv_area_dashboard.prospecting_hours_other_period AS atlas_mv_area_dashboard_prospecting_hours_other_period, atlas.mv_area_dashboard.prospecting_hours_wintering AS atlas_mv_area_dashboard_prospecting_hours_wintering, atlas.mv_area_dashboard.prospecting_hours_breeding AS atlas_mv_area_dashboard_prospecting_hours_breeding
-FROM atlas.mv_area_dashboard
-WHERE atlas.mv_area_dashboard.id_area = 5271
- LIMIT 1
-
-select * from atlas.mv_area_dashboard join ref_geo.l_areas on l_areas.id_area = mv_area_dashboard.id_area limit 10;
-
-SELECT
-    atlas.mv_area_dashboard.last_date                      AS atlas_mv_area_dashboard_last_date
-  , atlas.mv_area_dashboard.data_count                     AS atlas_mv_area_dashboard_data_count
-  , atlas.mv_area_dashboard.taxa_count_all_period          AS atlas_mv_area_dashboard_taxa_count_all_period
-  , atlas.mv_area_dashboard.taxa_count_wintering           AS atlas_mv_area_dashboard_taxa_count_wintering
-  , atlas.mv_area_dashboard.taxa_count_breeding            AS atlas_mv_area_dashboard_taxa_count_breeding
-  , atlas.mv_area_dashboard.prospecting_hours_other_period AS atlas_mv_area_dashboard_prospecting_hours_other_period
-  , atlas.mv_area_dashboard.prospecting_hours_wintering    AS atlas_mv_area_dashboard_prospecting_hours_wintering
-  , atlas.mv_area_dashboard.prospecting_hours_breeding     AS atlas_mv_area_dashboard_prospecting_hours_breeding
-    FROM
-        atlas.mv_area_dashboard
-    WHERE
-        atlas.mv_area_dashboard.id_area = 661701
-    LIMIT 1
