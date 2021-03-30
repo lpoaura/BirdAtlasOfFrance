@@ -8,6 +8,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import Query, Session
 
 from app.core.actions.crud import BaseReadOnlyActions
+from app.core.commons.models import DataForAtlas
 from app.core.ref_geo.actions import bib_areas_types
 
 from .models import AreaDashboard, AreaKnowledgeLevel, AreaKnowledgeTaxaList
@@ -143,7 +144,16 @@ class AreaKnowledgeTaxaListActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
 class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
     """Post actions with basic CRUD operations"""
 
-    def get_area_stats(self, db: Session, id_area: int, limit: Optional[int] = None) -> Query:
+    def get_area_stats(self, db: Session, id_area: int) -> Query:
+        """querying general area stats
+
+        Args:
+            db (Session): Database session
+            id_area (int): Area unique id
+
+        Returns:
+            Query: Area general stats
+        """
         q = db.query(
             AreaDashboard.last_date,
             AreaDashboard.data_count,
@@ -161,6 +171,33 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
             ),
         ).filter(AreaDashboard.id_area == id_area)
         return q.first()
+
+    def get_time_distribution(self, db: Session, id_area: int, time_unit: str = "month") -> Query:
+        """get data distribution in time
+
+        Args:
+            db (Session): Database session
+            id_area (int): Area unique id
+            time_unit (str, optional): Time unit identifier (cf. https://www.postgresql.org/docs/10/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT). Defaults to "month".
+
+        Returns:
+            Query: data distribution in time
+        """
+        q = (
+            db.query(
+                func.extract(time_unit, DataForAtlas.date_min).label("label"),
+                # func.extract("year", DataForAtlas.date_min).label("year"),
+                func.count(DataForAtlas.id_data).label("count_data"),
+            )
+            .filter(DataForAtlas.id_area == id_area)
+            .filter(DataForAtlas.new_data_all_period)
+            .group_by(func.extract(time_unit, DataForAtlas.date_min))
+            # .group_by(func.extract("year", DataForAtlas.date_min))
+            .order_by(func.extract(time_unit, DataForAtlas.date_min))
+            # .order_by(func.extract("year", DataForAtlas.date_min))
+        )
+
+        return q.all()
 
 
 area_knowledge_level = AreaKnowledgeLevelActions(AreaKnowledgeLevel)
