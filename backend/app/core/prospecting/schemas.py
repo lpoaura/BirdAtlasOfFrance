@@ -126,3 +126,18 @@ class AreaDashboardSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class AreaDashboardTimeDistribSchema(BaseModel):
+    """[summary]
+
+    Args:
+        BaseModel ([type]): [description]
+    """
+
+    label: int
+    # year: int
+    count_data: int
+
+    class Config:
+        orm_mode = True
