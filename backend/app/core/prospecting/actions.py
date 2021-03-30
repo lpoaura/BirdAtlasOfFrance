@@ -8,10 +8,10 @@ from sqlalchemy import func
 from sqlalchemy.orm import Query, Session
 
 from app.core.actions.crud import BaseReadOnlyActions
-from app.core.commons.models import DataForAtlas
+from app.core.commons.models import AreaKnowledgeTaxaList, DataForAtlas
 from app.core.ref_geo.actions import bib_areas_types
 
-from .models import AreaDashboard, AreaKnowledgeLevel, AreaKnowledgeTaxaList
+from .models import AreaDashboard, AreaKnowledgeLevel
 
 logger = logging.getLogger(__name__)
 
