@@ -1,9 +1,6 @@
 <!-- Bouton jaune de recherche : afficher les recherches récentes -->
 <template>
-  <div
-    v-click-outside="closeSearchBarOpenedElements"
-    class="AutocompleteWrapper"
-  >
+  <div v-click-outside="closeSearchBar" class="AutocompleteWrapper">
     <input v-model="search" type="text" placeholder="Rechercher" />
     <div class="AutocompleteAdvanced">
       <div class="CloseIconBox">
@@ -100,34 +97,13 @@ export default {
     },
   },
   methods: {
-    updateSelectedData(data) {
-      if (this.selectedType.label === 'Espèce') {
-        this.$router.push({
-          path: this.selectedType.routerPath,
-          query: { species: `${data.code}` },
-        })
-      } else {
-        this.$router.push({
-          path: this.selectedType.routerPath,
-          query: { municipality: `${data.code}` },
-        })
-      }
-    },
-    clearResults() {
-      this.autocompleteIsOpen = false
-      this.search = ''
+    openOrCloseSelectBox() {
+      this.selectIsOpen = !this.selectIsOpen
     },
     updateSelectedType(type) {
       this.selectIsOpen = false
       this.selectedType = type
       this.updateSearch(this.search)
-    },
-    openOrCloseSelectBox() {
-      this.selectIsOpen = !this.selectIsOpen
-    },
-    closeSearchBarOpenedElements() {
-      this.autocompleteIsOpen = false
-      this.selectIsOpen = false
     },
     updateSearch(newVal) {
       if (newVal === '' || newVal.length < 3) {
@@ -147,6 +123,27 @@ export default {
             console.log(error)
           })
       }
+    },
+    updateSelectedData(data) {
+      if (this.selectedType.label === 'Espèce') {
+        this.$router.push({
+          path: this.selectedType.routerPath,
+          query: { species: `${data.code}` },
+        })
+      } else {
+        this.$router.push({
+          path: this.selectedType.routerPath,
+          query: { municipality: `${data.code}` },
+        })
+      }
+    },
+    clearResults() {
+      this.autocompleteIsOpen = false
+      this.search = ''
+    },
+    closeSearchBar() {
+      this.autocompleteIsOpen = false
+      this.selectIsOpen = false
     },
   },
 }

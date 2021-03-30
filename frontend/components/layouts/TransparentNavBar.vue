@@ -62,7 +62,7 @@ header {
 
 nav {
   flex: 2;
-  height: 41px;
+  height: 40px;
   align-self: flex-end;
   display: flex;
   justify-content: space-between;

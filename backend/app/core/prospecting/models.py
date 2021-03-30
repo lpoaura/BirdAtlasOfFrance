@@ -49,28 +49,6 @@ MvAreaKnowledgeLevel = Table(
 )
 
 
-class AreaKnowledgeTaxaList(Base):
-    __tablename__ = "mv_area_knowledge_list_taxa"
-    __table_args__ = {
-        "schema": "atlas",
-    }
-    id_area = Column(Integer, primary_key=True)
-    cd_nom = Column(Integer, primary_key=True)
-    sci_name = Column(String)
-    common_name = Column(String)
-    all_period_count_data_old = Column(Integer)
-    all_period_count_data_new = Column(Integer)
-    all_period_last_obs = Column(Integer)
-    breeding_count_data_new = Column(Integer)
-    breeding_status_new = Column(String)
-    breeding_count_data_old = Column(Integer)
-    breeding_status_old = Column(String)
-    breeding_last_obs = Column(Integer)
-    wintering_count_data_old = Column(Integer)
-    wintering_count_data_new = Column(Integer)
-    wintering_last_obs = Column(Integer)
-
-
 class AreaDashboard(Base):
     __tablename__ = "mv_area_dashboard"
     __table_args__ = {
@@ -82,6 +60,6 @@ class AreaDashboard(Base):
     taxa_count_all_period = Column(Integer)
     taxa_count_wintering = Column(Integer)
     taxa_count_breeding = Column(Integer)
-    prospecting_hours_all_period = Column(DECIMAL)
+    prospecting_hours_other_period = Column(DECIMAL)
     prospecting_hours_wintering = Column(DECIMAL)
     prospecting_hours_breeding = Column(DECIMAL)

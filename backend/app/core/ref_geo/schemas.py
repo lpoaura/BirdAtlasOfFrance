@@ -2,7 +2,7 @@ import logging
 from typing import List, Optional
 
 # from geojson_pydantic import Feature, Geometry
-from geojson_pydantic.features import Feature, FeatureCollection, Geometry
+from geojson_pydantic.features import Feature, FeatureCollection
 # from geojson_pydantic.geometries import Geometry
 from pydantic import BaseModel
 

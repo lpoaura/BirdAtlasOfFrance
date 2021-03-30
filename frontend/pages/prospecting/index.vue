@@ -2,6 +2,9 @@
   <v-container fluid>
     <header>
       <map-search-bar />
+      <div class="Selectors">
+        <territories-selector />
+      </div>
     </header>
     <v-row>
       <v-col cols="3">
@@ -39,6 +42,7 @@
 
 <script>
 import MapSearchBar from '~/components/prospecting/MapSearchBar.vue'
+import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
 
 import AreaSearchBar from '~/components/AreaSearchBar.vue'
 import ClickableTerritory from '~/components/ClickableTerritory.vue'
@@ -48,6 +52,7 @@ import FeatureDashboard from '~/components/FeatureDashboard.vue'
 export default {
   components: {
     'map-search-bar': MapSearchBar,
+    'territories-selector': TerritoriesSelector,
     'lazy-prospecting-map': () => {
       if (process.client) {
         return import('~/components/ProspectingMap.vue')
@@ -65,7 +70,7 @@ export default {
   //     )
   //   },
   data: () => ({
-    drawer: true,
+    drawer: false,
     territoriesData: [
       {
         name: 'Auvergne-Rhône-Alpes',
@@ -150,5 +155,10 @@ header {
   border-bottom: 1px solid rgba(57, 118, 90, 0.1);
   display: flex;
   justify-content: space-between;
+}
+
+.Selectors {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

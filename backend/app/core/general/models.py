@@ -12,7 +12,7 @@ class GeneralStats(Base):
     count_taxa_all_period = Column(Integer)
     count_taxa_breeding = Column(Integer)
     count_taxa_wintering = Column(Integer)
-    prospecting_hours_all_period = Column(Integer)
+    prospecting_hours_other_period = Column(Integer)
     prospecting_hours_breeding = Column(Integer)
     prospecting_hours_wintering = Column(Integer)
 
@@ -23,7 +23,7 @@ mv_general_stats = Table(
     Column("count_taxa_all_period", Integer),
     Column("count_taxa_breeding", Integer),
     Column("count_taxa_wintering", Integer),
-    Column("prospecting_hours_all_period", Integer),
+    Column("prospecting_hours_other_period", Integer),
     Column("prospecting_hours_breeding", Integer),
     Column("prospecting_hours_wintering", Integer),
 )

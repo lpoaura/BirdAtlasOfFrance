@@ -1,9 +1,6 @@
-<!-- Bouton jaune de recherche : afficher les recherches récentes -->
+<!-- À réadapter -->
 <template>
-  <div
-    v-click-outside="closeSearchBarOpenedElements"
-    class="AutocompleteWrapper"
-  >
+  <div v-click-outside="closeSearchBar" class="AutocompleteWrapper">
     <input
       v-model="search"
       type="text"
@@ -83,34 +80,13 @@ export default {
     },
   },
   methods: {
-    updateSelectedData(data) {
-      if (this.selectedType.label === 'Espèce') {
-        this.$router.push({
-          path: this.selectedType.routerPath,
-          query: { species: `${data.code}` },
-        })
-      } else {
-        this.$router.push({
-          path: this.selectedType.routerPath,
-          query: { municipality: `${data.code}` },
-        })
-      }
-    },
-    clearResults() {
-      this.autocompleteIsOpen = false
-      this.search = ''
+    openOrCloseSelectBox() {
+      this.selectIsOpen = !this.selectIsOpen
     },
     updateSelectedType(type) {
       this.selectIsOpen = false
       this.selectedType = type
       this.updateSearch(this.search)
-    },
-    openOrCloseSelectBox() {
-      this.selectIsOpen = !this.selectIsOpen
-    },
-    closeSearchBarOpenedElements() {
-      this.autocompleteIsOpen = false
-      this.selectIsOpen = false
     },
     updateSearch(newVal) {
       if (newVal === '' || newVal.length < 3) {
@@ -131,13 +107,34 @@ export default {
           })
       }
     },
+    updateSelectedData(data) {
+      if (this.selectedType.label === 'Espèce') {
+        this.$router.push({
+          path: this.selectedType.routerPath,
+          query: { species: `${data.code}` },
+        })
+      } else {
+        this.$router.push({
+          path: this.selectedType.routerPath,
+          query: { municipality: `${data.code}` },
+        })
+      }
+    },
+    clearResults() {
+      this.autocompleteIsOpen = false
+      this.search = ''
+    },
+    closeSearchBar() {
+      this.autocompleteIsOpen = false
+      this.selectIsOpen = false
+    },
   },
 }
 </script>
 
 <style scoped>
 .AutocompleteWrapper {
-  position: absolute;
+  position: relative;
   z-index: 5;
   background: #fff;
   width: 400px;
