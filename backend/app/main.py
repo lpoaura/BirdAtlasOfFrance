@@ -13,6 +13,7 @@ from app.core.general.routers import router as main_router
 from app.core.prospecting.routers import router as prospecting_router
 from app.core.ref_geo.routers import router as ref_geo_router
 from app.core.search.routers import router as search_router
+from app.core.taxa.routers import router as taxa_router
 from app.utils import log
 from app.utils.config import settings
 from app.utils.db import database
@@ -33,6 +34,10 @@ tags_metadata = [
     {
         "name": "ref_geo",
         "description": "APIs dedicated to GeoNature ref_geo module",
+    },
+    {
+        "name": "taxa",
+        "description": "APIs dedicated to atlas taxa data",
     },
 ]
 
@@ -103,6 +108,7 @@ app.include_router(ref_geo_router, prefix=settings.API_PREFIX)
 app.include_router(main_router, prefix=settings.API_PREFIX)
 app.include_router(search_router, prefix=settings.API_PREFIX)
 app.include_router(prospecting_router, prefix=settings.API_PREFIX)
+app.include_router(taxa_router, prefix=settings.API_PREFIX)
 
 
 def main():
