@@ -1,9 +1,8 @@
 import logging
 from typing import List, Optional
 
-from geoalchemy2 import functions
-
-# from sqlalchemy_utils.functions import json_sql
+from geoalchemy2 import functions as geofunc
+# from sqlalchemy_utils.geofunc import json_sql
 from sqlalchemy import func
 from sqlalchemy.orm import Query, Session
 
@@ -38,7 +37,7 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
                 "area_name",
                 LAreas.area_name,
             ).label("properties"),
-            functions.ST_AsGeoJSON(functions.ST_Transform(LAreas.geom, 4326)).label("geometry"),
+            geofunc.ST_AsGeoJSON(geofunc.ST_Transform(LAreas.geom, 4326)).label("geometry"),
         )
         return q
 
@@ -65,10 +64,10 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
         q = q.filter(LAreas.id_type == id_type)
         if envelope:
             q = q.filter(
-                functions.ST_Intersects(
+                geofunc.ST_Intersects(
                     LAreas.geom,
-                    functions.ST_Transform(
-                        functions.ST_MakeEnvelope(
+                    geofunc.ST_Transform(
+                        geofunc.ST_MakeEnvelope(
                             envelope[0], envelope[1], envelope[2], envelope[3], 4326
                         ),
                         2154,
