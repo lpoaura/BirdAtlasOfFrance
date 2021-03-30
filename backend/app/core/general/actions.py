@@ -30,12 +30,12 @@ class GeneralStatsActions(BaseReadOnlyActions[GeneralStats]):
                 GeneralStats.count_taxa_wintering,
             ).label("count_taxa"),
             func.json_build_object(
-                "all_period",
-                GeneralStats.prospecting_hours_all_period,
+                "other_period",
+                func.coalesce(GeneralStats.prospecting_hours_other_period, 0),
                 "breeding",
-                GeneralStats.prospecting_hours_breeding,
+                func.coalesce(GeneralStats.prospecting_hours_breeding, 0),
                 "wintering",
-                GeneralStats.prospecting_hours_wintering,
+                func.coalesce(GeneralStats.prospecting_hours_wintering, 0),
             ).label("prospecting_hours"),
         )
         return q.first()

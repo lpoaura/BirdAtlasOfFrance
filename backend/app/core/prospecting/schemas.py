@@ -120,9 +120,24 @@ class AreaDashboardSchema(BaseModel):
     taxa_count_all_period: int
     taxa_count_wintering: int
     taxa_count_breeding: int
-    prospecting_hours_all_period: float
+    prospecting_hours_other_period: float
     prospecting_hours_wintering: float
     prospecting_hours_breeding: float
+
+    class Config:
+        orm_mode = True
+
+
+class AreaDashboardTimeDistribSchema(BaseModel):
+    """[summary]
+
+    Args:
+        BaseModel ([type]): [description]
+    """
+
+    label: int
+    # year: int
+    count_data: int
 
     class Config:
         orm_mode = True

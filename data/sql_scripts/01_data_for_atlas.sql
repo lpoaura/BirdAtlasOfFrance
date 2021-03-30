@@ -97,7 +97,7 @@ $$
         SELECT
             areas.id_area
           , site                                                                      AS site
-          , item ->> '@id'                                                            AS id_form_local
+          , cast(item ->> '@id' as INTEGER)                                                            AS id_form_local
           , item ->> 'id_form_universal'                                              AS id_form_universal
           , cast(item ->> 'date_start' AS DATE) + cast(item ->> 'time_start' AS TIME) AS timestamp_start
           , cast(item ->> 'date_stop' AS DATE) + cast(item ->> 'time_stop' AS TIME)   AS timestamp_stop

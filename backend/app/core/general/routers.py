@@ -22,14 +22,15 @@ router = APIRouter()
     description="""# General stats
 
 Platform general stats for home page:
-* Taxa count (atlas date range) for each kind of period.
-* Prospecting cumulated time (in hours) for each kind of period.
-
-Periods are:
-* all period (all along the year)
-* wintering (only wintering observations)
-* breeding (only breeding observations)
-    """,
+* Taxa count (atlas date range) for each kind of period:
+  * all period (all along the year)
+  * wintering (only wintering observations)
+  * breeding (only breeding observations)
+* Prospecting cumulated time (in hours) for each kind of period:
+  * all but breeding/wintering
+  * wintering (only wintering observations)
+  * breeding (only breeding observations)
+""",
 )
 def period_stats(db: Session = Depends(get_db)) -> Any:
     q = general_stats.query(db=db)
