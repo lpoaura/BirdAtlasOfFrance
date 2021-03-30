@@ -10,6 +10,7 @@ from app.utils.db import get_db, settings
 from .actions import area_dashboard, area_knowledge_level, area_knowledge_taxa_list
 from .schemas import (
     AreaDashboardSchema,
+    AreaDashboardTimeDistribSchema,
     AreaKnowledgeLevelFeatureSchema,
     AreaKnowledgeLevelGeoJson,
     AreaKnowledgeLevelPropertiesSchema,
@@ -90,7 +91,36 @@ def area_taxa_list(
 )
 def area_general_stats(id_area: int, db: Session = Depends(get_db)) -> Any:
     q = area_dashboard.get_area_stats(db=db, id_area=id_area)
-    logger.debug(f"GenStats {q}")
+    logger.debug(f"<area_general_stats> query {q}")
+    if not q:
+        raise HTTPException(status_code=404, detail="Data not found")
+    return q
+
+
+@router.get(
+    "/area/time_distrib/{id_area}/{time_unit}",
+    response_model=List[AreaDashboardTimeDistribSchema],
+    tags=["prospecting"],
+    summary="General stats by area",
+    description="""# Data distribution in time
+
+Count data by time unit during atlas period
+
+**Time unit** must be a [PostgreSQL date field identifier](https://www.postgresql.org/docs/10/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT). *e.g.* :
+  * `month`
+  * `year`
+  * `week`
+  * `quarter`
+  * *etc*.
+""",
+)
+def area_contrib_time_distrib(
+    id_area: int,
+    db: Session = Depends(get_db),
+    time_unit: str = "month",
+) -> Any:
+    q = area_dashboard.get_time_distribution(db=db, id_area=id_area, time_unit=time_unit)
+    logger.debug(f"<area_contrib_time_distrib> query {q}")
     if not q:
         raise HTTPException(status_code=404, detail="Data not found")
     return q
