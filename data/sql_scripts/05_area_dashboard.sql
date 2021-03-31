@@ -2,14 +2,16 @@
 AREA DASHBOARD DATA
 -------------------
 
-- Dernière actualisation
-- Complétude de prospection de la maille (%)
-- Nb de données
-- Nb d'espèces nicheuses / Nb d'espèces hiver / Nb d'espèces toutes saisons
-- Nb de données par décade (répartition temporelle des données)
-- Durée de prospection (en heures) :
+ - Dernière actualisation
+ - Complétude de prospection de la maille (%)
+ - Nb de données
+ - Nb d'espèces nicheuses / Nb d'espèces hiver / Nb d'espèces toutes saisons
+ - Nb de données par décade (répartition temporelle des données)
+ - Durée de prospection (en heures) :
  - Pour la période de repro
  - Pour la période d'hivernage
+ - Hors repro et hivernage
+
  */
 DO
 $$
@@ -41,11 +43,11 @@ $$
             SELECT
                 mv_forms_for_atlas.id_area
               , round(((sum(timelength_secs) FILTER (WHERE NOT is_wintering
-                AND NOT is_breeding)) / 3600)::NUMERIC, 1) AS prospecting_hours_other_period
+                AND NOT is_breeding)) / 3600)::NUMERIC, 1)                                     AS prospecting_hours_other_period
               , round(((sum(timelength_secs) FILTER (WHERE is_wintering)) / 3600)::NUMERIC,
-                      1)                                   AS prospecting_hours_wintering
+                      1)                                                                       AS prospecting_hours_wintering
               , round(((sum(timelength_secs) FILTER (WHERE is_breeding)) / 3600)::NUMERIC,
-                      1)                                   AS prospecting_hours_breeding
+                      1)                                                                       AS prospecting_hours_breeding
                 FROM
                     atlas.mv_forms_for_atlas
                 GROUP BY
@@ -61,97 +63,7 @@ $$
                     JOIN form_synth ON data_synth.id_area = form_synth.id_area;
         COMMENT ON MATERIALIZED VIEW atlas.mv_area_dashboard IS 'Statistiques générales par zonages';
         CREATE UNIQUE INDEX i_area_dashboard_id_area ON atlas.mv_area_dashboard (id_area);
-
-
-        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_dashboard_distrib_in_time;
-        -- some minimum date
-        /* Materialized view to list all taxa in area */
-        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_dashboard_distrib_in_time;
-        CREATE MATERIALIZED VIEW atlas.mv_area_dashboard_distrib_in_time AS
-
-        SELECT
-            mv_data_for_atlas.id_area
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 1 )  AS jan
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 2 )  AS feb
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 3 )  AS mar
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 4 )  AS apr
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 5 )  AS may
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 6 )  AS jun
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 7 )  AS jul
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 8 )  AS aug
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 9 )  AS sep
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 10)  AS oct
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 11 ) AS nov
-          , count(*) FILTER (WHERE extract(MONTH FROM date_min) = 12 ) AS dec
-            FROM
-                atlas.mv_data_for_atlas
-            WHERE
-                new_data_all_period
-            GROUP BY
-                mv_data_for_atlas.id_area;
-        COMMENT ON MATERIALIZED VIEW atlas.mv_area_dashboard_distrib_in_time IS 'Distribution mensuelle des données par zone';
-        CREATE UNIQUE INDEX i_area_dashboard_distrib_in_time_id_area ON atlas.mv_area_dashboard_distrib_in_time (id_area);
-
-
         COMMIT;
     END
 $$
 ;
-
---
--- SELECT
---     *
--- FROM
---     atlas.mv_area_dashboard;
-
---
--- SELECT *
---     FROM
---         atlas.mv_area_dashboard
---     LIMIT 10
--- ;
---
--- SELECT
---     id
---   , site
---   , jsonb_pretty(item)
---     FROM
---         import_vn.forms_json
---     LIMIT 10
--- ;
---
--- CREATE TABLE public.tstest AS (
---     WITH
---         ts AS (
---             SELECT
---                 site
---               , item ->> 'date_start'     AS date_start
---               , item ->> 'time_start'     AS time_start
---               , item ->> 'date_stop'      AS date_stop
---               , item ->> 'time_stop'      AS time_stop
---               , round(((extract(EPOCH FROM
---                                 age((cast(item ->> 'date_stop' AS DATE) + cast(item ->> 'time_stop' AS TIME)),
---                                     (cast(item ->> 'date_start' AS DATE) + cast(item ->> 'time_start' AS TIME))))) /
---                        3600)::numeric, 2) AS delta
---               , jsonb_pretty(item)
---                 FROM
---                     import_vn.forms_json
---                 WHERE
---
---                     cast(item ->> 'date_start' AS DATE) > '2019-01-31'
--- --           and ((cast(item ->> 'date_stop' AS DATE) + cast(item ->> 'time_stop' AS TIME)) -
--- --                  (cast(item ->> 'date_start' AS DATE) + cast(item ->> 'time_start' AS TIME))) > '01:00:00'::time
---
---                 ORDER BY
---                     (extract(EPOCH FROM age((cast(item ->> 'date_stop' AS DATE) + cast(item ->> 'time_stop' AS TIME)),
---                                             (cast(item ->> 'date_start' AS DATE) + cast(item ->> 'time_start' AS TIME))))) DESC)
---
---     SELECT
---         count(*) FILTER ( WHERE ts.delta > 24)                    AS "plus de 24h"
---       , count(*) FILTER ( WHERE ts.delta > 12 AND ts.delta <= 24) AS "entre 12 et 24h"
---       , count(*) FILTER ( WHERE ts.delta > 1 AND ts.delta <= 12 ) AS "entre 1 et 12h"
---       , count(*) FILTER (WHERE ts.delta < 1)                      AS "moins de 1h"
---         FROM
---             ts
--- ;
---
