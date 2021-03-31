@@ -67,13 +67,21 @@ export default {
         speciesGroup: ['Oiseaux communs'],
       },
       {
-        icon: '/get-involved/STOM-logo.svg',
-        title: 'STOM',
-        subtitle: 'Suivi Temporel des Oiseaux de Montagne',
-        routerPath: '/get-involved/stom',
-        season: 'Reproduction',
+        icon: '/get-involved/SHOC-logo.svg',
+        title: 'SHOC',
+        subtitle: 'Suivi Hivernal des Oiseaux Communs',
+        routerPath: '/get-involved/shoc',
+        season: 'Hivernage',
         speciesGroup: ['Oiseaux communs'],
       },
+      // {
+      //   icon: '/get-involved/STOM-logo.svg',
+      //   title: 'STOM',
+      //   subtitle: 'Suivi Temporel des Oiseaux de Montagne',
+      //   routerPath: '/get-involved/stom',
+      //   season: 'Reproduction',
+      //   speciesGroup: ['Oiseaux communs'],
+      // },
       {
         icon: '/get-involved/Observatoire-Rapaces-logo.svg',
         title: 'Observatoire Rapaces',
@@ -91,14 +99,6 @@ export default {
         speciesGroup: ["Oiseaux d'eau"],
       },
       {
-        icon: '/get-involved/SHOC-logo.svg',
-        title: 'SHOC',
-        subtitle: 'Suivi Hivernal des Oiseaux Communs',
-        routerPath: '/get-involved/shoc',
-        season: 'Hivernage',
-        speciesGroup: ['Oiseaux communs'],
-      },
-      {
         icon: '/get-involved/Wetlands-logo.svg',
         title: 'Wetlands',
         subtitle: "Recensement des Oiseaux d'Eau",
@@ -107,10 +107,10 @@ export default {
         speciesGroup: ["Oiseaux d'eau"],
       },
       {
-        icon: null,
+        icon: '/get-involved/EPOC-ODF-logo.svg',
         title: 'Listes complètes et données ponctuelles',
-        subtitle: null,
-        routerPath: '#',
+        subtitle: 'Données opportunistes',
+        routerPath: '/get-involved/complete-lists',
         season: null,
         speciesGroup: ['Oiseaux communs', 'Rapaces', "Oiseaux d'eau"],
       },
@@ -152,8 +152,12 @@ export default {
   transition: 0.3s;
 }
 
-.opportunistic {
+.ProtocolsCard.opportunistic {
   background: rgba(238, 206, 37, 0.2);
+}
+
+.ProtocolsCard.opportunistic:hover {
+  background: rgba(238, 206, 37, 0.8);
 }
 
 .ProtocolsCardsIcon {

@@ -1,4 +1,3 @@
-<!-- Largeur totale : 98.8 vw et non 100vw -->
 <template>
   <main class="SearchSection">
     <div class="HomePicture">
@@ -178,9 +177,9 @@ a.Vocabulary:hover::after {
 .PictureAuthor {
   position: absolute;
   z-index: 1;
-  left: 13vw;
+  left: 12.5vw;
   bottom: 31%;
-  width: 74vw;
+  width: 73.9vw;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 300;
@@ -193,24 +192,20 @@ a.Vocabulary:hover::after {
 .CardsContent {
   position: absolute;
   z-index: 1;
-  left: 13vw;
+  left: 12.5vw;
   bottom: 0;
   background: #fcfcfc;
-  width: 74vw;
+  width: 73.9vw;
   height: 30%;
   border-radius: 24px;
-
-  /* padding: 1.6vw; */
-  padding: 1.7vw;
+  padding: 1.3vw;
   display: flex;
   justify-content: space-between;
 }
 
 .Card {
   background: #efefef;
-
-  /* width: 16.5vw; */
-  width: 22.4vw;
+  width: 22.9vw;
   height: 100%;
   border-radius: 16px;
   padding: 1% 2%;
