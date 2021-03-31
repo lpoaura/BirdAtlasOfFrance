@@ -1,4 +1,3 @@
-<!-- Séparateur de milliers -->
 <template>
   <section class="KeyDataSection">
     <h2 class="KeyDataTitle">L'Atlas en quelques chiffres...</h2>
@@ -8,7 +7,7 @@
           <img class="KeyDataBlockIcon" src="/home/species-number.svg" />
           <div class="KeyDataBlockContent">
             <span class="KeyDataBlockData">
-              {{ keyData.count_taxa.all_period }}
+              {{ $thousandDelimiter(keyData.count_taxa.all_period) }}
             </span>
             <span class="KeyDataBlockText" style="text-align: center">
               espèces recensées<br />sur la période 2019 - 2023
@@ -23,7 +22,7 @@
             />
             <div class="KeyDataBlockDetailsContent">
               <span class="KeyDataBlockDetailsData">
-                {{ keyData.count_taxa.breeding }}
+                {{ $thousandDelimiter(keyData.count_taxa.breeding) }}
               </span>
               <span class="KeyDataBlockText">espèces nicheuses</span>
             </div>
@@ -35,7 +34,7 @@
             />
             <div class="KeyDataBlockDetailsContent">
               <span class="KeyDataBlockDetailsData">
-                {{ keyData.count_taxa.wintering }}
+                {{ $thousandDelimiter(keyData.count_taxa.wintering) }}
               </span>
               <span class="KeyDataBlockText">espèces hivernantes</span>
             </div>
@@ -47,7 +46,7 @@
           <div class="KeyDataBlockIcon"><svg class="pieChartSvg"></svg></div>
           <div class="KeyDataBlockContent">
             <span class="KeyDataBlockData">
-              {{ keyData.prospecting_hours.all_period }}
+              {{ $thousandDelimiter(keyData.prospecting_hours.all_period) }}
             </span>
             <span class="KeyDataBlockText" style="text-align: center">
               heures de prospection<br />sur la période 2019 - 2023
@@ -71,7 +70,9 @@
                       keyData.prospecting_hours.all_period) *
                       100
                   )
-                }}% | {{ keyData.prospecting_hours.breeding }} heures
+                }}% |
+                {{ $thousandDelimiter(keyData.prospecting_hours.breeding) }}
+                heures
               </span>
             </div>
           </div>
@@ -91,7 +92,9 @@
                       keyData.prospecting_hours.all_period) *
                       100
                   )
-                }}% | {{ keyData.prospecting_hours.wintering }} heures
+                }}% |
+                {{ $thousandDelimiter(keyData.prospecting_hours.wintering) }}
+                heures
               </span>
             </div>
           </div>
@@ -111,7 +114,7 @@
                       keyData.prospecting_hours.all_period) *
                       100
                   )
-                }}% | {{ extraProspectingHours }} heures
+                }}% | {{ $thousandDelimiter(extraProspectingHours) }} heures
               </span>
             </div>
           </div>
@@ -139,8 +142,8 @@ export default {
       },
     },
     pieChartBreedingColor: '#2A9D8F',
-    pieChartWinteringColor: '#264653',
-    pieChartExtraColor: 'grey',
+    pieChartWinteringColor: '#2673AB',
+    pieChartExtraColor: '#264653',
   }),
   computed: {
     extraProspectingHours() {
@@ -267,6 +270,7 @@ export default {
 
 .KeyDataBlockIcon {
   height: 188px;
+  margin-top: 16px;
 }
 
 .KeyDataBlockContent {

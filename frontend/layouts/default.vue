@@ -5,11 +5,16 @@
         v-if="
           [
             '/',
+            '/en',
             '/get-involved',
-            '/get-involved/',
+            '/en/get-involved',
             '/about',
-            '/about/',
-          ].includes($route.path) && !scrolled
+            '/en/about',
+          ].includes(
+            $route.path.endsWith('/') && $route.path.length > 1
+              ? $route.path.slice(0, -1)
+              : $route.path
+          ) && !scrolled
         "
         :nav-items="navItems"
       />
@@ -20,8 +25,17 @@
     </v-main>
     <app-footer
       v-if="
-        ['/', '/get-involved', '/get-involved/', '/about', '/about/'].includes(
-          $route.path
+        [
+          '/',
+          '/en',
+          '/get-involved',
+          '/en/get-involved',
+          '/about',
+          '/en/about',
+        ].includes(
+          $route.path.endsWith('/') && $route.path.length > 1
+            ? $route.path.slice(0, -1)
+            : $route.path
         )
       "
     />
@@ -41,29 +55,37 @@ export default {
   },
   data: () => ({
     scrolled: false,
-    navItems: [
-      {
-        label: 'Accueil',
-        routerPath: '/',
-      },
-      // {
-      //   label: 'Espèces',
-      //   routerPath: '#',
-      // },
-      {
-        label: 'Carte',
-        routerPath: '/prospecting',
-      },
-      {
-        label: 'Participer',
-        routerPath: '/get-involved',
-      },
-      {
-        label: 'À propos',
-        routerPath: '/about',
-      },
-    ],
   }),
+  computed: {
+    navItems() {
+      return [
+        {
+          // label: this.$t('home'),
+          label: 'Accueil',
+          routerPath: '/',
+        },
+        // {
+        //   label: 'Espèces',
+        //   routerPath: '#',
+        // },
+        {
+          // label: this.$t('map'),
+          label: 'Carte',
+          routerPath: '/prospecting',
+        },
+        {
+          // label: this.$t('get-involved'),
+          label: 'Participer',
+          routerPath: '/get-involved',
+        },
+        {
+          // label: this.$t('about'),
+          label: 'À propos',
+          routerPath: '/about',
+        },
+      ]
+    },
+  },
   beforeMount() {
     window.addEventListener('scroll', this.debounce(this.handleScroll))
   },
@@ -95,6 +117,14 @@ export default {
 </script>
 
 <style scoped>
+.theme--light.v-application {
+  background-color: var(--v-background-base, #fcfcfc) !important;
+}
+
+.theme--dark.v-application {
+  background-color: var(--v-background-base, #121212) !important;
+}
+
 .navBar-enter-active,
 .navBar-leave-active {
   transition: opacity 0.3s;

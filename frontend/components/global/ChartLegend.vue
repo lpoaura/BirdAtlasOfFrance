@@ -42,7 +42,7 @@ export default {
 }
 
 .ChartLegendLabel {
-  margin-right: 16px;
+  margin: 0 8px;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: normal;
