@@ -1,5 +1,4 @@
-<!-- La SearchBar doit être en absolute -->
-<!-- Réadapter la SearchBar -->
+<!-- Attendre l'API avec les emprises -->
 <template>
   <div v-click-outside="closeSelectBox" class="SelectTypeWrapper">
     <div class="SelectedTypeContent" @click="openOrCloseSelectBox">
@@ -32,7 +31,7 @@
         <div class="AutocompleteAdvanced">
           <div class="CloseIconBox">
             <img
-              v-show="autocompleteIsOpen"
+              v-show="search.length > 0"
               class="CloseIcon"
               src="/close.svg"
               @click="clearResults"
@@ -42,27 +41,17 @@
             <img class="SearchIcon" src="/search.svg" />
           </div>
         </div>
-        <div v-show="autocompleteIsOpen" class="ResultsSplit"></div>
-        <div v-show="autocompleteIsOpen" class="AutocompleteResults">
-          <li
-            v-for="(data, item) in searchList"
-            :key="item"
-            class="AutocompleteItem"
-            @click="updateSelectedData(data)"
-          >
-            {{ data }}
-          </li>
-        </div>
       </div>
       <div
         v-if="selectedDisplayingType.label === 'grid'"
         class="TerritoriesGrid"
       >
         <div
-          v-for="(territory, index) in territoriesList"
+          v-for="(territory, index) in filteredTerritories"
           :key="index"
           class="TerritoriesCard"
           :class="territory.name === selectedTerritory.name ? 'selected' : ''"
+          @click="updateSelectedTerritory(territory)"
         >
           <img class="TerritoriesCardsIcon" :src="territory.icon" />
           <span class="TerritoriesCardsTitle">{{ territory.name }}</span>
@@ -70,10 +59,11 @@
       </div>
       <div v-else class="TerritoriesList">
         <div
-          v-for="(territory, index) in territoriesList"
+          v-for="(territory, index) in filteredTerritories"
           :key="index"
           class="TerritoriesLi"
           :class="territory.name === selectedTerritory.name ? 'selected' : ''"
+          @click="updateSelectedTerritory(territory)"
         >
           <div class="TerritoriesLiRadio">
             <div
@@ -156,17 +146,12 @@ export default {
     },
     selectIsOpen: false,
     search: '',
-    searchList: [],
-    autocompleteIsOpen: false,
   }),
-  watch: {
-    search(newVal) {
-      if (newVal === '' || newVal.length < 3) {
-        this.autocompleteIsOpen = false
-      } else {
-        this.autocompleteIsOpen = true
-        this.searchList = ['test', 'test', 'test']
-      }
+  computed: {
+    filteredTerritories() {
+      return this.territoriesList.filter((territory) =>
+        territory.name.toLowerCase().includes(this.search.toLowerCase())
+      )
     },
   },
   methods: {
@@ -181,25 +166,15 @@ export default {
     updateSelectedDisplayingType(type) {
       this.selectedDisplayingType = type
     },
-    // updateSelectedData(data) {
-    //   if (this.selectedType.label === 'Espèce') {
-    //     this.$router.push({
-    //       path: this.selectedType.routerPath,
-    //       query: { species: `${data.code}` },
-    //     })
-    //   } else {
-    //     this.$router.push({
-    //       path: this.selectedType.routerPath,
-    //       query: { municipality: `${data.code}` },
-    //     })
-    //   }
-    // },
     clearResults() {
       this.autocompleteIsOpen = false
       this.search = ''
     },
     closeSearchBar() {
       this.autocompleteIsOpen = false
+    },
+    updateSelectedTerritory(territory) {
+      this.selectedTerritory = territory
     },
   },
 }
@@ -246,6 +221,7 @@ export default {
   top: 44px;
   background: #fcfcfc;
   width: 334px;
+  max-height: min(530px, calc(100vh - 136px));
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
   border-radius: 8px;
   padding: 16px 0 16px 16px;
@@ -298,18 +274,15 @@ export default {
   position: absolute;
   top: 64px;
   left: 16px;
-  background: #fff;
+  background: rgba(38, 38, 38, 0.03);
   width: 304px;
   align-self: flex-start;
   border: 1px solid rgba(57, 118, 90, 0.1);
   box-sizing: border-box;
-
-  /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.16); */
   border-radius: 8px;
 }
 
 .AutocompleteWrapper input {
-  background: rgba(38, 38, 38, 0.03);
   width: 100%;
   height: 42px;
   border: none;
@@ -361,40 +334,7 @@ export default {
   margin: auto;
 }
 
-.ResultsSplit {
-  width: 96%;
-  margin-left: 4%;
-  height: 0;
-  border: 1px solid rgba(38, 38, 38, 0.1);
-}
-
-.AutocompleteResults {
-  padding: 1% 1% 2% 1%;
-  overflow: auto;
-}
-
-.AutocompleteItem {
-  list-style: none;
-  width: 100%;
-  padding: 1.5% 3%;
-  cursor: pointer;
-  border-radius: 4px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  color: #262626;
-}
-
-.AutocompleteItem:hover {
-  background: rgba(238, 206, 37, 0.4);
-  color: #7b6804;
-  font-weight: 600;
-}
-
 .TerritoriesGrid {
-  height: 392px;
   display: flex;
   flex-wrap: wrap;
   overflow-y: scroll;
@@ -410,6 +350,7 @@ export default {
   margin-bottom: 16px;
   padding: 0 12px;
   text-decoration: none;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -437,7 +378,6 @@ export default {
 }
 
 .TerritoriesList {
-  height: 392px;
   display: flex;
   flex-wrap: wrap;
   overflow-y: scroll;
@@ -448,6 +388,7 @@ export default {
   height: 39.2px;
   padding-left: 10px;
   border-radius: 4px;
+  cursor: pointer;
   display: flex;
   align-items: center;
 }

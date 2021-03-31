@@ -1,3 +1,4 @@
+<!-- La carte doit s'actualiser sur la France entière (manque API emprises) -->
 <!-- Ne pas considérer les mailles liées aux mers/océans -->
 <template>
   <div id="map-wrap">
@@ -74,7 +75,7 @@ export default {
       required: true,
       default: 'breeding',
     },
-    selectedCityBounds: {
+    selectedMunicipalityBounds: {
       type: Array,
       required: false,
       default: null,
@@ -177,7 +178,7 @@ export default {
     },
   },
   watch: {
-    selectedCityBounds(newVal) {
+    selectedMunicipalityBounds(newVal) {
       if (newVal != null) {
         this.zoomToArea(newVal)
       }

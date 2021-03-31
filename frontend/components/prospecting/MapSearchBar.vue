@@ -1,6 +1,11 @@
-<!-- À réadapter -->
+<!-- 1/ Réadapter le css -->
+<!-- 2/ Intégrer l'API et le côté dynamique -->
 <template>
-  <div v-click-outside="closeSearchBar" class="AutocompleteWrapper">
+  <div
+    v-click-outside="closeSearchBar"
+    class="AutocompleteWrapper"
+    :class="autocompleteIsOpen ? 'open' : ''"
+  >
     <input
       v-model="search"
       type="text"
@@ -9,7 +14,7 @@
     <div class="AutocompleteAdvanced">
       <div class="CloseIconBox">
         <img
-          v-show="autocompleteIsOpen"
+          v-show="search.length > 0"
           class="CloseIcon"
           src="/close.svg"
           @click="clearResults"
@@ -27,7 +32,7 @@
         class="AutocompleteItem"
         @click="updateSelectedData(data)"
       >
-        {{ data.name }}
+        {{ selectedType.label === 'Espèce' ? data.name : data.html_repr }}
       </li>
     </div>
   </div>
@@ -43,18 +48,18 @@ export default {
       {
         label: 'Espèce',
         api: '/api/v1/search_taxa?limit=10&search=',
-        routerPath: '/prospecting',
+        // routerPath: '/prospecting',
       },
       {
-        label: 'Commune',
-        api: '/api/v1/search_areas?limit=10&type_code=COM&search=',
-        routerPath: '/prospecting',
+        label: 'Lieu',
+        api: '/api/v1/search_areas?limit=10&search=',
+        // routerPath: '/prospecting',
       },
     ],
     selectedType: {
-      label: 'Espèce',
-      api: '/api/v1/search_taxa?limit=10&search=',
-      routerPath: '/prospecting',
+      label: 'Lieu',
+      api: '/api/v1/search_areas?limit=10&search=',
+      // routerPath: '/prospecting',
     },
     selectIsOpen: false,
   }),
@@ -109,15 +114,14 @@ export default {
     },
     updateSelectedData(data) {
       if (this.selectedType.label === 'Espèce') {
+        // À REVOIR
         this.$router.push({
           path: this.selectedType.routerPath,
           query: { species: `${data.code}` },
         })
       } else {
-        this.$router.push({
-          path: this.selectedType.routerPath,
-          query: { municipality: `${data.code}` },
-        })
+        this.$emit('selectedMunicipality', data)
+        this.autocompleteIsOpen = false
       }
     },
     clearResults() {
@@ -136,18 +140,20 @@ export default {
 .AutocompleteWrapper {
   position: relative;
   z-index: 5;
-  background: #fff;
+  background: linear-gradient(rgba(38, 38, 38, 0.03), rgba(38, 38, 38, 0.03)),
+    white;
   width: 400px;
   align-self: flex-start;
   border: 1px solid rgba(57, 118, 90, 0.1);
   box-sizing: border-box;
-
-  /* box-shadow: 0 0 8px rgba(0, 0, 0, 0.16); */
   border-radius: 8px;
 }
 
+.AutocompleteWrapper.open {
+  border: 1px solid #eece25;
+}
+
 .AutocompleteWrapper input {
-  background: rgba(38, 38, 38, 0.03);
   width: 400px;
   height: 42px;
   border: none;
@@ -207,7 +213,7 @@ export default {
 }
 
 .AutocompleteResults {
-  padding: 1% 1% 2% 1%;
+  padding: 1%;
   overflow: auto;
 }
 
