@@ -1,3 +1,4 @@
+<!-- Largeur totale : 98.8 vw et non 100vw -->
 <template>
   <main class="SearchSection">
     <div class="HomePicture">
@@ -41,22 +42,22 @@ export default {
   data: () => ({
     cards: [
       // {
-      //   icon: '/home/book.svg',
+      //   icon: '/book.svg',
       //   title: 'Consulter les<br />fiches espèces',
       //   routerPath: '#',
       // },
       {
-        icon: '/home/prospecting.svg',
+        icon: '/prospecting.svg',
         title: 'Voir la carte<br />de prospection',
         routerPath: '/prospecting',
       },
       {
-        icon: '/home/protocol.svg',
+        icon: '/protocol.svg',
         title: 'Découvrir<br />les dispositifs',
         routerPath: '/get-involved',
       },
       {
-        icon: '/home/ODF.svg',
+        icon: '/ODF.svg',
         title: "Qu'est-ce que le projet<br />Oiseaux de France ?",
         routerPath: '/about/what-is-ODF-project',
       },
@@ -198,6 +199,8 @@ a.Vocabulary:hover::after {
   width: 74vw;
   height: 30%;
   border-radius: 24px;
+
+  /* padding: 1.6vw; */
   padding: 1.7vw;
   display: flex;
   justify-content: space-between;
@@ -205,6 +208,8 @@ a.Vocabulary:hover::after {
 
 .Card {
   background: #efefef;
+
+  /* width: 16.5vw; */
   width: 22.4vw;
   height: 100%;
   border-radius: 16px;

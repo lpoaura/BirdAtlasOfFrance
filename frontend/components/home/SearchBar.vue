@@ -20,11 +20,7 @@
           <span class="SelectedTypeText">{{ selectedType.label }}</span>
           <img
             class="SelectedTypeChevron"
-            :src="
-              selectIsOpen
-                ? '/select-chevron-up.svg'
-                : '/select-chevron-down.svg'
-            "
+            :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
           />
         </div>
         <div v-show="selectIsOpen" class="SelectBox">

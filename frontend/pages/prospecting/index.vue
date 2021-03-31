@@ -123,8 +123,10 @@ export default {
       this.clickedFeature = feature
     },
   },
-  head: {
-    title: 'Carte de prospection',
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
   },
 }
 </script>
