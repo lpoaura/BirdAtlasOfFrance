@@ -1,58 +1,36 @@
+<!-- Comment zoomer sur une commune au démarrage en ayant seulement son code ? -->
 <template>
   <v-container fluid>
-    <v-container>
-      <v-row>
-        <v-col cols="3">
-          <h1>Page de prospection</h1>
-          <seasons-select @selectedSeason="updateSelectedSeason" />
-          <area-search-bar @selectedCity="updateSelectedCity" />
-          <h4>Se rendre en...</h4>
-          <v-list dense>
-            <clickable-territory
-              v-for="territory in territoriesData"
-              :key="territory.name"
-              :territory-data="territory"
-              @selectedTerritory="updateSelectedTerritory"
-            />
-          </v-list>
-        </v-col>
-        <v-col cols="9">
-          <client-only>
-            <lazy-prospecting-map
-              :selected-season="selectedSeason"
-              :selected-city-bounds="selectedCityBounds"
-              :selected-territory-bounds="selectedTerritoryBounds"
-              @clickedFeature="updateClickedFeature"
-            />
-          </client-only>
-        </v-col>
-      </v-row>
-    </v-container>
-    <feature-dashboard
-      :clicked-feature="clickedFeature"
-      :drawer="drawer"
-      :selected-season="selectedSeason"
-    />
+    <header>
+      <map-search-bar @selectedMunicipality="updateSelectedMunicipality" />
+      <div class="Selectors">
+        <territories-selector />
+      </div>
+    </header>
+    <client-only>
+      <lazy-prospecting-map
+        :selected-season="selectedSeason"
+        :selected-municipality-bounds="selectedMunicipalityBounds"
+        :selected-territory-bounds="selectedTerritoryBounds"
+        @clickedFeature="updateClickedFeature"
+      />
+    </client-only>
   </v-container>
 </template>
 
 <script>
-import AreaSearchBar from '~/components/AreaSearchBar.vue'
-import ClickableTerritory from '~/components/ClickableTerritory.vue'
-import SeasonsSelect from '~/components/SeasonsSelect.vue'
-import FeatureDashboard from '~/components/FeatureDashboard.vue'
+import MapSearchBar from '~/components/prospecting/MapSearchBar.vue'
+import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
 
 export default {
   components: {
+    'map-search-bar': MapSearchBar,
+    'territories-selector': TerritoriesSelector,
     'lazy-prospecting-map': () => {
       if (process.client) {
         return import('~/components/ProspectingMap.vue')
       }
     },
-    'area-search-bar': AreaSearchBar,
-    'clickable-territory': ClickableTerritory,
-    'seasons-select': SeasonsSelect,
-    'feature-dashboard': FeatureDashboard,
   },
   //   async fetch() {
   //     console.log('[async fetch]')
@@ -61,7 +39,6 @@ export default {
   //     )
   //   },
   data: () => ({
-    drawer: true,
     territoriesData: [
       {
         name: 'Auvergne-Rhône-Alpes',
@@ -104,22 +81,28 @@ export default {
       },
     ],
     selectedSeason: 'breeding',
-    selectedCityBounds: null,
+    selectedMunicipalityBounds: null,
     selectedTerritoryBounds: null,
     clickedFeature: null,
   }),
+  // mounted() {
+  //   console.log(this.$route)
+  // },
   methods: {
     updateSelectedSeason(season) {
       this.selectedSeason = season
     },
-    updateSelectedCity(bounds) {
-      this.selectedCityBounds = bounds
+    updateSelectedMunicipality(data) {
+      this.selectedMunicipalityBounds = data.bounds
+      this.$router.push({
+        path: '/prospecting',
+        query: { place: `${data.code}` },
+      })
     },
     updateSelectedTerritory(bounds) {
       this.selectedTerritoryBounds = bounds
     },
     updateClickedFeature(feature) {
-      this.drawer = true
       this.clickedFeature = feature
     },
   },
@@ -133,6 +116,23 @@ export default {
 
 <style scoped>
 div.container.container--fluid {
-  padding-top: 80px;
+  padding-top: 68px;
+}
+
+header {
+  position: relative;
+  background: #fcfcfc;
+  width: 100%;
+  height: 68px;
+  padding: 12px 2%;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(57, 118, 90, 0.1);
+  display: flex;
+  justify-content: space-between;
+}
+
+.Selectors {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

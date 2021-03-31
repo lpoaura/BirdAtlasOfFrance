@@ -1,3 +1,4 @@
+<!-- Faire une unique navbar -->
 <template>
   <v-app>
     <transition name="navBar">

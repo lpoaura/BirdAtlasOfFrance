@@ -89,6 +89,14 @@ export default ({ app }, inject) => {
       routerPath: '/en/get-involved/wetlands',
     },
     {
+      title: 'Listes complètes et données ponctuelles',
+      routerPath: '/get-involved/complete-lists',
+    },
+    {
+      title: 'Listes complètes et données ponctuelles',
+      routerPath: '/en/get-involved/complete-lists',
+    },
+    {
       title: 'À propos',
       routerPath: '/about',
     },
@@ -111,6 +119,14 @@ export default ({ app }, inject) => {
     {
       title: 'Contact us',
       routerPath: '/en/about/contact',
+    },
+    {
+      title: 'Mentions légales',
+      routerPath: '/about/legal-notices',
+    },
+    {
+      title: 'Legal notices',
+      routerPath: '/en/about/legal-notices',
     },
   ]
   const getPageTitle = (route) => {

@@ -47,7 +47,7 @@ header {
   position: fixed;
   z-index: 10;
   width: 100%;
-  height: 80px;
+  height: 68px;
   padding: 0 5%;
   display: flex;
   align-items: center;
@@ -62,7 +62,7 @@ header {
 
 nav {
   flex: 2;
-  height: 47px;
+  height: 40px;
   align-self: flex-end;
   display: flex;
   justify-content: space-between;
