@@ -1,11 +1,10 @@
-<!-- Bouton jaune de recherche : afficher les recherches récentes -->
 <template>
   <div v-click-outside="closeSearchBar" class="AutocompleteWrapper">
     <input v-model="search" type="text" placeholder="Rechercher" />
     <div class="AutocompleteAdvanced">
       <div class="CloseIconBox">
         <img
-          v-show="autocompleteIsOpen"
+          v-show="search.length > 0"
           class="CloseIcon"
           src="/close.svg"
           @click="clearResults"
@@ -44,7 +43,7 @@
         class="AutocompleteItem"
         @click="updateSelectedData(data)"
       >
-        {{ data.name }}
+        {{ selectedType.label === 'Espèce' ? data.name : data.html_repr }}
       </li>
     </div>
   </div>
@@ -133,7 +132,7 @@ export default {
       } else {
         this.$router.push({
           path: this.selectedType.routerPath,
-          query: { municipality: `${data.code}` },
+          query: { place: `${data.code}` },
         })
       }
     },
@@ -286,7 +285,7 @@ export default {
 }
 
 .AutocompleteResults {
-  padding: 1% 1% 2% 1%;
+  padding: 1%;
   overflow: auto;
 }
 
