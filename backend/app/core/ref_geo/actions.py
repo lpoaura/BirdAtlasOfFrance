@@ -63,7 +63,9 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
         return (
             db.query(
                 LAreas.id_area.label("id"),
-                LAreas.geojson_4326.label("geometry"),
+                geofunc.ST_AsGeoJSON(
+                    geofunc.ST_Envelope(geofunc.ST_Transform(LAreas.geom, 4326))
+                ).label("geometry"),
             )
             .filter(and_(LAreas.area_code == area_code, LAreas.id_type == id_type))
             .first()
