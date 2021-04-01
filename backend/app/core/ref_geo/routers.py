@@ -3,7 +3,7 @@ import logging
 from typing import Any, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
-from geojson_pydantic.features import FeatureCollection
+from geojson_pydantic.features import Feature, FeatureCollection
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_404_NOT_FOUND
 
@@ -28,7 +28,7 @@ def list_bibareastypes(db: Session = Depends(get_db), skip: int = 0, limit: int 
 
 
 @router.get(
-    "/bibareastypes/{id_type}",
+    "/bibareastypes/id/{id_type}",
     response_model=BibAreasTypesSchema,
     responses={HTTP_404_NOT_FOUND: {"model": BibAreasTypesSchema}},
     tags=["ref_geo"],
@@ -41,7 +41,7 @@ def get_bibareastypes(*, db: Session = Depends(get_db), id_type: int) -> Any:
 
 
 @router.get(
-    "/lareas/{type_code}",
+    "/lareas/type/{type_code}",
     response_model=FeatureCollection,
     tags=["ref_geo"],
 )
@@ -69,13 +69,30 @@ def list_lareas(
 
 
 @router.get(
-    "/lareas/{id_area}",
-    response_model=FeatureCollection,
-    responses={HTTP_404_NOT_FOUND: {"model": LAreasFeatureProperties}},
+    "/lareas/id/{id_area}",
+    response_model=Feature,
+    responses={HTTP_404_NOT_FOUND: {"model": Feature}},
     tags=["ref_geo"],
 )
-def get_lareas(*, db: Session = Depends(get_db), id_area: int) -> Any:
-    lareas = l_areas.get(db=db, id_area=id_area)
-    if not lareas:
+def get_area_geom_by_id_area(*, db: Session = Depends(get_db), id_area: int) -> Any:
+    area = l_areas.get_by_id_area(db=db, id_area=id_area)
+    if not area:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Get not found")
-    return lareas
+    feature = Feature(id=area.id, geometry=json.loads(area.geometry))
+    return feature
+
+
+@router.get(
+    "/lareas/{type_code}/{area_code}",
+    response_model=Feature,
+    responses={HTTP_404_NOT_FOUND: {"model": Feature}},
+    tags=["ref_geo"],
+)
+def get_area_geom_by_type_and_code(
+    *, db: Session = Depends(get_db), area_code: str, type_code: str
+) -> Any:
+    area = l_areas.get_by_area_type_and_code(db=db, area_code=area_code, type_code=type_code)
+    if not area:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Get not found")
+    feature = Feature(id=area.id, geometry=json.loads(area.geometry))
+    return feature
