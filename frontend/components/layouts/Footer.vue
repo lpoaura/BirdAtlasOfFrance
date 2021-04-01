@@ -2,13 +2,15 @@
   <footer>
     <img class="ODFLogo" src="/ODF-logo-filled.svg" />
     <div class="SocialNetworksContent">
-      <div
+      <a
         v-for="(item, index) in socialNetworksItems"
         :key="index"
+        :href="item.link"
+        target="_blank"
         class="SocialNetworksItem"
       >
         <img class="SocialNetworksIcon" :src="item.icon" />
-      </div>
+      </a>
     </div>
     <div class="LinksContent">
       <nuxt-link
@@ -36,16 +38,17 @@ export default {
     links: [
       { label: 'À propos', routerPath: '/about' },
       { label: 'Contact', routerPath: '/about/contact' },
-      { label: 'Mentions légales', routerPath: '#' },
+      { label: 'Mentions légales', routerPath: '/about/legal-notices' },
     ],
     socialNetworksItems: [
       {
         icon: '/mail-filled.svg',
-        title: 'Mail',
-        subtitle:
-          '<a href="mailto:oiseauxdefrance@lpo.fr">oiseauxdefrance@lpo.fr</a>',
+        link: 'mailto:oiseauxdefrance@lpo.fr',
       },
-      { icon: '/youtube.svg', title: 'Youtube', subtitle: 'LPO' },
+      {
+        icon: '/youtube.svg',
+        link: 'https://www.youtube.com/channel/UCFTACrbTuk_XdbWFYf0SYxw',
+      },
     ],
   }),
 }

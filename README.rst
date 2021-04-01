@@ -4,9 +4,9 @@
 
 **Oiseaux de France**, a web bird atlas of France 
 
-.. image:: ./iconography/logo/ODF-logo-detailed.png
+.. image:: ./iconography/logo/ODF-logo.png
    :target: https://oiseauxdefrance.org
-   :height: 512px
+   :height: 300px
    :align: center
    :alt: Logo
 
@@ -17,15 +17,15 @@ A LPO Agir pour la Biodiversité France project.
     :alt: Logo LPOFrance
     :align: center
 
-.. contents:: Topics
+.. contents:: **Topics**
 
 .. warning::
-    Actually in development.
+    Currently in development.
 
 Project Setup
 =============
 
-coming soon ...
+Coming soon...
 
 Licence
 =======
