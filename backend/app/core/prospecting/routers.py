@@ -1,5 +1,6 @@
 import json
 import logging
+import time
 from typing import Any, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -46,17 +47,18 @@ def area_list_knowledge_level(
     limit: Optional[int] = None,
     envelope: Optional[str] = None,
 ) -> Any:
-    logger.debug(settings.SQLALCHEMY_DATABASE_URI)
+    start_time = time.time()
+    logger.debug(f"step1: {start_time}")
     if envelope:
-        logger.debug(f"envelop qs: {envelope}")
         envelope = [float(c) for c in envelope.split(",")]
-    logger.debug(f"envelop {envelope} {type(envelope)}")
+    logger.debug(f"step2: {(time.time() - start_time) * 1000}")
     areas = area_knowledge_level.get_feature_list(
         db=db, type_code=type_code, limit=limit, envelope=envelope
     )
     features = []
     if len(areas) == 0:
         HTTPException(status_code=404, detail="Data not found")
+    logger.debug(f"step3: {(time.time() - start_time) * 1000}")
     for a in areas:
         f = AreaKnowledgeLevelFeatureSchema(
             properties=(AreaKnowledgeLevelPropertiesSchema(**a.properties)),
@@ -64,6 +66,7 @@ def area_list_knowledge_level(
             id=a.id,
         )
         features.append(f)
+    logger.debug(f"step4: {(time.time() - start_time) * 1000}")
     return AreaKnowledgeLevelGeoJson(features=features)
 
 
