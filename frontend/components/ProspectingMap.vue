@@ -1,6 +1,7 @@
+<!-- La carte doit s'actualiser sur la France entière (manque API emprises) -->
 <!-- Ne pas considérer les mailles liées aux mers/océans -->
 <template>
-  <div id="map-wrap" style="height: 80vh">
+  <div id="map-wrap">
     <!-- <span> Center : {{ center }} </span><br />
     <span> Bounds : {{ bounds }} </span><br />
     <span> Envelope : {{ envelope }} </span><br />
@@ -9,6 +10,7 @@
       ref="myMap"
       :zoom="zoom"
       :center="center"
+      :options="{ zoomControl: false }"
       style="z-index: 0"
       @ready="initiateEnvelope"
       @update:bounds="updateEnvelope"
@@ -27,13 +29,19 @@
         :options="geojsonOptions"
         :options-style="geojsonStyle"
       />
-      <l-control v-if="isLoading" :position="'topright'">
+      <l-control-zoom position="bottomright"></l-control-zoom>
+      <l-control position="bottomright">
+        <div class="GeolocationControl" @click="geolocate">
+          <img class="Icon" src="/geolocation.svg" />
+        </div>
+      </l-control>
+      <l-control v-if="isLoading" position="topright">
         <div class="MapControl">
           <v-progress-circular :indeterminate="indeterminate" />
           <span>Loading</span>
         </div>
       </l-control>
-      <l-control :position="'bottomright'">
+      <l-control position="topleft">
         <legend-content
           :features-colors="
             selectedSeason === 'breeding'
@@ -67,7 +75,7 @@ export default {
       required: true,
       default: 'breeding',
     },
-    selectedCityBounds: {
+    selectedMunicipalityBounds: {
       type: Array,
       required: false,
       default: null,
@@ -170,7 +178,7 @@ export default {
     },
   },
   watch: {
-    selectedCityBounds(newVal) {
+    selectedMunicipalityBounds(newVal) {
       if (newVal != null) {
         this.zoomToArea(newVal)
       }
@@ -204,15 +212,15 @@ export default {
       const initBounds = this.$refs.myMap.mapObject.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
-      this.updateGeojson(this.envelope)
+      this.updateGeojson()
     },
     updateEnvelope(newBounds) {
       // console.log('[updateEnvelope]')
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
-      this.updateGeojson(this.envelope)
+      this.updateGeojson()
     },
-    updateGeojson(envelope) {
+    updateGeojson() {
       // console.log('[updateGeojson]')
       if (this.axiosSource != null) {
         this.axiosSource.cancel('Resquest has been canceled')
@@ -271,6 +279,18 @@ export default {
       })
       event.target.bringToFront()
     },
+    geolocate() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const center = L.latLng(
+            position.coords.latitude,
+            position.coords.longitude
+          )
+          this.isProgramaticZoom = true
+          this.$refs.myMap.mapObject.setView(center, 12)
+        })
+      }
+    },
     zoomToFeature(event) {
       this.isProgramaticZoom = true
       this.$refs.myMap.mapObject.fitBounds(event.target.getBounds())
@@ -294,8 +314,8 @@ export default {
 }
 </script>
 
-<!-- <style>
-.leaflet-container {
-  background: #fff;
+<style scoped>
+#map-wrap {
+  height: calc(100vh - 136px);
 }
-</style> -->
+</style>

@@ -19,6 +19,6 @@ export default {
 
 <style scoped>
 div.container.container--fluid {
-  padding-top: 80px;
+  padding-top: 68px;
 }
 </style>

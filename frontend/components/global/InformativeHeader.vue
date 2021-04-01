@@ -95,7 +95,8 @@ header {
 }
 
 .LogoWrapper {
-  width: 130px;
+  min-width: 130px;
+  max-width: 130px;
   height: 130px;
   margin-right: 3%;
   border: 4px solid rgba(0, 0, 0, 0.05);
@@ -123,6 +124,7 @@ header {
   font-size: 40px;
   line-height: 60px;
   color: #262626;
+  white-space: nowrap;
 }
 
 .HeaderSubtitle {
