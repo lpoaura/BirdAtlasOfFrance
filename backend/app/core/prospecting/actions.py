@@ -1,4 +1,5 @@
 import logging
+import time
 from typing import List, Optional
 
 from geoalchemy2 import functions
@@ -77,8 +78,13 @@ class AreaKnowledgeLevelActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
         Returns:
             List: [description]
         """
+        start_time = time.time()
+        logger.debug(f"stepa: {(time.time()-start_time)*1000}")
+        logger.debug(f"stepb1: {(time.time()-start_time)*1000}")
         id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
+        logger.debug(f"stepb2: {(time.time()-start_time)*1000}")
         q = self.query_data4features(db=db)
+        logger.debug(f"stepc: {(time.time()-start_time)*1000}")
         q = q.filter(AreaKnowledgeLevel.id_type == id_type)
         if envelope:
             q = q.filter(
@@ -91,7 +97,8 @@ class AreaKnowledgeLevelActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
             )
         if limit:
             q = q.limit(limit)
-        logger.debug(f"Q {dir(q)}")
+
+        logger.debug(f"stepd: {(time.time()-start_time)*1000}")
         return q.all()
 
 

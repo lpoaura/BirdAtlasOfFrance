@@ -1,9 +1,11 @@
 import logging
+import time
 from typing import List, Optional
 
 from geoalchemy2 import functions as geofunc
+
 # from sqlalchemy_utils.geofunc import json_sql
-from sqlalchemy import func
+from sqlalchemy import and_, func
 from sqlalchemy.orm import Query, Session
 
 from app.core.actions.crud import BaseReadOnlyActions
@@ -18,8 +20,12 @@ class BibAreasTypesActions(BaseReadOnlyActions[BibAreasTypes]):
     """Post actions with basic CRUD operations"""
 
     def get_id_from_code(self, db: Session, code: str) -> Optional[int]:
+        start_time = time.time()
+        logger.debug(f"stepx: {(time.time()-start_time)*1000}")
         q = db.query(self.model.id_type).filter(self.model.type_code == code)
-        return q.first().id_type
+        r = q.first().id_type
+        logger.debug(f"stepz: {(time.time()-start_time)*1000}")
+        return r
 
 
 bib_areas_types = BibAreasTypesActions(BibAreasTypes)
@@ -37,9 +43,31 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
                 "area_name",
                 LAreas.area_name,
             ).label("properties"),
-            geofunc.ST_AsGeoJSON(geofunc.ST_Transform(LAreas.geom, 4326)).label("geometry"),
+            LAreas.geojson_4326.label("geometry"),
         )
         return q
+
+    def get_by_id_area(self, db: Session, id_area: int) -> Query:
+        return (
+            db.query(
+                LAreas.id_area.label("id"),
+                LAreas.geojson_4326.label("geometry"),
+            )
+            .filter(LAreas.id_area == id_area)
+            .first()
+        )
+
+    def get_by_area_type_and_code(self, db: Session, area_code: str, type_code: str) -> Query:
+        id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
+
+        return (
+            db.query(
+                LAreas.id_area.label("id"),
+                LAreas.geojson_4326.label("geometry"),
+            )
+            .filter(and_(LAreas.area_code == area_code, LAreas.id_type == id_type))
+            .first()
+        )
 
     def get_feature_list(
         self,
