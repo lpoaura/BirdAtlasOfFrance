@@ -25,6 +25,7 @@
         :weight="circle.weight"
       /> -->
       <l-geo-json
+        v-if="knowledgeLevelLayerIsOn"
         :geojson="geojson"
         :options="geojsonOptions"
         :options-style="geojsonStyle"
@@ -35,7 +36,10 @@
           <img class="Icon" src="/geolocation.svg" />
         </div>
       </l-control>
-      <l-control v-if="isLoading" position="topright">
+      <l-control
+        v-if="isLoading && knowledgeLevelLayerIsOn"
+        position="topright"
+      >
         <div class="MapControl">
           <v-progress-circular :indeterminate="indeterminate" />
           <span>Loading</span>
@@ -70,15 +74,20 @@ export default {
     LegendContent,
   },
   props: {
-    selectedSeason: {
-      type: String,
-      required: true,
-      default: 'breeding',
-    },
     selectedMunicipalityBounds: {
       type: Array,
       required: false,
       default: null,
+    },
+    knowledgeLevelLayerIsOn: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
+    selectedSeason: {
+      type: String,
+      required: true,
+      default: 'all_period',
     },
     selectedTerritoryBounds: {
       type: Object,
@@ -87,14 +96,14 @@ export default {
     },
   },
   data: () => ({
-    circle: {
-      center: [50.503906, 4.476982],
-      radius: 4000,
-      color: '#FF0000',
-      fillColor: '#FF0000',
-      fillOpacity: 1,
-      weight: 0,
-    },
+    // circle: {
+    //   center: [50.503906, 4.476982],
+    //   radius: 4000,
+    //   color: '#FF0000',
+    //   fillColor: '#FF0000',
+    //   fillOpacity: 1,
+    //   weight: 0,
+    // },
     zoom: 12,
     previousZoom: 100,
     isProgramaticZoom: false,
@@ -107,7 +116,14 @@ export default {
     axiosSource: null,
     axiosError: null,
     isLoading: false,
-    featuresClasses: [0.1, 0.2, 0.5, 1],
+    featuresClasses: [0.25, 0.5, 0.75, 1],
+    allPeriodFeaturesColors: [
+      'rgba(51, 105, 80, 0.2)',
+      'rgba(51, 105, 80, 0.4)',
+      'rgba(51, 105, 80, 0.6)',
+      'rgba(51, 105, 80, 0.8)',
+      '#336950',
+    ],
     breedingFeaturesColors: [
       '#FFEDA0',
       '#FED976',
@@ -122,22 +138,10 @@ export default {
       '#023E8A',
       '#03045E',
     ],
-    allPeriodFeaturesColors: [
-      '#d8f3dc',
-      '#95d5b2',
-      '#52b788',
-      '#2d6a4f',
-      '#1b4332',
-    ],
     clickedFeature: null,
     indeterminate: true,
   }),
   computed: {
-    // mapOptions() {
-    //   return {
-    //     zoomControl: false,
-    //   }
-    // },
     geojsonOptions() {
       return {
         onEachFeature: this.onEachFeature,
@@ -189,10 +193,33 @@ export default {
   },
   mounted() {
     // console.log('mounted')
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.center = [position.coords.latitude, position.coords.longitude]
-      })
+    if (this.$route.query.area && this.$route.query.type) {
+      console.log('Commune détectée')
+      this.$axios
+        .$get(
+          `/api/v1/lareas/${this.$route.query.type}/${this.$route.query.area}`
+        )
+        .then((data) => {
+          // console.log(data.geometry.coordinates[0])
+          const areaGeometry = data.geometry.coordinates[0]
+          areaGeometry.splice(-1)
+          // console.log(L.polygon(areaGeometry).getBounds())
+          this.isProgramaticZoom = true
+          this.$refs.myMap.mapObject.fitBounds(
+            L.polygon(areaGeometry).getBounds()
+          )
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    } else {
+      // À REVOIR
+      console.log('Pas de commune détectée')
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.center = [position.coords.latitude, position.coords.longitude]
+        })
+      }
     }
   },
   methods: {

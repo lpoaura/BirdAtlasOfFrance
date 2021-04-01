@@ -184,10 +184,12 @@ export default {
 .CloseIconBox {
   width: 16px;
   height: 16px;
+  display: flex;
 }
 
 .CloseIcon {
   width: 100%;
+  margin: auto;
   cursor: pointer;
 }
 
