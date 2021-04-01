@@ -4,13 +4,15 @@
     <header>
       <map-search-bar @selectedMunicipality="updateSelectedMunicipality" />
       <div class="Selectors">
+        <layers-selector @knowledgeLevelLayer="updateKnowledgeLevelLayer" />
         <territories-selector />
       </div>
     </header>
     <client-only>
       <lazy-prospecting-map
-        :selected-season="selectedSeason"
         :selected-municipality-bounds="selectedMunicipalityBounds"
+        :selected-season="selectedSeason"
+        :knowledge-level-layer-is-on="knowledgeLevelLayerIsOn"
         :selected-territory-bounds="selectedTerritoryBounds"
         @clickedFeature="updateClickedFeature"
       />
@@ -21,11 +23,13 @@
 <script>
 import MapSearchBar from '~/components/prospecting/MapSearchBar.vue'
 import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
+import LayersSelector from '~/components/prospecting/LayersSelector.vue'
 
 export default {
   components: {
     'map-search-bar': MapSearchBar,
     'territories-selector': TerritoriesSelector,
+    'layers-selector': LayersSelector,
     'lazy-prospecting-map': () => {
       if (process.client) {
         return import('~/components/ProspectingMap.vue')
@@ -39,71 +43,72 @@ export default {
   //     )
   //   },
   data: () => ({
-    territoriesData: [
-      {
-        name: 'Auvergne-Rhône-Alpes',
-        bounds: {
-          _southWest: {
-            lat: 43.94537239244211,
-            lng: 1.9227157458160173,
-          },
-          _northEast: {
-            lat: 46.924007100770275,
-            lng: 7.218125902066018,
-          },
-        },
-      },
-      {
-        name: "Provence-Alpes-Côte-d'Azur",
-        bounds: {
-          _southWest: {
-            lat: 42.265114458337585,
-            lng: 3.3014714192032777,
-          },
-          _northEast: {
-            lat: 45.32897866218559,
-            lng: 8.596881575453278,
-          },
-        },
-      },
-      {
-        name: 'Guadeloupe',
-        bounds: {
-          _southWest: {
-            lat: 15.64816381409883,
-            lng: -62.120774194373965,
-          },
-          _northEast: {
-            lat: 16.66776866124075,
-            lng: -60.796921655311465,
-          },
-        },
-      },
-    ],
-    selectedSeason: 'breeding',
     selectedMunicipalityBounds: null,
-    selectedTerritoryBounds: null,
     clickedFeature: null,
+    selectedSeason: 'all_period',
+    knowledgeLevelLayerIsOn: true,
+    // territoriesData: [
+    //   {
+    //     name: 'Auvergne-Rhône-Alpes',
+    //     bounds: {
+    //       _southWest: {
+    //         lat: 43.94537239244211,
+    //         lng: 1.9227157458160173,
+    //       },
+    //       _northEast: {
+    //         lat: 46.924007100770275,
+    //         lng: 7.218125902066018,
+    //       },
+    //     },
+    //   },
+    //   {
+    //     name: "Provence-Alpes-Côte-d'Azur",
+    //     bounds: {
+    //       _southWest: {
+    //         lat: 42.265114458337585,
+    //         lng: 3.3014714192032777,
+    //       },
+    //       _northEast: {
+    //         lat: 45.32897866218559,
+    //         lng: 8.596881575453278,
+    //       },
+    //     },
+    //   },
+    //   {
+    //     name: 'Guadeloupe',
+    //     bounds: {
+    //       _southWest: {
+    //         lat: 15.64816381409883,
+    //         lng: -62.120774194373965,
+    //       },
+    //       _northEast: {
+    //         lat: 16.66776866124075,
+    //         lng: -60.796921655311465,
+    //       },
+    //     },
+    //   },
+    // ],
+    selectedTerritoryBounds: null,
   }),
-  // mounted() {
-  //   console.log(this.$route)
-  // },
   methods: {
-    updateSelectedSeason(season) {
-      this.selectedSeason = season
-    },
     updateSelectedMunicipality(data) {
       this.selectedMunicipalityBounds = data.bounds
       this.$router.push({
         path: '/prospecting',
-        query: { place: `${data.code}` },
+        query: { area: `${data.code}`, type: `${data.type_code}` },
       })
-    },
-    updateSelectedTerritory(bounds) {
-      this.selectedTerritoryBounds = bounds
     },
     updateClickedFeature(feature) {
       this.clickedFeature = feature
+    },
+    updateSelectedSeason(season) {
+      this.selectedSeason = season
+    },
+    updateKnowledgeLevelLayer(knowledgeLevelLayerIsOn) {
+      this.knowledgeLevelLayerIsOn = knowledgeLevelLayerIsOn
+    },
+    updateSelectedTerritory(bounds) {
+      this.selectedTerritoryBounds = bounds
     },
   },
   head() {

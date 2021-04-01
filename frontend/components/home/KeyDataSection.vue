@@ -46,7 +46,7 @@
           <div class="KeyDataBlockIcon"><svg class="pieChartSvg"></svg></div>
           <div class="KeyDataBlockContent">
             <span class="KeyDataBlockData">
-              {{ $thousandDelimiter(keyData.prospecting_hours.all_period) }}
+              {{ $thousandDelimiter(totalProspectingHours) }}
             </span>
             <span class="KeyDataBlockText" style="text-align: center">
               heures de prospection<br />sur la période 2019 - 2023
@@ -67,7 +67,7 @@
                 {{
                   Math.round(
                     (keyData.prospecting_hours.breeding /
-                      keyData.prospecting_hours.all_period) *
+                      totalProspectingHours) *
                       100
                   )
                 }}% |
@@ -89,7 +89,7 @@
                 {{
                   Math.round(
                     (keyData.prospecting_hours.wintering /
-                      keyData.prospecting_hours.all_period) *
+                      totalProspectingHours) *
                       100
                   )
                 }}% |
@@ -101,7 +101,7 @@
           <div class="KeyDataBlockDetails" style="height: 30%">
             <div
               class="KeyDataBlockDetailsDot"
-              :style="{ background: pieChartExtraColor }"
+              :style="{ background: pieChartOtherPeriodColor }"
             ></div>
             <div class="KeyDataBlockDetailsContent">
               <span class="KeyDataBlockText" style="font-weight: 500">
@@ -110,11 +110,13 @@
               <span class="KeyDataBlockText">
                 {{
                   Math.round(
-                    (extraProspectingHours /
-                      keyData.prospecting_hours.all_period) *
+                    (keyData.prospecting_hours.other_period /
+                      totalProspectingHours) *
                       100
                   )
-                }}% | {{ $thousandDelimiter(extraProspectingHours) }} heures
+                }}% |
+                {{ $thousandDelimiter(keyData.prospecting_hours.other_period) }}
+                heures
               </span>
             </div>
           </div>
@@ -131,7 +133,7 @@ export default {
   data: () => ({
     keyData: {
       prospecting_hours: {
-        all_period: 0,
+        other_period: 0,
         breeding: 0,
         wintering: 0,
       },
@@ -143,13 +145,13 @@ export default {
     },
     pieChartBreedingColor: '#2A9D8F',
     pieChartWinteringColor: '#2673AB',
-    pieChartExtraColor: '#264653',
+    pieChartOtherPeriodColor: '#264653',
   }),
   computed: {
-    extraProspectingHours() {
+    totalProspectingHours() {
       return (
-        this.keyData.prospecting_hours.all_period -
-        this.keyData.prospecting_hours.breeding -
+        this.keyData.prospecting_hours.other_period +
+        this.keyData.prospecting_hours.breeding +
         this.keyData.prospecting_hours.wintering
       )
     },
@@ -172,7 +174,7 @@ export default {
         const color = d3.scaleOrdinal([
           this.pieChartBreedingColor,
           this.pieChartWinteringColor,
-          this.pieChartExtraColor,
+          this.pieChartOtherPeriodColor,
         ])
         // Define pie chart shape
         const arcPath = d3
@@ -190,7 +192,7 @@ export default {
             label: "Période d'hivernage",
           },
           {
-            hours: this.extraProspectingHours,
+            hours: this.keyData.prospecting_hours.other_period,
             label: 'Autres saisons',
           },
         ]
