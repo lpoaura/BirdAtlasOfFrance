@@ -1,11 +1,11 @@
 <!-- Attendre l'API avec les emprises -->
 <template>
-  <div v-click-outside="closeSelectBox" class="SelectTypeWrapper">
-    <div class="SelectedTypeContent" @click="openOrCloseSelectBox">
-      <img class="SelectedTypeIcon" src="/location.svg" />
-      <span class="SelectedTypeText">{{ selectedTerritory.name }}</span>
+  <div v-click-outside="closeSelectBox" class="SelectTerritoryWrapper">
+    <div class="SelectedTerritoryContent" @click="openOrCloseSelectBox">
+      <img class="SelectedTerritoryIcon" src="/location.svg" />
+      <span class="SelectedTerritoryText">{{ selectedTerritory.name }}</span>
       <img
-        class="SelectedTypeChevron"
+        class="SelectedTerritoryChevron"
         :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
       />
     </div>
@@ -81,9 +81,10 @@
 <script>
 export default {
   data: () => ({
+    selectIsOpen: false,
     displayingTypeList: [
-      { label: 'grid', icon: 'grid.svg' },
-      { label: 'list', icon: 'list.svg' },
+      { label: 'grid', icon: '/grid.svg' },
+      { label: 'list', icon: '/list.svg' },
     ],
     selectedDisplayingType: { label: 'grid', icon: 'grid.svg' },
     territoriesList: [
@@ -144,7 +145,6 @@ export default {
       name: 'France métropolitaine',
       icon: '/prospecting/France-metropolitaine.svg',
     },
-    selectIsOpen: false,
     search: '',
   }),
   computed: {
@@ -181,27 +181,26 @@ export default {
 </script>
 
 <style scoped>
-.SelectTypeWrapper {
+.SelectTerritoryWrapper {
   position: relative;
-  margin-left: 20px;
+  margin-left: 26px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.SelectedTypeContent {
-  height: 44px;
+.SelectedTerritoryContent {
   cursor: pointer;
   display: flex;
   align-items: center;
 }
 
-.SelectedTypeIcon {
+.SelectedTerritoryIcon {
   width: 16px;
   margin-right: 12px;
 }
 
-.SelectedTypeText {
+.SelectedTerritoryText {
   margin-right: 12px;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
@@ -211,17 +210,17 @@ export default {
   color: #262626;
 }
 
-.SelectedTypeChevron {
+.SelectedTerritoryChevron {
   width: 8px;
 }
 
 .SelectBox {
   position: absolute;
   z-index: 5;
-  top: 44px;
+  top: 30px;
   background: #fcfcfc;
   width: 334px;
-  max-height: min(530px, calc(100vh - 136px));
+  max-height: min(534px, calc(100vh - 136px));
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
   border-radius: 8px;
   padding: 16px 0 16px 16px;
@@ -231,7 +230,7 @@ export default {
 }
 
 .SelectBoxHeader {
-  margin: 0 16px 74px 0;
+  margin: 0 16px 16px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -271,12 +270,10 @@ export default {
 }
 
 .AutocompleteWrapper {
-  position: absolute;
-  top: 64px;
-  left: 16px;
+  position: relative;
   background: rgba(38, 38, 38, 0.03);
   width: 304px;
-  align-self: flex-start;
+  margin-bottom: 16px;
   border: 1px solid rgba(57, 118, 90, 0.1);
   box-sizing: border-box;
   border-radius: 8px;
@@ -313,10 +310,12 @@ export default {
 .CloseIconBox {
   width: 16px;
   height: 16px;
+  display: flex;
 }
 
 .CloseIcon {
   width: 100%;
+  margin: auto;
   cursor: pointer;
 }
 

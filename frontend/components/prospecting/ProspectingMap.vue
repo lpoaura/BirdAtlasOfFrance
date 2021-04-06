@@ -1,4 +1,5 @@
-<!-- La carte doit s'actualiser sur la France entière (manque API emprises) -->
+<!-- La carte doit s'actualiser sur la métropole entière (manque API emprises) -->
+<!-- Initier this.center et this.zoom sur la métropole -->
 <!-- Ne pas considérer les mailles liées aux mers/océans -->
 <template>
   <div id="map-wrap">
@@ -25,32 +26,34 @@
         :weight="circle.weight"
       /> -->
       <l-geo-json
+        v-if="knowledgeLevelLayerIsOn"
         :geojson="geojson"
         :options="geojsonOptions"
         :options-style="geojsonStyle"
       />
+      <l-control position="topleft">
+        <knowledge-level-control
+          :selected-season="selectedSeason"
+          :all-period-features-colors="allPeriodFeaturesColors"
+          :breeding-features-colors="breedingFeaturesColors"
+          :wintering-features-colors="winteringFeaturesColors"
+          @selectedSeason="updateSelectedSeason"
+        />
+      </l-control>
       <l-control-zoom position="bottomright"></l-control-zoom>
       <l-control position="bottomright">
         <div class="GeolocationControl" @click="geolocate">
           <img class="Icon" src="/geolocation.svg" />
         </div>
       </l-control>
-      <l-control v-if="isLoading" position="topright">
+      <l-control
+        v-if="isLoading && knowledgeLevelLayerIsOn"
+        position="topright"
+      >
         <div class="MapControl">
           <v-progress-circular :indeterminate="indeterminate" />
           <span>Loading</span>
         </div>
-      </l-control>
-      <l-control position="topleft">
-        <legend-content
-          :features-colors="
-            selectedSeason === 'breeding'
-              ? breedingFeaturesColors
-              : selectedSeason === 'wintering'
-              ? winteringFeaturesColors
-              : allPeriodFeaturesColors
-          "
-        />
       </l-control>
     </l-map>
   </div>
@@ -60,25 +63,25 @@
 import L from 'leaflet'
 import { LMap, LGeoJson, LControl } from 'vue2-leaflet'
 // import 'leaflet/dist/leaflet.css'
-import LegendContent from '~/components/LegendContent.vue'
+import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 
 export default {
   components: {
     LMap,
     LGeoJson,
     LControl,
-    LegendContent,
+    'knowledge-level-control': KnowledgeLevelControl,
   },
   props: {
-    selectedSeason: {
-      type: String,
-      required: true,
-      default: 'breeding',
-    },
     selectedMunicipalityBounds: {
       type: Array,
       required: false,
       default: null,
+    },
+    knowledgeLevelLayerIsOn: {
+      type: Boolean,
+      required: true,
+      default: true,
     },
     selectedTerritoryBounds: {
       type: Object,
@@ -87,27 +90,37 @@ export default {
     },
   },
   data: () => ({
-    circle: {
-      center: [50.503906, 4.476982],
-      radius: 4000,
-      color: '#FF0000',
-      fillColor: '#FF0000',
-      fillOpacity: 1,
-      weight: 0,
-    },
+    // circle: {
+    //   center: [50.503906, 4.476982],
+    //   radius: 4000,
+    //   color: '#FF0000',
+    //   fillColor: '#FF0000',
+    //   fillOpacity: 1,
+    //   weight: 0,
+    // },
     zoom: 12,
     previousZoom: 100,
     isProgramaticZoom: false,
     center: [48.85341, 2.3488],
     bounds: null,
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    url:
+      'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     attribution: 'OSM',
     envelope: null,
     geojson: null,
     axiosSource: null,
     axiosError: null,
     isLoading: false,
-    featuresClasses: [0.1, 0.2, 0.5, 1],
+    selectedSeason: { label: 'Toutes saisons', value: 'all_period' },
+    featuresClasses: [0.25, 0.5, 0.75, 1],
+    allPeriodFeaturesColors: [
+      'rgba(51, 105, 80, 0.2)',
+      'rgba(51, 105, 80, 0.4)',
+      'rgba(51, 105, 80, 0.6)',
+      'rgba(51, 105, 80, 0.8)',
+      '#336950',
+    ],
     breedingFeaturesColors: [
       '#FFEDA0',
       '#FED976',
@@ -122,22 +135,10 @@ export default {
       '#023E8A',
       '#03045E',
     ],
-    allPeriodFeaturesColors: [
-      '#d8f3dc',
-      '#95d5b2',
-      '#52b788',
-      '#2d6a4f',
-      '#1b4332',
-    ],
     clickedFeature: null,
     indeterminate: true,
   }),
   computed: {
-    // mapOptions() {
-    //   return {
-    //     zoomControl: false,
-    //   }
-    // },
     geojsonOptions() {
       return {
         onEachFeature: this.onEachFeature,
@@ -189,7 +190,25 @@ export default {
   },
   mounted() {
     // console.log('mounted')
-    if (navigator.geolocation) {
+    if (this.$route.query.area && this.$route.query.type) {
+      this.$axios
+        .$get(
+          `/api/v1/lareas/${this.$route.query.type}/${this.$route.query.area}`
+        )
+        .then((data) => {
+          const area = L.geoJSON(data)
+          this.isProgramaticZoom = true
+          this.$refs.myMap.mapObject.fitBounds(area.getBounds())
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+    if (this.$route.query.species) {
+      // À REVOIR
+      console.log('Espèce détectée : ' + this.$route.query.species)
+    } else {
+      // À REVOIR
       navigator.geolocation.getCurrentPosition((position) => {
         this.center = [position.coords.latitude, position.coords.longitude]
       })
@@ -257,9 +276,9 @@ export default {
     },
     setFeatureColor(percent) {
       const featuresColors =
-        this.selectedSeason === 'breeding'
+        this.selectedSeason.value === 'breeding'
           ? this.breedingFeaturesColors
-          : this.selectedSeason === 'wintering'
+          : this.selectedSeason.value === 'wintering'
           ? this.winteringFeaturesColors
           : this.allPeriodFeaturesColors
       return percent >= this.featuresClasses[3]
@@ -299,7 +318,7 @@ export default {
       this.isProgramaticZoom = true
       this.$refs.myMap.mapObject.fitBounds(bounds)
     },
-    // À supprimer lorsque les emprises de région/DOM-TOM seront dispos
+    // À SUPPRIMER lorsque les emprises de région/DOM-TOM seront dispos
     zoomToTerritory(bounds) {
       const firstCorner = L.latLng(bounds._northEast.lat, bounds._northEast.lng)
       const secondCorner = L.latLng(
@@ -309,6 +328,9 @@ export default {
       const latLngBounds = L.latLngBounds(firstCorner, secondCorner)
       this.isProgramaticZoom = true
       this.$refs.myMap.mapObject.fitBounds(latLngBounds)
+    },
+    updateSelectedSeason(season) {
+      this.selectedSeason = season
     },
   },
 }

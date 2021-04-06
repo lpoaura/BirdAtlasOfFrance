@@ -33,14 +33,6 @@ export default {
   justify-content: center;
 }
 
-.ChartLegend i {
-  width: 14px;
-  height: 14px;
-  border-radius: 2px;
-  float: left;
-  margin-right: 8px;
-}
-
 .ChartLegendLabel {
   margin: 0 8px;
   font-family: 'Poppins', sans-serif;
@@ -50,5 +42,13 @@ export default {
   line-height: 15px;
   color: #000;
   white-space: nowrap;
+}
+
+.ChartLegendLabel i {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  float: left;
+  margin-right: 8px;
 }
 </style>
