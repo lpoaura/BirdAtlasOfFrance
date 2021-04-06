@@ -175,11 +175,3 @@ div.container.container--fluid {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
 }
-
-.MapControl i {
-  width: 18px;
-  height: 18px;
-  float: left;
-  margin-right: 10px;
-  opacity: 0.6;
-}

@@ -132,7 +132,7 @@ export default {
       } else {
         this.$router.push({
           path: this.selectedType.routerPath,
-          query: { place: `${data.code}` },
+          query: { area: `${data.code}`, type: `${data.type_code}` },
         })
       }
     },
@@ -150,8 +150,8 @@ export default {
 
 <style scoped>
 .AutocompleteWrapper {
-  background: #fff;
   position: relative;
+  background: #fff;
   width: 100%;
   border: 1px solid rgba(57, 118, 90, 0.1);
   box-sizing: border-box;
@@ -190,10 +190,12 @@ export default {
 .CloseIconBox {
   width: 20px;
   height: 20px;
+  display: flex;
 }
 
 .CloseIcon {
   width: 100%;
+  margin: auto;
   cursor: pointer;
 }
 

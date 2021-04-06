@@ -1,5 +1,5 @@
 <!-- 1/ Réadapter le css -->
-<!-- 2/ Intégrer l'API et le côté dynamique -->
+<!-- 2/ Intégrer l'API des espèces -->
 <template>
   <div
     v-click-outside="closeSearchBar"
@@ -142,8 +142,7 @@ export default {
   z-index: 5;
   background: linear-gradient(rgba(38, 38, 38, 0.03), rgba(38, 38, 38, 0.03)),
     white;
-  width: 400px;
-  align-self: flex-start;
+  width: 100%;
   border: 1px solid rgba(57, 118, 90, 0.1);
   box-sizing: border-box;
   border-radius: 8px;
@@ -154,7 +153,7 @@ export default {
 }
 
 .AutocompleteWrapper input {
-  width: 400px;
+  width: 100%;
   height: 42px;
   border: none;
   outline: none;
@@ -184,10 +183,12 @@ export default {
 .CloseIconBox {
   width: 16px;
   height: 16px;
+  display: flex;
 }
 
 .CloseIcon {
   width: 100%;
+  margin: auto;
   cursor: pointer;
 }
 
