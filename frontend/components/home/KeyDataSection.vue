@@ -10,7 +10,7 @@
               {{ $thousandDelimiter(keyData.count_taxa.all_period) }}
             </span>
             <span class="KeyDataBlockText" style="text-align: center">
-              espèces recensées<br />sur la période 2019 - 2023
+              espèces recensées<br />sur la période 2019 - 2024
             </span>
           </div>
         </div>
@@ -49,7 +49,7 @@
               {{ $thousandDelimiter(totalProspectingHours) }}
             </span>
             <span class="KeyDataBlockText" style="text-align: center">
-              heures de prospection<br />sur la période 2019 - 2023
+              heures de prospection<br />sur la période 2019 - 2024
             </span>
           </div>
         </div>

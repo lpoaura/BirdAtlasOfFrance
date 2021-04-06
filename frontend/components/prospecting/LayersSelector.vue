@@ -1,11 +1,13 @@
+<!-- À remodifier suite aux échanges avec Thibault -->
 <!-- Attendre l'API des points EPOC ODF -->
+<!-- Refaire les switchers... -->
 <template>
   <div v-click-outside="closeSelectBox" class="SelectLayerWrapper">
-    <div class="SelectLayerContent" @click="openOrCloseSelectBox">
-      <img class="SelectLayerIcon" src="/layers.svg" />
-      <span class="SelectLayerText">Couches</span>
+    <div class="SelectedLayerContent" @click="openOrCloseSelectBox">
+      <img class="SelectedLayerIcon" src="/layers.svg" />
+      <span class="SelectedLayerText">Couches</span>
       <img
-        class="SelectLayerChevron"
+        class="SelectedLayerChevron"
         :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
       />
     </div>
@@ -45,19 +47,31 @@
           <div class="LayersLiRadio">
             <div v-if="epocLayerIsOn" class="LayersLiRadioSelected"></div>
           </div>
-          <span class="LayersLiText">Points EPOC ODF</span>
+          <span class="LayersLiText">Points EPOC</span>
         </div>
-        <!-- <div v-show="epocLayerIsOn" class="EpocList">
-          <div class="EpocLi">
+        <div v-show="epocLayerIsOn" class="EpocList">
+          <!-- <div class="EpocLi">
             <span class="LayersLiText">EPOC</span>
-          </div>
+          </div> -->
           <div class="EpocLi">
+            <v-switch
+              v-model="epocODFPointsIsOn"
+              inset
+              dense
+              color="#EECE25"
+            ></v-switch>
             <span class="LayersLiText">EPOC ODF</span>
           </div>
           <div class="EpocLi">
+            <v-switch
+              v-model="epocODFReservePointsIsOn"
+              inset
+              dense
+              color="#EECE25"
+            ></v-switch>
             <span class="LayersLiText">EPOC ODF de réserve</span>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -72,7 +86,7 @@ export default {
     epocLayerIsOn: false,
     epocPointsIsOn: false,
     epocODFPointsIsOn: false,
-    epocODFReserveIsOn: false,
+    epocODFReservePointsIsOn: false,
   }),
   computed: {
     filteredTerritories() {
@@ -84,21 +98,9 @@ export default {
   methods: {
     openOrCloseSelectBox() {
       this.selectIsOpen = !this.selectIsOpen
-      this.autocompleteIsOpen = false
     },
     closeSelectBox() {
       this.selectIsOpen = false
-      this.autocompleteIsOpen = false
-    },
-    updateSelectedDisplayingType(type) {
-      this.selectedDisplayingType = type
-    },
-    clearResults() {
-      this.autocompleteIsOpen = false
-      this.search = ''
-    },
-    closeSearchBar() {
-      this.autocompleteIsOpen = false
     },
     // setNoLayerToTrue() {
     //   this.noLayerIsOn = true
@@ -111,6 +113,8 @@ export default {
     },
     setEpocLayerToTrue() {
       this.epocLayerIsOn = !this.epocLayerIsOn
+      this.epocODFPointsIsOn = true
+      this.epocODFReservePointsIsOn = true
     },
   },
 }
@@ -125,19 +129,18 @@ export default {
   align-items: flex-end;
 }
 
-.SelectLayerContent {
-  height: 44px;
+.SelectedLayerContent {
   cursor: pointer;
   display: flex;
   align-items: center;
 }
 
-.SelectLayerIcon {
+.SelectedLayerIcon {
   width: 16px;
   margin-right: 12px;
 }
 
-.SelectLayerText {
+.SelectedLayerText {
   margin-right: 12px;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
@@ -147,14 +150,14 @@ export default {
   color: #262626;
 }
 
-.SelectLayerChevron {
+.SelectedLayerChevron {
   width: 8px;
 }
 
 .SelectBox {
   position: absolute;
   z-index: 5;
-  top: 44px;
+  top: 30px;
   background: #fcfcfc;
   width: 334px;
   max-height: calc(100vh - 136px);
@@ -167,7 +170,7 @@ export default {
 }
 
 .SelectBoxHeader {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;

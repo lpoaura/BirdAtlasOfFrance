@@ -1,8 +1,9 @@
-<!-- Comment zoomer sur une commune au démarrage en ayant seulement son code ? -->
 <template>
   <v-container fluid>
     <header>
-      <map-search-bar @selectedMunicipality="updateSelectedMunicipality" />
+      <div class="MapSearchBar">
+        <map-search-bar @selectedMunicipality="updateSelectedMunicipality" />
+      </div>
       <div class="Selectors">
         <layers-selector @knowledgeLevelLayer="updateKnowledgeLevelLayer" />
         <territories-selector />
@@ -11,7 +12,6 @@
     <client-only>
       <lazy-prospecting-map
         :selected-municipality-bounds="selectedMunicipalityBounds"
-        :selected-season="selectedSeason"
         :knowledge-level-layer-is-on="knowledgeLevelLayerIsOn"
         :selected-territory-bounds="selectedTerritoryBounds"
         @clickedFeature="updateClickedFeature"
@@ -32,7 +32,7 @@ export default {
     'layers-selector': LayersSelector,
     'lazy-prospecting-map': () => {
       if (process.client) {
-        return import('~/components/ProspectingMap.vue')
+        return import('~/components/prospecting/ProspectingMap.vue')
       }
     },
   },
@@ -45,7 +45,6 @@ export default {
   data: () => ({
     selectedMunicipalityBounds: null,
     clickedFeature: null,
-    selectedSeason: 'all_period',
     knowledgeLevelLayerIsOn: true,
     // territoriesData: [
     //   {
@@ -125,15 +124,20 @@ div.container.container--fluid {
 }
 
 header {
-  position: relative;
   background: #fcfcfc;
   width: 100%;
   height: 68px;
-  padding: 12px 2%;
+  padding: 0 2% 0 10px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid rgba(57, 118, 90, 0.1);
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.MapSearchBar {
+  width: 420px;
+  height: 44px;
 }
 
 .Selectors {
