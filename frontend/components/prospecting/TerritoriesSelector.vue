@@ -190,7 +190,6 @@ export default {
 }
 
 .SelectedTerritoryContent {
-  height: 44px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -218,10 +217,10 @@ export default {
 .SelectBox {
   position: absolute;
   z-index: 5;
-  top: 44px;
+  top: 30px;
   background: #fcfcfc;
   width: 334px;
-  max-height: min(530px, calc(100vh - 136px));
+  max-height: min(534px, calc(100vh - 136px));
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
   border-radius: 8px;
   padding: 16px 0 16px 16px;
