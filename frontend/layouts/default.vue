@@ -25,7 +25,7 @@
       <nuxt />
     </v-main>
     <app-footer
-      v-if="
+      v-show="
         [
           '/',
           '/en',

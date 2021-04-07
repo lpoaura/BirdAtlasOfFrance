@@ -22,7 +22,7 @@
         >
           <div class="SeasonsLiRadio">
             <div
-              v-if="season.label === selectedSeason.label"
+              v-show="season.label === selectedSeason.label"
               class="SeasonsLiRadioSelected"
             ></div>
           </div>

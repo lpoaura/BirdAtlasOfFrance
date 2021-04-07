@@ -1,3 +1,4 @@
+<!-- Attendre l'API des indices de complétude par saison -->
 <template>
   <section class="KnowledgeLevelControl">
     <div class="KnowledgeLevelHeader">
@@ -27,10 +28,10 @@
               :style="{
                 background:
                   selectedSeason.value === 'breeding'
-                    ? breedingFeaturesColors[index]
+                    ? featuresColors.breeding[index]
                     : selectedSeason.value === 'wintering'
-                    ? winteringFeaturesColors[index]
-                    : allPeriodFeaturesColors[index],
+                    ? featuresColors.wintering[index]
+                    : featuresColors.allPeriod[index],
               }"
             ></i
             >{{ item.label }}
@@ -57,16 +58,8 @@ export default {
       type: Object,
       required: true,
     },
-    allPeriodFeaturesColors: {
-      type: Array,
-      required: true,
-    },
-    breedingFeaturesColors: {
-      type: Array,
-      required: true,
-    },
-    winteringFeaturesColors: {
-      type: Array,
+    featuresColors: {
+      type: Object,
       required: true,
     },
   },
@@ -106,7 +99,7 @@ export default {
   },
   mounted() {
     this.$axios.$get('/api/v1/knowledge_level').then((data) => {
-      console.log(data)
+      // console.log(data)
       const dataArray = Object.values(data)
       dataArray.forEach((item, index) => {
         this.knowledgeLevelData[index].data = item
@@ -123,10 +116,10 @@ export default {
       // Define pie chart colors
       const color = d3.scaleOrdinal(
         this.selectedSeason.value === 'breeding'
-          ? this.breedingFeaturesColors
+          ? this.featuresColors.breeding
           : this.selectedSeason.value === 'wintering'
-          ? this.winteringFeaturesColors
-          : this.allPeriodFeaturesColors
+          ? this.featuresColors.wintering
+          : this.featuresColors.allPeriod
       )
       // Define pie chart shape
       this.arcPath = d3
@@ -134,9 +127,12 @@ export default {
         .outerRadius(pieChartHeight / 2)
         .innerRadius(pieChartHeight / 3.2)
       // Define data
-      const pieChartData = d3.pie().value(function (d) {
-        return d.data
-      })(this.knowledgeLevelData)
+      const pieChartData = d3
+        .pie()
+        .value(function (d) {
+          return d.data
+        })
+        .sort(null)(this.knowledgeLevelData)
       // Create pie chart
       pieChartSvg
         .append('g')
@@ -160,15 +156,18 @@ export default {
       // Define pie chart colors
       const color = d3.scaleOrdinal(
         season.value === 'breeding'
-          ? this.breedingFeaturesColors
+          ? this.featuresColors.breeding
           : season.value === 'wintering'
-          ? this.winteringFeaturesColors
-          : this.allPeriodFeaturesColors
+          ? this.featuresColors.wintering
+          : this.featuresColors.allPeriod
       )
       // Define data
-      const pieChartData = d3.pie().value(function (d) {
-        return d.data
-      })(this.knowledgeLevelData)
+      const pieChartData = d3
+        .pie()
+        .value(function (d) {
+          return d.data
+        })
+        .sort(null)(this.knowledgeLevelData)
       // Create pie chart
       const pieChartSvg = d3
         .select('.pieChartSvg')
@@ -222,7 +221,6 @@ export default {
 .HelpIcon {
   height: 20px;
   margin-left: 10px;
-  cursor: pointer;
 }
 
 .KnowledgeLevelSubtitle {
