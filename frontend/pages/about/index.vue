@@ -1,4 +1,4 @@
-<!-- Transformer la photo au format jpg -->
+<!-- Réduire le poids de la photo -->
 <template>
   <v-container fluid>
     <section class="IntroSection">
@@ -41,7 +41,7 @@
             "
           />
         </div>
-        <span v-if="question.isOpen" class="ResponsesText">{{
+        <span v-show="question.isOpen" class="ResponsesText">{{
           question.response
         }}</span>
       </div>
@@ -67,13 +67,13 @@ export default {
           'Une question ? Contactez la coordination nationale ou votre référent local.',
         routerPath: '/about/contact',
       },
-      {
-        icon: '/protocol.svg',
-        title: 'Comment participer ?',
-        subtitle:
-          'Consultez les méthodes d’inventaire et les dispositifs de suivi.',
-        routerPath: '/get-involved',
-      },
+      // {
+      //   icon: '/protocol.svg',
+      //   title: 'Comment participer ?',
+      //   subtitle:
+      //     'Consultez les méthodes d’inventaire et les dispositifs de suivi.',
+      //   routerPath: '/get-involved',
+      // },
       {
         icon: '/glossary.svg',
         title: 'Lexique',
@@ -128,12 +128,12 @@ export default {
   position: relative;
   background: linear-gradient(
       180deg,
-      rgba(84, 90, 17, 0.85) 0%,
-      rgba(84, 90, 17, 0) 100%
+      rgba(85, 75, 57, 0.6) 0%,
+      rgba(85, 75, 57, 0) 100%
     ),
-    url('/about-picture.png') 0 55% / 100%, rgba(84, 90, 17, 1);
+    url('/about-picture.jpg') center / 100%, rgba(85, 75, 57, 1);
   width: 100%;
-  height: 76%;
+  height: 410px;
   display: flex;
 }
 
@@ -168,16 +168,16 @@ export default {
   bottom: 0;
   background: #fcfcfc;
   width: 73.9vw;
-  height: 48%;
+  height: 252px;
   border-radius: 24px;
-  padding: 1.5vw;
+  padding: 1.3vw;
   display: flex;
   justify-content: space-between;
 }
 
 .Card {
   background: #efefef;
-  width: 16.6vw;
+  width: 22.9vw;
   height: 100%;
   border-radius: 16px;
   padding: 0 2%;

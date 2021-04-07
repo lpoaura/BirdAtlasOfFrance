@@ -46,28 +46,39 @@
         v-if="selectedDisplayingType.label === 'grid'"
         class="TerritoriesGrid"
       >
+        <!-- MANQUE @click="updateSelectedTerritory(territory)" -->
         <div
           v-for="(territory, index) in filteredTerritories"
           :key="index"
           class="TerritoriesCard"
           :class="territory.name === selectedTerritory.name ? 'selected' : ''"
-          @click="updateSelectedTerritory(territory)"
+          @mouseover="showOrHideUnavailableMessage(territory)"
+          @mouseout="showOrHideUnavailableMessage(territory)"
         >
           <img class="TerritoriesCardsIcon" :src="territory.icon" />
           <span class="TerritoriesCardsTitle">{{ territory.name }}</span>
+          <div
+            v-show="
+              territory.name !== 'France métropolitaine' &&
+              territory.unavailableMessageIsActive
+            "
+            class="UnavailableData"
+          >
+            Données non disponibles actuellement
+          </div>
         </div>
       </div>
       <div v-else class="TerritoriesList">
+        <!-- MANQUE @click="updateSelectedTerritory(territory)" -->
         <div
           v-for="(territory, index) in filteredTerritories"
           :key="index"
           class="TerritoriesLi"
           :class="territory.name === selectedTerritory.name ? 'selected' : ''"
-          @click="updateSelectedTerritory(territory)"
         >
           <div class="TerritoriesLiRadio">
             <div
-              v-if="territory.name === selectedTerritory.name"
+              v-show="territory.name === selectedTerritory.name"
               class="TerritoriesLiRadioSelected"
             ></div>
           </div>
@@ -95,50 +106,62 @@ export default {
       {
         name: 'Guadeloupe',
         icon: '/prospecting/Guadeloupe.svg',
+        unavailableMessageIsActive: false,
       },
       {
         name: 'Guyane française',
         icon: '/prospecting/Guyane.svg',
+        unavailableMessageIsActive: false,
       },
       {
         name: 'La Martinique',
         icon: '/prospecting/Martinique.svg',
+        unavailableMessageIsActive: false,
       },
       {
         name: 'Mayotte',
         icon: '/prospecting/Mayotte.svg',
+        unavailableMessageIsActive: false,
       },
       {
         name: 'Nouvelle Calédonie',
         icon: '/prospecting/Nouvelle-Caledonie.svg',
+        unavailableMessageIsActive: false,
       },
       {
         name: 'Polynésie Française',
         icon: '/prospecting/Polynesie.svg',
+        unavailableMessageIsActive: false,
       },
       {
         name: 'La Réunion',
         icon: '/prospecting/Reunion.svg',
+        unavailableMessageIsActive: false,
       },
       {
         name: 'Saint Barthélémy',
         icon: '/prospecting/Saint-Barthelemy.svg',
+        unavailableMessageIsActive: false,
       },
       {
         name: 'Saint Martin',
         icon: '/prospecting/Saint-Martin.svg',
+        unavailableMessageIsActive: false,
       },
       {
         name: 'Saint Pierre et Miquelon',
         icon: '/prospecting/Saint-Pierre-et-Miquelon.svg',
+        unavailableMessageIsActive: false,
       },
       {
         name: 'Terres Australes et Antarctiques Françaises',
         icon: '/prospecting/TAAF.svg',
+        unavailableMessageIsActive: false,
       },
       {
         name: 'Wallis et Futuna',
         icon: '/prospecting/Wallis-et-Futuna.svg',
+        unavailableMessageIsActive: false,
       },
     ],
     selectedTerritory: {
@@ -175,6 +198,9 @@ export default {
     },
     updateSelectedTerritory(territory) {
       this.selectedTerritory = territory
+    },
+    showOrHideUnavailableMessage(territory) {
+      territory.unavailableMessageIsActive = !territory.unavailableMessageIsActive
     },
   },
 }
@@ -340,6 +366,10 @@ export default {
 }
 
 .TerritoriesCard {
+  position: relative;
+
+  /* Enlever le background */
+  background: rgba(38, 38, 38, 0.1);
   width: 135px;
   height: 120px;
   box-sizing: border-box;
@@ -349,9 +379,30 @@ export default {
   margin-bottom: 16px;
   padding: 0 12px;
   text-decoration: none;
-  cursor: pointer;
+
+  /* cursor: pointer; */
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.UnavailableData {
+  background: linear-gradient(rgba(38, 38, 38, 0.1), rgba(38, 38, 38, 0.1)),
+    white;
+  position: absolute;
+  z-index: 6;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  color: #262626;
+  text-align: center;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -359,6 +410,7 @@ export default {
 .TerritoriesCard.selected {
   background: #fff;
   border: 3px solid #eece25;
+  cursor: pointer;
 }
 
 .TerritoriesCardsIcon {
@@ -387,13 +439,15 @@ export default {
   height: 39.2px;
   padding-left: 10px;
   border-radius: 4px;
-  cursor: pointer;
+
+  /* cursor: pointer; */
   display: flex;
   align-items: center;
 }
 
 .TerritoriesLi.selected {
   background: rgba(238, 206, 37, 0.2);
+  cursor: pointer;
 }
 
 .TerritoriesLiRadio {

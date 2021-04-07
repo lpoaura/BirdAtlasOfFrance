@@ -1,4 +1,3 @@
-<!-- 1/ Réadapter le css -->
 <!-- 2/ Intégrer l'API des espèces -->
 <template>
   <div
@@ -9,7 +8,7 @@
     <input
       v-model="search"
       type="text"
-      placeholder="Rechercher une commune, une maille, une espèce..."
+      :placeholder="selectedType.placeholder"
     />
     <div class="AutocompleteAdvanced">
       <div class="CloseIconBox">
@@ -19,6 +18,27 @@
           src="/close.svg"
           @click="clearResults"
         />
+      </div>
+      <div class="SearchSplit"></div>
+      <div class="SelectTypeWrapper">
+        <div class="SelectedTypeContent" @click="openOrCloseSelectBox">
+          <span class="SelectedTypeText">{{ selectedType.label }}</span>
+          <img
+            class="SelectedTypeChevron"
+            :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
+          />
+        </div>
+        <div v-show="selectIsOpen" class="SelectBox">
+          <li
+            v-for="(type, index) in typeList"
+            :key="index"
+            class="SelectItem"
+            :class="[type.label === selectedType.label ? 'selected' : '']"
+            @click="updateSelectedType(type)"
+          >
+            {{ type.label }}
+          </li>
+        </div>
       </div>
       <div class="SearchIconBox">
         <img class="SearchIcon" src="/search.svg" />
@@ -46,42 +66,58 @@ export default {
     autocompleteIsOpen: false,
     typeList: [
       {
-        label: 'Espèce',
-        api: '/api/v1/search_taxa?limit=10&search=',
-        // routerPath: '/prospecting',
-      },
-      {
         label: 'Lieu',
         api: '/api/v1/search_areas?limit=10&search=',
-        // routerPath: '/prospecting',
+        placeholder: 'Rechercher une commune, une maille...',
+      },
+      {
+        label: 'Espèce',
+        api: '/api/v1/search_taxa?limit=10&search=',
+        placeholder: 'Rechercher une espèce...',
       },
     ],
     selectedType: {
       label: 'Lieu',
       api: '/api/v1/search_areas?limit=10&search=',
-      // routerPath: '/prospecting',
+      placeholder: 'Rechercher une commune, une maille...',
     },
     selectIsOpen: false,
+    speciesIsSelected: false,
+    searchIsProgramatic: false,
   }),
   watch: {
-    search(newVal) {
-      if (newVal === '' || newVal.length < 3) {
-        this.autocompleteIsOpen = false
-      } else {
-        this.$axios
-          .$get(this.selectedType.api + `${newVal}`)
-          .then((data) => {
-            if (data.length > 0) {
-              this.autocompleteIsOpen = true
-              this.dataList = data
-            } else {
-              this.autocompleteIsOpen = false
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+    search(newVal, oldVal) {
+      if (!this.speciesIsSelected) {
+        if (newVal === '' || newVal.length < 3) {
+          this.autocompleteIsOpen = false
+        } else {
+          this.$axios
+            .$get(this.selectedType.api + `${newVal}`)
+            .then((data) => {
+              if (data.length > 0) {
+                this.autocompleteIsOpen = true
+                this.dataList = data
+              } else {
+                this.autocompleteIsOpen = false
+              }
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        }
       }
+      if (
+        this.speciesIsSelected &&
+        !this.searchIsProgramatic &&
+        newVal.lenght !== oldVal.length
+      ) {
+        this.speciesIsSelected = false
+        this.$router.push({
+          path: '/prospecting',
+          query: { species: undefined },
+        })
+      }
+      this.searchIsProgramatic = false
     },
   },
   methods: {
@@ -115,18 +151,33 @@ export default {
     updateSelectedData(data) {
       if (this.selectedType.label === 'Espèce') {
         // À REVOIR
+        this.speciesIsSelected = true
+        this.$emit('selectedSpecies', data)
         this.$router.push({
           path: this.selectedType.routerPath,
           query: { species: `${data.code}` },
         })
+        const formattedName = data.name.split('(')[0]
+        this.searchIsProgramatic = true
+        this.search = formattedName
+        this.autocompleteIsOpen = false
       } else {
         this.$emit('selectedMunicipality', data)
+        this.$router.push({
+          path: '/prospecting',
+          query: { area: `${data.code}`, type: `${data.type_code}` },
+        })
         this.autocompleteIsOpen = false
       }
     },
     clearResults() {
       this.autocompleteIsOpen = false
       this.search = ''
+      this.speciesIsSelected = false
+      this.$router.push({
+        path: '/prospecting',
+        query: { species: undefined },
+      })
     },
     closeSearchBar() {
       this.autocompleteIsOpen = false
@@ -192,11 +243,77 @@ export default {
   cursor: pointer;
 }
 
+.SearchSplit {
+  width: 0;
+  height: 26px;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+  margin-left: 10px;
+}
+
+.SelectTypeWrapper {
+  width: 94px;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.SelectedTypeContent {
+  width: 100%;
+  height: 42px;
+  margin-bottom: 6px;
+  padding: 0 1.1vw;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.SelectedTypeText {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #262626;
+}
+
+.SelectedTypeChevron {
+  width: 7px;
+}
+
+.SelectBox {
+  background: #fcfcfc;
+  width: 100%;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  padding: 0.5vw;
+  overflow: auto;
+}
+
+.SelectItem {
+  list-style: none;
+  width: 100%;
+  padding: 5% 0.6vw;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #262626;
+}
+
+.SelectItem.selected {
+  background: rgba(238, 206, 37, 0.4);
+  font-weight: 500;
+  color: #7b6804;
+}
+
 .SearchIconBox {
   background: #eece25;
   width: 30px;
   height: 30px;
-  margin-left: 10px;
   border-radius: 4px;
   display: flex;
 }

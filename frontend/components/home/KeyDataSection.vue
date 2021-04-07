@@ -57,11 +57,11 @@
           <div class="KeyDataBlockDetails" style="height: 30%">
             <div
               class="KeyDataBlockDetailsDot"
-              :style="{ background: pieChartBreedingColor }"
+              :style="{ background: pieChartColors.breeding }"
             ></div>
             <div class="KeyDataBlockDetailsContent">
               <span class="KeyDataBlockText" style="font-weight: 500">
-                Période de reproduction
+                {{ pieChartLabels.breeding }}
               </span>
               <span class="KeyDataBlockText">
                 {{
@@ -79,11 +79,11 @@
           <div class="KeyDataBlockDetails" style="height: 30%">
             <div
               class="KeyDataBlockDetailsDot"
-              :style="{ background: pieChartWinteringColor }"
+              :style="{ background: pieChartColors.wintering }"
             ></div>
             <div class="KeyDataBlockDetailsContent">
               <span class="KeyDataBlockText" style="font-weight: 500">
-                Période d'hivernage
+                {{ pieChartLabels.wintering }}
               </span>
               <span class="KeyDataBlockText">
                 {{
@@ -101,11 +101,11 @@
           <div class="KeyDataBlockDetails" style="height: 30%">
             <div
               class="KeyDataBlockDetailsDot"
-              :style="{ background: pieChartOtherPeriodColor }"
+              :style="{ background: pieChartColors.other_period }"
             ></div>
             <div class="KeyDataBlockDetailsContent">
               <span class="KeyDataBlockText" style="font-weight: 500">
-                Périodes intermédiaires
+                {{ pieChartLabels.other_period }}
               </span>
               <span class="KeyDataBlockText">
                 {{
@@ -143,9 +143,16 @@ export default {
         wintering: 0,
       },
     },
-    pieChartBreedingColor: '#2A9D8F',
-    pieChartWinteringColor: '#2673AB',
-    pieChartOtherPeriodColor: '#264653',
+    pieChartLabels: {
+      breeding: 'Période de reproduction',
+      wintering: "Période d'hivernage",
+      other_period: 'Périodes intermédiaires',
+    },
+    pieChartColors: {
+      breeding: '#2A9D8F',
+      wintering: '#2673AB',
+      other_period: '#264653',
+    },
   }),
   computed: {
     totalProspectingHours() {
@@ -171,11 +178,7 @@ export default {
           .attr('width', pieChartHeight)
           .attr('height', pieChartHeight)
         // Define pie chart colors
-        const color = d3.scaleOrdinal([
-          this.pieChartBreedingColor,
-          this.pieChartWinteringColor,
-          this.pieChartOtherPeriodColor,
-        ])
+        const color = d3.scaleOrdinal(Object.values(this.pieChartColors))
         // Define pie chart shape
         const arcPath = d3
           .arc()
@@ -185,20 +188,23 @@ export default {
         const formattedData = [
           {
             hours: this.keyData.prospecting_hours.breeding,
-            label: 'Période de reproduction',
+            label: this.pieChartLabels.breeding,
           },
           {
             hours: this.keyData.prospecting_hours.wintering,
-            label: "Période d'hivernage",
+            label: this.pieChartLabels.wintering,
           },
           {
             hours: this.keyData.prospecting_hours.other_period,
-            label: 'Autres saisons',
+            label: this.pieChartLabels.other_period,
           },
         ]
-        const pieChartData = d3.pie().value(function (d) {
-          return d.hours
-        })(formattedData)
+        const pieChartData = d3
+          .pie()
+          .value(function (d) {
+            return d.hours
+          })
+          .sort(null)(formattedData)
         // Create pie chart
         pieChartSvg
           .append('g')

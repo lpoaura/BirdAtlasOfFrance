@@ -10,7 +10,7 @@
             <h3>Tableau de bord de la maille consultée</h3>
           </div>
           <br />
-          <div v-if="clickedFeature != null">
+          <div v-if="clickedFeature !== null">
             <h4 class="text-center">
               Complétude de prospection<br />
               {{

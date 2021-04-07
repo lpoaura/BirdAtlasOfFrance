@@ -7,7 +7,7 @@
       class="ProtocolsCard"
       :class="[
         card.title === 'Listes complètes et données ponctuelles'
-          ? 'opportunistic'
+          ? 'completeLists'
           : '',
       ]"
     >
@@ -107,9 +107,9 @@ export default {
         speciesGroup: ["Oiseaux d'eau"],
       },
       {
-        icon: '/get-involved/EPOC-ODF-logo.svg',
+        icon: '/get-involved/complete-lists-logo.svg',
         title: 'Listes complètes et données ponctuelles',
-        subtitle: 'Données opportunistes',
+        subtitle: null,
         routerPath: '/get-involved/complete-lists',
         season: null,
         speciesGroup: ['Oiseaux communs', 'Rapaces', "Oiseaux d'eau"],
@@ -152,11 +152,11 @@ export default {
   transition: 0.3s;
 }
 
-.ProtocolsCard.opportunistic {
+.ProtocolsCard.completeLists {
   background: rgba(238, 206, 37, 0.2);
 }
 
-.ProtocolsCard.opportunistic:hover {
+.ProtocolsCard.completeLists:hover {
   background: rgba(238, 206, 37, 0.8);
 }
 
