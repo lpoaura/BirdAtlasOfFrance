@@ -173,11 +173,13 @@ export default {
     clearResults() {
       this.autocompleteIsOpen = false
       this.search = ''
-      this.speciesIsSelected = false
-      this.$router.push({
-        path: '/prospecting',
-        query: { species: undefined },
-      })
+      if (this.speciesIsSelected) {
+        this.speciesIsSelected = false
+        this.$router.push({
+          path: '/prospecting',
+          query: { species: undefined },
+        })
+      }
     },
     closeSearchBar() {
       this.autocompleteIsOpen = false

@@ -221,7 +221,6 @@ export default {
 .HelpIcon {
   height: 20px;
   margin-left: 10px;
-  cursor: pointer;
 }
 
 .KnowledgeLevelSubtitle {
