@@ -34,9 +34,7 @@
       <l-control position="topleft">
         <knowledge-level-control
           :selected-season="selectedSeason"
-          :all-period-features-colors="allPeriodFeaturesColors"
-          :breeding-features-colors="breedingFeaturesColors"
-          :wintering-features-colors="winteringFeaturesColors"
+          :features-colors="featuresColors"
           @selectedSeason="updateSelectedSeason"
         />
       </l-control>
@@ -47,7 +45,7 @@
         </div>
       </l-control>
       <l-control
-        v-if="isLoading && knowledgeLevelLayerIsOn"
+        v-show="isLoading && knowledgeLevelLayerIsOn"
         position="topright"
       >
         <div class="MapControl">
@@ -114,27 +112,17 @@ export default {
     isLoading: false,
     selectedSeason: { label: 'Toutes saisons', value: 'all_period' },
     featuresClasses: [0.25, 0.5, 0.75, 1],
-    allPeriodFeaturesColors: [
-      'rgba(51, 105, 80, 0.2)',
-      'rgba(51, 105, 80, 0.4)',
-      'rgba(51, 105, 80, 0.6)',
-      'rgba(51, 105, 80, 0.8)',
-      '#336950',
-    ],
-    breedingFeaturesColors: [
-      '#FFEDA0',
-      '#FED976',
-      '#FEB24C',
-      '#FD8D3C',
-      '#FC4E2A',
-    ],
-    winteringFeaturesColors: [
-      '#90E0EF',
-      '#00B4D8',
-      '#0077B6',
-      '#023E8A',
-      '#03045E',
-    ],
+    featuresColors: {
+      allPeriod: [
+        'rgba(51, 105, 80, 0.2)',
+        'rgba(51, 105, 80, 0.4)',
+        'rgba(51, 105, 80, 0.6)',
+        'rgba(51, 105, 80, 0.8)',
+        '#336950',
+      ],
+      breeding: ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A'],
+      wintering: ['#90E0EF', '#00B4D8', '#0077B6', '#023E8A', '#03045E'],
+    },
     clickedFeature: null,
     indeterminate: true,
   }),
@@ -277,10 +265,10 @@ export default {
     setFeatureColor(percent) {
       const featuresColors =
         this.selectedSeason.value === 'breeding'
-          ? this.breedingFeaturesColors
+          ? this.featuresColors.breeding
           : this.selectedSeason.value === 'wintering'
-          ? this.winteringFeaturesColors
-          : this.allPeriodFeaturesColors
+          ? this.featuresColors.wintering
+          : this.featuresColors.allPeriod
       return percent >= this.featuresClasses[3]
         ? featuresColors[4]
         : percent > this.featuresClasses[2]

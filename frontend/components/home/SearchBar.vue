@@ -242,7 +242,7 @@ export default {
   width: 100%;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-  padding: 0.8vw 0.8vw;
+  padding: 0.8vw;
   overflow: auto;
 }
 

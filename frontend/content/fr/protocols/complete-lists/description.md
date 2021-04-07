@@ -1,7 +1,7 @@
 ---
 title: Listes complètes et données ponctuelles
-subtitle: Données opportunistes
-logo: '/get-involved/EPOC-ODF-logo.svg'
+subtitle: ''
+logo: '/get-involved/complete-lists-logo.svg'
 ---
 
 ## Principe

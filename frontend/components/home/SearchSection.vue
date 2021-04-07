@@ -1,6 +1,7 @@
 <template>
   <main class="SearchSection">
     <div class="HomePicture">
+      <div class="HomePictureGradient"></div>
       <div class="SearchContent">
         <header class="SearchText">
           <h1 class="SearchTitle">
@@ -16,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="PictureAuthor">Photo : Échasse blanche, John Doe</div>
+    <div class="PictureAuthor">Photo : Phatéon à bec jaune, Florent Bignon</div>
     <div class="CardsContent">
       <nuxt-link
         v-for="(card, index) in cards"
@@ -76,25 +77,26 @@ export default {
 .HomePicture {
   position: relative;
   background: linear-gradient(
-      180deg,
-      rgba(47, 92, 105, 0.76) 0%,
-      rgba(47, 92, 105, 0.55) 10.25%,
-      rgba(47, 92, 105, 0.2) 20.95%,
-      rgba(47, 92, 105, 0.2) 31.47%,
-      rgba(8, 43, 8, 0.2) 100%
+      101.98deg,
+      #3957a4 0%,
+      rgba(57, 87, 164, 0) 69.37%
     ),
-    linear-gradient(
-      89.84deg,
-      rgba(47, 92, 105, 0.81) 0.14%,
-      rgba(47, 92, 105, 0.72) 21.44%,
-      rgba(47, 92, 105, 0.63) 37.28%,
-      rgba(47, 92, 105, 0) 74.41%,
-      rgba(47, 92, 105, 0.27) 99.86%
-    ),
-    url('/home/home-picture.jpg') 0 0 / 100%, rgba(47, 92, 105, 1);
+    url('/home/home-picture.jpg') center / 100%, #3957a4;
   width: 100%;
   height: 85%;
   display: flex;
+}
+
+.HomePictureGradient {
+  background: linear-gradient(
+    185.18deg,
+    #3957a4 -29.97%,
+    rgba(57, 87, 164, 0) 64.13%
+  );
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 60%;
 }
 
 .SearchContent {
@@ -170,7 +172,7 @@ a.Vocabulary:hover::after {
 }
 
 .SearchBar {
-  width: 80%;
+  width: 70%;
   height: clamp(46px, 24.5%, 72px);
 }
 
@@ -198,6 +200,8 @@ a.Vocabulary:hover::after {
   width: 73.9vw;
   height: 30%;
   border-radius: 24px;
+
+  /* Pour 4 cards --> padding: 1.5vw; */
   padding: 1.3vw;
   display: flex;
   justify-content: space-between;
@@ -205,6 +209,8 @@ a.Vocabulary:hover::after {
 
 .Card {
   background: #efefef;
+
+  /* Pour 4 cards --> width: 16.6vw; */
   width: 22.9vw;
   height: 100%;
   border-radius: 16px;
