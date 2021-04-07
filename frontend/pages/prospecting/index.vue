@@ -92,10 +92,6 @@ export default {
   methods: {
     updateSelectedMunicipality(data) {
       this.selectedMunicipalityBounds = data.bounds
-      this.$router.push({
-        path: '/prospecting',
-        query: { area: `${data.code}`, type: `${data.type_code}` },
-      })
     },
     updateClickedFeature(feature) {
       this.clickedFeature = feature

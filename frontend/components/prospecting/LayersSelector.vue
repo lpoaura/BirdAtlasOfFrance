@@ -1,5 +1,4 @@
-<!-- À remodifier suite aux échanges avec Thibault -->
-<!-- Attendre l'API des points EPOC ODF -->
+<!-- Attendre l'API des points EPOC ODF + ajouter maillage transparent -->
 <!-- Refaire les switchers... -->
 <template>
   <div v-click-outside="closeSelectBox" class="SelectLayerWrapper">
@@ -16,16 +15,16 @@
         <span class="SelectBoxTitle">Couches</span>
       </div>
       <div class="LayersList">
-        <!-- <div
+        <div
           class="LayersLi"
           :class="noLayerIsOn ? 'selected' : ''"
           @click="setNoLayerToTrue"
         >
           <div class="LayersLiRadio">
-            <div v-if="noLayerIsOn" class="LayersLiRadioSelected"></div>
+            <div v-show="noLayerIsOn" class="LayersLiRadioSelected"></div>
           </div>
           <span class="LayersLiText">Aucune</span>
-        </div> -->
+        </div>
         <div
           class="LayersLi"
           :class="knowledgeLevelLayerIsOn ? 'selected' : ''"
@@ -33,7 +32,7 @@
         >
           <div class="LayersLiRadio">
             <div
-              v-if="knowledgeLevelLayerIsOn"
+              v-show="knowledgeLevelLayerIsOn"
               class="LayersLiRadioSelected"
             ></div>
           </div>
@@ -45,7 +44,7 @@
           @click="setEpocLayerToTrue"
         >
           <div class="LayersLiRadio">
-            <div v-if="epocLayerIsOn" class="LayersLiRadioSelected"></div>
+            <div v-show="epocLayerIsOn" class="LayersLiRadioSelected"></div>
           </div>
           <span class="LayersLiText">Points EPOC</span>
         </div>
@@ -81,12 +80,12 @@
 export default {
   data: () => ({
     selectIsOpen: false,
-    // noLayerIsOn: false,
+    noLayerIsOn: false,
     knowledgeLevelLayerIsOn: true,
     epocLayerIsOn: false,
-    epocPointsIsOn: false,
-    epocODFPointsIsOn: false,
-    epocODFReservePointsIsOn: false,
+    epocPointsIsOn: true,
+    epocODFPointsIsOn: true,
+    epocODFReservePointsIsOn: true,
   }),
   computed: {
     filteredTerritories() {
@@ -102,19 +101,23 @@ export default {
     closeSelectBox() {
       this.selectIsOpen = false
     },
-    // setNoLayerToTrue() {
-    //   this.noLayerIsOn = true
-    //   this.knowledgeLevelLayerIsOn = false
-    //   this.epocLayerIsOn = false
-    // },
-    setKnowledgeLevelLayerToTrue() {
-      this.knowledgeLevelLayerIsOn = !this.knowledgeLevelLayerIsOn
+    setNoLayerToTrue() {
+      this.noLayerIsOn = true
+      this.knowledgeLevelLayerIsOn = false
       this.$emit('knowledgeLevelLayer', this.knowledgeLevelLayerIsOn)
+      this.epocLayerIsOn = false
+    },
+    setKnowledgeLevelLayerToTrue() {
+      this.knowledgeLevelLayerIsOn = true
+      this.$emit('knowledgeLevelLayer', this.knowledgeLevelLayerIsOn)
+      this.noLayerIsOn = false
+      this.epocLayerIsOn = false
     },
     setEpocLayerToTrue() {
-      this.epocLayerIsOn = !this.epocLayerIsOn
-      this.epocODFPointsIsOn = true
-      this.epocODFReservePointsIsOn = true
+      this.epocLayerIsOn = true
+      this.noLayerIsOn = false
+      this.knowledgeLevelLayerIsOn = false
+      this.$emit('knowledgeLevelLayer', this.knowledgeLevelLayerIsOn)
     },
   },
 }
