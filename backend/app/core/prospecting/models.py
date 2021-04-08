@@ -1,6 +1,7 @@
 from geoalchemy2 import Geometry
-from sqlalchemy import DECIMAL, Column, Float, Integer, String, Table
+from sqlalchemy import DECIMAL, Column, Float, ForeignKey, Integer, String, Table
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import relationship
 
 from app.utils.db import Base, metadata
 
@@ -63,3 +64,19 @@ class AreaDashboard(Base):
     prospecting_hours_other_period = Column(DECIMAL)
     prospecting_hours_wintering = Column(DECIMAL)
     prospecting_hours_breeding = Column(DECIMAL)
+
+
+class Epoc(Base):
+    __tablename__ = "t_epoc"
+    __table_args__ = {
+        "schema": "atlas",
+    }
+    id_epoc = Column(Integer, primary_key=True)
+    id_ff = Column(String)
+    status = Column(String)
+    rang_rsv = Column(Integer)
+    id_area = Column(Integer, ForeignKey("ref_geo.l_areas.id_area"))
+    area = relationship("LAreas", lazy="select")
+    area_code = Column(String)
+    geom = Column(Geometry(geometry_type="POINT", srid=4326))
+    geojson = Column(JSONB)

@@ -141,3 +141,39 @@ class AreaDashboardTimeDistribSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class EpocFeaturePropertiesSchema(BaseModel):
+    """[summary]
+
+    Args:
+        BaseModel ([type]): [description]
+    """
+
+    id_epoc: int
+    id_ff: str
+    status: str
+    rang_rsv: Optional[str]
+
+
+class EpocFeatureSchema(Feature):
+    """[summary]
+
+    Args:
+        Feature ([type]): [description]
+    """
+
+    properties: EpocFeaturePropertiesSchema
+
+
+class EpocSchema(FeatureCollection):
+    """[summary]
+
+    Args:
+        FeatureCollection ([type]): [description]
+    """
+
+    features: List[EpocFeatureSchema]
+
+    class Config:
+        orm_mode = True
