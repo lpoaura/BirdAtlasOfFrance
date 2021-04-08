@@ -65,10 +65,8 @@
               </span>
               <span class="KeyDataBlockText">
                 {{
-                  Math.round(
-                    (keyData.prospecting_hours.breeding /
-                      totalProspectingHours) *
-                      100
+                  $toPercent(
+                    keyData.prospecting_hours.breeding / totalProspectingHours
                   )
                 }}% |
                 {{ $thousandDelimiter(keyData.prospecting_hours.breeding) }}
@@ -87,10 +85,8 @@
               </span>
               <span class="KeyDataBlockText">
                 {{
-                  Math.round(
-                    (keyData.prospecting_hours.wintering /
-                      totalProspectingHours) *
-                      100
+                  $toPercent(
+                    keyData.prospecting_hours.wintering / totalProspectingHours
                   )
                 }}% |
                 {{ $thousandDelimiter(keyData.prospecting_hours.wintering) }}
@@ -109,10 +105,9 @@
               </span>
               <span class="KeyDataBlockText">
                 {{
-                  Math.round(
-                    (keyData.prospecting_hours.other_period /
-                      totalProspectingHours) *
-                      100
+                  $toPercent(
+                    keyData.prospecting_hours.other_period /
+                      totalProspectingHours
                   )
                 }}% |
                 {{ $thousandDelimiter(keyData.prospecting_hours.other_period) }}
