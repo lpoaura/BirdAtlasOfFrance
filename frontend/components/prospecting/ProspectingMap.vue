@@ -1,5 +1,6 @@
 <!-- La carte doit s'actualiser sur la métropole entière (manque API emprises) -->
 <!-- Initier this.center et this.zoom sur la métropole -->
+<!-- Ouvrir le tableau de bord de la maille au démarrage -->
 <!-- Ne pas considérer les mailles liées aux mers/océans -->
 <template>
   <div id="map-wrap">
@@ -26,16 +27,30 @@
         :weight="circle.weight"
       /> -->
       <l-geo-json
-        v-if="knowledgeLevelLayerIsOn"
+        v-if="selectedLayer === 'Indice de complétude'"
         :geojson="geojson"
         :options="geojsonOptions"
         :options-style="geojsonStyle"
       />
-      <l-control position="topleft">
+      <l-control
+        v-show="
+          selectedLayer === 'Indice de complétude' && clickedFeature === null
+        "
+        position="topleft"
+      >
         <knowledge-level-control
           :selected-season="selectedSeason"
           :features-colors="featuresColors"
           @selectedSeason="updateSelectedSeason"
+        />
+      </l-control>
+      <l-control
+        v-if="clickedFeature !== null && selectedLayer !== 'Aucune'"
+        position="topleft"
+      >
+        <feature-dashboard-control
+          :clicked-feature="clickedFeature"
+          :selected-season="selectedSeason"
         />
       </l-control>
       <l-control-zoom position="bottomright"></l-control-zoom>
@@ -45,7 +60,7 @@
         </div>
       </l-control>
       <l-control
-        v-show="isLoading && knowledgeLevelLayerIsOn"
+        v-show="isLoading && selectedLayer === 'Indice de complétude'"
         position="topright"
       >
         <div class="MapControl">
@@ -62,6 +77,7 @@ import L from 'leaflet'
 import { LMap, LGeoJson, LControl } from 'vue2-leaflet'
 // import 'leaflet/dist/leaflet.css'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
+import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
 
 export default {
   components: {
@@ -69,6 +85,7 @@ export default {
     LGeoJson,
     LControl,
     'knowledge-level-control': KnowledgeLevelControl,
+    'feature-dashboard-control': FeatureDashboardControl,
   },
   props: {
     selectedMunicipalityBounds: {
@@ -76,10 +93,14 @@ export default {
       required: false,
       default: null,
     },
-    knowledgeLevelLayerIsOn: {
-      type: Boolean,
+    selectedSpecies: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    selectedLayer: {
+      type: String,
       required: true,
-      default: true,
     },
     selectedTerritoryBounds: {
       type: Object,
@@ -136,10 +157,15 @@ export default {
       return (feature, layer) => {
         // console.log('[onEachFeature]', feature.properties)
         layer.on({
+          mouseover: (event) => {
+            this.highlightFeature(event)
+          },
+          mouseout: (event) => {
+            this.resetFeatureStyle(event)
+          },
           click: (event) => {
             this.clickedFeature = feature
-            this.$emit('clickedFeature', this.clickedFeature)
-            // this.highlightFeature(event)
+            // console.log('Maille : ' + this.clickedFeature.properties)
             this.zoomToFeature(event)
           },
         })
@@ -170,6 +196,13 @@ export default {
     selectedMunicipalityBounds(newVal) {
       if (newVal != null) {
         this.zoomToArea(newVal)
+        this.clickedFeature = null
+      }
+    },
+    selectedSpecies(newVal) {
+      if (newVal != null) {
+        console.log('Espèce : ' + newVal)
+        this.clickedFeature = null
       }
     },
     selectedTerritoryBounds(newVal) {
@@ -179,6 +212,8 @@ export default {
   mounted() {
     // console.log('mounted')
     if (this.$route.query.area && this.$route.query.type) {
+      // console.log(this.$route.query.area)
+      // console.log(this.$route.query.type)
       this.$axios
         .$get(
           `/api/v1/lareas/${this.$route.query.type}/${this.$route.query.area}`
@@ -281,10 +316,16 @@ export default {
     },
     highlightFeature(event) {
       event.target.setStyle({
-        color: '#323232',
-        weight: 5,
+        weight: 3,
+        color: '#262626',
       })
       event.target.bringToFront()
+    },
+    resetFeatureStyle(event) {
+      event.target.setStyle({
+        weight: 0.8,
+        color: '#FFFFFF',
+      })
     },
     geolocate() {
       if (navigator.geolocation) {
@@ -296,6 +337,13 @@ export default {
           this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.setView(center, 12)
         })
+        if (this.$route.query.area && this.$route.query.type) {
+          this.$router.push({
+            path: '/prospecting',
+            query: { area: undefined, type: undefined },
+          })
+          this.clickedFeature = null
+        }
       }
     },
     zoomToFeature(event) {
