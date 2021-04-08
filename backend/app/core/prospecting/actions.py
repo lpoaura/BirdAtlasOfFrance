@@ -12,7 +12,7 @@ from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList, DataForAtlas
 from app.core.ref_geo.actions import bib_areas_types
 
-from .models import AreaDashboard, AreaKnowledgeLevel
+from .models import AreaDashboard, AreaKnowledgeLevel, Epoc
 
 logger = logging.getLogger(__name__)
 
@@ -207,6 +207,34 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
         return q.all()
 
 
+class EpocActions(BaseReadOnlyActions[Epoc]):
+    def get_epocs(self, db: Session, envelope: Optional[List] = None) -> Query:
+        """[summary]
+
+        Args:
+            db (Session): [description]
+            envelope (Optional[List], optional): [description]. Defaults to None.
+
+        Returns:
+            Query: [description]
+        """
+        q = db.query(
+            Epoc.id_epoc, Epoc.id_ff, Epoc.status, Epoc.rang_rsv, Epoc.geojson.label("geometry")
+        )
+        if envelope:
+            q = q.filter(
+                functions.ST_Intersects(
+                    Epoc.geom,
+                    functions.ST_MakeEnvelope(
+                        envelope[0], envelope[1], envelope[2], envelope[3], 4326
+                    ),
+                ),
+            )
+
+        return q.all()
+
+
 area_knowledge_level = AreaKnowledgeLevelActions(AreaKnowledgeLevel)
 area_knowledge_taxa_list = AreaKnowledgeTaxaListActions(AreaKnowledgeTaxaList)
-area_dashboard = AreaDashboardActions(AreaDashboardActions)
+area_dashboard = AreaDashboardActions(AreaDashboard)
+epoc = EpocActions(Epoc)
