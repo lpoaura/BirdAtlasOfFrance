@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from app.utils.db import get_db, settings
 
-from .actions import area_dashboard, area_knowledge_level, area_knowledge_taxa_list
+from .actions import area_dashboard, area_knowledge_level, area_knowledge_taxa_list, epoc
 from .schemas import (
     AreaDashboardSchema,
     AreaDashboardTimeDistribSchema,
@@ -16,6 +16,9 @@ from .schemas import (
     AreaKnowledgeLevelGeoJson,
     AreaKnowledgeLevelPropertiesSchema,
     AreaKnowledgeTaxaListSchema,
+    EpocFeaturePropertiesSchema,
+    EpocFeatureSchema,
+    EpocSchema,
 )
 
 logger = logging.getLogger(__name__)
@@ -127,3 +130,38 @@ def area_contrib_time_distrib(
     if not q:
         raise HTTPException(status_code=404, detail="Data not found")
     return q
+
+
+@router.get(
+    "/epoc",
+    response_model=EpocSchema,
+    tags=["prospecting"],
+    summary="EPOC protocol geolocation",
+    description="""# EPOC protocol geolocation
+
+Official EPOC points, with status ("Officiel" vs "Réserve")
+    """,
+)
+def epoc_list(
+    db: Session = Depends(get_db),
+    envelope: Optional[str] = None,
+) -> Any:
+    start_time = time.time()
+    if envelope:
+        envelope = [float(c) for c in envelope.split(",")]
+    epocs = epoc.get_epocs(db=db, envelope=envelope)
+    features = []
+    if len(epocs) == 0:
+        HTTPException(status_code=404, detail="Data not found")
+    logger.debug(f"step3: {(time.time() - start_time) * 1000}")
+    for e in epocs:
+        de = e._asdict()
+        geojson = de.pop("geometry", None)
+        f = EpocFeatureSchema(
+            properties=(EpocFeaturePropertiesSchema(**de)),
+            geometry=geojson,
+            id=e.id_epoc,
+        )
+        features.append(f)
+    logger.debug(f"step4: {(time.time() - start_time) * 1000}")
+    return EpocSchema(features=features)

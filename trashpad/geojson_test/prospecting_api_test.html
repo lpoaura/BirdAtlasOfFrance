@@ -41,15 +41,16 @@
     };
   }
 
-  let x = [map.getBounds().getWest(), map.getBounds().getEast()];
-  let y = [map.getBounds().getNorth(), map.getBounds().getSouth()];
-  console.log(Math.min.apply(Math, x));
-  var envelop = [
-    Math.min.apply(Math, x),
-    Math.min.apply(Math, y),
-    Math.max.apply(Math, x),
-    Math.max.apply(Math, y),
-  ];
+  const envelop = () => {
+    const x = [map.getBounds().getWest(), map.getBounds().getEast()];
+    const y = [map.getBounds().getNorth(), map.getBounds().getSouth()];
+    return [
+      Math.min.apply(Math, x),
+      Math.min.apply(Math, y),
+      Math.max.apply(Math, x),
+      Math.max.apply(Math, y),
+    ];
+  };
   L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
     attribution: "OSM",
   }).addTo(map);
@@ -72,49 +73,60 @@
   //     tl.addTo(map);
   //     // map.fitBounds(ml.getBounds());
   //   });
-  map.on("moveend", function () {
-    let x = [map.getBounds().getWest(), map.getBounds().getEast()];
-    let y = [map.getBounds().getNorth(), map.getBounds().getSouth()];
-    console.debug("x", x);
-    console.debug("y", y);
-    console.debug(Math.min.apply(Math, x));
-    console.debug(
-      "Envelop: ",
-      Math.min.apply(Math, x),
-      Math.min.apply(Math, y),
-      Math.max.apply(Math, x),
-      Math.max.apply(Math, y)
-    );
-  });
 
+  const geojsonMarkerOptions = {
+    radius: 5,
+    fillColor: "#ff7800",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8,
+  };
+  const updateEpoc = () => {
+    const mapEnvelop = envelop();
+    axios
+      .get("http://localhost:8888/api/v1/epoc&envelope=" + mapEnvelop)
+      .then((response) => {
+        console.log(response.data);
+        var ml = L.geoJSON(response.data, {
+          pointToLayer: function (f, l) {
+            return L.circleMarker(l, geojsonMarkerOptions);
+          },
+          onEachFeature: function (f, l) {
+            l.bindPopup(
+              "<pre>" +
+                JSON.stringify(f.properties, null, " ").replace(
+                  /[\{\}"]/g,
+                  ""
+                ) +
+                "</pre>"
+            );
+          },
+        });
+        ml.addTo(map);
+        map.fitBounds(ml.getBounds());
+      });
+  };
+  updateEpoc();
+  map.on("moveend", updateEpoc());
   axios
-    .get(
-      "http://localhost:8888/api/v1/taxa/4532?period=wintering_new&envelope=" +
-        envelop
-    )
+    .get("http://localhost:8888/api/v1/lareas/COM/69160")
     .then((response) => {
       console.log(response.data);
-      var ml = L.geoJSON(response.data, {
+      var area = L.geoJSON(response.data, {
         style: function (f, l) {
           return {
-            fillColor: percent_knowledge(
-              f.properties.all_period.percent_knowledge
-            ),
-            color: "#f00",
+            // fillColor: percent_knowledge(
+            //   f.properties.all_period.percent_knowledge
+            // ),
+            color: "red",
             weight: 0.2,
             opacity: 1,
             fillOpacity: 0.5,
           };
         },
-        onEachFeature: function (f, l) {
-          l.bindPopup(
-            "<pre>" +
-              JSON.stringify(f.properties, null, " ").replace(/[\{\}"]/g, "") +
-              "</pre>"
-          );
-        },
       });
-      ml.addTo(map);
-      // map.fitBounds(ml.getBounds());
+      // area.addTo(map);
+      map.fitBounds(area.getBounds());
     });
 </script>
