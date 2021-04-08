@@ -16,42 +16,22 @@
       </div>
       <div class="LayersList">
         <div
+          v-for="(layer, index) in layersList"
+          :key="index"
           class="LayersLi"
-          :class="noLayerIsOn ? 'selected' : ''"
-          @click="setNoLayerToTrue"
-        >
-          <div class="LayersLiRadio">
-            <div v-show="noLayerIsOn" class="LayersLiRadioSelected"></div>
-          </div>
-          <span class="LayersLiText">Aucune</span>
-        </div>
-        <div
-          class="LayersLi"
-          :class="knowledgeLevelLayerIsOn ? 'selected' : ''"
-          @click="setKnowledgeLevelLayerToTrue"
+          :class="layer === selectedLayer ? 'selected' : ''"
+          @click="updateSelectedLayer(layer)"
         >
           <div class="LayersLiRadio">
             <div
-              v-show="knowledgeLevelLayerIsOn"
+              v-show="layer === selectedLayer"
               class="LayersLiRadioSelected"
             ></div>
           </div>
-          <span class="LayersLiText">Indice de complétude</span>
+          <span class="LayersLiText">{{ layer }}</span>
         </div>
-        <div
-          class="LayersLi"
-          :class="epocLayerIsOn ? 'selected' : ''"
-          @click="setEpocLayerToTrue"
-        >
-          <div class="LayersLiRadio">
-            <div v-show="epocLayerIsOn" class="LayersLiRadioSelected"></div>
-          </div>
-          <span class="LayersLiText">Points EPOC</span>
-        </div>
-        <div v-show="epocLayerIsOn" class="EpocList">
-          <!-- <div class="EpocLi">
-            <span class="LayersLiText">EPOC</span>
-          </div> -->
+        <div v-show="selectedLayer === 'Points EPOC'" class="EpocList">
+          <!-- Ajouter les points EPOC classiques -->
           <div class="EpocLi">
             <v-switch
               v-model="epocODFPointsIsOn"
@@ -78,11 +58,15 @@
 
 <script>
 export default {
+  props: {
+    selectedLayer: {
+      type: String,
+      required: true,
+    },
+  },
   data: () => ({
     selectIsOpen: false,
-    noLayerIsOn: false,
-    knowledgeLevelLayerIsOn: true,
-    epocLayerIsOn: false,
+    layersList: ['Aucune', 'Indice de complétude', 'Points EPOC'],
     epocPointsIsOn: true,
     epocODFPointsIsOn: true,
     epocODFReservePointsIsOn: true,
@@ -101,23 +85,8 @@ export default {
     closeSelectBox() {
       this.selectIsOpen = false
     },
-    setNoLayerToTrue() {
-      this.noLayerIsOn = true
-      this.knowledgeLevelLayerIsOn = false
-      this.$emit('knowledgeLevelLayer', this.knowledgeLevelLayerIsOn)
-      this.epocLayerIsOn = false
-    },
-    setKnowledgeLevelLayerToTrue() {
-      this.knowledgeLevelLayerIsOn = true
-      this.$emit('knowledgeLevelLayer', this.knowledgeLevelLayerIsOn)
-      this.noLayerIsOn = false
-      this.epocLayerIsOn = false
-    },
-    setEpocLayerToTrue() {
-      this.epocLayerIsOn = true
-      this.noLayerIsOn = false
-      this.knowledgeLevelLayerIsOn = false
-      this.$emit('knowledgeLevelLayer', this.knowledgeLevelLayerIsOn)
+    updateSelectedLayer(layer) {
+      this.$emit('selectedLayer', layer)
     },
   },
 }

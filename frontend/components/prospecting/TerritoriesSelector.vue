@@ -359,10 +359,11 @@ export default {
   margin: auto;
 }
 
-.TerritoriesGrid {
+.TerritoriesGrid,
+.TerritoriesList {
   display: flex;
   flex-wrap: wrap;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .TerritoriesCard {
@@ -428,16 +429,11 @@ export default {
   text-align: center;
 }
 
-.TerritoriesList {
-  display: flex;
-  flex-wrap: wrap;
-  overflow-y: scroll;
-}
-
 .TerritoriesLi {
   width: 100%;
   height: 39.2px;
   padding-left: 10px;
+  margin-right: 16px;
   border-radius: 4px;
 
   /* cursor: pointer; */

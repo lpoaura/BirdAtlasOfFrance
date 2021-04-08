@@ -2,19 +2,25 @@
   <v-container fluid>
     <header>
       <div class="MapSearchBar">
-        <map-search-bar @selectedMunicipality="updateSelectedMunicipality" />
+        <map-search-bar
+          @selectedMunicipality="updateSelectedMunicipality"
+          @selectedSpecies="updateSelectedSpecies"
+        />
       </div>
       <div class="Selectors">
-        <layers-selector @knowledgeLevelLayer="updateKnowledgeLevelLayer" />
+        <layers-selector
+          :selected-layer="selectedLayer"
+          @selectedLayer="updateSelectedLayer"
+        />
         <territories-selector />
       </div>
     </header>
     <client-only>
       <lazy-prospecting-map
         :selected-municipality-bounds="selectedMunicipalityBounds"
-        :knowledge-level-layer-is-on="knowledgeLevelLayerIsOn"
+        :selected-species="selectedSpecies"
+        :selected-layer="selectedLayer"
         :selected-territory-bounds="selectedTerritoryBounds"
-        @clickedFeature="updateClickedFeature"
       />
     </client-only>
   </v-container>
@@ -44,8 +50,8 @@ export default {
   //   },
   data: () => ({
     selectedMunicipalityBounds: null,
-    clickedFeature: null,
-    knowledgeLevelLayerIsOn: true,
+    selectedSpecies: null,
+    selectedLayer: 'Indice de complétude',
     // territoriesData: [
     //   {
     //     name: 'Auvergne-Rhône-Alpes',
@@ -93,14 +99,11 @@ export default {
     updateSelectedMunicipality(data) {
       this.selectedMunicipalityBounds = data.bounds
     },
-    updateClickedFeature(feature) {
-      this.clickedFeature = feature
+    updateSelectedSpecies(species) {
+      this.selectedSpecies = species
     },
-    updateSelectedSeason(season) {
-      this.selectedSeason = season
-    },
-    updateKnowledgeLevelLayer(knowledgeLevelLayerIsOn) {
-      this.knowledgeLevelLayerIsOn = knowledgeLevelLayerIsOn
+    updateSelectedLayer(layer) {
+      this.selectedLayer = layer
     },
     updateSelectedTerritory(bounds) {
       this.selectedTerritoryBounds = bounds
