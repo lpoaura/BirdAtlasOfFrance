@@ -14,7 +14,6 @@ div.container.container--fluid {
   background: #39765a;
   border-radius: 8px;
   padding: 1.6vh 1.8vw;
-  margin-bottom: 20px;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 600;
@@ -22,6 +21,10 @@ div.container.container--fluid {
   font-size: 12px;
   line-height: 18px;
   color: #fcfcfc;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* INFORMATIVE PAGES */

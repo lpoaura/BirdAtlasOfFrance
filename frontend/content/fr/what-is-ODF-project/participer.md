@@ -13,7 +13,7 @@ Contribuer à Oiseaux de France peut se faire de bien des manières, en fonction
 
 S'engager dans des suivis plus standardisés exige plus de temps et une solide connaissance des oiseaux. Mais cet engagement est riche de satisfaction et permet d'acquérir une connaissance intime de l'avifaune et des milieux que vous prospectez.
 
-<nuxt-link to="/get-involved" class="PrimaryButton">Découvrir les dispositifs</nuxt-link>
+<nuxt-link to="/get-involved" class="PrimaryButton" style="margin-bottom: 20px">Découvrir les dispositifs</nuxt-link>
 
 </div>
 
