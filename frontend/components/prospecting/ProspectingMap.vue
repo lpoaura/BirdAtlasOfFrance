@@ -16,21 +16,28 @@
       style="z-index: 0"
       @ready="initiateEnvelope"
       @update:bounds="updateEnvelope"
+      @update:zoom="updateZoom"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
-      <!-- <l-circle
-        :lat-lng="circle.center"
-        :radius="circle.radius"
-        :color="circle.color"
-        :fill-color="circle.fillColor"
-        :fill-opacity="circle.fillOpacity"
-        :weight="circle.weight"
-      /> -->
       <l-geo-json
         v-if="selectedLayer === 'Indice de complétude'"
-        :geojson="geojson"
-        :options="geojsonOptions"
-        :options-style="geojsonStyle"
+        :geojson="knowledgeLevelGeojson"
+        :options="knowledgeLevelGeojsonOptions"
+        :options-style="knowledgeLevelGeojsonStyle"
+      />
+      <l-geo-json
+        v-if="
+          selectedLayer === 'Points EPOC' && epocOdfOfficialIsOn && zoom >= 11
+        "
+        :geojson="epocOdfOfficialGeojson"
+        :options="epocOdfOfficialGeojsonOptions"
+      />
+      <l-geo-json
+        v-if="
+          selectedLayer === 'Points EPOC' && epocOdfReserveIsOn && zoom >= 11
+        "
+        :geojson="epocOdfReserveGeojson"
+        :options="epocOdfReserveGeojsonOptions"
       />
       <l-control
         v-show="
@@ -45,7 +52,9 @@
         />
       </l-control>
       <l-control
-        v-if="clickedFeature !== null && selectedLayer !== 'Aucune'"
+        v-if="
+          selectedLayer === 'Indice de complétude' && clickedFeature !== null
+        "
         position="topleft"
       >
         <feature-dashboard-control
@@ -102,6 +111,14 @@ export default {
       type: String,
       required: true,
     },
+    epocOdfOfficialIsOn: {
+      type: Boolean,
+      required: true,
+    },
+    epocOdfReserveIsOn: {
+      type: Boolean,
+      required: true,
+    },
     selectedTerritoryBounds: {
       type: Object,
       required: false,
@@ -109,14 +126,6 @@ export default {
     },
   },
   data: () => ({
-    // circle: {
-    //   center: [50.503906, 4.476982],
-    //   radius: 4000,
-    //   color: '#FF0000',
-    //   fillColor: '#FF0000',
-    //   fillOpacity: 1,
-    //   weight: 0,
-    // },
     zoom: 12,
     previousZoom: 100,
     isProgramaticZoom: false,
@@ -127,7 +136,7 @@ export default {
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     attribution: 'OSM',
     envelope: null,
-    geojson: null,
+    knowledgeLevelGeojson: null,
     axiosSource: null,
     axiosError: null,
     isLoading: false,
@@ -145,10 +154,12 @@ export default {
       wintering: ['#90E0EF', '#00B4D8', '#0077B6', '#023E8A', '#03045E'],
     },
     clickedFeature: null,
+    epocOdfOfficialGeojson: null,
+    epocOdfReserveGeojson: null,
     indeterminate: true,
   }),
   computed: {
-    geojsonOptions() {
+    knowledgeLevelGeojsonOptions() {
       return {
         onEachFeature: this.onEachFeature,
       }
@@ -171,7 +182,7 @@ export default {
         })
       }
     },
-    geojsonStyle() {
+    knowledgeLevelGeojsonStyle() {
       let season = this.selectedSeason // Nécessaire pour déclencher le changement de style
       return (feature, layer) => {
         // console.log('[setGeojsonStyle]')
@@ -189,6 +200,40 @@ export default {
           ),
           fillOpacity: 0.6,
         }
+      }
+    },
+    epocOdfOfficialGeojsonOptions() {
+      return {
+        pointToLayer: this.epocOdfOfficialPointToLayer,
+      }
+    },
+    epocOdfOfficialPointToLayer() {
+      return (geojsonPoint, latlng) => {
+        const epocOdfOfficialIcon = new L.Icon({
+          iconUrl: '/prospecting/epoc-ODF-Official.svg',
+          iconSize: [32, 39],
+          iconAnchor: [16, 35.5],
+        })
+        return L.marker(latlng, {
+          icon: epocOdfOfficialIcon,
+        })
+      }
+    },
+    epocOdfReserveGeojsonOptions() {
+      return {
+        pointToLayer: this.epocOdfReservePointToLayer,
+      }
+    },
+    epocOdfReservePointToLayer() {
+      return (geojsonPoint, latlng) => {
+        const epocOdfReserveIcon = new L.Icon({
+          iconUrl: '/prospecting/epoc-ODF-Reserve.svg',
+          iconSize: [32, 39],
+          iconAnchor: [16, 35.5],
+        })
+        return L.marker(latlng, {
+          icon: epocOdfReserveIcon,
+        })
       }
     },
   },
@@ -254,15 +299,30 @@ export default {
       const initBounds = this.$refs.myMap.mapObject.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
-      this.updateGeojson()
+      this.updateknowledgeLevelGeojson()
+      if (this.zoom >= 11) {
+        this.updateEpocOdfOfficialGeojson()
+        this.updateEpocOdfReserveGeojson()
+      }
     },
     updateEnvelope(newBounds) {
       // console.log('[updateEnvelope]')
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
-      this.updateGeojson()
+      this.updateknowledgeLevelGeojson()
+      if (this.zoom >= 11) {
+        this.updateEpocOdfOfficialGeojson()
+        this.updateEpocOdfReserveGeojson()
+      }
     },
-    updateGeojson() {
+    updateZoom(newZoom) {
+      // console.log(newZoom)
+      this.zoom = newZoom
+      if (this.zoom < 11) {
+        this.clickedFeature = null
+      }
+    },
+    updateknowledgeLevelGeojson() {
       // console.log('[updateGeojson]')
       if (this.axiosSource != null) {
         this.axiosSource.cancel('Resquest has been canceled')
@@ -281,7 +341,7 @@ export default {
             cancelToken: this.axiosSource.token,
           })
           .then((data) => {
-            this.geojson = data
+            this.knowledgeLevelGeojson = data
           })
           .catch((error) => {
             // console.log(error)
@@ -296,6 +356,26 @@ export default {
       }
       this.previousZoom = this.$refs.myMap.mapObject.getZoom()
       this.isProgramaticZoom = false
+    },
+    updateEpocOdfOfficialGeojson() {
+      this.$axios
+        .$get(`/api/v1/epoc?status=Officiel&envelope=${this.envelope}`)
+        .then((data) => {
+          this.epocOdfOfficialGeojson = data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    updateEpocOdfReserveGeojson() {
+      this.$axios
+        .$get(`/api/v1/epoc?status=Reserve&envelope=${this.envelope}`)
+        .then((data) => {
+          this.epocOdfReserveGeojson = data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     setFeatureColor(percent) {
       const featuresColors =
