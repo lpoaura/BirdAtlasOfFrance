@@ -26,7 +26,7 @@
           </div>
         </div>
       </div>
-      <div v-click-outside="closeSearchBar" class="AutocompleteWrapper">
+      <div class="AutocompleteWrapper">
         <input v-model="search" type="text" placeholder="Rechercher" />
         <div class="AutocompleteAdvanced">
           <div class="CloseIconBox">
@@ -173,28 +173,31 @@ export default {
   computed: {
     filteredTerritories() {
       return this.territoriesList.filter((territory) =>
-        territory.name.toLowerCase().includes(this.search.toLowerCase())
+        territory.name
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .includes(
+            this.search
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+          )
       )
     },
   },
   methods: {
     openOrCloseSelectBox() {
       this.selectIsOpen = !this.selectIsOpen
-      this.autocompleteIsOpen = false
     },
     closeSelectBox() {
       this.selectIsOpen = false
-      this.autocompleteIsOpen = false
     },
     updateSelectedDisplayingType(type) {
       this.selectedDisplayingType = type
     },
     clearResults() {
-      this.autocompleteIsOpen = false
       this.search = ''
-    },
-    closeSearchBar() {
-      this.autocompleteIsOpen = false
     },
     updateSelectedTerritory(territory) {
       this.selectedTerritory = territory

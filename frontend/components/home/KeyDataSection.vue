@@ -43,7 +43,7 @@
       </div>
       <div class="KeyDataCard">
         <div class="KeyDataBlock">
-          <div class="KeyDataBlockIcon"><svg class="pieChartSvg"></svg></div>
+          <div class="KeyDataBlockIcon"><svg class="PieChartSvg"></svg></div>
           <div class="KeyDataBlockContent">
             <span class="KeyDataBlockData">
               {{ $thousandDelimiter(totalProspectingHours) }}
@@ -169,7 +169,7 @@ export default {
         )
         // Get pie chart svg and set size
         const pieChartSvg = d3
-          .select('.pieChartSvg')
+          .select('.PieChartSvg')
           .attr('width', pieChartHeight)
           .attr('height', pieChartHeight)
         // Define pie chart colors
