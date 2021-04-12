@@ -139,17 +139,22 @@ def area_contrib_time_distrib(
     summary="EPOC protocol geolocation",
     description="""# EPOC protocol geolocation
 
-Official EPOC points, with status ("Officiel" vs "Réserve")
+Official EPOC points, with status ("**Officiel**" vs "**Réserve**")
+
+Status can be optionaly optionally using the query string `status=...` . status filter must be one of the following:
+* `Officiel`
+* `Reserve`
     """,
 )
 def epoc_list(
     db: Session = Depends(get_db),
+    status: Optional[str] = None,
     envelope: Optional[str] = None,
 ) -> Any:
     start_time = time.time()
-    if envelope:
-        envelope = [float(c) for c in envelope.split(",")]
-    epocs = epoc.get_epocs(db=db, envelope=envelope)
+    envelope = [float(c) for c in envelope.split(",")] if envelope else None
+    logger.debug(f"STATUS {status}")
+    epocs = epoc.get_epocs(db=db, envelope=envelope, status=status)
     features = []
     if len(epocs) == 0:
         HTTPException(status_code=404, detail="Data not found")
