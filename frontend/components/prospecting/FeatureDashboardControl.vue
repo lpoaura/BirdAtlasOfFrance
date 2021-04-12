@@ -314,12 +314,10 @@ export default {
       this.clickedSpecies = null
       this.initiateFeatureData(newVal)
       this.$axios
-        .$get(
-          `http://localhost:8888/api/v1/area/time_distrib/${this.featureID}/month`
-        )
+        .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
         .then((data) => {
-          console.log('Time distrib :')
-          console.log(data)
+          // console.log('Time distrib :')
+          // console.log(data)
           data.forEach((item, index) => {
             item.label = this.months[index]
           })
@@ -392,12 +390,10 @@ export default {
   mounted() {
     this.initiateFeatureData(this.clickedFeature)
     this.$axios
-      .$get(
-        `http://localhost:8888/api/v1/area/time_distrib/${this.featureID}/month`
-      )
+      .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
       .then((data) => {
-        console.log('Time distrib :')
-        console.log(data)
+        // console.log('Time distrib :')
+        // console.log(data)
         data.forEach((item, index) => {
           item.label = this.months[index]
         })
@@ -407,12 +403,10 @@ export default {
           parseFloat(d3.select('.TimeDistributionBarPlot').style('width')) -
           margin.left -
           margin.right
-        console.log(barPlotWidth)
         const barPlotHeight =
           parseFloat(d3.select('.TimeDistributionBarPlot').style('height')) -
           margin.top -
           margin.bottom
-        console.log(barPlotHeight)
         // Get bar plot svg and set size
         const barPlotSvg = d3
           .select('.BarPlotSvg')
@@ -437,7 +431,7 @@ export default {
           .selectAll('text')
           .attr(
             'style',
-            "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 12px; line-height: 18px; color: #000;"
+            "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
           )
         // Set Y axis and add it
         const y = d3
@@ -484,11 +478,11 @@ export default {
   methods: {
     initiateFeatureData(feature) {
       this.featureID = feature.id
-      console.log('----------------------------------------')
-      console.log('ID : ' + this.featureID)
+      // console.log('----------------------------------------')
+      // console.log('ID : ' + this.featureID)
       this.featureProperties = feature.properties
-      console.log('Properties :')
-      console.log(this.featureProperties)
+      // console.log('Properties :')
+      // console.log(this.featureProperties)
       this.$router.push({
         path: '/prospecting',
         query: { area: `${this.featureProperties.area_code}`, type: 'M10' },
@@ -496,8 +490,8 @@ export default {
       this.$axios
         .$get(`/api/v1/area/general_stats/${this.featureID}`)
         .then((data) => {
-          console.log('General stats :')
-          console.log(data)
+          // console.log('General stats :')
+          // console.log(data)
           this.featureDataKey = data
         })
         .catch((error) => {
@@ -514,8 +508,8 @@ export default {
           this.featureTaxaList.wintering = data.filter((item) => {
             return item.wintering.new_count > 0 || item.wintering.old_count > 0
           })
-          console.log('Liste des espèces par période :')
-          console.log(this.featureTaxaList)
+          // console.log('Liste des espèces par période :')
+          // console.log(this.featureTaxaList)
         })
         .catch((error) => {
           console.log(error)
