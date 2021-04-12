@@ -29,6 +29,7 @@ BEGIN
     CREATE UNIQUE INDEX idx_epoc_id_epoc ON atlas.t_epoc (id_epoc);
     CREATE INDEX gidx_epoc ON atlas.t_epoc USING gist (geom);
     CREATE INDEX idx_epoc_id_area ON atlas.t_epoc (id_area);
+    CREATE INDEX idx_epoc_status ON atlas.t_epoc (status);
     INSERT INTO atlas.t_epoc (id_epoc, id_ff, status, rang_rsv, id_area, area_code, geom)
     SELECT
         epoc.id_epoc,
