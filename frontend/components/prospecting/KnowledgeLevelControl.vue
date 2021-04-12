@@ -14,7 +14,7 @@
     <div class="KnowledgeLevelSubtitle">France métropolitaine</div>
     <div class="KnowledgeLevelPieChartContent">
       <div class="KnowledgeLevelPieChart">
-        <svg class="pieChartSvg"></svg>
+        <svg class="PieChartSvg"></svg>
         <div class="KnowledgeLevelGlobalData">?? %</div>
       </div>
       <div class="KnowledgeLevelPieChartLegend">
@@ -37,7 +37,7 @@
             >{{ item.label }}
           </div>
           <span class="PieChartLegendData"
-            >{{ Math.round((item.data / totalAreaCount) * 100) }}%</span
+            >{{ $toPercent(item.value / totalAreaCount) }} %</span
           >
         </div>
       </div>
@@ -66,23 +66,23 @@ export default {
   data: () => ({
     knowledgeLevelData: [
       {
-        data: 0,
+        value: 0,
         label: '0-25%',
       },
       {
-        data: 0,
+        value: 0,
         label: '25-50%',
       },
       {
-        data: 0,
+        value: 0,
         label: '50-75%',
       },
       {
-        data: 0,
+        value: 0,
         label: '75-100%',
       },
       {
-        data: 0,
+        value: 0,
         label: '100%+',
       },
     ],
@@ -92,7 +92,7 @@ export default {
     totalAreaCount() {
       let totalCount = 0
       this.knowledgeLevelData.forEach((item) => {
-        totalCount += item.data
+        totalCount += item.value
       })
       return totalCount
     },
@@ -102,7 +102,7 @@ export default {
       // console.log(data)
       const dataArray = Object.values(data)
       dataArray.forEach((item, index) => {
-        this.knowledgeLevelData[index].data = item
+        this.knowledgeLevelData[index].value = item
       })
       // Get pie chart size
       const pieChartHeight = parseFloat(
@@ -110,7 +110,7 @@ export default {
       )
       // Get pie chart svg and set size
       const pieChartSvg = d3
-        .select('.pieChartSvg')
+        .select('.PieChartSvg')
         .attr('width', pieChartHeight)
         .attr('height', pieChartHeight)
       // Define pie chart colors
@@ -130,7 +130,7 @@ export default {
       const pieChartData = d3
         .pie()
         .value(function (d) {
-          return d.data
+          return d.value
         })
         .sort(null)(this.knowledgeLevelData)
       // Create pie chart
@@ -170,7 +170,7 @@ export default {
         .sort(null)(this.knowledgeLevelData)
       // Create pie chart
       const pieChartSvg = d3
-        .select('.pieChartSvg')
+        .select('.PieChartSvg')
         .selectAll('path')
         .data(pieChartData)
       pieChartSvg.exit().remove()

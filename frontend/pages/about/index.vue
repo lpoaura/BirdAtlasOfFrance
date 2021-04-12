@@ -7,6 +7,7 @@
           <h1 class="IntroTitle">À propos</h1>
         </header>
       </div>
+      <div class="PictureAuthor">Photo : Canards pilets, Emile Barbelette</div>
       <div class="CardsContent">
         <nuxt-link
           v-for="(card, index) in cards"
@@ -159,6 +160,21 @@ export default {
   line-height: 60px;
   text-align: center;
   color: #fcfcfc;
+}
+
+.PictureAuthor {
+  position: absolute;
+  z-index: 1;
+  left: 12.5vw;
+  bottom: 260px;
+  width: 73.9vw;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 10px;
+  line-height: 15px;
+  text-align: right;
+  color: #fff;
 }
 
 .CardsContent {
