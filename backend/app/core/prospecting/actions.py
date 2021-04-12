@@ -208,7 +208,9 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
 
 
 class EpocActions(BaseReadOnlyActions[Epoc]):
-    def get_epocs(self, db: Session, envelope: Optional[List] = None) -> Query:
+    def get_epocs(
+        self, db: Session, status: Optional[str] = None, envelope: Optional[List] = None
+    ) -> Query:
         """[summary]
 
         Args:
@@ -221,8 +223,10 @@ class EpocActions(BaseReadOnlyActions[Epoc]):
         q = db.query(
             Epoc.id_epoc, Epoc.id_ff, Epoc.status, Epoc.rang_rsv, Epoc.geojson.label("geometry")
         )
-        if envelope:
-            q = q.filter(
+        q = q.filter(Epoc.status == status) if status else q
+
+        q = (
+            q.filter(
                 functions.ST_Intersects(
                     Epoc.geom,
                     functions.ST_MakeEnvelope(
@@ -230,6 +234,9 @@ class EpocActions(BaseReadOnlyActions[Epoc]):
                     ),
                 ),
             )
+            if envelope
+            else q
+        )
 
         return q.all()
 
