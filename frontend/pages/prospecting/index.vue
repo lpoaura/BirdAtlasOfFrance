@@ -11,6 +11,8 @@
         <layers-selector
           :selected-layer="selectedLayer"
           @selectedLayer="updateSelectedLayer"
+          @epocOdfOfficialIsOn="updateEpocOdfOfficial"
+          @epocOdfReserveIsOn="updateEpocOdfReserve"
         />
         <territories-selector />
       </div>
@@ -20,6 +22,8 @@
         :selected-municipality-bounds="selectedMunicipalityBounds"
         :selected-species="selectedSpecies"
         :selected-layer="selectedLayer"
+        :epoc-odf-official-is-on="epocOdfOfficialIsOn"
+        :epoc-odf-reserve-is-on="epocOdfReserveIsOn"
         :selected-territory-bounds="selectedTerritoryBounds"
       />
     </client-only>
@@ -52,6 +56,8 @@ export default {
     selectedMunicipalityBounds: null,
     selectedSpecies: null,
     selectedLayer: 'Indice de complétude',
+    epocOdfOfficialIsOn: true,
+    epocOdfReserveIsOn: true,
     // territoriesData: [
     //   {
     //     name: 'Auvergne-Rhône-Alpes',
@@ -104,6 +110,12 @@ export default {
     },
     updateSelectedLayer(layer) {
       this.selectedLayer = layer
+    },
+    updateEpocOdfOfficial(value) {
+      this.epocOdfOfficialIsOn = value
+    },
+    updateEpocOdfReserve(value) {
+      this.epocOdfReserveIsOn = value
     },
     updateSelectedTerritory(bounds) {
       this.selectedTerritoryBounds = bounds

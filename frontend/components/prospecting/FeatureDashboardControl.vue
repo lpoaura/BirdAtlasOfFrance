@@ -1,45 +1,9 @@
+<!-- Simplifier certains noms de classes css réutilisées -->
 <template>
   <section class="FeatureDashboardControl">
-    <!-- SPECIES DASHBOARD -->
-    <div v-if="clickedSpecies !== null" class="SpeciesDashboard">
-      <div class="FeatureComeBack" @click="deleteClickedSpecies">
-        <img class="PreviousIcon" src="/previous.svg" />
-        <span class="FeatureComeBackLabel">{{
-          featureProperties.area_name
-        }}</span>
-      </div>
-      <div class="FeatureDashboardHeader">
-        <h1 class="FeatureDashboardTitle">{{ clickedSpecies.common_name }}</h1>
-      </div>
-      <div class="MainSplit"></div>
-      <div class="SpeciesDashboardData">
-        <img class="SpeciesDashboardDataIcon" src="/burger.svg" />
-        <span class="SpeciesDashboardDataLabel"
-          >{{ clickedSpecies.all_period.new_count }} donnée(s) sur la période
-          Atlas 2019-2024
-        </span>
-      </div>
-      <div class="SpeciesDashboardData">
-        <img class="SpeciesDashboardDataIcon" src="/prospecting.svg" />
-        <span class="SpeciesDashboardDataLabel"
-          >Espèce observée pour la dernière fois en
-          {{ clickedSpecies.all_period.last_obs }}</span
-        >
-      </div>
-      <div class="SpeciesDashboardData">
-        <img class="SpeciesDashboardDataIcon" src="/book.svg" />
-        <span
-          v-if="clickedSpecies.all_period.old_count > 0"
-          class="SpeciesDashboardDataLabel"
-          >Espèce observée avant 2019</span
-        >
-        <span v-else class="SpeciesDashboardDataLabel"
-          >Espèce non observée avant 2019</span
-        >
-      </div>
-    </div>
-    <!-- HEADER -->
-    <div v-show="clickedSpecies === null" class="MainDashboard">
+    <!-- MAIN DASHBOARD -->
+    <div v-show="!clickedSpecies" class="MainDashboard">
+      <!-- HEADER -->
       <div class="FeatureDashboardHeader">
         <div class="FeatureDashboardHeaderText">
           <h1 class="FeatureDashboardTitle">
@@ -78,7 +42,7 @@
         <h2 class="FeatureDashboardTitle sub">Indice de complétude</h2>
         <div class="KnowledgeLevelContent">
           <div class="KnowledgeLevelData">
-            {{ $toPercent(featureProperties.all_period.percent_knowledge) }} %
+            {{ $toPercent(featureProperties.all_period.percent_knowledge) }}%
           </div>
           <div class="KnowledgeLevelLabel">
             des espèces de référence ont été signalées<br />
@@ -103,7 +67,7 @@
           </div>
         </div>
         MANQUE L'API<br /><br />
-        <nuxt-link to="#" class="PrimaryButton" style="width: 100%"
+        <nuxt-link to="#" class="PrimaryButton"
           >Contacter le coordinateur local départemental</nuxt-link
         >
       </div>
@@ -207,6 +171,44 @@
         MANQUE L'API
       </div>
     </div>
+    <!-- SPECIES DASHBOARD -->
+    <div v-if="clickedSpecies" class="SpeciesDashboard">
+      <div class="FeatureComeBack" @click="deleteClickedSpecies">
+        <img class="PreviousIcon" src="/previous.svg" />
+        <span class="FeatureComeBackLabel">{{
+          featureProperties.area_name
+        }}</span>
+      </div>
+      <div class="FeatureDashboardHeader">
+        <h1 class="FeatureDashboardTitle">{{ clickedSpecies.common_name }}</h1>
+      </div>
+      <div class="MainSplit"></div>
+      <div class="SpeciesDashboardData">
+        <img class="SpeciesDashboardDataIcon" src="/burger.svg" />
+        <span class="SpeciesDashboardDataLabel"
+          >{{ clickedSpecies.all_period.new_count }} donnée(s) sur la période
+          Atlas 2019-2024
+        </span>
+      </div>
+      <div class="SpeciesDashboardData">
+        <img class="SpeciesDashboardDataIcon" src="/prospecting.svg" />
+        <span class="SpeciesDashboardDataLabel"
+          >Espèce observée pour la dernière fois en
+          {{ clickedSpecies.all_period.last_obs }}</span
+        >
+      </div>
+      <div class="SpeciesDashboardData">
+        <img class="SpeciesDashboardDataIcon" src="/book.svg" />
+        <span
+          v-if="clickedSpecies.all_period.old_count > 0"
+          class="SpeciesDashboardDataLabel"
+          >Espèce observée avant 2019</span
+        >
+        <span v-else class="SpeciesDashboardDataLabel"
+          >Espèce non observée avant 2019</span
+        >
+      </div>
+    </div>
   </section>
 </template>
 
@@ -260,6 +262,8 @@ export default {
       breeding: [],
       wintering: [],
     },
+    search: '',
+    clickedSpecies: null,
     // barPlotWidth: 0,
     // barPlotHeight: 0,
     months: [
@@ -276,8 +280,6 @@ export default {
       'Nov',
       'Déc',
     ],
-    search: '',
-    clickedSpecies: null,
     menuItems: ['Tableau de bord', 'Espèces', 'Prospection'],
     selectedMenuItem: 'Tableau de bord',
     speciesStatusList: [
@@ -292,7 +294,7 @@ export default {
       if (this.search.length > 0) {
         return this.featureTaxaList[this.selectedSpeciesStatus.value].filter(
           (species) =>
-            species.common_name !== null &&
+            species.common_name &&
             species.common_name
               .toLowerCase()
               .normalize('NFD')
@@ -322,7 +324,7 @@ export default {
             item.label = this.months[index]
           })
           // Get bar plot size
-          const margin = { top: 0, right: 0, bottom: 30, left: 40 }
+          const margin = { top: 10, right: 0, bottom: 30, left: 40 }
           const barPlotWidth =
             parseFloat(d3.select('.TimeDistributionBarPlot').style('width')) -
             margin.left -
@@ -381,6 +383,8 @@ export default {
               'style',
               "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
             )
+          d3.select('.BarPlotSvg').selectAll('path').style('opacity', 0)
+          d3.select('.BarPlotSvg').selectAll('line').style('opacity', 0)
         })
         .catch((error) => {
           console.log(error)
@@ -398,7 +402,7 @@ export default {
           item.label = this.months[index]
         })
         // Get bar plot size
-        const margin = { top: 0, right: 0, bottom: 30, left: 40 }
+        const margin = { top: 10, right: 0, bottom: 30, left: 40 }
         const barPlotWidth =
           parseFloat(d3.select('.TimeDistributionBarPlot').style('width')) -
           margin.left -
@@ -452,6 +456,8 @@ export default {
             'style',
             "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
           )
+        barPlotSvg.selectAll('path').style('opacity', 0)
+        barPlotSvg.selectAll('line').style('opacity', 0)
         // Bars
         barPlotSvg
           .selectAll('rect')
@@ -520,7 +526,6 @@ export default {
     },
     updateClickedSpecies(taxon) {
       this.clickedSpecies = taxon
-      console.log(this.clickedSpecies)
     },
     deleteClickedSpecies() {
       this.clickedSpecies = null

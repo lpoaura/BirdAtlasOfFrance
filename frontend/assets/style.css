@@ -27,6 +27,24 @@ div.container.container--fluid {
   align-items: center;
 }
 
+.v-application a.PrimaryButton.outlined {
+  background: #fcfcfc;
+  border: 2px solid rgba(57, 118, 90, 0.1);
+  border-radius: 8px;
+  padding: 1.6vh 1.8vw;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 18px;
+  color: #39765a;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* INFORMATIVE PAGES */
 .InformativePageSection {
   background: rgba(57, 118, 90, 0.1);
@@ -169,6 +187,29 @@ div.container.container--fluid {
   width: 24px;
   height: 24px;
   margin: auto;
+}
+
+.LeafletTooltip {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  border: none !important;
+  background: rgba(252, 252, 252, 0.8) !important;
+  backdrop-filter: blur(4px) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
+}
+
+.leaflet-tooltip-left::before {
+  border-left-color: rgba(0, 0, 0, 0) !important;
+}
+.leaflet-tooltip-right::before {
+  border-right-color: rgba(0, 0, 0, 0) !important;
 }
 
 .MapControl {

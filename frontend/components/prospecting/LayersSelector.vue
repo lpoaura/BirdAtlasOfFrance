@@ -34,7 +34,7 @@
           <!-- Ajouter les points EPOC classiques -->
           <div class="EpocLi">
             <v-switch
-              v-model="epocODFPointsIsOn"
+              v-model="epocOdfOfficialIsOn"
               inset
               dense
               color="#EECE25"
@@ -43,7 +43,7 @@
           </div>
           <div class="EpocLi">
             <v-switch
-              v-model="epocODFReservePointsIsOn"
+              v-model="epocOdfReserveIsOn"
               inset
               dense
               color="#EECE25"
@@ -68,14 +68,22 @@ export default {
     selectIsOpen: false,
     layersList: ['Aucune', 'Indice de complétude', 'Points EPOC'],
     epocPointsIsOn: true,
-    epocODFPointsIsOn: true,
-    epocODFReservePointsIsOn: true,
+    epocOdfOfficialIsOn: true,
+    epocOdfReserveIsOn: true,
   }),
   computed: {
     filteredTerritories() {
       return this.territoriesList.filter((territory) =>
         territory.name.toLowerCase().includes(this.search.toLowerCase())
       )
+    },
+  },
+  watch: {
+    epocOdfOfficialIsOn(newVal) {
+      this.$emit('epocOdfOfficialIsOn', newVal)
+    },
+    epocOdfReserveIsOn(newVal) {
+      this.$emit('epocOdfReserveIsOn', newVal)
     },
   },
   methods: {
