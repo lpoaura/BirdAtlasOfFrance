@@ -118,6 +118,7 @@ export default {
     'nuxt-leaflet',
     '@nuxt/content',
     // 'nuxt-i18n',
+    'nuxt-clipboard',
   ],
 
   // PWA module configuration
