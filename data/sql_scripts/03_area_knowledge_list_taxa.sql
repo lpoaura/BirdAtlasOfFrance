@@ -52,32 +52,33 @@ $$
         SELECT
             data.id_area
           , data.cd_nom
-          , taxref.lb_nom                                                                                         AS sci_name
-          , split_part(nom_vern, ',', 1)                                                                          AS common_name
-          , count(id_data) FILTER (WHERE old_data_all_period)                                                 AS all_period_count_data_old
-          , count(id_data) FILTER (WHERE new_data_all_period)                                                 AS all_period_count_data_new
-          , extract(YEAR FROM max(data.date_min))                                                                 AS all_period_last_obs
-          , count(id_data) FILTER (WHERE new_data_breeding)                                                   AS breeding_count_data_new
+          , taxref.lb_nom                                                             AS sci_name
+          , coalesce(bib_noms.nom_francais, split_part(nom_vern, ',', 1))             AS common_name
+          , count(id_data) FILTER (WHERE old_data_all_period)                         AS all_period_count_data_old
+          , count(id_data) FILTER (WHERE new_data_all_period)                         AS all_period_count_data_new
+          , extract(YEAR FROM max(data.date_min))                                     AS all_period_last_obs
+          , count(id_data) FILTER (WHERE new_data_breeding)                           AS breeding_count_data_new
           , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
                     (max(ac.hierarchy) FILTER (WHERE new_data_breeding))::TEXT, 'VN_ATLAS_CODE',
-                    'label_default')                                                                              AS breeding_status_new
-          , count(id_data) FILTER (WHERE old_data_breeding)                                                   AS breeding_count_data_old
+                    'label_default')                                                  AS breeding_status_new
+          , count(id_data) FILTER (WHERE old_data_breeding)                           AS breeding_count_data_old
           , extract(YEAR FROM
-                    (max(data.date_min) FILTER (WHERE bird_breed_code IS NOT NULL)))                              AS breeding_last_obs
+                    (max(data.date_min) FILTER (WHERE bird_breed_code IS NOT NULL)))  AS breeding_last_obs
           , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
                     (max(ac.hierarchy) FILTER (WHERE old_data_breeding))::TEXT, 'VN_ATLAS_CODE',
-                    'label_default')                                                                              AS breeding_status_old
-          , count(id_data) FILTER (WHERE old_data_wintering)                                                  AS wintering_count_data_old
-          , count(id_data) FILTER (WHERE new_data_wintering)                                                  AS wintering_count_data_new
+                    'label_default')                                                  AS breeding_status_old
+          , count(id_data) FILTER (WHERE old_data_wintering)                          AS wintering_count_data_old
+          , count(id_data) FILTER (WHERE new_data_wintering)                          AS wintering_count_data_new
           , extract(YEAR FROM (max(data.date_min) FILTER (WHERE old_data_breeding
             OR
-                                                                new_data_wintering)))                             AS wintering_last_obs
+                                                                new_data_wintering))) AS wintering_last_obs
             FROM
                 atlas.mv_data_for_atlas data
                     JOIN taxonomie.taxref ON data.cd_nom = taxref.cd_nom
+                    LEFT JOIN taxonomie.bib_noms ON taxref.cd_nom = bib_noms.cd_nom
                     LEFT JOIN atlas_code ac ON ac.cd_nomenclature = data.bird_breed_code
             GROUP BY
-                data.id_area, data.cd_nom, taxref.lb_nom, nom_vern;
+                data.id_area, data.cd_nom, taxref.lb_nom, nom_vern,coalesce(bib_noms.nom_francais, split_part(nom_vern, ',', 1)) ;
         COMMENT ON MATERIALIZED VIEW atlas.mv_area_knowledge_list_taxa IS 'Synthèse de l''état des prospection par mailles comparativement à l''atlas précédent';
         CREATE UNIQUE INDEX i_area_knowledge_list_taxa_id_area_cd_nom ON atlas.mv_area_knowledge_list_taxa (id_area, cd_nom);
         COMMIT;
