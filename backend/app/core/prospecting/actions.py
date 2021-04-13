@@ -6,11 +6,12 @@ from geoalchemy2 import functions
 
 # from sqlalchemy_utils.functions import json_sql
 from sqlalchemy import func
-from sqlalchemy.orm import Query, Session
+from sqlalchemy.orm import Query, Session, aliased
 
 from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList, DataForAtlas
 from app.core.ref_geo.actions import bib_areas_types
+from app.core.ref_geo.models import BibAreasTypes, LAreas
 
 from .models import AreaDashboard, AreaKnowledgeLevel, Epoc
 
@@ -145,7 +146,7 @@ class AreaKnowledgeTaxaListActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
         if limit:
             q = q.limit(limit)
         logger.debug(f"Q {dir(q)}")
-        return q.all()
+        return q.order_by(AreaKnowledgeTaxaList.common_name).all()
 
 
 class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
@@ -204,6 +205,26 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
             # .order_by(func.extract("year", DataForAtlas.date_min))
         )
 
+        return q.all()
+
+    def get_intersected_areas(self, db: Session, id_area: int, type_code: str) -> Query:
+        """[summary]
+
+        Args:
+            db (Session): [description]
+            id_area (int): [description]
+
+        Returns:
+            Query: [description]
+        """
+        area = aliased(LAreas)
+        q = (
+            db.query(LAreas.id_area, LAreas.area_code, LAreas.area_name)
+            .join(BibAreasTypes, BibAreasTypes.id_type == LAreas.id_type)
+            .filter(functions.ST_Intersects(LAreas.geom, area.geom))
+            .filter(area.id_area == id_area)
+            .filter(BibAreasTypes.type_code == type_code)
+        )
         return q.all()
 
 
