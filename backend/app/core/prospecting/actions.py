@@ -108,40 +108,44 @@ class AreaKnowledgeTaxaListActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
 
     def get_area_taxa_list(self, db: Session, id_area: int, limit: Optional[int] = None) -> List:
 
-        q = db.query(
-            AreaKnowledgeTaxaList.id_area,
-            AreaKnowledgeTaxaList.cd_nom,
-            AreaKnowledgeTaxaList.sci_name,
-            AreaKnowledgeTaxaList.common_name,
-            func.json_build_object(
-                "last_obs",
-                AreaKnowledgeTaxaList.all_period_last_obs,
-                "new_count",
-                AreaKnowledgeTaxaList.all_period_count_data_new,
-                "old_count",
-                AreaKnowledgeTaxaList.all_period_count_data_old,
-            ).label("all_period"),
-            func.json_build_object(
-                "last_obs",
-                AreaKnowledgeTaxaList.wintering_last_obs,
-                "new_count",
-                AreaKnowledgeTaxaList.wintering_count_data_new,
-                "old_count",
-                AreaKnowledgeTaxaList.wintering_count_data_old,
-            ).label("wintering"),
-            func.json_build_object(
-                "last_obs",
-                AreaKnowledgeTaxaList.breeding_last_obs,
-                "new_count",
-                AreaKnowledgeTaxaList.breeding_count_data_new,
-                "new_status",
-                AreaKnowledgeTaxaList.breeding_status_new,
-                "old_count",
-                AreaKnowledgeTaxaList.breeding_count_data_old,
-                "old_status",
-                AreaKnowledgeTaxaList.breeding_status_old,
-            ).label("breeding"),
-        ).filter(AreaKnowledgeTaxaList.id_area == id_area)
+        q = (
+            db.query(
+                AreaKnowledgeTaxaList.id_area,
+                AreaKnowledgeTaxaList.cd_nom,
+                AreaKnowledgeTaxaList.sci_name,
+                AreaKnowledgeTaxaList.common_name,
+                func.json_build_object(
+                    "last_obs",
+                    AreaKnowledgeTaxaList.all_period_last_obs,
+                    "new_count",
+                    AreaKnowledgeTaxaList.all_period_count_data_new,
+                    "old_count",
+                    AreaKnowledgeTaxaList.all_period_count_data_old,
+                ).label("all_period"),
+                func.json_build_object(
+                    "last_obs",
+                    AreaKnowledgeTaxaList.wintering_last_obs,
+                    "new_count",
+                    AreaKnowledgeTaxaList.wintering_count_data_new,
+                    "old_count",
+                    AreaKnowledgeTaxaList.wintering_count_data_old,
+                ).label("wintering"),
+                func.json_build_object(
+                    "last_obs",
+                    AreaKnowledgeTaxaList.breeding_last_obs,
+                    "new_count",
+                    AreaKnowledgeTaxaList.breeding_count_data_new,
+                    "new_status",
+                    AreaKnowledgeTaxaList.breeding_status_new,
+                    "old_count",
+                    AreaKnowledgeTaxaList.breeding_count_data_old,
+                    "old_status",
+                    AreaKnowledgeTaxaList.breeding_status_old,
+                ).label("breeding"),
+            )
+            .filter(AreaKnowledgeTaxaList.id_area == id_area)
+            .order_by(AreaKnowledgeTaxaList.common_name)
+        )
 
         if limit:
             q = q.limit(limit)
@@ -224,6 +228,7 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
             .filter(functions.ST_Intersects(LAreas.geom, area.geom))
             .filter(area.id_area == id_area)
             .filter(BibAreasTypes.type_code == type_code)
+            .order_by(LAreas.area_name)
         )
         return q.all()
 
@@ -232,6 +237,8 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
             db.query(Epoc.id_epoc, Epoc.id_ff, Epoc.status, Epoc.rang_rsv)
             .join(LAreas, LAreas.id_area == Epoc.id_area)
             .filter(LAreas.id_area == id_area)
+            .order_by(Epoc.status)
+            .order_by(Epoc.rang_rsv)
         )
         logger.debug(q)
         return q.all()
