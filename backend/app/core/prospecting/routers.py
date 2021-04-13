@@ -153,6 +153,24 @@ def area_list_intersected_areas(
 
 
 @router.get(
+    "/area/list_epocs/{id_area}",
+    response_model=List[EpocFeaturePropertiesSchema],
+    tags=["prospecting"],
+    summary="...",
+    description="""cqfd""",
+)
+def area_list_epocs(
+    id_area: int,
+    db: Session = Depends(get_db),
+) -> Any:
+    q = area_dashboard.get_area_epocs(db=db, id_area=id_area)
+    logger.debug(q)
+    if not q:
+        raise HTTPException(status_code=404, detail="Data not found")
+    return q
+
+
+@router.get(
     "/epoc",
     response_model=EpocSchema,
     tags=["prospecting"],
