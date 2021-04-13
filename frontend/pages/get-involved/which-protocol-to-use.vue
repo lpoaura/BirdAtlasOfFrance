@@ -25,7 +25,7 @@
         </div>
       </div>
     </section>
-    <section v-if="selectedSpeciesGroup !== null" class="CardsSection">
+    <section v-if="selectedSpeciesGroup" class="CardsSection">
       <h2 class="CardsSectionTitle">
         Dispositifs adaptés
         <span v-if="selectedSpeciesGroup !== 'Autres'">
@@ -71,7 +71,7 @@ export default {
   }),
   computed: {
     resultsCards() {
-      if (this.selectedSpeciesGroup === null) {
+      if (!this.selectedSpeciesGroup) {
         return this.protocolsCards
       } else {
         return this.protocolsCards.filter((card) => {
