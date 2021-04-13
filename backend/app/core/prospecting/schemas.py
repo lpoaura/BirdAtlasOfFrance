@@ -153,7 +153,10 @@ class EpocFeaturePropertiesSchema(BaseModel):
     id_epoc: int
     id_ff: str
     status: str
-    rang_rsv: Optional[str]
+    rang_rsv: Optional[int]
+
+    class Config:
+        orm_mode = True
 
 
 class AreaDashboardIntersectAreas(BaseModel):
