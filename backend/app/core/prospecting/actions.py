@@ -227,6 +227,15 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
         )
         return q.all()
 
+    def get_area_epocs(self, db: Session, id_area: int) -> Query:
+        q = (
+            db.query(Epoc.id_epoc, Epoc.id_ff, Epoc.status, Epoc.rang_rsv)
+            .join(LAreas, LAreas.id_area == Epoc.id_area)
+            .filter(LAreas.id_area == id_area)
+        )
+        logger.debug(q)
+        return q.all()
+
 
 class EpocActions(BaseReadOnlyActions[Epoc]):
     def get_epocs(
