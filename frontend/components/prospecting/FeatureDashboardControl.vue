@@ -1,7 +1,8 @@
+<!-- Simplifier certains noms de classes css réutilisées -->
 <template>
   <section class="FeatureDashboardControl">
     <!-- MAIN DASHBOARD -->
-    <div v-show="clickedSpecies === null" class="MainDashboard">
+    <div v-show="!clickedSpecies" class="MainDashboard">
       <!-- HEADER -->
       <div class="FeatureDashboardHeader">
         <div class="FeatureDashboardHeaderText">
@@ -66,7 +67,7 @@
           </div>
         </div>
         MANQUE L'API<br /><br />
-        <nuxt-link to="#" class="PrimaryButton" style="width: 100%"
+        <nuxt-link to="#" class="PrimaryButton"
           >Contacter le coordinateur local départemental</nuxt-link
         >
       </div>
@@ -171,7 +172,7 @@
       </div>
     </div>
     <!-- SPECIES DASHBOARD -->
-    <div v-if="clickedSpecies !== null" class="SpeciesDashboard">
+    <div v-if="clickedSpecies" class="SpeciesDashboard">
       <div class="FeatureComeBack" @click="deleteClickedSpecies">
         <img class="PreviousIcon" src="/previous.svg" />
         <span class="FeatureComeBackLabel">{{
@@ -261,6 +262,8 @@ export default {
       breeding: [],
       wintering: [],
     },
+    search: '',
+    clickedSpecies: null,
     // barPlotWidth: 0,
     // barPlotHeight: 0,
     months: [
@@ -277,8 +280,6 @@ export default {
       'Nov',
       'Déc',
     ],
-    search: '',
-    clickedSpecies: null,
     menuItems: ['Tableau de bord', 'Espèces', 'Prospection'],
     selectedMenuItem: 'Tableau de bord',
     speciesStatusList: [
@@ -293,7 +294,7 @@ export default {
       if (this.search.length > 0) {
         return this.featureTaxaList[this.selectedSpeciesStatus.value].filter(
           (species) =>
-            species.common_name !== null &&
+            species.common_name &&
             species.common_name
               .toLowerCase()
               .normalize('NFD')
@@ -525,7 +526,6 @@ export default {
     },
     updateClickedSpecies(taxon) {
       this.clickedSpecies = taxon
-      console.log(this.clickedSpecies)
     },
     deleteClickedSpecies() {
       this.clickedSpecies = null

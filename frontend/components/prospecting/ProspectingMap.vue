@@ -20,7 +20,10 @@
     >
       <l-tile-layer :url="url" :attribution="attribution" />
       <l-geo-json
-        v-if="selectedLayer === 'Indice de complétude'"
+        v-if="
+          selectedLayer === 'Indice de complétude' ||
+          (selectedLayer === 'Points EPOC' && zoom >= 11)
+        "
         :geojson="knowledgeLevelGeojson"
         :options="knowledgeLevelGeojsonOptions"
         :options-style="knowledgeLevelGeojsonStyle"
@@ -40,32 +43,32 @@
         :options="epocOdfReserveGeojsonOptions"
       />
       <l-control
-        v-show="
-          selectedLayer === 'Indice de complétude' && clickedFeature === null
-        "
         position="topleft"
+        :disable-scroll-propagation="disableScrollPropagation"
       >
         <knowledge-level-control
+          v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
           :selected-season="selectedSeason"
           :features-colors="featuresColors"
           @selectedSeason="updateSelectedSeason"
         />
-      </l-control>
-      <l-control
-        v-if="
-          selectedLayer === 'Indice de complétude' && clickedFeature !== null
-        "
-        position="topleft"
-      >
         <feature-dashboard-control
+          v-if="selectedLayer === 'Indice de complétude' && clickedFeature"
           :clicked-feature="clickedFeature"
           :selected-season="selectedSeason"
         />
+        <epoc-dashboard-control
+          v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
+          :clicked-epoc-point="clickedEpocPoint"
+        />
       </l-control>
-      <l-control-zoom position="bottomright"></l-control-zoom>
-      <l-control position="bottomright">
-        <div class="GeolocationControl" @click="geolocate">
-          <img class="Icon" src="/geolocation.svg" />
+      <l-control
+        v-show="selectedLayer === 'Points EPOC' && zoom < 11"
+        position="topright"
+      >
+        <div class="EPOCPointsControl">
+          Trop de points à afficher, zoomez à l’échelle d’une maille pour
+          visualiser les points EPOC !
         </div>
       </l-control>
       <l-control
@@ -75,6 +78,12 @@
         <div class="MapControl">
           <v-progress-circular :indeterminate="indeterminate" />
           <span>Loading</span>
+        </div>
+      </l-control>
+      <l-control-zoom position="bottomright"></l-control-zoom>
+      <l-control position="bottomright">
+        <div class="GeolocationControl" @click="geolocate">
+          <img class="Icon" src="/geolocation.svg" />
         </div>
       </l-control>
     </l-map>
@@ -87,6 +96,7 @@ import { LMap, LGeoJson, LControl } from 'vue2-leaflet'
 // import 'leaflet/dist/leaflet.css'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
+import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
 
 export default {
   components: {
@@ -95,6 +105,7 @@ export default {
     LControl,
     'knowledge-level-control': KnowledgeLevelControl,
     'feature-dashboard-control': FeatureDashboardControl,
+    'epoc-dashboard-control': EpocDashboardControl,
   },
   props: {
     selectedMunicipalityBounds: {
@@ -136,6 +147,7 @@ export default {
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     attribution: 'OSM',
     envelope: null,
+    disableScrollPropagation: true,
     knowledgeLevelGeojson: null,
     axiosSource: null,
     axiosError: null,
@@ -154,6 +166,7 @@ export default {
       wintering: ['#90E0EF', '#00B4D8', '#0077B6', '#023E8A', '#03045E'],
     },
     clickedFeature: null,
+    clickedEpocPoint: null,
     epocOdfOfficialGeojson: null,
     epocOdfReserveGeojson: null,
     indeterminate: true,
@@ -161,10 +174,10 @@ export default {
   computed: {
     knowledgeLevelGeojsonOptions() {
       return {
-        onEachFeature: this.onEachFeature,
+        onEachFeature: this.knowledgeLevelOnEachFeature,
       }
     },
-    onEachFeature() {
+    knowledgeLevelOnEachFeature() {
       return (feature, layer) => {
         // console.log('[onEachFeature]', feature.properties)
         layer.on({
@@ -175,7 +188,9 @@ export default {
             this.resetFeatureStyle(event)
           },
           click: (event) => {
-            this.clickedFeature = feature
+            if (this.selectedLayer === 'Indice de complétude') {
+              this.clickedFeature = feature
+            }
             // console.log('Maille : ' + this.clickedFeature.properties)
             this.zoomToFeature(event)
           },
@@ -184,27 +199,39 @@ export default {
     },
     knowledgeLevelGeojsonStyle() {
       let season = this.selectedSeason // Nécessaire pour déclencher le changement de style
+      let selectedLayer = this.selectedLayer
       return (feature, layer) => {
         // console.log('[setGeojsonStyle]')
-        season = this.selectedSeason // À améliorer
-        return {
-          weight: 0.8,
-          color: '#FFFFFF',
-          opacity: 1,
-          fillColor: this.setFeatureColor(
-            season === 'breeding'
-              ? feature.properties.breeding.percent_knowledge
-              : season === 'wintering'
-              ? feature.properties.wintering.percent_knowledge
-              : feature.properties.all_period.percent_knowledge
-          ),
-          fillOpacity: 0.6,
+        selectedLayer = this.selectedLayer
+        if (selectedLayer === 'Indice de complétude') {
+          season = this.selectedSeason // À améliorer
+          return {
+            weight: 0.8,
+            color: '#FFFFFF',
+            opacity: 1,
+            fillColor: this.setFeatureColor(
+              season === 'breeding'
+                ? feature.properties.breeding.percent_knowledge
+                : season === 'wintering'
+                ? feature.properties.wintering.percent_knowledge
+                : feature.properties.all_period.percent_knowledge
+            ),
+            fillOpacity: 0.6,
+          }
+        } else {
+          return {
+            weight: 0.8,
+            color: '#C4C4C4',
+            opacity: 1,
+            fillColor: 'rgba(0,0,0,0)',
+          }
         }
       }
     },
     epocOdfOfficialGeojsonOptions() {
       return {
         pointToLayer: this.epocOdfOfficialPointToLayer,
+        onEachFeature: this.epocOdfOfficialOnEachFeature,
       }
     },
     epocOdfOfficialPointToLayer() {
@@ -219,9 +246,26 @@ export default {
         })
       }
     },
+    epocOdfOfficialOnEachFeature() {
+      return (feature, layer) => {
+        layer.bindTooltip('EPOC ODF', {
+          direction: 'right',
+          offset: [14, -18],
+          permanent: false,
+          opacity: 1,
+          className: 'LeafletTooltip',
+        })
+        layer.on({
+          click: (event) => {
+            this.clickedEpocPoint = feature
+          },
+        })
+      }
+    },
     epocOdfReserveGeojsonOptions() {
       return {
         pointToLayer: this.epocOdfReservePointToLayer,
+        onEachFeature: this.epocOdfReserveOnEachFeature,
       }
     },
     epocOdfReservePointToLayer() {
@@ -236,19 +280,41 @@ export default {
         })
       }
     },
+    epocOdfReserveOnEachFeature() {
+      return (feature, layer) => {
+        layer.bindTooltip('EPOC ODF de réserve', {
+          direction: 'right',
+          offset: [14, -18],
+          permanent: false,
+          opacity: 1,
+          className: 'LeafletTooltip',
+        })
+        layer.on({
+          click: (event) => {
+            this.clickedEpocPoint = feature
+          },
+        })
+      }
+    },
   },
   watch: {
     selectedMunicipalityBounds(newVal) {
       if (newVal != null) {
         this.zoomToArea(newVal)
         this.clickedFeature = null
+        this.clickedEpocPoint = null
       }
     },
     selectedSpecies(newVal) {
       if (newVal != null) {
         console.log('Espèce : ' + newVal)
         this.clickedFeature = null
+        this.clickedEpocPoint = null
       }
+    },
+    selectedLayer(newVal) {
+      this.clickedFeature = null
+      this.clickedEpocPoint = null
     },
     selectedTerritoryBounds(newVal) {
       this.zoomToTerritory(newVal)
@@ -320,6 +386,7 @@ export default {
       this.zoom = newZoom
       if (this.zoom < 11) {
         this.clickedFeature = null
+        this.clickedEpocPoint = null
       }
     },
     updateknowledgeLevelGeojson() {
@@ -404,7 +471,10 @@ export default {
     resetFeatureStyle(event) {
       event.target.setStyle({
         weight: 0.8,
-        color: '#FFFFFF',
+        color:
+          this.selectedLayer === 'Indice de complétude'
+            ? '#FFFFFF'
+            : 'rgba(0,0,0,0)',
       })
     },
     geolocate() {
@@ -455,5 +525,19 @@ export default {
 <style scoped>
 #map-wrap {
   height: calc(100vh - 136px);
+}
+
+.EPOCPointsControl {
+  background: #fff;
+  padding: 10px;
+  border: 2px solid #eece25;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #000;
 }
 </style>

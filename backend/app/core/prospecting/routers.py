@@ -10,6 +10,7 @@ from app.utils.db import get_db, settings
 
 from .actions import area_dashboard, area_knowledge_level, area_knowledge_taxa_list, epoc
 from .schemas import (
+    AreaDashboardIntersectAreas,
     AreaDashboardSchema,
     AreaDashboardTimeDistribSchema,
     AreaKnowledgeLevelFeatureSchema,
@@ -127,6 +128,43 @@ def area_contrib_time_distrib(
 ) -> Any:
     q = area_dashboard.get_time_distribution(db=db, id_area=id_area, time_unit=time_unit)
     logger.debug(f"<area_contrib_time_distrib> query {q}")
+    if not q:
+        raise HTTPException(status_code=404, detail="Data not found")
+    return q
+
+
+@router.get(
+    "/area/list_areas/{id_area}/{type_code}",
+    response_model=List[AreaDashboardIntersectAreas],
+    tags=["prospecting"],
+    summary="...",
+    description="""cqfd""",
+)
+def area_list_intersected_areas(
+    id_area: int,
+    db: Session = Depends(get_db),
+    type_code: str = "COM",
+) -> Any:
+    q = area_dashboard.get_intersected_areas(db=db, id_area=id_area, type_code=type_code)
+    logger.debug(q)
+    if not q:
+        raise HTTPException(status_code=404, detail="Data not found")
+    return q
+
+
+@router.get(
+    "/area/list_epocs/{id_area}",
+    response_model=List[EpocFeaturePropertiesSchema],
+    tags=["prospecting"],
+    summary="...",
+    description="""cqfd""",
+)
+def area_list_epocs(
+    id_area: int,
+    db: Session = Depends(get_db),
+) -> Any:
+    q = area_dashboard.get_area_epocs(db=db, id_area=id_area)
+    logger.debug(q)
     if not q:
         raise HTTPException(status_code=404, detail="Data not found")
     return q

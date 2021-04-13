@@ -11,17 +11,13 @@
           : '',
       ]"
     >
-      <img
-        v-if="card.icon !== null"
-        class="ProtocolsCardsIcon"
-        :src="card.icon"
-      />
+      <img v-if="card.icon" class="ProtocolsCardsIcon" :src="card.icon" />
       <h6 class="ProtocolsCardsTitle">{{ card.title }}</h6>
-      <span v-if="card.subtitle !== null" class="ProtocolsCardsSubtitle">{{
+      <span v-if="card.subtitle" class="ProtocolsCardsSubtitle">{{
         card.subtitle
       }}</span>
       <span
-        v-if="card.season !== null"
+        v-if="card.season"
         class="ProtocolsCardsChip"
         :class="[card.season === 'Reproduction' ? 'breeding' : 'wintering']"
       >
