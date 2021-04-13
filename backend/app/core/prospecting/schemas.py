@@ -156,6 +156,16 @@ class EpocFeaturePropertiesSchema(BaseModel):
     rang_rsv: Optional[str]
 
 
+class AreaDashboardIntersectAreas(BaseModel):
+
+    id_area: str
+    area_code: str
+    area_name: str
+
+    class Config:
+        orm_mode = True
+
+
 class EpocFeatureSchema(Feature):
     """[summary]
 
