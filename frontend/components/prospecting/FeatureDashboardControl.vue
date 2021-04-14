@@ -1,8 +1,9 @@
-<!-- Simplifier certains noms de classes css réutilisées -->
+<!-- Intégrer le tableau de bord EPOC après modif -->
 <template>
   <section class="FeatureDashboardControl">
     <!-- MAIN DASHBOARD -->
-    <div v-show="!clickedSpecies" class="MainDashboard">
+    <!-- Rajouter  && !clickedEpocPoint -->
+    <div v-show="!clickedSpecies" class="SpecificSubDashboard">
       <!-- HEADER -->
       <div class="FeatureDashboardHeader">
         <div class="FeatureDashboardHeaderText">
@@ -26,7 +27,7 @@
         <span
           v-for="(item, index) in menuItems"
           :key="index"
-          class="MenuItem"
+          class="MenuItem MainTextStyle"
           :class="[item === selectedMenuItem ? 'selected' : '']"
           @click="updateSelectedMenuItem(item)"
         >
@@ -38,19 +39,19 @@
         v-show="selectedMenuItem === 'Tableau de bord'"
         class="FeatureDashboardContent"
       >
-        <div class="MainSplit"></div>
-        <h2 class="FeatureDashboardTitle sub">Indice de complétude</h2>
-        <div class="KnowledgeLevelContent">
-          <div class="KnowledgeLevelData">
+        <div class="Split main"></div>
+        <h2 class="FeatureDashboardTitle margin">Indice de complétude</h2>
+        <div class="KeyDataContent">
+          <div class="KeyDataValue">
             {{ $toPercent(featureProperties.all_period.percent_knowledge) }}%
           </div>
-          <div class="KnowledgeLevelLabel">
+          <div class="KeyDataLabel">
             des espèces de référence ont été signalées<br />
             sur la période Atlas 2019-2024
           </div>
         </div>
-        <div class="MainSplit"></div>
-        <h2 class="FeatureDashboardTitle sub">
+        <div class="Split main"></div>
+        <h2 class="FeatureDashboardTitle margin">
           Répartition temporelle des données ({{
             $thousandDelimiter(featureDataKey.data_count)
           }})
@@ -58,16 +59,25 @@
         <div class="TimeDistributionBarPlot">
           <svg class="BarPlotSvg"></svg>
         </div>
-        <div class="MainSplit"></div>
-        <div class="FeatureDashboardHeader sub">
-          <h2 class="FeatureDashboardTitle">Communes (???)</h2>
+        <div class="Split main"></div>
+        <div class="FeatureDashboardHeader margin">
+          <h2 class="FeatureDashboardTitle">
+            Communes ({{ featureMunicipalitiesList.length }})
+          </h2>
           <div>
             <span class="SeeMoreData">Voir toutes les communes</span>
             <img class="SeeMoreDataChevron" src="/chevron-right-green.svg" />
           </div>
         </div>
-        MANQUE L'API<br /><br />
-        <nuxt-link to="#" class="PrimaryButton"
+        <span
+          v-for="(municipality, index) in featureMunicipalitiesList.slice(0, 3)"
+          :key="index"
+          class="DashboardSubData MainTextStyle margin"
+        >
+          {{ municipality.area_name }}
+        </span>
+        <div class="Split main"></div>
+        <nuxt-link to="#" class="PrimaryButton" style="margin-top: 6px"
           >Contacter le coordinateur local départemental</nuxt-link
         >
       </div>
@@ -76,7 +86,7 @@
         v-show="selectedMenuItem === 'Espèces'"
         class="FeatureDashboardContent"
       >
-        <div class="MainSplit"></div>
+        <div class="Split main"></div>
         <div class="AutocompleteWrapper">
           <input v-model="search" type="text" placeholder="Rechercher" />
           <div class="AutocompleteAdvanced">
@@ -106,7 +116,7 @@
             {{ item.label }}
           </div>
         </div>
-        <div class="SpeciesTable">
+        <div class="SpeciesTable MainTextStyle">
           <div class="SpeciesTableLine">
             <span class="SpeciesTableNumber"
               >{{ filteredSpecies.length }} espèce(s)</span
@@ -117,7 +127,7 @@
             </div>
           </div>
           <div v-for="taxon in filteredSpecies" :key="taxon.cd_nom">
-            <div class="SpeciesTableSplit"></div>
+            <div class="Split speciesTable"></div>
             <div
               class="SpeciesTableLine pointer"
               @click="updateClickedSpecies(taxon)"
@@ -148,10 +158,12 @@
         v-show="selectedMenuItem === 'Prospection'"
         class="FeatureDashboardContent"
       >
-        <div class="MainSplit"></div>
-        <h2 class="FeatureDashboardTitle sub">Durée totale de prospection</h2>
-        <div class="KnowledgeLevelContent">
-          <div class="KnowledgeLevelData">
+        <div class="Split main"></div>
+        <h2 class="FeatureDashboardTitle margin">
+          Durée totale de prospection
+        </h2>
+        <div class="KeyDataContent">
+          <div class="KeyDataValue">
             {{
               Math.round(
                 (featureDataKey.prospecting_hours_breeding +
@@ -162,60 +174,93 @@
             }}
             heures
           </div>
-          <div class="KnowledgeLevelLabel">
+          <div class="KeyDataLabel">
             enregistrées sur la période Atlas 2019-2024
           </div>
         </div>
-        <div class="MainSplit"></div>
-        <h2 class="FeatureDashboardTitle sub">Points EPOC ODF</h2>
-        MANQUE L'API
+        <div class="Split main"></div>
+        <h2 class="FeatureDashboardTitle margin">Points EPOC ODF</h2>
+        <div
+          v-for="(epoc, index) in featureEpocList"
+          :key="index"
+          class="DashboardSubData"
+        >
+          <img class="DashboardSubDataIcon" src="/location.svg" />
+          <span
+            class="MainTextStyle pointer"
+            @click="updateclickedEpocPoint(epoc)"
+            >{{ epoc.id_ff }}</span
+          >
+        </div>
+        <span v-if="featureEpocList.length === 0" class="MainTextStyle"
+          >Aucun point EPOC dans cette maille</span
+        >
       </div>
     </div>
     <!-- SPECIES DASHBOARD -->
-    <div v-if="clickedSpecies" class="SpeciesDashboard">
-      <div class="FeatureComeBack" @click="deleteClickedSpecies">
-        <img class="PreviousIcon" src="/previous.svg" />
-        <span class="FeatureComeBackLabel">{{
-          featureProperties.area_name
-        }}</span>
-      </div>
-      <div class="FeatureDashboardHeader">
-        <h1 class="FeatureDashboardTitle">{{ clickedSpecies.common_name }}</h1>
-      </div>
-      <div class="MainSplit"></div>
-      <div class="SpeciesDashboardData">
-        <img class="SpeciesDashboardDataIcon" src="/burger.svg" />
-        <span class="SpeciesDashboardDataLabel"
-          >{{ clickedSpecies.all_period.new_count }} donnée(s) sur la période
-          Atlas 2019-2024
-        </span>
-      </div>
-      <div class="SpeciesDashboardData">
-        <img class="SpeciesDashboardDataIcon" src="/prospecting.svg" />
-        <span class="SpeciesDashboardDataLabel"
-          >Espèce observée pour la dernière fois en
-          {{ clickedSpecies.all_period.last_obs }}</span
-        >
-      </div>
-      <div class="SpeciesDashboardData">
-        <img class="SpeciesDashboardDataIcon" src="/book.svg" />
-        <span
-          v-if="clickedSpecies.all_period.old_count > 0"
-          class="SpeciesDashboardDataLabel"
-          >Espèce observée avant 2019</span
-        >
-        <span v-else class="SpeciesDashboardDataLabel"
-          >Espèce non observée avant 2019</span
-        >
+    <div v-if="clickedSpecies" class="SpecificSubDashboard">
+      <div class="FeatureDashboardContent">
+        <div class="FeatureComeBack" @click="deleteClickedSpecies">
+          <img class="FeatureComeBackIcon" src="/previous.svg" />
+          <span class="FeatureComeBackLabel">{{
+            featureProperties.area_name
+          }}</span>
+        </div>
+        <div class="FeatureDashboardHeader">
+          <h1 class="FeatureDashboardTitle">
+            {{ clickedSpecies.common_name }}
+          </h1>
+        </div>
+        <div class="Split main"></div>
+        <div class="DashboardSubData">
+          <img class="DashboardSubDataIcon" src="/burger.svg" />
+          <span class="MainTextStyle"
+            >{{ clickedSpecies.all_period.new_count }} donnée(s) sur la période
+            Atlas 2019-2024
+          </span>
+        </div>
+        <div class="DashboardSubData">
+          <img class="DashboardSubDataIcon" src="/prospecting.svg" />
+          <span class="MainTextStyle"
+            >Espèce observée pour la dernière fois en
+            {{ clickedSpecies.all_period.last_obs }}</span
+          >
+        </div>
+        <div class="DashboardSubData">
+          <img class="DashboardSubDataIcon" src="/book.svg" />
+          <span
+            v-if="clickedSpecies.all_period.old_count > 0"
+            class="MainTextStyle"
+            >Espèce observée avant 2019</span
+          >
+          <span v-else class="MainTextStyle"
+            >Espèce non observée avant 2019</span
+          >
+        </div>
       </div>
     </div>
+    <!-- EPOC DASHBOARD -->
+    <!-- <div class="FeatureComeBack" @click="deleteClickedEpoc">
+      <img class="FeatureComeBackIcon" src="/previous.svg" />
+      <span class="FeatureComeBackLabel">{{
+        featureProperties.area_name
+      }}</span>
+    </div>
+    <epoc-dashboard-control
+      v-if="clickedEpocPoint"
+      :clicked-epoc-point="clickedEpocPoint"
+    /> -->
   </section>
 </template>
 
 <script>
+// import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
 const d3 = require('d3')
 
 export default {
+  // components: {
+  //   'epoc-dashboard-control': EpocDashboardControl,
+  // },
   props: {
     clickedFeature: {
       type: Object,
@@ -262,8 +307,11 @@ export default {
       breeding: [],
       wintering: [],
     },
+    featureMunicipalitiesList: [],
+    featureEpocList: [],
     search: '',
     clickedSpecies: null,
+    clickedEpocPoint: null,
     // barPlotWidth: 0,
     // barPlotHeight: 0,
     months: [
@@ -520,6 +568,26 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+      this.$axios
+        .$get(`/api/v1/area/list_areas/${this.featureID}/COM`)
+        .then((data) => {
+          // console.log('Liste des communes :')
+          // console.log(data)
+          this.featureMunicipalitiesList = data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      // this.$axios
+      //   .$get(`/api/v1/area/list_epocs/${this.featureID}`)
+      //   .then((data) => {
+      //     console.log('Liste des points EPOC :')
+      //     console.log(data)
+      //     this.featureEpocList = data
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
     },
     clearResults() {
       this.search = ''
@@ -529,6 +597,12 @@ export default {
     },
     deleteClickedSpecies() {
       this.clickedSpecies = null
+    },
+    updateclickedEpocPoint(epoc) {
+      this.clickedEpocPoint = epoc
+    },
+    deleteclickedEpocPoint() {
+      this.clickedEpocPoint = null
     },
     updateSelectedMenuItem(item) {
       this.selectedMenuItem = item
@@ -541,6 +615,8 @@ export default {
 </script>
 
 <style scoped>
+/* GLOBAL */
+
 .FeatureDashboardControl {
   background: #fcfcfc;
   width: 506px;
@@ -548,15 +624,21 @@ export default {
   padding: 16px 0 16px 16px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
   border-radius: 8px;
-
-  /* display: flex;
-  flex-direction: column; */
 }
 
-.MainDashboard {
+.SpecificSubDashboard {
   max-height: calc(100vh - 186px);
   display: flex;
   flex-direction: column;
+}
+
+.MainTextStyle {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
 }
 
 .FeatureDashboardHeader {
@@ -564,10 +646,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.FeatureDashboardHeader.sub {
-  margin-bottom: 10px;
 }
 
 .FeatureDashboardHeaderText {
@@ -585,10 +663,6 @@ export default {
   color: #262626;
   display: flex;
   align-items: center;
-}
-
-.FeatureDashboardTitle.sub {
-  margin-bottom: 10px;
 }
 
 .FeatureDashboardLastUpdate {
@@ -627,13 +701,6 @@ menu,
   margin-right: 6px;
   border-radius: 8px;
   cursor: pointer;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  text-decoration: none;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
   white-space: nowrap;
 }
 
@@ -643,11 +710,39 @@ menu,
   color: #39765a;
 }
 
-.MainSplit {
+.FeatureDashboardContent {
+  padding-right: 16px;
+  overflow-y: auto;
+}
+
+.Split {
   width: 100%;
   height: 0;
-  margin-bottom: 16px;
   border: 1px solid rgba(57, 118, 90, 0.1);
+}
+
+.Split.main {
+  margin-bottom: 16px;
+}
+
+.FeatureComeBack {
+  margin-bottom: 10px;
+  display: flex;
+  cursor: pointer;
+}
+
+.FeatureComeBackIcon {
+  width: 12px;
+  margin-right: 10px;
+}
+
+.FeatureComeBackLabel {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #262626;
 }
 
 .SeeMoreData {
@@ -665,18 +760,13 @@ menu,
   height: 7px;
 }
 
-.FeatureDashboardContent {
-  padding-right: 16px;
-  overflow-y: auto;
-}
-
-.KnowledgeLevelContent {
+.KeyDataContent {
   margin-bottom: 16px;
   display: flex;
   align-items: center;
 }
 
-.KnowledgeLevelData {
+.KeyDataValue {
   margin-right: 16px;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
@@ -687,7 +777,7 @@ menu,
   white-space: nowrap;
 }
 
-.KnowledgeLevelLabel {
+.KeyDataLabel {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -695,6 +785,27 @@ menu,
   line-height: 18px;
   color: rgba(38, 38, 38, 0.6);
 }
+
+.DashboardSubData {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.DashboardSubDataIcon {
+  width: 24px;
+  margin-right: 20px;
+}
+
+.margin {
+  margin-bottom: 10px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+/* SPECIFIC */
 
 .TimeDistributionBarPlot {
   width: 100%;
@@ -788,12 +899,8 @@ menu,
 }
 
 .SpeciesTable {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
+  display: flex;
+  flex-direction: column;
 }
 
 .SpeciesTableNumber {
@@ -805,10 +912,6 @@ menu,
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.SpeciesTableLine.pointer {
-  cursor: pointer;
 }
 
 .SpeciesTableColumnsContent {
@@ -827,11 +930,8 @@ menu,
   width: 15px;
 }
 
-.SpeciesTableSplit {
-  width: 100%;
-  height: 0;
+.Split.speciesTable {
   margin: 6px 0;
-  border: 1px solid rgba(57, 118, 90, 0.1);
 }
 
 .SpeciesDashboard {
@@ -840,45 +940,5 @@ menu,
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-}
-
-.FeatureComeBack {
-  margin-bottom: 10px;
-  display: flex;
-  cursor: pointer;
-}
-
-.PreviousIcon {
-  width: 12px;
-  margin-right: 10px;
-}
-
-.FeatureComeBackLabel {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 21px;
-  color: #262626;
-}
-
-.SpeciesDashboardData {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.SpeciesDashboardDataIcon {
-  width: 24px;
-  margin-right: 20px;
-}
-
-.SpeciesDashboardDataLabel {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
 }
 </style>

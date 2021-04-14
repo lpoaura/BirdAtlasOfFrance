@@ -1,4 +1,3 @@
-<!-- Attendre l'API des points EPOC ODF + ajouter maillage transparent -->
 <!-- Refaire les switchers... -->
 <template>
   <div v-click-outside="closeSelectBox" class="SelectLayerWrapper">
