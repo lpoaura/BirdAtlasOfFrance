@@ -472,9 +472,7 @@ export default {
       event.target.setStyle({
         weight: 0.8,
         color:
-          this.selectedLayer === 'Indice de complétude'
-            ? '#FFFFFF'
-            : 'rgba(0,0,0,0)',
+          this.selectedLayer === 'Indice de complétude' ? '#FFFFFF' : '#C4C4C4',
       })
     },
     geolocate() {
