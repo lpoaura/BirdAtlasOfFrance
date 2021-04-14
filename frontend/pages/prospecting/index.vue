@@ -10,6 +10,7 @@
       <div class="Selectors">
         <layers-selector
           :selected-layer="selectedLayer"
+          :selected-species="selectedSpecies"
           @selectedLayer="updateSelectedLayer"
           @epocOdfOfficialIsOn="updateEpocOdfOfficial"
           @epocOdfReserveIsOn="updateEpocOdfReserve"
@@ -107,6 +108,9 @@ export default {
     },
     updateSelectedSpecies(species) {
       this.selectedSpecies = species
+      if (!species && this.selectedLayer === "Répartition de l'espèce") {
+        this.selectedLayer = 'Indice de complétude'
+      }
     },
     updateSelectedLayer(layer) {
       this.selectedLayer = layer
