@@ -211,7 +211,7 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
 
         return q.all()
 
-    def get_intersected_areas(self, db: Session, id_area: int, type_code: str) -> Query:
+    def get_intersected_areas(self, db: Session, id_area: int, type_code: str) -> List:
         """[summary]
 
         Args:
@@ -246,22 +246,28 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
 
 class EpocActions(BaseReadOnlyActions[Epoc]):
     def get_epocs(
-        self, db: Session, status: Optional[str] = None, envelope: Optional[List] = None
-    ) -> Query:
+        self,
+        db: Session,
+        id_area: Optional[int] = None,
+        status: Optional[str] = None,
+        envelope: Optional[List] = None,
+    ) -> List:
         """[summary]
 
         Args:
-            db (Session): [description]
-            envelope (Optional[List], optional): [description]. Defaults to None.
+            db (Session): DB Session
+            envelope (Optional[List], optional): Filtering by bounding box. Defaults to None.
+            id_area (Optional[int], optional): Filtering by area. Defaults to None.
+            status (Optional[str], optional): Filtering by status. Defaults to None
 
         Returns:
-            Query: [description]
+            Query: Return
         """
         q = db.query(
             Epoc.id_epoc, Epoc.id_ff, Epoc.status, Epoc.rang_rsv, Epoc.geojson.label("geometry")
         )
         q = q.filter(Epoc.status == status) if status else q
-
+        q = q.filter(Epoc.id_area == id_area) if id_area else q
         q = (
             q.filter(
                 functions.ST_Intersects(
@@ -274,7 +280,7 @@ class EpocActions(BaseReadOnlyActions[Epoc]):
             if envelope
             else q
         )
-
+        logger.debug(f"Query ALL type {type(q.all())}")
         return q.all()
 
 
