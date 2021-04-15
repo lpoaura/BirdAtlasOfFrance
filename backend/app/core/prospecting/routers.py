@@ -152,22 +152,22 @@ def area_list_intersected_areas(
     return q
 
 
-@router.get(
-    "/area/list_epocs/{id_area}",
-    response_model=List[EpocFeaturePropertiesSchema],
-    tags=["prospecting"],
-    summary="...",
-    description="""cqfd""",
-)
-def area_list_epocs(
-    id_area: int,
-    db: Session = Depends(get_db),
-) -> Any:
-    q = area_dashboard.get_area_epocs(db=db, id_area=id_area)
-    logger.debug(q)
-    if not q:
-        raise HTTPException(status_code=404, detail="Data not found")
-    return q
+# @router.get(
+#     "/area/list_epocs/{id_area}",
+#     response_model=List[EpocFeaturePropertiesSchema],
+#     tags=["prospecting"],
+#     summary="...",
+#     description="""cqfd""",
+# )
+# def area_list_epocs(
+#     id_area: int,
+#     db: Session = Depends(get_db),
+# ) -> Any:
+#     q = area_dashboard.get_area_epocs(db=db, id_area=id_area)
+#     logger.debug(q)
+#     if not q:
+#         raise HTTPException(status_code=404, detail="Data not found")
+#     return q
 
 
 @router.get(
@@ -187,12 +187,13 @@ Status can be optionaly optionally using the query string `status=...` . status 
 def epoc_list(
     db: Session = Depends(get_db),
     status: Optional[str] = None,
+    id_area: Optional[int] = None,
     envelope: Optional[str] = None,
 ) -> Any:
     start_time = time.time()
     envelope = [float(c) for c in envelope.split(",")] if envelope else None
     logger.debug(f"STATUS {status}")
-    epocs = epoc.get_epocs(db=db, envelope=envelope, status=status)
+    epocs = epoc.get_epocs(db=db, envelope=envelope, status=status, id_area=id_area)
     features = []
     if len(epocs) == 0:
         HTTPException(status_code=404, detail="Data not found")

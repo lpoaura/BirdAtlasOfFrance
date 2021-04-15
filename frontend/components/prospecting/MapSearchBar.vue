@@ -1,4 +1,3 @@
-<!-- 2/ Intégrer l'API des espèces -->
 <template>
   <div
     v-click-outside="closeSearchBar"

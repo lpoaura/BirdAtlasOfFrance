@@ -69,13 +69,18 @@
             <img class="SeeMoreDataChevron" src="/chevron-right-green.svg" />
           </div>
         </div>
-        <span
-          v-for="(municipality, index) in featureMunicipalitiesList.slice(0, 3)"
-          :key="index"
-          class="DashboardSubData MainTextStyle margin"
-        >
-          {{ municipality.area_name }}
-        </span>
+        <div class="DashboardSubDataWrapper">
+          <span
+            v-for="(municipality, index) in featureMunicipalitiesList.slice(
+              0,
+              3
+            )"
+            :key="index"
+            class="DashboardSubData MainTextStyle margin"
+          >
+            {{ municipality.area_name }}
+          </span>
+        </div>
         <div class="Split main"></div>
         <nuxt-link to="#" class="PrimaryButton" style="margin-top: 6px"
           >Contacter le coordinateur local départemental</nuxt-link
@@ -188,7 +193,7 @@
           <img class="DashboardSubDataIcon" src="/location.svg" />
           <span
             class="MainTextStyle pointer"
-            @click="updateclickedEpocPoint(epoc)"
+            @click="updateClickedEpocPoint(epoc)"
             >{{ epoc.id_ff }}</span
           >
         </div>
@@ -240,7 +245,7 @@
       </div>
     </div>
     <!-- EPOC DASHBOARD -->
-    <!-- <div class="FeatureComeBack" @click="deleteClickedEpoc">
+    <!-- <div class="FeatureComeBack" @click="deleteClickedEpocPoint">
       <img class="FeatureComeBackIcon" src="/previous.svg" />
       <span class="FeatureComeBackLabel">{{
         featureProperties.area_name
@@ -598,10 +603,10 @@ export default {
     deleteClickedSpecies() {
       this.clickedSpecies = null
     },
-    updateclickedEpocPoint(epoc) {
+    updateClickedEpocPoint(epoc) {
       this.clickedEpocPoint = epoc
     },
-    deleteclickedEpocPoint() {
+    deleteClickedEpocPoint() {
       this.clickedEpocPoint = null
     },
     updateSelectedMenuItem(item) {
@@ -784,6 +789,10 @@ menu,
   font-size: 12px;
   line-height: 18px;
   color: rgba(38, 38, 38, 0.6);
+}
+
+.DashboardSubDataWrapper {
+  margin-bottom: 16px;
 }
 
 .DashboardSubData {

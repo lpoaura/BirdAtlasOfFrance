@@ -44,9 +44,34 @@ export default {
   data: () => ({
     selectIsOpen: false,
     seasonsList: [
-      { label: 'Toutes saisons', value: 'all_period' },
-      { label: 'Reproduction', value: 'breeding' },
-      { label: 'Hivernage', value: 'wintering' },
+      {
+        label: 'Toutes saisons',
+        value: 'all_period',
+        featuresColors: [
+          'rgba(51, 105, 80, 0.2)',
+          'rgba(51, 105, 80, 0.4)',
+          'rgba(51, 105, 80, 0.6)',
+          'rgba(51, 105, 80, 0.8)',
+          '#336950',
+        ],
+        speciesDistributionColors: ['#336950'],
+      },
+      {
+        label: 'Reproduction',
+        value: 'breeding',
+        featuresColors: ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A'],
+        speciesDistributionColors: [
+          'rgba(238, 206, 37, 0.4)',
+          'rgba(235, 106, 10, 0.4)',
+          'rgba(171, 54, 29, 0.6)',
+        ],
+      },
+      {
+        label: 'Hivernage',
+        value: 'wintering',
+        featuresColors: ['#90E0EF', '#00B4D8', '#0077B6', '#023E8A', '#03045E'],
+        speciesDistributionColors: ['#023E8A'],
+      },
     ],
   }),
   methods: {

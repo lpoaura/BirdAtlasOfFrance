@@ -59,13 +59,19 @@
         <knowledge-level-control
           v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
           :selected-season="selectedSeason"
-          :features-colors="featuresColors"
           @selectedSeason="updateSelectedSeason"
         />
         <feature-dashboard-control
           v-if="selectedLayer === 'Indice de complétude' && clickedFeature"
           :clicked-feature="clickedFeature"
           :selected-season="selectedSeason"
+        />
+        <species-dashboard-control
+          v-if="selectedLayer === 'Répartition de l\'espèce' && selectedSpecies"
+          :selected-species="selectedSpecies"
+          :selected-season="selectedSeason"
+          @selectedSeason="updateSelectedSeason"
+          @selectedSpecies="deleteSelectedSpecies"
         />
         <epoc-dashboard-control
           v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
@@ -111,6 +117,7 @@ import { LMap, LGeoJson, LControl } from 'vue2-leaflet'
 // import 'leaflet/dist/leaflet.css'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
+import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
 import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
 
 export default {
@@ -121,6 +128,7 @@ export default {
     'knowledge-level-control': KnowledgeLevelControl,
     'feature-dashboard-control': FeatureDashboardControl,
     'epoc-dashboard-control': EpocDashboardControl,
+    'species-dashboard-control': SpeciesDashboardControl,
   },
   props: {
     selectedMunicipalityBounds: {
@@ -173,19 +181,19 @@ export default {
     axiosErrorSpeciesDistribution: null,
     knowledgeLevelIsLoading: false,
     speciesDistributionIsLoading: false,
-    selectedSeason: { label: 'Toutes saisons', value: 'all_period' },
-    featuresClasses: [0.25, 0.5, 0.75, 1],
-    featuresColors: {
-      allPeriod: [
+    selectedSeason: {
+      label: 'Toutes saisons',
+      value: 'all_period',
+      featuresColors: [
         'rgba(51, 105, 80, 0.2)',
         'rgba(51, 105, 80, 0.4)',
         'rgba(51, 105, 80, 0.6)',
         'rgba(51, 105, 80, 0.8)',
         '#336950',
       ],
-      breeding: ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A'],
-      wintering: ['#90E0EF', '#00B4D8', '#0077B6', '#023E8A', '#03045E'],
+      speciesDistributionColors: ['#336950'],
     },
+    featuresClasses: [0.25, 0.5, 0.75, 1],
     clickedFeature: null,
     clickedEpocPoint: null,
     indeterminate: true,
@@ -217,8 +225,8 @@ export default {
       }
     },
     knowledgeLevelGeojsonStyle() {
-      let season = this.selectedSeason.value // Nécessaire pour déclencher le changement de style
       let selectedLayer = this.selectedLayer
+      let season = this.selectedSeason.value // Nécessaire pour déclencher le changement de style
       return (feature, layer) => {
         // console.log('[setGeojsonStyle]')
         selectedLayer = this.selectedLayer
@@ -229,11 +237,7 @@ export default {
             color: '#FFFFFF',
             opacity: 1,
             fillColor: this.setFeatureColor(
-              season === 'breeding'
-                ? feature.properties.breeding.percent_knowledge
-                : season === 'wintering'
-                ? feature.properties.wintering.percent_knowledge
-                : feature.properties.all_period.percent_knowledge
+              feature.properties[season].percent_knowledge
             ),
             fillOpacity: 0.6,
           }
@@ -260,22 +264,45 @@ export default {
     },
     speciesDistributionOnEachFeature() {
       return (feature, layer) => {
-        layer.bindTooltip('À MODIFIER', {
-          direction: 'right',
-          offset: [14, -18],
-          permanent: false,
-          opacity: 1,
-          className: 'LeafletTooltip',
+        layer.on({
+          // mouseover: (event) => {
+          //   this.highlightFeature(event)
+          // },
+          // mouseout: (event) => {
+          //   this.resetFeatureStyle(event)
+          // },
+          click: (event) => {
+            this.zoomToFeature(event)
+          },
         })
       }
     },
     speciesDistributionGeojsonStyle() {
       return (feature, layer) => {
-        return {
-          weight: 1.4,
-          color: '#336950',
-          fillColor: '#336950',
-          fillOpacity: 0.7,
+        if (this.selectedSeason.value === 'breeding') {
+          return {
+            weight: 1.4,
+            color:
+              feature.properties.status === 'Nicheur possible'
+                ? this.selectedSeason.speciesDistributionColors[0]
+                : feature.properties.status === 'Nicheur probable'
+                ? this.selectedSeason.speciesDistributionColors[1]
+                : this.selectedSeason.speciesDistributionColors[2],
+            fillColor:
+              feature.properties.status === 'Nicheur possible'
+                ? this.selectedSeason.speciesDistributionColors[0]
+                : feature.properties.status === 'Nicheur probable'
+                ? this.selectedSeason.speciesDistributionColors[1]
+                : this.selectedSeason.speciesDistributionColors[2],
+            fillOpacity: 0.7,
+          }
+        } else {
+          return {
+            weight: 1.4,
+            color: this.selectedSeason.speciesDistributionColors[0],
+            fillColor: this.selectedSeason.speciesDistributionColors[0],
+            fillOpacity: 0.7,
+          }
         }
       }
     },
@@ -360,7 +387,7 @@ export default {
       if (newVal) {
         this.clickedFeature = null
         this.clickedEpocPoint = null
-        // console.log('Espèce : ')
+        // console.log('Espèce sélectionnée : ')
         // console.log(newVal)
         this.updateSpeciesDistributionGeojson(newVal)
       }
@@ -368,6 +395,11 @@ export default {
     selectedLayer(newVal) {
       this.clickedFeature = null
       this.clickedEpocPoint = null
+    },
+    selectedSeason(newVal) {
+      if (this.selectedSpecies) {
+        this.updateSpeciesDistributionGeojson(this.selectedSpecies)
+      }
     },
     selectedTerritoryBounds(newVal) {
       this.zoomToTerritory(newVal)
@@ -539,12 +571,7 @@ export default {
         })
     },
     setFeatureColor(percent) {
-      const featuresColors =
-        this.selectedSeason.value === 'breeding'
-          ? this.featuresColors.breeding
-          : this.selectedSeason.value === 'wintering'
-          ? this.featuresColors.wintering
-          : this.featuresColors.allPeriod
+      const featuresColors = this.selectedSeason.featuresColors
       return percent >= this.featuresClasses[3]
         ? featuresColors[4]
         : percent > this.featuresClasses[2]
@@ -609,6 +636,9 @@ export default {
     },
     updateSelectedSeason(season) {
       this.selectedSeason = season
+    },
+    deleteSelectedSpecies() {
+      this.$emit('selectedSpecies', null)
     },
   },
 }
