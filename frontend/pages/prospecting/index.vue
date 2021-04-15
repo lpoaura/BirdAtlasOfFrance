@@ -26,6 +26,7 @@
         :epoc-odf-official-is-on="epocOdfOfficialIsOn"
         :epoc-odf-reserve-is-on="epocOdfReserveIsOn"
         :selected-territory-bounds="selectedTerritoryBounds"
+        @selectedSpecies="updateSelectedSpecies"
       />
     </client-only>
   </v-container>

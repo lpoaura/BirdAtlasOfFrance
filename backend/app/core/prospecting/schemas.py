@@ -11,11 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class AreaKnowledgeLevelDetailSchema(BaseModel):
-    """[summary]
-
-    Args:
-        BaseModel ([type]): [description]
-    """
+    """[AreaKnowledgeLevel] Data schema for area > period detail"""
 
     old_count: Union[None, int]
     new_count: Union[None, int]
@@ -23,11 +19,7 @@ class AreaKnowledgeLevelDetailSchema(BaseModel):
 
 
 class AreaKnowledgeLevelPropertiesSchema(BaseModel):
-    """[summary]
-
-    Args:
-        BaseModel ([type]): [description]
-    """
+    """[AreaKnowledgeLevel] Data schema for area detail"""
 
     area_name: str
     area_code: str
@@ -40,11 +32,7 @@ class AreaKnowledgeLevelPropertiesSchema(BaseModel):
 
 
 class AreaKnowledgeLevelFeatureSchema(Feature):
-    """[summary]
-
-    Args:
-        Feature ([type]): [description]
-    """
+    """[AreaKnowledgeLevel] AreaKnowledgeLevelPropertiesSchema as GeoJson properties"""
 
     properties: AreaKnowledgeLevelPropertiesSchema
 
@@ -129,7 +117,10 @@ class AreaDashboardSchema(BaseModel):
 
 
 class AreaDashboardTimeDistribSchema(BaseModel):
-    """[summary]
+    """[AreaDashboard] Schema for data time distribution
+
+    * label: value label
+    * count_data: value
 
     Args:
         BaseModel ([type]): [description]
