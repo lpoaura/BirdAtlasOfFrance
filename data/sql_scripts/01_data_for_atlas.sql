@@ -27,7 +27,7 @@ $$
                             JOIN ref_geo.l_areas ON cas.id_area = l_areas.id_area
                     WHERE
                           enable IS TRUE
-                      AND id_type = ref_geo.get_id_area_type('M10')
+                      AND id_type = ref_geo.get_id_area_type('ATLAS_GRID')
             )
             --           , data AS (
             /* Filtrage des données et association au zonage */
@@ -57,11 +57,11 @@ $$
                     JOIN taxonomie.taxref ON synthese.cd_nom = taxref.cd_nom
             WHERE
                   taxref.group2_inpn LIKE 'Oiseaux'
-              AND taxref.cd_nom NOT IN (
+              AND taxref.cd_nom IN (
                 SELECT
                     cd_nom
                     FROM
-                        atlas.t_excluded_taxa);
+                        atlas.t_taxa);
         RAISE INFO '-- % -- COMMENT AND INDEXES ON atlas.mv_data_for_atlas', clock_timestamp();
         COMMENT ON MATERIALIZED VIEW atlas.mv_data_for_atlas IS 'All datas used for atlas';
 --         CREATE UNIQUE INDEX i_unique_data_for_atlas_id_synthese ON atlas.mv_data_for_atlas (id_data);
@@ -92,12 +92,12 @@ $$
                             FROM
                                 ref_geo.bib_areas_types
                             WHERE
-                                type_code = 'M10'
+                                type_code = 'ATLAS_GRID'
                             LIMIT 1))
         SELECT
             areas.id_area
           , site                                                                      AS site
-          , cast(item ->> '@id' as INTEGER)                                                            AS id_form_local
+          , cast(item ->> '@id' AS INTEGER)                                           AS id_form_local
           , item ->> 'id_form_universal'                                              AS id_form_universal
           , cast(item ->> 'date_start' AS DATE) + cast(item ->> 'time_start' AS TIME) AS timestamp_start
           , cast(item ->> 'date_stop' AS DATE) + cast(item ->> 'time_stop' AS TIME)   AS timestamp_stop
@@ -119,7 +119,7 @@ $$
           , item ->> 'comment'                                                        AS comment
           , item #>> '{protocol,protocol_name}'                                       AS protocol
             FROM
-                import_vn.forms_json
+                src_vn_json.forms_json
               , areas
             WHERE
                   st_intersects(
@@ -138,3 +138,49 @@ $$
 $$
 ;
 
+WITH
+    cd_noms AS (SELECT DISTINCT cd_nom FROM gn_synthese.synthese)
+  , subsp AS (SELECT
+                  taxref.lb_nom
+                , taxref.id_rang
+                , taxref.cd_nom
+                , taxref.nom_vern
+                , CASE WHEN id_rang LIKE 'SSES' THEN cd_sup ELSE cd_ref END AS cd_base
+                , taxref.cd_nom
+                  FROM
+                      cd_noms
+                          JOIN taxonomie.taxref
+                               ON cd_noms.cd_nom = taxref.cd_nom
+                  WHERE
+                        taxref.cd_nom = taxref.cd_ref
+                    AND (
+                                (
+                                    id_rang LIKE 'ES')
+                                OR (
+                                        id_rang LIKE 'SSES'
+                                        AND cd_ref IN (
+                                                       3745, 886211, 886212, 961306))))
+SELECT DISTINCT
+    tx.lb_nom
+  , tx.id_rang
+  , tx.cd_nom
+  , tx.nom_vern
+  , array_agg(subsp.cd_nom)
+    FROM
+        cd_noms
+            JOIN taxonomie.taxref tx ON cd_noms.cd_nom = tx.cd_nom
+            JOIN subsp ON tx.cd_nom = subsp.cd_base
+    WHERE
+          tx.cd_nom = tx.cd_ref
+      AND (
+                  (
+                      id_rang LIKE 'ES')
+                  OR (
+                          id_rang LIKE 'SSES'
+                          AND cd_ref IN (3745, 886211, 886212, 961306)))
+    GROUP BY
+        tx.lb_nom
+      , tx.id_rang
+      , tx.cd_nom
+      , tx.nom_vern
+;

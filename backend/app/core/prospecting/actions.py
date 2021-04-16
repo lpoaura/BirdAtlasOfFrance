@@ -280,7 +280,6 @@ class EpocActions(BaseReadOnlyActions[Epoc]):
             if envelope
             else q
         )
-        logger.debug(f"Query ALL type {type(q.all())}")
         return q.all()
 
 

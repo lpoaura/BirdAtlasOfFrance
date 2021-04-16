@@ -2,7 +2,7 @@
 """Search pydantic schemas module"""
 
 import logging
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -27,5 +27,9 @@ class MvSearchAreasSchema(MvSearchBaseSchema):
 
 
 class MvSearchTaxaSchema(MvSearchBaseSchema):
+    common_name_fr: Optional[str]
+    common_name_en: Optional[str]
+    sci_name: Optional[str]
+
     class Config:
         orm_mode = True
