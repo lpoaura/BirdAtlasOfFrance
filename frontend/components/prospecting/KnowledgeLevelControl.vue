@@ -1,3 +1,4 @@
+<!-- BUG PIE CHART -->
 <!-- Attendre l'API des indices de complétude par saison -->
 <template>
   <section class="KnowledgeLevelControl">
@@ -26,12 +27,7 @@
           <div class="PieChartLegendLabel">
             <i
               :style="{
-                background:
-                  selectedSeason.value === 'breeding'
-                    ? featuresColors.breeding[index]
-                    : selectedSeason.value === 'wintering'
-                    ? featuresColors.wintering[index]
-                    : featuresColors.allPeriod[index],
+                background: selectedSeason.featuresColors[index],
               }"
             ></i
             >{{ item.label }}
@@ -55,10 +51,6 @@ export default {
   },
   props: {
     selectedSeason: {
-      type: Object,
-      required: true,
-    },
-    featuresColors: {
       type: Object,
       required: true,
     },
@@ -114,13 +106,7 @@ export default {
         .attr('width', pieChartHeight)
         .attr('height', pieChartHeight)
       // Define pie chart colors
-      const color = d3.scaleOrdinal(
-        this.selectedSeason.value === 'breeding'
-          ? this.featuresColors.breeding
-          : this.selectedSeason.value === 'wintering'
-          ? this.featuresColors.wintering
-          : this.featuresColors.allPeriod
-      )
+      const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
       // Define pie chart shape
       this.arcPath = d3
         .arc()
@@ -154,13 +140,7 @@ export default {
     updateSelectedSeason(season) {
       this.$emit('selectedSeason', season)
       // Define pie chart colors
-      const color = d3.scaleOrdinal(
-        season.value === 'breeding'
-          ? this.featuresColors.breeding
-          : season.value === 'wintering'
-          ? this.featuresColors.wintering
-          : this.featuresColors.allPeriod
-      )
+      const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
       // Define data
       const pieChartData = d3
         .pie()

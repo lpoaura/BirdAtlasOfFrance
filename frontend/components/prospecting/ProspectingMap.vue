@@ -21,6 +21,16 @@
       <l-tile-layer :url="url" :attribution="attribution" />
       <l-geo-json
         v-if="
+          selectedSpecies &&
+          selectedLayer === 'Répartition de l\'espèce' &&
+          speciesDistributionGeojson
+        "
+        :geojson="speciesDistributionGeojson"
+        :options="speciesDistributionGeojsonOptions"
+        :options-style="speciesDistributionGeojsonStyle"
+      />
+      <l-geo-json
+        v-if="
           selectedLayer === 'Indice de complétude' ||
           (selectedLayer === 'Points EPOC' && zoom >= 11)
         "
@@ -49,35 +59,66 @@
         <knowledge-level-control
           v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
           :selected-season="selectedSeason"
-          :features-colors="featuresColors"
           @selectedSeason="updateSelectedSeason"
         />
         <feature-dashboard-control
-          v-if="selectedLayer === 'Indice de complétude' && clickedFeature"
+          v-if="
+            ['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+            clickedFeature &&
+            !clickedEpocPoint
+          "
           :clicked-feature="clickedFeature"
           :selected-season="selectedSeason"
         />
-        <epoc-dashboard-control
-          v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
-          :clicked-epoc-point="clickedEpocPoint"
+        <species-dashboard-control
+          v-if="selectedLayer === 'Répartition de l\'espèce' && selectedSpecies"
+          :selected-species="selectedSpecies"
+          :selected-season="selectedSeason"
+          @selectedSeason="updateSelectedSeason"
+          @selectedSpecies="deleteSelectedSpecies"
         />
+        <section
+          v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
+          class="EpocDashboardControl"
+        >
+          <div
+            v-if="clickedFeature"
+            class="FeatureComeBack"
+            @click="deleteClickedEpocPoint"
+          >
+            <img class="FeatureComeBackIcon" src="/previous.svg" />
+            <span class="FeatureComeBackLabel">{{
+              clickedFeature.properties.area_name
+            }}</span>
+          </div>
+          <epoc-dashboard-control :clicked-epoc-point="clickedEpocPoint" />
+        </section>
       </l-control>
       <l-control
         v-show="selectedLayer === 'Points EPOC' && zoom < 11"
         position="topright"
       >
-        <div class="EPOCPointsControl">
+        <div class="EpocGeojsonControl">
           Trop de points à afficher, zoomez à l’échelle d’une maille pour
           visualiser les points EPOC !
         </div>
       </l-control>
       <l-control
-        v-show="isLoading && selectedLayer === 'Indice de complétude'"
+        v-show="
+          (knowledgeLevelIsLoading &&
+            selectedLayer === 'Indice de complétude') ||
+          (speciesDistributionIsLoading &&
+            selectedLayer === 'Répartition de l\'espèce')
+        "
         position="topright"
       >
-        <div class="MapControl">
-          <v-progress-circular :indeterminate="indeterminate" />
-          <span>Loading</span>
+        <div class="EpocGeojsonControl">
+          <v-progress-circular
+            :size="20"
+            :width="3"
+            :indeterminate="indeterminate"
+          />
+          <span style="margin-left: 5px">Chargement des données</span>
         </div>
       </l-control>
       <l-control-zoom position="bottomright"></l-control-zoom>
@@ -96,6 +137,7 @@ import { LMap, LGeoJson, LControl } from 'vue2-leaflet'
 // import 'leaflet/dist/leaflet.css'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
+import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
 import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
 
 export default {
@@ -106,6 +148,7 @@ export default {
     'knowledge-level-control': KnowledgeLevelControl,
     'feature-dashboard-control': FeatureDashboardControl,
     'epoc-dashboard-control': EpocDashboardControl,
+    'species-dashboard-control': SpeciesDashboardControl,
   },
   props: {
     selectedMunicipalityBounds: {
@@ -149,26 +192,30 @@ export default {
     envelope: null,
     disableScrollPropagation: true,
     knowledgeLevelGeojson: null,
-    axiosSource: null,
-    axiosError: null,
-    isLoading: false,
-    selectedSeason: { label: 'Toutes saisons', value: 'all_period' },
-    featuresClasses: [0.25, 0.5, 0.75, 1],
-    featuresColors: {
-      allPeriod: [
+    speciesDistributionGeojson: null,
+    epocOdfOfficialGeojson: null,
+    epocOdfReserveGeojson: null,
+    axiosSourceKnowledgeLevel: null,
+    axiosErrorKnowledgeLevel: null,
+    axiosSourceSpeciesDistribution: null,
+    axiosErrorSpeciesDistribution: null,
+    knowledgeLevelIsLoading: false,
+    speciesDistributionIsLoading: false,
+    selectedSeason: {
+      label: 'Toutes saisons',
+      value: 'all_period',
+      featuresColors: [
         'rgba(51, 105, 80, 0.2)',
         'rgba(51, 105, 80, 0.4)',
         'rgba(51, 105, 80, 0.6)',
         'rgba(51, 105, 80, 0.8)',
         '#336950',
       ],
-      breeding: ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A'],
-      wintering: ['#90E0EF', '#00B4D8', '#0077B6', '#023E8A', '#03045E'],
+      speciesDistributionColors: ['#336950'],
     },
+    featuresClasses: [0.25, 0.5, 0.75, 1],
     clickedFeature: null,
     clickedEpocPoint: null,
-    epocOdfOfficialGeojson: null,
-    epocOdfReserveGeojson: null,
     indeterminate: true,
   }),
   computed: {
@@ -188,9 +235,8 @@ export default {
             this.resetFeatureStyle(event)
           },
           click: (event) => {
-            if (this.selectedLayer === 'Indice de complétude') {
-              this.clickedFeature = feature
-            }
+            this.clickedEpocPoint = null
+            this.clickedFeature = feature
             // console.log('Maille : ' + this.clickedFeature.properties)
             this.zoomToFeature(event)
           },
@@ -198,23 +244,19 @@ export default {
       }
     },
     knowledgeLevelGeojsonStyle() {
-      let season = this.selectedSeason // Nécessaire pour déclencher le changement de style
       let selectedLayer = this.selectedLayer
+      let season = this.selectedSeason.value // Nécessaire pour déclencher le changement de style
       return (feature, layer) => {
         // console.log('[setGeojsonStyle]')
         selectedLayer = this.selectedLayer
         if (selectedLayer === 'Indice de complétude') {
-          season = this.selectedSeason // À améliorer
+          season = this.selectedSeason.value // À améliorer
           return {
             weight: 0.8,
             color: '#FFFFFF',
             opacity: 1,
             fillColor: this.setFeatureColor(
-              season === 'breeding'
-                ? feature.properties.breeding.percent_knowledge
-                : season === 'wintering'
-                ? feature.properties.wintering.percent_knowledge
-                : feature.properties.all_period.percent_knowledge
+              feature.properties[season].percent_knowledge
             ),
             fillOpacity: 0.6,
           }
@@ -224,6 +266,61 @@ export default {
             color: '#C4C4C4',
             opacity: 1,
             fillColor: 'rgba(0,0,0,0)',
+          }
+        }
+      }
+    },
+    speciesDistributionGeojsonOptions() {
+      return {
+        pointToLayer: this.speciesDistributionPointToLayer,
+        onEachFeature: this.speciesDistributionOnEachFeature,
+      }
+    },
+    speciesDistributionPointToLayer() {
+      return (geojsonPoint, latlng) => {
+        return L.circle(latlng, { radius: 4800 })
+      }
+    },
+    speciesDistributionOnEachFeature() {
+      return (feature, layer) => {
+        layer.on({
+          // mouseover: (event) => {
+          //   this.highlightFeature(event)
+          // },
+          // mouseout: (event) => {
+          //   this.resetFeatureStyle(event)
+          // },
+          click: (event) => {
+            this.zoomToFeature(event)
+          },
+        })
+      }
+    },
+    speciesDistributionGeojsonStyle() {
+      return (feature, layer) => {
+        if (this.selectedSeason.value === 'breeding') {
+          return {
+            weight: 1.4,
+            color:
+              feature.properties.status === 'Nicheur possible'
+                ? this.selectedSeason.speciesDistributionColors[0]
+                : feature.properties.status === 'Nicheur probable'
+                ? this.selectedSeason.speciesDistributionColors[1]
+                : this.selectedSeason.speciesDistributionColors[2],
+            fillColor:
+              feature.properties.status === 'Nicheur possible'
+                ? this.selectedSeason.speciesDistributionColors[0]
+                : feature.properties.status === 'Nicheur probable'
+                ? this.selectedSeason.speciesDistributionColors[1]
+                : this.selectedSeason.speciesDistributionColors[2],
+            fillOpacity: 0.7,
+          }
+        } else {
+          return {
+            weight: 1.4,
+            color: this.selectedSeason.speciesDistributionColors[0],
+            fillColor: this.selectedSeason.speciesDistributionColors[0],
+            fillOpacity: 0.7,
           }
         }
       }
@@ -299,22 +396,31 @@ export default {
   },
   watch: {
     selectedMunicipalityBounds(newVal) {
-      if (newVal != null) {
+      if (newVal) {
         this.zoomToArea(newVal)
         this.clickedFeature = null
         this.clickedEpocPoint = null
       }
     },
     selectedSpecies(newVal) {
-      if (newVal != null) {
-        console.log('Espèce : ' + newVal)
+      if (newVal) {
         this.clickedFeature = null
         this.clickedEpocPoint = null
+        // console.log('Espèce sélectionnée : ')
+        // console.log(newVal)
+        this.updateSpeciesDistributionGeojson(newVal)
       }
     },
     selectedLayer(newVal) {
-      this.clickedFeature = null
+      if (newVal === 'Aucune') {
+        this.clickedFeature = null
+      }
       this.clickedEpocPoint = null
+    },
+    selectedSeason(newVal) {
+      if (this.selectedSpecies) {
+        this.updateSpeciesDistributionGeojson(this.selectedSpecies)
+      }
     },
     selectedTerritoryBounds(newVal) {
       this.zoomToTerritory(newVal)
@@ -365,7 +471,7 @@ export default {
       const initBounds = this.$refs.myMap.mapObject.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
-      this.updateknowledgeLevelGeojson()
+      this.updateKnowledgeLevelGeojson()
       if (this.zoom >= 11) {
         this.updateEpocOdfOfficialGeojson()
         this.updateEpocOdfReserveGeojson()
@@ -375,10 +481,13 @@ export default {
       // console.log('[updateEnvelope]')
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
-      this.updateknowledgeLevelGeojson()
+      this.updateKnowledgeLevelGeojson()
       if (this.zoom >= 11) {
         this.updateEpocOdfOfficialGeojson()
         this.updateEpocOdfReserveGeojson()
+      }
+      if (this.selectedSpecies) {
+        this.updateSpeciesDistributionGeojson(this.selectedSpecies)
       }
     },
     updateZoom(newZoom) {
@@ -389,36 +498,74 @@ export default {
         this.clickedEpocPoint = null
       }
     },
-    updateknowledgeLevelGeojson() {
+    updateKnowledgeLevelGeojson() {
       // console.log('[updateGeojson]')
-      if (this.axiosSource != null) {
-        this.axiosSource.cancel('Resquest has been canceled')
+      if (this.axiosSourceKnowledgeLevel !== null) {
+        this.axiosSourceKnowledgeLevel.cancel('Resquest has been canceled')
       }
       const cancelToken = this.$axios.CancelToken
-      this.axiosSource = cancelToken.source()
+      this.axiosSourceKnowledgeLevel = cancelToken.source()
       if (
         !(
           this.isProgramaticZoom === false &&
           this.$refs.myMap.mapObject.getZoom() > this.previousZoom
         )
       ) {
-        this.isLoading = true
+        this.knowledgeLevelIsLoading = true
         this.$axios
           .$get(`/api/v1/area/knowledge_level/M10?envelope=${this.envelope}`, {
-            cancelToken: this.axiosSource.token,
+            cancelToken: this.axiosSourceKnowledgeLevel.token,
           })
           .then((data) => {
             this.knowledgeLevelGeojson = data
           })
           .catch((error) => {
             // console.log(error)
-            this.axiosError = error
+            this.axiosErrorKnowledgeLevel = error
           })
           .finally(() => {
-            if (this.axiosError === null) {
-              this.isLoading = false
+            if (this.axiosErrorKnowledgeLevel === null) {
+              this.knowledgeLevelIsLoading = false
             }
-            this.axiosError = null
+            this.axiosErrorKnowledgeLevel = null
+          })
+      }
+      this.previousZoom = this.$refs.myMap.mapObject.getZoom()
+      this.isProgramaticZoom = false
+    },
+    updateSpeciesDistributionGeojson(species) {
+      // console.log('[updateGeojson]')
+      if (this.axiosSourceSpeciesDistribution !== null) {
+        this.axiosSourceSpeciesDistribution.cancel('Resquest has been canceled')
+      }
+      const cancelToken = this.$axios.CancelToken
+      this.axiosSourceSpeciesDistribution = cancelToken.source()
+      if (
+        !(
+          this.isProgramaticZoom === false &&
+          this.$refs.myMap.mapObject.getZoom() > this.previousZoom
+        )
+      ) {
+        this.speciesDistributionIsLoading = true
+        this.$axios
+          .$get(
+            `/api/v1/taxa/${species.code}?period=${this.selectedSeason.value}_new&envelope=${this.envelope}`,
+            {
+              cancelToken: this.axiosSourceSpeciesDistribution.token,
+            }
+          )
+          .then((data) => {
+            this.speciesDistributionGeojson = data
+          })
+          .catch((error) => {
+            // console.log(error)
+            this.axiosErrorSpeciesDistribution = error
+          })
+          .finally(() => {
+            if (this.axiosErrorSpeciesDistribution === null) {
+              this.speciesDistributionIsLoading = false
+            }
+            this.axiosErrorSpeciesDistribution = null
           })
       }
       this.previousZoom = this.$refs.myMap.mapObject.getZoom()
@@ -445,12 +592,7 @@ export default {
         })
     },
     setFeatureColor(percent) {
-      const featuresColors =
-        this.selectedSeason.value === 'breeding'
-          ? this.featuresColors.breeding
-          : this.selectedSeason.value === 'wintering'
-          ? this.featuresColors.wintering
-          : this.featuresColors.allPeriod
+      const featuresColors = this.selectedSeason.featuresColors
       return percent >= this.featuresClasses[3]
         ? featuresColors[4]
         : percent > this.featuresClasses[2]
@@ -472,9 +614,7 @@ export default {
       event.target.setStyle({
         weight: 0.8,
         color:
-          this.selectedLayer === 'Indice de complétude'
-            ? '#FFFFFF'
-            : 'rgba(0,0,0,0)',
+          this.selectedLayer === 'Indice de complétude' ? '#FFFFFF' : '#C4C4C4',
       })
     },
     geolocate() {
@@ -518,6 +658,12 @@ export default {
     updateSelectedSeason(season) {
       this.selectedSeason = season
     },
+    deleteSelectedSpecies() {
+      this.$emit('selectedSpecies', null)
+    },
+    deleteClickedEpocPoint() {
+      this.clickedEpocPoint = null
+    },
   },
 }
 </script>
@@ -527,7 +673,36 @@ export default {
   height: calc(100vh - 136px);
 }
 
-.EPOCPointsControl {
+section.EpocDashboardControl {
+  background: #fcfcfc;
+  width: 506px;
+  max-height: calc(100vh - 156px);
+  padding: 16px 0 16px 16px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+}
+
+.FeatureComeBack {
+  margin-bottom: 10px;
+  display: flex;
+  cursor: pointer;
+}
+
+.FeatureComeBackIcon {
+  width: 12px;
+  margin-right: 10px;
+}
+
+.FeatureComeBackLabel {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #262626;
+}
+
+.EpocGeojsonControl {
   background: #fff;
   padding: 10px;
   border: 2px solid #eece25;
