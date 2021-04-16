@@ -29,5 +29,8 @@ class MvSearchTaxa(Base):
     __table_args__ = {"schema": "atlas"}
     code = Column(Integer, primary_key=True)
     search_string = Column(String)
+    common_name_fr = Column(String)
+    common_name_en = Column(String)
+    sci_name = Column(String)
     name = Column(String)
     html_repr = Column(String)
