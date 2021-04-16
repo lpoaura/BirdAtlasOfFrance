@@ -62,7 +62,11 @@
           @selectedSeason="updateSelectedSeason"
         />
         <feature-dashboard-control
-          v-if="selectedLayer === 'Indice de complétude' && clickedFeature"
+          v-if="
+            ['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+            clickedFeature &&
+            !clickedEpocPoint
+          "
           :clicked-feature="clickedFeature"
           :selected-season="selectedSeason"
         />
@@ -73,16 +77,28 @@
           @selectedSeason="updateSelectedSeason"
           @selectedSpecies="deleteSelectedSpecies"
         />
-        <epoc-dashboard-control
+        <section
           v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
-          :clicked-epoc-point="clickedEpocPoint"
-        />
+          class="EpocDashboardControl"
+        >
+          <div
+            v-if="clickedFeature"
+            class="FeatureComeBack"
+            @click="deleteClickedEpocPoint"
+          >
+            <img class="FeatureComeBackIcon" src="/previous.svg" />
+            <span class="FeatureComeBackLabel">{{
+              clickedFeature.properties.area_name
+            }}</span>
+          </div>
+          <epoc-dashboard-control :clicked-epoc-point="clickedEpocPoint" />
+        </section>
       </l-control>
       <l-control
         v-show="selectedLayer === 'Points EPOC' && zoom < 11"
         position="topright"
       >
-        <div class="EPOCPointsControl">
+        <div class="EpocGeojsonControl">
           Trop de points à afficher, zoomez à l’échelle d’une maille pour
           visualiser les points EPOC !
         </div>
@@ -96,9 +112,13 @@
         "
         position="topright"
       >
-        <div class="MapControl">
-          <v-progress-circular :indeterminate="indeterminate" />
-          <span>Loading</span>
+        <div class="EpocGeojsonControl">
+          <v-progress-circular
+            :size="20"
+            :width="3"
+            :indeterminate="indeterminate"
+          />
+          <span style="margin-left: 5px">Chargement des données</span>
         </div>
       </l-control>
       <l-control-zoom position="bottomright"></l-control-zoom>
@@ -215,9 +235,8 @@ export default {
             this.resetFeatureStyle(event)
           },
           click: (event) => {
-            if (this.selectedLayer === 'Indice de complétude') {
-              this.clickedFeature = feature
-            }
+            this.clickedEpocPoint = null
+            this.clickedFeature = feature
             // console.log('Maille : ' + this.clickedFeature.properties)
             this.zoomToFeature(event)
           },
@@ -393,7 +412,9 @@ export default {
       }
     },
     selectedLayer(newVal) {
-      this.clickedFeature = null
+      if (newVal === 'Aucune') {
+        this.clickedFeature = null
+      }
       this.clickedEpocPoint = null
     },
     selectedSeason(newVal) {
@@ -640,6 +661,9 @@ export default {
     deleteSelectedSpecies() {
       this.$emit('selectedSpecies', null)
     },
+    deleteClickedEpocPoint() {
+      this.clickedEpocPoint = null
+    },
   },
 }
 </script>
@@ -649,7 +673,36 @@ export default {
   height: calc(100vh - 136px);
 }
 
-.EPOCPointsControl {
+section.EpocDashboardControl {
+  background: #fcfcfc;
+  width: 506px;
+  max-height: calc(100vh - 156px);
+  padding: 16px 0 16px 16px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+}
+
+.FeatureComeBack {
+  margin-bottom: 10px;
+  display: flex;
+  cursor: pointer;
+}
+
+.FeatureComeBackIcon {
+  width: 12px;
+  margin-right: 10px;
+}
+
+.FeatureComeBackLabel {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #262626;
+}
+
+.EpocGeojsonControl {
   background: #fff;
   padding: 10px;
   border: 2px solid #eece25;

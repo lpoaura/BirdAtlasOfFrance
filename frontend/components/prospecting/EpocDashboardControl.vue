@@ -1,5 +1,5 @@
 <template>
-  <section class="EpocDashboardControl">
+  <div class="EpocDashboardControl">
     <!-- HEADER -->
     <div class="EpocDashboardHeader">
       <div class="EpocDashboardHeaderText">
@@ -51,7 +51,7 @@
         >Ouvrir sur Google Maps</a
       >
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -75,12 +75,6 @@ export default {
 
 <style scoped>
 .EpocDashboardControl {
-  background: #fcfcfc;
-  width: 506px;
-  max-height: calc(100vh - 156px);
-  padding: 16px 0 16px 16px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
 }

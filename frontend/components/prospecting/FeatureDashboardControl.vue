@@ -1,9 +1,10 @@
-<!-- Intégrer le tableau de bord EPOC après modif -->
 <template>
   <section class="FeatureDashboardControl">
     <!-- MAIN DASHBOARD -->
-    <!-- Rajouter  && !clickedEpocPoint -->
-    <div v-show="!clickedSpecies" class="SpecificSubDashboard">
+    <div
+      v-show="!clickedSpecies && !clickedEpocItem"
+      class="SpecificSubDashboard"
+    >
       <!-- HEADER -->
       <div class="FeatureDashboardHeader">
         <div class="FeatureDashboardHeaderText">
@@ -184,7 +185,9 @@
           </div>
         </div>
         <div class="Split main"></div>
-        <h2 class="FeatureDashboardTitle margin">Points EPOC ODF</h2>
+        <h2 class="FeatureDashboardTitle margin">
+          Points EPOC ODF ({{ featureEpocList.length }})
+        </h2>
         <div
           v-for="(epoc, index) in featureEpocList"
           :key="index"
@@ -193,12 +196,12 @@
           <img class="DashboardSubDataIcon" src="/location.svg" />
           <span
             class="MainTextStyle pointer"
-            @click="updateClickedEpocPoint(epoc)"
-            >{{ epoc.id_ff }}</span
+            @click="updateClickedEpocItem(epoc)"
+            >{{ epoc.properties.id_ff }}</span
           >
         </div>
         <span v-if="featureEpocList.length === 0" class="MainTextStyle"
-          >Aucun point EPOC dans cette maille</span
+          >Aucun point EPOC à afficher dans cette maille</span
         >
       </div>
     </div>
@@ -245,16 +248,18 @@
       </div>
     </div>
     <!-- EPOC DASHBOARD -->
-    <!-- <div class="FeatureComeBack" @click="deleteClickedEpocPoint">
-      <img class="FeatureComeBackIcon" src="/previous.svg" />
-      <span class="FeatureComeBackLabel">{{
-        featureProperties.area_name
-      }}</span>
+    <div v-if="clickedEpocItem" class="SpecificSubDashboard">
+      <div class="FeatureComeBack" @click="deleteClickedEpocItem">
+        <img class="FeatureComeBackIcon" src="/previous.svg" />
+        <span class="FeatureComeBackLabel">{{
+          featureProperties.area_name
+        }}</span>
+      </div>
+      <epoc-dashboard-control
+        v-if="clickedEpocItem"
+        :clicked-epoc-point="clickedEpocItem"
+      />
     </div>
-    <epoc-dashboard-control
-      v-if="clickedEpocPoint"
-      :clicked-epoc-point="clickedEpocPoint"
-    /> -->
   </section>
 </template>
 
@@ -313,10 +318,10 @@ export default {
       wintering: [],
     },
     featureMunicipalitiesList: [],
-    featureEpocList: [],
+    featureEpocList: {},
     search: '',
     clickedSpecies: null,
-    clickedEpocPoint: null,
+    clickedEpocItem: null,
     // barPlotWidth: 0,
     // barPlotHeight: 0,
     months: [
@@ -583,16 +588,16 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-      // this.$axios
-      //   .$get(`/api/v1/area/list_epocs/${this.featureID}`)
-      //   .then((data) => {
-      //     console.log('Liste des points EPOC :')
-      //     console.log(data)
-      //     this.featureEpocList = data
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
+      this.$axios
+        .$get(`/api/v1/epoc?id_area=${this.featureID}`)
+        .then((data) => {
+          // console.log('Liste des points EPOC :')
+          // console.log(data.features)
+          this.featureEpocList = data.features
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     clearResults() {
       this.search = ''
@@ -603,11 +608,11 @@ export default {
     deleteClickedSpecies() {
       this.clickedSpecies = null
     },
-    updateClickedEpocPoint(epoc) {
-      this.clickedEpocPoint = epoc
+    updateClickedEpocItem(epoc) {
+      this.clickedEpocItem = epoc
     },
-    deleteClickedEpocPoint() {
-      this.clickedEpocPoint = null
+    deleteClickedEpocItem() {
+      this.clickedEpocItem = null
     },
     updateSelectedMenuItem(item) {
       this.selectedMenuItem = item

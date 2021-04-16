@@ -110,7 +110,7 @@ export default {
     updateSelectedSpecies(species) {
       this.selectedSpecies = species
       if (!species && this.selectedLayer === "Répartition de l'espèce") {
-        this.selectedLayer = 'Indice de complétude'
+        this.selectedLayer = 'Aucune'
       }
     },
     updateSelectedLayer(layer) {
