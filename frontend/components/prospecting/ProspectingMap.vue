@@ -32,7 +32,7 @@
       <l-geo-json
         v-if="
           selectedLayer === 'Indice de complétude' ||
-          (selectedLayer === 'Points EPOC' && zoom >= 11)
+          (selectedLayer === 'Points EPOC' && currentZoom >= 11)
         "
         :geojson="knowledgeLevelGeojson"
         :options="knowledgeLevelGeojsonOptions"
@@ -40,14 +40,18 @@
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Points EPOC' && epocOdfOfficialIsOn && zoom >= 11
+          selectedLayer === 'Points EPOC' &&
+          epocOdfOfficialIsOn &&
+          currentZoom >= 11
         "
         :geojson="epocOdfOfficialGeojson"
         :options="epocOdfOfficialGeojsonOptions"
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Points EPOC' && epocOdfReserveIsOn && zoom >= 11
+          selectedLayer === 'Points EPOC' &&
+          epocOdfReserveIsOn &&
+          currentZoom >= 11
         "
         :geojson="epocOdfReserveGeojson"
         :options="epocOdfReserveGeojsonOptions"
@@ -95,7 +99,7 @@
         </section>
       </l-control>
       <l-control
-        v-show="selectedLayer === 'Points EPOC' && zoom < 11"
+        v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
         position="topright"
       >
         <div class="EpocGeojsonControl">
@@ -181,7 +185,9 @@ export default {
   },
   data: () => ({
     zoom: 12,
-    previousZoom: 100,
+    currentZoom: 12,
+    oldZoomKnowledgeLevel: 100,
+    oldZoomSpeciesDistribution: 100,
     isProgramaticZoom: false,
     center: [48.85341, 2.3488],
     bounds: null,
@@ -408,6 +414,7 @@ export default {
         this.clickedEpocPoint = null
         // console.log('Espèce sélectionnée : ')
         // console.log(newVal)
+        this.oldZoomSpeciesDistribution = 101
         this.updateSpeciesDistributionGeojson(newVal)
       }
     },
@@ -472,7 +479,7 @@ export default {
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
       this.updateKnowledgeLevelGeojson()
-      if (this.zoom >= 11) {
+      if (this.currentZoom >= 11) {
         this.updateEpocOdfOfficialGeojson()
         this.updateEpocOdfReserveGeojson()
       }
@@ -482,7 +489,7 @@ export default {
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
       this.updateKnowledgeLevelGeojson()
-      if (this.zoom >= 11) {
+      if (this.currentZoom >= 11) {
         this.updateEpocOdfOfficialGeojson()
         this.updateEpocOdfReserveGeojson()
       }
@@ -491,26 +498,30 @@ export default {
       }
     },
     updateZoom(newZoom) {
-      // console.log(newZoom)
-      this.zoom = newZoom
-      if (this.zoom < 11) {
+      // console.log('New zoom : ' + newZoom)
+      this.currentZoom = newZoom
+      if (this.currentZoom < 11) {
         this.clickedFeature = null
         this.clickedEpocPoint = null
       }
     },
     updateKnowledgeLevelGeojson() {
       // console.log('[updateGeojson]')
-      if (this.axiosSourceKnowledgeLevel !== null) {
-        this.axiosSourceKnowledgeLevel.cancel('Resquest has been canceled')
-      }
-      const cancelToken = this.$axios.CancelToken
-      this.axiosSourceKnowledgeLevel = cancelToken.source()
+      // console.log('Ancien zoom : ' + this.oldZoomKnowledgeLevel)
+      // console.log('Nouveau zoom : ' + this.currentZoom)
+      // console.log(this.axiosSourceKnowledgeLevel)
       if (
         !(
-          this.isProgramaticZoom === false &&
-          this.$refs.myMap.mapObject.getZoom() > this.previousZoom
+          !this.isProgramaticZoom &&
+          this.currentZoom > this.oldZoomKnowledgeLevel &&
+          !this.axiosSourceKnowledgeLevel
         )
       ) {
+        if (this.axiosSourceKnowledgeLevel) {
+          this.axiosSourceKnowledgeLevel.cancel('Resquest has been canceled')
+        }
+        const cancelToken = this.$axios.CancelToken
+        this.axiosSourceKnowledgeLevel = cancelToken.source()
         this.knowledgeLevelIsLoading = true
         this.$axios
           .$get(`/api/v1/area/knowledge_level/M10?envelope=${this.envelope}`, {
@@ -524,28 +535,37 @@ export default {
             this.axiosErrorKnowledgeLevel = error
           })
           .finally(() => {
-            if (this.axiosErrorKnowledgeLevel === null) {
+            if (!this.axiosErrorKnowledgeLevel) {
+              this.axiosSourceKnowledgeLevel = null
               this.knowledgeLevelIsLoading = false
             }
             this.axiosErrorKnowledgeLevel = null
           })
+      } else {
+        // console.log('Pas de rechargement nécessaire')
       }
-      this.previousZoom = this.$refs.myMap.mapObject.getZoom()
+      this.oldZoomKnowledgeLevel = this.currentZoom
       this.isProgramaticZoom = false
     },
     updateSpeciesDistributionGeojson(species) {
       // console.log('[updateGeojson]')
-      if (this.axiosSourceSpeciesDistribution !== null) {
-        this.axiosSourceSpeciesDistribution.cancel('Resquest has been canceled')
-      }
-      const cancelToken = this.$axios.CancelToken
-      this.axiosSourceSpeciesDistribution = cancelToken.source()
+      // console.log('Ancien zoom : ' + this.oldZoomSpeciesDistribution)
+      // console.log('Nouveau zoom : ' + this.currentZoom)
+      // console.log(this.axiosSourceSpeciesDistribution)
       if (
         !(
-          this.isProgramaticZoom === false &&
-          this.$refs.myMap.mapObject.getZoom() > this.previousZoom
+          !this.isProgramaticZoom &&
+          this.currentZoom > this.oldZoomSpeciesDistribution &&
+          !this.axiosSourceSpeciesDistribution
         )
       ) {
+        if (this.axiosSourceSpeciesDistribution) {
+          this.axiosSourceSpeciesDistribution.cancel(
+            'Resquest has been canceled'
+          )
+        }
+        const cancelToken = this.$axios.CancelToken
+        this.axiosSourceSpeciesDistribution = cancelToken.source()
         this.speciesDistributionIsLoading = true
         this.$axios
           .$get(
@@ -562,13 +582,16 @@ export default {
             this.axiosErrorSpeciesDistribution = error
           })
           .finally(() => {
-            if (this.axiosErrorSpeciesDistribution === null) {
+            if (!this.axiosErrorSpeciesDistribution) {
+              this.axiosSourceSpeciesDistribution = null
               this.speciesDistributionIsLoading = false
             }
             this.axiosErrorSpeciesDistribution = null
           })
+      } else {
+        // console.log('Pas de rechargement nécessaire')
       }
-      this.previousZoom = this.$refs.myMap.mapObject.getZoom()
+      this.oldZoomSpeciesDistribution = this.currentZoom
       this.isProgramaticZoom = false
     },
     updateEpocOdfOfficialGeojson() {
