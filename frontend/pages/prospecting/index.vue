@@ -10,6 +10,7 @@
       <div class="Selectors">
         <layers-selector
           :selected-layer="selectedLayer"
+          :selected-species="selectedSpecies"
           @selectedLayer="updateSelectedLayer"
           @epocOdfOfficialIsOn="updateEpocOdfOfficial"
           @epocOdfReserveIsOn="updateEpocOdfReserve"
@@ -25,6 +26,7 @@
         :epoc-odf-official-is-on="epocOdfOfficialIsOn"
         :epoc-odf-reserve-is-on="epocOdfReserveIsOn"
         :selected-territory-bounds="selectedTerritoryBounds"
+        @selectedSpecies="updateSelectedSpecies"
       />
     </client-only>
   </v-container>
@@ -107,6 +109,9 @@ export default {
     },
     updateSelectedSpecies(species) {
       this.selectedSpecies = species
+      if (!species && this.selectedLayer === "Répartition de l'espèce") {
+        this.selectedLayer = 'Aucune'
+      }
     },
     updateSelectedLayer(layer) {
       this.selectedLayer = layer

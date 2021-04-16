@@ -1,4 +1,3 @@
-<!-- Attendre l'API des points EPOC ODF + ajouter maillage transparent -->
 <!-- Refaire les switchers... -->
 <template>
   <div v-click-outside="closeSelectBox" class="SelectLayerWrapper">
@@ -51,6 +50,20 @@
             <span class="LayersLiText">EPOC ODF de réserve</span>
           </div>
         </div>
+        <div
+          v-if="selectedSpecies"
+          class="LayersLi"
+          :class="speciesDistributionLayer === selectedLayer ? 'selected' : ''"
+          @click="updateSelectedLayer(speciesDistributionLayer)"
+        >
+          <div class="LayersLiRadio">
+            <div
+              v-show="speciesDistributionLayer === selectedLayer"
+              class="LayersLiRadioSelected"
+            ></div>
+          </div>
+          <span class="LayersLiText">{{ speciesDistributionLayer }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -63,10 +76,16 @@ export default {
       type: String,
       required: true,
     },
+    selectedSpecies: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data: () => ({
     selectIsOpen: false,
     layersList: ['Aucune', 'Indice de complétude', 'Points EPOC'],
+    speciesDistributionLayer: "Répartition de l'espèce",
     epocPointsIsOn: true,
     epocOdfOfficialIsOn: true,
     epocOdfReserveIsOn: true,
@@ -84,6 +103,11 @@ export default {
     },
     epocOdfReserveIsOn(newVal) {
       this.$emit('epocOdfReserveIsOn', newVal)
+    },
+    selectedSpecies(newVal) {
+      if (newVal) {
+        this.$emit('selectedLayer', this.speciesDistributionLayer)
+      }
     },
   },
   methods: {

@@ -10,7 +10,8 @@ div.container.container--fluid {
   text-decoration: none;
 }
 
-.v-application a.PrimaryButton {
+.v-application a.PrimaryButton,
+.PrimaryButton {
   background: #39765a;
   border-radius: 8px;
   padding: 1.6vh 1.8vw;
@@ -22,12 +23,14 @@ div.container.container--fluid {
   line-height: 18px;
   color: #fcfcfc;
   text-align: center;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.v-application a.PrimaryButton.outlined {
+.v-application a.PrimaryButton.outlined,
+.PrimaryButton.outlined {
   background: #fcfcfc;
   border: 2px solid rgba(57, 118, 90, 0.1);
   border-radius: 8px;
@@ -40,6 +43,7 @@ div.container.container--fluid {
   line-height: 18px;
   color: #39765a;
   text-align: center;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,4 +1,3 @@
-<!-- 2/ Intégrer l'API des espèces -->
 <template>
   <div
     v-click-outside="closeSearchBar"
@@ -112,6 +111,7 @@ export default {
         newVal.lenght !== oldVal.length
       ) {
         this.speciesIsSelected = false
+        this.$emit('selectedSpecies', null)
         this.$router.push({
           path: '/prospecting',
           query: { species: undefined },
@@ -175,6 +175,7 @@ export default {
       this.search = ''
       if (this.speciesIsSelected) {
         this.speciesIsSelected = false
+        this.$emit('selectedSpecies', null)
         this.$router.push({
           path: '/prospecting',
           query: { species: undefined },
