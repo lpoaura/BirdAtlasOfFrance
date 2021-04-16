@@ -50,7 +50,10 @@ Search taxa by scientific name, common name or official cd_ref
 """,
 )
 def search_taxa(
-    db: Session = Depends(get_db), limit: int = 10, search: Optional[str] = None
+    db: Session = Depends(get_db),
+    limit: int = 10,
+    search: Optional[str] = None,
+    cd_nom: Optional[int] = None,
 ) -> Any:
-    rsearch = mv_search_taxa.get_search_list(db=db, limit=limit, search=search)
+    rsearch = mv_search_taxa.get_search_list(db=db, limit=limit, search=search, cd_nom=cd_nom)
     return rsearch

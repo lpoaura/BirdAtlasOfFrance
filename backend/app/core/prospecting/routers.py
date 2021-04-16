@@ -208,4 +208,5 @@ def epoc_list(
         )
         features.append(f)
     logger.debug(f"step4: {(time.time() - start_time) * 1000}")
+    logger.debug(f"EpocSchema type {type(EpocSchema(features=features))}")
     return EpocSchema(features=features)

@@ -43,16 +43,23 @@ class MvSearchAreasActions(BaseReadOnlyActions[MvSearchAreas]):
 class MvSearchTaxaActions(BaseReadOnlyActions[MvSearchTaxa]):
     """Post actions with basic CRUD operations"""
 
-    def get_search_list(self, db: Session, limit: int, search: str = None) -> List:
-        search = search.lower()
-        search_string = f"%{search}%"
+    def get_search_list(
+        self, db: Session, limit: int, search: str = None, cd_nom: int = None
+    ) -> List:
         q = db.query(
             self.model.code,
             self.model.name,
+            self.model.common_name_fr,
+            self.model.common_name_en,
+            self.model.sci_name,
             self.model.html_repr,
         )
         if search is not None:
+            search = search.lower()
+            search_string = f"%{search}%"
             q = q.filter(self.model.search_string.like(func.unaccent(search_string)))
+        if cd_nom is not None:
+            q = q.filter(self.model.code == cd_nom)
         q = q.order_by(self.model.name.asc())
         return q.limit(limit).all()
 
