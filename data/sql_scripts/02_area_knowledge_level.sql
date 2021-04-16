@@ -28,7 +28,7 @@ $$
                                 FROM
                                     ref_geo.bib_areas_types
                                 WHERE
-                                    type_code = 'M10'
+                                    type_code = 'ATLAS_GRID'
                                 LIMIT 1
                         )
             )

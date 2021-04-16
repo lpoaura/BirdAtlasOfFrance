@@ -22,6 +22,16 @@ $$
             cd_nom INT REFERENCES taxonomie.taxref (cd_nom)
         );
 
+                /* Create table to list excluded taxa */
+        CREATE TABLE IF NOT EXISTS atlas.t_taxa
+        (
+            id_taxa serial PRIMARY KEY ,
+            cd_nom INT REFERENCES taxonomie.taxref (cd_nom),
+            common_name varchar,
+            sci_name varchar,
+            include integer[]
+        );
+
         /* Commit changes */
         COMMIT;
     END
