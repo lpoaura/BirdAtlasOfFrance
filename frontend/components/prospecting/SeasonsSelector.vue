@@ -59,7 +59,13 @@ export default {
       {
         label: 'Reproduction',
         value: 'breeding',
-        featuresColors: ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A'],
+        featuresColors: [
+          'rgba(230, 87, 132, 0.2)',
+          'rgba(230, 87, 132, 0.4)',
+          'rgba(230, 87, 132, 0.6)',
+          'rgba(230, 87, 132, 0.8)',
+          '#E65784',
+        ],
         speciesDistributionColors: [
           'rgba(238, 206, 37, 0.4)',
           'rgba(235, 106, 10, 0.4)',
