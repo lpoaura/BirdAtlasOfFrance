@@ -409,10 +409,14 @@ export default {
         .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
         .then((data) => {
           // console.log('Time distrib :')
-          // console.log(data)
-          data.forEach((item, index) => {
-            item.label = this.months[index]
+          const formattedData = this.months.map((item, index) => {
+            return {
+              label: item,
+              count_data:
+                data.find((d) => d.label === index + 1)?.count_data || 0,
+            }
           })
+          // console.log(formattedData)
           // Get bar plot size
           const margin = { top: 10, right: 0, bottom: 30, left: 40 }
           const barPlotWidth =
@@ -429,7 +433,7 @@ export default {
             .range([0, barPlotWidth])
             .padding(0.2)
             .domain(
-              data.map(function (d) {
+              formattedData.map(function (d) {
                 return d.label
               })
             )
@@ -439,7 +443,7 @@ export default {
             .range([barPlotHeight, 0])
             .domain([
               0,
-              d3.max(data, function (d) {
+              d3.max(formattedData, function (d) {
                 return d.count_data
               }),
             ])
@@ -447,7 +451,7 @@ export default {
           const barPlotBars = d3
             .select('.BarPlotSvg')
             .selectAll('.bars')
-            .data(data)
+            .data(formattedData)
           barPlotBars.exit().remove()
           barPlotBars
             .enter()
@@ -487,10 +491,14 @@ export default {
       .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
       .then((data) => {
         // console.log('Time distrib :')
-        // console.log(data)
-        data.forEach((item, index) => {
-          item.label = this.months[index]
+        const formattedData = this.months.map((item, index) => {
+          return {
+            label: item,
+            count_data:
+              data.find((d) => d.label === index + 1)?.count_data || 0,
+          }
         })
+        // console.log(formattedData)
         // Get bar plot size
         const margin = { top: 10, right: 0, bottom: 30, left: 40 }
         const barPlotWidth =
@@ -514,7 +522,7 @@ export default {
           .range([0, barPlotWidth])
           .padding(0.2)
           .domain(
-            data.map(function (d) {
+            formattedData.map(function (d) {
               return d.label
             })
           )
@@ -533,7 +541,7 @@ export default {
           .range([barPlotHeight, 0])
           .domain([
             0,
-            d3.max(data, function (d) {
+            d3.max(formattedData, function (d) {
               return d.count_data
             }),
           ])
@@ -551,7 +559,7 @@ export default {
         // Bars
         barPlotSvg
           .selectAll('rect')
-          .data(data)
+          .data(formattedData)
           .enter()
           .append('rect')
           .attr('class', 'bars')

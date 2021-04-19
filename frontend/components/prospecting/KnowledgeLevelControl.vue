@@ -1,4 +1,3 @@
-<!-- BUG PIE CHART -->
 <!-- Attendre l'API des indices de complétude par saison -->
 <template>
   <section class="KnowledgeLevelControl">
@@ -8,7 +7,7 @@
         <div class="HelpWrapper">
           <img class="HelpIcon" src="/help.svg" />
           <div class="HelpVocabularyTip"></div>
-          <div class="HelpVocabulary">
+          <div class="HelpVocabularyInfo">
             Rapport entre le nombre d'espèces observées sur la période 2019-2024
             et le nombre d’espèces observées sur les périodes précédentes.
           </div>
@@ -96,6 +95,37 @@ export default {
       return totalCount
     },
   },
+  watch: {
+    selectedSeason(newVal) {
+      // Le watch permet de mettre à jour le graphe quand on change la saison sur la répartition de l'espèce
+      // Define pie chart colors
+      const color = d3.scaleOrdinal(newVal.featuresColors)
+      // Define data
+      const pieChartData = d3
+        .pie()
+        .value(function (d) {
+          return d.value
+        })
+        .sort(null)(this.knowledgeLevelData)
+      // Create pie chart
+      const pieChartSvg = d3
+        .select('.PieChartSvg')
+        .selectAll('path')
+        .data(pieChartData)
+      pieChartSvg.exit().remove()
+      pieChartSvg
+        .enter()
+        .append('path')
+        .merge(pieChartSvg)
+        .transition()
+        .duration(150)
+        .attr('class', 'arc')
+        .attr('d', this.arcPath)
+        .attr('fill', function (d) {
+          return color(d.data.label)
+        })
+    },
+  },
   mounted() {
     this.$axios.$get('/api/v1/knowledge_level').then((data) => {
       // console.log(data)
@@ -146,32 +176,6 @@ export default {
   methods: {
     updateSelectedSeason(season) {
       this.$emit('selectedSeason', season)
-      // Define pie chart colors
-      const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
-      // Define data
-      const pieChartData = d3
-        .pie()
-        .value(function (d) {
-          return d.data
-        })
-        .sort(null)(this.knowledgeLevelData)
-      // Create pie chart
-      const pieChartSvg = d3
-        .select('.PieChartSvg')
-        .selectAll('path')
-        .data(pieChartData)
-      pieChartSvg.exit().remove()
-      pieChartSvg
-        .enter()
-        .append('path')
-        .merge(pieChartSvg)
-        .transition()
-        .duration(150)
-        .attr('class', 'arc')
-        .attr('d', this.arcPath)
-        .attr('fill', function (d) {
-          return color(d.data.label)
-        })
     },
   },
 }
@@ -232,7 +236,7 @@ export default {
   display: block;
 }
 
-.HelpVocabulary {
+.HelpVocabularyInfo {
   display: none;
   position: absolute;
   z-index: 6;
@@ -250,7 +254,7 @@ export default {
   color: #fcfcfc;
 }
 
-.HelpIcon:hover ~ .HelpVocabulary {
+.HelpIcon:hover ~ .HelpVocabularyInfo {
   display: block;
 }
 
