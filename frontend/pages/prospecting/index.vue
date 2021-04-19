@@ -3,7 +3,7 @@
     <header>
       <div class="MapSearchBar">
         <map-search-bar
-          @selectedMunicipality="updateSelectedMunicipality"
+          @selectedArea="updateSelectedArea"
           @selectedSpecies="updateSelectedSpecies"
         />
       </div>
@@ -20,7 +20,7 @@
     </header>
     <client-only>
       <lazy-prospecting-map
-        :selected-municipality-bounds="selectedMunicipalityBounds"
+        :selected-area="selectedArea"
         :selected-species="selectedSpecies"
         :selected-layer="selectedLayer"
         :epoc-odf-official-is-on="epocOdfOfficialIsOn"
@@ -55,7 +55,7 @@ export default {
   //     )
   //   },
   data: () => ({
-    selectedMunicipalityBounds: null,
+    selectedArea: null,
     selectedSpecies: null,
     selectedLayer: 'Indice de complétude',
     epocOdfOfficialIsOn: true,
@@ -104,8 +104,8 @@ export default {
     selectedTerritoryBounds: null,
   }),
   methods: {
-    updateSelectedMunicipality(data) {
-      this.selectedMunicipalityBounds = data.bounds
+    updateSelectedArea(data) {
+      this.selectedArea = data
     },
     updateSelectedSpecies(species) {
       this.selectedSpecies = species

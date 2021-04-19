@@ -3,21 +3,19 @@
     <!-- HEADER -->
     <div class="SpeciesDashboardHeader">
       <span class="SpeciesDashboardTitle">{{
-        selectedSpecies.name.split('(')[0]
+        selectedSpecies.common_name_fr
       }}</span>
       <seasons-selector
         :selected-season="selectedSeason"
         @selectedSeason="updateSelectedSeason"
       />
     </div>
-    <div class="SpeciesDashboardSubtitle">
-      {{
-        selectedSpecies.name.slice(
-          selectedSpecies.name.indexOf('(') + 1,
-          selectedSpecies.name.indexOf(')')
-        )
-      }}
-    </div>
+    <span class="SpeciesDashboardSubtitle">
+      <i>{{ selectedSpecies.sci_name }} </i>
+      <span v-if="selectedSpecies.common_name_en">
+        - {{ selectedSpecies.common_name_en }}
+      </span>
+    </span>
     <!-- CONTENT -->
     <div class="SpeciesDashboardContent">
       <div class="FeaturesLegend">

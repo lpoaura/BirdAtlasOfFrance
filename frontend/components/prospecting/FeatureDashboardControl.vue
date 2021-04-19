@@ -2,7 +2,9 @@
   <section class="FeatureDashboardControl">
     <!-- MAIN DASHBOARD -->
     <div
-      v-show="!clickedSpecies && !clickedEpocItem"
+      v-show="
+        !clickedSpecies && !clickedEpocItem && !seeMoreMunicipalitiesIsClicked
+      "
       class="SpecificSubDashboard"
     >
       <!-- HEADER -->
@@ -66,7 +68,9 @@
             Communes ({{ featureMunicipalitiesList.length }})
           </h2>
           <div>
-            <span class="SeeMoreData">Voir toutes les communes</span>
+            <span class="SeeMoreData" @click="updateSeeMoreMunicipalities"
+              >Voir toutes les communes</span
+            >
             <img class="SeeMoreDataChevron" src="/chevron-right-green.svg" />
           </div>
         </div>
@@ -77,7 +81,7 @@
               3
             )"
             :key="index"
-            class="DashboardSubData MainTextStyle margin"
+            class="DashboardSubData MainTextStyle"
           >
             {{ municipality.area_name }}
           </span>
@@ -205,20 +209,44 @@
         >
       </div>
     </div>
+    <!-- MUNICIPALITIES DASHBOARD -->
+    <div v-if="seeMoreMunicipalitiesIsClicked" class="SpecificSubDashboard">
+      <div class="FeatureComeBack" @click="deleteSeeMoreMunicipalities">
+        <img class="FeatureComeBackIcon" src="/previous.svg" />
+        <span class="FeatureComeBackLabel">{{
+          featureProperties.area_name
+        }}</span>
+      </div>
+      <div class="FeatureDashboardHeader">
+        <h1 class="FeatureDashboardTitle">
+          Communes ({{ featureMunicipalitiesList.length }})
+        </h1>
+      </div>
+      <div class="FeatureDashboardContent">
+        <div class="Split main"></div>
+        <span
+          v-for="(municipality, index) in featureMunicipalitiesList"
+          :key="index"
+          class="DashboardSubData MainTextStyle"
+        >
+          {{ municipality.area_name }}
+        </span>
+      </div>
+    </div>
     <!-- SPECIES DASHBOARD -->
     <div v-if="clickedSpecies" class="SpecificSubDashboard">
+      <div class="FeatureComeBack" @click="deleteClickedSpecies">
+        <img class="FeatureComeBackIcon" src="/previous.svg" />
+        <span class="FeatureComeBackLabel">{{
+          featureProperties.area_name
+        }}</span>
+      </div>
+      <div class="FeatureDashboardHeader">
+        <h1 class="FeatureDashboardTitle">
+          {{ clickedSpecies.common_name }}
+        </h1>
+      </div>
       <div class="FeatureDashboardContent">
-        <div class="FeatureComeBack" @click="deleteClickedSpecies">
-          <img class="FeatureComeBackIcon" src="/previous.svg" />
-          <span class="FeatureComeBackLabel">{{
-            featureProperties.area_name
-          }}</span>
-        </div>
-        <div class="FeatureDashboardHeader">
-          <h1 class="FeatureDashboardTitle">
-            {{ clickedSpecies.common_name }}
-          </h1>
-        </div>
         <div class="Split main"></div>
         <div class="DashboardSubData">
           <img class="DashboardSubDataIcon" src="/burger.svg" />
@@ -264,13 +292,13 @@
 </template>
 
 <script>
-// import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
+import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
 const d3 = require('d3')
 
 export default {
-  // components: {
-  //   'epoc-dashboard-control': EpocDashboardControl,
-  // },
+  components: {
+    'epoc-dashboard-control': EpocDashboardControl,
+  },
   props: {
     clickedFeature: {
       type: Object,
@@ -320,6 +348,7 @@ export default {
     featureMunicipalitiesList: [],
     featureEpocList: {},
     search: '',
+    seeMoreMunicipalitiesIsClicked: false,
     clickedSpecies: null,
     clickedEpocItem: null,
     // barPlotWidth: 0,
@@ -372,15 +401,22 @@ export default {
   watch: {
     clickedFeature(newVal) {
       this.clickedSpecies = null
+      this.clickedEpocItem = null
+      this.seeMoreMunicipalitiesIsClicked = false
+      this.selectedMenuItem = 'Tableau de bord'
       this.initiateFeatureData(newVal)
       this.$axios
         .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
         .then((data) => {
           // console.log('Time distrib :')
-          // console.log(data)
-          data.forEach((item, index) => {
-            item.label = this.months[index]
+          const formattedData = this.months.map((item, index) => {
+            return {
+              label: item,
+              count_data:
+                data.find((d) => d.label === index + 1)?.count_data || 0,
+            }
           })
+          // console.log(formattedData)
           // Get bar plot size
           const margin = { top: 10, right: 0, bottom: 30, left: 40 }
           const barPlotWidth =
@@ -397,7 +433,7 @@ export default {
             .range([0, barPlotWidth])
             .padding(0.2)
             .domain(
-              data.map(function (d) {
+              formattedData.map(function (d) {
                 return d.label
               })
             )
@@ -407,7 +443,7 @@ export default {
             .range([barPlotHeight, 0])
             .domain([
               0,
-              d3.max(data, function (d) {
+              d3.max(formattedData, function (d) {
                 return d.count_data
               }),
             ])
@@ -415,7 +451,7 @@ export default {
           const barPlotBars = d3
             .select('.BarPlotSvg')
             .selectAll('.bars')
-            .data(data)
+            .data(formattedData)
           barPlotBars.exit().remove()
           barPlotBars
             .enter()
@@ -455,10 +491,14 @@ export default {
       .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
       .then((data) => {
         // console.log('Time distrib :')
-        // console.log(data)
-        data.forEach((item, index) => {
-          item.label = this.months[index]
+        const formattedData = this.months.map((item, index) => {
+          return {
+            label: item,
+            count_data:
+              data.find((d) => d.label === index + 1)?.count_data || 0,
+          }
         })
+        // console.log(formattedData)
         // Get bar plot size
         const margin = { top: 10, right: 0, bottom: 30, left: 40 }
         const barPlotWidth =
@@ -482,7 +522,7 @@ export default {
           .range([0, barPlotWidth])
           .padding(0.2)
           .domain(
-            data.map(function (d) {
+            formattedData.map(function (d) {
               return d.label
             })
           )
@@ -501,7 +541,7 @@ export default {
           .range([barPlotHeight, 0])
           .domain([
             0,
-            d3.max(data, function (d) {
+            d3.max(formattedData, function (d) {
               return d.count_data
             }),
           ])
@@ -519,7 +559,7 @@ export default {
         // Bars
         barPlotSvg
           .selectAll('rect')
-          .data(data)
+          .data(formattedData)
           .enter()
           .append('rect')
           .attr('class', 'bars')
@@ -601,6 +641,12 @@ export default {
     },
     clearResults() {
       this.search = ''
+    },
+    updateSeeMoreMunicipalities() {
+      this.seeMoreMunicipalitiesIsClicked = true
+    },
+    deleteSeeMoreMunicipalities() {
+      this.seeMoreMunicipalitiesIsClicked = false
     },
     updateClickedSpecies(taxon) {
       this.clickedSpecies = taxon

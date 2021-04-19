@@ -59,7 +59,13 @@ export default {
       {
         label: 'Reproduction',
         value: 'breeding',
-        featuresColors: ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A'],
+        featuresColors: [
+          'rgba(230, 87, 132, 0.2)',
+          'rgba(230, 87, 132, 0.4)',
+          'rgba(230, 87, 132, 0.6)',
+          'rgba(230, 87, 132, 0.8)',
+          '#E65784',
+        ],
         speciesDistributionColors: [
           'rgba(238, 206, 37, 0.4)',
           'rgba(235, 106, 10, 0.4)',
@@ -69,8 +75,14 @@ export default {
       {
         label: 'Hivernage',
         value: 'wintering',
-        featuresColors: ['#90E0EF', '#00B4D8', '#0077B6', '#023E8A', '#03045E'],
-        speciesDistributionColors: ['#023E8A'],
+        featuresColors: [
+          'rgba(76, 97, 244, 0.2)',
+          'rgba(76, 97, 244, 0.4)',
+          'rgba(76, 97, 244, 0.6)',
+          'rgba(76, 97, 244, 0.8)',
+          '#4C61F4',
+        ],
+        speciesDistributionColors: ['#4C61F4'],
       },
     ],
   }),

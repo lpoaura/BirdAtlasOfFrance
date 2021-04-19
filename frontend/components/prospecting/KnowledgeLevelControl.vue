@@ -1,18 +1,24 @@
-<!-- BUG PIE CHART -->
 <!-- Attendre l'API des indices de complétude par saison -->
 <template>
   <section class="KnowledgeLevelControl">
     <div class="KnowledgeLevelHeader">
       <div class="KnowledgeLevelTitle">
         <span>Indice de complétude</span>
-        <img class="HelpIcon" src="/help.svg" title="DÉFINITION" />
+        <div class="HelpWrapper">
+          <img class="HelpIcon" src="/help.svg" />
+          <div class="HelpVocabularyTip"></div>
+          <div class="HelpVocabularyInfo">
+            Rapport entre le nombre d'espèces observées sur la période 2019-2024
+            et le nombre d’espèces observées sur les périodes précédentes.
+          </div>
+        </div>
       </div>
       <seasons-selector
         :selected-season="selectedSeason"
         @selectedSeason="updateSelectedSeason"
       />
     </div>
-    <div class="KnowledgeLevelSubtitle">France métropolitaine</div>
+    <span class="KnowledgeLevelSubtitle">France métropolitaine</span>
     <div class="KnowledgeLevelPieChartContent">
       <div class="KnowledgeLevelPieChart">
         <svg class="PieChartSvg"></svg>
@@ -89,6 +95,37 @@ export default {
       return totalCount
     },
   },
+  watch: {
+    selectedSeason(newVal) {
+      // Le watch permet de mettre à jour le graphe quand on change la saison sur la répartition de l'espèce
+      // Define pie chart colors
+      const color = d3.scaleOrdinal(newVal.featuresColors)
+      // Define data
+      const pieChartData = d3
+        .pie()
+        .value(function (d) {
+          return d.value
+        })
+        .sort(null)(this.knowledgeLevelData)
+      // Create pie chart
+      const pieChartSvg = d3
+        .select('.PieChartSvg')
+        .selectAll('path')
+        .data(pieChartData)
+      pieChartSvg.exit().remove()
+      pieChartSvg
+        .enter()
+        .append('path')
+        .merge(pieChartSvg)
+        .transition()
+        .duration(150)
+        .attr('class', 'arc')
+        .attr('d', this.arcPath)
+        .attr('fill', function (d) {
+          return color(d.data.label)
+        })
+    },
+  },
   mounted() {
     this.$axios.$get('/api/v1/knowledge_level').then((data) => {
       // console.log(data)
@@ -139,32 +176,6 @@ export default {
   methods: {
     updateSelectedSeason(season) {
       this.$emit('selectedSeason', season)
-      // Define pie chart colors
-      const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
-      // Define data
-      const pieChartData = d3
-        .pie()
-        .value(function (d) {
-          return d.data
-        })
-        .sort(null)(this.knowledgeLevelData)
-      // Create pie chart
-      const pieChartSvg = d3
-        .select('.PieChartSvg')
-        .selectAll('path')
-        .data(pieChartData)
-      pieChartSvg.exit().remove()
-      pieChartSvg
-        .enter()
-        .append('path')
-        .merge(pieChartSvg)
-        .transition()
-        .duration(150)
-        .attr('class', 'arc')
-        .attr('d', this.arcPath)
-        .attr('fill', function (d) {
-          return color(d.data.label)
-        })
     },
   },
 }
@@ -198,9 +209,53 @@ export default {
   align-items: center;
 }
 
+.HelpWrapper {
+  position: relative;
+  margin-left: 10px;
+  display: flex;
+}
+
 .HelpIcon {
   height: 20px;
-  margin-left: 10px;
+  cursor: pointer;
+}
+
+.HelpVocabularyTip {
+  display: none;
+  position: absolute;
+  z-index: 6;
+  background: #262626;
+  width: 12px;
+  height: 12px;
+  left: 28px;
+  top: 4px;
+  transform: rotate(45deg);
+}
+
+.HelpIcon:hover ~ .HelpVocabularyTip {
+  display: block;
+}
+
+.HelpVocabularyInfo {
+  display: none;
+  position: absolute;
+  z-index: 6;
+  top: -10px;
+  left: 34px;
+  background: #262626;
+  width: 266px;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #fcfcfc;
+}
+
+.HelpIcon:hover ~ .HelpVocabularyInfo {
+  display: block;
 }
 
 .KnowledgeLevelSubtitle {
