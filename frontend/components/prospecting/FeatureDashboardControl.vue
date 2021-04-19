@@ -2,7 +2,9 @@
   <section class="FeatureDashboardControl">
     <!-- MAIN DASHBOARD -->
     <div
-      v-show="!clickedSpecies && !clickedEpocItem"
+      v-show="
+        !clickedSpecies && !clickedEpocItem && !seeMoreMunicipalitiesIsClicked
+      "
       class="SpecificSubDashboard"
     >
       <!-- HEADER -->
@@ -66,7 +68,9 @@
             Communes ({{ featureMunicipalitiesList.length }})
           </h2>
           <div>
-            <span class="SeeMoreData">Voir toutes les communes</span>
+            <span class="SeeMoreData" @click="updateSeeMoreMunicipalities"
+              >Voir toutes les communes</span
+            >
             <img class="SeeMoreDataChevron" src="/chevron-right-green.svg" />
           </div>
         </div>
@@ -77,7 +81,7 @@
               3
             )"
             :key="index"
-            class="DashboardSubData MainTextStyle margin"
+            class="DashboardSubData MainTextStyle"
           >
             {{ municipality.area_name }}
           </span>
@@ -205,20 +209,44 @@
         >
       </div>
     </div>
+    <!-- MUNICIPALITIES DASHBOARD -->
+    <div v-if="seeMoreMunicipalitiesIsClicked" class="SpecificSubDashboard">
+      <div class="FeatureComeBack" @click="deleteSeeMoreMunicipalities">
+        <img class="FeatureComeBackIcon" src="/previous.svg" />
+        <span class="FeatureComeBackLabel">{{
+          featureProperties.area_name
+        }}</span>
+      </div>
+      <div class="FeatureDashboardHeader">
+        <h1 class="FeatureDashboardTitle">
+          Communes ({{ featureMunicipalitiesList.length }})
+        </h1>
+      </div>
+      <div class="FeatureDashboardContent">
+        <div class="Split main"></div>
+        <span
+          v-for="(municipality, index) in featureMunicipalitiesList"
+          :key="index"
+          class="DashboardSubData MainTextStyle"
+        >
+          {{ municipality.area_name }}
+        </span>
+      </div>
+    </div>
     <!-- SPECIES DASHBOARD -->
     <div v-if="clickedSpecies" class="SpecificSubDashboard">
+      <div class="FeatureComeBack" @click="deleteClickedSpecies">
+        <img class="FeatureComeBackIcon" src="/previous.svg" />
+        <span class="FeatureComeBackLabel">{{
+          featureProperties.area_name
+        }}</span>
+      </div>
+      <div class="FeatureDashboardHeader">
+        <h1 class="FeatureDashboardTitle">
+          {{ clickedSpecies.common_name }}
+        </h1>
+      </div>
       <div class="FeatureDashboardContent">
-        <div class="FeatureComeBack" @click="deleteClickedSpecies">
-          <img class="FeatureComeBackIcon" src="/previous.svg" />
-          <span class="FeatureComeBackLabel">{{
-            featureProperties.area_name
-          }}</span>
-        </div>
-        <div class="FeatureDashboardHeader">
-          <h1 class="FeatureDashboardTitle">
-            {{ clickedSpecies.common_name }}
-          </h1>
-        </div>
         <div class="Split main"></div>
         <div class="DashboardSubData">
           <img class="DashboardSubDataIcon" src="/burger.svg" />
@@ -320,6 +348,7 @@ export default {
     featureMunicipalitiesList: [],
     featureEpocList: {},
     search: '',
+    seeMoreMunicipalitiesIsClicked: false,
     clickedSpecies: null,
     clickedEpocItem: null,
     // barPlotWidth: 0,
@@ -373,6 +402,7 @@ export default {
     clickedFeature(newVal) {
       this.clickedSpecies = null
       this.clickedEpocItem = null
+      this.seeMoreMunicipalitiesIsClicked = false
       this.selectedMenuItem = 'Tableau de bord'
       this.initiateFeatureData(newVal)
       this.$axios
@@ -603,6 +633,12 @@ export default {
     },
     clearResults() {
       this.search = ''
+    },
+    updateSeeMoreMunicipalities() {
+      this.seeMoreMunicipalitiesIsClicked = true
+    },
+    deleteSeeMoreMunicipalities() {
+      this.seeMoreMunicipalitiesIsClicked = false
     },
     updateClickedSpecies(taxon) {
       this.clickedSpecies = taxon

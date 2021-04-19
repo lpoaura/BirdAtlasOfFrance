@@ -5,7 +5,14 @@
     <div class="KnowledgeLevelHeader">
       <div class="KnowledgeLevelTitle">
         <span>Indice de complétude</span>
-        <img class="HelpIcon" src="/help.svg" title="DÉFINITION" />
+        <div class="HelpWrapper">
+          <img class="HelpIcon" src="/help.svg" />
+          <div class="HelpVocabularyTip"></div>
+          <div class="HelpVocabulary">
+            Rapport entre le nombre d'espèces observées sur la période 2019-2024
+            et le nombre d’espèces observées sur les périodes précédentes.
+          </div>
+        </div>
       </div>
       <seasons-selector
         :selected-season="selectedSeason"
@@ -198,9 +205,53 @@ export default {
   align-items: center;
 }
 
+.HelpWrapper {
+  position: relative;
+  margin-left: 10px;
+  display: flex;
+}
+
 .HelpIcon {
   height: 20px;
-  margin-left: 10px;
+  cursor: pointer;
+}
+
+.HelpVocabularyTip {
+  display: none;
+  position: absolute;
+  z-index: 6;
+  background: #262626;
+  width: 12px;
+  height: 12px;
+  left: 28px;
+  top: 4px;
+  transform: rotate(45deg);
+}
+
+.HelpIcon:hover ~ .HelpVocabularyTip {
+  display: block;
+}
+
+.HelpVocabulary {
+  display: none;
+  position: absolute;
+  z-index: 6;
+  top: -10px;
+  left: 34px;
+  background: #262626;
+  width: 266px;
+  padding: 10px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #fcfcfc;
+}
+
+.HelpIcon:hover ~ .HelpVocabulary {
+  display: block;
 }
 
 .KnowledgeLevelSubtitle {
