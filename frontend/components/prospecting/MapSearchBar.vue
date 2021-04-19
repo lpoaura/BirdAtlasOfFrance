@@ -120,6 +120,21 @@ export default {
       this.searchIsProgramatic = false
     },
   },
+  mounted() {
+    if (this.$route.query.species) {
+      this.$axios
+        .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
+        .then((data) => {
+          this.speciesIsSelected = true
+          this.selectedType = this.typeList[1]
+          this.searchIsProgramatic = true
+          this.search = data[0].common_name_fr
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  },
   methods: {
     openOrCloseSelectBox() {
       this.selectIsOpen = !this.selectIsOpen
@@ -150,25 +165,22 @@ export default {
     },
     updateSelectedData(data) {
       if (this.selectedType.label === 'Espèce') {
-        // À REVOIR
         this.speciesIsSelected = true
         this.$emit('selectedSpecies', data)
         this.$router.push({
           path: this.selectedType.routerPath,
           query: { species: `${data.code}` },
         })
-        const formattedName = data.name.split('(')[0]
         this.searchIsProgramatic = true
-        this.search = formattedName
-        this.autocompleteIsOpen = false
+        this.search = data.common_name_fr
       } else {
-        this.$emit('selectedMunicipality', data)
+        this.$emit('selectedArea', data)
         this.$router.push({
           path: '/prospecting',
           query: { area: `${data.code}`, type: `${data.type_code}` },
         })
-        this.autocompleteIsOpen = false
       }
+      this.autocompleteIsOpen = false
     },
     clearResults() {
       this.autocompleteIsOpen = false

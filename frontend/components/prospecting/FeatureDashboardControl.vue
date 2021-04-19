@@ -264,13 +264,13 @@
 </template>
 
 <script>
-// import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
+import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
 const d3 = require('d3')
 
 export default {
-  // components: {
-  //   'epoc-dashboard-control': EpocDashboardControl,
-  // },
+  components: {
+    'epoc-dashboard-control': EpocDashboardControl,
+  },
   props: {
     clickedFeature: {
       type: Object,
@@ -372,6 +372,8 @@ export default {
   watch: {
     clickedFeature(newVal) {
       this.clickedSpecies = null
+      this.clickedEpocItem = null
+      this.selectedMenuItem = 'Tableau de bord'
       this.initiateFeatureData(newVal)
       this.$axios
         .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
