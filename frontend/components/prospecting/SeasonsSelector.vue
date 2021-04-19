@@ -69,8 +69,14 @@ export default {
       {
         label: 'Hivernage',
         value: 'wintering',
-        featuresColors: ['#90E0EF', '#00B4D8', '#0077B6', '#023E8A', '#03045E'],
-        speciesDistributionColors: ['#023E8A'],
+        featuresColors: [
+          'rgba(76, 97, 244, 0.2)',
+          'rgba(76, 97, 244, 0.4)',
+          'rgba(76, 97, 244, 0.6)',
+          'rgba(76, 97, 244, 0.8)',
+          '#4C61F4',
+        ],
+        speciesDistributionColors: ['#4C61F4'],
       },
     ],
   }),

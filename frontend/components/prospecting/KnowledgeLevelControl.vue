@@ -12,7 +12,7 @@
         @selectedSeason="updateSelectedSeason"
       />
     </div>
-    <div class="KnowledgeLevelSubtitle">France métropolitaine</div>
+    <span class="KnowledgeLevelSubtitle">France métropolitaine</span>
     <div class="KnowledgeLevelPieChartContent">
       <div class="KnowledgeLevelPieChart">
         <svg class="PieChartSvg"></svg>

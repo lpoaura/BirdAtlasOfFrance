@@ -1,6 +1,4 @@
 <!-- La carte doit s'actualiser sur la métropole entière (manque API emprises) -->
-<!-- Initier this.center et this.zoom sur la métropole -->
-<!-- Ouvrir le tableau de bord de la maille au démarrage -->
 <!-- Ne pas considérer les mailles liées aux mers/océans -->
 <template>
   <div id="map-wrap">
@@ -155,8 +153,8 @@ export default {
     'species-dashboard-control': SpeciesDashboardControl,
   },
   props: {
-    selectedMunicipalityBounds: {
-      type: Array,
+    selectedArea: {
+      type: Object,
       required: false,
       default: null,
     },
@@ -221,6 +219,8 @@ export default {
     },
     featuresClasses: [0.25, 0.5, 0.75, 1],
     clickedFeature: null,
+    searchedFeatureId: null,
+    searchedFeatureCode: null,
     clickedEpocPoint: null,
     indeterminate: true,
   }),
@@ -232,7 +232,6 @@ export default {
     },
     knowledgeLevelOnEachFeature() {
       return (feature, layer) => {
-        // console.log('[onEachFeature]', feature.properties)
         layer.on({
           mouseover: (event) => {
             this.highlightFeature(event)
@@ -243,7 +242,6 @@ export default {
           click: (event) => {
             this.clickedEpocPoint = null
             this.clickedFeature = feature
-            // console.log('Maille : ' + this.clickedFeature.properties)
             this.zoomToFeature(event)
           },
         })
@@ -253,7 +251,6 @@ export default {
       let selectedLayer = this.selectedLayer
       let season = this.selectedSeason.value // Nécessaire pour déclencher le changement de style
       return (feature, layer) => {
-        // console.log('[setGeojsonStyle]')
         selectedLayer = this.selectedLayer
         if (selectedLayer === 'Indice de complétude') {
           season = this.selectedSeason.value // À améliorer
@@ -401,9 +398,12 @@ export default {
     },
   },
   watch: {
-    selectedMunicipalityBounds(newVal) {
+    selectedArea(newVal) {
       if (newVal) {
-        this.zoomToArea(newVal)
+        if (newVal.type_code === 'M10') {
+          this.searchedFeatureId = newVal.id
+        }
+        this.zoomToArea(newVal.bounds)
         this.clickedFeature = null
         this.clickedEpocPoint = null
       }
@@ -412,8 +412,6 @@ export default {
       if (newVal) {
         this.clickedFeature = null
         this.clickedEpocPoint = null
-        // console.log('Espèce sélectionnée : ')
-        // console.log(newVal)
         this.oldZoomSpeciesDistribution = 101
         this.updateSpeciesDistributionGeojson(newVal)
       }
@@ -436,14 +434,15 @@ export default {
   mounted() {
     // console.log('mounted')
     if (this.$route.query.area && this.$route.query.type) {
-      // console.log(this.$route.query.area)
-      // console.log(this.$route.query.type)
       this.$axios
         .$get(
           `/api/v1/lareas/${this.$route.query.type}/${this.$route.query.area}`
         )
         .then((data) => {
           const area = L.geoJSON(data)
+          if (this.$route.query.type === 'M10') {
+            this.searchedFeatureCode = this.$route.query.area
+          }
           this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
@@ -452,8 +451,17 @@ export default {
         })
     }
     if (this.$route.query.species) {
-      // À REVOIR
-      console.log('Espèce détectée : ' + this.$route.query.species)
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.center = [position.coords.latitude, position.coords.longitude]
+      })
+      this.$axios
+        .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
+        .then((data) => {
+          this.$emit('selectedSpecies', data[0])
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     } else {
       // À REVOIR
       navigator.geolocation.getCurrentPosition((position) => {
@@ -529,6 +537,30 @@ export default {
           })
           .then((data) => {
             this.knowledgeLevelGeojson = data
+            if (this.searchedFeatureId) {
+              const clickedFeature = this.knowledgeLevelGeojson.features.filter(
+                (feature) => {
+                  return feature.id === this.searchedFeatureId.toString()
+                }
+              )
+              if (clickedFeature.length > 0) {
+                this.clickedFeature = clickedFeature[0]
+                this.searchedFeatureId = null
+              }
+            }
+            if (this.searchedFeatureCode) {
+              const clickedFeature = this.knowledgeLevelGeojson.features.filter(
+                (feature) => {
+                  return (
+                    feature.properties.area_code === this.searchedFeatureCode
+                  )
+                }
+              )
+              if (clickedFeature.length > 0) {
+                this.clickedFeature = clickedFeature[0]
+                this.searchedFeatureCode = null
+              }
+            }
           })
           .catch((error) => {
             // console.log(error)
