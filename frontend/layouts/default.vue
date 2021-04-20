@@ -1,7 +1,10 @@
 <!-- Faire une unique navbar -->
 <template>
   <v-app>
-    <transition name="navBar">
+    <transition
+      v-if="!['/mobile', '/mobile/'].includes($route.path)"
+      name="navBar"
+    >
       <transparent-nav-bar
         v-if="
           [
@@ -89,11 +92,17 @@ export default {
   },
   beforeMount() {
     window.addEventListener('scroll', this.debounce(this.handleScroll))
+    if (this.detectMobile()) {
+      this.$router.push('/mobile')
+    }
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.debounce(this.handleScroll))
   },
   methods: {
+    detectMobile() {
+      return window.innerWidth < 915
+    },
     debounce(fn) {
       // This holds the requestAnimationFrame reference, so we can cancel it if we wish
       let frame
