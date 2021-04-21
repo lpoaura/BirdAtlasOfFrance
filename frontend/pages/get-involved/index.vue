@@ -82,7 +82,7 @@ export default {
       rgba(37, 39, 69, 0.76) 76.76%,
       rgba(37, 39, 69, 0) 98.47%
     ),
-    url('/get-involved/get-involved-picture.jpg') center / 100%,
+    url('/get-involved/get-involved-picture.jpg') center / cover,
     rgba(47, 92, 105, 1);
   width: 100%;
   height: 100%;

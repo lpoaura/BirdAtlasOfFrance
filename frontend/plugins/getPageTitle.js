@@ -121,12 +121,28 @@ export default ({ app }, inject) => {
       routerPath: '/en/about/contact',
     },
     {
+      title: "J'ai une question sur les méthodes de prospection",
+      routerPath: '/about/contact/protocols-question',
+    },
+    {
+      title: 'I have a question about protocols',
+      routerPath: '/en/about/contact/protocols-question',
+    },
+    {
       title: 'Mentions légales',
       routerPath: '/about/legal-notices',
     },
     {
       title: 'Legal notices',
       routerPath: '/en/about/legal-notices',
+    },
+    {
+      title: 'Mobile',
+      routerPath: '/mobile',
+    },
+    {
+      title: 'Mobile',
+      routerPath: '/en/mobile',
     },
   ]
   const getPageTitle = (route) => {

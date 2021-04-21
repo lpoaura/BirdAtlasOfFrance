@@ -11,6 +11,16 @@
   </v-container>
 </template>
 
+<script>
+export default {
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
+  },
+}
+</script>
+
 <style scoped>
 main {
   padding: 16px 2%;
