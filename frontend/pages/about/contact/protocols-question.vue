@@ -6,8 +6,17 @@
         J'ai une question sur les méthodes de prospection
       </h1>
     </header>
-    <section class="FormSection">
+    <section v-show="!validForm" class="FormSection">
       <div class="FormContent">
+        <div v-if="alertMessage" class="Alert">
+          <span class="AlertMessage">
+            {{ alertMessage }}
+          </span>
+          <i
+            class="v-icon mdi mdi-close-circle AlertCloseIcon"
+            @click="deleteAlertMessage"
+          ></i>
+        </div>
         <label for="user-name">Nom</label>
         <input
           id="user-name"
@@ -38,7 +47,19 @@
         />
         <label for="message">Message</label>
         <textarea id="message" v-model="userMessage" placeholder="Bonjour..." />
-        <nuxt-link to="#" class="PrimaryButton">Envoyer</nuxt-link>
+        <div class="PrimaryButton" @click="validateForm">Envoyer</div>
+      </div>
+    </section>
+    <section v-show="validForm" class="ConfirmationSection">
+      <div class="ConfirmationContent">
+        <img class="ConfirmationPicture" src="/confirmation-of-receipt.svg" />
+        <h1 class="ConfirmationTitle">Nous avons bien reçu votre demande</h1>
+        <span class="ConfirmationSubtitle"
+          >Nous mettons tout en œuvre pour vous répondre au plus vite !</span
+        >
+        <nuxt-link to="/" class="PrimaryButton"
+          >Retour à la page d'accueil</nuxt-link
+        >
       </div>
     </section>
   </v-container>
@@ -69,6 +90,8 @@ export default {
       'Wetlands',
       'Listes complètes et données ponctuelles',
     ],
+    alertMessage: null,
+    validForm: false,
   }),
   methods: {
     updateSelectedProtocol(protocol) {
@@ -78,6 +101,40 @@ export default {
     updateSelectedDepartment(department) {
       this.selectedDepartment = department
       console.log(this.selectedDepartment)
+    },
+    validateForm() {
+      console.log('Validation en cours')
+      if (!this.userMessage) {
+        this.alertMessage = 'Veuillez écrire un message'
+      }
+      if (!this.selectedDepartment) {
+        this.alertMessage = 'Veuillez sélectionner un département'
+      }
+      if (!this.selectedProtocol) {
+        this.alertMessage = 'Veuillez sélectionner une méthode de prospection'
+      }
+      if (!this.$checkEmail(this.userMail)) {
+        this.alertMessage = 'Veuillez renseigner une adresse email valide'
+      }
+      if (!this.userMail) {
+        this.alertMessage = 'Veuillez renseigner votre adresse email'
+      }
+      if (!this.userName) {
+        this.alertMessage = 'Veuillez renseigner votre nom'
+      }
+      if (
+        this.userName &&
+        this.$checkEmail(this.userMail) &&
+        this.selectedProtocol &&
+        this.selectedDepartment &&
+        this.userMessage
+      ) {
+        this.validForm = true
+        this.alertMessage = null
+      }
+    },
+    deleteAlertMessage() {
+      this.alertMessage = null
     },
   },
   head() {
@@ -110,7 +167,8 @@ header {
   text-align: center;
 }
 
-.FormSection {
+.FormSection,
+.ConfirmationSection {
   display: flex;
 }
 
@@ -118,6 +176,32 @@ header {
   margin: auto;
   display: flex;
   flex-direction: column;
+}
+
+.Alert {
+  width: 626px;
+  height: 32px;
+  padding: 0 2%;
+  margin-bottom: 16px;
+  border: 1px solid #f44336;
+  box-sizing: border-box;
+  border-radius: 8px;
+  color: #f44336;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.AlertMessage {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.AlertCloseIcon {
+  cursor: pointer;
 }
 
 label {
@@ -168,5 +252,37 @@ textarea {
 
 textarea:focus {
   border: 1px solid #39765a;
+}
+
+.ConfirmationContent {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ConfirmationPicture {
+  width: 280px;
+  margin-bottom: 30px;
+}
+
+.ConfirmationTitle {
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+  color: #262626;
+}
+
+.ConfirmationSubtitle {
+  margin-bottom: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #262626;
 }
 </style>
