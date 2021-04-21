@@ -132,7 +132,7 @@ export default {
       rgba(85, 75, 57, 0.6) 0%,
       rgba(85, 75, 57, 0) 100%
     ),
-    url('/about-picture.jpg') center / 100%, rgba(85, 75, 57, 1);
+    url('/about-picture.jpg') center / cover, rgba(85, 75, 57, 1);
   width: 100%;
   height: 410px;
   display: flex;

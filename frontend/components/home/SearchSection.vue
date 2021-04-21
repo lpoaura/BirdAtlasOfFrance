@@ -81,7 +81,7 @@ export default {
       #3957a4 0%,
       rgba(57, 87, 164, 0) 69.37%
     ),
-    url('/home/home-picture.jpg') center / 100%, #3957a4;
+    url('/home/home-picture.jpg') center / cover, #3957a4;
   width: 100%;
   height: 85%;
   display: flex;

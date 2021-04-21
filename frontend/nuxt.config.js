@@ -92,6 +92,7 @@ export default {
     '~/plugins/toPercent.js',
     '~/plugins/thousandDelimiter.js',
     '~/plugins/getPageTitle.js',
+    '~/plugins/departmentsList.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
