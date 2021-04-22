@@ -182,7 +182,7 @@
                   10
               ) / 10
             }}
-            heures
+            heure(s)
           </div>
           <div class="KeyDataLabel">
             enregistrées sur la période Atlas 2019-2024

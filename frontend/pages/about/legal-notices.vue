@@ -29,8 +29,8 @@ export default {
     subtitle: '',
     lastUpdate: '',
     menuItems: [
-      { label: 'Mentions légales', routerPath: '' },
-      { label: 'CGU', routerPath: '#cgu' },
+      { label: 'Mentions légales', route: '' },
+      { label: 'CGU', route: '#cgu' },
     ],
     selectedMenuItem: '',
   }),
@@ -57,8 +57,8 @@ export default {
       })
   },
   methods: {
-    updateSelectedMenuItem(routerPath) {
-      this.selectedMenuItem = routerPath
+    updateSelectedMenuItem(route) {
+      this.selectedMenuItem = route
     },
   },
   head() {

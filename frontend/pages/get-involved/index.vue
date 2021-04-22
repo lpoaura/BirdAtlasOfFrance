@@ -16,7 +16,7 @@
       <span
         v-for="(item, index) in menuItems"
         :key="index"
-        :to="item.routerPath"
+        :to="item.route"
         class="MenuItem"
         :class="[item.label === selectedSpeciesGroup ? 'selected' : '']"
         @click="updateSelectedSpeciesGroup(item)"
@@ -39,11 +39,11 @@ export default {
   },
   data: () => ({
     menuItems: [
-      { label: 'Tous les dispositifs', routerPath: '' },
-      { label: 'Oiseaux communs', routerPath: '#common-birds' },
-      { label: 'Rapaces', routerPath: '#raptors' },
-      { label: "Oiseaux d'eau", routerPath: '#water-birds' },
-      // { label: 'autres', routerPath: '#other-birds' },
+      { label: 'Tous les dispositifs', route: '' },
+      { label: 'Oiseaux communs', route: '#common-birds' },
+      { label: 'Rapaces', route: '#raptors' },
+      { label: "Oiseaux d'eau", route: '#water-birds' },
+      // { label: 'autres', route: '#other-birds' },
     ],
     // selectedMenuItem: '',
     selectedSpeciesGroup: 'Tous les dispositifs',
@@ -54,8 +54,8 @@ export default {
   methods: {
     updateSelectedSpeciesGroup(item) {
       this.selectedSpeciesGroup = item.label
-      // this.selectedMenuItem = item.routerPath
-      // this.$router.push(`${item.routerPath}`)
+      // this.selectedMenuItem = item.route
+      // this.$router.push(`${item.route}`)
     },
   },
   head() {
@@ -82,7 +82,7 @@ export default {
       rgba(37, 39, 69, 0.76) 76.76%,
       rgba(37, 39, 69, 0) 98.47%
     ),
-    url('/get-involved/get-involved-picture.jpg') center / 100%,
+    url('/get-involved/get-involved-picture.jpg') center / cover,
     rgba(47, 92, 105, 1);
   width: 100%;
   height: 100%;

@@ -12,7 +12,7 @@
         <nuxt-link
           v-for="(card, index) in cards"
           :key="index"
-          :to="card.routerPath"
+          :to="card.route"
           class="Card"
         >
           <img class="CardsIcon" :src="card.icon" />
@@ -59,28 +59,28 @@ export default {
         title: 'Le projet ODF',
         subtitle:
           'Découvrez le projet Oiseaux de France, ses objectifs, ses acteurs et ses partenaires.',
-        routerPath: '/about/what-is-ODF-project',
+        route: '/about/what-is-ODF-project',
       },
       {
         icon: '/mail.svg',
         title: 'Nous contacter',
         subtitle:
           'Une question ? Contactez la coordination nationale ou votre référent local.',
-        routerPath: '/about/contact',
+        route: '/about/contact',
       },
       // {
       //   icon: '/protocol.svg',
       //   title: 'Comment participer ?',
       //   subtitle:
       //     'Consultez les méthodes d’inventaire et les dispositifs de suivi.',
-      //   routerPath: '/get-involved',
+      //   route: '/get-involved',
       // },
       {
         icon: '/glossary.svg',
         title: 'Lexique',
         subtitle:
           'Retrouvez ici toutes les définitions des mots utilisés sur le projet ODF.',
-        routerPath: '#',
+        route: '#',
       },
     ],
     questions: [
@@ -132,7 +132,7 @@ export default {
       rgba(85, 75, 57, 0.6) 0%,
       rgba(85, 75, 57, 0) 100%
     ),
-    url('/about-picture.jpg') center / 100%, rgba(85, 75, 57, 1);
+    url('/about-picture.jpg') center / cover, rgba(85, 75, 57, 1);
   width: 100%;
   height: 410px;
   display: flex;

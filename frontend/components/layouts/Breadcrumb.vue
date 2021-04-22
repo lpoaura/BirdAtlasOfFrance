@@ -5,7 +5,7 @@
     </nuxt-link>
     <div v-for="(crumb, index) in crumbs" :key="index" class="NavItem">
       <img class="NavElement NavItemChevron" src="/chevron-right.svg" />
-      <nuxt-link :to="crumb.routerPath" class="NavElement NavItemText">{{
+      <nuxt-link :to="crumb.route" class="NavElement NavItemText">{{
         crumb.title
       }}</nuxt-link>
     </div>
@@ -27,7 +27,7 @@ export default {
         // console.log('path : ' + path)
         crumbs.push({
           title: this.$getPageTitle(path),
-          routerPath: path,
+          route: path,
         })
         // console.log('crumbs : ' + this.crumbs)
       })
