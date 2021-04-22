@@ -66,26 +66,26 @@ export default {
         {
           // label: this.$t('home'),
           label: 'Accueil',
-          routerPath: '/',
+          route: '/',
         },
         // {
         //   label: 'Espèces',
-        //   routerPath: '#',
+        //   route: '#',
         // },
         {
           // label: this.$t('map'),
           label: 'Carte',
-          routerPath: '/prospecting',
+          route: '/prospecting',
         },
         {
           // label: this.$t('get-involved'),
           label: 'Participer',
-          routerPath: '/get-involved',
+          route: '/get-involved',
         },
         {
           // label: this.$t('about'),
           label: 'À propos',
-          routerPath: '/about',
+          route: '/about',
         },
       ]
     },

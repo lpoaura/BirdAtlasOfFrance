@@ -59,18 +59,18 @@ export default {
       {
         label: 'Espèce',
         api: '/api/v1/search_taxa?limit=10&search=',
-        routerPath: '/prospecting',
+        route: '/prospecting',
       },
       {
         label: 'Commune',
         api: '/api/v1/search_areas?limit=10&type_code=COM&search=',
-        routerPath: '/prospecting',
+        route: '/prospecting',
       },
     ],
     selectedType: {
       label: 'Espèce',
       api: '/api/v1/search_taxa?limit=10&search=',
-      routerPath: '/prospecting',
+      route: '/prospecting',
     },
     selectIsOpen: false,
   }),
@@ -126,12 +126,12 @@ export default {
     updateSelectedData(data) {
       if (this.selectedType.label === 'Espèce') {
         this.$router.push({
-          path: this.selectedType.routerPath,
+          path: this.selectedType.route,
           query: { species: `${data.code}` },
         })
       } else {
         this.$router.push({
-          path: this.selectedType.routerPath,
+          path: this.selectedType.route,
           query: { area: `${data.code}`, type: `${data.type_code}` },
         })
       }

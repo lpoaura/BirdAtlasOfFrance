@@ -17,10 +17,10 @@
       <nuxt-link
         v-for="(card, index) in cards"
         :key="index"
-        to="#"
+        :to="card.route"
         class="Card"
       >
-        <h6 class="CardsTitle">{{ card }}</h6>
+        <h6 class="CardsTitle">{{ card.title }}</h6>
       </nuxt-link>
     </section>
     <section v-show="isSelected" class="ProtocolsHelpSection">
@@ -35,7 +35,7 @@
           </li>
         </ul>
         <nuxt-link
-          to="/about/contact/protocols-question"
+          to="/about/contact/question-about-protocols"
           class="PrimaryButton"
           style="margin-top: 20px"
           >Contactez-nous</nuxt-link
@@ -54,11 +54,19 @@ export default {
   },
   data: () => ({
     cards: [
-      // "J'ai une question sur les méthodes de prospection",
-      'Je souhaite avoir des renseignements sur le projet ODF',
-      'Je souhaite contacter un référent local',
-      "J'aimerais vous faire part de retours sur le site",
-      'Autre demande',
+      {
+        title: 'Je souhaite avoir des renseignements sur le projet ODF',
+        route: '/about/contact/information-about-ODF-project',
+      },
+      {
+        title: 'Je souhaite contacter un référent local',
+        route: '/about/contact/get-in-touch-with-coordinator',
+      },
+      {
+        title: "J'aimerais vous faire part de retours sur le site",
+        route: '/about/contact/feedback-about-website',
+      },
+      { title: 'Autre demande', route: '/about/contact/other' },
     ],
     isSelected: false,
   }),

@@ -168,7 +168,7 @@ export default {
         this.speciesIsSelected = true
         this.$emit('selectedSpecies', data)
         this.$router.push({
-          path: this.selectedType.routerPath,
+          path: '/prospecting',
           query: { species: `${data.code}` },
         })
         this.searchIsProgramatic = true

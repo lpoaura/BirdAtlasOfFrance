@@ -2,9 +2,7 @@
   <v-container fluid>
     <header>
       <breadcrumb style="margin-bottom: 20px" />
-      <h1 class="PageTitle">
-        J'ai une question sur les méthodes de prospection
-      </h1>
+      <h1 class="PageTitle">Autre demande</h1>
     </header>
     <section v-show="!validForm" class="FormSection">
       <div class="FormContent">
@@ -31,14 +29,7 @@
           type="text"
           placeholder="henri.martin@monmail.fr"
         />
-        <label for="selected-protocol">Méthode de prospection</label>
-        <contact-select
-          :z-index="5"
-          default-message="EPOC, SHOC..."
-          :items-list="protocolsList"
-          @selectedItem="updateSelectedProtocol"
-        />
-        <label for="selected-protocol">Département</label>
+        <label>Département</label>
         <contact-select
           :z-index="4"
           default-message="Département"
@@ -77,41 +68,22 @@ export default {
   data: () => ({
     userName: '',
     userMail: '',
-    selectedProtocol: null,
     selectedDepartment: null,
     userMessage: '',
-    protocolsList: [
-      'EPOC ODF',
-      'EPOC',
-      'STOC',
-      'SHOC',
-      'Observatoire Rapaces',
-      'LIMAT',
-      'Wetlands',
-      'Listes complètes et données ponctuelles',
-    ],
     alertMessage: null,
     validForm: false,
   }),
   methods: {
-    updateSelectedProtocol(protocol) {
-      this.selectedProtocol = protocol
-      console.log(this.selectedProtocol)
-    },
     updateSelectedDepartment(department) {
       this.selectedDepartment = department
       console.log(this.selectedDepartment)
     },
     validateForm() {
-      console.log('Validation en cours')
       if (!this.userMessage) {
         this.alertMessage = 'Veuillez écrire un message'
       }
       if (!this.selectedDepartment) {
         this.alertMessage = 'Veuillez sélectionner un département'
-      }
-      if (!this.selectedProtocol) {
-        this.alertMessage = 'Veuillez sélectionner une méthode de prospection'
       }
       if (!this.$checkEmail(this.userMail)) {
         this.alertMessage = 'Veuillez renseigner une adresse email valide'
@@ -125,7 +97,6 @@ export default {
       if (
         this.userName &&
         this.$checkEmail(this.userMail) &&
-        this.selectedProtocol &&
         this.selectedDepartment &&
         this.userMessage
       ) {
@@ -169,6 +140,7 @@ header {
 
 .FormSection,
 .ConfirmationSection {
+  padding-bottom: 2%;
   display: flex;
 }
 

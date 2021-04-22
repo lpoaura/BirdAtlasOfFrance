@@ -7,10 +7,10 @@
       <nuxt-link
         v-for="(item, index) in navItems"
         :key="index"
-        :to="item.routerPath"
+        :to="item.route"
         class="NavItem"
         :class="[
-          [item.routerPath, `${item.routerPath}/`].includes(
+          [item.route, `${item.route}/`].includes(
             `/${$route.path.substring(1).split('/')[0]}`
           )
             ? 'selected'
