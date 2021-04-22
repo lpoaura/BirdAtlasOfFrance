@@ -161,6 +161,14 @@ export default ({ app }, inject) => {
       route: '/en/about/contact/other',
     },
     {
+      title: 'Lexique',
+      route: '/about/glossary',
+    },
+    {
+      title: 'Glossary',
+      route: '/en/about/glossary',
+    },
+    {
       title: 'Mentions légales',
       route: '/about/legal-notices',
     },
