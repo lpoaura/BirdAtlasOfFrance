@@ -40,10 +40,10 @@ export default {
     subtitle: '',
     lastUpdate: '',
     menuItems: [
-      { label: 'Description', routerPath: '' },
-      { label: 'Participer', routerPath: '#get-involved' },
-      { label: 'Qui sommes-nous ?', routerPath: '#who-we-are' },
-      { label: 'Partenaires', routerPath: '#partners' },
+      { label: 'Description', route: '' },
+      { label: 'Participer', route: '#get-involved' },
+      { label: 'Qui sommes-nous ?', route: '#who-we-are' },
+      { label: 'Partenaires', route: '#partners' },
     ],
     selectedMenuItem: '',
   }),
@@ -95,8 +95,8 @@ export default {
       })
   },
   methods: {
-    updateSelectedMenuItem(routerPath) {
-      this.selectedMenuItem = routerPath
+    updateSelectedMenuItem(route) {
+      this.selectedMenuItem = route
     },
   },
   head() {

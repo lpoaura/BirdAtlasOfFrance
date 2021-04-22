@@ -3,7 +3,7 @@
     <nuxt-link
       v-for="(card, index) in resultsCards"
       :key="index"
-      :to="card.routerPath"
+      :to="card.route"
       class="ProtocolsCard"
       :class="[
         card.title === 'Listes complètes et données ponctuelles'
@@ -42,7 +42,7 @@ export default {
         icon: '/get-involved/EPOC-ODF-logo.svg',
         title: 'EPOC ODF',
         subtitle: "Estimation des Populations d'Oiseaux Communs ODF",
-        routerPath: '/get-involved/epoc-odf',
+        route: '/get-involved/epoc-odf',
         season: 'Reproduction',
         speciesGroup: ['Oiseaux communs'],
       },
@@ -50,7 +50,7 @@ export default {
         icon: '/get-involved/EPOC-logo.svg',
         title: 'EPOC',
         subtitle: "Estimation des Populations d'Oiseaux Communs",
-        routerPath: '/get-involved/epoc',
+        route: '/get-involved/epoc',
         season: 'Reproduction',
         speciesGroup: ['Oiseaux communs'],
       },
@@ -58,7 +58,7 @@ export default {
         icon: '/get-involved/STOC-logo.svg',
         title: 'STOC',
         subtitle: 'Suivi Temporel des Oiseaux Communs',
-        routerPath: '/get-involved/stoc',
+        route: '/get-involved/stoc',
         season: 'Reproduction',
         speciesGroup: ['Oiseaux communs'],
       },
@@ -66,7 +66,7 @@ export default {
         icon: '/get-involved/SHOC-logo.svg',
         title: 'SHOC',
         subtitle: 'Suivi Hivernal des Oiseaux Communs',
-        routerPath: '/get-involved/shoc',
+        route: '/get-involved/shoc',
         season: 'Hivernage',
         speciesGroup: ['Oiseaux communs'],
       },
@@ -74,7 +74,7 @@ export default {
       //   icon: '/get-involved/STOM-logo.svg',
       //   title: 'STOM',
       //   subtitle: 'Suivi Temporel des Oiseaux de Montagne',
-      //   routerPath: '/get-involved/stom',
+      //   route: '/get-involved/stom',
       //   season: 'Reproduction',
       //   speciesGroup: ['Oiseaux communs'],
       // },
@@ -82,7 +82,7 @@ export default {
         icon: '/get-involved/Observatoire-Rapaces-logo.svg',
         title: 'Observatoire Rapaces',
         subtitle: '',
-        routerPath: '/get-involved/observatoire-rapaces',
+        route: '/get-involved/observatoire-rapaces',
         season: 'Reproduction',
         speciesGroup: ['Rapaces'],
       },
@@ -90,7 +90,7 @@ export default {
         icon: '/get-involved/LIMAT-logo.svg',
         title: 'LIMAT',
         subtitle: 'Limicoles et Anatidés Nicheurs',
-        routerPath: '/get-involved/limat',
+        route: '/get-involved/limat',
         season: 'Reproduction',
         speciesGroup: ["Oiseaux d'eau"],
       },
@@ -98,7 +98,7 @@ export default {
         icon: '/get-involved/Wetlands-logo.svg',
         title: 'Wetlands',
         subtitle: "Recensement des Oiseaux d'Eau",
-        routerPath: '/get-involved/wetlands',
+        route: '/get-involved/wetlands',
         season: 'Hivernage',
         speciesGroup: ["Oiseaux d'eau"],
       },
@@ -106,7 +106,7 @@ export default {
         icon: '/get-involved/complete-lists-logo.svg',
         title: 'Listes complètes et données ponctuelles',
         subtitle: null,
-        routerPath: '/get-involved/complete-lists',
+        route: '/get-involved/complete-lists',
         season: null,
         speciesGroup: ['Oiseaux communs', 'Rapaces', "Oiseaux d'eau"],
       },

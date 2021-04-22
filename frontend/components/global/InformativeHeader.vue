@@ -18,9 +18,9 @@
         <span
           v-for="(item, index) in menuItems"
           :key="index"
-          :to="item.routerPath"
+          :to="item.route"
           class="MenuItem"
-          :class="[item.routerPath === selectedMenuItem ? 'selected' : '']"
+          :class="[item.route === selectedMenuItem ? 'selected' : '']"
           @click="updateSelectedMenuItem(item)"
         >
           {{ item.label }}
@@ -68,9 +68,9 @@ export default {
   },
   methods: {
     updateSelectedMenuItem(item) {
-      this.selectedMenuItem = item.routerPath
+      this.selectedMenuItem = item.route
       this.$emit('selectedMenuItem', this.selectedMenuItem)
-      this.$router.push(`${item.routerPath}`)
+      this.$router.push(`${item.route}`)
     },
   },
 }

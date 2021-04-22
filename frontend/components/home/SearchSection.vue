@@ -22,7 +22,7 @@
       <nuxt-link
         v-for="(card, index) in cards"
         :key="index"
-        :to="card.routerPath"
+        :to="card.route"
         class="Card"
       >
         <img class="CardsIcon" :src="card.icon" />
@@ -44,22 +44,22 @@ export default {
       // {
       //   icon: '/book.svg',
       //   title: 'Consulter les<br />fiches espèces',
-      //   routerPath: '#',
+      //   route: '#',
       // },
       {
         icon: '/prospecting.svg',
         title: 'Voir la carte<br />de prospection',
-        routerPath: '/prospecting',
+        route: '/prospecting',
       },
       {
         icon: '/protocol.svg',
         title: 'Découvrir<br />les dispositifs',
-        routerPath: '/get-involved',
+        route: '/get-involved',
       },
       {
         icon: '/ODF.svg',
         title: "Qu'est-ce que le projet<br />Oiseaux de France ?",
-        routerPath: '/about/what-is-ODF-project',
+        route: '/about/what-is-ODF-project',
       },
     ],
   }),
@@ -81,7 +81,7 @@ export default {
       #3957a4 0%,
       rgba(57, 87, 164, 0) 69.37%
     ),
-    url('/home/home-picture.jpg') center / 100%, #3957a4;
+    url('/home/home-picture.jpg') center / cover, #3957a4;
   width: 100%;
   height: 85%;
   display: flex;

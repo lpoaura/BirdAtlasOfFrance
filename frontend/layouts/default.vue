@@ -1,7 +1,10 @@
 <!-- Faire une unique navbar -->
 <template>
   <v-app>
-    <transition name="navBar">
+    <transition
+      v-if="!['/mobile', '/mobile/'].includes($route.path)"
+      name="navBar"
+    >
       <transparent-nav-bar
         v-if="
           [
@@ -63,37 +66,43 @@ export default {
         {
           // label: this.$t('home'),
           label: 'Accueil',
-          routerPath: '/',
+          route: '/',
         },
         // {
         //   label: 'Espèces',
-        //   routerPath: '#',
+        //   route: '#',
         // },
         {
           // label: this.$t('map'),
           label: 'Carte',
-          routerPath: '/prospecting',
+          route: '/prospecting',
         },
         {
           // label: this.$t('get-involved'),
           label: 'Participer',
-          routerPath: '/get-involved',
+          route: '/get-involved',
         },
         {
           // label: this.$t('about'),
           label: 'À propos',
-          routerPath: '/about',
+          route: '/about',
         },
       ]
     },
   },
   beforeMount() {
     window.addEventListener('scroll', this.debounce(this.handleScroll))
+    if (this.detectMobile()) {
+      this.$router.push('/mobile')
+    }
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.debounce(this.handleScroll))
   },
   methods: {
+    detectMobile() {
+      return window.innerWidth < 915
+    },
     debounce(fn) {
       // This holds the requestAnimationFrame reference, so we can cancel it if we wish
       let frame

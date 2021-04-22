@@ -16,7 +16,7 @@
       <nuxt-link
         v-for="(link, index) in links"
         :key="index"
-        :to="link.routerPath"
+        :to="link.route"
         class="Link"
       >
         {{ link.label }}
@@ -36,9 +36,9 @@
 export default {
   data: () => ({
     links: [
-      { label: 'À propos', routerPath: '/about' },
-      { label: 'Contact', routerPath: '/about/contact' },
-      { label: 'Mentions légales', routerPath: '/about/legal-notices' },
+      { label: 'À propos', route: '/about' },
+      { label: 'Contact', route: '/about/contact' },
+      { label: 'Mentions légales', route: '/about/legal-notices' },
     ],
     socialNetworksItems: [
       {

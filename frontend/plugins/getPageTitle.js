@@ -2,138 +2,186 @@ export default ({ app }, inject) => {
   const websiteTreeView = [
     {
       title: 'Accueil',
-      routerPath: '/',
+      route: '/',
     },
     {
       title: 'Home',
-      routerPath: '/en',
+      route: '/en',
     },
     {
       title: 'Carte de prospection',
-      routerPath: '/prospecting',
+      route: '/prospecting',
     },
     {
       title: 'Prospecting map',
-      routerPath: '/en/prospecting',
+      route: '/en/prospecting',
     },
     {
       title: 'Participer',
-      routerPath: '/get-involved',
+      route: '/get-involved',
     },
     {
       title: 'Get involved',
-      routerPath: '/en/get-involved',
+      route: '/en/get-involved',
     },
     {
       title: 'EPOC',
-      routerPath: '/get-involved/epoc',
+      route: '/get-involved/epoc',
     },
     {
       title: 'EPOC',
-      routerPath: '/en/get-involved/epoc',
+      route: '/en/get-involved/epoc',
     },
     {
       title: 'EPOC ODF',
-      routerPath: '/get-involved/epoc-odf',
+      route: '/get-involved/epoc-odf',
     },
     {
       title: 'EPOC ODF',
-      routerPath: '/en/get-involved/epoc-odf',
+      route: '/en/get-involved/epoc-odf',
     },
     {
       title: 'STOC',
-      routerPath: '/get-involved/stoc',
+      route: '/get-involved/stoc',
     },
     {
       title: 'STOC',
-      routerPath: '/en/get-involved/stoc',
+      route: '/en/get-involved/stoc',
     },
     {
       title: 'STOM',
-      routerPath: '/get-involved/stom',
+      route: '/get-involved/stom',
     },
     {
       title: 'STOM',
-      routerPath: '/en/get-involved/stom',
+      route: '/en/get-involved/stom',
     },
     {
       title: 'Observatoire Rapaces',
-      routerPath: '/get-involved/observatoire-rapaces',
+      route: '/get-involved/observatoire-rapaces',
     },
     {
       title: 'Observatoire Rapaces',
-      routerPath: '/en/get-involved/observatoire-rapaces',
+      route: '/en/get-involved/observatoire-rapaces',
     },
     {
       title: 'LIMAT',
-      routerPath: '/get-involved/limat',
+      route: '/get-involved/limat',
     },
     {
       title: 'LIMAT',
-      routerPath: '/en/get-involved/limat',
+      route: '/en/get-involved/limat',
     },
     {
       title: 'SHOC',
-      routerPath: '/get-involved/shoc',
+      route: '/get-involved/shoc',
     },
     {
       title: 'SHOC',
-      routerPath: '/en/get-involved/shoc',
+      route: '/en/get-involved/shoc',
     },
     {
       title: 'Wetlands',
-      routerPath: '/get-involved/wetlands',
+      route: '/get-involved/wetlands',
     },
     {
       title: 'Wetlands',
-      routerPath: '/en/get-involved/wetlands',
+      route: '/en/get-involved/wetlands',
     },
     {
       title: 'Listes complètes et données ponctuelles',
-      routerPath: '/get-involved/complete-lists',
+      route: '/get-involved/complete-lists',
     },
     {
       title: 'Listes complètes et données ponctuelles',
-      routerPath: '/en/get-involved/complete-lists',
+      route: '/en/get-involved/complete-lists',
     },
     {
       title: 'À propos',
-      routerPath: '/about',
+      route: '/about',
     },
     {
       title: 'About',
-      routerPath: '/en/about',
+      route: '/en/about',
     },
     {
       title: 'Le projet ODF',
-      routerPath: '/about/what-is-ODF-project',
+      route: '/about/what-is-ODF-project',
     },
     {
       title: 'The ODF project',
-      routerPath: '/en/about/what-is-ODF-project',
+      route: '/en/about/what-is-ODF-project',
     },
     {
       title: 'Contact',
-      routerPath: '/about/contact',
+      route: '/about/contact',
     },
     {
       title: 'Contact us',
-      routerPath: '/en/about/contact',
+      route: '/en/about/contact',
+    },
+    {
+      title: "J'ai une question sur les méthodes de prospection",
+      route: '/about/contact/question-about-protocols',
+    },
+    {
+      title: 'I have a question about protocols',
+      route: '/en/about/contact/question-about-protocols',
+    },
+    {
+      title: 'Je souhaite avoir des renseignements sur le projet ODF',
+      route: '/about/contact/information-about-ODF-project',
+    },
+    {
+      title: 'I would like to get information about the ODF project',
+      route: '/en/about/contact/information-about-ODF-project',
+    },
+    {
+      title: 'Je souhaite contacter un référent local',
+      route: '/about/contact/get-in-touch-with-coordinator',
+    },
+    {
+      title: 'I would like to get in touch with a local coordinator',
+      route: '/en/about/contact/get-in-touch-with-coordinator',
+    },
+    {
+      title: "J'aimerais vous faire part de retours sur le site",
+      route: '/about/contact/feedback-about-website',
+    },
+    {
+      title: 'I would like to give you feedback about the website',
+      route: '/en/about/contact/feedback-about-website',
+    },
+    {
+      title: 'Autre demande',
+      route: '/about/contact/other',
+    },
+    {
+      title: 'Other request',
+      route: '/en/about/contact/other',
     },
     {
       title: 'Mentions légales',
-      routerPath: '/about/legal-notices',
+      route: '/about/legal-notices',
     },
     {
       title: 'Legal notices',
-      routerPath: '/en/about/legal-notices',
+      route: '/en/about/legal-notices',
+    },
+    {
+      title: 'Mobile',
+      route: '/mobile',
+    },
+    {
+      title: 'Mobile',
+      route: '/en/mobile',
     },
   ]
   const getPageTitle = (route) => {
     const validRoute =
       route.endsWith('/') && route.length > 1 ? route.slice(0, -1) : route
     const pageItem = websiteTreeView.filter((item) => {
-      return item.routerPath === validRoute
+      return item.route === validRoute
     })
     return pageItem[0].title
   }
