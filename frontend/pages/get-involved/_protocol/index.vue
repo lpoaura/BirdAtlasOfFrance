@@ -39,9 +39,9 @@ export default {
     subtitle: '',
     lastUpdate: '',
     menuItems: [
-      { label: 'Description', routerPath: '' },
-      { label: 'Participer', routerPath: '#get-involved' },
-      { label: 'Bilans', routerPath: '#documents' },
+      { label: 'Description', route: '' },
+      { label: 'Participer', route: '#get-involved' },
+      { label: 'Bilans', route: '#documents' },
     ],
     selectedMenuItem: '',
   }),
@@ -69,8 +69,8 @@ export default {
       })
   },
   methods: {
-    updateSelectedMenuItem(routerPath) {
-      this.selectedMenuItem = routerPath
+    updateSelectedMenuItem(route) {
+      this.selectedMenuItem = route
     },
   },
   head() {
