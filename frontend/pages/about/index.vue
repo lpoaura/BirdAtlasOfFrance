@@ -80,7 +80,7 @@ export default {
         title: 'Lexique',
         subtitle:
           'Retrouvez ici toutes les définitions des mots utilisés sur le projet ODF.',
-        route: '#',
+        route: '/about/glossary',
       },
     ],
     questions: [
