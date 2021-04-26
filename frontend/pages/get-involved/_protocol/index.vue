@@ -14,16 +14,10 @@
         v-if="selectedMenuItem === '#get-involved'"
         :document="protocolGetInvolved"
       />
-      <div
-        v-else-if="selectedMenuItem === '#documents'"
-        class="InformativePageContent"
-      >
-        <div class="ProtocolsDocumentsContent">
-          <div class="ProtocolsDocumentsCard"></div>
-          <div class="ProtocolsDocumentsCard"></div>
-          <div class="ProtocolsDocumentsCard"></div>
-        </div>
-      </div>
+      <nuxt-content
+        v-if="selectedMenuItem === '#documents'"
+        :document="protocolDocuments"
+      />
       <nuxt-content v-else :document="protocolDescription" />
     </section>
   </v-container>
@@ -34,6 +28,7 @@ export default {
   data: () => ({
     protocolDescription: {},
     protocolGetInvolved: {},
+    protocolDocuments: {},
     logo: '',
     title: '',
     subtitle: '',
@@ -63,6 +58,15 @@ export default {
       .fetch()
       .then((getInvolved) => {
         this.protocolGetInvolved = getInvolved
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    this.$content(`fr/protocols/${protocol}/documents`)
+      .fetch()
+      .then((documents) => {
+        console.log(documents)
+        this.protocolDocuments = documents
       })
       .catch((error) => {
         console.log(error)
