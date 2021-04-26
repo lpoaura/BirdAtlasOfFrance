@@ -189,6 +189,11 @@ export default {
   mail: {
     message: [
       {
+        name: 'test',
+        to: process.env.DEVELOPER_MAIL_1,
+        from: process.env.SMTP_LOGIN,
+      },
+      {
         name: 'oiseauxdefrance',
         to: process.env.ODF_MAIL,
         from: process.env.SMTP_LOGIN,

@@ -1,4 +1,3 @@
-<!-- Partenaires -->
 <!-- Générer automatiquement la page entière (composant/v-show) en fonction des fichiers md récupérés -->
 <template>
   <v-container fluid>
@@ -19,10 +18,51 @@
         v-else-if="selectedMenuItem === '#who-we-are'"
         :document="pageWhoWeAre"
       />
-      <nuxt-content
+
+      <div
         v-else-if="selectedMenuItem === '#partners'"
-        :document="pagePartners"
-      />
+        class="InformativePageContent"
+      >
+        <h2 class="InformativePageTitle">Nos financeurs</h2>
+        <div class="PartnersLogosGrid">
+          <div
+            v-for="(partner, index) in financialPartnersLogosList"
+            :key="index"
+            class="PartnersLogosGridItem"
+          >
+            <img
+              class="PartnerLogo"
+              :src="`/what-is-ODF-project/partners-logo/${partner}`"
+            />
+          </div>
+        </div>
+        <h2 class="InformativePageTitle">Nos partenaires scientifiques</h2>
+        <div class="PartnersLogosGrid">
+          <div
+            v-for="(partner, index) in scientificPartnersLogosList"
+            :key="index"
+            class="PartnersLogosGridItem"
+          >
+            <img
+              class="PartnerLogo"
+              :src="`/what-is-ODF-project/partners-logo/${partner}`"
+            />
+          </div>
+        </div>
+        <h2 class="InformativePageTitle">Nos partenaires techniques</h2>
+        <div class="PartnersLogosGrid">
+          <div
+            v-for="(partner, index) in technicalPartnersLogosList"
+            :key="index"
+            class="PartnersLogosGridItem"
+          >
+            <img
+              class="PartnerLogo"
+              :src="`/what-is-ODF-project/partners-logo/${partner}`"
+            />
+          </div>
+        </div>
+      </div>
       <nuxt-content v-else :document="pageDescription" />
     </section>
   </v-container>
@@ -34,7 +74,46 @@ export default {
     pageDescription: {},
     pageGetInvolved: {},
     pageWhoWeAre: {},
-    pagePartners: {},
+    financialPartnersLogosList: ['Ministere-Transition-Ecologique.jpg'],
+    scientificPartnersLogosList: ['MNHN.png', 'OFB.jpg'],
+    technicalPartnersLogosList: [
+      'ALEPE.jpg',
+      'ANA.png',
+      'Bretagne-Vivante.jpg',
+      'C.O.Gard.png',
+      'Charente-Nature.jpg',
+      'Cistude-Nature.jpg',
+      'Eure-et-Loir-Nature.jpg',
+      'GEPOG.jpg',
+      'GEPOMAY.png',
+      'GODS.jpg',
+      'GOG.png',
+      'GON.png',
+      'GONm.png',
+      'GOR.png',
+      'Indre-Nature.png',
+      'Loiret-Nature-Environnement.jpg',
+      'LPO-France.jpg',
+      'LPO-AuRA.png',
+      'LPO-Bourgogne-Franche-Comte.png',
+      'LPO-Bretagne.jpg',
+      'LPO-Grand-Est.jpg',
+      'LPO-Nord.png',
+      'LPO-Normandie.png',
+      'LPO-Occitanie.png',
+      'LPO-PACA.png',
+      'LPO-Pays-de-la-Loire.png',
+      'LPO-Touraine.png',
+      'Mayenne-Nature-Environnement.jpg',
+      'Nature-18.jpg',
+      'Nature-Environnement-17.jpg',
+      'ODONAT.png',
+      'Picardie-Nature.png',
+      'RTE.png',
+      'SEOF.png',
+      'SEOR.gif',
+      'SSNTG82.jpg',
+    ],
     logo: '',
     title: '',
     subtitle: '',
@@ -85,14 +164,6 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-    this.$content(`fr/what-is-ODF-project/partenaires`)
-      .fetch()
-      .then((partners) => {
-        this.pagePartners = partners
-      })
-      .catch((error) => {
-        console.log(error)
-      })
   },
   methods: {
     updateSelectedMenuItem(route) {
@@ -114,5 +185,28 @@ div.container.container--fluid {
 
 .Logo {
   height: 60px;
+}
+
+.PartnersLogosGrid {
+  width: 100%;
+  background: #fcfcfc;
+  border: 1px solid rgba(51, 105, 80, 0.2);
+  box-sizing: border-box;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-gap: 20px;
+}
+
+.PartnersLogosGridItem {
+  display: flex;
+}
+
+.PartnerLogo {
+  max-width: 100%;
+  max-height: 100px;
+  margin: auto;
 }
 </style>
