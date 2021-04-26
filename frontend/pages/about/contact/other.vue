@@ -26,7 +26,7 @@
         <input
           id="user-mail"
           v-model="userMail"
-          type="text"
+          type="email"
           placeholder="henri.martin@monmail.fr"
         />
         <label>Département</label>
@@ -75,8 +75,8 @@ export default {
   }),
   methods: {
     updateSelectedDepartment(department) {
-      this.selectedDepartment = department
-      console.log(this.selectedDepartment)
+      this.selectedDepartment = department[0]
+      // console.log(this.selectedDepartment)
     },
     validateForm() {
       if (!this.userMessage) {
@@ -102,6 +102,12 @@ export default {
       ) {
         this.validForm = true
         this.alertMessage = null
+        const messageIntroduction = `Nom : ${this.userName} \nEmail : ${this.userMail} \nDépartement : ${this.selectedDepartment} \n\nMessage : \n`
+        this.$axios.$post('http://127.0.0.1:3000/mail/send', {
+          config: 'oiseauxdefrance',
+          subject: '[Atlas ODF] Autre demande',
+          text: messageIntroduction + this.userMessage,
+        })
       }
     },
     deleteAlertMessage() {

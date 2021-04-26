@@ -23,6 +23,7 @@
     "nuxt-clipboard": "0.0.4",
     "nuxt-i18n": "^6.21.1",
     "nuxt-leaflet": "0.0.25",
+    "nuxt-mail": "^2.1.2",
     "vue2-leaflet": "^2.6.0"
   },
   "devDependencies": {

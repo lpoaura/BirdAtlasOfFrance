@@ -26,7 +26,7 @@
         <input
           id="user-mail"
           v-model="userMail"
-          type="text"
+          type="email"
           placeholder="henri.martin@monmail.fr"
         />
         <label>Qui souhaitez-vous contacter ?</label>
@@ -126,11 +126,11 @@ export default {
   methods: {
     updateSelectedCoordinator(coordinator) {
       this.selectedCoordinator = coordinator
-      console.log(this.selectedCoordinator)
+      // console.log(this.selectedCoordinator)
     },
     updateSelectedDepartment(department) {
-      this.selectedDepartment = department
-      console.log(this.selectedDepartment)
+      this.selectedDepartment = department[0]
+      // console.log(this.selectedDepartment)
     },
     validateForm() {
       if (!this.userMessage) {
@@ -162,6 +162,15 @@ export default {
       ) {
         this.validForm = true
         this.alertMessage = null
+        let messageIntroduction = `Nom : ${this.userName} \nEmail : ${this.userMail} \nDépartement : ${this.selectedDepartment} \nSouhaite contacter : ${this.selectedCoordinator}`
+        messageIntroduction += this.gridFeature
+          ? `\nNuméro de maille : ${this.gridFeature} \n\nMessage : \n`
+          : '\n\nMessage : \n'
+        this.$axios.$post('http://127.0.0.1:3000/mail/send', {
+          config: 'oiseauxdefrance',
+          subject: '[Atlas ODF] Je souhaite contacter un référent local',
+          text: messageIntroduction + this.userMessage,
+        })
       }
     },
     deleteAlertMessage() {

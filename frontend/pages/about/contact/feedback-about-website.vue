@@ -28,7 +28,7 @@
         <input
           id="user-mail"
           v-model="userMail"
-          type="text"
+          type="email"
           placeholder="henri.martin@monmail.fr"
         />
         <label>À quel sujet souhaitez-vous nous contacter ?</label>
@@ -76,13 +76,14 @@ export default {
     selectedSubject: null,
     userMessage: '',
     subjectsList: ['Problème technique', 'Design', 'Autre'],
+    emailConfig: '',
     alertMessage: null,
     validForm: false,
   }),
   methods: {
     updateSelectedSubject(subject) {
       this.selectedSubject = subject
-      console.log(this.selectedSubject)
+      // console.log(this.selectedSubject)
     },
     validateForm() {
       if (!this.userMessage) {
@@ -108,6 +109,18 @@ export default {
       ) {
         this.validForm = true
         this.alertMessage = null
+        const messageIntroduction = `Nom : ${this.userName} \nEmail : ${this.userMail} \nSujet : ${this.selectedSubject} \n\nMessage : \n`
+        this.selectedSubject === 'Problème technique'
+          ? (this.emailConfig = 'technique')
+          : this.selectedSubject === 'Design'
+          ? (this.emailConfig = 'design')
+          : (this.emailConfig = 'generalfeedback')
+        this.$axios.$post('http://127.0.0.1:3000/mail/send', {
+          config: this.emailConfig,
+          subject:
+            "[Atlas ODF] J'aimerais vous faire part de retours sur le site",
+          text: messageIntroduction + this.userMessage,
+        })
       }
     },
     deleteAlertMessage() {

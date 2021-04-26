@@ -21,7 +21,7 @@
         <input
           id="user-name"
           v-model="userName"
-          type="text"
+          type="email"
           placeholder="Henri Martin"
         />
         <label for="user-mail">Adresse email</label>
@@ -90,17 +90,30 @@ export default {
       'Wetlands',
       'Listes complètes et données ponctuelles',
     ],
+    emailConfigs: [
+      'oiseauxdefrance',
+      'oiseauxdefrance',
+      'stoc',
+      'shoc',
+      'rapaces',
+      'oiseauxdefrance',
+      'wetlands',
+      'oiseauxdefrance',
+    ],
+    emailConfig: '',
     alertMessage: null,
     validForm: false,
   }),
   methods: {
     updateSelectedProtocol(protocol) {
-      this.selectedProtocol = protocol
-      console.log(this.selectedProtocol)
+      this.selectedProtocol = protocol[0]
+      // console.log(this.selectedProtocol)
+      this.emailConfig = this.emailConfigs[protocol[1]]
+      // console.log(this.emailConfig)
     },
     updateSelectedDepartment(department) {
-      this.selectedDepartment = department
-      console.log(this.selectedDepartment)
+      this.selectedDepartment = department[0]
+      // console.log(this.selectedDepartment)
     },
     validateForm() {
       if (!this.userMessage) {
@@ -130,6 +143,12 @@ export default {
       ) {
         this.validForm = true
         this.alertMessage = null
+        const messageIntroduction = `Nom : ${this.userName} \nEmail : ${this.userMail} \nDépartement : ${this.selectedDepartment} \n\nMessage : \n`
+        this.$axios.$post('http://127.0.0.1:3000/mail/send', {
+          config: this.emailConfig,
+          subject: `[Atlas ODF] J'ai une question sur les méthodes de prospection (${this.selectedProtocol})`,
+          text: messageIntroduction + this.userMessage,
+        })
       }
     },
     deleteAlertMessage() {
