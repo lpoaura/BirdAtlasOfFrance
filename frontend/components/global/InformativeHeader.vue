@@ -62,14 +62,18 @@ export default {
   data: () => ({
     selectedMenuItem: '',
   }),
+  watch: {
+    $route(newVal) {
+      this.selectedMenuItem = newVal.hash
+      this.$emit('selectedMenuItem', newVal.hash)
+    },
+  },
   mounted() {
     this.selectedMenuItem = this.$route.hash
     this.$emit('selectedMenuItem', this.selectedMenuItem)
   },
   methods: {
     updateSelectedMenuItem(item) {
-      this.selectedMenuItem = item.route
-      this.$emit('selectedMenuItem', this.selectedMenuItem)
       this.$router.push(`${item.route}`)
     },
   },

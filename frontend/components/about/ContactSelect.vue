@@ -24,7 +24,7 @@
             v-for="(item, index) in itemsList"
             :key="index"
             class="SelectItem"
-            @click="updateSelectedItem(item)"
+            @click="updateSelectedItem(item, index)"
           >
             {{ item }}
           </li>
@@ -61,8 +61,8 @@ export default {
     closeSelect() {
       this.selectIsOpen = false
     },
-    updateSelectedItem(item) {
-      this.$emit('selectedItem', item)
+    updateSelectedItem(item, index) {
+      this.$emit('selectedItem', [item, index])
       this.selectedItem = item
       this.selectIsOpen = false
     },

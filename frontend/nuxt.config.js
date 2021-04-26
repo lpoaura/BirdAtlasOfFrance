@@ -120,8 +120,25 @@ export default {
     'nuxt-leaflet',
     '@nuxt/content',
     // 'nuxt-i18n',
+    'nuxt-mail',
     'nuxt-clipboard',
   ],
+
+  // Axios module configuration (https://go.nuxtjs.dev/config-axios)
+  loading: false,
+  axios: {
+    baseURL: 'http://localhost:8888',
+  },
+  // privateRuntimeConfig: {
+  //   axios: {
+  //     baseURL: process.env.API_URL,
+  //   },
+  // },
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.API_URL,
+    },
+  },
 
   // PWA module configuration
   pwa: {
@@ -139,22 +156,6 @@ export default {
     },
     icon: {
       /* icon options */
-    },
-  },
-
-  // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  loading: false,
-  axios: {
-    baseURL: 'http://localhost:8888',
-  },
-  // privateRuntimeConfig: {
-  //   axios: {
-  //     baseURL: process.env.API_URL,
-  //   },
-  // },
-  publicRuntimeConfig: {
-    axios: {
-      browserBaseURL: process.env.API_URL,
     },
   },
 
@@ -183,6 +184,74 @@ export default {
   //     },
   //   },
   // },
+
+  // Mail module configuration
+  mail: {
+    message: [
+      {
+        name: 'test',
+        to: process.env.DEVELOPER_MAIL_1,
+        from: process.env.SMTP_LOGIN,
+      },
+      {
+        name: 'oiseauxdefrance',
+        to: process.env.ODF_MAIL,
+        from: process.env.SMTP_LOGIN,
+      },
+      {
+        name: 'stoc',
+        to: process.env.STOC_MAIL,
+        from: process.env.SMTP_LOGIN,
+      },
+      {
+        name: 'shoc',
+        to: process.env.SHOC_MAIL,
+        from: process.env.SMTP_LOGIN,
+      },
+      {
+        name: 'rapaces',
+        to: process.env.OBS_RAPACES_MAIL,
+        from: process.env.SMTP_LOGIN,
+      },
+      {
+        name: 'wetlands',
+        to: process.env.WETLANDS_MAIL,
+        from: process.env.SMTP_LOGIN,
+      },
+      {
+        name: 'technique',
+        to: [
+          process.env.DEVELOPER_MAIL_1,
+          process.env.DEVELOPER_MAIL_2,
+          process.env.ODF_MAIL,
+        ],
+        from: process.env.SMTP_LOGIN,
+      },
+      {
+        name: 'design',
+        to: [
+          process.env.DEVELOPER_MAIL_1,
+          process.env.DESIGNER_MAIL_1,
+          process.env.DESIGNER_MAIL_2,
+          process.env.ODF_MAIL,
+        ],
+        from: process.env.SMTP_LOGIN,
+      },
+      {
+        name: 'generalfeedback',
+        to: [process.env.DEVELOPER_MAIL_1, process.env.ODF_MAIL],
+        from: process.env.SMTP_LOGIN,
+      },
+    ],
+    smtp: {
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      auth: {
+        user: process.env.SMTP_LOGIN,
+        pass: process.env.SMTP_PWD,
+      },
+    },
+  },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
