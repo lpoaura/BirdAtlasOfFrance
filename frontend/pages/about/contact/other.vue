@@ -103,7 +103,7 @@ export default {
         this.validForm = true
         this.alertMessage = null
         const messageIntroduction = `Nom : ${this.userName} \nEmail : ${this.userMail} \nDépartement : ${this.selectedDepartment} \n\nMessage : \n`
-        this.$axios.$post('http://127.0.0.1:3000/mail/send', {
+        this.$mail.send({
           config: 'test',
           subject: '[Atlas ODF] Autre demande',
           text: messageIntroduction + this.userMessage,
