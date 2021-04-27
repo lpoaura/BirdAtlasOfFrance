@@ -20,9 +20,7 @@ $$
                             FILTER (WHERE mv_data_for_atlas.new_data_wintering)  AS count_taxa_wintering
                     FROM
                         atlas.mv_data_for_atlas
-                            JOIN taxonomie.taxref ON mv_data_for_atlas.cd_nom = taxref.cd_nom
-                    WHERE
-                        taxref.id_rang = 'ES'
+--                             JOIN atlas.t_taxa ON mv_data_for_atlas.cd_nom = t_taxa.cd_nom
             )
           , fromforms AS (
             SELECT
