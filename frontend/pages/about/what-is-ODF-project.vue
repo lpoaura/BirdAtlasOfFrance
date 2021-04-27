@@ -196,7 +196,7 @@ div.container.container--fluid {
   padding: 20px;
   margin-bottom: 30px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   grid-gap: 20px;
 }
 
