@@ -166,7 +166,7 @@ export default {
         messageIntroduction += this.gridFeature
           ? `\nNuméro de maille : ${this.gridFeature} \n\nMessage : \n`
           : '\n\nMessage : \n'
-        this.$axios.$post('http://127.0.0.1:3000/mail/send', {
+        this.$mail.send({
           config: 'oiseauxdefrance',
           subject: '[Atlas ODF] Je souhaite contacter un référent local',
           text: messageIntroduction + this.userMessage,

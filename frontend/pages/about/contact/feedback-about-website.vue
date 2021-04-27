@@ -115,7 +115,7 @@ export default {
           : this.selectedSubject === 'Design'
           ? (this.emailConfig = 'design')
           : (this.emailConfig = 'generalfeedback')
-        this.$axios.$post('http://127.0.0.1:3000/mail/send', {
+        this.$mail.send({
           config: this.emailConfig,
           subject:
             "[Atlas ODF] J'aimerais vous faire part de retours sur le site",
