@@ -35,42 +35,43 @@ $$
           , new_data_allperiod AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT cd_nom) AS count_cd_nom
+              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
-                        JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
+                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
-                      tcse.taxo_group LIKE 'Oiseaux'
+                      t_taxa.enabled
                   AND synthese.date_min > '2019-01-31'::DATE
                 GROUP BY areas.id_area
         )
           , old_data_allperiod AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT cd_nom) AS count_cd_nom
+              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
-                        JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
+                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
-                      tcse.taxo_group LIKE 'Oiseaux'
+                      t_taxa.enabled
                   AND synthese.date_min < '2019-01-31'::DATE
                 GROUP BY areas.id_area
         )
           , old_data_wintering AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT cd_nom) AS count_cd_nom
+              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
+                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
-                      tcse.taxo_group LIKE 'Oiseaux'
+                      t_taxa.enabled
                   AND tcse.bird_breed_code IS NULL
                   AND extract(
                               MONTH
@@ -82,14 +83,15 @@ $$
           , new_data_wintering AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT cd_nom) AS count_cd_nom
+              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
+                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
-                      tcse.taxo_group LIKE 'Oiseaux'
+                      t_taxa.enabled
                   AND tcse.bird_breed_code IS NULL
                   AND extract(
                               MONTH
@@ -101,14 +103,15 @@ $$
           , old_data_breeding AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT cd_nom) AS count_cd_nom
+              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
+                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
-                      tcse.taxo_group LIKE 'Oiseaux'
+                      t_taxa.enabled
                   AND tcse.bird_breed_code BETWEEN 2 AND 50
                   AND synthese.date_min < '2019-01-01'
                 GROUP BY areas.id_area
@@ -116,14 +119,15 @@ $$
           , new_data_breeding AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT cd_nom) AS count_cd_nom
+              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
+                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
-                      tcse.taxo_group LIKE 'Oiseaux'
+                      t_taxa.enabled
                   AND tcse.bird_breed_code BETWEEN 2 AND 50
                   AND synthese.date_min > '2018-12-31'::DATE
                 GROUP BY areas.id_area

@@ -12,7 +12,8 @@ $$
 
         CREATE TEMPORARY TABLE com_geom AS
         SELECT
-            (st_dump(st_union(geom))).geom AS geom
+            --(st_dump(st_union(geom))).geom AS geom
+            st_union(geom) AS geom
             FROM
                 ref_geo.l_areas
             WHERE

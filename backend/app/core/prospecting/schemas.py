@@ -86,7 +86,8 @@ class AreaKnowledgeTaxaListSchema(BaseModel):
     id_area: int
     cd_nom: int
     sci_name: str
-    common_name: Optional[str]
+    common_name_fr: Optional[str]
+    common_name_en: Optional[str]
     all_period: AreaKnowledgeTaxaListGenericDetailSchema
     wintering: AreaKnowledgeTaxaListGenericDetailSchema
     breeding: AreaKnowledgeTaxaListBreedingDetailSchema
