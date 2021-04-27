@@ -11,14 +11,17 @@
     />
     <section class="InformativePageSection">
       <nuxt-content
-        v-if="selectedMenuItem === '#get-involved'"
+        v-show="!selectedMenuItem"
+        :document="protocolDescription"
+      />
+      <nuxt-content
+        v-show="selectedMenuItem === '#get-involved'"
         :document="protocolGetInvolved"
       />
       <nuxt-content
-        v-if="selectedMenuItem === '#documents'"
+        v-show="selectedMenuItem === '#documents'"
         :document="protocolDocuments"
       />
-      <nuxt-content v-else :document="protocolDescription" />
     </section>
   </v-container>
 </template>
@@ -65,7 +68,6 @@ export default {
     this.$content(`fr/protocols/${protocol}/documents`)
       .fetch()
       .then((documents) => {
-        console.log(documents)
         this.protocolDocuments = documents
       })
       .catch((error) => {
