@@ -3,7 +3,7 @@
     <!-- HEADER -->
     <div class="SpeciesDashboardHeader">
       <span class="SpeciesDashboardTitle">{{
-        selectedSpecies.common_name_fr
+        selectedSpecies[`common_name_${lang}`]
       }}</span>
       <seasons-selector
         :selected-season="selectedSeason"
@@ -66,6 +66,7 @@ export default {
       breeding: ['Nicheur possible', 'Nicheur probable', 'Nicheur certain'],
       wintering: ['Présence'],
     },
+    lang: 'fr',
   }),
   methods: {
     updateSelectedSeason(season) {

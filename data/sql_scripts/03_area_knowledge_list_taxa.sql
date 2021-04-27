@@ -49,11 +49,34 @@ $$
                     WHERE
                         t.mnemonique LIKE 'VN_ATLAS_CODE'
             )
+          , names AS (
+            SELECT
+                t_taxa.cd_nom
+              , max(CASE
+                        WHEN (bib_attributs.nom_attribut = 'odf_common_name_fr') THEN cor_taxon_attribut.valeur_attribut
+                        ELSE split_part(taxref.nom_vern, ',', 1) END)     AS common_name_fr
+
+              , max(CASE
+                        WHEN (bib_attributs.nom_attribut = 'odf_common_name_en') THEN cor_taxon_attribut.valeur_attribut
+                        ELSE split_part(taxref.nom_vern_eng, ',', 1) END) AS common_name_en
+
+              , max(CASE
+                        WHEN (bib_attributs.nom_attribut = 'odf_sci_name') THEN cor_taxon_attribut.valeur_attribut
+                        ELSE taxref.lb_nom END)                           AS sci_name
+                FROM
+                    atlas.t_taxa
+                        JOIN taxonomie.taxref ON t_taxa.cd_nom = taxref.cd_nom
+                        LEFT JOIN taxonomie.cor_taxon_attribut ON taxref.cd_ref = cor_taxon_attribut.cd_ref
+                        LEFT JOIN taxonomie.bib_attributs ON cor_taxon_attribut.id_attribut = bib_attributs.id_attribut
+                GROUP BY t_taxa.cd_nom
+        )
+
         SELECT
             data.id_area
-          , data.cd_nom
-          , taxref.lb_nom                                                             AS sci_name
-          , coalesce(bib_noms.nom_francais, split_part(nom_vern, ',', 1))             AS common_name
+          , CASE WHEN t_taxa.has_subsp THEN t_taxa.cd_sp ELSE t_taxa.cd_nom END       AS cd_nom
+          , names.common_name_fr
+          , names.common_name_en
+          , names.sci_name
           , count(id_data) FILTER (WHERE old_data_all_period)                         AS all_period_count_data_old
           , count(id_data) FILTER (WHERE new_data_all_period)                         AS all_period_count_data_new
           , extract(YEAR FROM max(data.date_min))                                     AS all_period_last_obs
@@ -74,11 +97,15 @@ $$
                                                                 new_data_wintering))) AS wintering_last_obs
             FROM
                 atlas.mv_data_for_atlas data
-                    JOIN taxonomie.taxref ON data.cd_nom = taxref.cd_nom
-                    LEFT JOIN taxonomie.bib_noms ON taxref.cd_nom = bib_noms.cd_nom
+                    JOIN atlas.t_taxa ON t_taxa.cd_nom = data.cd_nom
+                    JOIN names ON t_taxa.cd_nom = names.cd_nom
                     LEFT JOIN atlas_code ac ON ac.cd_nomenclature = data.bird_breed_code
             GROUP BY
-                data.id_area, data.cd_nom, taxref.lb_nom, nom_vern,coalesce(bib_noms.nom_francais, split_part(nom_vern, ',', 1)) ;
+                data.id_area
+              , CASE WHEN t_taxa.has_subsp THEN t_taxa.cd_sp ELSE t_taxa.cd_nom END
+              , names.common_name_fr
+              , names.common_name_en
+              , names.sci_name;
         COMMENT ON MATERIALIZED VIEW atlas.mv_area_knowledge_list_taxa IS 'Synthèse de l''état des prospection par mailles comparativement à l''atlas précédent';
         CREATE UNIQUE INDEX i_area_knowledge_list_taxa_id_area_cd_nom ON atlas.mv_area_knowledge_list_taxa (id_area, cd_nom);
         COMMIT;
