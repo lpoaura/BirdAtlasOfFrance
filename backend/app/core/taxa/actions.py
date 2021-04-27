@@ -71,7 +71,7 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
                         geofunc.ST_MakeEnvelope(
                             envelope[0], envelope[1], envelope[2], envelope[3], 4326
                         ),
-                        2154,
+                        4326,
                     ),
                 )
             )

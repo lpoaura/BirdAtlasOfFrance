@@ -400,7 +400,7 @@ export default {
   watch: {
     selectedArea(newVal) {
       if (newVal) {
-        if (newVal.type_code === 'M10') {
+        if (newVal.type_code === 'ATLAS_GRID') {
           this.searchedFeatureId = newVal.id
         }
         this.zoomToArea(newVal.bounds)
@@ -440,7 +440,7 @@ export default {
         )
         .then((data) => {
           const area = L.geoJSON(data)
-          if (this.$route.query.type === 'M10') {
+          if (this.$route.query.type === 'ATLAS_GRID') {
             this.searchedFeatureCode = this.$route.query.area
           }
           this.isProgramaticZoom = true
@@ -532,9 +532,12 @@ export default {
         this.axiosSourceKnowledgeLevel = cancelToken.source()
         this.knowledgeLevelIsLoading = true
         this.$axios
-          .$get(`/api/v1/area/knowledge_level/M10?envelope=${this.envelope}`, {
-            cancelToken: this.axiosSourceKnowledgeLevel.token,
-          })
+          .$get(
+            `/api/v1/area/knowledge_level/ATLAS_GRID?envelope=${this.envelope}`,
+            {
+              cancelToken: this.axiosSourceKnowledgeLevel.token,
+            }
+          )
           .then((data) => {
             this.knowledgeLevelGeojson = data
             if (this.searchedFeatureId) {

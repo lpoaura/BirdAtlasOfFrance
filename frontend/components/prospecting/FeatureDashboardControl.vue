@@ -142,7 +142,7 @@
               class="SpeciesTableLine pointer"
               @click="updateClickedSpecies(taxon)"
             >
-              <span>{{ taxon.common_name }}</span>
+              <span>{{ taxon[`common_name_${lang}`] }}</span>
               <div class="SpeciesTableColumnsContent">
                 <div class="SpeciesTableColumn">
                   <img
@@ -243,7 +243,7 @@
       </div>
       <div class="FeatureDashboardHeader">
         <h1 class="FeatureDashboardTitle">
-          {{ clickedSpecies.common_name }}
+          {{ clickedSpecies[`common_name_${lang}`] }}
         </h1>
       </div>
       <div class="FeatureDashboardContent">
@@ -351,6 +351,7 @@ export default {
     seeMoreMunicipalitiesIsClicked: false,
     clickedSpecies: null,
     clickedEpocItem: null,
+    lang: 'fr',
     // barPlotWidth: 0,
     // barPlotHeight: 0,
     months: [
@@ -381,8 +382,8 @@ export default {
       if (this.search.length > 0) {
         return this.featureTaxaList[this.selectedSpeciesStatus.value].filter(
           (species) =>
-            species.common_name &&
-            species.common_name
+            species[`common_name_${this.lang}`] &&
+            species[`common_name_${this.lang}`]
               .toLowerCase()
               .normalize('NFD')
               .replace(/[\u0300-\u036f]/g, '')
@@ -589,7 +590,10 @@ export default {
       // console.log(this.featureProperties)
       this.$router.push({
         path: '/prospecting',
-        query: { area: `${this.featureProperties.area_code}`, type: 'M10' },
+        query: {
+          area: `${this.featureProperties.area_code}`,
+          type: 'ATLAS_GRID',
+        },
       })
       this.$axios
         .$get(`/api/v1/area/general_stats/${this.featureID}`)
