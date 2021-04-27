@@ -190,56 +190,59 @@ export default {
     message: [
       {
         name: 'test',
-        to: process.env.DEVELOPER_MAIL_1,
+        to: process.env.DEVELOPER_MAIL_1 || 'odf',
         from: process.env.SMTP_LOGIN,
       },
       {
         name: 'oiseauxdefrance',
-        to: process.env.ODF_MAIL,
+        to: process.env.ODF_MAIL || 'odf',
         from: process.env.SMTP_LOGIN,
       },
       {
         name: 'stoc',
-        to: process.env.STOC_MAIL,
+        to: process.env.STOC_MAIL || 'odf',
         from: process.env.SMTP_LOGIN,
       },
       {
         name: 'shoc',
-        to: process.env.SHOC_MAIL,
+        to: process.env.SHOC_MAIL || 'odf',
         from: process.env.SMTP_LOGIN,
       },
       {
         name: 'rapaces',
-        to: process.env.OBS_RAPACES_MAIL,
+        to: process.env.OBS_RAPACES_MAIL || 'odf',
         from: process.env.SMTP_LOGIN,
       },
       {
         name: 'wetlands',
-        to: process.env.WETLANDS_MAIL,
+        to: process.env.WETLANDS_MAIL || 'odf',
         from: process.env.SMTP_LOGIN,
       },
       {
         name: 'technique',
         to: [
-          process.env.DEVELOPER_MAIL_1,
-          process.env.DEVELOPER_MAIL_2,
-          process.env.ODF_MAIL,
+          process.env.DEVELOPER_MAIL_1 || 'odf',
+          process.env.DEVELOPER_MAIL_2 || 'odf',
+          process.env.ODF_MAIL || 'odf',
         ],
         from: process.env.SMTP_LOGIN,
       },
       {
         name: 'design',
         to: [
-          process.env.DEVELOPER_MAIL_1,
-          process.env.DESIGNER_MAIL_1,
-          process.env.DESIGNER_MAIL_2,
-          process.env.ODF_MAIL,
+          process.env.DEVELOPER_MAIL_1 || 'odf',
+          process.env.DESIGNER_MAIL_1 || 'odf',
+          process.env.DESIGNER_MAIL_2 || 'odf',
+          process.env.ODF_MAIL || 'odf',
         ],
         from: process.env.SMTP_LOGIN,
       },
       {
         name: 'generalfeedback',
-        to: [process.env.DEVELOPER_MAIL_1, process.env.ODF_MAIL],
+        to: [
+          process.env.DEVELOPER_MAIL_1 || 'odf',
+          process.env.ODF_MAIL || 'odf',
+        ],
         from: process.env.SMTP_LOGIN,
       },
     ],
