@@ -127,17 +127,16 @@ export default {
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   loading: false,
   axios: {
-    baseURL: 'http://localhost:8888',
+    // baseURL: 'http://localhost:8888',
+    proxy: true,
   },
-  // privateRuntimeConfig: {
+  // publicRuntimeConfig: {
   //   axios: {
-  //     baseURL: process.env.API_URL,
+  //     browserBaseURL: process.env.API_URL,
   //   },
   // },
-  publicRuntimeConfig: {
-    axios: {
-      browserBaseURL: process.env.API_URL,
-    },
+  proxy: {
+    '/api': process.env.API_URL || 'http://localhost:8888',
   },
 
   // PWA module configuration
@@ -191,32 +190,32 @@ export default {
       {
         name: 'test',
         to: process.env.DEVELOPER_MAIL_1 || 'odf',
-        from: process.env.SMTP_LOGIN,
+        from: process.env.SMTP_LOGIN || 'odf',
       },
       {
         name: 'oiseauxdefrance',
         to: process.env.ODF_MAIL || 'odf',
-        from: process.env.SMTP_LOGIN,
+        from: process.env.SMTP_LOGIN || 'odf',
       },
       {
         name: 'stoc',
         to: process.env.STOC_MAIL || 'odf',
-        from: process.env.SMTP_LOGIN,
+        from: process.env.SMTP_LOGIN || 'odf',
       },
       {
         name: 'shoc',
         to: process.env.SHOC_MAIL || 'odf',
-        from: process.env.SMTP_LOGIN,
+        from: process.env.SMTP_LOGIN || 'odf',
       },
       {
         name: 'rapaces',
         to: process.env.OBS_RAPACES_MAIL || 'odf',
-        from: process.env.SMTP_LOGIN,
+        from: process.env.SMTP_LOGIN || 'odf',
       },
       {
         name: 'wetlands',
         to: process.env.WETLANDS_MAIL || 'odf',
-        from: process.env.SMTP_LOGIN,
+        from: process.env.SMTP_LOGIN || 'odf',
       },
       {
         name: 'technique',
@@ -225,7 +224,7 @@ export default {
           process.env.DEVELOPER_MAIL_2 || 'odf',
           process.env.ODF_MAIL || 'odf',
         ],
-        from: process.env.SMTP_LOGIN,
+        from: process.env.SMTP_LOGIN || 'odf',
       },
       {
         name: 'design',
@@ -235,7 +234,7 @@ export default {
           process.env.DESIGNER_MAIL_2 || 'odf',
           process.env.ODF_MAIL || 'odf',
         ],
-        from: process.env.SMTP_LOGIN,
+        from: process.env.SMTP_LOGIN || 'odf',
       },
       {
         name: 'generalfeedback',
@@ -243,15 +242,15 @@ export default {
           process.env.DEVELOPER_MAIL_1 || 'odf',
           process.env.ODF_MAIL || 'odf',
         ],
-        from: process.env.SMTP_LOGIN,
+        from: process.env.SMTP_LOGIN || 'odf',
       },
     ],
     smtp: {
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
+      host: process.env.SMTP_HOST || 'smtp',
+      port: process.env.SMTP_PORT || 587,
       auth: {
-        user: process.env.SMTP_LOGIN,
-        pass: process.env.SMTP_PWD,
+        user: process.env.SMTP_LOGIN || 'odf',
+        pass: process.env.SMTP_PWD || 'odf',
       },
     },
   },
