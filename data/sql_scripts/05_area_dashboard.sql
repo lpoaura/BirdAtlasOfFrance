@@ -18,7 +18,7 @@ $$
     BEGIN
         RAISE NOTICE 'INFO: (RE)CREATE MV atlas mv_area_dashboard';
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_dashboard;
-        CREATE INDEX IF NOT EXISTS i_forms_json_id_form_universal ON import_vn.forms_json USING gin ((item -> 'id_form_universal'));
+        CREATE INDEX IF NOT EXISTS i_forms_json_id_form_universal ON src_vn_json.forms_json USING gin ((item -> 'id_form_universal'));
         -- some minimum date
         /* Materialized view to list all taxa in area */
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_dashboard;
