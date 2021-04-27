@@ -83,6 +83,7 @@ export default {
     selectIsOpen: false,
     speciesIsSelected: false,
     searchIsProgramatic: false,
+    lang: 'fr',
   }),
   watch: {
     search(newVal, oldVal) {
@@ -128,7 +129,7 @@ export default {
           this.speciesIsSelected = true
           this.selectedType = this.typeList[1]
           this.searchIsProgramatic = true
-          this.search = data[0].common_name_fr
+          this.search = data[0][`common_name_${this.lang}`]
         })
         .catch((error) => {
           console.log(error)
@@ -172,7 +173,7 @@ export default {
           query: { species: `${data.code}` },
         })
         this.searchIsProgramatic = true
-        this.search = data.common_name_fr
+        this.search = data[`common_name_${this.lang}`]
       } else {
         this.$emit('selectedArea', data)
         this.$router.push({
