@@ -92,6 +92,7 @@ export default {
     '~/plugins/checkEmail.js',
     '~/plugins/toPercent.js',
     '~/plugins/thousandDelimiter.js',
+    '~/plugins/generateCaptcha.js',
     '~/plugins/getPageTitle.js',
     '~/plugins/departmentsList.js',
   ],

@@ -38,6 +38,10 @@
         />
         <label for="message">Message</label>
         <textarea id="message" v-model="userMessage" placeholder="Bonjour..." />
+        <captcha-form
+          :captcha-ref="captchaRef"
+          @captchaUser="updateCaptchaUser"
+        />
         <div class="PrimaryButton" @click="validateForm">Envoyer</div>
       </div>
     </section>
@@ -59,26 +63,40 @@
 <script>
 import Breadcrumb from '~/components/layouts/Breadcrumb.vue'
 import ContactSelect from '~/components/about/ContactSelect.vue'
+import CaptchaForm from '~/components/about/CaptchaForm.vue'
 
 export default {
   components: {
     breadcrumb: Breadcrumb,
     'contact-select': ContactSelect,
+    'captcha-form': CaptchaForm,
   },
   data: () => ({
     userName: '',
     userMail: '',
     selectedDepartment: null,
     userMessage: '',
+    captchaRef: '',
+    captchaUser: '',
     alertMessage: null,
     validForm: false,
   }),
+  mounted() {
+    this.captchaRef = this.$generateCaptcha()
+  },
   methods: {
     updateSelectedDepartment(department) {
       this.selectedDepartment = department[0]
       // console.log(this.selectedDepartment)
     },
+    updateCaptchaUser(captcha) {
+      this.captchaUser = captcha
+    },
     validateForm() {
+      if (this.captchaUser !== this.captchaRef) {
+        this.alertMessage =
+          "Le code de sécurité que vous avez renseigné n'est pas bon"
+      }
       if (!this.userMessage) {
         this.alertMessage = 'Veuillez écrire un message'
       }
@@ -98,7 +116,8 @@ export default {
         this.userName &&
         this.$checkEmail(this.userMail) &&
         this.selectedDepartment &&
-        this.userMessage
+        this.userMessage &&
+        this.captchaUser === this.captchaRef
       ) {
         this.validForm = true
         this.alertMessage = null
