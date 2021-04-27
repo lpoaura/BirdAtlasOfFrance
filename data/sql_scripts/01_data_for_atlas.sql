@@ -54,14 +54,9 @@ $$
                 gn_synthese.synthese
                     JOIN cor_area_synthese ON cor_area_synthese.id_synthese = synthese.id_synthese
                     JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
-                    JOIN taxonomie.taxref ON synthese.cd_nom = taxref.cd_nom
+                    JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
             WHERE
-                  taxref.group2_inpn LIKE 'Oiseaux'
-              AND taxref.cd_nom IN (
-                SELECT
-                    cd_nom
-                    FROM
-                        atlas.t_taxa);
+                t_taxa.enabled;
         RAISE INFO '-- % -- COMMENT AND INDEXES ON atlas.mv_data_for_atlas', clock_timestamp();
         COMMENT ON MATERIALIZED VIEW atlas.mv_data_for_atlas IS 'All datas used for atlas';
 --         CREATE UNIQUE INDEX i_unique_data_for_atlas_id_synthese ON atlas.mv_data_for_atlas (id_data);
@@ -136,51 +131,4 @@ $$
         COMMIT;
     END
 $$
-;
-
-WITH
-    cd_noms AS (SELECT DISTINCT cd_nom FROM gn_synthese.synthese)
-  , subsp AS (SELECT
-                  taxref.lb_nom
-                , taxref.id_rang
-                , taxref.cd_nom
-                , taxref.nom_vern
-                , CASE WHEN id_rang LIKE 'SSES' THEN cd_sup ELSE cd_ref END AS cd_base
-                , taxref.cd_nom
-                  FROM
-                      cd_noms
-                          JOIN taxonomie.taxref
-                               ON cd_noms.cd_nom = taxref.cd_nom
-                  WHERE
-                        taxref.cd_nom = taxref.cd_ref
-                    AND (
-                                (
-                                    id_rang LIKE 'ES')
-                                OR (
-                                        id_rang LIKE 'SSES'
-                                        AND cd_ref IN (
-                                                       3745, 886211, 886212, 961306))))
-SELECT DISTINCT
-    tx.lb_nom
-  , tx.id_rang
-  , tx.cd_nom
-  , tx.nom_vern
-  , array_agg(subsp.cd_nom)
-    FROM
-        cd_noms
-            JOIN taxonomie.taxref tx ON cd_noms.cd_nom = tx.cd_nom
-            JOIN subsp ON tx.cd_nom = subsp.cd_base
-    WHERE
-          tx.cd_nom = tx.cd_ref
-      AND (
-                  (
-                      id_rang LIKE 'ES')
-                  OR (
-                          id_rang LIKE 'SSES'
-                          AND cd_ref IN (3745, 886211, 886212, 961306)))
-    GROUP BY
-        tx.lb_nom
-      , tx.id_rang
-      , tx.cd_nom
-      , tx.nom_vern
 ;
