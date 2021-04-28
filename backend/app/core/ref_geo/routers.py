@@ -111,6 +111,31 @@ def get_area_geom_by_id_area(
 
 
 @router.get(
+    "/lareas/position",
+    response_model=LAreasFeatureProperties,
+    responses={HTTP_404_NOT_FOUND: {"model": Feature}},
+    tags=["ref_geo"],
+)
+def get_area_by_coordinates(
+    coordinates: str,
+    type_code: str,
+    bbox: bool = None,
+    only_enable: bool = None,
+    db: Session = Depends(get_db),
+) -> Any:
+    coords = [float(c) for c in coordinates.split(",")]
+    area = l_areas.get_feature_list(
+        db=db, type_code=type_code, bbox=bbox, coordinates=coords, only_enable=only_enable
+    ).first()
+    if not area:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Get not found")
+    feature = LAreasFeatureProperties(
+        id=area.id, properties=area.properties, geometry=json.loads(area.geometry)
+    )
+    return feature
+
+
+@router.get(
     "/lareas/{type_code}/{area_code}",
     response_model=LAreasFeatureProperties,
     responses={HTTP_404_NOT_FOUND: {"model": Feature}},
