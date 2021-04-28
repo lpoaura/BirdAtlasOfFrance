@@ -74,6 +74,7 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
         type_code: str = None,
         only_enable: bool = True,
         bbox: bool = False,
+        coordinates: str = None,
         id_area: int = None,
         limit: Optional[int] = None,
         envelope: Optional[List] = None,
@@ -104,6 +105,12 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
                         ),
                         2154,
                     ),
+                )
+            )
+        if coordinates:
+            q = q.filter(
+                LAreas.geom.contains(
+                    geofunc.ST_SetSRID(geofunc.ST_MakePoint(coordinates[0], coordinates[1]), 4326)
                 )
             )
         q = q.filter(LAreas.id_area == id_area) if id_area else q
