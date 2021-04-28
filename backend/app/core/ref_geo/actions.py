@@ -3,8 +3,6 @@ import time
 from typing import List, Optional
 
 from geoalchemy2 import functions as geofunc
-
-# from sqlalchemy_utils.geofunc import json_sql
 from sqlalchemy import and_, func
 from sqlalchemy.orm import Query, Session
 
@@ -20,21 +18,20 @@ class BibAreasTypesActions(BaseReadOnlyActions[BibAreasTypes]):
     """Post actions with basic CRUD operations"""
 
     def get_id_from_code(self, db: Session, code: str) -> Optional[int]:
-        start_time = time.time()
-        logger.debug(f"stepx: {(time.time()-start_time)*1000}")
         q = db.query(self.model.id_type).filter(self.model.type_code == code)
-        r = q.first().id_type
-        logger.debug(f"stepz: {(time.time()-start_time)*1000}")
-        return r
-
-
-bib_areas_types = BibAreasTypesActions(BibAreasTypes)
+        return q.first().id_type
 
 
 class LAreasActions(BaseReadOnlyActions[LAreas]):
     """Post actions with basic CRUD operations"""
 
-    def query_data4features(self, db: Session) -> Query:
+    def query_data4features(self, db: Session, bbox: bool = False) -> Query:
+        geom = (
+            geofunc.ST_AsGeoJSON(geofunc.ST_Envelope(geofunc.ST_Transform(LAreas.geom, 4326)))
+            if bbox
+            else LAreas.geojson_4326
+        )
+
         q = db.query(
             LAreas.id_area.label("id"),
             func.json_build_object(
@@ -43,7 +40,7 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
                 "area_name",
                 LAreas.area_name,
             ).label("properties"),
-            LAreas.geojson_4326.label("geometry"),
+            geom.label("geometry"),
         )
         return q
 
@@ -74,7 +71,10 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
     def get_feature_list(
         self,
         db: Session,
-        type_code: str = "COM",
+        type_code: str = None,
+        only_enable: bool = True,
+        bbox: bool = False,
+        id_area: int = None,
         limit: Optional[int] = None,
         envelope: Optional[List] = None,
     ) -> List:
@@ -88,10 +88,12 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
         Returns:
             List: [description]
         """
-        id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
-        q = self.query_data4features(db=db)
-        # logger.debug(f"Q {q}\n{type(q.)}\n{dir(q)}")
-        q = q.filter(LAreas.id_type == id_type)
+
+        q = self.query_data4features(db=db, bbox=bbox)
+        if type_code:
+            id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
+            q = q.filter(LAreas.id_type == id_type)
+        q = q.filter(LAreas.enable) if only_enable else q
         if envelope:
             q = q.filter(
                 geofunc.ST_Intersects(
@@ -104,11 +106,9 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
                     ),
                 )
             )
-        logger.debug("\n".join([f"{o}: {dir(o)}\t{type(o)}" for o in dir(q)]))
-        if limit:
-            q = q.limit(limit)
-
-        return q.all()
+        q = q.filter(LAreas.id_area == id_area) if id_area else q
+        q = q.limit(limit) if limit else q
+        return q
 
 
 bib_areas_types = BibAreasTypesActions(BibAreasTypes)
