@@ -54,6 +54,7 @@ class KnowledgeLevelGeneralStatsSchema(BaseModel):
         BaseModel ([type]): [description]
     """
 
+    average: float
     from0to25: int
     from25to50: int
     from50to75: int

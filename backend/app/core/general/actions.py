@@ -10,6 +10,8 @@ from sqlalchemy.orm import Query, Session
 from app.core.actions.crud import BaseReadOnlyActions
 
 from ..prospecting.models import AreaKnowledgeLevel
+from ..ref_geo.actions import bib_areas_types
+from ..ref_geo.models import BibAreasTypes, LAreas
 from .models import GeneralStats
 
 logger = logging.getLogger(__name__)
@@ -48,7 +50,7 @@ class KnowledgeLevelGeneralStatsActions(BaseReadOnlyActions[AreaKnowledgeLevel])
         BaseReadOnlyActions ([type]): [description]
     """
 
-    def query(self, db: Session) -> Query:
+    def query(self, db: Session, territory_id: int = None, period: str = "allperiod") -> Query:
         """[summary]
 
         Args:
@@ -57,42 +59,58 @@ class KnowledgeLevelGeneralStatsActions(BaseReadOnlyActions[AreaKnowledgeLevel])
         Returns:
             Query: [description]
         """
-        q = db.query(
-            func.count(AreaKnowledgeLevel.id_area)
-            .filter(
-                and_(
-                    AreaKnowledgeLevel.allperiod_percent_knowledge >= 0,
-                    AreaKnowledgeLevel.allperiod_percent_knowledge < 0.25,
+        percent_knowledge_fields = {
+            "allperiod": AreaKnowledgeLevel.allperiod_percent_knowledge,
+            "wintering": AreaKnowledgeLevel.wintering_percent_knowledge,
+            "breeding": AreaKnowledgeLevel.breeding_percent_knowledge,
+        }
+        q = (
+            db.query(
+                func.avg(percent_knowledge_fields[period]).label("average"),
+                func.count(AreaKnowledgeLevel.id_area)
+                .filter(
+                    and_(
+                        percent_knowledge_fields[period] >= 0,
+                        percent_knowledge_fields[period] < 0.25,
+                    )
                 )
-            )
-            .label("from0to25"),
-            func.count(AreaKnowledgeLevel.id_area)
-            .filter(
-                and_(
-                    AreaKnowledgeLevel.allperiod_percent_knowledge >= 0.25,
-                    AreaKnowledgeLevel.allperiod_percent_knowledge < 0.5,
+                .label("from0to25"),
+                func.count(AreaKnowledgeLevel.id_area)
+                .filter(
+                    and_(
+                        percent_knowledge_fields[period] >= 0.25,
+                        percent_knowledge_fields[period] < 0.5,
+                    )
                 )
-            )
-            .label("from25to50"),
-            func.count(AreaKnowledgeLevel.id_area)
-            .filter(
-                and_(
-                    AreaKnowledgeLevel.allperiod_percent_knowledge >= 0.5,
-                    AreaKnowledgeLevel.allperiod_percent_knowledge < 0.75,
+                .label("from25to50"),
+                func.count(AreaKnowledgeLevel.id_area)
+                .filter(
+                    and_(
+                        percent_knowledge_fields[period] >= 0.5,
+                        percent_knowledge_fields[period] < 0.75,
+                    )
                 )
-            )
-            .label("from50to75"),
-            func.count(AreaKnowledgeLevel.id_area)
-            .filter(
-                and_(
-                    AreaKnowledgeLevel.allperiod_percent_knowledge >= 0.75,
-                    AreaKnowledgeLevel.allperiod_percent_knowledge < 1,
+                .label("from50to75"),
+                func.count(AreaKnowledgeLevel.id_area)
+                .filter(
+                    and_(
+                        percent_knowledge_fields[period] >= 0.75,
+                        percent_knowledge_fields[period] < 1,
+                    )
                 )
+                .label("from75to100"),
+                func.count(AreaKnowledgeLevel.id_area)
+                .filter(percent_knowledge_fields[period] >= 1)
+                .label("over100"),
             )
-            .label("from75to100"),
-            func.count(AreaKnowledgeLevel.id_area)
-            .filter(AreaKnowledgeLevel.allperiod_percent_knowledge >= 1)
-            .label("over100"),
+            # .filter(LAreas.id_type == territory_type)
+        )
+        q = (
+            q.filter(LAreas.id_area == territory_id)
+            .filter(LAreas.geom.intersects(AreaKnowledgeLevel.geom))
+            .group_by(LAreas.id_area)
+            if territory_id
+            else q
         )
         logger.debug(q)
         return q.first()
