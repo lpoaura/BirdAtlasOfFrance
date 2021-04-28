@@ -46,6 +46,7 @@ def period_stats(db: Session = Depends(get_db)) -> Any:
     description="""# Global knowledge level
 
 Global knowledge level for atlas, from area counts categorized by knowledge level:
+* average
 * from 0 to 25%
 * from 25 to 50%
 * from 50 to 75%
@@ -53,7 +54,31 @@ Global knowledge level for atlas, from area counts categorized by knowledge leve
 * over 100%
     """,
 )
-def knowledge_level_general_stats_data(db: Session = Depends(get_db)) -> Any:
+def knowledge_level_global_general_stats_data(db: Session = Depends(get_db)) -> Any:
     q = knowledge_level_general_stats.query(db=db)
+    logger.debug(q)
+    return q
+
+
+@router.get(
+    "/knowledge_level/{id_area}",
+    response_model=KnowledgeLevelGeneralStatsSchema,
+    tags=["main"],
+    summary="Global knowledge level",
+    description="""# Global knowledge level
+
+Global knowledge level for atlas, from area counts categorized by knowledge level:
+* average
+* from 0 to 25%
+* from 25 to 50%
+* from 50 to 75%
+* from 75 to 100%
+* over 100%
+    """,
+)
+def knowledge_level_territory_general_stats_data(
+    id_area: int, db: Session = Depends(get_db)
+) -> Any:
+    q = knowledge_level_general_stats.query(db=db, territory_id=id_area)
     logger.debug(q)
     return q

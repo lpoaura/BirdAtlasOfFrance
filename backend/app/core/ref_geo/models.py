@@ -1,5 +1,15 @@
 from geoalchemy2 import Geometry
-from sqlalchemy import BigInteger, Column, DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy import (
+    BigInteger,
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    Text,
+)
 from sqlalchemy.orm import relationship
 
 from app.utils.db import Base
@@ -27,6 +37,7 @@ class LAreas(Base):
     geom = Column(Geometry("GEOMETRY", 2154))
     geojson_4326 = Column(Text)
     source = Column(String)
+    enable = Column(Boolean)
     area_type = relationship("BibAreasTypes", lazy="select")
 
 
