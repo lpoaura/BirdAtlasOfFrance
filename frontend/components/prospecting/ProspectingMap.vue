@@ -1,11 +1,6 @@
 <!-- La carte doit s'actualiser sur la métropole entière (manque API emprises) -->
-<!-- Ne pas considérer les mailles liées aux mers/océans -->
 <template>
   <div id="map-wrap">
-    <!-- <span> Center : {{ center }} </span><br />
-    <span> Bounds : {{ bounds }} </span><br />
-    <span> Envelope : {{ envelope }} </span><br />
-    <span> GeoJSON : {{ geojson }}</span><br /><br /> -->
     <l-map
       ref="myMap"
       :zoom="zoom"
