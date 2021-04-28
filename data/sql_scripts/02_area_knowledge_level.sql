@@ -22,15 +22,8 @@ $$
                     FROM
                         ref_geo.l_areas
                     WHERE
-                            id_type = (
-                            SELECT
-                                id_type
-                                FROM
-                                    ref_geo.bib_areas_types
-                                WHERE
-                                    type_code = 'ATLAS_GRID'
-                                LIMIT 1
-                        )
+                          id_type = ref_geo.get_id_area_type('ATLAS_GRID')
+                      AND l_areas.enable
             )
           , new_data_allperiod AS (
             SELECT DISTINCT

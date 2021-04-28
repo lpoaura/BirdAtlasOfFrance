@@ -20,8 +20,7 @@ $$
             EXECUTE format('SELECT  tn.%I  FROM ref_nomenclatures.t_nomenclatures tn ' ||
                            'join ref_nomenclatures.bib_nomenclatures_types bnt on tn.id_type = bnt.id_type ' ||
                            'where bnt.mnemonique like $1 and tn.hierarchy=$2', _column)
-                USING _type_mnemonique,
-                    _hierarchy INTO the_value;
+                USING _type_mnemonique, _hierarchy INTO the_value;
             RETURN the_value;
         END
         $func$
@@ -32,7 +31,6 @@ $$
         CREATE INDEX IF NOT EXISTS i_synthese_datemin_oldatlas ON gn_synthese.synthese (date_min DESC NULLS LAST)
             WHERE
                 synthese.date_min <= '2019-01-31'::DATE;
-
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_knowledge_list_taxa;
         -- some minimum date
         /* Materialized view to list all taxa in area */
@@ -52,28 +50,43 @@ $$
           , names AS (
             SELECT
                 t_taxa.cd_nom
-              , max(CASE
-                        WHEN (bib_attributs.nom_attribut = 'odf_common_name_fr') THEN cor_taxon_attribut.valeur_attribut
-                        ELSE split_part(taxref.nom_vern, ',', 1) END)     AS common_name_fr
-
-              , max(CASE
-                        WHEN (bib_attributs.nom_attribut = 'odf_common_name_en') THEN cor_taxon_attribut.valeur_attribut
-                        ELSE split_part(taxref.nom_vern_eng, ',', 1) END) AS common_name_en
-
-              , max(CASE
-                        WHEN (bib_attributs.nom_attribut = 'odf_sci_name') THEN cor_taxon_attribut.valeur_attribut
-                        ELSE taxref.lb_nom END)                           AS sci_name
+              , max(
+                        CASE
+                            WHEN (bib_attributs.nom_attribut = 'odf_common_name_fr') THEN
+                                cor_taxon_attribut.valeur_attribut
+                            ELSE
+                                split_part(taxref.nom_vern, ',', 1)
+                            END) AS common_name_fr
+              , max(
+                        CASE
+                            WHEN (bib_attributs.nom_attribut = 'odf_common_name_en') THEN
+                                cor_taxon_attribut.valeur_attribut
+                            ELSE
+                                split_part(taxref.nom_vern_eng, ',', 1)
+                            END) AS common_name_en
+              , max(
+                        CASE
+                            WHEN (bib_attributs.nom_attribut = 'odf_sci_name') THEN
+                                cor_taxon_attribut.valeur_attribut
+                            ELSE
+                                taxref.lb_nom
+                            END) AS sci_name
                 FROM
                     atlas.t_taxa
                         JOIN taxonomie.taxref ON t_taxa.cd_nom = taxref.cd_nom
                         LEFT JOIN taxonomie.cor_taxon_attribut ON taxref.cd_ref = cor_taxon_attribut.cd_ref
                         LEFT JOIN taxonomie.bib_attributs ON cor_taxon_attribut.id_attribut = bib_attributs.id_attribut
-                GROUP BY t_taxa.cd_nom
+                GROUP BY
+                    t_taxa.cd_nom
         )
-
         SELECT
             data.id_area
-          , CASE WHEN t_taxa.has_subsp THEN t_taxa.cd_sp ELSE t_taxa.cd_nom END       AS cd_nom
+          , CASE
+                WHEN t_taxa.has_subsp THEN
+                    t_taxa.cd_sp
+                ELSE
+                    t_taxa.cd_nom
+                END                                                                   AS cd_nom
           , names.common_name_fr
           , names.common_name_en
           , names.sci_name
@@ -101,11 +114,13 @@ $$
                     JOIN names ON t_taxa.cd_nom = names.cd_nom
                     LEFT JOIN atlas_code ac ON ac.cd_nomenclature = data.bird_breed_code
             GROUP BY
-                data.id_area
-              , CASE WHEN t_taxa.has_subsp THEN t_taxa.cd_sp ELSE t_taxa.cd_nom END
-              , names.common_name_fr
-              , names.common_name_en
-              , names.sci_name;
+                data.id_area, CASE
+                                  WHEN t_taxa.has_subsp THEN
+                                      t_taxa.cd_sp
+                                  ELSE
+                                      t_taxa.cd_nom
+                END
+                            , names.common_name_fr, names.common_name_en, names.sci_name;
         COMMENT ON MATERIALIZED VIEW atlas.mv_area_knowledge_list_taxa IS 'Synthèse de l''état des prospection par mailles comparativement à l''atlas précédent';
         CREATE UNIQUE INDEX i_area_knowledge_list_taxa_id_area_cd_nom ON atlas.mv_area_knowledge_list_taxa (id_area, cd_nom);
         COMMIT;
