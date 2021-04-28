@@ -22,11 +22,13 @@
     <div class="KnowledgeLevelPieChartContent">
       <div class="KnowledgeLevelPieChart">
         <svg class="PieChartSvg"></svg>
-        <div class="KnowledgeLevelGlobalData">?? %</div>
+        <div class="KnowledgeLevelGlobalData">
+          {{ $toPercent(averageKnowledgeLevel) }}%
+        </div>
       </div>
       <div class="KnowledgeLevelPieChartLegend">
         <div
-          v-for="(item, index) in knowledgeLevelData"
+          v-for="(item, index) in knowledgeLevelData.all_period"
           :key="index"
           class="PieChartLegendItem"
         >
@@ -62,34 +64,37 @@ export default {
     },
   },
   data: () => ({
-    knowledgeLevelData: [
-      {
-        value: 0,
-        label: '0-25%',
-      },
-      {
-        value: 0,
-        label: '25-50%',
-      },
-      {
-        value: 0,
-        label: '50-75%',
-      },
-      {
-        value: 0,
-        label: '75-100%',
-      },
-      {
-        value: 0,
-        label: '100%+',
-      },
-    ],
+    averageKnowledgeLevel: 0,
+    knowledgeLevelData: {
+      all_period: [
+        {
+          value: 0,
+          label: '0-25%',
+        },
+        {
+          value: 0,
+          label: '25-50%',
+        },
+        {
+          value: 0,
+          label: '50-75%',
+        },
+        {
+          value: 0,
+          label: '75-100%',
+        },
+        {
+          value: 0,
+          label: '100%+',
+        },
+      ],
+    },
     arcPath: {},
   }),
   computed: {
     totalAreaCount() {
       let totalCount = 0
-      this.knowledgeLevelData.forEach((item) => {
+      this.knowledgeLevelData.all_period.forEach((item) => {
         totalCount += item.value
       })
       return totalCount
@@ -106,7 +111,7 @@ export default {
         .value(function (d) {
           return d.value
         })
-        .sort(null)(this.knowledgeLevelData)
+        .sort(null)(this.knowledgeLevelData.all_period)
       // Create pie chart
       const pieChartSvg = d3
         .select('.PieChartSvg')
@@ -129,9 +134,10 @@ export default {
   mounted() {
     this.$axios.$get('/api/v1/knowledge_level').then((data) => {
       // console.log(data)
+      this.averageKnowledgeLevel = data.average
       const dataArray = Object.values(data)
-      dataArray.forEach((item, index) => {
-        this.knowledgeLevelData[index].value = item
+      dataArray.slice(1, dataArray.length).forEach((item, index) => {
+        this.knowledgeLevelData.all_period[index].value = item
       })
       // Get pie chart size
       const pieChartHeight = parseFloat(
@@ -155,7 +161,7 @@ export default {
         .value(function (d) {
           return d.value
         })
-        .sort(null)(this.knowledgeLevelData)
+        .sort(null)(this.knowledgeLevelData.all_period)
       // Create pie chart
       pieChartSvg
         .append('g')
