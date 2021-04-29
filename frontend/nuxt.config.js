@@ -250,6 +250,7 @@ export default {
       host: process.env.SMTP_HOST || 'smtp',
       port: process.env.SMTP_PORT || 587,
       secure: false,
+      requireTLS: true,
       auth: {
         user: process.env.SMTP_LOGIN || 'odf',
         pass: process.env.SMTP_PWD || 'odf',
