@@ -171,17 +171,28 @@ export default {
         this.userMessage &&
         this.captchaUser === this.captchaRef
       ) {
-        this.validForm = true
+        // this.validForm = true
         this.alertMessage = null
         let messageIntroduction = `Nom : ${this.userName} \nEmail : ${this.userMail} \nDépartement : ${this.selectedDepartment} \nSouhaite contacter : ${this.selectedCoordinator}`
         messageIntroduction += this.gridFeature
           ? `\nNuméro de maille : ${this.gridFeature} \n\nMessage : \n`
           : '\n\nMessage : \n'
-        this.$mail.send({
-          config: 'oiseauxdefrance',
-          subject: '[Atlas ODF] Je souhaite contacter un référent local',
-          text: messageIntroduction + this.userMessage,
-        })
+        this.$mail
+          .send({
+            config: 'oiseauxdefrance',
+            subject: '[Atlas ODF] Je souhaite contacter un référent local',
+            text: messageIntroduction + this.userMessage,
+          })
+          .then((response) => {
+            console.log(response)
+            this.validForm = true
+          })
+          .catch((error) => {
+            this.alertMessage = "L'envoi du mail a échoué..."
+            if (error.response) {
+              console.log(error.response.data)
+            }
+          })
       }
     },
     deleteAlertMessage() {
