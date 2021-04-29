@@ -8,6 +8,8 @@ RUN yarn build
 
 ## Prod
 FROM node:alpine
+RUN apk update && apk upgrade && \
+  apk add --no-cache git
 WORKDIR /app
 COPY package.json ./
 # ENV NODE_ENV=production
