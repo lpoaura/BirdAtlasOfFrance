@@ -112,15 +112,26 @@ export default {
         this.userMessage &&
         this.captchaUser === this.captchaRef
       ) {
-        this.validForm = true
+        // this.validForm = true
         this.alertMessage = null
         const messageIntroduction = `Nom : ${this.userName} \nEmail : ${this.userMail} \nDépartement : ${this.selectedDepartment} \n\nMessage : \n`
-        this.$mail.send({
-          config: 'oiseauxdefrance',
-          subject:
-            '[Atlas ODF] Je souhaite avoir des renseignements sur le projet ODF',
-          text: messageIntroduction + this.userMessage,
-        })
+        this.$mail
+          .send({
+            config: 'oiseauxdefrance',
+            subject:
+              '[Atlas ODF] Je souhaite avoir des renseignements sur le projet ODF',
+            text: messageIntroduction + this.userMessage,
+          })
+          .then((response) => {
+            console.log(response)
+            this.validForm = true
+          })
+          .catch((error) => {
+            this.alertMessage = "L'envoi du mail a échoué..."
+            if (error.response) {
+              console.log(error.response.data)
+            }
+          })
       }
     },
     deleteAlertMessage() {
