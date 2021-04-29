@@ -10,17 +10,18 @@
       @selectedMenuItem="updateSelectedMenuItem"
     />
     <section class="InformativePageSection">
+      <nuxt-content v-show="!selectedMenuItem" :document="pageDescription" />
       <nuxt-content
-        v-if="selectedMenuItem === '#get-involved'"
+        v-show="selectedMenuItem === '#get-involved'"
         :document="pageGetInvolved"
       />
       <nuxt-content
-        v-else-if="selectedMenuItem === '#who-we-are'"
+        v-show="selectedMenuItem === '#who-we-are'"
         :document="pageWhoWeAre"
       />
 
       <div
-        v-else-if="selectedMenuItem === '#partners'"
+        v-show="selectedMenuItem === '#partners'"
         class="InformativePageContent"
       >
         <h2 class="InformativePageTitle">Nos financeurs</h2>
@@ -63,7 +64,6 @@
           </div>
         </div>
       </div>
-      <nuxt-content v-else :document="pageDescription" />
     </section>
   </v-container>
 </template>

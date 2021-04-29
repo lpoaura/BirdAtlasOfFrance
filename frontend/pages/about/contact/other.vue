@@ -30,7 +30,7 @@
           placeholder="henri.martin@monmail.fr"
         />
         <label>Département</label>
-        <contact-select
+        <contact-form-select
           :z-index="4"
           default-message="Département"
           :items-list="$departmentsList"
@@ -38,47 +38,56 @@
         />
         <label for="message">Message</label>
         <textarea id="message" v-model="userMessage" placeholder="Bonjour..." />
+        <captcha-form
+          :captcha-ref="captchaRef"
+          @captchaUser="updateCaptchaUser"
+        />
         <div class="PrimaryButton" @click="validateForm">Envoyer</div>
       </div>
     </section>
-    <section v-show="validForm" class="ConfirmationSection">
-      <div class="ConfirmationContent">
-        <img class="ConfirmationPicture" src="/confirmation-of-receipt.svg" />
-        <h1 class="ConfirmationTitle">Nous avons bien reçu votre demande</h1>
-        <span class="ConfirmationSubtitle"
-          >Nous mettons tout en œuvre pour vous répondre au plus vite !</span
-        >
-        <nuxt-link to="/" class="PrimaryButton"
-          >Retour à la page d'accueil</nuxt-link
-        >
-      </div>
-    </section>
+    <contact-form-confirmation v-show="validForm" />
   </v-container>
 </template>
 
 <script>
 import Breadcrumb from '~/components/layouts/Breadcrumb.vue'
-import ContactSelect from '~/components/about/ContactSelect.vue'
+import ContactFormSelect from '~/components/about/ContactFormSelect.vue'
+import CaptchaForm from '~/components/about/CaptchaForm.vue'
+import ContactFormConfirmation from '~/components/about/ContactFormConfirmation.vue'
 
 export default {
   components: {
     breadcrumb: Breadcrumb,
-    'contact-select': ContactSelect,
+    'contact-form-select': ContactFormSelect,
+    'captcha-form': CaptchaForm,
+    'contact-form-confirmation': ContactFormConfirmation,
   },
   data: () => ({
     userName: '',
     userMail: '',
     selectedDepartment: null,
     userMessage: '',
+    captchaRef: '',
+    captchaUser: '',
     alertMessage: null,
     validForm: false,
   }),
+  mounted() {
+    this.captchaRef = this.$generateCaptcha()
+  },
   methods: {
     updateSelectedDepartment(department) {
       this.selectedDepartment = department[0]
       // console.log(this.selectedDepartment)
     },
+    updateCaptchaUser(captcha) {
+      this.captchaUser = captcha
+    },
     validateForm() {
+      if (this.captchaUser !== this.captchaRef) {
+        this.alertMessage =
+          "Le code de sécurité que vous avez renseigné n'est pas bon"
+      }
       if (!this.userMessage) {
         this.alertMessage = 'Veuillez écrire un message'
       }
@@ -98,7 +107,8 @@ export default {
         this.userName &&
         this.$checkEmail(this.userMail) &&
         this.selectedDepartment &&
-        this.userMessage
+        this.userMessage &&
+        this.captchaUser === this.captchaRef
       ) {
         this.validForm = true
         this.alertMessage = null
