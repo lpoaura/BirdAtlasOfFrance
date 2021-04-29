@@ -252,6 +252,7 @@ export default {
       auth: {
         user: process.env.SMTP_LOGIN || 'odf',
         pass: process.env.SMTP_PWD || 'odf',
+        secure: false,
       },
     },
   },
