@@ -1,7 +1,7 @@
 import logging
 from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.utils.db import get_db
@@ -52,11 +52,21 @@ Global knowledge level for atlas, from area counts categorized by knowledge leve
 * from 50 to 75%
 * from 75 to 100%
 * over 100%
+
+Period options are:
+* `allperiod`
+* `wintering`
+* `breeding`
+
     """,
 )
-def knowledge_level_global_general_stats_data(db: Session = Depends(get_db)) -> Any:
-    q = knowledge_level_general_stats.query(db=db)
+def knowledge_level_global_general_stats_data(
+    period: str = "allperiod", db: Session = Depends(get_db)
+) -> Any:
+    q = knowledge_level_general_stats.query(db=db, period=period)
     logger.debug(q)
+    if not q:
+        raise HTTPException(status_code=404, detail="Data not found")
     return q
 
 
@@ -74,11 +84,18 @@ Global knowledge level for atlas, from area counts categorized by knowledge leve
 * from 50 to 75%
 * from 75 to 100%
 * over 100%
+
+Period options are:
+* `allperiod`
+* `wintering`
+* `breeding`
     """,
 )
 def knowledge_level_territory_general_stats_data(
-    id_area: int, db: Session = Depends(get_db)
+    id_area: int, period: str = "allperiod", db: Session = Depends(get_db)
 ) -> Any:
-    q = knowledge_level_general_stats.query(db=db, territory_id=id_area)
+    q = knowledge_level_general_stats.query(db=db, territory_id=id_area, period=period)
     logger.debug(q)
+    if not q:
+        raise HTTPException(status_code=404, detail="Data not found")
     return q
