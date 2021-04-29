@@ -586,6 +586,10 @@ export default {
       // console.log('----------------------------------------')
       // console.log('ID : ' + this.featureID)
       this.featureProperties = feature.properties
+      this.featureProperties.area_name = this.featureProperties.area_name.slice(
+        7,
+        this.featureProperties.area_name.length
+      )
       // console.log('Properties :')
       // console.log(this.featureProperties)
       this.$router.push({
