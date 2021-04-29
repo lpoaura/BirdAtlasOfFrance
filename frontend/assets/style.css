@@ -29,6 +29,11 @@ div.container.container--fluid {
   align-items: center;
 }
 
+.PrimaryButton:disabled {
+  background: rgba(57, 118, 90, 0.2);
+  color: #39765a;
+}
+
 .v-application a.PrimaryButton.outlined,
 .PrimaryButton.outlined {
   background: #fcfcfc;

@@ -74,7 +74,10 @@ export default {
     pageDescription: {},
     pageGetInvolved: {},
     pageWhoWeAre: {},
-    financialPartnersLogosList: ['Ministere-Transition-Ecologique.jpg'],
+    financialPartnersLogosList: [
+      'Ministere-Transition-Ecologique.jpg',
+      'RTE.png',
+    ],
     scientificPartnersLogosList: ['MNHN.png', 'OFB.jpg'],
     technicalPartnersLogosList: [
       'ALEPE.jpg',
@@ -109,7 +112,6 @@ export default {
       'Nature-Environnement-17.jpg',
       'ODONAT.png',
       'Picardie-Nature.png',
-      'RTE.png',
       'SEOF.png',
       'SEOR.gif',
       'SSNTG82.jpg',

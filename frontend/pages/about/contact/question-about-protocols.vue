@@ -51,7 +51,13 @@
           :captcha-ref="captchaRef"
           @captchaUser="updateCaptchaUser"
         />
-        <div class="PrimaryButton" @click="validateForm">Envoyer</div>
+        <button
+          :disabled="disabledButton"
+          class="PrimaryButton"
+          @click="validateForm"
+        >
+          Envoyer
+        </button>
       </div>
     </section>
     <contact-form-confirmation v-show="validForm" />
@@ -102,6 +108,7 @@ export default {
     emailConfig: '',
     alertMessage: null,
     validForm: false,
+    disabledButton: false,
   }),
   mounted() {
     this.captchaRef = this.$generateCaptcha()
@@ -152,6 +159,7 @@ export default {
         this.captchaUser === this.captchaRef
       ) {
         // this.validForm = true
+        this.disabledButton = true
         this.alertMessage = null
         const messageIntroduction = `Nom : ${this.userName} \nEmail : ${this.userMail} \nDépartement : ${this.selectedDepartment} \n\nMessage : \n`
         this.$mail
@@ -166,6 +174,7 @@ export default {
           })
           .catch((error) => {
             this.alertMessage = "L'envoi du mail a échoué..."
+            this.disabledButton = false
             if (error.response) {
               console.log(error.response.data)
             }
