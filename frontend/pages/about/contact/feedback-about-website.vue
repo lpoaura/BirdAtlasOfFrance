@@ -117,7 +117,7 @@ export default {
         this.userMessage &&
         this.captchaUser === this.captchaRef
       ) {
-        this.validForm = true
+        // this.validForm = true
         this.alertMessage = null
         const messageIntroduction = `Nom : ${this.userName} \nEmail : ${this.userMail} \nSujet : ${this.selectedSubject} \n\nMessage : \n`
         this.selectedSubject === 'Problème technique'
@@ -125,12 +125,23 @@ export default {
           : this.selectedSubject === 'Design'
           ? (this.emailConfig = 'design')
           : (this.emailConfig = 'generalfeedback')
-        this.$mail.send({
-          config: this.emailConfig,
-          subject:
-            "[Atlas ODF] J'aimerais vous faire part de retours sur le site",
-          text: messageIntroduction + this.userMessage,
-        })
+        this.$mail
+          .send({
+            config: this.emailConfig,
+            subject:
+              "[Atlas ODF] J'aimerais vous faire part de retours sur le site",
+            text: messageIntroduction + this.userMessage,
+          })
+          .then((response) => {
+            console.log(response)
+            this.validForm = true
+          })
+          .catch((error) => {
+            this.alertMessage = "L'envoi du mail a échoué..."
+            if (error.response) {
+              console.log(error.response.data)
+            }
+          })
       }
     },
     deleteAlertMessage() {
