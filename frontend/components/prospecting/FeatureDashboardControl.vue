@@ -43,7 +43,9 @@
         class="FeatureDashboardContent"
       >
         <div class="Split main"></div>
-        <h2 class="FeatureDashboardTitle margin">Indice de complétude</h2>
+        <h2 class="FeatureDashboardTitle margin">
+          Indice de complétude (toutes saisons)
+        </h2>
         <div class="KeyDataContent">
           <div class="KeyDataValue">
             {{ $toPercent(featureProperties.all_period.percent_knowledge) }}%
