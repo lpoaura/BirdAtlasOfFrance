@@ -588,9 +588,9 @@ export default {
       // console.log('----------------------------------------')
       // console.log('ID : ' + this.featureID)
       this.featureProperties = feature.properties
-      this.featureProperties.area_name = this.featureProperties.area_name.slice(
-        7,
-        this.featureProperties.area_name.length
+      this.featureProperties.area_name = this.featureProperties.area_name.replace(
+        '10kmL93',
+        ''
       )
       // console.log('Properties :')
       // console.log(this.featureProperties)
