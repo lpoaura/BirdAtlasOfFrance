@@ -150,7 +150,7 @@ export default {
       }
       if (this.gridFeatureIsKnow && !this.gridFeature) {
         this.alertMessage =
-          "Veuillez renseigner un numéro de maille, ou bien décocher l'option correspondante"
+          "Veuillez renseigner un numéro de maille ou décochez l'option correspondante"
       }
       if (!this.selectedDepartment) {
         this.alertMessage = 'Veuillez sélectionner un département'
@@ -187,7 +187,7 @@ export default {
             text: messageIntroduction + this.userMessage,
           })
           .then((response) => {
-            console.log(response)
+            // console.log(response)
             this.validForm = true
           })
           .catch((error) => {

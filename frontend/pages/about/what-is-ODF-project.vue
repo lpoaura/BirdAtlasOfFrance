@@ -87,7 +87,7 @@ export default {
       'Charente-Nature.jpg',
       'Cistude-Nature.jpg',
       'Eure-et-Loir-Nature.jpg',
-      'GEPOG.jpg',
+      'GEPOG.png',
       'GEPOMAY.png',
       'GODS.jpg',
       'GOG.png',
