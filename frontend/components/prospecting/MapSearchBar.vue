@@ -51,7 +51,11 @@
         class="AutocompleteItem"
         @click="updateSelectedData(data)"
       >
-        {{ selectedType.label === 'Espèce' ? data.name : data.html_repr }}
+        {{
+          selectedType.label === 'Espèce'
+            ? data.name
+            : data.html_repr.replace('10kmL93', '')
+        }}
       </li>
     </div>
   </div>
@@ -277,7 +281,7 @@ export default {
   width: 100%;
   height: 42px;
   margin-bottom: 6px;
-  padding: 0 1.1vw;
+  padding: 0 16px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
