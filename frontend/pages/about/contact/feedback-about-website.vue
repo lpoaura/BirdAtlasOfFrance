@@ -141,7 +141,7 @@ export default {
             text: messageIntroduction + this.userMessage,
           })
           .then((response) => {
-            console.log(response)
+            // console.log(response)
             this.validForm = true
           })
           .catch((error) => {
