@@ -236,7 +236,7 @@ export default {
           },
           click: (event) => {
             this.clickedEpocPoint = null
-            this.clickedFeature = feature
+            this.clickedFeature = JSON.parse(JSON.stringify(feature))
             this.zoomToFeature(event)
           },
         })
@@ -434,10 +434,10 @@ export default {
           `/api/v1/lareas/${this.$route.query.type}/${this.$route.query.area}`
         )
         .then((data) => {
-          const area = L.geoJSON(data)
           if (this.$route.query.type === 'ATLAS_GRID') {
             this.searchedFeatureCode = this.$route.query.area
           }
+          const area = L.geoJSON(data)
           this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
