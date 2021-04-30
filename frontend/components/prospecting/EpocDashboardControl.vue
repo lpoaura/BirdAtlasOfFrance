@@ -41,7 +41,7 @@
             v-clipboard:copy="epocPointCoordinates"
             class="EpocPropertyCopyIcon"
             src="/copy.svg"
-            title="Copier"
+            title="Copier les coordonnées"
           />
         </div>
       </div>
