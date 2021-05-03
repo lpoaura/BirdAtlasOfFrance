@@ -1,11 +1,6 @@
 <!-- La carte doit s'actualiser sur la métropole entière (manque API emprises) -->
-<!-- Ne pas considérer les mailles liées aux mers/océans -->
 <template>
   <div id="map-wrap">
-    <!-- <span> Center : {{ center }} </span><br />
-    <span> Bounds : {{ bounds }} </span><br />
-    <span> Envelope : {{ envelope }} </span><br />
-    <span> GeoJSON : {{ geojson }}</span><br /><br /> -->
     <l-map
       ref="myMap"
       :zoom="zoom"
@@ -182,8 +177,8 @@ export default {
     },
   },
   data: () => ({
-    zoom: 12,
-    currentZoom: 12,
+    zoom: 11,
+    currentZoom: 11,
     oldZoomKnowledgeLevel: 100,
     oldZoomSpeciesDistribution: 100,
     isProgramaticZoom: false,
@@ -194,6 +189,7 @@ export default {
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     attribution: 'OSM',
     envelope: null,
+    initTerritory: null,
     disableScrollPropagation: true,
     knowledgeLevelGeojson: null,
     speciesDistributionGeojson: null,
@@ -241,7 +237,7 @@ export default {
           },
           click: (event) => {
             this.clickedEpocPoint = null
-            this.clickedFeature = feature
+            this.clickedFeature = JSON.parse(JSON.stringify(feature))
             this.zoomToFeature(event)
           },
         })
@@ -439,34 +435,53 @@ export default {
           `/api/v1/lareas/${this.$route.query.type}/${this.$route.query.area}`
         )
         .then((data) => {
-          const area = L.geoJSON(data)
           if (this.$route.query.type === 'ATLAS_GRID') {
             this.searchedFeatureCode = this.$route.query.area
           }
+          const area = L.geoJSON(data)
           this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
         .catch((error) => {
           console.log(error)
         })
-    }
-    if (this.$route.query.species) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.center = [position.coords.latitude, position.coords.longitude]
-      })
+    } else {
+      // À MODIFIER : l'API doit prendre en paramètre la localisation de l'utilisateur (Paris à défaut)
       this.$axios
-        .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
+        .$get(
+          'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
+        )
         .then((data) => {
-          this.$emit('selectedSpecies', data[0])
+          const territory = L.geoJSON(data)
+          this.isProgramaticZoom = true
+          this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
+          if (this.$route.query.species) {
+            this.$axios
+              .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
+              .then((data) => {
+                this.$emit('selectedSpecies', data[0])
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          }
         })
         .catch((error) => {
           console.log(error)
+          navigator.geolocation.getCurrentPosition((position) => {
+            this.center = [position.coords.latitude, position.coords.longitude]
+          })
+          if (this.$route.query.species) {
+            this.$axios
+              .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
+              .then((data) => {
+                this.$emit('selectedSpecies', data[0])
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          }
         })
-    } else {
-      // À REVOIR
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.center = [position.coords.latitude, position.coords.longitude]
-      })
     }
   },
   methods: {

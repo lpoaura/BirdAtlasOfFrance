@@ -92,6 +92,7 @@ export default {
     '~/plugins/checkEmail.js',
     '~/plugins/toPercent.js',
     '~/plugins/thousandDelimiter.js',
+    '~/plugins/generateCaptcha.js',
     '~/plugins/getPageTitle.js',
     '~/plugins/departmentsList.js',
   ],
@@ -120,8 +121,24 @@ export default {
     'nuxt-leaflet',
     '@nuxt/content',
     // 'nuxt-i18n',
+    'nuxt-mail',
     'nuxt-clipboard',
   ],
+
+  // Axios module configuration (https://go.nuxtjs.dev/config-axios)
+  loading: false,
+  axios: {
+    // baseURL: 'http://localhost:8888',
+    proxy: true,
+  },
+  // publicRuntimeConfig: {
+  //   axios: {
+  //     browserBaseURL: process.env.API_URL,
+  //   },
+  // },
+  proxy: {
+    '/api': process.env.API_URL || 'http://localhost:8888',
+  },
 
   // PWA module configuration
   pwa: {
@@ -139,22 +156,6 @@ export default {
     },
     icon: {
       /* icon options */
-    },
-  },
-
-  // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  loading: false,
-  axios: {
-    baseURL: 'http://localhost:8888',
-  },
-  // privateRuntimeConfig: {
-  //   axios: {
-  //     baseURL: process.env.API_URL,
-  //   },
-  // },
-  publicRuntimeConfig: {
-    axios: {
-      browserBaseURL: process.env.API_URL,
     },
   },
 
@@ -183,6 +184,79 @@ export default {
   //     },
   //   },
   // },
+
+  // Mail module configuration
+  mail: {
+    message: [
+      {
+        name: 'test',
+        to: process.env.DEVELOPER_MAIL_1 || 'odf',
+        from: process.env.SMTP_LOGIN || 'odf',
+      },
+      {
+        name: 'oiseauxdefrance',
+        to: process.env.ODF_MAIL || 'odf',
+        from: process.env.SMTP_LOGIN || 'odf',
+      },
+      {
+        name: 'stoc',
+        to: process.env.STOC_MAIL || 'odf',
+        from: process.env.SMTP_LOGIN || 'odf',
+      },
+      {
+        name: 'shoc',
+        to: process.env.SHOC_MAIL || 'odf',
+        from: process.env.SMTP_LOGIN || 'odf',
+      },
+      {
+        name: 'rapaces',
+        to: process.env.OBS_RAPACES_MAIL || 'odf',
+        from: process.env.SMTP_LOGIN || 'odf',
+      },
+      {
+        name: 'wetlands',
+        to: process.env.WETLANDS_MAIL || 'odf',
+        from: process.env.SMTP_LOGIN || 'odf',
+      },
+      {
+        name: 'technique',
+        to: [
+          process.env.DEVELOPER_MAIL_1 || 'odf',
+          process.env.DEVELOPER_MAIL_2 || 'odf',
+          process.env.ODF_MAIL || 'odf',
+        ],
+        from: process.env.SMTP_LOGIN || 'odf',
+      },
+      {
+        name: 'design',
+        to: [
+          process.env.DEVELOPER_MAIL_1 || 'odf',
+          process.env.DESIGNER_MAIL_1 || 'odf',
+          process.env.DESIGNER_MAIL_2 || 'odf',
+          process.env.ODF_MAIL || 'odf',
+        ],
+        from: process.env.SMTP_LOGIN || 'odf',
+      },
+      {
+        name: 'generalfeedback',
+        to: [
+          process.env.DEVELOPER_MAIL_1 || 'odf',
+          process.env.ODF_MAIL || 'odf',
+        ],
+        from: process.env.SMTP_LOGIN || 'odf',
+      },
+    ],
+    smtp: {
+      host: process.env.SMTP_HOST || 'smtp',
+      port: process.env.SMTP_PORT || 587,
+      // secure: false,
+      // requireTLS: true,
+      auth: {
+        user: process.env.SMTP_LOGIN || 'odf',
+        pass: process.env.SMTP_PWD || 'odf',
+      },
+    },
+  },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
