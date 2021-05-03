@@ -1,4 +1,3 @@
-<!-- Attendre l'API des indices de complétude par saison -->
 <template>
   <section class="KnowledgeLevelControl">
     <div class="KnowledgeLevelHeader">
@@ -22,11 +21,14 @@
     <div class="KnowledgeLevelPieChartContent">
       <div class="KnowledgeLevelPieChart">
         <svg class="PieChartSvg"></svg>
-        <div class="KnowledgeLevelGlobalData">?? %</div>
+        <div class="KnowledgeLevelGlobalData">
+          {{ globalKnowledgeLevel[selectedSeason.value].average }}%
+        </div>
       </div>
       <div class="KnowledgeLevelPieChartLegend">
         <div
-          v-for="(item, index) in knowledgeLevelData"
+          v-for="(item, index) in globalKnowledgeLevel[selectedSeason.value]
+            .data"
           :key="index"
           class="PieChartLegendItem"
         >
@@ -39,7 +41,7 @@
             >{{ item.label }}
           </div>
           <span class="PieChartLegendData"
-            >{{ $toPercent(item.value / totalAreaCount) }} %</span
+            >{{ $toPercent(item.value / totalAreaCount) || '' }} %</span
           >
         </div>
       </div>
@@ -62,36 +64,93 @@ export default {
     },
   },
   data: () => ({
-    knowledgeLevelData: [
-      {
-        value: 0,
-        label: '0-25%',
+    globalKnowledgeLevel: {
+      all_period: {
+        average: 0,
+        data: [
+          {
+            value: 0,
+            label: '0-25%',
+          },
+          {
+            value: 0,
+            label: '25-50%',
+          },
+          {
+            value: 0,
+            label: '50-75%',
+          },
+          {
+            value: 0,
+            label: '75-100%',
+          },
+          {
+            value: 0,
+            label: '100%+',
+          },
+        ],
       },
-      {
-        value: 0,
-        label: '25-50%',
+      breeding: {
+        average: 0,
+        data: [
+          {
+            value: 0,
+            label: '0-25%',
+          },
+          {
+            value: 0,
+            label: '25-50%',
+          },
+          {
+            value: 0,
+            label: '50-75%',
+          },
+          {
+            value: 0,
+            label: '75-100%',
+          },
+          {
+            value: 0,
+            label: '100%+',
+          },
+        ],
       },
-      {
-        value: 0,
-        label: '50-75%',
+      wintering: {
+        average: 0,
+        data: [
+          {
+            value: 0,
+            label: '0-25%',
+          },
+          {
+            value: 0,
+            label: '25-50%',
+          },
+          {
+            value: 0,
+            label: '50-75%',
+          },
+          {
+            value: 0,
+            label: '75-100%',
+          },
+          {
+            value: 0,
+            label: '100%+',
+          },
+        ],
       },
-      {
-        value: 0,
-        label: '75-100%',
-      },
-      {
-        value: 0,
-        label: '100%+',
-      },
-    ],
+    },
     arcPath: {},
   }),
   computed: {
     totalAreaCount() {
       let totalCount = 0
-      this.knowledgeLevelData.forEach((item) => {
-        totalCount += item.value
-      })
+      this.globalKnowledgeLevel[this.selectedSeason.value].data.forEach(
+        (item) => {
+          totalCount += item.value
+        }
+      )
       return totalCount
     },
   },
@@ -106,7 +165,7 @@ export default {
         .value(function (d) {
           return d.value
         })
-        .sort(null)(this.knowledgeLevelData)
+        .sort(null)(this.globalKnowledgeLevel[this.selectedSeason.value].data)
       // Create pie chart
       const pieChartSvg = d3
         .select('.PieChartSvg')
@@ -129,9 +188,12 @@ export default {
   mounted() {
     this.$axios.$get('/api/v1/knowledge_level').then((data) => {
       // console.log(data)
+      this.globalKnowledgeLevel.all_period.average = this.$toPercent(
+        data.average
+      )
       const dataArray = Object.values(data)
-      dataArray.forEach((item, index) => {
-        this.knowledgeLevelData[index].value = item
+      dataArray.slice(1, dataArray.length).forEach((item, index) => {
+        this.globalKnowledgeLevel.all_period.data[index].value = item
       })
       // Get pie chart size
       const pieChartHeight = parseFloat(
@@ -155,7 +217,7 @@ export default {
         .value(function (d) {
           return d.value
         })
-        .sort(null)(this.knowledgeLevelData)
+        .sort(null)(this.globalKnowledgeLevel.all_period.data)
       // Create pie chart
       pieChartSvg
         .append('g')
@@ -172,6 +234,26 @@ export default {
           return color(d.data.label)
         })
     })
+    this.$axios.$get('/api/v1/knowledge_level?period=breeding').then((data) => {
+      // console.log(data)
+      this.globalKnowledgeLevel.breeding.average = this.$toPercent(data.average)
+      const dataArray = Object.values(data)
+      dataArray.slice(1, dataArray.length).forEach((item, index) => {
+        this.globalKnowledgeLevel.breeding.data[index].value = item
+      })
+    })
+    this.$axios
+      .$get('/api/v1/knowledge_level?period=wintering')
+      .then((data) => {
+        // console.log(data)
+        this.globalKnowledgeLevel.wintering.average = this.$toPercent(
+          data.average
+        )
+        const dataArray = Object.values(data)
+        dataArray.slice(1, dataArray.length).forEach((item, index) => {
+          this.globalKnowledgeLevel.wintering.data[index].value = item
+        })
+      })
   },
   methods: {
     updateSelectedSeason(season) {

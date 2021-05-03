@@ -11,20 +11,17 @@
     />
     <section class="InformativePageSection">
       <nuxt-content
-        v-if="selectedMenuItem === '#get-involved'"
+        v-show="!selectedMenuItem"
+        :document="protocolDescription"
+      />
+      <nuxt-content
+        v-show="selectedMenuItem === '#get-involved'"
         :document="protocolGetInvolved"
       />
-      <div
-        v-else-if="selectedMenuItem === '#documents'"
-        class="InformativePageContent"
-      >
-        <div class="ProtocolsDocumentsContent">
-          <div class="ProtocolsDocumentsCard"></div>
-          <div class="ProtocolsDocumentsCard"></div>
-          <div class="ProtocolsDocumentsCard"></div>
-        </div>
-      </div>
-      <nuxt-content v-else :document="protocolDescription" />
+      <nuxt-content
+        v-show="selectedMenuItem === '#documents'"
+        :document="protocolDocuments"
+      />
     </section>
   </v-container>
 </template>
@@ -34,6 +31,7 @@ export default {
   data: () => ({
     protocolDescription: {},
     protocolGetInvolved: {},
+    protocolDocuments: {},
     logo: '',
     title: '',
     subtitle: '',
@@ -63,6 +61,14 @@ export default {
       .fetch()
       .then((getInvolved) => {
         this.protocolGetInvolved = getInvolved
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    this.$content(`fr/protocols/${protocol}/documents`)
+      .fetch()
+      .then((documents) => {
+        this.protocolDocuments = documents
       })
       .catch((error) => {
         console.log(error)

@@ -43,7 +43,9 @@
         class="FeatureDashboardContent"
       >
         <div class="Split main"></div>
-        <h2 class="FeatureDashboardTitle margin">Indice de complétude</h2>
+        <h2 class="FeatureDashboardTitle margin">
+          Indice de complétude (toutes saisons)
+        </h2>
         <div class="KeyDataContent">
           <div class="KeyDataValue">
             {{ $toPercent(featureProperties.all_period.percent_knowledge) }}%
@@ -586,6 +588,10 @@ export default {
       // console.log('----------------------------------------')
       // console.log('ID : ' + this.featureID)
       this.featureProperties = feature.properties
+      this.featureProperties.area_name = this.featureProperties.area_name.replace(
+        '10kmL93',
+        ''
+      )
       // console.log('Properties :')
       // console.log(this.featureProperties)
       this.$router.push({

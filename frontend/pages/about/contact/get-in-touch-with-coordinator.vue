@@ -26,7 +26,7 @@
         <input
           id="user-mail"
           v-model="userMail"
-          type="text"
+          type="email"
           placeholder="henri.martin@monmail.fr"
         />
         <label>Qui souhaitez-vous contacter ?</label>
@@ -42,7 +42,7 @@
           </div>
         </div>
         <label v-show="selectedCoordinator">Département</label>
-        <contact-select
+        <contact-form-select
           v-show="selectedCoordinator"
           :z-index="4"
           default-message="Département"
@@ -78,38 +78,37 @@
           v-model="userMessage"
           placeholder="Bonjour..."
         />
-        <div
+        <captcha-form
           v-show="selectedCoordinator"
+          :captcha-ref="captchaRef"
+          @captchaUser="updateCaptchaUser"
+        />
+        <button
+          v-show="selectedCoordinator"
+          :disabled="disabledButton"
           class="PrimaryButton"
           @click="validateForm"
         >
           Envoyer
-        </div>
+        </button>
       </div>
     </section>
-    <section v-show="validForm" class="ConfirmationSection">
-      <div class="ConfirmationContent">
-        <img class="ConfirmationPicture" src="/confirmation-of-receipt.svg" />
-        <h1 class="ConfirmationTitle">Nous avons bien reçu votre demande</h1>
-        <span class="ConfirmationSubtitle"
-          >Nous mettons tout en œuvre pour vous répondre au plus vite !</span
-        >
-        <nuxt-link to="/" class="PrimaryButton"
-          >Retour à la page d'accueil</nuxt-link
-        >
-      </div>
-    </section>
+    <contact-form-confirmation v-show="validForm" />
   </v-container>
 </template>
 
 <script>
 import Breadcrumb from '~/components/layouts/Breadcrumb.vue'
-import ContactSelect from '~/components/about/ContactSelect.vue'
+import ContactFormSelect from '~/components/about/ContactFormSelect.vue'
+import CaptchaForm from '~/components/about/CaptchaForm.vue'
+import ContactFormConfirmation from '~/components/about/ContactFormConfirmation.vue'
 
 export default {
   components: {
     breadcrumb: Breadcrumb,
-    'contact-select': ContactSelect,
+    'contact-form-select': ContactFormSelect,
+    'captcha-form': CaptchaForm,
+    'contact-form-confirmation': ContactFormConfirmation,
   },
   data: () => ({
     userName: '',
@@ -119,26 +118,39 @@ export default {
     gridFeatureIsKnow: false,
     gridFeature: '',
     userMessage: '',
+    captchaRef: '',
+    captchaUser: '',
     coordinatorsList: ['Le coordinateur national', 'Mon référent local'],
     alertMessage: null,
     validForm: false,
+    disabledButton: false,
   }),
+  mounted() {
+    this.captchaRef = this.$generateCaptcha()
+  },
   methods: {
     updateSelectedCoordinator(coordinator) {
       this.selectedCoordinator = coordinator
-      console.log(this.selectedCoordinator)
+      // console.log(this.selectedCoordinator)
     },
     updateSelectedDepartment(department) {
-      this.selectedDepartment = department
-      console.log(this.selectedDepartment)
+      this.selectedDepartment = department[0]
+      // console.log(this.selectedDepartment)
+    },
+    updateCaptchaUser(captcha) {
+      this.captchaUser = captcha
     },
     validateForm() {
+      if (this.captchaUser !== this.captchaRef) {
+        this.alertMessage =
+          "Le code de sécurité que vous avez renseigné n'est pas bon"
+      }
       if (!this.userMessage) {
         this.alertMessage = 'Veuillez écrire un message'
       }
       if (this.gridFeatureIsKnow && !this.gridFeature) {
         this.alertMessage =
-          "Veuillez renseigner un numéro de maille, ou bien décocher l'option correspondante"
+          "Veuillez renseigner un numéro de maille ou décochez l'option correspondante"
       }
       if (!this.selectedDepartment) {
         this.alertMessage = 'Veuillez sélectionner un département'
@@ -158,10 +170,33 @@ export default {
         (!this.gridFeatureIsKnow ||
           (this.gridFeatureIsKnow && this.gridFeature)) &&
         this.selectedDepartment &&
-        this.userMessage
+        this.userMessage &&
+        this.captchaUser === this.captchaRef
       ) {
-        this.validForm = true
+        // this.validForm = true
+        this.disabledButton = true
         this.alertMessage = null
+        let messageIntroduction = `Nom : ${this.userName} \nEmail : ${this.userMail} \nDépartement : ${this.selectedDepartment} \nSouhaite contacter : ${this.selectedCoordinator}`
+        messageIntroduction += this.gridFeature
+          ? `\nNuméro de maille : ${this.gridFeature} \n\nMessage : \n`
+          : '\n\nMessage : \n'
+        this.$mail
+          .send({
+            config: 'oiseauxdefrance',
+            subject: '[Atlas ODF] Je souhaite contacter un référent local',
+            text: messageIntroduction + this.userMessage,
+          })
+          .then((response) => {
+            // console.log(response)
+            this.validForm = true
+          })
+          .catch((error) => {
+            this.alertMessage = "L'envoi du mail a échoué..."
+            this.disabledButton = false
+            if (error.response) {
+              console.log(error.response.data)
+            }
+          })
       }
     },
     deleteAlertMessage() {
