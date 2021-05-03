@@ -63,6 +63,12 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
                 geofunc.ST_AsGeoJSON(
                     geofunc.ST_Envelope(geofunc.ST_Transform(LAreas.geom, 4326))
                 ).label("geometry"),
+                func.json_build_object(
+                    "area_code",
+                    LAreas.area_code,
+                    "area_name",
+                    LAreas.area_name,
+                ).label("properties"),
             )
             .filter(and_(LAreas.area_code == area_code, LAreas.id_type == id_type))
             .first()
