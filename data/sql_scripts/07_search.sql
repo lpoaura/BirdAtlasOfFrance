@@ -41,46 +41,25 @@ $$
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_search_taxa;
         CREATE MATERIALIZED VIEW atlas.mv_search_taxa AS
         (
-        WITH
-            attributes AS (SELECT
-                               cd_ref
-                             , max(CASE
-                                       WHEN (bib_attributs.nom_attribut = 'odf_sci_name')
-                                           THEN cor_taxon_attribut.valeur_attribut
-                                       ELSE NULL END) AS sci_name
-                             , max(CASE
-                                       WHEN (bib_attributs.nom_attribut = 'odf_common_name_fr')
-                                           THEN cor_taxon_attribut.valeur_attribut
-                                       ELSE NULL END) AS common_name_fr
-                             , max(CASE
-                                       WHEN (bib_attributs.nom_attribut = 'odf_common_name_en')
-                                           THEN cor_taxon_attribut.valeur_attribut
-                                       ELSE NULL END) AS common_name_en
-                               FROM
-                                   taxonomie.cor_taxon_attribut
-                                       JOIN taxonomie.bib_attributs
-                                            ON cor_taxon_attribut.id_attribut = bib_attributs.id_attribut
-                               GROUP BY cd_ref
-                               ORDER BY cd_ref)
         SELECT DISTINCT
-            lower(unaccent(attributes.sci_name || ' ' || attributes.common_name_en || ' ' ||
-                           attributes.common_name_fr || ' ' || attributes.cd_ref)) AS search_string
-          , attributes.cd_ref                                                      AS code
-          , attributes.common_name_fr || ' (' || attributes.sci_name || ')'        AS name
-          , attributes.common_name_fr                                              AS common_name_fr
-          , attributes.common_name_en                                              AS common_name_en
-          , attributes.sci_name                                                    AS sci_name
-          , attributes.common_name_fr || ' (' || attributes.cd_ref || ' - <i>' ||
-            attributes.sci_name || '</i>)'                                         AS html_repr
+            lower(unaccent(attributes.odf_sci_name || ' ' || attributes.odf_common_name_fr || ' ' ||
+                           attributes.odf_common_name_en || ' ' || attributes.cd_ref)) AS search_string
+          , attributes.cd_ref                                                          AS code
+          , attributes.odf_common_name_fr || ' (' || attributes.odf_sci_name || ')'    AS name
+          , attributes.odf_common_name_fr                                              AS common_name_fr
+          , attributes.odf_common_name_en                                              AS common_name_en
+          , attributes.odf_sci_name                                                    AS sci_name
+          , attributes.odf_common_name_fr || ' (' || attributes.cd_ref || ' - <i>' ||
+            attributes.odf_sci_name || '</i>)'                                         AS html_repr
             FROM
                 atlas.t_taxa taxa
                     --                     JOIN taxonomie.taxref tx ON taxa.cd_nom = tx.cd_nom
 --                     JOIN taxonomie.cor_c_vn_taxref cvt ON tx.cd_nom = cvt.taxref_id
 --                     JOIN src_vn_json.species_json ON cvt.vn_id = species_json.id
-                    JOIN attributes ON taxa.cd_nom = attributes.cd_ref
+                    JOIN taxonomie.v_bibtaxon_attributs_animalia attributes ON taxa.cd_nom = attributes.cd_ref
             WHERE
                 taxa.enabled);
-        CREATE /*UNIQUE*/ INDEX i_uniq_mv_search_taxa_code ON atlas.mv_search_taxa (code);
+        CREATE UNIQUE INDEX i_uniq_mv_search_taxa_code ON atlas.mv_search_taxa (code);
         CREATE INDEX i_mv_search_taxa_search_string_trgm ON atlas.mv_search_taxa USING gist (search_string gist_trgm_ops);
         COMMIT;
     END
