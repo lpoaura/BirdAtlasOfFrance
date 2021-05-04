@@ -40,3 +40,8 @@ $$ LANGUAGE plpgsql
 ;
 
 select atlas.refresh_materialized_view_data();
+
+select * from taxonomie.taxref where nom_vern ilike '%tarier%' and cd_nom = cd_ref;
+
+select * from atlas.t_taxa where cd_nom =4049;
+select * from taxonomie.cor_taxon_attribut where cd_ref =4049;
