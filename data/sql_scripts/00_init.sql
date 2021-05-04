@@ -90,8 +90,63 @@ $$
                                             cast(item ->> 'lat' AS NUMERIC)),
                                     4326));
 
+
+        INSERT INTO
+            taxonomie.bib_attributs ( id_attribut
+                                    , nom_attribut
+                                    , label_attribut
+                                    , liste_valeur_attribut
+                                    , obligatoire
+                                    , desc_attribut
+                                    , type_attribut
+                                    , type_widget
+                                    , regne
+                                    , group2_inpn
+                                    , id_theme
+                                    , ordre)
+            VALUES
+                ( 202
+                , 'odf_common_name_fr'
+                , '[ODF] Nom vernaculaire français'
+                , '{}'
+                , FALSE
+                , 'Nom vernaculaire français à afficher dans ODF'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 4
+                , 1)
+              , ( 203
+                , 'odf_common_name_en'
+                , '[ODF] Nom vernaculaire anglais'
+                , '{}'
+                , FALSE
+                , 'Nom vernaculaire anglais à afficher dans ODF'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 4
+                , 2)
+              , ( 201
+                , 'odf_sci_name'
+                , '[ODF] Nom scientifique'
+                , '{}'
+                , FALSE
+                , 'Nom scientifique à afficher dans ODF'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 4
+                , 3)
+        ON CONFLICT DO NOTHING;
+
         /* Commit changes */
         COMMIT;
     END
 $$
 ;
+
+

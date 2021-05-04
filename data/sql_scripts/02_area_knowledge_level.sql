@@ -166,6 +166,7 @@ $$
                     LEFT JOIN old_data_wintering ON old_data_wintering.id_area = areas.id_area;
         COMMENT ON MATERIALIZED VIEW atlas.mv_area_knowledge_level IS 'Synthèse de l''état des prospection par mailles comparativement à l''atlas précédent';
         CREATE INDEX i_area_knowledge_level_geom ON atlas.mv_area_knowledge_level USING gist (geom);
+        CREATE UNIQUE INDEX i_uniq_area_knowledge_level_id_area ON atlas.mv_area_knowledge_level (id_area);
         CREATE INDEX i_area_knowledge_level_area_code ON atlas.mv_area_knowledge_level (area_code);
         CREATE INDEX i_area_knowledge_level_area_name ON atlas.mv_area_knowledge_level (area_name);
         CREATE INDEX i_area_knowledge_level_area_id_type ON atlas.mv_area_knowledge_level (id_type);
