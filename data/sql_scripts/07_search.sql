@@ -41,21 +41,43 @@ $$
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_search_taxa;
         CREATE MATERIALIZED VIEW atlas.mv_search_taxa AS
         (
+        WITH
+            attributes AS (SELECT
+                               cd_ref
+                             , max(CASE
+                                       WHEN (bib_attributs.nom_attribut = 'odf_sci_name')
+                                           THEN cor_taxon_attribut.valeur_attribut
+                                       ELSE NULL END) AS sci_name
+                             , max(CASE
+                                       WHEN (bib_attributs.nom_attribut = 'odf_common_name_fr')
+                                           THEN cor_taxon_attribut.valeur_attribut
+                                       ELSE NULL END) AS common_name_fr
+                             , max(CASE
+                                       WHEN (bib_attributs.nom_attribut = 'odf_common_name_en')
+                                           THEN cor_taxon_attribut.valeur_attribut
+                                       ELSE NULL END) AS common_name_en
+                               FROM
+                                   taxonomie.cor_taxon_attribut
+                                       JOIN taxonomie.bib_attributs
+                                            ON cor_taxon_attribut.id_attribut = bib_attributs.id_attribut
+                               GROUP BY cd_ref
+                               ORDER BY cd_ref)
         SELECT DISTINCT
-            lower(unaccent(tx.lb_nom || ' ' || tx.nom_vern || ' ' || tx.cd_ref))                          AS search_string
-          , tx.cd_ref                                                                                     AS code
-          , coalesce(item ->> 'french_name', split_part(tx.nom_vern, ',', 1)) || ' (' || tx.lb_nom || ')' AS name
-          , coalesce(item ->> 'french_name', split_part(tx.nom_vern, ',', 1))                             AS common_name_fr
-          , coalesce(item ->> 'english_name',
-                     split_part(tx.nom_vern_eng, ',', 1))                                                 AS common_name_en
-          , tx.lb_nom                                                                                     AS sci_name
-          , coalesce(item ->> 'french_name', split_part(tx.nom_vern, ',', 1)) || ' (' || tx.cd_ref || ' - <i>' ||
-            tx.lb_nom || '</i>)'                                                                          AS html_repr
+            lower(unaccent(attributes.sci_name || ' ' || attributes.common_name_en || ' ' ||
+                           attributes.common_name_fr || ' ' || attributes.cd_ref)) AS search_string
+          , attributes.cd_ref                                                      AS code
+          , attributes.common_name_fr || ' (' || attributes.sci_name || ')'        AS name
+          , attributes.common_name_fr                                              AS common_name_fr
+          , attributes.common_name_en                                              AS common_name_en
+          , attributes.sci_name                                                    AS sci_name
+          , attributes.common_name_fr || ' (' || attributes.cd_ref || ' - <i>' ||
+            attributes.sci_name || '</i>)'                                         AS html_repr
             FROM
                 atlas.t_taxa taxa
-                    JOIN taxonomie.taxref tx ON taxa.cd_nom = tx.cd_nom
-                    JOIN taxonomie.cor_c_vn_taxref cvt ON tx.cd_nom = cvt.taxref_id
-                    JOIN src_vn_json.species_json ON cvt.vn_id = species_json.id
+                    --                     JOIN taxonomie.taxref tx ON taxa.cd_nom = tx.cd_nom
+--                     JOIN taxonomie.cor_c_vn_taxref cvt ON tx.cd_nom = cvt.taxref_id
+--                     JOIN src_vn_json.species_json ON cvt.vn_id = species_json.id
+                    JOIN attributes ON taxa.cd_nom = attributes.cd_ref
             WHERE
                 taxa.enabled);
         CREATE /*UNIQUE*/ INDEX i_uniq_mv_search_taxa_code ON atlas.mv_search_taxa (code);
@@ -64,38 +86,3 @@ $$
     END
 $$
 ;
-/*
-WITH
-    tax AS (
-        SELECT
-            taxref_id               AS cd_nom
-          , vn_id                   AS id_visionature
-          , item ->> 'french_name'  AS french_name
-          , item ->> 'english_name' AS english_name
-          , item ->> 'latin_name'   AS latin_name
-            FROM
-                src_vn_json.species_json
-                    JOIN taxonomie.cor_c_vn_taxref ON vn_id = species_json.id
-            WHERE
-                    taxref_id IN (
-                    SELECT code FROM atlas.mv_search_taxa GROUP BY code HAVING count(code) > 1)
-            ORDER BY
-                latin_name)
-SELECT
-    tax.*
-  , count(*)
-    FROM
-        tax
-      , src_vn_json.observations_json
-    WHERE
-        tax.id_visionature = cast(item #>> '{species,@id}' AS INT)
-    GROUP BY
-        tax.id_visionature, tax.cd_nom, tax.english_name, tax.french_name, tax.latin_name
-;
-
-SELECT *
-    FROM
-        src_vn_json.species_json
-    WHERE
-        item ->> 'french_name' LIKE 'Pigeon biset %';
-*/
