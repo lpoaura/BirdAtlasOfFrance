@@ -44,7 +44,7 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
                 "status": "Presence",
             },
             "all_period_new": {
-                "condition": AreaKnowledgeTaxaList.all_period_count_data_old > 0,
+                "condition": AreaKnowledgeTaxaList.all_period_count_data_new > 0,
                 "status": "Presence",
             },
         }
