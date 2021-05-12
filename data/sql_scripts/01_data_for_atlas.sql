@@ -32,6 +32,7 @@ $$
             --           , data AS (
             /* Filtrage des données et association au zonage */
         SELECT
+            DISTINCT
             cor_area_synthese.id_area
           , id_form                                 AS id_form_universal
           , synthese.id_synthese                    AS id_data
@@ -54,9 +55,12 @@ $$
                 gn_synthese.synthese
                     JOIN cor_area_synthese ON cor_area_synthese.id_synthese = synthese.id_synthese
                     JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
-                    JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
+                    JOIN atlas.mv_taxa_groups groups ON synthese.cd_nom = groups.cd_nom
+                    JOIN atlas.t_taxa ON t_taxa.cd_nom = groups.cd_group
             WHERE
-                t_taxa.enabled;
+                  t_taxa.enabled
+              AND synthese.id_nomenclature_valid_status IN (ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '1'),
+                                                            ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '2'));
         RAISE INFO '-- % -- COMMENT AND INDEXES ON atlas.mv_data_for_atlas', clock_timestamp();
         COMMENT ON MATERIALIZED VIEW atlas.mv_data_for_atlas IS 'All datas used for atlas';
         CREATE UNIQUE INDEX i_data_for_atlas_id_area_id_data ON atlas.mv_data_for_atlas (id_area, id_data);
@@ -283,5 +287,3 @@ $$
 ;
 
 
-
-SELECT *
