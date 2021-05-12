@@ -37,7 +37,7 @@ Period choices must be one of following choices :
 )
 def list_lareas(
     cd_nom: int,
-    period: str = "breeding_new",
+    period: str = "all_period_new",
     db: Session = Depends(get_db),
     envelope: Optional[str] = None,
 ) -> Any:
