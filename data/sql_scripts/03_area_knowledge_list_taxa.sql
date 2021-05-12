@@ -57,49 +57,48 @@ $$
                     atlas.t_taxa
                         LEFT JOIN taxonomie.v_bibtaxon_attributs_animalia attr ON attr.cd_ref = t_taxa.cd_nom
         )
+          , result AS
+                (SELECT
+                     data.id_area
+                   , mv_taxa_groups.cd_group                                                   AS cd_nom
+                   , count(id_data) FILTER (WHERE old_data_all_period)                         AS all_period_count_data_old
+                   , count(id_data) FILTER (WHERE new_data_all_period)                         AS all_period_count_data_new
+                   , extract(YEAR FROM max(data.date_min))                                     AS all_period_last_obs
+                   , count(id_data) FILTER (WHERE new_data_breeding)                           AS breeding_count_data_new
+                   , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
+                             (max(ac.hierarchy) FILTER (WHERE new_data_breeding))::TEXT, 'VN_ATLAS_CODE',
+                             'label_default')                                                  AS breeding_status_new
+                   , count(id_data) FILTER (WHERE old_data_breeding)                           AS breeding_count_data_old
+                   , extract(YEAR FROM
+                             (max(data.date_min) FILTER (WHERE bird_breed_code IS NOT NULL)))  AS breeding_last_obs
+                   , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
+                             (max(ac.hierarchy) FILTER (WHERE old_data_breeding))::TEXT, 'VN_ATLAS_CODE',
+                             'label_default')                                                  AS breeding_status_old
+                   , count(id_data) FILTER (WHERE old_data_wintering)                          AS wintering_count_data_old
+                   , count(id_data) FILTER (WHERE new_data_wintering)                          AS wintering_count_data_new
+                   , extract(YEAR FROM (max(data.date_min) FILTER (WHERE old_data_breeding
+                        OR
+                                                                         new_data_wintering))) AS wintering_last_obs
+                     FROM
+                         atlas.mv_data_for_atlas data
+                             --JOIN atlas.t_taxa ON t_taxa.cd_nom = data.cd_nom
+                             JOIN atlas.t_taxa ON t_taxa.cd_nom = data.cd_nom
+                             JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
+
+--                              JOIN atlas.t_taxa tt2 ON mv_taxa_groups.cd_group = data.cd_nom
+                             LEFT JOIN atlas_code ac ON ac.cd_nomenclature = data.bird_breed_code
+                     WHERE
+                         t_taxa.available
+                     GROUP BY
+                         data.id_area, mv_taxa_groups.cd_group)
         SELECT
-            data.id_area
-          , CASE
-                WHEN t_taxa.has_subsp THEN
-                    t_taxa.cd_sp
-                ELSE
-                    t_taxa.cd_nom
-                END                                                                   AS cd_nom
-          , names.common_name_fr
-          , names.common_name_en
-          , names.sci_name
-          , count(id_data) FILTER (WHERE old_data_all_period)                         AS all_period_count_data_old
-          , count(id_data) FILTER (WHERE new_data_all_period)                         AS all_period_count_data_new
-          , extract(YEAR FROM max(data.date_min))                                     AS all_period_last_obs
-          , count(id_data) FILTER (WHERE new_data_breeding)                           AS breeding_count_data_new
-          , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
-                    (max(ac.hierarchy) FILTER (WHERE new_data_breeding))::TEXT, 'VN_ATLAS_CODE',
-                    'label_default')                                                  AS breeding_status_new
-          , count(id_data) FILTER (WHERE old_data_breeding)                           AS breeding_count_data_old
-          , extract(YEAR FROM
-                    (max(data.date_min) FILTER (WHERE bird_breed_code IS NOT NULL)))  AS breeding_last_obs
-          , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
-                    (max(ac.hierarchy) FILTER (WHERE old_data_breeding))::TEXT, 'VN_ATLAS_CODE',
-                    'label_default')                                                  AS breeding_status_old
-          , count(id_data) FILTER (WHERE old_data_wintering)                          AS wintering_count_data_old
-          , count(id_data) FILTER (WHERE new_data_wintering)                          AS wintering_count_data_new
-          , extract(YEAR FROM (max(data.date_min) FILTER (WHERE old_data_breeding
-            OR
-                                                                new_data_wintering))) AS wintering_last_obs
+            result.*
+          , common_name_fr
+          , common_name_en
+          , sci_name
             FROM
-                atlas.mv_data_for_atlas data
-                    JOIN atlas.t_taxa ON t_taxa.cd_nom = data.cd_nom
-                    JOIN names ON t_taxa.cd_nom = names.cd_nom
-                    LEFT JOIN atlas_code ac ON ac.cd_nomenclature = data.bird_breed_code
-            GROUP BY
-                data.id_area, CASE
-                                  WHEN t_taxa.has_subsp THEN
-                                      t_taxa.cd_sp
-                                  ELSE
-                                      t_taxa.cd_nom
-                END
-                            , names.common_name_fr, names.common_name_en, names.sci_name;
-        COMMENT ON MATERIALIZED VIEW atlas.mv_area_knowledge_list_taxa IS 'Synthèse de l''état des prospection par mailles comparativement à l''atlas précédent';
+                result
+                    JOIN names ON names.cd_nom = result.cd_nom;
         CREATE UNIQUE INDEX i_area_knowledge_list_taxa_id_area_cd_nom ON atlas.mv_area_knowledge_list_taxa (id_area, cd_nom);
         COMMIT;
     END

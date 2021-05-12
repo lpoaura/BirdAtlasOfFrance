@@ -28,10 +28,11 @@ $$
           , new_data_allperiod AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
+              , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
                         JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
+                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
@@ -42,10 +43,11 @@ $$
           , old_data_allperiod AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
+              , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
                         JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
+                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
@@ -56,11 +58,12 @@ $$
           , old_data_wintering AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
+              , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
                         JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
+                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
@@ -76,11 +79,12 @@ $$
           , new_data_wintering AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
+              , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
                         JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
+                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
@@ -96,11 +100,12 @@ $$
           , old_data_breeding AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
+              , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
                         JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
+                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
@@ -112,11 +117,12 @@ $$
           , new_data_breeding AS (
             SELECT DISTINCT
                 areas.id_area
-              , count(DISTINCT t_taxa.cd_nom) AS count_cd_nom
+              , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
                         JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
+                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
@@ -174,3 +180,5 @@ $$
     END
 $$
 ;
+
+
