@@ -29,11 +29,13 @@ $$
                     mv_data_for_atlas.id_area
                   , max(date_min)                                             AS last_date
                   , count(*)                                                  AS data_count
-                  , count(DISTINCT cd_nom) FILTER (WHERE new_data_all_period) AS taxa_count_all_period
-                  , count(DISTINCT cd_nom) FILTER (WHERE new_data_wintering)  AS taxa_count_wintering
-                  , count(DISTINCT cd_nom) FILTER (WHERE new_data_breeding)   AS taxa_count_breeding
+                  , count(DISTINCT mv_taxa_groups.cd_group) FILTER (WHERE new_data_all_period) AS taxa_count_all_period
+                  , count(DISTINCT mv_taxa_groups.cd_group) FILTER (WHERE new_data_wintering)  AS taxa_count_wintering
+                  , count(DISTINCT mv_taxa_groups.cd_group) FILTER (WHERE new_data_breeding)   AS taxa_count_breeding
                     FROM
                         atlas.mv_data_for_atlas
+                            JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_data_for_atlas.cd_nom
+                            JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
                     WHERE
                         new_data_all_period
                     GROUP BY

@@ -16,7 +16,7 @@ $$
           , now()
           , now()
             FROM
-                aofm_2009_2012
+                tmp.aofm_2009_2012
         ON CONFLICT DO NOTHING;
 
         INSERT INTO
@@ -69,16 +69,91 @@ $$
           , NULL
           , 'I'
             FROM
-                aofm_2009_2012
+                tmp.aofm_2009_2012
                     JOIN taxonomie.taxref
                          ON nom_sci = lb_nom
                     JOIN ref_geo.l_areas ON
                     replace(area_code, '10kmL93', '') = id_maille
                     JOIN gn_synthese.t_sources ON name_source = aofm_2009_2012.source;
 
-
+        INSERT INTO
+            src_lpodatas.t_c_synthese_extended ( id_synthese
+                                               , id_sp_source
+                                               , taxo_group
+                                               , taxo_real
+                                               , common_name
+                                               , bird_breed_code
+                                               , bird_breed_status)
+        SELECT
+            id_synthese
+          , vn_id
+          , 'Oiseaux'
+          , TRUE
+          , nom_commun
+          , aofm_2009_2012.indice_nidif
+          , upper(left(aofm_2009_2012.statut_nidif, 1)) ||
+            substr(aofm_2009_2012.statut_nidif, 2, length(aofm_2009_2012.statut_nidif))
+            FROM
+                tmp.aofm_2009_2012
+                    JOIN ref_geo.l_areas ON id_maille = replace(l_areas.area_code, '10kmL93', '')
+                    JOIN taxonomie.cor_c_vn_taxref ON vn_id = id_espece
+                    JOIN gn_synthese.synthese
+                         ON (synthese.id_area_attachment, synthese.cd_nom, synthese.id_dataset) =
+                            (l_areas.id_area, cor_c_vn_taxref.taxref_id, aofm_2009_2012.id_dataset)
+        where aofm_2009_2012.id_dataset = 5
+        ON CONFLICT (id_synthese) DO NOTHING;
         COMMIT;
     END
 $$
 ;
 
+SELECT
+    count(*)
+    FROM
+        (SELECT
+             id_synthese
+           , vn_id
+           , 'Oiseaux'
+           , TRUE
+           , nom_commun
+           , aofm_2009_2012.indice_nidif
+           , upper(left(aofm_2009_2012.statut_nidif, 1)) ||
+             substr(aofm_2009_2012.statut_nidif, 2, length(aofm_2009_2012.statut_nidif))
+             FROM
+                 tmp.aofm_2009_2012
+                     JOIN ref_geo.l_areas ON id_maille = replace(l_areas.area_code, '10kmL93', '')
+                     JOIN taxonomie.cor_c_vn_taxref ON vn_id = id_espece
+                     JOIN gn_synthese.synthese
+                          ON (synthese.id_area_attachment, synthese.cd_nom, synthese.id_dataset) =
+                             (l_areas.id_area, cor_c_vn_taxref.taxref_id,
+                              aofm_2009_2012.id_dataset)
+             WHERE
+                 aofm_2009_2012.id_dataset = 5) t
+;
+
+SELECT DISTINCT
+    source
+  , id_dataset
+    FROM
+        tmp.aofm_2009_2012
+;
+
+SELECT *
+    FROM
+        gn_meta.t_datasets
+;
+
+UPDATE tmp.aofm_2009_2012
+SET
+    id_espece = vn_id
+    FROM
+        (SELECT *
+             FROM
+                 taxonomie.cor_c_vn_taxref
+                     JOIN taxonomie.taxref ON taxref_id = taxref.cd_nom) taxa
+    WHERE
+          nom_sci = lb_nom
+      AND id_dataset = 5
+;
+
+select count(*) from tmp.aofm_2009_2012 group by id_dataset;
