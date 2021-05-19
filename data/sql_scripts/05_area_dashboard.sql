@@ -27,15 +27,15 @@ $$
             data_synth AS (
                 SELECT
                     mv_data_for_atlas.id_area
-                  , max(date_min)                                             AS last_date
-                  , count(*)                                                  AS data_count
+                  , max(date_min)                                                              AS last_date
+                  , count(*)                                                                   AS data_count
                   , count(DISTINCT mv_taxa_groups.cd_group) FILTER (WHERE new_data_all_period) AS taxa_count_all_period
                   , count(DISTINCT mv_taxa_groups.cd_group) FILTER (WHERE new_data_wintering)  AS taxa_count_wintering
                   , count(DISTINCT mv_taxa_groups.cd_group) FILTER (WHERE new_data_breeding)   AS taxa_count_breeding
                     FROM
                         atlas.mv_data_for_atlas
-                            JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_data_for_atlas.cd_nom
-                            JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
+                            JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
+                            JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
                     WHERE
                         new_data_all_period
                     GROUP BY
@@ -45,11 +45,11 @@ $$
             SELECT
                 mv_forms_for_atlas.id_area
               , round(((sum(timelength_secs) FILTER (WHERE NOT is_wintering
-                AND NOT is_breeding)) / 3600)::NUMERIC, 1)                                     AS prospecting_hours_other_period
+                AND NOT is_breeding)) / 3600)::NUMERIC, 1) AS prospecting_hours_other_period
               , round(((sum(timelength_secs) FILTER (WHERE is_wintering)) / 3600)::NUMERIC,
-                      1)                                                                       AS prospecting_hours_wintering
+                      1)                                   AS prospecting_hours_wintering
               , round(((sum(timelength_secs) FILTER (WHERE is_breeding)) / 3600)::NUMERIC,
-                      1)                                                                       AS prospecting_hours_breeding
+                      1)                                   AS prospecting_hours_breeding
                 FROM
                     atlas.mv_forms_for_atlas
                 GROUP BY
