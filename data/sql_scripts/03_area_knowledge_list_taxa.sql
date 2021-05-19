@@ -60,32 +60,28 @@ $$
           , result AS
                 (SELECT
                      data.id_area
-                   , mv_taxa_groups.cd_group                                                   AS cd_nom
-                   , count(id_data) FILTER (WHERE old_data_all_period)                         AS all_period_count_data_old
-                   , count(id_data) FILTER (WHERE new_data_all_period)                         AS all_period_count_data_new
-                   , extract(YEAR FROM max(data.date_min))                                     AS all_period_last_obs
-                   , count(id_data) FILTER (WHERE new_data_breeding)                           AS breeding_count_data_new
+                   , mv_taxa_groups.cd_group                                                                        AS cd_nom
+                   , count(id_data) FILTER (WHERE old_data_all_period)                                              AS all_period_count_data_old
+                   , count(id_data) FILTER (WHERE new_data_all_period)                                              AS all_period_count_data_new
+                   , extract(YEAR FROM max(data.date_min))                                                          AS all_period_last_obs
+                   , count(id_data) FILTER (WHERE new_data_breeding)                                                AS breeding_count_data_new
                    , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
                              (max(ac.hierarchy) FILTER (WHERE new_data_breeding))::TEXT, 'VN_ATLAS_CODE',
-                             'label_default')                                                  AS breeding_status_new
-                   , count(id_data) FILTER (WHERE old_data_breeding)                           AS breeding_count_data_old
+                             'label_default')                                                                       AS breeding_status_new
+                   , count(id_data) FILTER (WHERE old_data_breeding)                                                AS breeding_count_data_old
                    , extract(YEAR FROM
-                             (max(data.date_min) FILTER (WHERE bird_breed_code IS NOT NULL)))  AS breeding_last_obs
+                             (max(data.date_min) FILTER (WHERE bird_breed_code IS NOT NULL)))                       AS breeding_last_obs
                    , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
                              (max(ac.hierarchy) FILTER (WHERE old_data_breeding))::TEXT, 'VN_ATLAS_CODE',
-                             'label_default')                                                  AS breeding_status_old
-                   , count(id_data) FILTER (WHERE old_data_wintering)                          AS wintering_count_data_old
-                   , count(id_data) FILTER (WHERE new_data_wintering)                          AS wintering_count_data_new
-                   , extract(YEAR FROM (max(data.date_min) FILTER (WHERE old_data_breeding
-                        OR
-                                                                         new_data_wintering))) AS wintering_last_obs
+                             'label_default')                                                                       AS breeding_status_old
+                   , count(id_data) FILTER (WHERE old_data_wintering)                                               AS wintering_count_data_old
+                   , count(id_data) FILTER (WHERE new_data_wintering)                                               AS wintering_count_data_new
+                   , extract(YEAR FROM (max(data.date_min)
+                                        FILTER (WHERE old_data_breeding OR new_data_wintering)))                    AS wintering_last_obs
                      FROM
                          atlas.mv_data_for_atlas data
-                             --JOIN atlas.t_taxa ON t_taxa.cd_nom = data.cd_nom
-                             JOIN atlas.t_taxa ON t_taxa.cd_nom = data.cd_nom
-                             JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
-
---                              JOIN atlas.t_taxa tt2 ON mv_taxa_groups.cd_group = data.cd_nom
+                             JOIN atlas.mv_taxa_groups ON data.cd_nom = mv_taxa_groups.cd_nom
+                             JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
                              LEFT JOIN atlas_code ac ON ac.cd_nomenclature = data.bird_breed_code
                      WHERE
                          t_taxa.available
