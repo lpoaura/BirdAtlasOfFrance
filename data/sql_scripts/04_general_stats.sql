@@ -20,8 +20,8 @@ $$
                             FILTER (WHERE mv_data_for_atlas.new_data_wintering)  AS count_taxa_wintering
                     FROM
                         atlas.mv_data_for_atlas
-                            JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_data_for_atlas.cd_nom
-                            JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
+                            JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
+                            JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
 --                             JOIN atlas.t_taxa ON mv_data_for_atlas.cd_nom = t_taxa.cd_nom
             )
           , fromforms AS (
