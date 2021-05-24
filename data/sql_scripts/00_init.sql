@@ -55,50 +55,6 @@ $$
 
         CREATE INDEX i_unique_cd_sp_taxa ON atlas.t_taxa (cd_sp);
 
-        CREATE MATERIALIZED VIEW atlas.mv_taxa_groups AS
-        (
-        WITH
-            datas AS (
-                SELECT
-                    CASE
-                        WHEN taxref.id_rang LIKE 'SSES' THEN
-                            cd_sup
-                        ELSE
-                            taxref.cd_nom
-                        END AS cd_group
-                  , taxref.cd_nom
-                    FROM
-                        gn_synthese.synthese
-                            JOIN taxonomie.taxref ON synthese.cd_nom = taxref.cd_nom
-                    WHERE
-                          taxref.classe LIKE 'Aves'
-                      AND taxref.cd_nom = taxref.cd_ref
-                      AND taxref.id_rang IN ('ES', 'SSES')
-                UNION
-                SELECT
-                    taxref.cd_nom AS cd_group
-                  , taxref.cd_nom
-                    FROM
-                        gn_synthese.synthese
-                            JOIN taxonomie.taxref ON synthese.cd_nom = taxref.cd_nom
-                    WHERE
-                          taxref.classe LIKE 'Aves'
-                      AND taxref.cd_nom = taxref.cd_ref
-                      AND taxref.id_rang IN ('ES', 'SSES'))
-        SELECT DISTINCT
-            cd_group
-          , cd_nom
-            FROM
-                datas);
-
-        COMMENT ON MATERIALIZED VIEW atlas.mv_taxa_groups IS 'Taxa groups used to aggregate subspecies datas';
-
-        COMMENT ON COLUMN atlas.mv_taxa_groups.cd_group IS 'Group cd_nom';
-
-        COMMENT ON COLUMN atlas.mv_taxa_groups.cd_nom IS 'Taxa cd_nom';
-
-        CREATE UNIQUE INDEX id_unique_cor_taxa_group_cd_group_cd_nom ON atlas.mv_taxa_groups (cd_group, cd_nom);
-
 
 /* Populate t_taxa table */
         INSERT INTO atlas.t_taxa (cd_nom, cd_sp, rank, enabled, available)
@@ -241,6 +197,55 @@ $$
             FROM
                 datas;
 
+       DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_groups CASCADE;
+        CREATE MATERIALIZED VIEW atlas.mv_taxa_groups AS
+        (
+        WITH
+            datas AS (
+                SELECT
+                    CASE
+                        WHEN t_taxa.rank LIKE 'SSES' THEN
+                            cd_sup
+                        ELSE
+                            t_taxa.cd_nom
+                        END AS cd_group
+                  , t_taxa.cd_nom
+                    FROM
+                        gn_synthese.synthese
+                            JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
+                            JOIN taxonomie.taxref ON t_taxa.cd_nom = taxref.cd_nom
+                    WHERE
+                      t_taxa.cd_nom = taxref.cd_ref
+                      AND t_taxa.rank IN (
+                        'ES'
+                        , 'SSES')
+                UNION
+                SELECT
+                    taxref.cd_nom AS cd_group
+                  , t_taxa.cd_nom
+                    FROM
+                        gn_synthese.synthese
+                        JOIN atlas.t_taxa
+                ON synthese.cd_nom = t_taxa.cd_nom
+                    JOIN taxonomie.taxref ON t_taxa.cd_nom = taxref.cd_nom
+                    WHERE
+                      t_taxa.cd_nom = taxref.cd_ref
+                      AND t_taxa.rank IN (
+                        'ES'
+                        , 'SSES'))
+        SELECT DISTINCT
+            cd_group
+          , cd_nom
+            FROM
+                datas);
+
+        COMMENT ON MATERIALIZED VIEW atlas.mv_taxa_groups IS 'Taxa groups used to aggregate subspecies datas';
+
+        COMMENT ON COLUMN atlas.mv_taxa_groups.cd_group IS 'Group cd_nom';
+
+        COMMENT ON COLUMN atlas.mv_taxa_groups.cd_nom IS 'Taxa cd_nom';
+
+        CREATE UNIQUE INDEX id_unique_cor_taxa_group_cd_group_cd_nom ON atlas.mv_taxa_groups (cd_group, cd_nom);
 
 /* Commit changes */
         COMMIT;
