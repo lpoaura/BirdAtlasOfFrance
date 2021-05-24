@@ -53,10 +53,15 @@
       >
         {{
           selectedType.label === 'Espèce'
-            ? data.name
+            ? data[`common_name_${lang}`]
             : data.html_repr.replace('10kmL93', '')
         }}
+        <i v-if="selectedType.label === 'Espèce'">({{ data.sci_name }})</i>
       </li>
+      <div v-if="dataList.length === 0" class="AutocompleteNoResult">
+        Aucun résultat trouvé, vous recherchez peut-être une
+        <nuxt-link to="/about/glossary">espèce sensible</nuxt-link>.
+      </div>
     </div>
   </div>
 </template>
@@ -98,11 +103,11 @@ export default {
           this.$axios
             .$get(this.selectedType.api + `${newVal}`)
             .then((data) => {
-              if (data.length > 0) {
+              if (data.length === 0 && this.selectedType.label === 'Lieu') {
+                this.autocompleteIsOpen = false
+              } else {
                 this.autocompleteIsOpen = true
                 this.dataList = data
-              } else {
-                this.autocompleteIsOpen = false
               }
             })
             .catch((error) => {
@@ -156,11 +161,11 @@ export default {
         this.$axios
           .$get(this.selectedType.api + `${newVal}`)
           .then((data) => {
-            if (data.length > 0) {
+            if (data.length === 0 && this.selectedType.label === 'Lieu') {
+              this.autocompleteIsOpen = false
+            } else {
               this.autocompleteIsOpen = true
               this.dataList = data
-            } else {
-              this.autocompleteIsOpen = false
             }
           })
           .catch((error) => {
@@ -373,5 +378,17 @@ export default {
   background: rgba(238, 206, 37, 0.4);
   color: #7b6804;
   font-weight: 600;
+}
+
+.AutocompleteNoResult {
+  width: 100%;
+  padding: 1.5% 3%;
+  font-family: 'Poppins', sans-serif;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  color: rgba(38, 38, 38, 0.6);
 }
 </style>

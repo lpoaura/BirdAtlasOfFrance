@@ -67,7 +67,7 @@
                 {{
                   $toPercent(
                     keyData.prospecting_hours.breeding / totalProspectingHours
-                  )
+                  ) || 0
                 }}% |
                 {{ $thousandDelimiter(keyData.prospecting_hours.breeding) }}
                 heures
@@ -87,7 +87,7 @@
                 {{
                   $toPercent(
                     keyData.prospecting_hours.wintering / totalProspectingHours
-                  )
+                  ) || 0
                 }}% |
                 {{ $thousandDelimiter(keyData.prospecting_hours.wintering) }}
                 heures
@@ -108,7 +108,7 @@
                   $toPercent(
                     keyData.prospecting_hours.other_period /
                       totalProspectingHours
-                  )
+                  ) || 0
                 }}% |
                 {{ $thousandDelimiter(keyData.prospecting_hours.other_period) }}
                 heures
@@ -227,17 +227,14 @@ export default {
 .KeyDataSection {
   width: 100%;
 
-  /* À MODIFIER LORSQU'IL Y AURA LES AUTRES BLOCS */
-  height: 470px;
-
   /* À modifier en : padding: 3.5% 5%; */
-  padding: 0 5% 3.5% 5%;
+  padding: 0 5% 1% 5%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .KeyDataTitle {
+  margin-bottom: 20px;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: bold;
