@@ -14,6 +14,9 @@ BEGIN
     RAISE INFO 'INFO: Refreshing Atlas materialized views';
     SELECT clock_timestamp() INTO start_ts;
     RAISE INFO '-- % -- START SCRIPT', start_ts;
+    RAISE INFO '-- % -- START REFRESH atlas.mv_taxa_groups', clock_timestamp();
+    REFRESH MATERIALIZED VIEW CONCURRENTLY atlas.mv_taxa_groups;
+    RAISE INFO '-- % -- START SCRIPT', start_ts;
     RAISE INFO '-- % -- START REFRESH atlas.mv_search_areas', clock_timestamp();
     REFRESH MATERIALIZED VIEW CONCURRENTLY atlas.mv_search_areas;
     SELECT (clock_timestamp() - start_ts) INTO delta;
@@ -39,9 +42,5 @@ END
 $$ LANGUAGE plpgsql
 ;
 
-select atlas.refresh_materialized_view_data();
-
-select * from taxonomie.taxref where nom_vern ilike '%tarier%' and cd_nom = cd_ref;
-
-select * from atlas.t_taxa where cd_nom =4049;
-select * from taxonomie.cor_taxon_attribut where cd_ref =4049;
+SELECT atlas.refresh_materialized_view_data()
+;

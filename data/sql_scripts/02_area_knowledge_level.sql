@@ -31,8 +31,8 @@ $$
               , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
-                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
-                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
@@ -46,8 +46,8 @@ $$
               , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
                     gn_synthese.synthese
-                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
-                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
@@ -62,8 +62,8 @@ $$
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
-                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
-                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
@@ -83,8 +83,8 @@ $$
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
-                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
-                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
@@ -104,8 +104,8 @@ $$
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
-                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
-                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
@@ -121,8 +121,8 @@ $$
                 FROM
                     gn_synthese.synthese
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
-                        JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
-                        JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                        JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
                         JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE

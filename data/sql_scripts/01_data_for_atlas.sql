@@ -16,6 +16,7 @@ $$
         RAISE INFO '-- % -- DROP CASCADE MV atlas.mv_data_for_atlas', clock_timestamp();
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_data_for_atlas CASCADE;
         RAISE INFO '-- % -- CREATE MV atlas.mv_data_for_atlas', clock_timestamp();
+        RAISE INFO '-- % -- COMMENT AND INDEXES ON atlas.mv_data_for_atlas', clock_timestamp();
         CREATE MATERIALIZED VIEW atlas.mv_data_for_atlas AS
         WITH
             cor_area_synthese AS (
@@ -31,8 +32,7 @@ $$
             )
             --           , data AS (
             /* Filtrage des données et association au zonage */
-        SELECT
-            DISTINCT
+        SELECT DISTINCT
             cor_area_synthese.id_area
           , id_form                                 AS id_form_universal
           , synthese.id_synthese                    AS id_data
@@ -60,14 +60,14 @@ $$
             WHERE
                   t_taxa.enabled
               AND synthese.id_nomenclature_valid_status IN (ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '1'),
-                                                            ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '2'));
-        RAISE INFO '-- % -- COMMENT AND INDEXES ON atlas.mv_data_for_atlas', clock_timestamp();
+                                                            ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '2'))
+              AND synthese.id_nomenclature_observation_status !=
+                  ref_nomenclatures.get_id_nomenclature('STATUT_OBS', 'No');
         COMMENT ON MATERIALIZED VIEW atlas.mv_data_for_atlas IS 'All datas used for atlas';
         CREATE UNIQUE INDEX i_data_for_atlas_id_area_id_data ON atlas.mv_data_for_atlas (id_area, id_data);
         CREATE INDEX i_data_for_atlas_cdnom ON atlas.mv_data_for_atlas (cd_nom);
         CREATE INDEX i_data_for_atlas_idarea ON atlas.mv_data_for_atlas (id_area);
         CREATE INDEX i_data_for_atlas_bird_breeding_code ON atlas.mv_data_for_atlas (bird_breed_code);
-
         /* INFO: Forms, attached to areas */
         RAISE INFO '-- % -- DROP CASCADE MV atlas.mv_forms_for_atlas', clock_timestamp();
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_forms_for_atlas CASCADE;
