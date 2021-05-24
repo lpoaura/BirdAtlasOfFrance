@@ -5,6 +5,13 @@
       <h1 class="PageTitle">Lexique</h1>
     </header>
     <section class="GlossarySection">
+      <label>Espèces sensibles</label>
+      <span class="Definition">
+        Certaines espèces ont été masquées en raison de leur sensibilité. Les
+        espèces concernées sont les suivantes : Aigle de Bonelli, Aigle pomarin,
+        Grue cendrée, Gypaète barbu, Pie-grièche à poitrine rose, Pygargue à
+        queue blanche, Vautour percnoptère.
+      </span>
       <label>Indice de complétude</label>
       <span class="Definition">
         Rapport entre le nombre d'espèces observées sur la période 2019-2024 et
