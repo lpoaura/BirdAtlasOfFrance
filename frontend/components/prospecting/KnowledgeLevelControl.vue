@@ -41,7 +41,7 @@
             >{{ item.label }}
           </div>
           <span class="PieChartLegendData"
-            >{{ $toPercent(item.value / totalAreaCount) || '' }} %</span
+            >{{ $toPercent(item.value / totalAreaCount) || 0 }} %</span
           >
         </div>
       </div>

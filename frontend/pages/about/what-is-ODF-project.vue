@@ -89,6 +89,7 @@ export default {
       'Eure-et-Loir-Nature.jpg',
       'GEPOG.png',
       'GEPOMAY.png',
+      'GNLA.png',
       'GODS.jpg',
       'GOG.png',
       'GON.png',
