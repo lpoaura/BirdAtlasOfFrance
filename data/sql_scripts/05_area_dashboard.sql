@@ -62,7 +62,7 @@ $$
           , form_synth.prospecting_hours_breeding
             FROM
                 data_synth
-                    JOIN form_synth ON data_synth.id_area = form_synth.id_area;
+                    FULL JOIN form_synth ON data_synth.id_area = form_synth.id_area;
         COMMENT ON MATERIALIZED VIEW atlas.mv_area_dashboard IS 'Statistiques générales par zonages';
         CREATE UNIQUE INDEX i_area_dashboard_id_area ON atlas.mv_area_dashboard (id_area);
         COMMIT;
