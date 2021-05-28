@@ -123,6 +123,13 @@ export default {
     // 'nuxt-i18n',
     'nuxt-mail',
     'nuxt-clipboard',
+    [
+      'nuxt-matomo',
+      {
+        matomoUrl: process.env.MATOMO_URL || '//matomo.example.com/',
+        siteId: process.env.MATOMO_SITEID || 1,
+      },
+    ],
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
