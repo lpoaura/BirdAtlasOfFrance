@@ -25,6 +25,7 @@
     "nuxt-i18n": "^6.21.1",
     "nuxt-leaflet": "0.0.25",
     "nuxt-mail": "^2.1.2",
+    "nuxt-matomo": "^1.2.4",
     "vue2-leaflet": "^2.6.0"
   },
   "devDependencies": {
