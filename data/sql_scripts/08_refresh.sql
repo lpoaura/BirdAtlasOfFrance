@@ -17,6 +17,9 @@ BEGIN
     RAISE INFO '-- % -- START REFRESH atlas.mv_taxa_groups', clock_timestamp();
     REFRESH MATERIALIZED VIEW CONCURRENTLY atlas.mv_taxa_groups;
     RAISE INFO '-- % -- START SCRIPT', start_ts;
+    RAISE INFO '-- % -- START REFRESH atlas.mv_search_taxa', clock_timestamp();
+    REFRESH MATERIALIZED VIEW CONCURRENTLY atlas.mv_search_taxa;
+    RAISE INFO '-- % -- START SCRIPT', start_ts;
     RAISE INFO '-- % -- START REFRESH atlas.mv_search_areas', clock_timestamp();
     REFRESH MATERIALIZED VIEW CONCURRENTLY atlas.mv_search_areas;
     SELECT (clock_timestamp() - start_ts) INTO delta;
