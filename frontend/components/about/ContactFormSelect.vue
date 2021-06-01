@@ -90,11 +90,11 @@ export default {
   font-weight: normal;
   font-size: 14px;
   line-height: 21px;
-  color: rgba(38, 38, 38, 0.6);
+  color: #262626;
 }
 
 .SelectWrapper.open {
-  border: 1px solid #39765a;
+  border: 1px solid #eece25;
 }
 
 .SelectedItem {
@@ -109,7 +109,7 @@ export default {
 }
 
 .SelectedItem.placeholder {
-  color: rgba(38, 38, 38, 0.35);
+  color: rgba(38, 38, 38, 0.6);
 }
 
 .SelectChevron {
@@ -140,8 +140,7 @@ export default {
 }
 
 .SelectItem:hover {
-  background: rgba(57, 118, 90, 0.1);
+  background: rgba(238, 206, 37, 0.4);
   font-weight: bold;
-  color: #39765a;
 }
 </style>

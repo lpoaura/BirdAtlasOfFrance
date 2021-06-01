@@ -47,7 +47,7 @@ L'évaluation de la tendance des espèces se basera sur les dispositifs de surve
 
 <img class="InformativePagePicture" style="width: 70%" src="/what-is-ODF-project/trends-chart.jpg" />
 
-<span class="InformativePagePictureLegend" style="margin-bottom: 0">
+<span class="InformativePagePictureLegend no-bottom-margin">
 
 Tendances d’évolution des Oiseaux Communs en fonction des différents cortèges (Vigie-Nature)
 

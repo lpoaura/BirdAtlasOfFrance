@@ -9,9 +9,6 @@
       />
     </div>
     <div v-show="selectIsOpen" class="SelectBox">
-      <div class="SelectBoxHeader">
-        <span class="SelectBoxTitle">Saisons</span>
-      </div>
       <div class="SeasonsList">
         <div
           v-for="(season, index) in seasonsList"
@@ -147,22 +144,6 @@ export default {
   overflow: auto;
   display: flex;
   flex-direction: column;
-}
-
-.SelectBoxHeader {
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.SelectBoxTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  color: #000;
 }
 
 .SeasonsList {

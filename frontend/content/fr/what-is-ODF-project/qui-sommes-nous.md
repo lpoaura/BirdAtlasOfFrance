@@ -37,6 +37,10 @@ Le site [www.oiseauxdefrance.org](/) est un portail de restitution qui permet de
 </div>
 
 <div class="InformativePagePicture" style="width: 240px">
-  <img class="Logo" src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg" />
-  <img class="Logo" src="/what-is-ODF-project/NaturaList-logo.svg" />
+  <a href='https://www.faune-france.org' target='_blank'>
+    <img class="Logo" src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg" />
+  </a>
+  <a href='https://www.faune-france.org/index.php?m_id=20015' target='_blank'>
+    <img class="Logo" src="/what-is-ODF-project/NaturaList-logo.svg" />
+  </a>
 </div>
