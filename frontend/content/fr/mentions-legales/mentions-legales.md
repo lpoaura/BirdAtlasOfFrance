@@ -26,9 +26,9 @@ Dénomination sociale de l’établissement publiant le site :
 - LPO France, 8 rue du Docteur Pujos CS 90263, 17305 Rochefort CEDEX
 - Tél : +33 (0)5.46.82.12.34
 
-Copyright : ©LPO Aura ; « Toute reproduction, utilisation ou représentation, intégrale ou partielle, des pages écrans, des données et de façon générale de tout élément constitutif du site https://oiseauxdefrance.org par quelque procédé et sur quelque support que ce soit est strictement interdite et constitue, sans autorisation écrite et préalable de la LPO, un délit de contrefaçon ».
+Copyright : ©LPO AuRA ; « Toute reproduction, utilisation ou représentation, intégrale ou partielle, des pages écrans, des données et de façon générale de tout élément constitutif du site https://oiseauxdefrance.org par quelque procédé et sur quelque support que ce soit est strictement interdite et constitue, sans autorisation écrite et préalable de la LPO, un délit de contrefaçon ».
 
-- Web Design : Solène Meurice et Thibault Pelissier ont travaillé bénévolement, qu’ils soient ici vivement remerciés pour leur implication.
+- Crédit UX/UI design : Solène Meurice et Thibault Pelissier ont travaillé bénévolement, qu’ils soient ici vivement remerciés pour leur implication.
 - Développement : LPO Auvergne-Rhône-Alpes
 - Engagement : L’éditeur s’engage à respecter l’ensemble du dispositif législatif concernant la mise en place et l’activité d’un site Internet.
 - Hébergement : LPO France

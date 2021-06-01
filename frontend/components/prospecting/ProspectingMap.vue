@@ -93,11 +93,11 @@
       </l-control>
       <l-control
         v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
-        position="topright"
+        position="topleft"
       >
         <div class="EpocGeojsonControl">
           Trop de points à afficher, zoomez à l’échelle d’une maille pour
-          visualiser les points EPOC !
+          visualiser les points EPOC.
         </div>
       </l-control>
       <l-control
@@ -116,6 +116,14 @@
             :indeterminate="indeterminate"
           />
           <span style="margin-left: 5px">Chargement des données</span>
+        </div>
+      </l-control>
+      <l-control
+        v-show="!speciesDistributionIsLoading && noSpeciesData"
+        position="topright"
+      >
+        <div class="EpocGeojsonControl">
+          Pas de données pour la saison et l'emprise choisies.
         </div>
       </l-control>
       <l-control-zoom position="bottomright"></l-control-zoom>
@@ -201,6 +209,7 @@ export default {
     axiosErrorSpeciesDistribution: null,
     knowledgeLevelIsLoading: false,
     speciesDistributionIsLoading: false,
+    noSpeciesData: false,
     selectedSeason: {
       label: 'Toutes saisons',
       value: 'all_period',
@@ -617,6 +626,7 @@ export default {
         const cancelToken = this.$axios.CancelToken
         this.axiosSourceSpeciesDistribution = cancelToken.source()
         this.speciesDistributionIsLoading = true
+        this.noSpeciesData = false
         this.$axios
           .$get(
             `/api/v1/taxa/${species.code}?period=${this.selectedSeason.value}_new&envelope=${this.envelope}`,
@@ -626,6 +636,9 @@ export default {
           )
           .then((data) => {
             this.speciesDistributionGeojson = data
+            if (data.features.length === 0) {
+              this.noSpeciesData = true
+            }
           })
           .catch((error) => {
             // console.log(error)

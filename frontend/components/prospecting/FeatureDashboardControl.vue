@@ -88,10 +88,10 @@
             {{ municipality.area_name }}
           </span>
         </div>
-        <div class="Split main"></div>
+        <!-- <div class="Split main"></div>
         <nuxt-link to="#" class="PrimaryButton" style="margin-top: 6px"
           >Contacter le coordinateur local départemental</nuxt-link
-        >
+        > -->
       </div>
       <!-- ESPÈCES -->
       <div
@@ -905,7 +905,7 @@ menu,
   font-weight: 500;
   font-size: 12px;
   line-height: 18px;
-  color: rgba(38, 38, 38, 0.4);
+  color: #262626;
 }
 
 .AutocompleteAdvanced {

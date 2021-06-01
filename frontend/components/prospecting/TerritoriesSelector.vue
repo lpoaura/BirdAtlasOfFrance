@@ -321,7 +321,7 @@ export default {
   font-weight: 500;
   font-size: 12px;
   line-height: 18px;
-  color: rgba(38, 38, 38, 0.4);
+  color: #262626;
 }
 
 .AutocompleteAdvanced {

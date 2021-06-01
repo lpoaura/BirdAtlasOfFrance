@@ -2,7 +2,9 @@
   <v-container fluid>
     <header>
       <breadcrumb style="margin-bottom: 20px" />
-      <h1 class="PageTitle">Je souhaite contacter un référent local</h1>
+      <h1 v-show="!validForm" class="PageTitle">
+        Je souhaite contacter un référent local
+      </h1>
     </header>
     <section v-show="!validForm" class="FormSection">
       <div class="FormContent">
@@ -59,14 +61,14 @@
             dense
             color="#EECE25"
           ></v-switch>
-          <label for="grid-feature" class="nomargin"
+          <label for="grid-feature" class="no-bottom-margin"
             >Je connais le numéro de la maille à prospecter</label
           >
           <input
             v-show="gridFeatureIsKnow"
             id="grid-feature"
             v-model="gridFeature"
-            class="GridFeatureInput nomargin"
+            class="GridFeatureInput no-bottom-margin"
             type="text"
             placeholder="E080N638"
           />
@@ -271,10 +273,6 @@ header {
   cursor: pointer;
 }
 
-.nomargin {
-  margin-bottom: 0;
-}
-
 label {
   margin-bottom: 8px;
   font-family: 'Poppins', sans-serif;
@@ -299,11 +297,11 @@ input {
   font-weight: normal;
   font-size: 14px;
   line-height: 21px;
-  color: rgba(38, 38, 38, 0.6);
+  color: #262626;
 }
 
 input:focus {
-  border: 1px solid #39765a;
+  border: 1px solid #eece25;
 }
 
 textarea {
@@ -318,11 +316,11 @@ textarea {
   font-weight: normal;
   font-size: 14px;
   line-height: 21px;
-  color: rgba(38, 38, 38, 0.6);
+  color: #262626;
 }
 
 textarea:focus {
-  border: 1px solid #39765a;
+  border: 1px solid #eece25;
 }
 
 .CoordinatorsMenu {

@@ -26,7 +26,12 @@
 </template>
 
 <script>
+import Breadcrumb from '~/components/layouts/Breadcrumb.vue'
+
 export default {
+  components: {
+    breadcrumb: Breadcrumb,
+  },
   head() {
     return {
       title: this.$getPageTitle(this.$route.path),
@@ -42,7 +47,7 @@ div.container.container--fluid {
 
 header {
   width: 100%;
-  padding: 10px 16% 16px 16%;
+  padding: 24px 16% 32px 16%;
   display: flex;
   flex-direction: column;
 }
@@ -86,7 +91,7 @@ label {
 
 @media screen and (max-width: 768px) {
   header {
-    padding: 10px 6% 16px 6%;
+    padding: 24px 6% 32px 6%;
   }
   .GlossarySection {
     padding: 0 6% 10px 6%;

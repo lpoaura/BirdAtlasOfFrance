@@ -2,7 +2,7 @@
   <v-container fluid>
     <header>
       <breadcrumb style="margin-bottom: 20px" />
-      <h1 class="PageTitle">
+      <h1 v-show="!validForm" class="PageTitle">
         Je souhaite avoir des renseignements sur le projet ODF
       </h1>
     </header>
@@ -239,11 +239,11 @@ input {
   font-weight: normal;
   font-size: 14px;
   line-height: 21px;
-  color: rgba(38, 38, 38, 0.6);
+  color: #262626;
 }
 
 input:focus {
-  border: 1px solid #39765a;
+  border: 1px solid #eece25;
 }
 
 textarea {
@@ -258,11 +258,11 @@ textarea {
   font-weight: normal;
   font-size: 14px;
   line-height: 21px;
-  color: rgba(38, 38, 38, 0.6);
+  color: #262626;
 }
 
 textarea:focus {
-  border: 1px solid #39765a;
+  border: 1px solid #eece25;
 }
 
 .ConfirmationContent {
