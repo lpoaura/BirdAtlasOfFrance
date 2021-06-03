@@ -63,14 +63,19 @@
               <span class="KeyDataBlockText" style="font-weight: 500">
                 {{ pieChartLabels.breeding }}
               </span>
-              <span class="KeyDataBlockText">
-                {{
-                  $toPercent(
-                    keyData.prospecting_hours.breeding / totalProspectingHours
-                  ) || 0
-                }}% |
-                {{ $thousandDelimiter(keyData.prospecting_hours.breeding) }}
-                heures
+              <span class="KeyDataBlockText inline">
+                <div style="margin-right: 16px">
+                  {{
+                    $toPercent(
+                      keyData.prospecting_hours.breeding / totalProspectingHours
+                    ) || 0
+                  }}%
+                </div>
+                <div style="margin-right: 16px">|</div>
+                <div>
+                  {{ $thousandDelimiter(keyData.prospecting_hours.breeding) }}
+                  heures
+                </div>
               </span>
             </div>
           </div>
@@ -83,14 +88,20 @@
               <span class="KeyDataBlockText" style="font-weight: 500">
                 {{ pieChartLabels.wintering }}
               </span>
-              <span class="KeyDataBlockText">
-                {{
-                  $toPercent(
-                    keyData.prospecting_hours.wintering / totalProspectingHours
-                  ) || 0
-                }}% |
-                {{ $thousandDelimiter(keyData.prospecting_hours.wintering) }}
-                heures
+              <span class="KeyDataBlockText inline">
+                <div style="margin-right: 16px">
+                  {{
+                    $toPercent(
+                      keyData.prospecting_hours.wintering /
+                        totalProspectingHours
+                    ) || 0
+                  }}%
+                </div>
+                <div style="margin-right: 16px">|</div>
+                <div>
+                  {{ $thousandDelimiter(keyData.prospecting_hours.wintering) }}
+                  heures
+                </div>
               </span>
             </div>
           </div>
@@ -103,15 +114,22 @@
               <span class="KeyDataBlockText" style="font-weight: 500">
                 {{ pieChartLabels.other_period }}
               </span>
-              <span class="KeyDataBlockText">
-                {{
-                  $toPercent(
-                    keyData.prospecting_hours.other_period /
-                      totalProspectingHours
-                  ) || 0
-                }}% |
-                {{ $thousandDelimiter(keyData.prospecting_hours.other_period) }}
-                heures
+              <span class="KeyDataBlockText inline">
+                <div style="margin-right: 16px">
+                  {{
+                    $toPercent(
+                      keyData.prospecting_hours.other_period /
+                        totalProspectingHours
+                    ) || 0
+                  }}%
+                </div>
+                <div style="margin-right: 16px">|</div>
+                <div>
+                  {{
+                    $thousandDelimiter(keyData.prospecting_hours.other_period)
+                  }}
+                  heures
+                </div>
               </span>
             </div>
           </div>
@@ -294,6 +312,10 @@ export default {
   font-weight: normal;
   font-size: 14px;
   line-height: 21px;
+}
+
+.KeyDataBlockText.inline {
+  display: flex;
 }
 
 .KeyDataBlockDetails {

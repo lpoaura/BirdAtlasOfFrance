@@ -79,6 +79,7 @@ export default {
       'RTE.png',
     ],
     scientificPartnersLogosList: ['MNHN.png', 'OFB.jpg'],
+    // Lien vers les sites des partenaires
     technicalPartnersLogosList: [
       'ALEPE.jpg',
       'ANA.png',
@@ -192,7 +193,7 @@ div.container.container--fluid {
 
 .PartnersLogosGrid {
   width: 100%;
-  background: #fcfcfc;
+  background: #fff;
   border: 1px solid rgba(51, 105, 80, 0.2);
   box-sizing: border-box;
   border-radius: 16px;
@@ -200,7 +201,7 @@ div.container.container--fluid {
   margin-bottom: 30px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  grid-gap: 20px;
+  grid-gap: 60px;
 }
 
 .PartnersLogosGridItem {
