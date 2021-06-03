@@ -5,9 +5,12 @@
       <div class="LogoWrapper">
         <img class="Logo" :src="logo" />
       </div>
-      <div class="HeaderText">
+      <div v-if="subtitle" class="HeaderText">
         <h1 class="HeaderTitle">{{ title }}</h1>
         <h6 class="HeaderSubtitle">{{ subtitle }}</h6>
+      </div>
+      <div v-else class="HeaderText center">
+        <h1 class="HeaderTitle">{{ title }}</h1>
       </div>
     </div>
     <div class="HeaderMenu">
@@ -86,7 +89,7 @@ header {
   border-bottom: 1px solid rgba(51, 105, 80, 0.2);
   width: 100%;
   height: 262px;
-  padding: 1.4% 16%;
+  padding: 16px 16%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -121,6 +124,11 @@ header {
   justify-content: space-between;
 }
 
+.HeaderText.center {
+  height: 100%;
+  justify-content: center;
+}
+
 .HeaderTitle {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
@@ -128,7 +136,6 @@ header {
   font-size: 40px;
   line-height: 60px;
   color: #262626;
-  white-space: nowrap;
 }
 
 .HeaderSubtitle {

@@ -71,7 +71,7 @@ export default {
         route: '/prospecting',
       },
       {
-        label: 'Commune',
+        label: 'Lieu',
         api: '/api/v1/search_areas?limit=10&type_code=COM&search=',
         route: '/prospecting',
       },
@@ -182,7 +182,7 @@ export default {
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  color: rgba(38, 38, 38, 0.6);
+  color: #262626;
 }
 
 .AutocompleteAdvanced {
@@ -272,8 +272,6 @@ export default {
 
 .SelectItem.selected {
   background: rgba(238, 206, 37, 0.4);
-  font-weight: 600;
-  color: #7b6804;
 }
 
 .SearchIconBox {
@@ -317,7 +315,6 @@ export default {
 
 .AutocompleteItem:hover {
   background: rgba(238, 206, 37, 0.4);
-  color: #7b6804;
   font-weight: 600;
 }
 

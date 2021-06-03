@@ -74,14 +74,14 @@ export default {
     autocompleteIsOpen: false,
     typeList: [
       {
-        label: 'Lieu',
-        api: '/api/v1/search_areas?limit=10&search=',
-        placeholder: 'Rechercher une commune, une maille...',
-      },
-      {
         label: 'Espèce',
         api: '/api/v1/search_taxa?limit=10&search=',
         placeholder: 'Rechercher une espèce...',
+      },
+      {
+        label: 'Lieu',
+        api: '/api/v1/search_areas?limit=10&search=',
+        placeholder: 'Rechercher une commune, une maille...',
       },
     ],
     selectedType: {
@@ -136,7 +136,7 @@ export default {
         .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
         .then((data) => {
           this.speciesIsSelected = true
-          this.selectedType = this.typeList[1]
+          this.selectedType = this.typeList[0]
           this.searchIsProgramatic = true
           this.search = data[0][`common_name_${this.lang}`]
         })
@@ -226,6 +226,7 @@ export default {
 
 .AutocompleteWrapper.open {
   border: 1px solid #eece25;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
 .AutocompleteWrapper input {
@@ -241,7 +242,7 @@ export default {
   font-weight: 500;
   font-size: 12px;
   line-height: 18px;
-  color: rgba(38, 38, 38, 0.4);
+  color: #262626;
 }
 
 .AutocompleteAdvanced {
@@ -331,8 +332,6 @@ export default {
 
 .SelectItem.selected {
   background: rgba(238, 206, 37, 0.4);
-  font-weight: 500;
-  color: #7b6804;
 }
 
 .SearchIconBox {
@@ -376,7 +375,6 @@ export default {
 
 .AutocompleteItem:hover {
   background: rgba(238, 206, 37, 0.4);
-  color: #7b6804;
   font-weight: 600;
 }
 

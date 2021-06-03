@@ -8,7 +8,7 @@
       <input
         id="captcha"
         v-model="captchaUser"
-        class="CaptchaInput"
+        class="CaptchaInput no-bottom-margin"
         type="text"
       />
     </div>
@@ -80,16 +80,15 @@ input {
   font-weight: normal;
   font-size: 14px;
   line-height: 21px;
-  color: rgba(38, 38, 38, 0.6);
+  color: #262626;
 }
 
 input:focus {
-  border: 1px solid #39765a;
+  border: 1px solid #eece25;
 }
 
 .CaptchaInput {
   width: 62px;
   margin-right: 30px;
-  margin-bottom: 0;
 }
 </style>

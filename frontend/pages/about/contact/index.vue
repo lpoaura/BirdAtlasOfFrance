@@ -26,18 +26,22 @@
     <section v-show="isSelected" class="ProtocolsHelpSection">
       <div class="ProtocolsHelpContent">
         <p>Vous trouverez peut-être votre bonheur dans les pages suivantes :</p>
-        <ul>
-          <li><nuxt-link to="/get-involved">Participer</nuxt-link></li>
-          <li>
-            <nuxt-link to="/about/what-is-ODF-project#get-involved"
-              >Découvrir les bases de la prospection</nuxt-link
-            >
-          </li>
-        </ul>
+        <li class="ProtocolsHelpLink">
+          <nuxt-link to="/get-involved" style="text-decoration: underline"
+            >Participer</nuxt-link
+          >
+        </li>
+        <li class="ProtocolsHelpLink">
+          <nuxt-link
+            to="/about/what-is-ODF-project#get-involved"
+            style="text-decoration: underline"
+            >Découvrir les bases de la prospection</nuxt-link
+          >
+        </li>
         <nuxt-link
           to="/about/contact/question-about-protocols"
           class="PrimaryButton"
-          style="margin-top: 20px"
+          style="margin-top: 24px"
           >Contactez-nous</nuxt-link
         >
       </div>
@@ -90,7 +94,7 @@ div.container.container--fluid {
 
 header {
   width: 100%;
-  padding: 1.4% 16% 3% 16%;
+  padding: 24px 4vw 40px 4vw;
   display: flex;
   flex-direction: column;
 }
@@ -107,7 +111,7 @@ header {
 
 .CardsSection {
   padding-left: 4vw;
-  padding-bottom: 1%;
+  padding-bottom: 24px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -161,5 +165,10 @@ header {
   margin: auto;
   display: flex;
   flex-direction: column;
+}
+
+.ProtocolsHelpLink {
+  list-style: none;
+  margin-bottom: 16px;
 }
 </style>

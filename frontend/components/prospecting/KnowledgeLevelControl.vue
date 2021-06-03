@@ -328,6 +328,7 @@ export default {
   width: 266px;
   padding: 10px;
   border-radius: 8px;
+  filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.32));
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: normal;

@@ -49,8 +49,31 @@
         :href="`https://www.google.fr/maps/place/${epocPointCoordinates}`"
         target="_blank"
         class="PrimaryButton outlined"
+        style="margin-bottom: 16px"
         >Ouvrir sur Google Maps</a
       >
+      <div class="Split"></div>
+      <div
+        class="EpocDashboardHeader no-bottom-margin pointer"
+        @click="updateEpocHelpStatus"
+      >
+        <h2 class="EpocDashboardTitle">Le point est inaccessible ?</h2>
+        <img
+          class="EpocDashboardChevron"
+          :src="epocHelpIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
+        />
+      </div>
+      <span v-show="epocHelpIsOpen" class="EpocDashboardHelp">
+        <p class="no-bottom-margin">
+          Si le point EPOC est inaccessible (propriété privée, terrain
+          millitaire, zone aquatique...), merci de sélectionner le premier point
+          EPOC de réserve disponible.
+        </p>
+        <p class="no-bottom-margin">
+          Pour afficher les points EPOC de réserve, cliquez sur “Couches”,
+          sélectionnez “Points EPOC” puis activez “EPOC de réserve”.
+        </p>
+      </span>
     </div>
   </div>
 </template>
@@ -63,12 +86,20 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    epocHelpIsOpen: false,
+  }),
   computed: {
     epocPointCoordinates() {
       return [
         this.clickedEpocPoint.geometry.coordinates[1],
         this.clickedEpocPoint.geometry.coordinates[0],
       ]
+    },
+  },
+  methods: {
+    updateEpocHelpStatus() {
+      this.epocHelpIsOpen = !this.epocHelpIsOpen
     },
   },
 }
@@ -166,5 +197,27 @@ export default {
 .EpocPropertyCopyIcon {
   width: 24px;
   cursor: pointer;
+}
+
+.EpocDashboardChevron {
+  width: 11px;
+}
+
+.EpocDashboardHelp {
+  margin-top: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+p {
+  margin-top: 16px;
 }
 </style>

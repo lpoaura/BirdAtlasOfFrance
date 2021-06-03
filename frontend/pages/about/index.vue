@@ -34,11 +34,7 @@
           <span class="QuestionsText">{{ question.label }}</span>
           <img
             class="QuestionsChevron"
-            :src="
-              question.isOpen
-                ? '/chevron-up.svg'
-                : '/chevron-down.svg'
-            "
+            :src="question.isOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
           />
         </div>
         <span v-show="question.isOpen" class="ResponsesText">{{
