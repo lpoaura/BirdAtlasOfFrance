@@ -126,8 +126,8 @@ export default {
     [
       'nuxt-matomo',
       {
-        matomoUrl: process.env.MATOMO_URL || '//matomo.example.com/',
-        siteId: process.env.MATOMO_SITEID || 1,
+        matomoUrl: '//webstats.lpo-aura.org/',
+        siteId: 5,
       },
     ],
   ],
