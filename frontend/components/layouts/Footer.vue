@@ -39,6 +39,8 @@ export default {
       { label: 'À propos', route: '/about' },
       { label: 'Contact', route: '/about/contact' },
       { label: 'Mentions légales', route: '/about/legal-notices' },
+      // À REVOIR
+      { label: 'Newsletter', route: '#' },
     ],
     socialNetworksItems: [
       {

@@ -779,6 +779,7 @@ menu,
 .FeatureDashboardContent {
   padding-right: 16px;
   overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .Split {

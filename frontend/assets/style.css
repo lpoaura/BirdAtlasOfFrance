@@ -1,6 +1,100 @@
 /* INFO : total screen width = 98.9vw (not 100vw) */
 
-/* GLOBAL */
+/********** TYPOGRAPHY **********/
+
+.PlayfairDisplayTypo {
+  font-family: 'Playfair Display', sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 75px;
+  color: #fff;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+h1,
+h2,
+h3,
+h4,
+span,
+h5,
+h6 {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  color: #262626;
+}
+
+h1 {
+  font-size: 40px;
+  line-height: 60px;
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 48px;
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 36px;
+}
+
+h4 {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+span {
+  font-size: 14px;
+  line-height: 21px;
+}
+
+h5 {
+  font-size: 12px;
+  line-height: 18px;
+}
+
+h6 {
+  font-size: 10px;
+  line-height: 15px;
+}
+
+.black01 {
+  color: #262626;
+}
+
+.black02 {
+  color: #000;
+}
+
+.black03 {
+  color: rgba(38, 38, 38, 0.6);
+}
+
+.green01 {
+  color: #39765a;
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-600 {
+  font-weight: 600;
+}
+
+.italic {
+  font-style: italic;
+}
+
+/********** GLOBAL COMPONENTS **********/
+
+/* Global padding and margin */
 div.container.container--fluid {
   padding: 0;
 }
@@ -9,16 +103,30 @@ div.container.container--fluid {
   margin-bottom: 0 !important;
 }
 
+.bottom-margin-20 {
+  margin-bottom: 20px !important;
+}
+
+.bottom-margin-40 {
+  margin-bottom: 40px !important;
+}
+
+/* Links */
 .v-application a {
   color: #39765a;
   text-decoration: none;
 }
 
+/* Buttons */
 .v-application a.PrimaryButton,
 .PrimaryButton {
   background: #39765a;
   border-radius: 8px;
-  padding: 1.6vh 1.8vw;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 600;
@@ -27,10 +135,6 @@ div.container.container--fluid {
   line-height: 18px;
   color: #fcfcfc;
   text-align: center;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .PrimaryButton:disabled {
@@ -42,23 +146,421 @@ div.container.container--fluid {
 .PrimaryButton.outlined {
   background: #fcfcfc;
   border: 2px solid rgba(57, 118, 90, 0.1);
-  border-radius: 8px;
-  padding: 1.6vh 1.8vw;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 12px;
-  line-height: 18px;
+  box-sizing: border-box;
   color: #39765a;
-  text-align: center;
+}
+
+/* Radio and Dropdown lists */
+
+/* .RadioList,
+.DropdownList {
+  display: flex;
+  flex-direction: column;
+} */
+
+.RadioOption,
+.DropdownOption {
+  /* Associé à une balise <li> */
+  list-style: none;
+  width: 100%;
+  border-radius: 4px;
   cursor: pointer;
   display: flex;
+  align-items: center;
+}
+
+.RadioOption {
+  padding: 10px 12px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
+}
+
+.DropdownOption {
+  padding: 10px 18px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #262626;
+}
+
+.RadioOption.selected {
+  background: rgba(238, 206, 37, 0.2);
+}
+
+.DropdownOption.selected {
+  background: rgba(238, 206, 37, 0.4);
+}
+
+.RadioButton {
+  margin-right: 12px;
+  min-width: 16px;
+  max-width: 16px;
+  min-height: 16px;
+  max-height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(38, 38, 38, 0.2);
+  display: flex;
+}
+
+.RadioOption.selected .RadioButton {
+  border: none;
+  background: #eece25;
+}
+
+.RadioButtonSelected {
+  background: #fcfcfc;
+  margin: auto;
+  min-width: 6px;
+  max-width: 6px;
+  min-height: 6px;
+  max-height: 6px;
+  border-radius: 50%;
+}
+
+/* Tab, Selector & Chip menus */
+.TabMenu,
+.SelectorMenu,
+.ChipMenu {
+  margin-bottom: 24px;
+  display: flex;
+}
+
+.TabItem {
+  margin-right: 6px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
+}
+
+.TabItem.selected {
+  background: rgba(57, 118, 90, 0.1);
+  font-weight: bold;
+  color: #39765a;
+}
+
+.SelectorItem {
+  margin-right: 16px;
+  padding: 12px 24px;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+  box-sizing: border-box;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #000;
+}
+
+.ChipItem {
+  margin-right: 8px;
+  padding: 8px 16px;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+  box-sizing: border-box;
+  border-radius: 32px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #000;
+}
+
+.SelectorItem.selected,
+.ChipItem.selected {
+  background: rgba(238, 206, 37, 0.2);
+  border: 2px solid #eece25;
+}
+
+/* Cards */
+.MenuCard,
+.ProtocolCard {
+  background: #efefef;
+
+  /* width: 22.9vw;
+  height: 100%;
+  margin: 12px; */
+
+  padding: 32px 24px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-/* INFORMATIVE PAGES */
+.CardIcon {
+  max-width: 120px;
+  height: 48px;
+  margin-bottom: 16px;
+}
+
+.CardTitle {
+  margin-bottom: 8px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.CardSubtitle {
+  color: rgba(38, 38, 38, 0.6);
+  text-align: center;
+  transition: 0.3s;
+}
+
+.MenuCard {
+  border-radius: 16px;
+}
+
+.MenuCard:hover {
+  background: rgba(238, 206, 37, 0.2);
+}
+
+.ProtocolCard {
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.ProtocolCard:hover .CardSubtitle {
+  margin-bottom: 8px;
+}
+
+.ProtocolCard.special {
+  background: rgba(238, 206, 37, 0.2);
+}
+
+.ProtocolCard.special:hover {
+  background: rgba(238, 206, 37, 0.4);
+}
+
+.PictureCard {
+  border-radius: 24px;
+}
+
+/* Badges */
+.Badge {
+  padding: 8px 16px;
+  border-radius: 56px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #000;
+}
+
+.ProtocolCard .Badge {
+  opacity: 0;
+  padding: 0;
+  font-weight: 0;
+  font-size: 0;
+  line-height: 0;
+  transition: 0.3s;
+}
+
+.ProtocolCard .Badge.breeding {
+  background: #fb7971;
+}
+
+.ProtocolCard .Badge.wintering {
+  background: #9eb9ff;
+  color: #fcfcfc;
+}
+
+.ProtocolCard:hover .Badge {
+  opacity: 1;
+  padding: 8px 16px;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* Search bars */
+.AutocompleteWrapper {
+  position: relative;
+  width: 100%;
+  border: 1px solid rgba(57, 118, 90, 0.1);
+  box-sizing: border-box;
+}
+
+.AutocompleteWrapper input {
+  width: 100%;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  color: #262626;
+}
+
+.AutocompleteGadgets {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.AutocompleteCloseIconWrapper {
+  display: flex;
+}
+
+.AutocompleteCloseIcon {
+  width: 100%;
+  margin: auto;
+  cursor: pointer;
+}
+
+.AutocompleteSearchSplit {
+  width: 0;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+}
+
+.AutocompleteDropdownWrapper {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.AutocompleteDropdownSelectedOption {
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.AutocompleteDropdownOptionsBox {
+  background: #fcfcfc;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  overflow: auto;
+}
+
+/* See Dropdown lists for AutocompleteDropdownOption */
+
+.AutocompleteSearchIconWrapper {
+  background: #eece25;
+  display: flex;
+}
+
+.AutocompleteSearchIcon {
+  margin: auto;
+}
+
+.AutocompleteResultsSplit {
+  height: 0;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+}
+
+.AutocompleteResults {
+  overflow: auto;
+}
+
+.AutocompleteResultsOption {
+  list-style: none;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  color: #262626;
+}
+
+.AutocompleteResultsOption:hover {
+  background: rgba(238, 206, 37, 0.4);
+  font-weight: 600;
+}
+
+.AutocompleteNoResults {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+/********** NAVBAR **********/
+.NavBar {
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  height: 68px;
+  padding: 0 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.NavBar .ODFLogo {
+  flex: 1;
+  height: 50%;
+  display: flex;
+}
+
+.NavBar nav {
+  flex: 2;
+  height: 40px;
+  align-self: flex-end;
+  display: flex;
+  justify-content: space-between;
+}
+
+.NavBarItem {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 14px;
+  color: #fcfcfc;
+}
+
+.NavBarItem.selected {
+  font-weight: bold;
+  border-bottom-width: 3px;
+  border-bottom-style: solid;
+}
+
+.NavBarIconsMenu {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.NavBarIconsWrapper {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  margin-left: 4%;
+  display: flex;
+}
+
+.NavBarIcon {
+  height: 16px;
+  margin: auto;
+}
+
+/********** INFORMATIVE PAGES **********/
+
 .InformativePageSection {
   background: rgba(57, 118, 90, 0.1);
   width: 100%;
@@ -168,7 +670,118 @@ div.container.container--fluid {
   margin-bottom: 16px;
 }
 
-/* MAPS */
+/********** MAP **********/
+
+/* Dropdown selectors */
+.MapSelectorWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.MapSelectorSelectedOption {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.MapSelectorIcon {
+  width: 16px;
+  margin-right: 12px;
+}
+
+.MapSelectorSelectedOptionLabel {
+  margin-right: 12px;
+}
+
+.MapSelectorChevron {
+  width: 8px;
+}
+
+.MapSelectorBox {
+  position: absolute;
+  z-index: 5;
+  top: 30px;
+  background: #fcfcfc;
+  max-height: calc(100vh - 136px);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+  padding: 16px 0 16px 16px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.MapSelectorHeader {
+  margin: 0 16px 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.MapSelectorDisplayingTypeWrapper {
+  border: 1px solid rgba(38, 38, 38, 0.1);
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+}
+
+.MapSelectorDisplayingType {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+}
+
+.MapSelectorDisplayingType.selected {
+  background: #eece25;
+}
+
+.MapSelectorDisplayingTypeIcon {
+  width: 16px;
+  margin: auto;
+}
+
+/* Search bars */
+.AutocompleteWrapper.map {
+  background: linear-gradient(rgba(38, 38, 38, 0.03), rgba(38, 38, 38, 0.03)),
+    white;
+  border-radius: 8px;
+}
+
+.AutocompleteWrapper.map input {
+  height: 42px;
+  border-radius: 8px;
+  padding-left: 16px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.AutocompleteGadgets.map {
+  height: 42px;
+  border-radius: 8px;
+  padding: 0 5px;
+}
+
+.AutocompleteCloseIconWrapper.map {
+  width: 14px;
+  height: 14px;
+}
+
+.AutocompleteSearchIconWrapper.map {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+}
+
+.AutocompleteSearchIcon.map {
+  height: 14px;
+}
+
+/* Leaflet */
 .leaflet-control-zoom.leaflet-bar.leaflet-control {
   width: 42px;
   height: 74px;
@@ -241,4 +854,99 @@ div.container.container--fluid {
   border-color: rgb(255, 255, 255);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
+}
+
+/********** CONTACT FORMS **********/
+
+.ContactFormHeader {
+  width: 100%;
+  padding: 24px 16% 60px 16%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ContactFormTitle {
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Création d'une section ET d'un contenu : formulaire à largeur fixe et centré */
+.ContactFormSection,
+.ConfirmationSection {
+  padding-bottom: 2%;
+  display: flex;
+}
+
+.ContactFormContent {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.ContactFormAlert {
+  width: 626px;
+  height: 32px;
+  margin-bottom: 24px;
+  padding: 0 12px;
+  border: 1px solid #f44336;
+  box-sizing: border-box;
+  border-radius: 8px;
+  color: #f44336;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ContactFormAlertMessage {
+  color: #f44336;
+}
+
+.ContactFormAlertCloseIcon {
+  cursor: pointer;
+}
+
+.ContactFormLabel {
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #000;
+}
+
+input.ContactFormInput {
+  width: 626px;
+  height: 32px;
+  margin-bottom: 24px;
+  padding: 0 12px;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+  box-sizing: border-box;
+  border-radius: 8px;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #262626;
+}
+
+input.ContactFormInput:focus {
+  border: 1px solid #eece25;
+}
+
+textarea.ContactFormTextarea {
+  margin-bottom: 24px;
+  padding: 6px 12px;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+  box-sizing: border-box;
+  border-radius: 8px;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #262626;
+}
+
+textarea.ContactFormTextarea:focus {
+  border: 1px solid #eece25;
 }

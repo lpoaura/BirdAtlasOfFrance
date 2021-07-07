@@ -1,29 +1,32 @@
 <template>
   <div v-click-outside="closeSearchBar" class="AutocompleteWrapper">
     <input v-model="search" type="text" placeholder="Rechercher" />
-    <div class="AutocompleteAdvanced">
-      <div class="CloseIconBox">
+    <div class="AutocompleteGadgets">
+      <div class="AutocompleteCloseIconWrapper">
         <img
           v-show="search.length > 0"
-          class="CloseIcon"
+          class="AutocompleteCloseIcon"
           src="/close.svg"
           @click="clearResults"
         />
       </div>
-      <div class="SearchSplit"></div>
-      <div class="SelectTypeWrapper">
-        <div class="SelectedTypeContent" @click="openOrCloseSelectBox">
-          <span class="SelectedTypeText">{{ selectedType.label }}</span>
+      <div class="AutocompleteSearchSplit"></div>
+      <div class="AutocompleteDropdownWrapper">
+        <div
+          class="AutocompleteDropdownSelectedOption"
+          @click="openOrCloseSelectBox"
+        >
+          <h4 class="fw-500">{{ selectedType.label }}</h4>
           <img
-            class="SelectedTypeChevron"
+            class="AutocompleteDropdownChevron"
             :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
           />
         </div>
-        <div v-show="selectIsOpen" class="SelectBox">
+        <div v-show="selectIsOpen" class="AutocompleteDropdownOptionsBox">
           <li
             v-for="(type, index) in typeList"
             :key="index"
-            class="SelectItem"
+            class="DropdownOption"
             :class="[type.label === selectedType.label ? 'selected' : '']"
             @click="updateSelectedType(type)"
           >
@@ -31,16 +34,16 @@
           </li>
         </div>
       </div>
-      <div class="SearchIconBox">
-        <img class="SearchIcon" src="/search.svg" />
+      <div class="AutocompleteSearchIconWrapper">
+        <img class="AutocompleteSearchIcon" src="/search.svg" />
       </div>
     </div>
-    <div v-show="autocompleteIsOpen" class="ResultsSplit"></div>
+    <div v-show="autocompleteIsOpen" class="AutocompleteResultsSplit"></div>
     <div v-show="autocompleteIsOpen" class="AutocompleteResults">
       <li
         v-for="data in dataList"
         :key="data.code"
-        class="AutocompleteItem"
+        class="AutocompleteResultsOption"
         @click="updateSelectedData(data)"
       >
         {{
@@ -50,10 +53,13 @@
         }}
         <i v-if="selectedType.label === 'Espèce'">({{ data.sci_name }})</i>
       </li>
-      <div v-if="dataList.length === 0" class="AutocompleteNoResult">
+      <span
+        v-if="dataList.length === 0"
+        class="black03 italic AutocompleteNoResults"
+      >
         Aucun résultat trouvé, vous recherchez peut-être une
         <nuxt-link to="/about/glossary">espèce sensible</nuxt-link>.
-      </div>
+      </span>
     </div>
   </div>
 </template>
@@ -160,173 +166,80 @@ export default {
 
 <style scoped>
 .AutocompleteWrapper {
-  position: relative;
   background: #fff;
-  width: 100%;
-  border: 1px solid rgba(57, 118, 90, 0.1);
-  box-sizing: border-box;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
   border-radius: 16px;
 }
 
 .AutocompleteWrapper input {
-  width: 100%;
-  height: clamp(46px, 8vh, 72px);
-  border: none;
-  outline: none;
-  box-sizing: border-box;
+  height: 60px;
   border-radius: 16px;
-  padding-left: 4%;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
+  padding-left: 34px;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  color: #262626;
 }
 
-.AutocompleteAdvanced {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: clamp(46px, 8vh, 72px);
+.AutocompleteGadgets {
+  height: 60px;
   border-radius: 16px;
-  padding: 0 max(1.3vh, 7px);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  padding: 0 10px;
 }
 
-.CloseIconBox {
+.AutocompleteCloseIconWrapper {
   width: 20px;
   height: 20px;
-  display: flex;
 }
 
-.CloseIcon {
-  width: 100%;
-  margin: auto;
-  cursor: pointer;
+.AutocompleteSearchSplit {
+  height: 40px;
+  margin-left: 30px;
 }
 
-.SearchSplit {
-  width: 0;
-  height: clamp(30px, 5.6vh, 50px);
-  border: 1px solid rgba(38, 38, 38, 0.1);
-  margin-left: 1.8vw;
+.AutocompleteDropdownWrapper {
+  width: 160px;
 }
 
-.SelectTypeWrapper {
-  width: 12.8vw;
-  align-self: flex-start;
-  display: flex;
-  flex-direction: column;
-}
-
-.SelectedTypeContent {
-  width: 100%;
-  height: clamp(46px, 8vh, 72px);
+.AutocompleteDropdownSelectedOption {
+  height: 60px;
   margin-bottom: 5px;
-  padding: 0 1.8vw;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 0 30px;
 }
 
-.SelectedTypeText {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #262626;
+.AutocompleteDropdownChevron {
+  width: 10px;
 }
 
-.SelectedTypeChevron {
-  width: 0.74vw;
+.AutocompleteDropdownOptionsBox {
+  padding: 12px;
 }
 
-.SelectBox {
-  background: #fcfcfc;
-  width: 100%;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+.AutocompleteSearchIconWrapper {
+  width: 40px;
+  height: 40px;
   border-radius: 8px;
-  padding: 0.8vw;
-  overflow: auto;
 }
 
-.SelectItem {
-  list-style: none;
-  width: 100%;
-  padding: 5% 1vw;
-  cursor: pointer;
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
-  color: #262626;
+.AutocompleteSearchIcon {
+  height: 18px;
 }
 
-.SelectItem.selected {
-  background: rgba(238, 206, 37, 0.4);
-}
-
-.SearchIconBox {
-  background: #eece25;
-  width: clamp(34px, 5.4vh, 48px);
-  height: clamp(34px, 5.4vh, 48px);
-  border-radius: 8px;
-  display: flex;
-}
-
-.SearchIcon {
-  height: clamp(14px, 2.25vh, 20px);
-  margin: auto;
-}
-
-.ResultsSplit {
-  width: 96%;
-  margin-left: 4%;
-  height: 0;
-  border: 1px solid rgba(38, 38, 38, 0.1);
+.AutocompleteResultsSplit {
+  width: 676px;
+  margin-left: 34px;
 }
 
 .AutocompleteResults {
-  padding: 1%;
-  overflow: auto;
+  padding: 17px;
 }
 
-.AutocompleteItem {
-  list-style: none;
-  width: 100%;
-  padding: 1.5% 3%;
-  cursor: pointer;
-  border-radius: 4px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
+.AutocompleteResultsOption {
+  padding: 10px 17px;
   font-size: 14px;
   line-height: 21px;
-  color: #262626;
 }
 
-.AutocompleteItem:hover {
-  background: rgba(238, 206, 37, 0.4);
-  font-weight: 600;
-}
-
-.AutocompleteNoResult {
-  width: 100%;
-  padding: 1.5% 3%;
-  font-family: 'Poppins', sans-serif;
-  font-style: italic;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  text-align: center;
-  color: rgba(38, 38, 38, 0.6);
+.AutocompleteNoResults {
+  padding: 3px 17px;
 }
 </style>

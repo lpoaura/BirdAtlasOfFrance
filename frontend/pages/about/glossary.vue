@@ -9,8 +9,8 @@
       <span class="Definition">
         Certaines espèces ont été masquées en raison de leur sensibilité. Les
         espèces concernées sont les suivantes : Aigle de Bonelli, Aigle pomarin,
-        Grue cendrée, Gypaète barbu, Pie-grièche à poitrine rose, Pygargue à
-        queue blanche, Vautour percnoptère.
+        Balbuzard pêcheur, Grue cendrée, Gypaète barbu, Pie-grièche à poitrine
+        rose, Pygargue à queue blanche, Vautour percnoptère.
       </span>
       <label>Indice de complétude</label>
       <span class="Definition">

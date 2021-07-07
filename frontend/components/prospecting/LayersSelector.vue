@@ -1,4 +1,4 @@
-<!-- Refaire les switchers... -->
+<!-- Remplacer les switchers -->
 <template>
   <div v-click-outside="closeSelectBox" class="SelectLayerWrapper">
     <div class="SelectedLayerContent" @click="openOrCloseSelectBox">
