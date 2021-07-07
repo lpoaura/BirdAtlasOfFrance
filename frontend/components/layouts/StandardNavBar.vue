@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="NavBar">
     <nuxt-link to="/" class="ODFLogo">
       <img src="/nav-bar/ODF-logo-black.svg" />
     </nuxt-link>
@@ -8,7 +8,7 @@
         v-for="(item, index) in navItems"
         :key="index"
         :to="item.route"
-        class="NavItem"
+        class="NavBarItem"
         :class="[
           [item.route, `${item.route}/`].includes(
             `/${$route.path.substring(1).split('/')[0]}`
@@ -19,14 +19,14 @@
         >{{ item.label }}</nuxt-link
       >
     </nav>
-    <div class="HeaderIcons">
-      <!-- <nuxt-link :to="switchLocalePath('en')" class="ButtonsIcons" -->
-      <!-- <nuxt-link to="#" class="ButtonsIcons"
+    <div class="NavBarIconsMenu">
+      <!-- <nuxt-link :to="switchLocalePath('en')" class="NavBarIconsWrapper" -->
+      <!-- <nuxt-link to="#" class="NavBarIconsWrapper"
         ><img class="Icon" src="/nav-bar/language-FR-black.svg"
       /></nuxt-link> -->
-      <nuxt-link to="/about/contact" class="ButtonsIcons"
-        ><img class="Icon" src="/nav-bar/contact-black.svg"
-      /></nuxt-link>
+      <nuxt-link to="/about/contact" class="NavBarIconsWrapper">
+        <img class="NavBarIcon" src="/nav-bar/contact-black.svg" />
+      </nuxt-link>
     </div>
   </header>
 </template>
@@ -44,64 +44,19 @@ export default {
 
 <style scoped>
 header {
-  position: fixed;
-  z-index: 10;
   background: #fcfcfc;
-  width: 100%;
-  height: 68px;
-  padding: 0 5%;
   border-bottom: 1px solid rgba(57, 118, 90, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
-.ODFLogo {
-  flex: 1;
-  height: 50%;
-  display: flex;
-}
-
-nav {
-  flex: 2;
-  height: 40px;
-  align-self: flex-end;
-  display: flex;
-  justify-content: space-between;
-}
-
-.NavItem {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  text-decoration: none;
-  font-size: 14px;
-  line-height: 14px;
+.NavBarItem {
   color: #262626;
 }
 
-.NavItem.selected {
-  font-weight: bold;
-  border-bottom: 3px solid #262626;
+.NavBarItem.selected {
+  border-bottom-color: #262626;
 }
 
-.HeaderIcons {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.ButtonsIcons {
+.NavBarIconsWrapper {
   background: rgba(38, 38, 38, 0.1);
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  margin-left: 4%;
-  display: flex;
-}
-
-.Icon {
-  height: 16px;
-  margin: auto;
 }
 </style>

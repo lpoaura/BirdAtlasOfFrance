@@ -153,7 +153,7 @@ export default {
 }
 
 .ProtocolsCard.completeLists:hover {
-  background: rgba(238, 206, 37, 0.8);
+  background: rgba(238, 206, 37, 0.4);
 }
 
 .ProtocolsCardsIcon {
@@ -171,7 +171,6 @@ export default {
   color: #262626;
   text-align: center;
   margin-bottom: 4px;
-  transition: 0.3s;
 }
 
 .ProtocolsCardsSubtitle {

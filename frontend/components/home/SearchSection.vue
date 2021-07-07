@@ -4,7 +4,7 @@
       <div class="HomePictureGradient"></div>
       <div class="SearchContent">
         <header class="SearchText">
-          <h1 class="SearchTitle">
+          <h1 class="PlayfairDisplayTypo">
             Explorer l'Atlas<br />des Oiseaux de France
           </h1>
           <label class="SearchSubtitle">
@@ -121,16 +121,6 @@ export default {
   justify-content: space-between;
 }
 
-.SearchTitle {
-  font-family: 'Playfair Display', sans-serif;
-  font-style: normal;
-  font-weight: 900;
-  font-size: clamp(42px, 7vh, 56px);
-  line-height: clamp(50px, 8.4vh, 75px);
-  color: #fff;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-}
-
 .SearchSubtitle {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
@@ -172,8 +162,8 @@ a.Vocabulary:hover::after {
 }
 
 .SearchBar {
-  width: 70%;
-  height: clamp(46px, 24.5%, 72px);
+  width: 710px;
+  height: 60px;
 }
 
 .PictureAuthor {

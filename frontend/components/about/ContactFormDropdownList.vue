@@ -1,29 +1,29 @@
 <template>
-  <div class="SelectRelative">
+  <div class="ContactFormDropdownListRelative">
     <div
       v-click-outside="closeSelect"
-      class="SelectWrapper"
+      class="ContactFormDropdownListWrapper"
       :class="selectIsOpen ? 'open' : ''"
       :style="{ 'z-index': zIndex }"
     >
       <div
-        class="SelectedItem"
+        class="ContactFormDropdownSelectedOption"
         :class="[selectedItem ? '' : 'placeholder']"
         @click="openOrCloseSelect"
       >
         <span>{{ selectedItem ? selectedItem : defaultMessage }}</span>
         <img
-          class="SelectChevron"
+          class="ContactFormDropdownListChevron"
           :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
         />
       </div>
-      <div v-show="selectIsOpen" class="ResultsSplit"></div>
-      <div v-show="selectIsOpen" class="SelectItemsContent">
-        <div class="SelectItemsOverflow">
+      <div v-show="selectIsOpen" class="ContactFormDropdownResultsSplit"></div>
+      <div v-show="selectIsOpen" class="ContactFormDropdownOptionsContent">
+        <div class="ContactFormDropdownOptionsOverflow">
           <li
             v-for="(item, index) in itemsList"
             :key="index"
-            class="SelectItem"
+            class="ContactFormDropdownOption"
             @click="updateSelectedItem(item, index)"
           >
             {{ item }}
@@ -71,14 +71,14 @@ export default {
 </script>
 
 <style scoped>
-.SelectRelative {
+.ContactFormDropdownListRelative {
   position: relative;
   width: 626px;
   height: 32px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
-.SelectWrapper {
+.ContactFormDropdownListWrapper {
   position: absolute;
   background: #fcfcfc;
   width: 626px;
@@ -93,14 +93,14 @@ export default {
   color: #262626;
 }
 
-.SelectWrapper.open {
+.ContactFormDropdownListWrapper.open {
   border: 1px solid #eece25;
 }
 
-.SelectedItem {
+.ContactFormDropdownSelectedOption {
   width: 100%;
   height: 32px;
-  padding: 0 2%;
+  padding: 0 12px;
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
@@ -108,38 +108,38 @@ export default {
   cursor: pointer;
 }
 
-.SelectedItem.placeholder {
+.ContactFormDropdownSelectedOption.placeholder {
   color: rgba(38, 38, 38, 0.6);
 }
 
-.SelectChevron {
-  width: 7px;
+.ContactFormDropdownListChevron {
+  width: 8px;
 }
 
-.ResultsSplit {
+.ContactFormDropdownResultsSplit {
   width: 100%;
   height: 0;
   border: 0.5px solid rgba(38, 38, 38, 0.1);
 }
 
-.SelectItemsContent {
-  padding: 1% 0 1% 1%;
+.ContactFormDropdownOptionsContent {
+  padding: 6px 0 6px 6px;
 }
 
-.SelectItemsOverflow {
+.ContactFormDropdownOptionsOverflow {
   max-height: 166px;
   overflow-y: auto;
 }
 
-.SelectItem {
+.ContactFormDropdownOption {
   list-style: none;
   width: 100%;
-  padding: 1%;
+  padding: 6px;
   cursor: pointer;
   border-radius: 4px;
 }
 
-.SelectItem:hover {
+.ContactFormDropdownOption:hover {
   background: rgba(238, 206, 37, 0.4);
   font-weight: bold;
 }
