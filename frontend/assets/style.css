@@ -3,6 +3,7 @@
 /********** TYPOGRAPHY **********/
 
 .PlayfairDisplayTypo {
+  margin-bottom: 6px;
   font-family: 'Playfair Display', sans-serif;
   font-style: normal;
   font-weight: 900;
@@ -72,12 +73,16 @@ h6 {
   color: rgba(38, 38, 38, 0.6);
 }
 
+.white01 {
+  color: #fff;
+}
+
 .green01 {
   color: #39765a;
 }
 
-.fw-bold {
-  font-weight: bold;
+.fw-300 {
+  font-weight: 300;
 }
 
 .fw-500 {
@@ -88,8 +93,16 @@ h6 {
   font-weight: 600;
 }
 
+.fw-bold /* 700 */ {
+  font-weight: bold;
+}
+
 .italic {
   font-style: italic;
+}
+
+.text-center {
+  text-align: center;
 }
 
 /********** GLOBAL COMPONENTS **********/
@@ -103,18 +116,60 @@ div.container.container--fluid {
   margin-bottom: 0 !important;
 }
 
-.bottom-margin-20 {
-  margin-bottom: 20px !important;
+.bottom-margin-8 {
+  margin-bottom: 8px;
 }
+
+/* .bottom-margin-20 {
+  margin-bottom: 20px !important;
+} */
 
 .bottom-margin-40 {
   margin-bottom: 40px !important;
+}
+
+.right-margin-8 {
+  margin-right: 8px;
+}
+
+.right-margin-16 {
+  margin-right: 16px;
 }
 
 /* Links */
 .v-application a {
   color: #39765a;
   text-decoration: none;
+}
+
+a.Vocabulary {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  text-decoration: none;
+}
+
+a.Vocabulary:hover {
+  font-weight: bold;
+  color: #eece25;
+}
+
+a.Vocabulary::after {
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  bottom: 0;
+  background: rgba(238, 206, 37, 0.6);
+  content: '';
+  width: 100%;
+  height: 48%;
+  transition: 0.35s;
+}
+
+a.Vocabulary:hover::after {
+  bottom: 0;
+  height: 2px;
+  background: rgba(238, 206, 37, 1);
 }
 
 /* Buttons */
@@ -293,12 +348,8 @@ div.container.container--fluid {
 .MenuCard,
 .ProtocolCard {
   background: #efefef;
-
-  /* width: 22.9vw;
-  height: 100%;
-  margin: 12px; */
-
-  padding: 32px 24px;
+  margin: 12px;
+  padding: 12px 24px;
   text-decoration: none;
   display: flex;
   flex-direction: column;
@@ -306,16 +357,12 @@ div.container.container--fluid {
   align-items: center;
 }
 
-.CardIcon {
+.CardIcon /*À REVOIR */ {
   max-width: 120px;
-  height: 48px;
-  margin-bottom: 16px;
-}
-
-.CardTitle {
-  margin-bottom: 8px;
-  font-weight: 500;
-  text-align: center;
+  height: 40%;
+  min-height: 30px;
+  max-height: 48px;
+  margin-bottom: 1.2vh;
 }
 
 .CardSubtitle {
@@ -499,6 +546,7 @@ div.container.container--fluid {
 }
 
 /********** NAVBAR **********/
+
 .NavBar {
   position: fixed;
   z-index: 10;
@@ -510,10 +558,18 @@ div.container.container--fluid {
   justify-content: space-between;
 }
 
-.NavBar .ODFLogo {
+.NavBarODFLogoWrapper {
   flex: 1;
-  height: 50%;
   display: flex;
+}
+
+.NavBarODFLogoLink {
+  display: flex;
+  align-items: center;
+}
+
+.NavBar .ODFLogo {
+  height: 36px;
 }
 
 .NavBar nav {
@@ -531,7 +587,6 @@ div.container.container--fluid {
   text-decoration: none;
   font-size: 14px;
   line-height: 14px;
-  color: #fcfcfc;
 }
 
 .NavBarItem.selected {
@@ -550,13 +605,34 @@ div.container.container--fluid {
   width: 32px;
   height: 32px;
   border-radius: 4px;
-  margin-left: 4%;
+  margin-left: 12px;
   display: flex;
+}
+
+.NavBarIconsWrapper:first-child {
+  margin-left: 0;
 }
 
 .NavBarIcon {
   height: 16px;
   margin: auto;
+}
+
+.NavBarBurgerIcon {
+  display: none;
+}
+
+.NavBarCloseIcon {
+  height: 32px;
+  cursor: pointer;
+}
+
+/********** HOME PAGE **********/
+
+.HomeSection {
+  padding: 40px 5%;
+  display: flex;
+  flex-direction: column;
 }
 
 /********** INFORMATIVE PAGES **********/
@@ -865,11 +941,6 @@ div.container.container--fluid {
   flex-direction: column;
 }
 
-.ContactFormTitle {
-  font-weight: 600;
-  text-align: center;
-}
-
 /* Création d'une section ET d'un contenu : formulaire à largeur fixe et centré */
 .ContactFormSection,
 .ConfirmationSection {
@@ -903,12 +974,6 @@ div.container.container--fluid {
 
 .ContactFormAlertCloseIcon {
   cursor: pointer;
-}
-
-.ContactFormLabel {
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #000;
 }
 
 input.ContactFormInput {
@@ -949,4 +1014,61 @@ textarea.ContactFormTextarea {
 
 textarea.ContactFormTextarea:focus {
   border: 1px solid #eece25;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 920px) {
+  /********** GLOBAL COMPONENTS **********/
+
+  h4.CardTitle {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  /********** NAVBAR **********/
+
+  .NavBar nav {
+    display: none;
+  }
+
+  .NavBarIconsWrapper {
+    display: none;
+  }
+
+  .NavBarBurgerIcon {
+    display: flex;
+    height: 32px;
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  /********** TYPOGRAPHY **********/
+
+  .PlayfairDisplayTypo {
+    font-size: 28px;
+    line-height: 37px;
+  }
+
+  h2 {
+    font-size: 24px;
+    line-height: 36px;
+  }
+
+  h3 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  h4 {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  /********** HOME PAGE **********/
+
+  .HomeSection {
+    padding: 24px 5%;
+  }
 }

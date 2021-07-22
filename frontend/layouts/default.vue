@@ -1,4 +1,3 @@
-<!-- Faire une unique navbar -->
 <template>
   <v-app>
     <transition
@@ -21,9 +20,20 @@
           ) && !scrolled
         "
         :nav-items="navItems"
+        @showMobileMenu="showMobileMenu"
       />
-      <standard-nav-bar v-else :nav-items="navItems" />
+      <standard-nav-bar
+        v-else
+        :nav-items="navItems"
+        @showMobileMenu="showMobileMenu"
+      />
     </transition>
+    <mobile-menu
+      :display="displayMobileMenu"
+      :top-position="currentScroll"
+      :nav-items="navItems"
+      @hideMobileMenu="hideMobileMenu"
+    />
     <v-main>
       <nuxt />
     </v-main>
@@ -49,16 +59,20 @@
 <script>
 import TransparentNavBar from '~/components/layouts/TransparentNavBar.vue'
 import StandardNavBar from '~/components/layouts/StandardNavBar.vue'
+import MobileMenu from '~/components/layouts/MobileMenu.vue'
 import Footer from '~/components/layouts/Footer.vue'
 
 export default {
   components: {
     'transparent-nav-bar': TransparentNavBar,
     'standard-nav-bar': StandardNavBar,
+    'mobile-menu': MobileMenu,
     'app-footer': Footer,
   },
   data: () => ({
     scrolled: false,
+    displayMobileMenu: false,
+    currentScroll: 0,
   }),
   computed: {
     navItems() {
@@ -91,33 +105,26 @@ export default {
     },
   },
   beforeMount() {
-    window.addEventListener('scroll', this.debounce(this.handleScroll))
+    window.addEventListener('scroll', this.$debounce(this.handleScroll))
     if (this.detectMobile()) {
       this.$router.push('/mobile')
     }
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.debounce(this.handleScroll))
+    window.removeEventListener('scroll', this.$debounce(this.handleScroll))
   },
   methods: {
     detectMobile() {
       return window.innerWidth < 915
     },
-    debounce(fn) {
-      // This holds the requestAnimationFrame reference, so we can cancel it if we wish
-      let frame
-      // The debounce function returns a new function that can receive a variable number of arguments
-      return (...params) => {
-        // If the frame variable has been defined, clear it now, and queue for next frame
-        if (frame) {
-          cancelAnimationFrame(frame)
-        }
-        // Queue our function call for the next frame
-        frame = requestAnimationFrame(() => {
-          // Call our function and pass any params we received
-          fn(...params)
-        })
-      }
+    showMobileMenu() {
+      document.documentElement.style.overflow = 'hidden'
+      this.currentScroll = window.scrollY
+      this.displayMobileMenu = true
+    },
+    hideMobileMenu() {
+      this.displayMobileMenu = false
+      document.documentElement.style.overflow = 'auto'
     },
     handleScroll() {
       this.scrolled = window.scrollY > 0

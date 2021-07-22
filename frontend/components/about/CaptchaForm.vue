@@ -1,6 +1,6 @@
 <template>
   <div class="CaptchaContent">
-    <span class="ContactFormLabel">Test de sécurité</span>
+    <span class="black02 fw-500 bottom-margin-8">Test de sécurité</span>
     <div class="CaptchaInputsWrapper">
       <span class="CaptchaInstruction"
         >Veuillez recopier le code <b>{{ captchaRef }}</b> ci-après :</span

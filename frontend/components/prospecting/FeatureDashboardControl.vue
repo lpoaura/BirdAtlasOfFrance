@@ -823,7 +823,7 @@ menu,
   cursor: pointer;
 }
 
-.SeeMoreDataIcon {
+.SeeMoreDataChevron {
   height: 7px;
 }
 

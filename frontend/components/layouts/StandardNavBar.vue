@@ -1,8 +1,10 @@
 <template>
   <header class="NavBar">
-    <nuxt-link to="/" class="ODFLogo">
-      <img src="/nav-bar/ODF-logo-black.svg" />
-    </nuxt-link>
+    <div class="NavBarODFLogoWrapper">
+      <nuxt-link to="/" class="NavBarODFLogoLink">
+        <img class="ODFLogo" src="/nav-bar/ODF-logo-black.svg" />
+      </nuxt-link>
+    </div>
     <nav>
       <nuxt-link
         v-for="(item, index) in navItems"
@@ -27,6 +29,11 @@
       <nuxt-link to="/about/contact" class="NavBarIconsWrapper">
         <img class="NavBarIcon" src="/nav-bar/contact-black.svg" />
       </nuxt-link>
+      <img
+        class="NavBarBurgerIcon"
+        src="/nav-bar/burger-black.svg"
+        @click="showMobileMenu"
+      />
     </div>
   </header>
 </template>
@@ -37,6 +44,11 @@ export default {
     navItems: {
       type: Array,
       required: true,
+    },
+  },
+  methods: {
+    showMobileMenu() {
+      this.$emit('showMobileMenu')
     },
   },
 }
