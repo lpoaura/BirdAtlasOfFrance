@@ -95,6 +95,7 @@ export default {
     '~/plugins/generateCaptcha.js',
     '~/plugins/getPageTitle.js',
     '~/plugins/departmentsList.js',
+    '~/plugins/debounce.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

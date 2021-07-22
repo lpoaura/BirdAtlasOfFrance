@@ -2,27 +2,29 @@
   <v-container fluid>
     <header class="ContactFormHeader">
       <breadcrumb class="bottom-margin-40" />
-      <h3 v-show="!validForm" class="ContactFormTitle">
+      <h3 v-show="!validForm" class="fw-600 text-center">
         Je souhaite contacter un référent local
       </h3>
     </header>
     <section v-show="!validForm" class="ContactFormSection">
       <div class="ContactFormContent">
-        <span class="ContactFormLabel">Nom</span>
+        <span class="black02 fw-500 bottom-margin-8">Nom</span>
         <input
           v-model="userName"
           type="text"
           placeholder="Henri Martin"
           class="ContactFormInput"
         />
-        <span class="ContactFormLabel">Adresse email</span>
+        <span class="black02 fw-500 bottom-margin-8">Adresse email</span>
         <input
           v-model="userMail"
           type="email"
           placeholder="henri.martin@monmail.fr"
           class="ContactFormInput"
         />
-        <span class="ContactFormLabel">Qui souhaitez-vous contacter ?</span>
+        <span class="black02 fw-500 bottom-margin-8"
+          >Qui souhaitez-vous contacter ?</span
+        >
         <div class="SelectorMenu">
           <div
             v-for="(item, index) in coordinatorsList"
@@ -34,9 +36,12 @@
             {{ item }}
           </div>
         </div>
-        <span v-show="selectedCoordinator" class="ContactFormLabel"
-          >Département</span
+        <span
+          v-show="selectedCoordinator"
+          class="black02 fw-500 bottom-margin-8"
         >
+          Département
+        </span>
         <contact-form-dropdown-list
           v-show="selectedCoordinator"
           :z-index="4"
@@ -49,7 +54,7 @@
           class="GridFeatureContent"
         >
           <switch-button v-model="gridFeatureIsKnow"></switch-button>
-          <span class="ContactFormLabel no-bottom-margin">
+          <span class="black02 fw-500">
             Je connais le numéro de la maille à prospecter
           </span>
           <input
@@ -60,7 +65,9 @@
             placeholder="E080N638"
           />
         </div>
-        <span v-show="selectedCoordinator" class="ContactFormLabel"
+        <span
+          v-show="selectedCoordinator"
+          class="black02 fw-500 bottom-margin-8"
           >Message</span
         >
         <textarea

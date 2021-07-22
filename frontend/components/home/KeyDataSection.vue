@@ -1,77 +1,70 @@
 <template>
-  <section class="KeyDataSection">
-    <h2 class="KeyDataTitle">L'Atlas en quelques chiffres...</h2>
+  <section class="HomeSection">
+    <h2 class="fw-bold bottom-margin-40">L'Atlas en quelques chiffres</h2>
     <div class="KeyDataContent">
       <div class="KeyDataCard">
-        <div class="KeyDataBlock">
-          <img class="KeyDataBlockIcon" src="/home/species-number.svg" />
-          <div class="KeyDataBlockContent">
-            <span class="KeyDataBlockData">
-              {{ $thousandDelimiter(keyData.count_taxa.all_period) }}
-            </span>
-            <span class="KeyDataBlockText" style="text-align: center">
-              espèces recensées<br />sur la période 2019 - 2024
-            </span>
-          </div>
+        <div class="KeyDataColumn-1">
+          <img class="Column-1-Icon" src="/home/species-number.svg" />
+          <h2 class="black02 fw-bold">
+            {{ $thousandDelimiter(keyData.count_taxa.all_period) }}
+          </h2>
+          <span class="black02 text-center">
+            espèces recensées<br />sur la période 2019 - 2024
+          </span>
         </div>
-        <div class="KeyDataBlock">
-          <div class="KeyDataBlockDetails" style="height: 47%">
+        <div class="KeyDataColumn-2">
+          <div class="Column-2-Subcard">
             <img
-              class="KeyDataBlockDetailsIcon"
+              class="Column-2-Icon"
               src="/home/breeding-species-number.svg"
             />
-            <div class="KeyDataBlockDetailsContent">
-              <span class="KeyDataBlockDetailsData">
+            <div class="Column-2-LabelWrapper">
+              <h3 class="black02 fw-bold">
                 {{ $thousandDelimiter(keyData.count_taxa.breeding) }}
-              </span>
-              <span class="KeyDataBlockText">espèces nicheuses</span>
+              </h3>
+              <span class="black02">espèces nicheuses</span>
             </div>
           </div>
-          <div class="KeyDataBlockDetails" style="height: 47%">
-            <img
-              class="KeyDataBlockDetailsIcon"
-              src="/home/winter-species-number.svg"
-            />
-            <div class="KeyDataBlockDetailsContent">
-              <span class="KeyDataBlockDetailsData">
+          <div class="Column-2-Subcard">
+            <img class="Column-2-Icon" src="/home/winter-species-number.svg" />
+            <div class="Column-2-LabelWrapper">
+              <h3 class="black02 fw-bold">
                 {{ $thousandDelimiter(keyData.count_taxa.wintering) }}
-              </span>
-              <span class="KeyDataBlockText">espèces hivernantes</span>
+              </h3>
+              <span class="black02">espèces hivernantes</span>
             </div>
           </div>
         </div>
       </div>
       <div class="KeyDataCard">
-        <div class="KeyDataBlock">
-          <div class="KeyDataBlockIcon"><svg class="PieChartSvg"></svg></div>
-          <div class="KeyDataBlockContent">
-            <span class="KeyDataBlockData">
-              {{ $thousandDelimiter(totalProspectingHours) }}
-            </span>
-            <span class="KeyDataBlockText" style="text-align: center">
-              heures de prospection<br />sur la période 2019 - 2024
-            </span>
-          </div>
+        <div class="KeyDataColumn-1">
+          <div class="Column-1-Icon"><svg class="PieChartSvg"></svg></div>
+          <h2 class="black02 fw-bold">
+            {{ $thousandDelimiter(totalProspectingHours) }}
+          </h2>
+          <span class="black02 text-center">
+            heures de prospection<br />sur la période 2019 - 2024
+          </span>
         </div>
-        <div class="KeyDataBlock">
-          <div class="KeyDataBlockDetails" style="height: 30%">
+        <div class="KeyDataColumn-2">
+          <div class="Column-2-Subcard">
             <div
-              class="KeyDataBlockDetailsDot"
+              class="Column-2-Dot"
               :style="{ background: pieChartColors.breeding }"
             ></div>
-            <div class="KeyDataBlockDetailsContent">
-              <span class="KeyDataBlockText" style="font-weight: 500">
+            <div class="Column-2-LabelWrapper">
+              <span class="black02 fw-500">
                 {{ pieChartLabels.breeding }}
               </span>
-              <span class="KeyDataBlockText inline">
-                <div style="margin-right: 16px">
+              <span class="black02 inline">
+                <div class="right-margin-16">
                   {{
                     $toPercent(
                       keyData.prospecting_hours.breeding / totalProspectingHours
                     ) || 0
                   }}%
                 </div>
-                <div style="margin-right: 16px">|</div>
+                <div class="right-margin-16">|</div>
                 <div>
                   {{ $thousandDelimiter(keyData.prospecting_hours.breeding) }}
                   heures
@@ -79,17 +72,17 @@
               </span>
             </div>
           </div>
-          <div class="KeyDataBlockDetails" style="height: 30%">
+          <div class="Column-2-Subcard">
             <div
-              class="KeyDataBlockDetailsDot"
+              class="Column-2-Dot"
               :style="{ background: pieChartColors.wintering }"
             ></div>
-            <div class="KeyDataBlockDetailsContent">
-              <span class="KeyDataBlockText" style="font-weight: 500">
+            <div class="Column-2-LabelWrapper">
+              <span class="black02 fw-500">
                 {{ pieChartLabels.wintering }}
               </span>
-              <span class="KeyDataBlockText inline">
-                <div style="margin-right: 16px">
+              <span class="black02 inline">
+                <div class="right-margin-16">
                   {{
                     $toPercent(
                       keyData.prospecting_hours.wintering /
@@ -97,7 +90,7 @@
                     ) || 0
                   }}%
                 </div>
-                <div style="margin-right: 16px">|</div>
+                <div class="right-margin-16">|</div>
                 <div>
                   {{ $thousandDelimiter(keyData.prospecting_hours.wintering) }}
                   heures
@@ -105,17 +98,17 @@
               </span>
             </div>
           </div>
-          <div class="KeyDataBlockDetails" style="height: 30%">
+          <div class="Column-2-Subcard">
             <div
-              class="KeyDataBlockDetailsDot"
+              class="Column-2-Dot"
               :style="{ background: pieChartColors.other_period }"
             ></div>
-            <div class="KeyDataBlockDetailsContent">
-              <span class="KeyDataBlockText" style="font-weight: 500">
+            <div class="Column-2-LabelWrapper">
+              <span class="black02 fw-500">
                 {{ pieChartLabels.other_period }}
               </span>
-              <span class="KeyDataBlockText inline">
-                <div style="margin-right: 16px">
+              <span class="black02 inline">
+                <div class="right-margin-16">
                   {{
                     $toPercent(
                       keyData.prospecting_hours.other_period /
@@ -123,7 +116,7 @@
                     ) || 0
                   }}%
                 </div>
-                <div style="margin-right: 16px">|</div>
+                <div class="right-margin-16">|</div>
                 <div>
                   {{
                     $thousandDelimiter(keyData.prospecting_hours.other_period)
@@ -183,7 +176,7 @@ export default {
         this.keyData = data
         // Get pie chart size
         const pieChartHeight = parseFloat(
-          d3.select('.KeyDataBlockIcon').style('height')
+          d3.select('.Column-1-Icon').style('height')
         )
         // Get pie chart svg and set size
         const pieChartSvg = d3
@@ -242,116 +235,122 @@ export default {
 </script>
 
 <style scoped>
-.KeyDataSection {
-  width: 100%;
-
-  /* À modifier en : padding: 3.5% 5%; */
-  padding: 0 5% 1% 5%;
-  display: flex;
-  flex-direction: column;
-}
-
-.KeyDataTitle {
-  margin-bottom: 20px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 32px;
-  line-height: 48px;
-}
-
 .KeyDataContent {
   display: flex;
   justify-content: space-between;
 }
 
 .KeyDataCard {
-  background: rgba(57, 118, 90, 0.1);
+  background: #eef3ef;
   width: 49%;
-  height: 354px;
+  padding: 24px;
   border-radius: 12px;
-
-  /* padding: 1.8% 2.5%; */
-  padding: 1.6vw 1.6vw;
   display: flex;
   justify-content: space-between;
 }
 
-.KeyDataBlock {
+.KeyDataColumn-1,
+.KeyDataColumn-2 {
   width: 49%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.KeyDataColumn-1 {
+  justify-content: center;
+}
+
+.KeyDataColumn-2 {
   justify-content: space-between;
-  align-items: center;
 }
 
-.KeyDataBlockIcon {
+.Column-1-Icon {
   height: 188px;
-  margin-top: 16px;
+  margin-bottom: 24px;
 }
 
-.KeyDataBlockContent {
-  height: 92px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.KeyDataBlockData {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 32px;
-  line-height: 48px;
-}
-
-.KeyDataBlockText {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-}
-
-.KeyDataBlockText.inline {
-  display: flex;
-}
-
-.KeyDataBlockDetails {
+.Column-2-Subcard {
+  flex: 1;
   background: rgba(57, 118, 90, 0.1);
   width: 100%;
+  padding: 12px 24px;
+  margin-bottom: 16px;
   border-radius: 8px;
-  padding-left: 10%;
-  padding-right: 2%;
   display: flex;
   align-items: center;
 }
 
-.KeyDataBlockDetailsIcon {
-  height: 52px;
-  margin-right: 8%;
+.Column-2-Subcard:last-child {
+  margin-bottom: 0;
 }
 
-.KeyDataBlockDetailsDot {
+.Column-2-Icon {
+  height: 52px;
+  margin-right: 16px;
+}
+
+.Column-2-Dot {
   min-width: 12px;
   max-width: 12px;
   min-height: 12px;
   max-height: 12px;
   border-radius: 50%;
-  margin-right: 8%;
+  margin-right: 16px;
 }
 
-.KeyDataBlockDetailsContent {
+.Column-2-LabelWrapper {
   display: flex;
   flex-direction: column;
 }
 
-.KeyDataBlockDetailsData {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 36px;
+span.inline {
+  display: flex;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 1070px) {
+  h2.bottom-margin-40 {
+    margin-bottom: 24px !important;
+  }
+
+  .KeyDataContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .KeyDataCard {
+    width: 100%;
+    margin-bottom: 24px;
+  }
+
+  .KeyDataCard:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 612px) {
+  .KeyDataCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .KeyDataColumn-1 {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .KeyDataColumn-2 {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .Column-2-Subcard {
+    padding: 16px;
+    justify-content: center;
+  }
 }
 </style>

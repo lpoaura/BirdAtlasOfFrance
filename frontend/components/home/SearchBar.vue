@@ -225,7 +225,7 @@ export default {
 }
 
 .AutocompleteResultsSplit {
-  width: 676px;
+  width: calc(100% - 34px);
   margin-left: 34px;
 }
 
@@ -241,5 +241,100 @@ export default {
 
 .AutocompleteNoResults {
   padding: 3px 17px;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 680px) {
+  .AutocompleteWrapper input {
+    height: 50px;
+    padding-left: 20px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .AutocompleteGadgets {
+    height: 50px;
+    padding: 0 8px;
+  }
+
+  .AutocompleteCloseIconWrapper {
+    width: 16px;
+    height: 16px;
+  }
+
+  .AutocompleteSearchSplit {
+    height: 32px;
+    margin-left: 10px;
+  }
+
+  .AutocompleteDropdownWrapper {
+    width: 96px;
+  }
+
+  .AutocompleteDropdownSelectedOption {
+    height: 50px;
+    padding: 0 16px;
+  }
+
+  h4.fw-500 {
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: normal;
+  }
+
+  .AutocompleteDropdownChevron {
+    width: 8px;
+  }
+
+  .AutocompleteDropdownOptionsBox {
+    padding: 8px;
+  }
+
+  .DropdownOption {
+    padding: 6px 8px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .AutocompleteSearchIconWrapper {
+    width: 34px;
+    height: 34px;
+  }
+
+  .AutocompleteSearchIcon {
+    height: 14px;
+  }
+
+  .AutocompleteResultsSplit {
+    width: calc(100% - 20px);
+    margin-left: 20px;
+  }
+
+  .AutocompleteResults {
+    padding: 10px;
+  }
+
+  .AutocompleteResultsOption {
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  span.AutocompleteNoResults {
+    padding: 0 10px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .AutocompleteCloseIconWrapper {
+    display: none;
+  }
+
+  .AutocompleteSearchSplit {
+    margin-left: 0;
+  }
 }
 </style>

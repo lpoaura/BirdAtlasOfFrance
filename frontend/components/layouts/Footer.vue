@@ -1,33 +1,45 @@
 <template>
   <footer>
-    <img class="ODFLogo" src="/ODF-logo-filled.svg" />
-    <div class="SocialNetworksContent">
-      <a
-        v-for="(item, index) in socialNetworksItems"
-        :key="index"
-        :href="item.link"
-        target="_blank"
-        class="SocialNetworksItem"
-      >
-        <img class="SocialNetworksIcon" :src="item.icon" />
-      </a>
-    </div>
-    <div class="LinksContent">
-      <nuxt-link
-        v-for="(link, index) in links"
-        :key="index"
-        :to="link.route"
-        class="Link"
-      >
-        {{ link.label }}
-      </nuxt-link>
+    <div class="MenuWrapper">
+      <img class="ODFLogo" src="/ODF-logo-filled.svg" />
+      <div class="LinksWrapper">
+        <div class="InternalLinksContent">
+          <nuxt-link
+            v-for="(link, index) in links"
+            :key="index"
+            :to="link.route"
+            class="InternalLink"
+          >
+            <span class="fw-500">{{ link.label }}</span>
+          </nuxt-link>
+          <a href="http://eepurl.com/hi6NPj" target="_blank">
+            <span class="fw-500">Newsletter</span>
+          </a>
+        </div>
+        <div class="Split"></div>
+        <div class="SocialNetworksContent">
+          <a
+            v-for="(item, index) in socialNetworksItems"
+            :key="index"
+            :href="item.link"
+            target="_blank"
+            class="SocialNetworksWrapper"
+          >
+            <img class="SocialNetworkIcon" :src="item.icon" />
+          </a>
+        </div>
+      </div>
     </div>
     <section class="LPOSection">
-      <img class="LPOLogo" src="/LPO-logo.svg" />
-      <div class="LPOText">
-        <span> Oiseaux de France est un projet porté par la LPO </span>
-        <span>2021, Oiseaux de France, tous droits réservés</span>
+      <div class="LPOCard">
+        <h5 class="LPOLogoAside">
+          Oiseaux de France est un <br />projet porté par la LPO
+        </h5>
+        <img class="LPOLogo" src="/LPO-logo.svg" />
       </div>
+      <h6 class="right-margin-8">
+        2021, Oiseaux de France, tous droits réservés
+      </h6>
     </section>
   </footer>
 </template>
@@ -39,8 +51,6 @@ export default {
       { label: 'À propos', route: '/about' },
       { label: 'Contact', route: '/about/contact' },
       { label: 'Mentions légales', route: '/about/legal-notices' },
-      // À REVOIR
-      { label: 'Newsletter', route: '#' },
     ],
     socialNetworksItems: [
       {
@@ -51,6 +61,10 @@ export default {
         icon: '/youtube.svg',
         link: 'https://www.youtube.com/channel/UCFTACrbTuk_XdbWFYf0SYxw',
       },
+      {
+        icon: '/github.svg',
+        link: 'https://github.com/lpoaura/BirdAtlasOfFrance',
+      },
     ],
   }),
 }
@@ -59,80 +73,95 @@ export default {
 <style scoped>
 footer {
   width: 100%;
-  height: 186px;
-  padding: 0 5%;
+  padding: 40px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.MenuWrapper {
+  display: flex;
+  align-items: center;
+}
+
 .ODFLogo {
   height: 100px;
+  margin-right: 50px;
+}
+
+.LinksWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.InternalLinksContent {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.InternalLink {
+  margin-right: 32px;
+}
+
+.Split {
+  width: 100%;
+  height: 0;
+  margin-bottom: 16px;
+  border: 1px solid rgba(38, 38, 38, 0.1);
 }
 
 .SocialNetworksContent {
-  height: 100px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
-.SocialNetworksItem {
-  background: rgba(57, 118, 90, 0.1);
-  min-width: 40px;
-  max-width: 40px;
-  min-height: 40px;
-  max-height: 40px;
+.SocialNetworksWrapper {
+  background: linear-gradient(
+      rgba(107, 131, 120, 0.1),
+      rgba(107, 131, 120, 0.1)
+    ),
+    white;
+  min-width: 36px;
+  max-width: 36px;
+  min-height: 36px;
+  max-height: 36px;
+  margin-right: 32px;
   border-radius: 50%;
   display: flex;
 }
 
-.SocialNetworksIcon {
-  width: 20px;
+.InternalLink:last-child,
+.SocialNetworksWrapper:last-child {
+  margin-right: 0;
+}
+
+.SocialNetworkIcon {
+  width: 18px;
   margin: auto;
 }
 
-.LinksContent {
-  height: 100px;
+.LPOSection {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: flex-end;
 }
 
-.Link {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 18px;
-  text-decoration: none;
-  color: #262626;
-}
-
-.LPOSection {
+.LPOCard {
   background: rgba(38, 38, 38, 0.1);
-  height: 100px;
-  padding: 24px 3%;
+  padding: 16px 24px;
+  margin-bottom: 5px;
   border-radius: 8px;
   display: flex;
   align-items: center;
 }
 
 .LPOLogo {
-  height: 100%;
-  margin-right: 30px;
+  height: 48px;
+  margin-left: 16px;
 }
 
-.LPOText {
-  height: 100%;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  color: #262626;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.LPOLogoAside {
+  line-height: 21px;
+  text-align: right;
 }
 </style>
