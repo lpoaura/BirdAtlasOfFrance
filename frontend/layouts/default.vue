@@ -105,13 +105,13 @@ export default {
     },
   },
   beforeMount() {
-    window.addEventListener('scroll', this.$debounce(this.handleScroll))
+    window.addEventListener('scroll', this.listener)
     if (this.detectMobile()) {
       this.$router.push('/mobile')
     }
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.$debounce(this.handleScroll))
+    window.removeEventListener('scroll', this.listener)
   },
   methods: {
     detectMobile() {
@@ -125,6 +125,9 @@ export default {
     hideMobileMenu() {
       this.displayMobileMenu = false
       document.documentElement.style.overflow = 'auto'
+    },
+    listener() {
+      this.$debounce(this.handleScroll())
     },
     handleScroll() {
       this.scrolled = window.scrollY > 0

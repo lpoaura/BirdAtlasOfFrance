@@ -1,8 +1,8 @@
 <template>
-  <main class="SearchSection">
+  <main class="TopSection">
     <div class="HomePicture">
       <div class="HomePictureGradient"></div>
-      <div class="SearchContent">
+      <div class="TopSectionContent">
         <header>
           <h1 class="PlayfairDisplayTypo">
             Explorer l'Atlas<br />des Oiseaux de France
@@ -69,10 +69,7 @@ export default {
 </script>
 
 <style scoped>
-.SearchSection {
-  position: relative;
-  width: 100%;
-
+.TopSection {
   /* height: clamp(580px, 94vh, 784px); */
   min-height: 580px;
   height: 94vh;
@@ -104,23 +101,13 @@ export default {
   height: 60%;
 }
 
-.SearchContent {
-  position: absolute;
-  z-index: 5;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+.TopSectionContent {
   width: 64%;
   min-width: 820px;
   max-width: 1020px;
   height: 48%;
   min-height: 272px;
   max-height: 282px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .SearchBar /* Évite que la barre de recherche ne remonte (car position: absolute) */ {
@@ -156,6 +143,13 @@ export default {
   flex: 1;
 }
 
+.CardIcon {
+  height: 40%;
+  min-height: 30px;
+  max-height: 48px;
+  margin-bottom: 1.2vh;
+}
+
 /********** RESPONSIVE **********/
 
 @media screen and (max-width: 920px) {
@@ -168,7 +162,7 @@ export default {
       url('/home/home-picture.jpg') 66% / cover, #3957a4;
   }
 
-  .SearchContent {
+  .TopSectionContent {
     width: 86%;
     min-width: 0;
   }
@@ -178,14 +172,14 @@ export default {
     max-width: 710px;
   }
 
-  /* h4.CardTitle {
+  h4.CardTitle {
     font-size: 14px;
     line-height: 21px;
-  } */
+  }
 }
 
 @media screen and (max-width: 680px) {
-  .SearchSection {
+  .TopSection {
     height: 380px;
     min-height: 0;
   }
@@ -204,7 +198,7 @@ export default {
     height: 100%;
   }
 
-  .SearchContent {
+  .TopSectionContent {
     height: 56%;
     min-height: 202px;
   }
@@ -229,7 +223,7 @@ export default {
 }
 
 @media screen and (max-width: 340px) {
-  .SearchContent {
+  .TopSectionContent {
     min-height: 240px;
   }
 }

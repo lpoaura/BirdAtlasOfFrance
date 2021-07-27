@@ -1,7 +1,7 @@
 <!-- Remplacer le nombre d'actualités par items.length -->
 <template>
-  <section class="HomeSection">
-    <div class="HomeSectionHeader">
+  <section class="Section">
+    <div class="SectionHeader">
       <h2 class="fw-bold">Actualités</h2>
       <div class="CarouselNavWrapper">
         <img
@@ -54,15 +54,18 @@ export default {
     },
   },
   beforeMount() {
-    window.addEventListener('resize', this.$debounce(this.detectResize))
+    window.addEventListener('resize', this.listener)
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.$debounce(this.detectResize))
+    window.removeEventListener('resize', this.listener)
   },
   mounted() {
     this.maxOffset = this.calculateMaxOffset()
   },
   methods: {
+    listener() {
+      this.$debounce(this.detectResize())
+    },
     detectResize() {
       clearTimeout(this.resizeId)
       this.resizeId = setTimeout(this.resizingDone, 200)
@@ -127,11 +130,11 @@ export default {
 </script>
 
 <style scoped>
-.HomeSection {
+.Section {
   background: rgba(57, 118, 90, 0.1);
 }
 
-.HomeSectionHeader {
+.SectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;

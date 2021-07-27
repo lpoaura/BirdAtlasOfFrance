@@ -18,11 +18,11 @@
         >
           <h4 class="fw-500">{{ selectedType.label }}</h4>
           <img
-            class="AutocompleteDropdownChevron"
+            class="DropdownChevron"
             :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
           />
         </div>
-        <div v-show="selectIsOpen" class="AutocompleteDropdownOptionsBox">
+        <div v-show="selectIsOpen" class="DropdownOptionsBox">
           <li
             v-for="(type, index) in typeList"
             :key="index"
@@ -206,12 +206,18 @@ export default {
   padding: 0 30px;
 }
 
-.AutocompleteDropdownChevron {
+.DropdownChevron {
   width: 10px;
 }
 
-.AutocompleteDropdownOptionsBox {
+.DropdownOptionsBox {
   padding: 12px;
+}
+
+.DropdownOption {
+  padding: 10px 18px;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .AutocompleteSearchIconWrapper {
@@ -283,11 +289,11 @@ export default {
     font-weight: normal;
   }
 
-  .AutocompleteDropdownChevron {
+  .DropdownChevron {
     width: 8px;
   }
 
-  .AutocompleteDropdownOptionsBox {
+  .DropdownOptionsBox {
     padding: 8px;
   }
 

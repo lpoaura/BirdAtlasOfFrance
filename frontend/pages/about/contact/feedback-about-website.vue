@@ -25,7 +25,7 @@
         <span class="black02 fw-500 bottom-margin-8"
           >À quel sujet souhaitez-vous nous contacter ?</span
         >
-        <div class="SelectorMenu">
+        <menu class="SelectorMenu">
           <div
             v-for="(item, index) in subjectsList"
             :key="index"
@@ -35,7 +35,7 @@
           >
             {{ item }}
           </div>
-        </div>
+        </menu>
         <span class="black02 fw-500 bottom-margin-8">Message</span>
         <textarea
           v-model="userMessage"
