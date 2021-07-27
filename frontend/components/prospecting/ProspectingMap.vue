@@ -195,7 +195,7 @@ export default {
     // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     url:
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    attribution: 'OSM',
+    attribution: '© les contributeurs d’OpenStreetMap',
     envelope: null,
     initTerritory: null,
     disableScrollPropagation: true,

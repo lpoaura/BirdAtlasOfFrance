@@ -1,40 +1,49 @@
 <template>
   <v-container fluid>
-    <section class="IntroSection">
+    <main class="TopSection">
       <div class="BackgroundPicture">
-        <header class="IntroContent">
-          <h1 class="IntroTitle">Participer via les dispositifs de suivi</h1>
-          <h4 class="IntroSubtitle">
+        <header class="TopSectionContent">
+          <h1 class="white02 fw-bold text-center bottom-margin-16">
+            Participer via les dispositifs de suivi
+          </h1>
+          <h4 class="white01 fw-500 text-center text-shadow">
             Déterminer les <b>tendances</b> d'évolution et les
-            <b>effectifs</b> chez les oiseaux<br />nécessite l'utilisation de
-            dispositifs de suivi <b>adaptés</b>.
+            <b>effectifs</b> chez les oiseaux <br class="br" />nécessite
+            l'utilisation de dispositifs de suivi <b>adaptés</b>.
           </h4>
         </header>
       </div>
-    </section>
-    <menu>
-      <span
-        v-for="(item, index) in menuItems"
-        :key="index"
-        :to="item.route"
-        class="MenuItem"
-        :class="[item.label === selectedSpeciesGroup ? 'selected' : '']"
-        @click="updateSelectedSpeciesGroup(item)"
-      >
-        {{ item.label }}
-      </span>
-    </menu>
-    <section class="ProtocolsSection">
+    </main>
+    <section class="Section">
+      <menu class="TabMenu">
+        <span
+          v-for="(item, index) in menuItems"
+          :key="index"
+          :to="item.route"
+          class="TabItem"
+          :class="[item.label === selectedSpeciesGroup ? 'selected' : '']"
+          @click="updateSelectedSpeciesGroup(item)"
+        >
+          {{ item.label }}
+        </span>
+      </menu>
+      <dropdown-list
+        v-model="selectedSpeciesGroup"
+        :z-index="1"
+        :items-list="itemsList"
+      />
       <protocols-cards :species-group-filter="selectedSpeciesGroup" />
     </section>
   </v-container>
 </template>
 
 <script>
+import DropdownList from '~/components/global/DropdownList.vue'
 import ProtocolsCards from '~/components/get-involved/ProtocolsCards.vue'
 
 export default {
   components: {
+    'dropdown-list': DropdownList,
     'protocols-cards': ProtocolsCards,
   },
   data: () => ({
@@ -45,9 +54,13 @@ export default {
       { label: "Oiseaux d'eau", route: '#water-birds' },
       // { label: 'autres', route: '#other-birds' },
     ],
-    // selectedMenuItem: '',
     selectedSpeciesGroup: 'Tous les dispositifs',
   }),
+  computed: {
+    itemsList() {
+      return this.menuItems.map((item) => item.label)
+    },
+  },
   // mounted() {
   //   this.selectedMenuItem = this.$route.hash
   // },
@@ -67,9 +80,7 @@ export default {
 </script>
 
 <style scoped>
-.IntroSection {
-  position: relative;
-  width: 100%;
+.TopSection {
   height: 336px;
 }
 
@@ -89,83 +100,39 @@ export default {
   display: flex;
 }
 
-.IntroContent {
-  position: absolute;
-  z-index: 5;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 100%;
-  height: 30%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.TopSectionContent {
+  width: 90%;
+  height: 40%;
+}
+
+.Section {
+  padding: 32px 5% 40px 5%;
   align-items: center;
 }
 
-.IntroTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 40px;
-  line-height: 60px;
-  text-align: center;
-  color: #fcfcfc;
+.TabMenu {
+  margin-bottom: 32px;
 }
 
-.IntroSubtitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  text-align: center;
-  color: #fff;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+.DropdownListWrapper {
+  display: none;
 }
 
-.ProtocolsSection {
-  padding-left: 4vw;
-  padding-bottom: 1%;
-}
+@media screen and (max-width: 680px) {
+  .TopSection {
+    height: 270px;
+  }
 
-.ProtocolsTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 32px;
-  line-height: 48px;
-  margin-left: 1.6vw;
-  margin-bottom: 1.6vw;
-}
+  .br {
+    display: none;
+  }
 
-menu {
-  height: 100%;
-  margin: 30px 0;
-  display: flex;
-  justify-content: center;
-}
+  .TabMenu {
+    display: none;
+  }
 
-.MenuItem {
-  border-radius: 8px;
-  padding: 10px 20px;
-  margin: 0 3px;
-  cursor: pointer;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  text-decoration: none;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
-  white-space: nowrap;
-}
-
-.MenuItem.selected {
-  background: rgba(57, 118, 90, 0.1);
-  font-weight: bold;
-  color: #39765a;
+  .DropdownListWrapper {
+    display: block;
+  }
 }
 </style>

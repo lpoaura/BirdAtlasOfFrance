@@ -25,7 +25,7 @@
         <span class="black02 fw-500 bottom-margin-8"
           >Qui souhaitez-vous contacter ?</span
         >
-        <div class="SelectorMenu">
+        <menu class="SelectorMenu">
           <div
             v-for="(item, index) in coordinatorsList"
             :key="index"
@@ -35,7 +35,7 @@
           >
             {{ item }}
           </div>
-        </div>
+        </menu>
         <span
           v-show="selectedCoordinator"
           class="black02 fw-500 bottom-margin-8"

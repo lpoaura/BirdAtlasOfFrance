@@ -1,5 +1,5 @@
 <template>
-  <section class="HomeSection">
+  <section class="Section">
     <h2 class="fw-bold bottom-margin-40">L'Atlas en quelques chiffres</h2>
     <div class="KeyDataContent">
       <div class="KeyDataCard">

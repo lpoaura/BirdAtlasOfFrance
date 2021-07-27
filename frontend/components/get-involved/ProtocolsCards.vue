@@ -1,24 +1,26 @@
 <template>
-  <div class="ProtocolsCardsContent">
+  <div class="ProtocolsCardsGrid">
     <nuxt-link
       v-for="(card, index) in resultsCards"
       :key="index"
       :to="card.route"
-      class="ProtocolsCard"
+      class="ProtocolCard"
       :class="[
         card.title === 'Listes complètes et données ponctuelles'
-          ? 'completeLists'
+          ? 'special'
           : '',
       ]"
     >
-      <img v-if="card.icon" class="ProtocolsCardsIcon" :src="card.icon" />
-      <h6 class="ProtocolsCardsTitle">{{ card.title }}</h6>
-      <span v-if="card.subtitle" class="ProtocolsCardsSubtitle">{{
-        card.subtitle
-      }}</span>
+      <img v-if="card.icon" class="CardIcon" :src="card.icon" />
+      <h4 class="CardTitle fw-500 text-center bottom-margin-8">
+        {{ card.title }}
+      </h4>
+      <h5 v-if="card.subtitle" class="CardSubtitle black03 text-center">
+        {{ card.subtitle }}
+      </h5>
       <span
         v-if="card.season"
-        class="ProtocolsCardsChip"
+        class="Badge"
         :class="[card.season === 'Reproduction' ? 'breeding' : 'wintering']"
       >
         {{ card.season }}
@@ -127,93 +129,29 @@ export default {
 </script>
 
 <style scoped>
-.ProtocolsCardsContent {
-  display: flex;
-  flex-wrap: wrap;
+.ProtocolsCardsGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 24px;
 }
 
-.ProtocolsCard {
-  background: #efefef;
-  width: 17vw;
-  height: 230px;
-  border-radius: 8px;
-  margin-right: 1.45vw;
-  margin-bottom: 1.45vw;
-  padding: 0 2%;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: 0.3s;
-}
+/********** RESPONSIVE **********/
 
-.ProtocolsCard.completeLists {
-  background: rgba(238, 206, 37, 0.2);
-}
+@media screen and (max-width: 680px) {
+  .ProtocolsCardsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-gap: 16px;
+  }
 
-.ProtocolsCard.completeLists:hover {
-  background: rgba(238, 206, 37, 0.4);
-}
+  .ProtocolCard {
+    height: 210px;
+    padding: 0 12px;
+  }
 
-.ProtocolsCardsIcon {
-  max-width: 120px;
-  height: 48px;
-  margin-bottom: 12px;
-}
-
-.ProtocolsCardsTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #262626;
-  text-align: center;
-  margin-bottom: 4px;
-}
-
-.ProtocolsCardsSubtitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  text-align: center;
-  color: rgba(38, 38, 38, 0.6);
-  transition: 0.3s;
-}
-
-.ProtocolsCard:hover .ProtocolsCardsSubtitle {
-  margin-bottom: 12px;
-}
-
-.ProtocolsCardsChip {
-  opacity: 0;
-  border-radius: 61px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 0;
-  font-size: 0;
-  line-height: 0;
-  transition: 0.3s;
-}
-
-.ProtocolsCardsChip.breeding {
-  background: #fb7971;
-  color: #000;
-}
-
-.ProtocolsCardsChip.wintering {
-  background: #9eb9ff;
-  color: #fcfcfc;
-}
-
-.ProtocolsCard:hover .ProtocolsCardsChip {
-  opacity: 1;
-  padding: 2.5% 8%;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 18px;
+  h4.CardTitle {
+    font-size: 16px;
+    line-height: 24px;
+  }
 }
 </style>

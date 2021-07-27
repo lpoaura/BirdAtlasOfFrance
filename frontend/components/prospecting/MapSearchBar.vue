@@ -26,11 +26,11 @@
         >
           <h5 class="fw-500">{{ selectedType.label }}</h5>
           <img
-            class="AutocompleteDropdownChevron"
+            class="DropdownChevron"
             :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
           />
         </div>
-        <div v-show="selectIsOpen" class="AutocompleteDropdownOptionsBox">
+        <div v-show="selectIsOpen" class="DropdownOptionsBox">
           <li
             v-for="(type, index) in typeList"
             :key="index"
@@ -243,11 +243,11 @@ export default {
   padding: 0 16px;
 }
 
-.AutocompleteDropdownChevron {
+.DropdownChevron {
   width: 7px;
 }
 
-.AutocompleteDropdownOptionsBox {
+.DropdownOptionsBox {
   padding: 8px;
 }
 
