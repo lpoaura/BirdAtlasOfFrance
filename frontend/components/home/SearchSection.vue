@@ -70,10 +70,13 @@ export default {
 
 <style scoped>
 .TopSection {
+  position: relative;
+
   /* height: clamp(580px, 94vh, 784px); */
   min-height: 580px;
   height: 94vh;
   max-height: 784px;
+  align-items: flex-start;
 }
 
 .HomePicture {
@@ -102,6 +105,13 @@ export default {
 }
 
 .TopSectionContent {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
   width: 64%;
   min-width: 820px;
   max-width: 1020px;

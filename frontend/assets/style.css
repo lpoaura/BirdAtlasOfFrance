@@ -150,6 +150,12 @@ div.container.container--fluid {
   text-decoration: none;
 }
 
+.v-application .nuxt-content a {
+  font-weight: 600;
+  color: #39765a;
+  text-decoration: underline;
+}
+
 a.Vocabulary {
   position: relative;
   overflow: hidden;
@@ -306,7 +312,8 @@ a.Vocabulary:hover::after {
 /* Tab, Selector & Chip menus */
 .TabMenu,
 .SelectorMenu,
-.ChipMenu {
+.ChipMenu,
+.TagMenu {
   margin-bottom: 24px;
   display: flex;
 }
@@ -409,7 +416,7 @@ a.Vocabulary:hover::after {
   transition: 0.3s;
 }
 
-.CardSubtitle {
+.ProtocolCard .CardSubtitle {
   transition: 0.3s;
 }
 
@@ -425,8 +432,23 @@ a.Vocabulary:hover::after {
   background: rgba(238, 206, 37, 0.4);
 }
 
-.PictureCard {
-  border-radius: 24px;
+.NewsCard {
+  background: #fcfcfc;
+  padding: 16px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.CardPicture {
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
+
+.CardMetadata {
+  display: flex;
 }
 
 /* Badges */
@@ -465,6 +487,25 @@ a.Vocabulary:hover::after {
   font-weight: normal;
   font-size: 12px;
   line-height: 18px;
+}
+
+/* Tags */
+
+.Tag {
+  background: rgba(57, 118, 90, 0.1);
+  padding: 8px 16px;
+  margin-right: 8px;
+  border-radius: 32px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #000;
+}
+
+.Tag:last-child {
+  margin-right: 0;
 }
 
 /* Search bars */
@@ -648,18 +689,12 @@ a.Vocabulary:hover::after {
 /********** MAIN PAGES **********/
 
 .TopSection {
-  position: relative;
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .TopSectionContent {
-  position: absolute;
-  z-index: 5;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -684,9 +719,15 @@ a.Vocabulary:hover::after {
   width: 100%;
 }
 
+/* AJOUTER LE CSS DE nuxt-content DANS LA PARTIE TYPOGRAPHIE */
 .InformativePageContent,
 .nuxt-content {
   width: 100%;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -716,23 +757,23 @@ a.Vocabulary:hover::after {
   flex-direction: column;
   align-items: center;
 
-  /* Text */
+  /* Text 
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
-  line-height: 21px;
+  line-height: 21px; */
   color: #000;
 }
 
-.InformativePageSection .nuxt-content p {
+.nuxt-content p {
   width: 100%;
   margin-bottom: 20px;
 }
 
 .nuxt-content ul {
   width: 100%;
-  margin-top: -15px;
+  margin-top: -10px;
   margin-bottom: 20px;
 }
 
@@ -1104,5 +1145,11 @@ textarea.ContactFormTextarea:focus {
 
   .Section {
     padding: 24px 5%;
+  }
+
+  .NewsCard span,
+  .NewsCard .nuxt-content {
+    font-size: 12px;
+    line-height: 18px;
   }
 }

@@ -10,10 +10,10 @@
             :to="link.route"
             class="InternalLink"
           >
-            <span class="fw-500">{{ link.label }}</span>
+            <h5 class="fw-500">{{ link.label }}</h5>
           </nuxt-link>
           <a href="http://eepurl.com/hi6NPj" target="_blank">
-            <span class="fw-500">Newsletter</span>
+            <h5 class="fw-500">Newsletter</h5>
           </a>
         </div>
         <div class="Split"></div>
@@ -31,15 +31,10 @@
       </div>
     </div>
     <section class="LPOSection">
-      <div class="LPOCard">
-        <h5 class="LPOLogoAside">
-          Oiseaux de France est un <br />projet porté par la LPO
-        </h5>
-        <img class="LPOLogo" src="/LPO-logo.svg" />
-      </div>
-      <h6 class="right-margin-8">
-        2021, Oiseaux de France, tous droits réservés
-      </h6>
+      <h5 class="LPOLogoAside">
+        Oiseaux de France est<br />un projet porté par
+      </h5>
+      <img class="LPOLogo" src="/LPO-logo.svg" />
     </section>
   </footer>
 </template>
@@ -85,8 +80,8 @@ footer {
 }
 
 .ODFLogo {
-  height: 100px;
-  margin-right: 50px;
+  height: 72px;
+  margin-right: 32px;
 }
 
 .LinksWrapper {
@@ -97,7 +92,6 @@ footer {
 
 .InternalLinksContent {
   display: flex;
-  margin-bottom: 16px;
 }
 
 .InternalLink {
@@ -107,7 +101,7 @@ footer {
 .Split {
   width: 100%;
   height: 0;
-  margin-bottom: 16px;
+  margin: 10px 0;
   border: 1px solid rgba(38, 38, 38, 0.1);
 }
 
@@ -121,10 +115,10 @@ footer {
       rgba(107, 131, 120, 0.1)
     ),
     white;
-  min-width: 36px;
-  max-width: 36px;
-  min-height: 36px;
-  max-height: 36px;
+  min-width: 32px;
+  max-width: 32px;
+  min-height: 32px;
+  max-height: 32px;
   margin-right: 32px;
   border-radius: 50%;
   display: flex;
@@ -136,21 +130,11 @@ footer {
 }
 
 .SocialNetworkIcon {
-  width: 18px;
+  width: 16px;
   margin: auto;
 }
 
 .LPOSection {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.LPOCard {
-  background: rgba(38, 38, 38, 0.1);
-  padding: 16px 24px;
-  margin-bottom: 5px;
-  border-radius: 8px;
   display: flex;
   align-items: center;
 }
