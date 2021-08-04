@@ -42,7 +42,7 @@ export default {
         this.logo = legalNotices.logo
         this.title = legalNotices.title
         this.subtitle = legalNotices.subtitle
-        this.lastUpdate = this.$formatDate(legalNotices.updatedAt)
+        this.lastUpdate = this.$formatDate(legalNotices.updatedAt, false)
       })
       .catch((error) => {
         console.log(error)

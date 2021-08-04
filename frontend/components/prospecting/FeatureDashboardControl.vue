@@ -15,7 +15,7 @@
           </h1>
           <span class="FeatureDashboardLastUpdate"
             >Dernière actualisation le
-            {{ $formatDate(featureDataKey.last_date) }}</span
+            {{ $formatDate(featureDataKey.last_date, false) }}</span
           >
         </div>
         <a

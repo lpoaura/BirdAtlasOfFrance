@@ -147,7 +147,7 @@ export default {
         this.logo = description.logo
         this.title = description.title
         this.subtitle = description.subtitle
-        this.lastUpdate = this.$formatDate(description.updatedAt)
+        this.lastUpdate = this.$formatDate(description.updatedAt, false)
       })
       .catch((error) => {
         console.log(error)

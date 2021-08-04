@@ -1,5 +1,5 @@
 <template>
-  <header class="NavBar">
+  <header :class="backgroundColor" class="NavBar">
     <div class="NavBarODFLogoWrapper">
       <nuxt-link to="/" class="NavBarODFLogoLink">
         <img class="ODFLogo" src="/nav-bar/ODF-logo-black.svg" />
@@ -41,6 +41,10 @@
 <script>
 export default {
   props: {
+    backgroundColor: {
+      type: String,
+      required: true,
+    },
     navItems: {
       type: Array,
       required: true,
@@ -58,6 +62,11 @@ export default {
 header {
   background: #fcfcfc;
   border-bottom: 1px solid rgba(57, 118, 90, 0.1);
+}
+
+header.transparent {
+  background: rgba(0, 0, 0, 0);
+  border-bottom: none;
 }
 
 .NavBarItem {

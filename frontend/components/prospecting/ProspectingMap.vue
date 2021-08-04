@@ -1,4 +1,4 @@
-<!-- La carte doit s'actualiser sur la métropole entière (manque API emprises) -->
+<!-- Actualiser la carte sur la position de l'utilisateur (manque API emprises) -->
 <template>
   <div id="map-wrap">
     <l-map
@@ -11,7 +11,7 @@
       @update:bounds="updateEnvelope"
       @update:zoom="updateZoom"
     >
-      <l-tile-layer :url="url" :attribution="attribution" />
+      <l-tile-layer :url="url" :attribution="attribution" opacity="1" />
       <l-geo-json
         v-if="
           selectedSpecies &&
@@ -195,6 +195,16 @@ export default {
     // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     url:
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    // url:
+    //   'https://wxs.ign.fr/pratique/geoportail/wmts?' +
+    //   '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+    //   '&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&FORMAT=image/png' +
+    //   '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
+    // url:
+    //   'https://wxs.ign.fr/pratique/geoportail/wmts?' +
+    //   '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+    //   '&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&FORMAT=image/jpeg' +
+    //   '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
     attribution: '© les contributeurs d’OpenStreetMap',
     envelope: null,
     initTerritory: null,

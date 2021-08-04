@@ -1,18 +1,16 @@
 <template>
   <v-container fluid>
     <main class="TopSection">
-      <div class="BackgroundPicture">
-        <header class="TopSectionContent">
-          <h1 class="white02 fw-bold text-center bottom-margin-16">
-            Participer via les dispositifs de suivi
-          </h1>
-          <h4 class="white01 fw-500 text-center text-shadow">
-            Déterminer les <b>tendances</b> d'évolution et les
-            <b>effectifs</b> chez les oiseaux <br class="br" />nécessite
-            l'utilisation de dispositifs de suivi <b>adaptés</b>.
-          </h4>
-        </header>
-      </div>
+      <header class="TopSectionContent">
+        <h1 class="white02 fw-bold text-center bottom-margin-16">
+          Participer via les dispositifs de suivi
+        </h1>
+        <h4 class="white01 fw-500 text-center text-shadow">
+          Déterminer les <b>tendances</b> d'évolution et les
+          <b>effectifs</b> chez les oiseaux <br class="br" />nécessite
+          l'utilisation de dispositifs de suivi <b>adaptés</b>.
+        </h4>
+      </header>
     </main>
     <section class="Section">
       <menu class="TabMenu">
@@ -82,10 +80,6 @@ export default {
 <style scoped>
 .TopSection {
   height: 336px;
-}
-
-.BackgroundPicture {
-  position: relative;
   background: linear-gradient(
       94.13deg,
       rgba(37, 39, 69, 0.46) 5.97%,
@@ -95,9 +89,6 @@ export default {
     ),
     url('/get-involved/get-involved-picture.jpg') center / cover,
     rgba(47, 92, 105, 1);
-  width: 100%;
-  height: 100%;
-  display: flex;
 }
 
 .TopSectionContent {
