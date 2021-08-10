@@ -1,4 +1,7 @@
-/* INFO : total screen width = 98.9vw (not 100vw) */
+html,
+body {
+  overflow-x: hidden !important;
+}
 
 /********** TYPOGRAPHY **********/
 
@@ -61,6 +64,30 @@ h6 {
   line-height: 15px;
 }
 
+.InformativePageContent,
+.nuxt-content {
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nuxt-content p,
+.nuxt-content ul {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.nuxt-content ul {
+  margin-top: -10px;
+}
+
 .black01 {
   color: #262626;
 }
@@ -71,6 +98,10 @@ h6 {
 
 .black03 {
   color: rgba(38, 38, 38, 0.6);
+}
+
+.black04 {
+  color: rgba(38, 38, 38, 0.4);
 }
 
 .white01 {
@@ -220,7 +251,6 @@ a.Vocabulary:hover::after {
 }
 
 /* Dropdown and Radio lists */
-
 .DropdownListSelectedOption {
   width: 100%;
   padding: 0 12px;
@@ -441,7 +471,12 @@ a.Vocabulary:hover::after {
   flex-direction: column;
 }
 
+.Carousel .NewsCard .nuxt-content {
+  color: #262626;
+}
+
 .CardPicture {
+  position: relative;
   width: 100%;
   margin-bottom: 16px;
   border-radius: 8px;
@@ -490,7 +525,6 @@ a.Vocabulary:hover::after {
 }
 
 /* Tags */
-
 .Tag {
   background: rgba(57, 118, 90, 0.1);
   padding: 8px 16px;
@@ -710,33 +744,14 @@ a.Vocabulary:hover::after {
 
 .InformativePageSection {
   background: rgba(57, 118, 90, 0.1);
-  width: 100%;
-  min-height: calc(100vh - 334px);
-  padding: 1% 16%;
-}
-
-.nuxt-content-container {
-  width: 100%;
-}
-
-/* AJOUTER LE CSS DE nuxt-content DANS LA PARTIE TYPOGRAPHIE */
-.InformativePageContent,
-.nuxt-content {
-  width: 100%;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  min-height: calc(100vh - 328px);
+  padding: 20px 16%;
 }
 
 .InformativePageTitle,
 .nuxt-content h2 {
   width: 100%;
-  margin: 10px 0 20px 0;
+  margin: 20px 0;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: bold;
@@ -751,49 +766,36 @@ a.Vocabulary:hover::after {
   border: 1px solid rgba(51, 105, 80, 0.2);
   box-sizing: border-box;
   border-radius: 16px;
-  padding: 20px 20px 0 20px;
-  margin-bottom: 30px;
+  padding: 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  /* Text 
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px; */
-  color: #000;
 }
 
-.nuxt-content p {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.nuxt-content ul {
-  width: 100%;
-  margin-top: -10px;
-  margin-bottom: 20px;
+.InformativePageParagraph > *:last-child {
+  margin-bottom: 0;
 }
 
 .InformativePagePicture {
-  margin-bottom: 12px;
+  margin: 20px 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .InformativePagePictureLegend {
-  margin-bottom: 10px;
+  /* Le margin-bottom existe car il s'agit d'une balise <nuxt-content><p></p></nuxt-content> */
+  margin-top: -4px;
   font-family: 'Poppins', sans-serif;
   font-style: italic;
   font-weight: normal;
   font-size: 12px;
   line-height: 18px;
   color: #000;
+  text-align: center;
 }
 
-.ProtocolsDocumentsContent {
+.ProtocolsDocumentsGrid {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -802,16 +804,10 @@ a.Vocabulary:hover::after {
 
 .ProtocolsDocumentsCard {
   background: #fcfcfc;
-  padding: 16px 20px;
+  padding: 24px;
   border: 1px solid rgba(51, 105, 80, 0.2);
   box-sizing: border-box;
   border-radius: 16px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -821,6 +817,7 @@ a.Vocabulary:hover::after {
 .ProtocolsDocumentsPicture {
   width: 100%;
   margin-bottom: 16px;
+  border-radius: 8px;
 }
 
 /********** MAP **********/
@@ -1095,6 +1092,14 @@ textarea.ContactFormTextarea:focus {
 
 /********** RESPONSIVE **********/
 
+@media screen and (max-width: 1050px) {
+  /********** INFORMATIVE PAGES **********/
+
+  .InformativePagePicture {
+    width: 100% !important;
+  }
+}
+
 @media screen and (max-width: 920px) {
   /********** NAVBAR **********/
 
@@ -1110,6 +1115,12 @@ textarea.ContactFormTextarea:focus {
     display: flex;
     height: 32px;
     cursor: pointer;
+  }
+
+  /********** INFORMATIVE PAGES **********/
+
+  .InformativePageSection {
+    padding: 16px 5%;
   }
 }
 
@@ -1147,9 +1158,24 @@ textarea.ContactFormTextarea:focus {
     padding: 24px 5%;
   }
 
-  .NewsCard span,
-  .NewsCard .nuxt-content {
+  .Carousel .NewsCard span,
+  .Carousel .NewsCard .nuxt-content {
     font-size: 12px;
     line-height: 18px;
+  }
+
+  /********** INFORMATIVE PAGES **********/
+
+  .InformativePageTitle,
+  .nuxt-content h2 {
+    margin: 8px 0 16px 0;
+  }
+
+  .InformativePageParagraph {
+    margin-bottom: 16px;
+  }
+
+  .InformativePagePicture {
+    margin: 16px 0;
   }
 }

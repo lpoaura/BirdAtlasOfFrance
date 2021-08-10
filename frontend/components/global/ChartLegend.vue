@@ -28,13 +28,13 @@ export default {
 <style scoped>
 .ChartLegend {
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
 }
 
 .ChartLegendLabel {
-  margin: 0 8px;
+  margin-right: 16px;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -44,11 +44,33 @@ export default {
   white-space: nowrap;
 }
 
+.ChartLegendLabel:last-child {
+  margin-right: 0;
+}
+
 .ChartLegendLabel i {
   width: 14px;
   height: 14px;
   border-radius: 2px;
   float: left;
   margin-right: 8px;
+}
+
+@media screen and (max-width: 680px) {
+  .ChartLegend {
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .ChartLegend {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+    grid-gap: 16px;
+  }
+
+  .ChartLegendLabel {
+    margin-right: 0;
+  }
 }
 </style>

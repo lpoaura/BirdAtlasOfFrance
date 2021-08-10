@@ -89,6 +89,7 @@ export default {
   plugins: [
     '~/plugins/directives.js',
     '~/plugins/formatDate.js',
+    '~/plugins/getLatestDate.js',
     '~/plugins/checkEmail.js',
     '~/plugins/toPercent.js',
     '~/plugins/thousandDelimiter.js',

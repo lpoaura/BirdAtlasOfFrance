@@ -6,7 +6,7 @@
   >
     <div class="DropdownListSelectedOption" @click="openOrCloseSelect">
       <h5 class="green01 fw-600 right-margin-8">
-        {{ selectedItem }}
+        {{ selectedItem.label }}
       </h5>
       <img
         class="DropdownListChevron"
@@ -20,11 +20,10 @@
         <li
           v-for="(item, index) in itemsList"
           :key="index"
-          :value="item"
           class="DropdownOption"
           @click="updateSelectedItem(item, index)"
         >
-          {{ item }}
+          {{ item.label }}
         </li>
       </div>
     </div>
@@ -43,7 +42,7 @@ export default {
       required: true,
     },
     selectedItem: {
-      type: String,
+      type: Object,
       required: true,
     },
     itemsList: {

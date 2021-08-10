@@ -1,6 +1,7 @@
 ---
 title: Newsletter ODF
 picture: actualite-1.jpg
+credit: 'Photo : Pieter Verheij'
 centering: center
 author: Oiseaux de France
 tags: ['ODF']

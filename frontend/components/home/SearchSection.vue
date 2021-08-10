@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <h6 class="PictureAuthor white01 fw-300">
+    <h6 class="PictureCredit white01 fw-300">
       Photo : Phatéon à bec jaune, Florent Bignon
     </h6>
     <div class="MenuCardsContent">
@@ -125,7 +125,7 @@ export default {
   height: 60px;
 }
 
-.PictureAuthor {
+.PictureCredit {
   position: absolute;
   z-index: 1;
   left: max(12%, calc((100% - 1200px) / 2));
@@ -221,7 +221,7 @@ export default {
     height: 50px;
   }
 
-  .PictureAuthor {
+  .PictureCredit {
     left: 7%;
     bottom: 8px;
     width: 86%;
