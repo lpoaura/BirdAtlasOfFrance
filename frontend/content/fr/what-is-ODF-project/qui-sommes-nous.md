@@ -1,6 +1,7 @@
 ---
 order: 3
-title: Le projet ODF - Qui sommes-nous ?
+title: Qui sommes-nous ?
+hash: '#who-we-are'
 ---
 
 ## Un Conseil Scientifique pour le projet ODF
@@ -38,9 +39,9 @@ Le site [www.oiseauxdefrance.org](/) est un portail de restitution qui permet de
 
 <div class="InformativePagePicture" style="width: 240px">
   <a href='https://www.faune-france.org' target='_blank'>
-    <img class="Logo" src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg" />
+    <img class="InformativePageLogo" style="margin-right: 40px" src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg" />
   </a>
   <a href='https://www.faune-france.org/index.php?m_id=20015' target='_blank'>
-    <img class="Logo" src="/what-is-ODF-project/NaturaList-logo.svg" />
+    <img class="InformativePageLogo" src="/what-is-ODF-project/NaturaList-logo.svg" />
   </a>
 </div>

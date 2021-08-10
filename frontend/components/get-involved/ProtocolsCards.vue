@@ -33,12 +33,13 @@
 export default {
   props: {
     speciesGroupFilter: {
-      type: String,
+      type: Object,
       required: false,
       default: null,
     },
   },
   data: () => ({
+    // RÉCUPÉRER LES PROTOCOLES DEPUIS LE DOSSIER content
     protocolsCards: [
       {
         icon: '/get-involved/EPOC-ODF-logo.svg',
@@ -116,11 +117,11 @@ export default {
   }),
   computed: {
     resultsCards() {
-      if (this.speciesGroupFilter === 'Tous les dispositifs') {
+      if (this.speciesGroupFilter.label === 'Tous les dispositifs') {
         return this.protocolsCards
       } else {
         return this.protocolsCards.filter((card) => {
-          return card.speciesGroup.includes(this.speciesGroupFilter)
+          return card.speciesGroup.includes(this.speciesGroupFilter.label)
         })
       }
     },

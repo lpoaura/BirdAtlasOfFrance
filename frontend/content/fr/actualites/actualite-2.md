@@ -1,6 +1,7 @@
 ---
 title: Comptage des rassemblements postnuptiaux d’Œdicnème criard
 picture: actualite-2.jpg
+credit: 'Photo : Emile Barbelette'
 centering: 0 -80px
 author: Oiseaux de France
 tags: ['ODF']

@@ -1,8 +1,8 @@
-<!-- AJOUTER LA PAGINATION -->
+<!-- AJOUTER LA PAGINATION (5 actualités par page) -->
 <template>
   <v-container fluid>
     <main class="TopSection">
-      <h2 class="black01 fw-600">Les dernières actualités</h2>
+      <h2 class="black02 fw-600 text-center">Les dernières actualités</h2>
     </main>
     <section class="NewsSection">
       <div
@@ -17,13 +17,15 @@
           :style="{
             background: `url(/news/${item.picture}) ${item.centering} / cover`,
           }"
-        ></div>
+        >
+          <h5 class="white02 PictureCredit">{{ item.credit }}</h5>
+        </div>
         <div class="CardMetadata bottom-margin-16">
           <span class="black03 right-margin-8">{{ item.author }}</span>
           <span class="black03 right-margin-8">•</span>
           <span class="black03">{{ $formatDate(item.createdAt, true) }}</span>
         </div>
-        <h3 class="fw-bold bottom-margin-16">
+        <h3 class="black02 fw-600 bottom-margin-16">
           {{ item.title }}
         </h3>
         <nuxt-content :document="item" />
@@ -71,8 +73,9 @@ export default {
 
 <style scoped>
 .TopSection {
-  height: 296px;
   background: rgba(57, 118, 90, 0.1);
+  height: 296px;
+  padding: 0 10%;
 }
 
 .NewsSection {
@@ -85,7 +88,7 @@ export default {
 
 .NewsCard {
   width: 800px;
-  max-width: 100%;
+  max-width: 90vw;
   margin-bottom: 24px;
 }
 
@@ -97,13 +100,24 @@ export default {
   height: 200px;
 }
 
+.PictureCredit {
+  position: absolute;
+  right: 12px;
+  bottom: 9px;
+}
+
 @media screen and (max-width: 680px) {
+  h2.fw-600 {
+    font-weight: bold;
+  }
+
   .NewsSection {
     padding-bottom: 24px;
   }
 
-  h2.fw-600 {
-    font-weight: bold;
+  h3 {
+    font-size: 24px;
+    line-height: 36px;
   }
 }
 

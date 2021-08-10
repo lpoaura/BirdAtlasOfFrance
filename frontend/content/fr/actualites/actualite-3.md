@@ -1,7 +1,8 @@
 ---
 title: ODF ne s’arrête pas pendant les vacances !
-picture: actualite-2.jpg
-centering: 0 -80px
+picture: actualite-3.png
+credit: 'Photo : Emile Barbelette'
+centering: center
 author: Oiseaux de France
 tags: ['ODF']
 active: true

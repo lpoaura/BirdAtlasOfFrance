@@ -107,7 +107,6 @@
 <script>
 import Breadcrumb from '~/components/layouts/Breadcrumb.vue'
 import ContactFormDropdownList from '~/components/about/ContactFormDropdownList.vue'
-import SwitchButton from '~/components/global/SwitchButton.vue'
 import CaptchaForm from '~/components/about/CaptchaForm.vue'
 import ContactFormConfirmation from '~/components/about/ContactFormConfirmation.vue'
 
@@ -115,7 +114,6 @@ export default {
   components: {
     breadcrumb: Breadcrumb,
     'contact-form-dropdown-list': ContactFormDropdownList,
-    'switch-button': SwitchButton,
     'captcha-form': CaptchaForm,
     'contact-form-confirmation': ContactFormConfirmation,
   },

@@ -14,21 +14,20 @@
     </main>
     <section class="Section">
       <menu class="TabMenu">
-        <span
+        <div
           v-for="(item, index) in menuItems"
           :key="index"
-          :to="item.route"
           class="TabItem"
-          :class="[item.label === selectedSpeciesGroup ? 'selected' : '']"
+          :class="[item.hash === selectedSpeciesGroup.hash ? 'selected' : '']"
           @click="updateSelectedSpeciesGroup(item)"
         >
           {{ item.label }}
-        </span>
+        </div>
       </menu>
       <dropdown-list
-        v-model="selectedSpeciesGroup"
+        v-model="selectedSpeciesGroupModel"
         :z-index="1"
-        :items-list="itemsList"
+        :items-list="menuItems"
       />
       <protocols-cards :species-group-filter="selectedSpeciesGroup" />
     </section>
@@ -36,37 +35,49 @@
 </template>
 
 <script>
-import DropdownList from '~/components/global/DropdownList.vue'
 import ProtocolsCards from '~/components/get-involved/ProtocolsCards.vue'
 
 export default {
   components: {
-    'dropdown-list': DropdownList,
     'protocols-cards': ProtocolsCards,
   },
   data: () => ({
     menuItems: [
-      { label: 'Tous les dispositifs', route: '' },
-      { label: 'Oiseaux communs', route: '#common-birds' },
-      { label: 'Rapaces', route: '#raptors' },
-      { label: "Oiseaux d'eau", route: '#water-birds' },
-      // { label: 'autres', route: '#other-birds' },
+      { hash: '', label: 'Tous les dispositifs' },
+      { hash: '#common-birds', label: 'Oiseaux communs' },
+      { hash: '#raptors', label: 'Rapaces' },
+      { hash: '#water-birds', label: "Oiseaux d'eau" },
+      // { hash: '#other-birds', label: 'autres' },
     ],
-    selectedSpeciesGroup: 'Tous les dispositifs',
+    selectedSpeciesGroup: { hash: '', label: 'Tous les dispositifs' },
   }),
   computed: {
-    itemsList() {
-      return this.menuItems.map((item) => item.label)
+    // Permet de mettre à jour selectedSpeciesGroup seulement après le $router.push
+    selectedSpeciesGroupModel: {
+      get() {
+        return this.selectedSpeciesGroup
+      },
+      set(value) {
+        this.$router.push(`${value.hash}`)
+      },
     },
   },
-  // mounted() {
-  //   this.selectedMenuItem = this.$route.hash
-  // },
+  watch: {
+    $route(newVal) {
+      /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
+      this.selectedSpeciesGroup = this.menuItems.filter((item) => {
+        return item.hash === newVal.hash
+      })[0]
+    },
+  },
+  mounted() {
+    this.selectedSpeciesGroup = this.menuItems.filter((item) => {
+      return item.hash === this.$route.hash
+    })[0]
+  },
   methods: {
     updateSelectedSpeciesGroup(item) {
-      this.selectedSpeciesGroup = item.label
-      // this.selectedMenuItem = item.route
-      // this.$router.push(`${item.route}`)
+      this.$router.push(`${item.hash}`)
     },
   },
   head() {
