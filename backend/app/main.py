@@ -118,7 +118,7 @@ async def root():
 
 if settings.LOG_LEVEL == "DEBUG":
 
-    @app.get("/pong", tags=["core"])
+    @app.get("/api/v1/pong", tags=["core"])
     async def pong():
         logger.error("Error log")
         logger.warning("Warning log")
