@@ -45,7 +45,8 @@ dev_front() {
 }
 
 dev_all() {
-    dev_back && dev_front
+    dev_back &
+    dev_front
 }
 
 for value in $*; do
