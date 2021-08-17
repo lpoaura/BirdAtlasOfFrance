@@ -1,8 +1,10 @@
 ---
 order: 1
-title: Mentions légales
-subtitle: CGU
+page: Mentions légales
+description: ''
 logo: '/legal-notices.svg'
+title: Mentions légales
+hash: ''
 ---
 
 ## Mentions légales du site ODF

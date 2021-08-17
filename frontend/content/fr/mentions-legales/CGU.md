@@ -1,6 +1,7 @@
 ---
 order: 2
-title: Mentions légales - CGU
+title: CGU
+hash: '#cgu'
 ---
 
 ## Conditions d’utilisation et politique de confidentialité du site internet

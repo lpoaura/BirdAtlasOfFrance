@@ -1,8 +1,10 @@
 ---
 order: 1
-title: Le projet ODF
-subtitle: Répartitions, Tendances et Effectifs
+page: Le projet ODF
+description: Répartitions, Tendances et Effectifs
 logo: '/ODF-logo.svg'
+title: Description
+hash: ''
 ---
 
 ## Les grandes lignes du projet

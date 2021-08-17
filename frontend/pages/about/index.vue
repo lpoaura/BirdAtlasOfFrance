@@ -6,7 +6,7 @@
           <h1 class="IntroTitle">À propos</h1>
         </header>
       </div>
-      <div class="PictureAuthor">Photo : Canards pilets, Emile Barbelette</div>
+      <div class="PictureCredit">Photo : Canards pilets, Emile Barbelette</div>
       <div class="CardsContent">
         <nuxt-link
           v-for="(card, index) in cards"
@@ -157,7 +157,7 @@ export default {
   color: #fcfcfc;
 }
 
-.PictureAuthor {
+.PictureCredit {
   position: absolute;
   z-index: 1;
   left: 12.5vw;

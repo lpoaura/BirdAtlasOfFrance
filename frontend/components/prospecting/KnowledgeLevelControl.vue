@@ -2,7 +2,7 @@
   <section class="KnowledgeLevelControl">
     <div class="KnowledgeLevelHeader">
       <div class="KnowledgeLevelTitle">
-        <span>Indice de complétude</span>
+        <span class="fw-bold">Indice de complétude</span>
         <div class="HelpWrapper">
           <img class="HelpIcon" src="/help.svg" />
           <div class="HelpVocabularyTip"></div>

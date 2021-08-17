@@ -9,6 +9,14 @@ export default ({ app }, inject) => {
       route: '/en',
     },
     {
+      title: 'Actualités',
+      route: '/news',
+    },
+    {
+      title: 'News',
+      route: '/en/news',
+    },
+    {
       title: 'Carte de prospection',
       route: '/prospecting',
     },
