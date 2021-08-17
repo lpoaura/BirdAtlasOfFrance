@@ -58,11 +58,11 @@ nav {
 .NavItem {
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 
 .NavItem:last-child h6.fw-500 {
   font-weight: 600;
-  white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
 }

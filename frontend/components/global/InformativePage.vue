@@ -89,7 +89,6 @@ export default {
       .sortBy('order')
       .fetch()
       .then((content) => {
-        console.log(content)
         this.content = content
         this.page = content[0].page
         this.description = content[0].description
