@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+
+  backend:
+    ports:
+      - ${APP_PORT:-8000}:8000

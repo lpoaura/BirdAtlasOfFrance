@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+
+  backend:
+    image: lpoaura/odf-backend:latest
+    container_name: odf_backend
+    env_file:
+      - .env
+    ports:
+      - 8888:80
+
+  frontend:
+    image: lpoaura/odf-frontend:latest
+    container_name: odf_frontend
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+
