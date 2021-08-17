@@ -1,0 +1,244 @@
+/* INFO : total screen width = 98.9vw (not 100vw) */
+
+/* GLOBAL */
+div.container.container--fluid {
+  padding: 0;
+}
+
+.no-bottom-margin {
+  margin-bottom: 0 !important;
+}
+
+.v-application a {
+  color: #39765a;
+  text-decoration: none;
+}
+
+.v-application a.PrimaryButton,
+.PrimaryButton {
+  background: #39765a;
+  border-radius: 8px;
+  padding: 1.6vh 1.8vw;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 18px;
+  color: #fcfcfc;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.PrimaryButton:disabled {
+  background: rgba(57, 118, 90, 0.2);
+  color: #39765a;
+}
+
+.v-application a.PrimaryButton.outlined,
+.PrimaryButton.outlined {
+  background: #fcfcfc;
+  border: 2px solid rgba(57, 118, 90, 0.1);
+  border-radius: 8px;
+  padding: 1.6vh 1.8vw;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 18px;
+  color: #39765a;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* INFORMATIVE PAGES */
+.InformativePageSection {
+  background: rgba(57, 118, 90, 0.1);
+  width: 100%;
+  min-height: calc(100vh - 334px);
+  padding: 1% 16%;
+}
+
+.nuxt-content-container {
+  width: 100%;
+}
+
+.InformativePageContent,
+.nuxt-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.InformativePageTitle,
+.nuxt-content h2 {
+  width: 100%;
+  margin: 10px 0 20px 0;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000;
+}
+
+.InformativePageParagraph {
+  width: 100%;
+  background: #fcfcfc;
+  border: 1px solid rgba(51, 105, 80, 0.2);
+  box-sizing: border-box;
+  border-radius: 16px;
+  padding: 20px 20px 0 20px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Text */
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
+}
+
+.InformativePageSection .nuxt-content p {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.nuxt-content ul {
+  width: 100%;
+  margin-top: -15px;
+  margin-bottom: 20px;
+}
+
+.InformativePagePicture {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.InformativePagePictureLegend {
+  margin-bottom: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  color: #000;
+}
+
+.ProtocolsDocumentsContent {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-gap: 20px;
+}
+
+.ProtocolsDocumentsCard {
+  background: #fcfcfc;
+  padding: 16px 20px;
+  border: 1px solid rgba(51, 105, 80, 0.2);
+  box-sizing: border-box;
+  border-radius: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ProtocolsDocumentsPicture {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* MAPS */
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+  width: 42px;
+  height: 74px;
+  background: #fcfcfc;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+  border: none;
+  border-radius: 8px;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control a {
+  width: 42px;
+  height: 37px;
+  line-height: 37px;
+  background: #fcfcfc;
+  border: none;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control a:first-child {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control a:last-child {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.GeolocationControl {
+  width: 42px;
+  height: 42px;
+  background: #fcfcfc;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+}
+
+.GeolocationControl .Icon {
+  width: 24px;
+  height: 24px;
+  margin: auto;
+}
+
+.LeafletTooltip {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  border: none !important;
+  background: rgba(252, 252, 252, 0.8) !important;
+  backdrop-filter: blur(4px) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
+}
+
+.leaflet-tooltip-left::before {
+  border-left-color: rgba(0, 0, 0, 0) !important;
+}
+.leaflet-tooltip-right::before {
+  border-right-color: rgba(0, 0, 0, 0) !important;
+}
+
+.MapControl {
+  padding: 10px 10px;
+  background: rgba(255, 255, 255, 1);
+  border-color: rgb(255, 255, 255);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}

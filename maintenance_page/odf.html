@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Oiseaux de France</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Playfair+Display:300,400,500,600,700,800,900&display=swap"
+    />
+    <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap"
+  />
+    <style>
+          body,
+          html {
+            
+            height: 100%;
+
+            background: linear-gradient(
+                180deg,
+                rgba(47, 92, 105, 0.76) 0%,
+                rgba(47, 92, 105, 0.55) 10.25%,
+                rgba(47, 92, 105, 0.2) 20.95%,
+                rgba(47, 92, 105, 0.2) 31.47%,
+                rgba(8, 43, 8, 0.2) 100%
+              ),
+              linear-gradient(
+                89.84deg,
+                rgba(47, 92, 105, 0.81) 0.14%,
+                rgba(47, 92, 105, 0.72) 21.44%,
+                rgba(47, 92, 105, 0.63) 37.28%,
+                rgba(47, 92, 105, 0) 74.41%,
+                rgba(47, 92, 105, 0.27) 99.86%
+              ),
+              url("./assets/bg.jpg") 0 0 / cover, rgba(47, 92, 105, 1);
+
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+          }
+
+          #message {
+            font-size: 3rem;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+          }
+          .title {
+            font-family: "Playfair Display", sans-serif;
+            font-style: normal;
+            font-weight: 900;
+            font-size: 3rem;
+            /* line-height: clamp(50px, 8.4vh, 75px); */
+            color: #fff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+          }
+          .logo {
+            height: 50vh;
+            max-width: 100vw;
+          }
+          .subtitle  {
+       font-family: 'Poppins', sans-serif;
+          font-style: normal;
+      font-weight: 600;
+      font-size: 3rem;
+      /* line-height: 24px; */
+      color: #fff;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+          }
+
+        footer{
+          position: absolute;
+          bottom: 0px;
+          left: 50%;
+          max-height: 10vh;
+          -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%,0 );
+        }
+
+        footer img{
+          max-height: 50px;
+          padding: 5px;
+          background-color: #fff;
+          border-radius: 5px;
+        }
+    </style>
+  </head>
+
+  <body>
+    <div class="bg">
+      <div id="message">
+        <div class="title">Atlas des Oiseaux de France</div>
+        <img class="logo" alt="logo" src="./assets/ODF-logo-detailed.svg" />
+        <div class="subtitle ">Bientôt ici!</div>
+      </div>
+      <footer>
+        <img src="https://upload.wikimedia.org/wikipedia/fr/1/10/LPO_logo.jpg">
+    </footer>
+    </div>
+  </body>
+</html>
