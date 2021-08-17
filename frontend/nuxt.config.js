@@ -89,12 +89,14 @@ export default {
   plugins: [
     '~/plugins/directives.js',
     '~/plugins/formatDate.js',
+    '~/plugins/getLatestDate.js',
     '~/plugins/checkEmail.js',
     '~/plugins/toPercent.js',
     '~/plugins/thousandDelimiter.js',
     '~/plugins/generateCaptcha.js',
     '~/plugins/getPageTitle.js',
     '~/plugins/departmentsList.js',
+    '~/plugins/debounce.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

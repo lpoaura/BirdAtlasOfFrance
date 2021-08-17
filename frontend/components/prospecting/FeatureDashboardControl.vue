@@ -15,7 +15,7 @@
           </h1>
           <span class="FeatureDashboardLastUpdate"
             >Dernière actualisation le
-            {{ $formatDate(featureDataKey.last_date) }}</span
+            {{ $formatDate(featureDataKey.last_date, false) }}</span
           >
         </div>
         <a
@@ -779,6 +779,7 @@ menu,
 .FeatureDashboardContent {
   padding-right: 16px;
   overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .Split {
@@ -822,7 +823,7 @@ menu,
   cursor: pointer;
 }
 
-.SeeMoreDataIcon {
+.SeeMoreDataChevron {
   height: 7px;
 }
 

@@ -26,19 +26,19 @@
           </div>
         </div>
       </div>
-      <div class="AutocompleteWrapper">
+      <div class="AutocompleteWrapper map">
         <input v-model="search" type="text" placeholder="Rechercher" />
-        <div class="AutocompleteAdvanced">
-          <div class="CloseIconBox">
+        <div class="AutocompleteGadgets map">
+          <div class="AutocompleteCloseIconWrapper map">
             <img
               v-show="search.length > 0"
-              class="CloseIcon"
+              class="AutocompleteCloseIcon"
               src="/close.svg"
               @click="clearResults"
             />
           </div>
-          <div class="SearchIconBox">
-            <img class="SearchIcon" src="/search.svg" />
+          <div class="AutocompleteSearchIconWrapper map">
+            <img class="AutocompleteSearchIcon map" src="/search.svg" />
           </div>
         </div>
       </div>
@@ -299,67 +299,12 @@ export default {
 }
 
 .AutocompleteWrapper {
-  position: relative;
-  background: rgba(38, 38, 38, 0.03);
-  width: 304px;
-  margin-bottom: 16px;
-  border: 1px solid rgba(57, 118, 90, 0.1);
-  box-sizing: border-box;
-  border-radius: 8px;
+  width: 302px;
+  margin-bottom: 20px;
 }
 
-.AutocompleteWrapper input {
-  width: 100%;
-  height: 42px;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-  border-radius: 8px;
-  padding-left: 4%;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 18px;
-  color: #262626;
-}
-
-.AutocompleteAdvanced {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 42px;
-  border-radius: 8px;
-  padding: 0 6px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.CloseIconBox {
-  width: 16px;
-  height: 16px;
-  display: flex;
-}
-
-.CloseIcon {
-  width: 100%;
-  margin: auto;
-  cursor: pointer;
-}
-
-.SearchIconBox {
-  background: #eece25;
-  width: 30px;
-  height: 30px;
-  margin-left: 10px;
-  border-radius: 4px;
-  display: flex;
-}
-
-.SearchIcon {
-  height: 16px;
-  margin: auto;
+.AutocompleteSearchIconWrapper {
+  margin-left: 16px;
 }
 
 .TerritoriesGrid,
@@ -367,6 +312,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .TerritoriesCard {

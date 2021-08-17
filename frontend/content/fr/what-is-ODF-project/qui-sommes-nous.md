@@ -1,6 +1,7 @@
 ---
 order: 3
-title: Le projet ODF - Qui sommes-nous ?
+title: Qui sommes-nous ?
+hash: '#who-we-are'
 ---
 
 ## Un Conseil Scientifique pour le projet ODF
@@ -22,7 +23,7 @@ Les missions de ce conseil scientifique consistent à :
 
 <div class="InformativePageParagraph">
 
-Jérémy Dupuy (LPO), Laurent Couzi (LPO), Philippe Jourde (LPO), Jacques Comolet-Tirman (PatriNat), Camille Gazay (PatriNat), Romain Lorrilliere (MNHN, CESCO), Romain Julliard (MNHN, CESCO), Cyril Eraud (OFB), Jean Nabias (LPO/CESCO), Jean-Philippe Siblet (SEOF), Mathieu Bourgeois (LPO Occitanie), Yves Muller (LPO Grand Est), Amine Flitti (LPO PACA), Guillaume Gélinaud (Bretagne Vivante), Antoine Leoncini (RN Biguglia, représentant de la Corse), Vincent Palomarès (LPO AURA), François-Xavier Couzi (SEOR), Damien Chiron (SEOR), François Guélin (LPO AURA), François Bouzendorf (LPO Bourgogne-Franche-Comté), Rudy Pischiutta (GON), Olivier Legall (LPO Délégation Aquitaine), Olivier Claessens (GEPOG), Frédéric Malvaud (LPO Normandie), Benoit Marchadour (LPO Pays de la Loire), Nicolas Klatka (GONm), Martin Billard (GONm).
+Jérémy Dupuy (LPO), Laurent Couzi (LPO), Philippe Jourde (LPO), Jacques Comolet-Tirman (PatriNat), Camille Gazay (PatriNat), Romain Lorrilliere (MNHN, CESCO), Romain Julliard (MNHN, CESCO), Cyril Eraud (OFB), Jean Nabias (LPO/CESCO), Jean-Philippe Siblet (SEOF), Mathieu Bourgeois (LPO Occitanie), Yves Muller (LPO Grand Est), Amine Flitti (LPO PACA), Guillaume Gélinaud (Bretagne Vivante), Antoine Leoncini (RN Biguglia, représentant de la Corse), Vincent Palomarès (LPO AURA), François-Xavier Couzi (SEOR), Damien Chiron (SEOR), François Guélin (LPO AURA), François Bouzendorf (LPO Bourgogne-Franche-Comté), Rudy Pischiutta (GON), Olivier Legall (LPO Délégation Aquitaine), Olivier Claessens (GEPOG), Frédéric Malvaud (LPO Normandie), Benoit Marchadour (LPO Pays de la Loire), Nicolas Klatka (GONm), Martin Billard (GONm), Fabien Gilot (GOR).
 
 </div>
 
@@ -38,9 +39,9 @@ Le site [www.oiseauxdefrance.org](/) est un portail de restitution qui permet de
 
 <div class="InformativePagePicture" style="width: 240px">
   <a href='https://www.faune-france.org' target='_blank'>
-    <img class="Logo" src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg" />
+    <img class="InformativePageLogo" style="margin-right: 40px" src="/what-is-ODF-project/FAUNE-FRANCE-logo.svg" />
   </a>
   <a href='https://www.faune-france.org/index.php?m_id=20015' target='_blank'>
-    <img class="Logo" src="/what-is-ODF-project/NaturaList-logo.svg" />
+    <img class="InformativePageLogo" src="/what-is-ODF-project/NaturaList-logo.svg" />
   </a>
 </div>

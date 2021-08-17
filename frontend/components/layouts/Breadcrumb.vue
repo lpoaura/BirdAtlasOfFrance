@@ -5,9 +5,9 @@
     </nuxt-link>
     <div v-for="(crumb, index) in crumbs" :key="index" class="NavItem">
       <img class="NavElement NavItemChevron" src="/chevron-right.svg" />
-      <nuxt-link :to="crumb.route" class="NavElement NavItemText">{{
-        crumb.title
-      }}</nuxt-link>
+      <nuxt-link :to="crumb.route" class="NavElement NavItemText"
+        ><h6 class="black02 fw-500">{{ crumb.title }}</h6></nuxt-link
+      >
     </div>
   </nav>
 </template>
@@ -39,8 +39,7 @@ export default {
 
 <style scoped>
 nav {
-  height: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
 }
@@ -50,28 +49,25 @@ nav {
 }
 
 .HomeIcon {
-  height: 100%;
+  height: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .NavItem {
-  height: 100%;
   display: flex;
   align-items: center;
+  white-space: nowrap;
+}
+
+.NavItem:last-child h6.fw-500 {
+  font-weight: 600;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 .NavItemChevron {
   height: 8px;
-}
-
-.NavItemText {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 10px;
-  line-height: 15px;
-  color: #000;
 }
 </style>

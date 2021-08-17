@@ -1,47 +1,51 @@
 <template>
   <v-container fluid>
-    <header>
-      <breadcrumb style="margin-bottom: 20px" />
-      <h1 v-show="!validForm" class="PageTitle">Autre demande</h1>
+    <header class="ContactFormHeader">
+      <breadcrumb class="bottom-margin-40" />
+      <h3 v-show="!validForm" class="fw-600 text-center">Autre demande</h3>
     </header>
-    <section v-show="!validForm" class="FormSection">
-      <div class="FormContent">
-        <div v-if="alertMessage" class="Alert">
-          <span class="AlertMessage">
-            {{ alertMessage }}
-          </span>
-          <i
-            class="v-icon mdi mdi-close-circle AlertCloseIcon"
-            @click="deleteAlertMessage"
-          ></i>
-        </div>
-        <label for="user-name">Nom</label>
+    <section v-show="!validForm" class="ContactFormSection">
+      <div class="ContactFormContent">
+        <span class="black02 fw-500 bottom-margin-8">Nom</span>
         <input
-          id="user-name"
           v-model="userName"
           type="text"
           placeholder="Henri Martin"
+          class="ContactFormInput"
         />
-        <label for="user-mail">Adresse email</label>
+        <span class="black02 fw-500 bottom-margin-8">Adresse email</span>
         <input
-          id="user-mail"
           v-model="userMail"
           type="email"
           placeholder="henri.martin@monmail.fr"
+          class="ContactFormInput"
         />
-        <label>Département</label>
-        <contact-form-select
+        <span class="black02 fw-500 bottom-margin-8">Département</span>
+        <contact-form-dropdown-list
           :z-index="4"
           default-message="Département"
           :items-list="$departmentsList"
           @selectedItem="updateSelectedDepartment"
         />
-        <label for="message">Message</label>
-        <textarea id="message" v-model="userMessage" placeholder="Bonjour..." />
+        <span class="black02 fw-500 bottom-margin-8">Message</span>
+        <textarea
+          v-model="userMessage"
+          placeholder="Bonjour..."
+          class="ContactFormTextarea"
+        />
         <captcha-form
           :captcha-ref="captchaRef"
           @captchaUser="updateCaptchaUser"
         />
+        <div v-if="alertMessage" class="ContactFormAlert">
+          <span class="ContactFormAlertMessage">
+            {{ alertMessage }}
+          </span>
+          <i
+            class="v-icon mdi mdi-close-circle ContactFormAlertCloseIcon"
+            @click="deleteAlertMessage"
+          ></i>
+        </div>
         <button
           :disabled="disabledButton"
           class="PrimaryButton"
@@ -57,14 +61,14 @@
 
 <script>
 import Breadcrumb from '~/components/layouts/Breadcrumb.vue'
-import ContactFormSelect from '~/components/about/ContactFormSelect.vue'
+import ContactFormDropdownList from '~/components/about/ContactFormDropdownList.vue'
 import CaptchaForm from '~/components/about/CaptchaForm.vue'
 import ContactFormConfirmation from '~/components/about/ContactFormConfirmation.vue'
 
 export default {
   components: {
     breadcrumb: Breadcrumb,
-    'contact-form-select': ContactFormSelect,
+    'contact-form-dropdown-list': ContactFormDropdownList,
     'captcha-form': CaptchaForm,
     'contact-form-confirmation': ContactFormConfirmation,
   },
@@ -155,142 +159,5 @@ export default {
 <style scoped>
 div.container.container--fluid {
   padding-top: 68px;
-}
-
-header {
-  width: 100%;
-  padding: 1.4% 16% 3% 16%;
-  display: flex;
-  flex-direction: column;
-}
-
-.PageTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 32px;
-  line-height: 48px;
-  color: #000;
-  text-align: center;
-}
-
-.FormSection,
-.ConfirmationSection {
-  padding-bottom: 2%;
-  display: flex;
-}
-
-.FormContent {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.Alert {
-  width: 626px;
-  height: 32px;
-  padding: 0 2%;
-  margin-bottom: 16px;
-  border: 1px solid #f44336;
-  box-sizing: border-box;
-  border-radius: 8px;
-  color: #f44336;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.AlertMessage {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-}
-
-.AlertCloseIcon {
-  cursor: pointer;
-}
-
-label {
-  margin-bottom: 8px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
-}
-
-input {
-  width: 626px;
-  height: 32px;
-  margin-bottom: 16px;
-  border: 1px solid rgba(38, 38, 38, 0.1);
-  box-sizing: border-box;
-  border-radius: 8px;
-  outline: none;
-  padding-left: 2%;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  color: #262626;
-}
-
-input:focus {
-  border: 1px solid #eece25;
-}
-
-textarea {
-  padding: 1.4% 2%;
-  margin-bottom: 16px;
-  border: 1px solid rgba(38, 38, 38, 0.1);
-  box-sizing: border-box;
-  border-radius: 8px;
-  outline: none;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  color: #262626;
-}
-
-textarea:focus {
-  border: 1px solid #eece25;
-}
-
-.ConfirmationContent {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.ConfirmationPicture {
-  width: 280px;
-  margin-bottom: 30px;
-}
-
-.ConfirmationTitle {
-  margin-bottom: 16px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 36px;
-  color: #262626;
-}
-
-.ConfirmationSubtitle {
-  margin-bottom: 30px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  color: #262626;
 }
 </style>
