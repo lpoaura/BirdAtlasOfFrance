@@ -12,4 +12,4 @@ L’Œdicnème criard est une espèce emblématique des milieux agricoles. Crypt
 
 L’objectif de cette enquête « Œdicnème », pour l’automne 2021, est de recenser les effectifs sur les sites de rassemblements connus, mais également de prospecter des zones favorables à la recherche de nouveaux rassemblements. L’année 2021 est donc une année de préparation pour le comptage « officiel » qui se déroulera en 2022 et 2023.
 
-Pour participer autour de chez vous, contactez le coordinateur local de l’<font color="red">**enquête LIMAT (lien à rajouter)**</font>.
+Pour participer autour de chez vous, contactez le coordinateur local de l’**[enquête LIMAT](https://www.faune-france.org/index.php?m_id=20161)**.

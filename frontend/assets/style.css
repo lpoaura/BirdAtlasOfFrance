@@ -1179,3 +1179,26 @@ textarea.ContactFormTextarea:focus {
     margin: 16px 0;
   }
 }
+
+/********** VUETIFY OVERLAY **********/
+
+/* Pagination */
+button.v-pagination__item,
+button.v-pagination__navigation {
+  box-shadow: none;
+}
+
+button.v-pagination__navigation .theme--light.v-icon {
+  color: #000;
+}
+
+.theme--light.v-pagination .v-pagination__item {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  line-height: 21px !important;
+  color: #000 !important;
+}
+
+.theme--light.v-pagination .v-pagination__item--active {
+  font-weight: bold !important;
+}
