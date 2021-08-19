@@ -17,7 +17,7 @@ Pour ne rien rater des actualités et des nouveautés du projet ODF, abonnez-vou
 - des témoignages,
 - des tutos…
 
-Pour s’abonner à la newsletter, cliquez sur le <font color="red">**à déterminer**</font>.
+Pour s’abonner à la newsletter, cliquez sur le [lien suivant](http://eepurl.com/hi6NPj).
 
 Pour retrouver les éditions précédentes :
 

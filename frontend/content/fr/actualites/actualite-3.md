@@ -5,7 +5,7 @@ credit: 'Photo : Emile Barbelette'
 centering: center
 author: Oiseaux de France
 tags: ['ODF']
-active: true
+active: false
 ---
 
 Durant les congés estivaux, la reproduction de nombreuses espèces d’oiseaux est encore d’actualité. C’est notamment le cas de nombreux oiseaux montagnards qui sont en pleine activité de nourrissage des nichées. Dans la plupart des massifs montagneux, nous manquons cruellement de données qui nous permettraient de mettre à jour les cartes de répartition. C’est le cas pour des espèces comme le Bruant fou ou le Monticole de roche, pour lesquels la distribution dans certains massifs comme les Pyrénées demande à être complétée.
