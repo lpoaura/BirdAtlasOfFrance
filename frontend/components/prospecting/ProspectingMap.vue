@@ -1,4 +1,3 @@
-<!-- Actualiser la carte sur la position de l'utilisateur (manque API emprises) -->
 <template>
   <div id="map-wrap">
     <l-map
@@ -11,7 +10,32 @@
       @update:bounds="updateEnvelope"
       @update:zoom="updateZoom"
     >
-      <l-tile-layer :url="url" :attribution="attribution" opacity="1" />
+      <l-tile-layer
+        v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && planIsOn"
+        :url="planUrl"
+        :opacity="Number(planOpacity) / 100"
+        :z-index="2"
+        :attribution="'IGN'"
+      />
+      <l-tile-layer
+        v-if="
+          ['Aucune', 'Points EPOC'].includes(selectedLayer) && orthophotoIsOn
+        "
+        :url="orthophotoUrl"
+        :opacity="Number(orthophotoOpacity) / 100"
+        :z-index="1"
+        :attribution="'IGN'"
+      />
+      <l-tile-layer
+        v-if="
+          !['Aucune', 'Points EPOC'].includes(selectedLayer) ||
+          (['Aucune', 'Points EPOC'].includes(selectedLayer) &&
+            !planIsOn &&
+            !orthophotoIsOn)
+        "
+        :url="osmUrl"
+        :attribution="'© les contributeurs d’OpenStreetMap'"
+      />
       <l-geo-json
         v-if="
           selectedSpecies &&
@@ -178,6 +202,22 @@ export default {
       type: Boolean,
       required: true,
     },
+    planIsOn: {
+      type: Boolean,
+      required: true,
+    },
+    planOpacity: {
+      type: String,
+      required: true,
+    },
+    orthophotoIsOn: {
+      type: Boolean,
+      required: true,
+    },
+    orthophotoOpacity: {
+      type: String,
+      required: true,
+    },
     selectedTerritoryBounds: {
       type: Object,
       required: false,
@@ -193,19 +233,18 @@ export default {
     center: [48.85341, 2.3488],
     bounds: null,
     // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    url:
+    osmUrl:
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    // url:
-    //   'https://wxs.ign.fr/pratique/geoportail/wmts?' +
-    //   '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
-    //   '&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&FORMAT=image/png' +
-    //   '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
-    // url:
-    //   'https://wxs.ign.fr/pratique/geoportail/wmts?' +
-    //   '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
-    //   '&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&FORMAT=image/jpeg' +
-    //   '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
-    attribution: '© les contributeurs d’OpenStreetMap',
+    planUrl:
+      'https://wxs.ign.fr/pratique/geoportail/wmts?' +
+      '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+      '&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&FORMAT=image/png' +
+      '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
+    orthophotoUrl:
+      'https://wxs.ign.fr/pratique/geoportail/wmts?' +
+      '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+      '&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&FORMAT=image/jpeg' +
+      '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
     envelope: null,
     initTerritory: null,
     disableScrollPropagation: true,
@@ -448,6 +487,7 @@ export default {
   },
   mounted() {
     // console.log('mounted')
+    this.isProgramaticZoom = true
     if (this.$route.query.area && this.$route.query.type) {
       this.$axios
         .$get(
@@ -458,52 +498,62 @@ export default {
             this.searchedFeatureCode = this.$route.query.area
           }
           const area = L.geoJSON(data)
-          this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
         .catch((error) => {
           console.log(error)
         })
     } else {
-      // À MODIFIER : l'API doit prendre en paramètre la localisation de l'utilisateur (Paris à défaut)
+      if (navigator.geolocation) {
+        // La géolocalisation est supportée par le navigateur
+        navigator.geolocation.getCurrentPosition(
+          this.setGeolocation,
+          this.catchGeolocationError
+        )
+      } else {
+        // La géolocalisation N'EST PAS supportée par le navigateur
+        this.$axios
+          .$get(
+            'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
+          )
+          .then((data) => {
+            const territory = L.geoJSON(data)
+            this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+      if (this.$route.query.species) {
+        this.$axios
+          .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
+          .then((data) => {
+            this.$emit('selectedSpecies', data[0])
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+    }
+  },
+  methods: {
+    setGeolocation(position) {
+      this.center = [position.coords.latitude, position.coords.longitude]
+    },
+    catchGeolocationError() {
+      // Si l'utilisateur a désactivé la géolocalisation (ou tout autre problème), alors on centre sur la France métropolitaine
       this.$axios
         .$get(
           'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
         )
         .then((data) => {
           const territory = L.geoJSON(data)
-          this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
-          if (this.$route.query.species) {
-            this.$axios
-              .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
-              .then((data) => {
-                this.$emit('selectedSpecies', data[0])
-              })
-              .catch((error) => {
-                console.log(error)
-              })
-          }
         })
         .catch((error) => {
           console.log(error)
-          navigator.geolocation.getCurrentPosition((position) => {
-            this.center = [position.coords.latitude, position.coords.longitude]
-          })
-          if (this.$route.query.species) {
-            this.$axios
-              .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
-              .then((data) => {
-                this.$emit('selectedSpecies', data[0])
-              })
-              .catch((error) => {
-                console.log(error)
-              })
-          }
         })
-    }
-  },
-  methods: {
+    },
     defineEnvelope(bounds) {
       const x = [bounds.getWest(), bounds.getEast()]
       const y = [bounds.getNorth(), bounds.getSouth()]

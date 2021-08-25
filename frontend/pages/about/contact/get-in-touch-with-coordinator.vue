@@ -30,7 +30,7 @@
             v-for="(item, index) in coordinatorsList"
             :key="index"
             class="SelectorItem"
-            :class="[item === selectedCoordinator ? 'selected' : '']"
+            :class="item === selectedCoordinator ? 'selected' : ''"
             @click="updateSelectedCoordinator(item)"
           >
             {{ item }}

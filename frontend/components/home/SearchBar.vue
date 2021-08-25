@@ -27,7 +27,7 @@
             v-for="(type, index) in typeList"
             :key="index"
             class="DropdownOption"
-            :class="[type.label === selectedType.label ? 'selected' : '']"
+            :class="type.label === selectedType.label ? 'selected' : ''"
             @click="updateSelectedType(type)"
           >
             {{ type.label }}
@@ -49,7 +49,7 @@
         {{
           selectedType.label === 'Espèce'
             ? data[`common_name_${lang}`]
-            : data.html_repr.replace('10kmL93', '')
+            : data.name.replace('10kmL93', '')
         }}
         <i v-if="selectedType.label === 'Espèce'">({{ data.sci_name }})</i>
       </li>

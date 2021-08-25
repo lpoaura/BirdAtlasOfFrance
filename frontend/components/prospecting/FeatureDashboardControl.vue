@@ -31,7 +31,7 @@
           v-for="(item, index) in menuItems"
           :key="index"
           class="MenuItem MainTextStyle"
-          :class="[item === selectedMenuItem ? 'selected' : '']"
+          :class="item === selectedMenuItem ? 'selected' : ''"
           @click="updateSelectedMenuItem(item)"
         >
           {{ item }}
@@ -120,9 +120,9 @@
             v-for="(item, index) in speciesStatusList"
             :key="index"
             class="SpeciesStatusMenuItem"
-            :class="[
-              item.value === selectedSpeciesStatus.value ? 'selected' : '',
-            ]"
+            :class="
+              item.value === selectedSpeciesStatus.value ? 'selected' : ''
+            "
             @click="updateSelectedSpeciesStatus(item)"
           >
             {{ item.label }}
