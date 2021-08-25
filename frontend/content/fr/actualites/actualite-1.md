@@ -24,3 +24,4 @@ Pour retrouver les éditions précédentes :
 - [N°1 / Janvier-Février](https://mailchi.mp/fb85565177a4/info-odf-1)
 - [N°2 / Mars-Avril](https://mailchi.mp/4d807b5a2787/info-odf-2)
 - [N°3 / Mai-Juin](https://mailchi.mp/e289eb14748f/info-odf-3)
+- [N°4 / Juillet-Août](https://mailchi.mp/3af56b6a3366/info-odf-4)

@@ -171,6 +171,10 @@ div.container.container--fluid {
   margin-right: 8px;
 }
 
+.right-margin-12 {
+  margin-right: 12px;
+}
+
 .right-margin-16 {
   margin-right: 16px;
 }
@@ -277,6 +281,7 @@ a.Vocabulary:hover::after {
   max-height: 166px;
   padding-right: 6px;
   overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .DropdownOption,
@@ -289,9 +294,6 @@ a.Vocabulary:hover::after {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: normal;
-
-  /* display: flex;
-  align-items: center; */
 }
 
 .DropdownOption {
@@ -307,10 +309,17 @@ a.Vocabulary:hover::after {
   font-size: 14px;
   line-height: 21px;
   color: #000;
+  display: flex;
+  flex-direction: column;
 }
 
 .RadioOption.selected {
   background: rgba(238, 206, 37, 0.2);
+}
+
+.RadioLabel {
+  display: flex;
+  align-items: center;
 }
 
 .RadioButton {
@@ -337,6 +346,20 @@ a.Vocabulary:hover::after {
   min-height: 6px;
   max-height: 6px;
   border-radius: 50%;
+}
+
+.RadioSubtitle {
+  display: none;
+  margin-left: 28px;
+}
+
+.RadioOption.selected .RadioSubtitle {
+  display: block;
+}
+
+.RadioOption.epoc {
+  padding-left: 40px;
+  cursor: auto;
 }
 
 /* Tab, Selector & Chip menus */
@@ -825,9 +848,14 @@ a.Vocabulary:hover::after {
 /* Dropdown selectors */
 .MapSelectorWrapper {
   position: relative;
+  margin-right: 26px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+
+.MapSelectorWrapper:last-child {
+  margin-right: 0;
 }
 
 .MapSelectorSelectedOption {
@@ -841,10 +869,6 @@ a.Vocabulary:hover::after {
   margin-right: 12px;
 }
 
-.MapSelectorSelectedOptionLabel {
-  margin-right: 12px;
-}
-
 .MapSelectorChevron {
   width: 8px;
 }
@@ -854,6 +878,7 @@ a.Vocabulary:hover::after {
   z-index: 5;
   top: 30px;
   background: #fcfcfc;
+  width: 334px;
   max-height: calc(100vh - 136px);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
   border-radius: 8px;
@@ -870,7 +895,7 @@ a.Vocabulary:hover::after {
   align-items: center;
 }
 
-.MapSelectorDisplayingTypeWrapper {
+.DisplayingTypeWrapper {
   border: 1px solid rgba(38, 38, 38, 0.1);
   box-sizing: border-box;
   cursor: pointer;
@@ -878,20 +903,26 @@ a.Vocabulary:hover::after {
   display: flex;
 }
 
-.MapSelectorDisplayingType {
+.DisplayingType {
   width: 32px;
   height: 32px;
   border-radius: 4px;
   display: flex;
 }
 
-.MapSelectorDisplayingType.selected {
+.DisplayingType.selected {
   background: #eece25;
 }
 
-.MapSelectorDisplayingTypeIcon {
+.DisplayingTypeIcon {
   width: 16px;
   margin: auto;
+}
+
+.MapSelectorOverflow {
+  padding-right: 16px;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 /* Search bars */

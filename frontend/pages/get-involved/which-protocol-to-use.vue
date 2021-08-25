@@ -10,7 +10,7 @@
           v-for="(card, index) in speciesGroupsCards"
           :key="index"
           class="Card"
-          :class="[selectedSpeciesGroup === card.title ? 'selected' : '']"
+          :class="selectedSpeciesGroup === card.title ? 'selected' : ''"
           @click="updateSelectedSpeciesGroup(card.title)"
         >
           <div

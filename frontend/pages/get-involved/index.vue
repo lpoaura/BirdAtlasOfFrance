@@ -18,7 +18,7 @@
           v-for="(item, index) in menuItems"
           :key="index"
           class="TabItem"
-          :class="[item.hash === selectedSpeciesGroup.hash ? 'selected' : '']"
+          :class="item.hash === selectedSpeciesGroup.hash ? 'selected' : ''"
           @click="updateSelectedSpeciesGroup(item)"
         >
           {{ item.label }}

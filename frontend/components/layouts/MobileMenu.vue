@@ -27,13 +27,13 @@
         <nuxt-link
           :to="item.route"
           class="NavBarItem"
-          :class="[
+          :class="
             [item.route, `${item.route}/`].includes(
               `/${$route.path.substring(1)}`
             )
               ? 'selected'
-              : '',
-          ]"
+              : ''
+          "
           @click.native="hideMobileMenu(200)"
         >
           {{ item.label }}
@@ -43,13 +43,13 @@
         <nuxt-link
           to="/about/contact"
           class="NavBarItem"
-          :class="[
+          :class="
             ['/about/contact', '/about/contact/'].includes(
               `/${$route.path.substring(1)}`
             )
               ? 'selected'
-              : '',
-          ]"
+              : ''
+          "
           @click.native="hideMobileMenu(100)"
         >
           Aide

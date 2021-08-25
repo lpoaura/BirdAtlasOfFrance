@@ -5,11 +5,11 @@
       :key="index"
       :to="card.route"
       class="ProtocolCard"
-      :class="[
+      :class="
         card.title === 'Listes complètes et données ponctuelles'
           ? 'special'
-          : '',
-      ]"
+          : ''
+      "
     >
       <img v-if="card.icon" class="CardIcon" :src="card.icon" />
       <h4 class="CardTitle fw-500 text-center bottom-margin-8">
@@ -21,7 +21,7 @@
       <span
         v-if="card.season"
         class="Badge"
-        :class="[card.season === 'Reproduction' ? 'breeding' : 'wintering']"
+        :class="card.season === 'Reproduction' ? 'breeding' : 'wintering'"
       >
         {{ card.season }}
       </span>

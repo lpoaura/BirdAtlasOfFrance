@@ -14,6 +14,10 @@
           @selectedLayer="updateSelectedLayer"
           @epocOdfOfficialIsOn="updateEpocOdfOfficial"
           @epocOdfReserveIsOn="updateEpocOdfReserve"
+          @planIsOn="updatePlan"
+          @planOpacity="updatePlanOpacity"
+          @orthophotoIsOn="updateOrthophoto"
+          @orthophotoOpacity="updateOrthophotoOpacity"
         />
         <territories-selector />
       </div>
@@ -25,6 +29,10 @@
         :selected-layer="selectedLayer"
         :epoc-odf-official-is-on="epocOdfOfficialIsOn"
         :epoc-odf-reserve-is-on="epocOdfReserveIsOn"
+        :plan-is-on="planIsOn"
+        :plan-opacity="planOpacity"
+        :orthophoto-is-on="orthophotoIsOn"
+        :orthophoto-opacity="orthophotoOpacity"
         :selected-territory-bounds="selectedTerritoryBounds"
         @selectedSpecies="updateSelectedSpecies"
       />
@@ -58,8 +66,13 @@ export default {
     selectedArea: null,
     selectedSpecies: null,
     selectedLayer: 'Indice de complétude',
+    epocPointsIsOn: true,
     epocOdfOfficialIsOn: true,
     epocOdfReserveIsOn: true,
+    planIsOn: false,
+    planOpacity: '50',
+    orthophotoIsOn: false,
+    orthophotoOpacity: '50',
     // territoriesData: [
     //   {
     //     name: 'Auvergne-Rhône-Alpes',
@@ -110,17 +123,32 @@ export default {
     updateSelectedSpecies(species) {
       this.selectedSpecies = species
       if (!species && this.selectedLayer === "Répartition de l'espèce") {
-        this.selectedLayer = 'Aucune'
+        this.selectedLayer = 'Indice de complétude'
       }
     },
     updateSelectedLayer(layer) {
       this.selectedLayer = layer
+    },
+    updateEpocPoints(value) {
+      this.epocPointsIsOn = value
     },
     updateEpocOdfOfficial(value) {
       this.epocOdfOfficialIsOn = value
     },
     updateEpocOdfReserve(value) {
       this.epocOdfReserveIsOn = value
+    },
+    updatePlan(value) {
+      this.planIsOn = value
+    },
+    updatePlanOpacity(value) {
+      this.planOpacity = value
+    },
+    updateOrthophoto(value) {
+      this.orthophotoIsOn = value
+    },
+    updateOrthophotoOpacity(value) {
+      this.orthophotoOpacity = value
     },
     updateSelectedTerritory(bounds) {
       this.selectedTerritoryBounds = bounds
