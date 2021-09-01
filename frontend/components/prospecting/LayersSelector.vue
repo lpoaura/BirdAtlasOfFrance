@@ -211,6 +211,7 @@ export default {
 .BackgroundMapsSplit {
   width: 100%;
   height: 1px;
+  min-height: 1px;
   margin: 10px 0 16px 0;
   background: rgba(57, 118, 90, 0.1);
 }

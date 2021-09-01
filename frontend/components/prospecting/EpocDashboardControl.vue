@@ -1,69 +1,62 @@
 <template>
   <div class="EpocDashboardControl">
-    <!-- HEADER -->
-    <div class="EpocDashboardHeader">
-      <div class="EpocDashboardHeaderText">
-        <h1 class="EpocDashboardTitle">
-          {{ clickedEpocPoint.properties.id_ff }}
-        </h1>
-      </div>
+    <header class="MapControlHeader">
+      <h4 class="fw-bold">
+        {{ clickedEpocPoint.properties.id_ff }}
+      </h4>
       <a
-        class="EpocDashboardDownloadButton"
+        class="MapControlDownloadButton"
         :href="`/files/map/epoc/${clickedEpocPoint.properties.id_epoc}.pdf`"
         target="_blank"
       >
-        <img class="EpocDashboardDownloadButtonIcon" src="/download.svg" />
+        <img class="MapControlDownloadButtonIcon" src="/download.svg" />
       </a>
-    </div>
-    <!-- CONTENT -->
-    <div class="EpocDashboardContent">
-      <div class="Split"></div>
-      <div class="EpocPropertyContent">
-        <div class="EpocPropertyLabel">Type</div>
-        <div
-          v-if="clickedEpocPoint.properties.status === 'Officiel'"
-          class="EpocPropertyValue"
-        >
-          EPOC ODF officiel
-        </div>
-        <div v-else class="EpocPropertyValue">
-          EPOC ODF de réserve (rang {{ clickedEpocPoint.properties.rang_rsv }})
-        </div>
+    </header>
+    <div class="MapControlSplit right-margin-16"></div>
+    <div class="MapControlOverflow">
+      <li class="MapControlDataOption">
+        <span class="EpocPropertyLabel fw-500">Type</span>
+        <span class="EpocPropertyValue">
+          {{
+            clickedEpocPoint.properties.status === 'Officiel'
+              ? 'EPOC ODF officiel'
+              : 'EPOC ODF de réserve (rang ' +
+                clickedEpocPoint.properties.rang_rsv +
+                ')'
+          }}
+        </span>
         <div class="EpocPropertyCopy"></div>
-      </div>
-      <div class="EpocPropertyContent">
-        <div class="EpocPropertyLabel">Coordonnées</div>
+      </li>
+      <li class="MapControlDataOption">
+        <div class="EpocPropertyLabel fw-500">Coordonnées</div>
         <div class="EpocPropertyValue">
           {{ epocPointCoordinates[0] }}, {{ epocPointCoordinates[1] }}
         </div>
         <div class="EpocPropertyCopy">
           <img
             v-clipboard:copy="epocPointCoordinates"
-            class="EpocPropertyCopyIcon"
+            class="MapControlDataOptionIcon"
             src="/copy.svg"
             title="Copier les coordonnées"
           />
         </div>
-      </div>
+      </li>
       <a
         :href="`https://www.google.fr/maps/place/${epocPointCoordinates}`"
         target="_blank"
-        class="PrimaryButton outlined"
-        style="margin-bottom: 16px"
-        >Ouvrir sur Google Maps</a
+        class="PrimaryButton outlined bottom-margin-16"
       >
-      <div class="Split"></div>
-      <div
-        class="EpocDashboardHeader no-bottom-margin pointer"
-        @click="updateEpocHelpStatus"
-      >
-        <h2 class="EpocDashboardTitle">Le point est inaccessible ?</h2>
+        Ouvrir sur Google Maps
+      </a>
+      <div class="MapControlSplit"></div>
+      <div class="SeeMoreWrapper" @click="updateEpocHelpStatus">
+        <h4 class="black02 fw-bold">Le point est inaccessible ?</h4>
         <img
-          class="EpocDashboardChevron"
+          class="SeeMoreChevron"
           :src="epocHelpIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
         />
       </div>
-      <span v-show="epocHelpIsOpen" class="EpocDashboardHelp">
+      <span v-show="epocHelpIsOpen" class="black02">
         <p class="no-bottom-margin">
           Si le point EPOC est inaccessible (propriété privée, terrain
           millitaire, zone aquatique...), merci de sélectionner le premier point
@@ -111,110 +104,34 @@ export default {
   flex-direction: column;
 }
 
-.EpocDashboardHeader {
-  margin-bottom: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.EpocDashboardHeaderText {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.EpocDashboardTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 24px;
-  color: #262626;
-  display: flex;
-  align-items: center;
-}
-
-.EpocDashboardTitle.margin {
-  margin-bottom: 10px;
-}
-
-.EpocDashboardDownloadButton {
-  width: 40px;
-  height: 40px;
-  margin-right: 16px;
-  border: 2px solid rgba(57, 118, 90, 0.1);
-  box-sizing: border-box;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-}
-
-.EpocDashboardDownloadButtonIcon {
-  width: 16px;
-  margin: auto;
-}
-
-.EpocDashboardContent {
-  padding-right: 16px;
-  overflow-y: auto;
-}
-
-.Split {
-  width: 100%;
-  height: 0;
-  margin-bottom: 16px;
-  border: 1px solid rgba(57, 118, 90, 0.1);
-}
-
-.EpocPropertyContent {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
-}
-
 .EpocPropertyLabel {
-  flex: 0.8;
-  font-weight: 500;
+  flex: 0.5;
 }
 
 .EpocPropertyValue {
-  flex: 2;
-  font-weight: normal;
+  flex: 1;
 }
 
 .EpocPropertyCopy {
-  flex: 0.4;
+  flex: 0.2;
   display: flex;
   justify-content: flex-end;
 }
 
-.EpocPropertyCopyIcon {
-  width: 24px;
+.MapControlDataOptionIcon {
+  margin-right: 0;
   cursor: pointer;
 }
 
-.EpocDashboardChevron {
+.SeeMoreWrapper {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.SeeMoreChevron {
   width: 11px;
-}
-
-.EpocDashboardHelp {
-  margin-top: 16px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
-}
-
-.pointer {
-  cursor: pointer;
 }
 
 p {
