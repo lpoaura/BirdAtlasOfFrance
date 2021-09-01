@@ -7,7 +7,7 @@
     <section class="CardsSection">
       <div
         class="Card"
-        :class="[isSelected ? 'selected' : '']"
+        :class="isSelected ? 'selected' : ''"
         @click="updateIsSelected"
       >
         <h6 class="CardsTitle">

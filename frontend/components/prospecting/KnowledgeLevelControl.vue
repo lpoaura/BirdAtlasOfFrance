@@ -1,48 +1,47 @@
 <template>
-  <section class="KnowledgeLevelControl">
-    <div class="KnowledgeLevelHeader">
-      <div class="KnowledgeLevelTitle">
-        <span>Indice de complétude</span>
-        <div class="HelpWrapper">
-          <img class="HelpIcon" src="/help.svg" />
-          <div class="HelpVocabularyTip"></div>
-          <div class="HelpVocabularyInfo">
-            Rapport entre le nombre d'espèces observées sur la période 2019-2024
-            et le nombre d’espèces observées sur les périodes précédentes.
+  <section class="MapControl">
+    <header class="MapControlHeader">
+      <div class="MapControlHeaderTitles">
+        <div class="KnowledgeLevel">
+          <h4 class="fw-bold">Indice de complétude</h4>
+          <div class="HelpWrapper">
+            <img class="HelpIcon" src="/help.svg" />
+            <div class="HelpVocabularyTip"></div>
+            <h5 class="HelpVocabularyInfo white02">
+              Rapport entre le nombre d'espèces observées sur la période
+              2019-2024 et le nombre d’espèces observées sur les périodes
+              précédentes.
+            </h5>
           </div>
         </div>
+        <h5 class="fw-500">France métropolitaine</h5>
       </div>
-      <seasons-selector
-        :selected-season="selectedSeason"
-        @selectedSeason="updateSelectedSeason"
-      />
-    </div>
-    <span class="KnowledgeLevelSubtitle">France métropolitaine</span>
-    <div class="KnowledgeLevelPieChartContent">
+    </header>
+    <div class="KnowledgeLevelPieChartWrapper">
       <div class="KnowledgeLevelPieChart">
         <svg class="PieChartSvg"></svg>
-        <div class="KnowledgeLevelGlobalData">
+        <h3 class="KnowledgeLevelGlobalData black02 fw-bold">
           {{ globalKnowledgeLevel[selectedSeason.value].average }}%
-        </div>
+        </h3>
       </div>
-      <div class="KnowledgeLevelPieChartLegend">
+      <div class="PieChartLegend">
         <div
           v-for="(item, index) in globalKnowledgeLevel[selectedSeason.value]
             .data"
           :key="index"
           class="PieChartLegendItem"
         >
-          <div class="PieChartLegendLabel">
+          <span class="black02 fw-500">
             <i
               :style="{
                 background: selectedSeason.featuresColors[index],
               }"
             ></i
             >{{ item.label }}
-          </div>
-          <span class="PieChartLegendData"
-            >{{ $toPercent(item.value / totalAreaCount) || 0 }} %</span
-          >
+          </span>
+          <span class="black02">
+            {{ $toPercent(item.value / totalAreaCount) || 0 }} %
+          </span>
         </div>
       </div>
     </div>
@@ -50,13 +49,9 @@
 </template>
 
 <script>
-import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
 const d3 = require('d3')
 
 export default {
-  components: {
-    'seasons-selector': SeasonsSelector,
-  },
   props: {
     selectedSeason: {
       type: Object,
@@ -255,38 +250,16 @@ export default {
         })
       })
   },
-  methods: {
-    updateSelectedSeason(season) {
-      this.$emit('selectedSeason', season)
-    },
-  },
 }
 </script>
 
 <style scoped>
-.KnowledgeLevelControl {
-  background: #fcfcfc;
+.MapControl {
   width: 420px;
   padding: 16px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
 }
 
-.KnowledgeLevelHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.KnowledgeLevelTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 24px;
-  color: #262626;
+.KnowledgeLevel {
   display: flex;
   align-items: center;
 }
@@ -329,35 +302,19 @@ export default {
   padding: 10px;
   border-radius: 8px;
   filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.32));
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  color: #fcfcfc;
 }
 
 .HelpIcon:hover ~ .HelpVocabularyInfo {
   display: block;
 }
 
-.KnowledgeLevelSubtitle {
-  margin-bottom: 16px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 18px;
-  color: #262626;
-}
-
-.KnowledgeLevelPieChartContent {
+.KnowledgeLevelPieChartWrapper {
   display: flex;
 }
 
 .KnowledgeLevelPieChart {
   position: relative;
-  flex: 1.4;
+  flex: 1.3;
   display: flex;
   justify-content: center;
 }
@@ -369,17 +326,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 36px;
-  color: #000;
 }
 
-.KnowledgeLevelPieChartLegend {
+.PieChartLegend {
   flex: 1;
-  height: 175px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -391,30 +341,11 @@ export default {
   align-items: center;
 }
 
-.PieChartLegendLabel {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
-}
-
-.PieChartLegendLabel i {
+.PieChartLegendItem i {
   width: 22px;
   height: 22px;
   border-radius: 6px;
   float: left;
-  margin-right: 10px;
-  display: flex;
-}
-
-.PieChartLegendData {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
+  margin-right: 16px;
 }
 </style>

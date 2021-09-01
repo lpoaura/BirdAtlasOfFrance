@@ -1,33 +1,40 @@
 <template>
   <footer>
-    <img class="ODFLogo" src="/ODF-logo-filled.svg" />
-    <div class="SocialNetworksContent">
-      <a
-        v-for="(item, index) in socialNetworksItems"
-        :key="index"
-        :href="item.link"
-        target="_blank"
-        class="SocialNetworksItem"
-      >
-        <img class="SocialNetworksIcon" :src="item.icon" />
-      </a>
-    </div>
-    <div class="LinksContent">
-      <nuxt-link
-        v-for="(link, index) in links"
-        :key="index"
-        :to="link.route"
-        class="Link"
-      >
-        {{ link.label }}
-      </nuxt-link>
+    <div class="MenuWrapper">
+      <img class="ODFLogo" src="/ODF-logo-filled.svg" />
+      <div class="LinksWrapper">
+        <div class="InternalLinksContent">
+          <nuxt-link
+            v-for="(link, index) in links"
+            :key="index"
+            :to="link.route"
+            class="InternalLink"
+          >
+            <h5 class="fw-500">{{ link.label }}</h5>
+          </nuxt-link>
+          <a href="http://eepurl.com/hi6NPj" target="_blank">
+            <h5 class="fw-500">Newsletter</h5>
+          </a>
+        </div>
+        <div class="Split"></div>
+        <div class="SocialNetworksContent">
+          <a
+            v-for="(item, index) in socialNetworksItems"
+            :key="index"
+            :href="item.link"
+            target="_blank"
+            class="SocialNetworksWrapper"
+          >
+            <img class="SocialNetworkIcon" :src="item.icon" />
+          </a>
+        </div>
+      </div>
     </div>
     <section class="LPOSection">
+      <h5 class="LPOLogoAside">
+        Oiseaux de France est<br />un projet porté par
+      </h5>
       <img class="LPOLogo" src="/LPO-logo.svg" />
-      <div class="LPOText">
-        <span> Oiseaux de France est un projet porté par la LPO </span>
-        <span>2021, Oiseaux de France, tous droits réservés</span>
-      </div>
     </section>
   </footer>
 </template>
@@ -49,6 +56,10 @@ export default {
         icon: '/youtube.svg',
         link: 'https://www.youtube.com/channel/UCFTACrbTuk_XdbWFYf0SYxw',
       },
+      {
+        icon: '/github.svg',
+        link: 'https://github.com/lpoaura/BirdAtlasOfFrance',
+      },
     ],
   }),
 }
@@ -57,80 +68,85 @@ export default {
 <style scoped>
 footer {
   width: 100%;
-  height: 186px;
-  padding: 0 5%;
+  padding: 40px 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.MenuWrapper {
+  display: flex;
+  align-items: center;
+}
+
 .ODFLogo {
-  height: 100px;
+  height: 72px;
+  margin-right: 32px;
+}
+
+.LinksWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.InternalLinksContent {
+  display: flex;
+}
+
+.InternalLink {
+  margin-right: 32px;
+}
+
+.Split {
+  width: 100%;
+  height: 1px;
+  min-height: 1px;
+  margin: 10px 0;
+  background: rgba(38, 38, 38, 0.1);
 }
 
 .SocialNetworksContent {
-  height: 100px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
-.SocialNetworksItem {
-  background: rgba(57, 118, 90, 0.1);
-  min-width: 40px;
-  max-width: 40px;
-  min-height: 40px;
-  max-height: 40px;
+.SocialNetworksWrapper {
+  background: linear-gradient(
+      rgba(107, 131, 120, 0.1),
+      rgba(107, 131, 120, 0.1)
+    ),
+    white;
+  min-width: 32px;
+  max-width: 32px;
+  min-height: 32px;
+  max-height: 32px;
+  margin-right: 32px;
   border-radius: 50%;
   display: flex;
 }
 
-.SocialNetworksIcon {
-  width: 20px;
+.InternalLink:last-child,
+.SocialNetworksWrapper:last-child {
+  margin-right: 0;
+}
+
+.SocialNetworkIcon {
+  width: 16px;
   margin: auto;
 }
 
-.LinksContent {
-  height: 100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.Link {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 18px;
-  text-decoration: none;
-  color: #262626;
-}
-
 .LPOSection {
-  background: rgba(38, 38, 38, 0.1);
-  height: 100px;
-  padding: 24px 3%;
-  border-radius: 8px;
   display: flex;
   align-items: center;
 }
 
 .LPOLogo {
-  height: 100%;
-  margin-right: 30px;
+  height: 48px;
+  margin-left: 16px;
 }
 
-.LPOText {
-  height: 100%;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  color: #262626;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.LPOLogoAside {
+  line-height: 21px;
+  text-align: right;
 }
 </style>
