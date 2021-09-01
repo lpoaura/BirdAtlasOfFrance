@@ -17,10 +17,11 @@ Pour ne rien rater des actualités et des nouveautés du projet ODF, abonnez-vou
 - des témoignages,
 - des tutos…
 
-Pour s’abonner à la newsletter, cliquez sur le <font color="red">**à déterminer**</font>.
+Pour s’abonner à la newsletter, cliquez sur le [lien suivant](http://eepurl.com/hi6NPj).
 
 Pour retrouver les éditions précédentes :
 
 - [N°1 / Janvier-Février](https://mailchi.mp/fb85565177a4/info-odf-1)
 - [N°2 / Mars-Avril](https://mailchi.mp/4d807b5a2787/info-odf-2)
 - [N°3 / Mai-Juin](https://mailchi.mp/e289eb14748f/info-odf-3)
+- [N°4 / Juillet-Août](https://mailchi.mp/3af56b6a3366/info-odf-4)

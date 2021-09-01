@@ -30,7 +30,7 @@
             v-for="(item, index) in subjectsList"
             :key="index"
             class="SelectorItem"
-            :class="[item === selectedSubject ? 'selected' : '']"
+            :class="item === selectedSubject ? 'selected' : ''"
             @click="updateSelectedSubject(item)"
           >
             {{ item }}

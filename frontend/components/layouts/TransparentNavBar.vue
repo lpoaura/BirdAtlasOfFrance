@@ -11,13 +11,13 @@
         :key="index"
         :to="item.route"
         class="NavBarItem"
-        :class="[
+        :class="
           [item.route, `${item.route}/`].includes(
             `/${$route.path.substring(1).split('/')[0]}`
           )
             ? 'selected'
-            : '',
-        ]"
+            : ''
+        "
         >{{ item.label }}</nuxt-link
       >
     </nav>

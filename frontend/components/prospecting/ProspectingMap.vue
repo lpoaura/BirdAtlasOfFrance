@@ -1,4 +1,3 @@
-<!-- Actualiser la carte sur la position de l'utilisateur (manque API emprises) -->
 <template>
   <div id="map-wrap">
     <l-map
@@ -11,7 +10,32 @@
       @update:bounds="updateEnvelope"
       @update:zoom="updateZoom"
     >
-      <l-tile-layer :url="url" :attribution="attribution" opacity="1" />
+      <l-tile-layer
+        v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && planIsOn"
+        :url="planUrl"
+        :opacity="Number(planOpacity) / 100"
+        :z-index="2"
+        :attribution="'IGN'"
+      />
+      <l-tile-layer
+        v-if="
+          ['Aucune', 'Points EPOC'].includes(selectedLayer) && orthophotoIsOn
+        "
+        :url="orthophotoUrl"
+        :opacity="Number(orthophotoOpacity) / 100"
+        :z-index="1"
+        :attribution="'IGN'"
+      />
+      <l-tile-layer
+        v-if="
+          !['Aucune', 'Points EPOC'].includes(selectedLayer) ||
+          (['Aucune', 'Points EPOC'].includes(selectedLayer) &&
+            !planIsOn &&
+            !orthophotoIsOn)
+        "
+        :url="osmUrl"
+        :attribution="'© les contributeurs d’OpenStreetMap'"
+      />
       <l-geo-json
         v-if="
           selectedSpecies &&
@@ -56,7 +80,6 @@
         <knowledge-level-control
           v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
           :selected-season="selectedSeason"
-          @selectedSeason="updateSelectedSeason"
         />
         <feature-dashboard-control
           v-if="
@@ -71,20 +94,19 @@
           v-if="selectedLayer === 'Répartition de l\'espèce' && selectedSpecies"
           :selected-species="selectedSpecies"
           :selected-season="selectedSeason"
-          @selectedSeason="updateSelectedSeason"
           @selectedSpecies="deleteSelectedSpecies"
         />
         <section
           v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
-          class="EpocDashboardControl"
+          class="MapControl epoc"
         >
           <div
             v-if="clickedFeature"
-            class="FeatureComeBack"
+            class="MapControlComeBack"
             @click="deleteClickedEpocPoint"
           >
-            <img class="FeatureComeBackIcon" src="/previous.svg" />
-            <span class="FeatureComeBackLabel">{{
+            <img class="MapControlComeBackIcon" src="/previous.svg" />
+            <span class="fw-500">{{
               clickedFeature.properties.area_name
             }}</span>
           </div>
@@ -95,9 +117,11 @@
         v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
         position="topleft"
       >
-        <div class="EpocGeojsonControl">
-          Trop de points à afficher, zoomez à l’échelle d’une maille pour
-          visualiser les points EPOC.
+        <div class="InformationControl">
+          <h5 class="black02 fw-500">
+            Trop de points à afficher, zoomez à l’échelle d’une maille pour
+            visualiser les points EPOC.
+          </h5>
         </div>
       </l-control>
       <l-control
@@ -109,26 +133,33 @@
         "
         position="topright"
       >
-        <div class="EpocGeojsonControl">
+        <div class="InformationControl">
           <v-progress-circular
             :size="20"
             :width="3"
             :indeterminate="indeterminate"
+            class="right-margin-8"
           />
-          <span style="margin-left: 5px">Chargement des données</span>
+          <h5 class="black02 fw-500">Chargement des données</h5>
         </div>
       </l-control>
       <l-control
-        v-show="!speciesDistributionIsLoading && noSpeciesData"
+        v-show="
+          !speciesDistributionIsLoading &&
+          noSpeciesData &&
+          selectedLayer === 'Répartition de l\'espèce'
+        "
         position="topright"
       >
-        <div class="EpocGeojsonControl">
-          Pas de données pour la saison et l'emprise choisies.
+        <div class="InformationControl">
+          <h5 class="black02 fw-500">
+            Pas de données pour la saison et l'emprise choisies.
+          </h5>
         </div>
       </l-control>
       <l-control-zoom position="bottomright"></l-control-zoom>
       <l-control position="bottomright">
-        <div class="GeolocationControl" @click="geolocate">
+        <div class="MiniMapControl" @click="geolocate">
           <img class="Icon" src="/geolocation.svg" />
         </div>
       </l-control>
@@ -166,6 +197,10 @@ export default {
       required: false,
       default: null,
     },
+    selectedSeason: {
+      type: Object,
+      required: true,
+    },
     selectedLayer: {
       type: String,
       required: true,
@@ -176,6 +211,22 @@ export default {
     },
     epocOdfReserveIsOn: {
       type: Boolean,
+      required: true,
+    },
+    planIsOn: {
+      type: Boolean,
+      required: true,
+    },
+    planOpacity: {
+      type: String,
+      required: true,
+    },
+    orthophotoIsOn: {
+      type: Boolean,
+      required: true,
+    },
+    orthophotoOpacity: {
+      type: String,
       required: true,
     },
     selectedTerritoryBounds: {
@@ -193,19 +244,18 @@ export default {
     center: [48.85341, 2.3488],
     bounds: null,
     // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    url:
+    osmUrl:
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    // url:
-    //   'https://wxs.ign.fr/pratique/geoportail/wmts?' +
-    //   '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
-    //   '&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&FORMAT=image/png' +
-    //   '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
-    // url:
-    //   'https://wxs.ign.fr/pratique/geoportail/wmts?' +
-    //   '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
-    //   '&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&FORMAT=image/jpeg' +
-    //   '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
-    attribution: '© les contributeurs d’OpenStreetMap',
+    planUrl:
+      'https://wxs.ign.fr/pratique/geoportail/wmts?' +
+      '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+      '&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&FORMAT=image/png' +
+      '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
+    orthophotoUrl:
+      'https://wxs.ign.fr/pratique/geoportail/wmts?' +
+      '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+      '&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&FORMAT=image/jpeg' +
+      '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
     envelope: null,
     initTerritory: null,
     disableScrollPropagation: true,
@@ -220,18 +270,6 @@ export default {
     knowledgeLevelIsLoading: false,
     speciesDistributionIsLoading: false,
     noSpeciesData: false,
-    selectedSeason: {
-      label: 'Toutes saisons',
-      value: 'all_period',
-      featuresColors: [
-        'rgba(51, 105, 80, 0.2)',
-        'rgba(51, 105, 80, 0.4)',
-        'rgba(51, 105, 80, 0.6)',
-        'rgba(51, 105, 80, 0.8)',
-        '#336950',
-      ],
-      speciesDistributionColors: ['#336950'],
-    },
     featuresClasses: [0.25, 0.5, 0.75, 1],
     clickedFeature: null,
     searchedFeatureId: null,
@@ -431,16 +469,16 @@ export default {
         this.updateSpeciesDistributionGeojson(newVal)
       }
     },
+    selectedSeason(newVal) {
+      if (this.selectedSpecies) {
+        this.updateSpeciesDistributionGeojson(this.selectedSpecies)
+      }
+    },
     selectedLayer(newVal) {
       if (newVal === 'Aucune') {
         this.clickedFeature = null
       }
       this.clickedEpocPoint = null
-    },
-    selectedSeason(newVal) {
-      if (this.selectedSpecies) {
-        this.updateSpeciesDistributionGeojson(this.selectedSpecies)
-      }
     },
     selectedTerritoryBounds(newVal) {
       this.zoomToTerritory(newVal)
@@ -448,6 +486,7 @@ export default {
   },
   mounted() {
     // console.log('mounted')
+    this.isProgramaticZoom = true
     if (this.$route.query.area && this.$route.query.type) {
       this.$axios
         .$get(
@@ -458,52 +497,62 @@ export default {
             this.searchedFeatureCode = this.$route.query.area
           }
           const area = L.geoJSON(data)
-          this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
         .catch((error) => {
           console.log(error)
         })
     } else {
-      // À MODIFIER : l'API doit prendre en paramètre la localisation de l'utilisateur (Paris à défaut)
+      if (navigator.geolocation) {
+        // La géolocalisation est supportée par le navigateur
+        navigator.geolocation.getCurrentPosition(
+          this.setGeolocation,
+          this.catchGeolocationError
+        )
+      } else {
+        // La géolocalisation N'EST PAS supportée par le navigateur
+        this.$axios
+          .$get(
+            'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
+          )
+          .then((data) => {
+            const territory = L.geoJSON(data)
+            this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+      if (this.$route.query.species) {
+        this.$axios
+          .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
+          .then((data) => {
+            this.$emit('selectedSpecies', data[0])
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+    }
+  },
+  methods: {
+    setGeolocation(position) {
+      this.center = [position.coords.latitude, position.coords.longitude]
+    },
+    catchGeolocationError() {
+      // Si l'utilisateur a désactivé la géolocalisation (ou tout autre problème), alors on centre sur la France métropolitaine
       this.$axios
         .$get(
           'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
         )
         .then((data) => {
           const territory = L.geoJSON(data)
-          this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
-          if (this.$route.query.species) {
-            this.$axios
-              .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
-              .then((data) => {
-                this.$emit('selectedSpecies', data[0])
-              })
-              .catch((error) => {
-                console.log(error)
-              })
-          }
         })
         .catch((error) => {
           console.log(error)
-          navigator.geolocation.getCurrentPosition((position) => {
-            this.center = [position.coords.latitude, position.coords.longitude]
-          })
-          if (this.$route.query.species) {
-            this.$axios
-              .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
-              .then((data) => {
-                this.$emit('selectedSpecies', data[0])
-              })
-              .catch((error) => {
-                console.log(error)
-              })
-          }
         })
-    }
-  },
-  methods: {
+    },
     defineEnvelope(bounds) {
       const x = [bounds.getWest(), bounds.getEast()]
       const y = [bounds.getNorth(), bounds.getSouth()]
@@ -751,9 +800,6 @@ export default {
       this.isProgramaticZoom = true
       this.$refs.myMap.mapObject.fitBounds(latLngBounds)
     },
-    updateSelectedSeason(season) {
-      this.selectedSeason = season
-    },
     deleteSelectedSpecies() {
       this.$emit('selectedSpecies', null)
     },
@@ -769,46 +815,8 @@ export default {
   height: calc(100vh - 136px);
 }
 
-section.EpocDashboardControl {
-  background: #fcfcfc;
+.MapControl.epoc {
   width: 506px;
   max-height: calc(100vh - 156px);
-  padding: 16px 0 16px 16px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
-  border-radius: 8px;
-}
-
-.FeatureComeBack {
-  margin-bottom: 10px;
-  display: flex;
-  cursor: pointer;
-}
-
-.FeatureComeBackIcon {
-  width: 12px;
-  margin-right: 10px;
-}
-
-.FeatureComeBackLabel {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 21px;
-  color: #262626;
-}
-
-.EpocGeojsonControl {
-  background: #fff;
-  padding: 10px;
-  border: 2px solid #eece25;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 18px;
-  color: #000;
 }
 </style>

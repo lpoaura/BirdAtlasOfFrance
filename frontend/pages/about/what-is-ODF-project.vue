@@ -5,7 +5,7 @@
 <script>
 export default {
   data: () => ({
-    nuxtContent: 'fr/what-is-ODF-project',
+    nuxtContent: 'fr/projet-ODF',
   }),
   head() {
     return {

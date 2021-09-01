@@ -1,7 +1,6 @@
 <template>
-  <label for="switch-button" :class="{ active: checked }" class="SwitchButton">
+  <label :class="{ active: checked }" class="SwitchButton">
     <input
-      id="switch-button"
       :checked="checked"
       type="checkbox"
       @change="$emit('change', $event.target.checked)"
@@ -24,9 +23,8 @@ export default {
 
 <style scoped>
 .SwitchButton {
-  margin-right: 16px;
+  margin-right: 12px;
   display: flex;
-  align-items: center;
   user-select: none;
   cursor: pointer;
 }
