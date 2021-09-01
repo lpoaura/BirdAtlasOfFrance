@@ -155,6 +155,10 @@ div.container.container--fluid {
   margin-bottom: 0 !important;
 }
 
+.bottom-margin-4 {
+  margin-bottom: 4px;
+}
+
 .bottom-margin-8 {
   margin-bottom: 8px;
 }
@@ -177,6 +181,10 @@ div.container.container--fluid {
 
 .right-margin-16 {
   margin-right: 16px;
+}
+
+.right-margin-24 {
+  margin-right: 24px;
 }
 
 /* Links */
@@ -603,8 +611,9 @@ a.Vocabulary:hover::after {
 }
 
 .AutocompleteSearchSplit {
-  width: 0;
-  border: 1px solid rgba(38, 38, 38, 0.1);
+  width: 1px;
+  min-width: 1px;
+  background: rgba(38, 38, 38, 0.1);
 }
 
 .AutocompleteDropdownWrapper {
@@ -631,8 +640,9 @@ a.Vocabulary:hover::after {
 }
 
 .AutocompleteResultsSplit {
-  height: 0;
-  border: 1px solid rgba(38, 38, 38, 0.1);
+  height: 1px;
+  min-height: 1px;
+  background: rgba(38, 38, 38, 0.1);
 }
 
 .AutocompleteResults {
@@ -962,6 +972,166 @@ a.Vocabulary:hover::after {
   height: 14px;
 }
 
+/* Map controls */
+.MapControl {
+  --maxHeight: calc(100vh - 156px);
+
+  width: 506px;
+  background: #fcfcfc;
+  max-height: var(--maxHeight);
+  padding: 16px 0 16px 16px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.MapControlHeader {
+  margin: 0 16px 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.MapControlHeaderTitles {
+  display: flex;
+  flex-direction: column;
+}
+
+.MapControlDownloadButton {
+  width: 42px;
+  height: 42px;
+  border: 2px solid rgba(57, 118, 90, 0.1);
+  box-sizing: border-box;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+}
+
+.MapControlDownloadButtonIcon {
+  width: 24px;
+  margin: auto;
+}
+
+.MapControl .MapControlDashboard {
+  max-height: calc(var(--maxHeight) - 32px);
+  display: flex;
+  flex-direction: column;
+}
+
+.MapControlSplit {
+  height: 1px;
+  min-height: 1px;
+  margin-bottom: 24px;
+  background: rgba(57, 118, 90, 0.1);
+}
+
+.MapControlSplit.main {
+  /* height: 2px;
+  min-height: 2px; */
+  background: rgba(57, 118, 90, 0.4);
+}
+
+.MapControlOverflow {
+  padding-right: 16px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.MapControlKeyData {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.MapControlKeyDataValue.all_period {
+  color: #39765a;
+}
+.MapControlKeyDataValue.breeding {
+  color: #e65784;
+}
+.MapControlKeyDataValue.wintering {
+  color: #4c61f4;
+}
+
+.MapControlDataOption {
+  /* Associé à une balise <li> */
+  margin-bottom: 12px;
+  list-style: none;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000;
+  display: flex;
+  align-items: center;
+}
+
+.MapControlDataOption:last-child {
+  margin-bottom: 0;
+}
+
+.MapControlDataOptionIcon {
+  width: 24px;
+  margin-right: 24px;
+}
+
+.MapControlSeeMoreWrapper {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.MapControlSeeMore {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.MapControlSeeMoreChevron {
+  height: 7px;
+}
+
+.MapControlComeBack {
+  margin-bottom: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.MapControlComeBackIcon {
+  width: 12px;
+  margin-right: 12px;
+}
+
+.MiniMapControl {
+  width: 42px;
+  height: 42px;
+  background: #fcfcfc;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+}
+
+.MiniMapControl .Icon {
+  width: 24px;
+  height: 24px;
+  margin: auto;
+}
+
+.InformationControl {
+  background: #fff;
+  padding: 12px;
+  border: 2px solid #eece25;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  display: flex;
+}
+
 /* Leaflet */
 .leaflet-control-zoom.leaflet-bar.leaflet-control {
   width: 42px;
@@ -990,22 +1160,6 @@ a.Vocabulary:hover::after {
   border-bottom-right-radius: 8px;
 }
 
-.GeolocationControl {
-  width: 42px;
-  height: 42px;
-  background: #fcfcfc;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-}
-
-.GeolocationControl .Icon {
-  width: 24px;
-  height: 24px;
-  margin: auto;
-}
-
 .LeafletTooltip {
   padding-left: 10px !important;
   padding-right: 10px !important;
@@ -1027,14 +1181,6 @@ a.Vocabulary:hover::after {
 }
 .leaflet-tooltip-right::before {
   border-right-color: rgba(0, 0, 0, 0) !important;
-}
-
-.MapControl {
-  padding: 10px 10px;
-  background: rgba(255, 255, 255, 1);
-  border-color: rgb(255, 255, 255);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
 }
 
 /********** CONTACT FORMS **********/

@@ -4,7 +4,7 @@ picture: actualite-2.jpg
 credit: 'Photo : Emile Barbelette'
 centering: 0 -80px
 author: Oiseaux de France
-tags: ['ODF']
+tags: ['Comptage', 'Œdicnème criard']
 active: true
 ---
 

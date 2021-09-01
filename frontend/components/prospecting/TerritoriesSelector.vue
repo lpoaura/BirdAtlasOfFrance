@@ -213,8 +213,8 @@ export default {
 
 <style scoped>
 .AutocompleteWrapper {
-  width: 302px;
-  margin-bottom: 20px;
+  width: auto;
+  margin: 0 16px 20px 0;
 }
 
 .AutocompleteSearchIconWrapper {
@@ -223,6 +223,7 @@ export default {
 
 .TerritoriesGrid,
 .TerritoriesList {
+  padding-right: 16px;
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -231,7 +232,6 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   grid-gap: 16px;
-  padding-right: 16px;
 }
 
 .TerritoriesCard {
@@ -283,10 +283,6 @@ export default {
 .TerritoriesCardsIcon {
   height: 48px;
   margin-bottom: 12px;
-}
-
-.TerritoriesList {
-  padding-right: 16px;
 }
 
 .RadioOption.inactive {

@@ -80,7 +80,6 @@
         <knowledge-level-control
           v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
           :selected-season="selectedSeason"
-          @selectedSeason="updateSelectedSeason"
         />
         <feature-dashboard-control
           v-if="
@@ -95,20 +94,19 @@
           v-if="selectedLayer === 'Répartition de l\'espèce' && selectedSpecies"
           :selected-species="selectedSpecies"
           :selected-season="selectedSeason"
-          @selectedSeason="updateSelectedSeason"
           @selectedSpecies="deleteSelectedSpecies"
         />
         <section
           v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
-          class="EpocDashboardControl"
+          class="MapControl epoc"
         >
           <div
             v-if="clickedFeature"
-            class="FeatureComeBack"
+            class="MapControlComeBack"
             @click="deleteClickedEpocPoint"
           >
-            <img class="FeatureComeBackIcon" src="/previous.svg" />
-            <span class="FeatureComeBackLabel">{{
+            <img class="MapControlComeBackIcon" src="/previous.svg" />
+            <span class="fw-500">{{
               clickedFeature.properties.area_name
             }}</span>
           </div>
@@ -119,9 +117,11 @@
         v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
         position="topleft"
       >
-        <div class="EpocGeojsonControl">
-          Trop de points à afficher, zoomez à l’échelle d’une maille pour
-          visualiser les points EPOC.
+        <div class="InformationControl">
+          <h5 class="black02 fw-500">
+            Trop de points à afficher, zoomez à l’échelle d’une maille pour
+            visualiser les points EPOC.
+          </h5>
         </div>
       </l-control>
       <l-control
@@ -133,26 +133,33 @@
         "
         position="topright"
       >
-        <div class="EpocGeojsonControl">
+        <div class="InformationControl">
           <v-progress-circular
             :size="20"
             :width="3"
             :indeterminate="indeterminate"
+            class="right-margin-8"
           />
-          <span style="margin-left: 5px">Chargement des données</span>
+          <h5 class="black02 fw-500">Chargement des données</h5>
         </div>
       </l-control>
       <l-control
-        v-show="!speciesDistributionIsLoading && noSpeciesData"
+        v-show="
+          !speciesDistributionIsLoading &&
+          noSpeciesData &&
+          selectedLayer === 'Répartition de l\'espèce'
+        "
         position="topright"
       >
-        <div class="EpocGeojsonControl">
-          Pas de données pour la saison et l'emprise choisies.
+        <div class="InformationControl">
+          <h5 class="black02 fw-500">
+            Pas de données pour la saison et l'emprise choisies.
+          </h5>
         </div>
       </l-control>
       <l-control-zoom position="bottomright"></l-control-zoom>
       <l-control position="bottomright">
-        <div class="GeolocationControl" @click="geolocate">
+        <div class="MiniMapControl" @click="geolocate">
           <img class="Icon" src="/geolocation.svg" />
         </div>
       </l-control>
@@ -189,6 +196,10 @@ export default {
       type: Object,
       required: false,
       default: null,
+    },
+    selectedSeason: {
+      type: Object,
+      required: true,
     },
     selectedLayer: {
       type: String,
@@ -259,18 +270,6 @@ export default {
     knowledgeLevelIsLoading: false,
     speciesDistributionIsLoading: false,
     noSpeciesData: false,
-    selectedSeason: {
-      label: 'Toutes saisons',
-      value: 'all_period',
-      featuresColors: [
-        'rgba(51, 105, 80, 0.2)',
-        'rgba(51, 105, 80, 0.4)',
-        'rgba(51, 105, 80, 0.6)',
-        'rgba(51, 105, 80, 0.8)',
-        '#336950',
-      ],
-      speciesDistributionColors: ['#336950'],
-    },
     featuresClasses: [0.25, 0.5, 0.75, 1],
     clickedFeature: null,
     searchedFeatureId: null,
@@ -470,16 +469,16 @@ export default {
         this.updateSpeciesDistributionGeojson(newVal)
       }
     },
+    selectedSeason(newVal) {
+      if (this.selectedSpecies) {
+        this.updateSpeciesDistributionGeojson(this.selectedSpecies)
+      }
+    },
     selectedLayer(newVal) {
       if (newVal === 'Aucune') {
         this.clickedFeature = null
       }
       this.clickedEpocPoint = null
-    },
-    selectedSeason(newVal) {
-      if (this.selectedSpecies) {
-        this.updateSpeciesDistributionGeojson(this.selectedSpecies)
-      }
     },
     selectedTerritoryBounds(newVal) {
       this.zoomToTerritory(newVal)
@@ -801,9 +800,6 @@ export default {
       this.isProgramaticZoom = true
       this.$refs.myMap.mapObject.fitBounds(latLngBounds)
     },
-    updateSelectedSeason(season) {
-      this.selectedSeason = season
-    },
     deleteSelectedSpecies() {
       this.$emit('selectedSpecies', null)
     },
@@ -819,46 +815,8 @@ export default {
   height: calc(100vh - 136px);
 }
 
-section.EpocDashboardControl {
-  background: #fcfcfc;
+.MapControl.epoc {
   width: 506px;
   max-height: calc(100vh - 156px);
-  padding: 16px 0 16px 16px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
-  border-radius: 8px;
-}
-
-.FeatureComeBack {
-  margin-bottom: 10px;
-  display: flex;
-  cursor: pointer;
-}
-
-.FeatureComeBackIcon {
-  width: 12px;
-  margin-right: 10px;
-}
-
-.FeatureComeBackLabel {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 21px;
-  color: #262626;
-}
-
-.EpocGeojsonControl {
-  background: #fff;
-  padding: 10px;
-  border: 2px solid #eece25;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 18px;
-  color: #000;
 }
 </style>

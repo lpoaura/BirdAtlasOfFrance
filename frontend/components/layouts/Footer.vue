@@ -100,9 +100,10 @@ footer {
 
 .Split {
   width: 100%;
-  height: 0;
+  height: 1px;
+  min-height: 1px;
   margin: 10px 0;
-  border: 1px solid rgba(38, 38, 38, 0.1);
+  background: rgba(38, 38, 38, 0.1);
 }
 
 .SocialNetworksContent {
