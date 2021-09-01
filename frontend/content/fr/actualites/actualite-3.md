@@ -1,15 +1,17 @@
 ---
-title: ODF ne s’arrête pas pendant les vacances !
+title: Oiseaux de France évolue !
 picture: actualite-3.png
 credit: 'Photo : Emile Barbelette'
 centering: center
 author: Oiseaux de France
-tags: ['ODF']
+tags: ['Nouveautés', 'ODF']
 active: true
 ---
 
-Durant les congés estivaux, la reproduction de nombreuses espèces d’oiseaux est encore d’actualité. C’est notamment le cas de nombreux oiseaux montagnards qui sont en pleine activité de nourrissage des nichées. Dans la plupart des massifs montagneux, nous manquons cruellement de données qui nous permettraient de mettre à jour les cartes de répartition. C’est le cas pour des espèces comme le Bruant fou ou le Monticole de roche, pour lesquels la distribution dans certains massifs comme les Pyrénées demande à être complétée.
+Depuis la première mise en ligne de la plateforme ODF en juin 2021, de nouvelles fonctionnalités sont désormais disponibles.
 
-Lors vos randonnées, nous vous encourageons à bien noter vos observations qui pourront contribuer significativement à l’amélioration des connaissances pour de nombreuses espèces.
+Parmi les principales, on retrouve une **rubrique dédiée aux actualités** sur la page d’accueil, de **nouveaux fonds de cartes** dans le module « Carte » ou encore la possibilité de visualiser l’indice de complétude ainsi que la pression d’observation d’une maille suivant les trois périodes de l’année (toutes saisons, reproduction ou hivernage).
 
-Pour communiquer vos observations, rendez-vous sur [Faune France](www.faune-france.org) ou téléchargez l’application NaturaList.
+La **version mobile** de la plateforme ODF est en cours de développement.
+
+Et très prochainement, nous aurons le plaisir de visualiser les premières cartes d’un département d’Outre-Mer, la **Guyane**. Cette innovation n’est possible que grâce à la participation active de notre partenaire local, le GEPOG, et des nombreux observateurs qui collectent des données d’oiseaux depuis [www.faune-guyane.fr](https://www.faune-guyane.fr/).

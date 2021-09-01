@@ -1,23 +1,21 @@
 <template>
-  <section class="SpeciesDashboardControl">
-    <!-- HEADER -->
-    <div class="SpeciesDashboardHeader">
-      <span class="SpeciesDashboardTitle">{{
-        selectedSpecies[`common_name_${lang}`]
-      }}</span>
-      <seasons-selector
-        :selected-season="selectedSeason"
-        @selectedSeason="updateSelectedSeason"
-      />
+  <section class="MapControl">
+    <div class="MapControlHeader">
+      <div class="MapControlHeaderTitles">
+        <h4 class="fw-bold bottom-margin-4">
+          {{ selectedSpecies[`common_name_${lang}`] }}
+        </h4>
+        <h5 class="fw-300">
+          <i>{{ selectedSpecies.sci_name }}</i>
+          {{
+            selectedSpecies.common_name_en
+              ? ' - ' + selectedSpecies.common_name_en
+              : ''
+          }}
+        </h5>
+      </div>
     </div>
-    <span class="SpeciesDashboardSubtitle">
-      <i>{{ selectedSpecies.sci_name }} </i>
-      <span v-if="selectedSpecies.common_name_en">
-        - {{ selectedSpecies.common_name_en }}
-      </span>
-    </span>
-    <!-- CONTENT -->
-    <div class="SpeciesDashboardContent">
+    <div class="MapControlOverflow">
       <div class="FeaturesLegend">
         <div
           v-for="(item, index) in selectedSeason.speciesDistributionColors"
@@ -28,15 +26,11 @@
             :style="{
               background: item,
             }"
-          ></i
-          >{{ featuresLabels[selectedSeason.value][index] }}
+          ></i>
+          {{ featuresLabels[selectedSeason.value][index] }}
         </div>
       </div>
-      <div
-        class="PrimaryButton outlined"
-        style="margin-top: 6px"
-        @click="deleteSelectedSpecies"
-      >
+      <div class="PrimaryButton outlined" @click="deleteSelectedSpecies">
         Fermer
       </div>
     </div>
@@ -44,12 +38,7 @@
 </template>
 
 <script>
-import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
-
 export default {
-  components: {
-    'seasons-selector': SeasonsSelector,
-  },
   props: {
     selectedSpecies: {
       type: Object,
@@ -69,9 +58,6 @@ export default {
     lang: 'fr',
   }),
   methods: {
-    updateSelectedSeason(season) {
-      this.$emit('selectedSeason', season)
-    },
     deleteSelectedSpecies() {
       this.$emit('selectedSpecies', null)
       this.$router.push({
@@ -84,55 +70,16 @@ export default {
 </script>
 
 <style scoped>
-.SpeciesDashboardControl {
-  background: #fcfcfc;
-  width: 506px;
-  max-height: calc(100vh - 156px);
-  padding: 16px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-}
-
-.SpeciesDashboardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.SpeciesDashboardTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 24px;
-  color: #262626;
-  display: flex;
-  align-items: center;
-}
-
-.SpeciesDashboardSubtitle {
-  margin-bottom: 16px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 18px;
-  color: #262626;
-}
-
-.SpeciesDashboardContent {
-  /* padding-right: 16px; */
-  overflow-y: auto;
+.MapControl {
+  width: 420px;
 }
 
 .FeaturesLegend {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .FeaturesLegendLabel {
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -141,12 +88,16 @@ export default {
   color: #000;
 }
 
-.FeaturesLegendLabel i {
+.FeaturesLegendLabel:last-child {
+  margin-bottom: 0;
+}
+
+.FeaturesLegend i {
   width: 22px;
   height: 22px;
   border-radius: 6px;
   float: left;
-  margin-right: 10px;
+  margin-right: 12px;
   display: flex;
 }
 </style>

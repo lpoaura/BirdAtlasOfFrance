@@ -1,4 +1,3 @@
-<!-- AJOUTER LA PAGINATION (5 actualités par page) -->
 <template>
   <v-container fluid>
     <main class="TopSection">
@@ -6,7 +5,7 @@
     </main>
     <section class="NewsSection">
       <div
-        v-for="(item, index) in newsItems"
+        v-for="(item, index) in resultsNewsItems"
         :id="item.slug"
         :key="index"
         class="NewsCard"
@@ -35,6 +34,13 @@
           </div>
         </div>
       </div>
+      <v-pagination
+        v-model="currentPage"
+        :length="paginationNumber"
+        :total-visible="7"
+        circle
+        :color="'rgba(57, 118, 90, 0.2)'"
+      ></v-pagination>
     </section>
   </v-container>
 </template>
@@ -43,7 +49,25 @@
 export default {
   data: () => ({
     newsItems: [],
+    paginationNumber: 1,
+    currentPage: 1,
+    newsNumberPerPage: 4,
   }),
+  computed: {
+    resultsNewsItems() {
+      if (this.paginationNumber <= 1) {
+        return this.newsItems
+      } else {
+        const resultsNewsIndexes = Array(this.newsNumberPerPage)
+          .fill()
+          .map((value, i) => i + 1)
+          .map((value) => this.currentPage * this.newsNumberPerPage - value)
+        return this.newsItems.filter((news, index) => {
+          return resultsNewsIndexes.includes(index)
+        })
+      }
+    },
+  },
   mounted() {
     this.$content(`fr/actualites`)
       .where({ active: true })
@@ -51,15 +75,26 @@ export default {
       .fetch()
       .then((news) => {
         this.newsItems = news
+        this.paginationNumber =
+          Math.floor(this.newsItems.length / this.newsNumberPerPage) + 1
       })
       .catch((error) => {
         console.log(error)
       })
       .finally(() => {
         if (this.$route.hash) {
-          document
-            .getElementById(this.$route.hash.substring(1))
-            .scrollIntoView()
+          const selectedNews = this.newsItems.filter((news) => {
+            return news.slug === this.$route.hash.substring(1)
+          })
+          const selectedNewsIndex = this.newsItems.indexOf(selectedNews[0])
+          this.currentPage =
+            Math.floor(selectedNewsIndex / this.newsNumberPerPage) + 1
+          // Temps de latence nécessaire pour que les actualités de la page s'affichent
+          setTimeout(() => {
+            document
+              .getElementById(this.$route.hash.substring(1))
+              .scrollIntoView()
+          }, 10)
         }
       })
   },
@@ -93,7 +128,7 @@ export default {
 }
 
 .NewsCard:last-child {
-  margin-bottom: 0;
+  margin-bottom: 50px;
 }
 
 .CardPicture {

@@ -1,15 +1,45 @@
 <template>
-  <div style="display: flex; justify-content: center">
-    <input type="range" min="0" max="100" value="50" class="slider" />
-  </div>
+  <input
+    type="range"
+    :min="min"
+    :max="max"
+    :value="number"
+    class="slider"
+    @input="$emit('change', $event.target.value)"
+  />
 </template>
+
+<script>
+export default {
+  model: {
+    prop: 'number',
+    event: 'change',
+  },
+  props: {
+    number: {
+      type: String,
+      required: true,
+    },
+    min: {
+      type: Number,
+      required: true,
+    },
+    max: {
+      type: Number,
+      required: true,
+    },
+  },
+}
+</script>
 
 <style scoped>
 input[type='range'] {
   /* overflow: hidden; */
   -webkit-appearance: none;
-  background-color: #eece25;
+  width: 100%;
   height: 4px;
+  margin-top: 10px;
+  background-color: #eece25;
   border-radius: 40px;
   outline: none;
 }
@@ -59,7 +89,7 @@ input[type='range']::-webkit-slider-thumb {
   cursor: pointer;
 }
 
-/* Firefox */
+/* Mozilla Firefox */
 input[type='range']::-moz-range-progress {
   background-color: #eece25;
   height: 4px;
