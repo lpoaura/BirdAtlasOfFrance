@@ -1,66 +1,12 @@
-<!-- Générer automatiquement la page entière (composant/v-show) en fonction des fichiers md récupérés -->
 <template>
-  <v-container fluid>
-    <informative-header
-      :logo="logo"
-      :title="title"
-      :subtitle="subtitle"
-      :last-update="lastUpdate"
-      :menu-items="menuItems"
-      @selectedMenuItem="updateSelectedMenuItem"
-    />
-    <section class="InformativePageSection">
-      <nuxt-content v-show="selectedMenuItem === '#cgu'" :document="pageCGU" />
-      <nuxt-content
-        v-show="selectedMenuItem === ''"
-        :document="pageLegalNotices"
-      />
-    </section>
-  </v-container>
+  <informative-page :nuxt-content="nuxtContent" />
 </template>
 
 <script>
 export default {
   data: () => ({
-    pageLegalNotices: {},
-    pageCGU: {},
-    logo: '',
-    title: '',
-    subtitle: '',
-    lastUpdate: '',
-    menuItems: [
-      { label: 'Mentions légales', route: '' },
-      { label: 'CGU', route: '#cgu' },
-    ],
-    selectedMenuItem: '',
+    nuxtContent: 'fr/mentions-legales',
   }),
-  mounted() {
-    this.$content(`fr/mentions-legales/mentions-legales`)
-      .fetch()
-      .then((legalNotices) => {
-        this.pageLegalNotices = legalNotices
-        this.logo = legalNotices.logo
-        this.title = legalNotices.title
-        this.subtitle = legalNotices.subtitle
-        this.lastUpdate = this.$formatDate(legalNotices.updatedAt)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    this.$content(`fr/mentions-legales/CGU`)
-      .fetch()
-      .then((cgu) => {
-        this.pageCGU = cgu
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  },
-  methods: {
-    updateSelectedMenuItem(route) {
-      this.selectedMenuItem = route
-    },
-  },
   head() {
     return {
       title: this.$getPageTitle(this.$route.path),
@@ -70,7 +16,15 @@ export default {
 </script>
 
 <style scoped>
-div.container.container--fluid {
-  padding-top: 68px;
+@media screen and (max-width: 545px) {
+  div.container.container--fluid >>> .TabMenu {
+    display: none;
+  }
+
+  div.container.container--fluid >>> .DropdownListWrapper {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 0;
+  }
 }
 </style>

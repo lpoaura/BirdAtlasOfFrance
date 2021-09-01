@@ -1,68 +1,127 @@
-<!-- Refaire les switchers... -->
 <template>
-  <div v-click-outside="closeSelectBox" class="SelectLayerWrapper">
-    <div class="SelectedLayerContent" @click="openOrCloseSelectBox">
-      <img class="SelectedLayerIcon" src="/layers.svg" />
-      <span class="SelectedLayerText">Couches</span>
+  <div v-click-outside="closeSelectBox" class="MapSelectorWrapper">
+    <div class="MapSelectorSelectedOption" @click="openOrCloseSelectBox">
+      <img class="MapSelectorIcon" src="/layers.svg" />
+      <h5 class="fw-600 right-margin-12">Couches</h5>
       <img
-        class="SelectedLayerChevron"
+        class="MapSelectorChevron"
         :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
       />
     </div>
-    <div v-show="selectIsOpen" class="SelectBox">
-      <div class="SelectBoxHeader">
-        <span class="SelectBoxTitle">Couches</span>
+    <div v-show="selectIsOpen" class="MapSelectorBox">
+      <div class="MapSelectorHeader">
+        <h4 class="black02 fw-600">Couches</h4>
       </div>
-      <div class="LayersList">
-        <div
+      <div class="MapSelectorOverflow">
+        <li
           v-for="(layer, index) in layersList"
           :key="index"
-          class="LayersLi"
-          :class="layer === selectedLayer ? 'selected' : ''"
-          @click="updateSelectedLayer(layer)"
+          class="RadioOption"
+          :class="layer.label === selectedLayer ? 'selected' : ''"
+          @click="updateSelectedLayer(layer.label)"
         >
-          <div class="LayersLiRadio">
-            <div
-              v-show="layer === selectedLayer"
-              class="LayersLiRadioSelected"
-            ></div>
+          <div class="RadioLabel">
+            <div class="RadioButton">
+              <div
+                v-show="layer.label === selectedLayer"
+                class="RadioButtonSelected"
+              ></div>
+            </div>
+            {{ layer.label }}
           </div>
-          <span class="LayersLiText">{{ layer }}</span>
-        </div>
-        <div v-show="selectedLayer === 'Points EPOC'" class="EpocList">
+          <h5 v-if="layer.subtitle" class="RadioSubtitle black04">
+            {{ layer.subtitle }}
+          </h5>
+        </li>
+        <div v-show="selectedLayer === 'Points EPOC'">
           <!-- Ajouter les points EPOC classiques -->
-          <div class="EpocLi">
-            <v-switch
-              v-model="epocOdfOfficialIsOn"
-              inset
-              dense
-              color="#EECE25"
-            ></v-switch>
-            <span class="LayersLiText">EPOC ODF</span>
+          <div class="RadioOption epoc">
+            <div class="RadioLabel">
+              <switch-button v-model="epocOdfOfficialIsOn" />
+              EPOC ODF
+            </div>
           </div>
-          <div class="EpocLi">
-            <v-switch
-              v-model="epocOdfReserveIsOn"
-              inset
-              dense
-              color="#EECE25"
-            ></v-switch>
-            <span class="LayersLiText">EPOC ODF de réserve</span>
+          <div class="RadioOption epoc">
+            <div class="RadioLabel">
+              <switch-button v-model="epocOdfReserveIsOn" />
+              EPOC ODF de réserve
+            </div>
           </div>
         </div>
         <div
           v-if="selectedSpecies"
-          class="LayersLi"
+          class="RadioOption"
           :class="speciesDistributionLayer === selectedLayer ? 'selected' : ''"
           @click="updateSelectedLayer(speciesDistributionLayer)"
         >
-          <div class="LayersLiRadio">
-            <div
-              v-show="speciesDistributionLayer === selectedLayer"
-              class="LayersLiRadioSelected"
-            ></div>
+          <div class="RadioLabel">
+            <div class="RadioButton">
+              <div
+                v-show="speciesDistributionLayer === selectedLayer"
+                class="RadioButtonSelected"
+              ></div>
+            </div>
+            {{ speciesDistributionLayer }}
           </div>
-          <span class="LayersLiText">{{ speciesDistributionLayer }}</span>
+          <h5 class="RadioSubtitle black04">
+            Non compatible avec les fonds carthographiques Plan et
+            Orthophotographies
+          </h5>
+        </div>
+        <div
+          v-show="['Aucune', 'Points EPOC'].includes(selectedLayer)"
+          class="BackgroundMapsWrapper"
+        >
+          <div class="BackgroundMapsSplit"></div>
+          <h4 class="black02 fw-600 bottom-margin-16">
+            Fonds carthographiques
+          </h4>
+          <div class="BackgroundMap">
+            <switch-button v-model="planIsOn" />
+            <div class="BackgroundMapSlider">
+              <span class="BackgroundMapLabel black02"> Plan </span>
+              <range-slider
+                v-show="planIsOn"
+                v-model="planOpacity"
+                :min="0"
+                :max="100"
+              />
+            </div>
+            <div v-show="planIsOn" class="BackgroundMapInput">
+              <input
+                v-model="planOpacity"
+                type="number"
+                value="50"
+                min="0"
+                max="100"
+              />
+              <span class="black04 unit">%</span>
+            </div>
+          </div>
+          <div class="BackgroundMap">
+            <switch-button v-model="orthophotoIsOn" />
+            <div class="BackgroundMapSlider">
+              <span class="BackgroundMapLabel black02">
+                Orthophotographies
+              </span>
+              <range-slider
+                v-show="orthophotoIsOn"
+                v-model="orthophotoOpacity"
+                :min="0"
+                :max="100"
+              />
+            </div>
+            <div v-show="orthophotoIsOn" class="BackgroundMapInput">
+              <input
+                v-model="orthophotoOpacity"
+                type="number"
+                value="50"
+                min="0"
+                max="100"
+              />
+              <span class="black04 unit">%</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -84,11 +143,23 @@ export default {
   },
   data: () => ({
     selectIsOpen: false,
-    layersList: ['Aucune', 'Indice de complétude', 'Points EPOC'],
+    layersList: [
+      { label: 'Aucune', subtitle: null },
+      {
+        label: 'Indice de complétude',
+        subtitle:
+          'Non compatible avec les fonds carthographiques Plan et Orthophotographies',
+      },
+      { label: 'Points EPOC', subtitle: null },
+    ],
     speciesDistributionLayer: "Répartition de l'espèce",
     epocPointsIsOn: true,
     epocOdfOfficialIsOn: true,
     epocOdfReserveIsOn: true,
+    planIsOn: false,
+    planOpacity: '50',
+    orthophotoIsOn: false,
+    orthophotoOpacity: '50',
   }),
   computed: {
     filteredTerritories() {
@@ -103,6 +174,18 @@ export default {
     },
     epocOdfReserveIsOn(newVal) {
       this.$emit('epocOdfReserveIsOn', newVal)
+    },
+    planIsOn(newVal) {
+      this.$emit('planIsOn', newVal)
+    },
+    planOpacity(newVal) {
+      this.$emit('planOpacity', newVal)
+    },
+    orthophotoIsOn(newVal) {
+      this.$emit('orthophotoIsOn', newVal)
+    },
+    orthophotoOpacity(newVal) {
+      this.$emit('orthophotoOpacity', newVal)
     },
     selectedSpecies(newVal) {
       if (newVal) {
@@ -125,130 +208,73 @@ export default {
 </script>
 
 <style scoped>
-.SelectLayerWrapper {
-  position: relative;
-  margin-left: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+.BackgroundMapsSplit {
+  width: 100%;
+  height: 1px;
+  min-height: 1px;
+  margin: 10px 0 16px 0;
+  background: rgba(57, 118, 90, 0.1);
 }
 
-.SelectedLayerContent {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.SelectedLayerIcon {
-  width: 16px;
-  margin-right: 12px;
-}
-
-.SelectedLayerText {
-  margin-right: 12px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 18px;
-  color: #262626;
-}
-
-.SelectedLayerChevron {
-  width: 8px;
-}
-
-.SelectBox {
-  position: absolute;
-  z-index: 5;
-  top: 30px;
-  background: #fcfcfc;
-  width: 334px;
-  max-height: calc(100vh - 136px);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
-  border-radius: 8px;
-  padding: 16px;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.SelectBoxHeader {
-  margin-bottom: 10px;
+.BackgroundMap {
+  padding: 10px 0 10px 12px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-.SelectBoxTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  color: #000;
+.BackgroundMapLabel {
+  line-height: 16px;
 }
 
-.LayersList,
-.EpocList {
+.BackgroundMapSlider {
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.LayersLi {
-  width: 100%;
-  height: 39.2px;
-  padding-left: 10px;
-  border-radius: 4px;
-  cursor: pointer;
+.BackgroundMapInput {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  padding-left: 8px;
+  margin-left: 12px;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+  box-sizing: border-box;
+  border-radius: 8px;
   display: flex;
   align-items: center;
 }
 
-.LayersLi.selected {
-  background: rgba(238, 206, 37, 0.2);
-}
-
-.LayersLiRadio {
-  margin-right: 12px;
-  min-width: 16px;
-  max-width: 16px;
-  min-height: 16px;
-  max-height: 16px;
-  border-radius: 50%;
-  border: 1px solid rgba(38, 38, 38, 0.2);
-  display: flex;
-}
-
-.LayersLi.selected .LayersLiRadio {
-  border: none;
-  background: #eece25;
-}
-
-.LayersLiRadioSelected {
-  background: #fcfcfc;
-  margin: auto;
-  min-width: 6px;
-  max-width: 6px;
-  min-height: 6px;
-  max-height: 6px;
-  border-radius: 50%;
-}
-
-.LayersLiText {
+.BackgroundMapInput input {
+  width: 26px;
+  outline: none;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 21px;
-  color: #000;
+  color: rgba(38, 38, 38, 0.4);
+  text-align: right;
 }
 
-.EpocLi {
-  width: 100%;
-  height: 39.2px;
-  padding-left: 38px;
+.BackgroundMapInput .unit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 11px;
   display: flex;
   align-items: center;
+}
+
+/* Mozilla Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* Chrome */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 </style>
