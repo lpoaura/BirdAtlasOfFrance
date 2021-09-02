@@ -130,12 +130,14 @@ export default {
     },
     showMobileMenu() {
       document.documentElement.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
       this.currentScroll = window.scrollY
       this.displayMobileMenu = true
     },
     hideMobileMenu() {
       this.displayMobileMenu = false
       document.documentElement.style.overflow = 'auto'
+      document.body.style.position = ''
     },
     listener() {
       this.$debounce(this.handleScroll())
