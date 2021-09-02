@@ -1379,3 +1379,7 @@ button.v-pagination__navigation .theme--light.v-icon {
 .theme--light.v-pagination .v-pagination__item--active {
   font-weight: bold !important;
 }
+
+.theme--light.v-pagination .v-pagination__navigation {
+  background: #fcfcfc !important;
+}
