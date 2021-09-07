@@ -63,15 +63,13 @@
             </div>
             {{ speciesDistributionLayer }}
           </div>
-          <h5 class="RadioSubtitle black04">
+          <!-- <h5 class="RadioSubtitle black04">
             Non compatible avec les fonds carthographiques Plan et
             Orthophotographies
-          </h5>
+          </h5> -->
         </div>
-        <div
-          v-show="['Aucune', 'Points EPOC'].includes(selectedLayer)"
-          class="BackgroundMapsWrapper"
-        >
+        <!-- v-show="['Aucune', 'Points EPOC'].includes(selectedLayer)" -->
+        <div class="BackgroundMapsWrapper">
           <div class="BackgroundMapsSplit"></div>
           <h4 class="black02 fw-600 bottom-margin-16">
             Fonds carthographiques
@@ -147,8 +145,9 @@ export default {
       { label: 'Aucune', subtitle: null },
       {
         label: 'Indice de complétude',
-        subtitle:
-          'Non compatible avec les fonds carthographiques Plan et Orthophotographies',
+        subtitle: null,
+        // subtitle:
+        //   'Non compatible avec les fonds carthographiques Plan et Orthophotographies',
       },
       { label: 'Points EPOC', subtitle: null },
     ],
