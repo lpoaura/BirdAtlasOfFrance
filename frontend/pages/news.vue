@@ -19,11 +19,10 @@
         >
           <h5 class="white02 PictureCredit">{{ item.credit }}</h5>
         </div>
-        <div class="CardMetadata bottom-margin-16">
-          <span class="black03 right-margin-8">{{ item.author }}</span>
-          <span class="black03 right-margin-8">•</span>
-          <span class="black03">{{ $formatDate(item.createdAt, true) }}</span>
-        </div>
+        <span class="black03 bottom-margin-16">
+          {{ item.author }} &nbsp;•&nbsp;
+          {{ $formatDate(item.createdAt, true) }}
+        </span>
         <h3 class="black02 fw-600 bottom-margin-16">
           {{ item.title }}
         </h3>
@@ -39,7 +38,6 @@
         :length="paginationNumber"
         :total-visible="7"
         circle
-        :color="'rgba(57, 118, 90, 0.2)'"
       ></v-pagination>
     </section>
   </v-container>

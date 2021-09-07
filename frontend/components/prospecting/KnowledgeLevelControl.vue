@@ -314,7 +314,8 @@ export default {
 
 .KnowledgeLevelPieChart {
   position: relative;
-  flex: 1.3;
+  flex: 1;
+  height: 166px;
   display: flex;
   justify-content: center;
 }
@@ -329,16 +330,20 @@ export default {
 }
 
 .PieChartLegend {
-  flex: 1;
+  flex: 0.8;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .PieChartLegendItem {
+  margin-bottom: 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.PieChartLegendItem:last-child {
+  margin-bottom: 0;
 }
 
 .PieChartLegendItem i {
