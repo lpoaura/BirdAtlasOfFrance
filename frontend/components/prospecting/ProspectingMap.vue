@@ -10,29 +10,25 @@
       @update:bounds="updateEnvelope"
       @update:zoom="updateZoom"
     >
+      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && planIsOn" -->
       <l-tile-layer
-        v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && planIsOn"
+        v-if="planIsOn"
         :url="planUrl"
         :opacity="Number(planOpacity) / 100"
         :z-index="2"
         :attribution="'IGN'"
       />
+      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && orthophotoIsOn" -->
       <l-tile-layer
-        v-if="
-          ['Aucune', 'Points EPOC'].includes(selectedLayer) && orthophotoIsOn
-        "
+        v-if="orthophotoIsOn"
         :url="orthophotoUrl"
         :opacity="Number(orthophotoOpacity) / 100"
         :z-index="1"
         :attribution="'IGN'"
       />
+      <!-- v-if="!['Aucune', 'Points EPOC'].includes(selectedLayer) || (['Aucune', 'Points EPOC'].includes(selectedLayer) && !planIsOn && !orthophotoIsOn)" -->
       <l-tile-layer
-        v-if="
-          !['Aucune', 'Points EPOC'].includes(selectedLayer) ||
-          (['Aucune', 'Points EPOC'].includes(selectedLayer) &&
-            !planIsOn &&
-            !orthophotoIsOn)
-        "
+        v-if="!planIsOn && !orthophotoIsOn"
         :url="osmUrl"
         :attribution="'© les contributeurs d’OpenStreetMap'"
       />

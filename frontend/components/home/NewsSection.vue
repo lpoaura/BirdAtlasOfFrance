@@ -2,7 +2,7 @@
   <section class="Section">
     <div class="SectionHeader">
       <h2 class="fw-bold">Actualités</h2>
-      <div class="CarouselNavWrapper">
+      <div v-if="!isTouchDevice" class="CarouselNavWrapper">
         <img
           class="CarouselNav"
           :class="atHeadOfList ? 'disabled' : ''"
@@ -17,7 +17,7 @@
         />
       </div>
     </div>
-    <h5 class="fw-600 bottom-margin-40">
+    <h5 class="fw-600 Subtitle">
       <nuxt-link to="/news">Voir toutes les actualités</nuxt-link>
     </h5>
     <div class="CarouselWrapper">
@@ -35,13 +35,10 @@
                   background: `url(/news/${item.picture}) center / cover`,
                 }"
               ></div>
-              <div class="CardMetadata bottom-margin-8">
-                <span class="black03 right-margin-8">{{ item.author }}</span>
-                <span class="black03 right-margin-8">•</span>
-                <span class="black03">{{
-                  $formatDate(item.createdAt, true)
-                }}</span>
-              </div>
+              <span class="black03 bottom-margin-8">
+                {{ item.author }} &nbsp;•&nbsp;
+                {{ $formatDate(item.createdAt, true) }}
+              </span>
               <h4 class="CardTitle fw-bold bottom-margin-16">
                 {{ item.title }}
               </h4>
@@ -82,6 +79,7 @@ export default {
     currentOffset: 0,
     maxOffset: 0,
     resizeId: 0,
+    isTouchDevice: false,
   }),
   computed: {
     atEndOfList() {
@@ -92,6 +90,10 @@ export default {
     },
   },
   beforeMount() {
+    this.isTouchDevice =
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.msMaxTouchPoints > 0
     window.addEventListener('resize', this.listener)
   },
   beforeDestroy() {
@@ -144,7 +146,8 @@ export default {
       }
     },
     calculateMaxOffset() {
-      const totalCardsWidth = this.calculateTotalCardsWidth()
+      const totalCardsWidth = document.getElementsByClassName('Carousel')[0]
+        .offsetWidth
       const carouselWrapperWidth = document.getElementsByClassName(
         'CarouselWrapper'
       )[0].offsetWidth
@@ -154,23 +157,25 @@ export default {
         return 0
       }
     },
-    calculateTotalCardsWidth() {
-      const cardWidth = document.getElementsByClassName('NewsCard')[0]
-        .offsetWidth
-      const cardMargin = parseFloat(
-        window.getComputedStyle(document.getElementsByClassName('NewsCard')[0])
-          .marginRight
-      )
-      return this.newsItems.length * (cardWidth + cardMargin) - cardMargin
-    },
+    // calculateTotalCardsWidth() {
+    //   const cardWidth = document.getElementsByClassName('NewsCard')[0]
+    //     .offsetWidth
+    //   const cardMarginRight = parseFloat(
+    //     window.getComputedStyle(document.getElementsByClassName('NewsCard')[0])
+    //       .marginRight
+    //   )
+    //   return (
+    //     this.newsItems.length * (cardWidth + cardMarginRight) - cardMarginRight
+    //   )
+    // },
     calculateCardWidth() {
       const cardWidth = document.getElementsByClassName('NewsCard')[0]
         .offsetWidth
-      const cardMargin = parseFloat(
+      const cardMarginRight = parseFloat(
         window.getComputedStyle(document.getElementsByClassName('NewsCard')[0])
           .marginRight
       )
-      return cardWidth + cardMargin
+      return cardWidth + cardMarginRight
     },
   },
 }
@@ -178,13 +183,20 @@ export default {
 
 <style scoped>
 .Section {
+  padding: 40px 0 32px 0;
   background: rgba(57, 118, 90, 0.1);
 }
 
 .SectionHeader {
+  margin: 0 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+h5.Subtitle {
+  margin-left: 5%;
+  margin-bottom: 32px;
 }
 
 .CarouselNavWrapper {
@@ -205,10 +217,22 @@ export default {
 
 .CarouselWrapper {
   width: 100%;
-  overflow-x: visible;
+  overflow-x: scroll;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch; /* iOS */
+
+  /* Hide scrollbar */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.CarouselWrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .Carousel {
+  padding: 0 5%;
   display: inline-flex;
   transition: transform 150ms ease-out;
   transform: translateX(0);
@@ -217,7 +241,7 @@ export default {
 .NewsCard {
   width: 410px;
   height: 466px;
-  margin-right: 24px;
+  margin: 8px 24px 8px 0;
   justify-content: space-between;
 }
 
@@ -285,13 +309,17 @@ export default {
 /********** RESPONSIVE **********/
 
 @media screen and (max-width: 680px) {
+  .Section {
+    padding: 24px 0 16px 0;
+  }
+
   .CarouselNav {
     height: 14px;
     margin-left: 30px;
   }
 
-  h5.bottom-margin-40 {
-    margin-bottom: 16px !important;
+  h5.Subtitle {
+    margin-bottom: 8px !important;
   }
 
   .NewsCard {
