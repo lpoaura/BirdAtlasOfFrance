@@ -513,10 +513,6 @@ a.Vocabulary:hover::after {
   border-radius: 8px;
 }
 
-.CardMetadata {
-  display: flex;
-}
-
 /* Badges */
 .Badge {
   padding: 8px 16px;
@@ -1370,6 +1366,7 @@ button.v-pagination__navigation .theme--light.v-icon {
 }
 
 .theme--light.v-pagination .v-pagination__item {
+  background: #fcfcfc !important;
   font-family: 'Poppins', sans-serif !important;
   font-size: 14px !important;
   line-height: 21px !important;
@@ -1377,6 +1374,7 @@ button.v-pagination__navigation .theme--light.v-icon {
 }
 
 .theme--light.v-pagination .v-pagination__item--active {
+  background: rgba(96, 128, 113, 0.2) !important;
   font-weight: bold !important;
 }
 
