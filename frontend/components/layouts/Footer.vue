@@ -54,7 +54,7 @@ export default {
       },
       {
         icon: '/youtube.svg',
-        link: 'https://www.youtube.com/channel/UCFTACrbTuk_XdbWFYf0SYxw',
+        link: 'https://www.youtube.com/channel/UCI13cz60YLX3DHEeOEBxdMg',
       },
       {
         icon: '/github.svg',
