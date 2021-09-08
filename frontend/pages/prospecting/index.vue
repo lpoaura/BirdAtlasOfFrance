@@ -34,10 +34,8 @@
         :selected-layer="selectedLayer"
         :epoc-odf-official-is-on="epocOdfOfficialIsOn"
         :epoc-odf-reserve-is-on="epocOdfReserveIsOn"
-        :plan-is-on="planIsOn"
-        :plan-opacity="planOpacity"
-        :orthophoto-is-on="orthophotoIsOn"
-        :orthophoto-opacity="orthophotoOpacity"
+        :plan="plan"
+        :orthophoto="orthophoto"
         :selected-territory-bounds="selectedTerritoryBounds"
         @selectedSpecies="updateSelectedSpecies"
       />
@@ -82,10 +80,39 @@ export default {
     epocPointsIsOn: true,
     epocOdfOfficialIsOn: true,
     epocOdfReserveIsOn: true,
-    planIsOn: false,
-    planOpacity: '50',
-    orthophotoIsOn: false,
-    orthophotoOpacity: '50',
+    plan: {
+      isOn: false,
+      url:
+        'https://wxs.ign.fr/pratique/geoportail/wmts?' +
+        '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+        '&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&FORMAT=image/png' +
+        '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
+      opacity: '50',
+      zIndex: 2,
+      attribution: 'IGN Plan V2',
+    },
+    orthophoto: {
+      isOn: false,
+      url:
+        'https://wxs.ign.fr/pratique/geoportail/wmts?' +
+        '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+        '&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&FORMAT=image/jpeg' +
+        '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
+      opacity: '50',
+      zIndex: 1,
+      attribution: 'IGN Orthophotographies',
+    },
+    clc: {
+      isOn: false,
+      url: 'http://wxs.ign.fr/corinelandcover/geoportail/r/wms',
+      layers: 'LANDCOVER.CLC18',
+      opacity: '50',
+      zIndex: 3,
+      attribution: 'Corine Land Cover 2018',
+      name: 'Corine Land Cover 2018',
+      visible: true,
+      transparent: true,
+    },
     selectedTerritoryBounds: null,
   }),
   methods: {
@@ -114,16 +141,16 @@ export default {
       this.epocOdfReserveIsOn = value
     },
     updatePlan(value) {
-      this.planIsOn = value
+      this.plan.isOn = value
     },
     updatePlanOpacity(value) {
-      this.planOpacity = value
+      this.plan.opacity = value
     },
     updateOrthophoto(value) {
-      this.orthophotoIsOn = value
+      this.orthophoto.isOn = value
     },
     updateOrthophotoOpacity(value) {
-      this.orthophotoOpacity = value
+      this.orthophoto.opacity = value
     },
     updateSelectedTerritory(bounds) {
       this.selectedTerritoryBounds = bounds

@@ -1,22 +1,26 @@
 <template>
   <v-container fluid>
-    <section class="IntroSection">
-      <div class="BackgroundPicture">
-        <header class="IntroContent">
-          <h1 class="IntroTitle">À propos</h1>
-        </header>
-      </div>
-      <div class="PictureCredit">Photo : Canards pilets, Emile Barbelette</div>
-      <div class="CardsContent">
+    <main class="TopSection">
+      <header>
+        <h1 class="white02 fw-bold text-center">À propos</h1>
+      </header>
+      <h6 class="TopSectionPictureCredit white01 fw-300">
+        Photo : Canards pilets, Emile Barbelette
+      </h6>
+    </main>
+    <section class="Section">
+      <div class="MenuCardsContent">
         <nuxt-link
           v-for="(card, index) in cards"
           :key="index"
           :to="card.route"
-          class="Card"
+          class="MenuCard"
         >
-          <img class="CardsIcon" :src="card.icon" />
-          <h6 class="CardsTitle">{{ card.title }}</h6>
-          <span class="CardsSubtitle">{{ card.subtitle }}</span>
+          <img class="CardIcon" :src="card.icon" />
+          <h4 class="CardTitle fw-500 text-center bottom-margin-8">
+            {{ card.title }}
+          </h4>
+          <h5 class="black03 text-center">{{ card.subtitle }}</h5>
         </nuxt-link>
       </div>
     </section>
@@ -114,123 +118,37 @@ export default {
 </script>
 
 <style scoped>
-.IntroSection {
+.TopSection {
   position: relative;
-  width: 100%;
-  height: 536px;
-}
-
-.BackgroundPicture {
-  position: relative;
+  height: 410px;
   background: linear-gradient(
       180deg,
       rgba(85, 75, 57, 0.6) 0%,
       rgba(85, 75, 57, 0) 100%
     ),
     url('/about/about-picture.jpg') center / cover, rgba(85, 75, 57, 1);
-  width: 100%;
-  height: 410px;
-  display: flex;
 }
 
-.IntroContent {
-  position: absolute;
-  z-index: 5;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 100%;
-  height: 30%;
-  display: flex;
+.TopSectionPictureCredit {
+  bottom: 140px;
 }
 
-.IntroTitle {
-  margin: auto;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 40px;
-  line-height: 60px;
-  text-align: center;
-  color: #fcfcfc;
-}
-
-.PictureCredit {
-  position: absolute;
-  z-index: 1;
-  left: 12.5vw;
-  bottom: 260px;
-  width: 73.9vw;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 10px;
-  line-height: 15px;
-  text-align: right;
-  color: #fff;
-}
-
-.CardsContent {
-  position: absolute;
-  z-index: 1;
-  left: 12.5vw;
-  bottom: 0;
-  background: #fcfcfc;
-  width: 73.9vw;
-  height: 252px;
-  border-radius: 24px;
-  padding: 1.3vw;
-  display: flex;
-  justify-content: space-between;
-}
-
-.Card {
-  background: #efefef;
-  width: 22.9vw;
-  height: 100%;
-  border-radius: 16px;
-  padding: 0 2%;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.Section {
+  padding: 0;
   align-items: center;
 }
 
-.Card:hover {
-  background: rgba(238, 206, 37, 0.2);
+.MenuCardsContent {
+  position: relative; /* Permet d'avoir un z-index supérieur à TopSection qui est relative aussi */
+  height: 260px;
+  margin-top: -130px;
 }
 
-.CardsIcon {
+.CardIcon {
   height: 48px;
-  margin-bottom: 6%;
 }
 
-.CardsTitle {
-  margin-bottom: 4%;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #262626;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.CardsSubtitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  text-align: center;
-  color: rgba(38, 38, 38, 0.6);
-}
-
-.QuestionsSection {
+/* .QuestionsSection {
   background: rgba(57, 118, 90, 0.1);
   width: 100%;
   padding: 0 22% 20px 22%;
@@ -287,5 +205,61 @@ export default {
   font-size: 14px;
   line-height: 21px;
   color: #000;
+} */
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 920px) {
+  .TopSectionPictureCredit {
+    width: 90%;
+    left: 5%;
+  }
+
+  .MenuCardsContent {
+    width: 90%;
+  }
+
+  .MenuCard {
+    padding: 12px;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .TopSection {
+    height: 270px;
+  }
+
+  .TopSectionPictureCredit {
+    bottom: 75px;
+    text-align: center;
+  }
+
+  .MenuCardsContent {
+    width: 378px;
+    height: auto;
+    max-width: calc(100vw + 24px);
+    margin-top: -65px;
+    flex-direction: column;
+  }
+
+  .MenuCard {
+    padding: 32px 24px;
+  }
+
+  h4.CardTitle {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .TopSectionPictureCredit {
+    bottom: 10px;
+    text-align: right;
+  }
+
+  .MenuCardsContent {
+    margin-top: 0;
+  }
 }
 </style>

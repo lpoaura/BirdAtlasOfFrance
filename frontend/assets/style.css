@@ -3,6 +3,10 @@ body {
   overflow-x: hidden !important;
 }
 
+body {
+  width: 100%;
+}
+
 /********** TYPOGRAPHY **********/
 
 .PlayfairDisplayTypo {
@@ -462,6 +466,7 @@ a.Vocabulary:hover::after {
 }
 
 .MenuCard {
+  flex: 1;
   margin: 12px;
   border-radius: 16px;
 }
@@ -761,6 +766,24 @@ a.Vocabulary:hover::after {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.TopSectionPictureCredit {
+  position: absolute;
+  z-index: 1;
+  left: max(12%, calc((100% - 1200px) / 2));
+  width: 76%;
+  max-width: 1200px;
+  text-align: right;
+}
+
+.MenuCardsContent {
+  background: #fcfcfc;
+  width: 76%;
+  max-width: 1200px;
+  border-radius: 24px;
+  padding: 12px;
+  display: flex;
 }
 
 .Section {

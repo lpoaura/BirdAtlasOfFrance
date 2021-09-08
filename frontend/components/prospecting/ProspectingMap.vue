@@ -10,25 +10,36 @@
       @update:bounds="updateEnvelope"
       @update:zoom="updateZoom"
     >
-      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && planIsOn" -->
+      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && plan.isOn" -->
       <l-tile-layer
-        v-if="planIsOn"
-        :url="planUrl"
-        :opacity="Number(planOpacity) / 100"
-        :z-index="2"
-        :attribution="'IGN'"
+        v-if="plan.isOn"
+        :url="plan.url"
+        :opacity="Number(plan.opacity) / 100"
+        :z-index="plan.zIndex"
+        :attribution="plan.attribution"
       />
-      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && orthophotoIsOn" -->
+      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && orthophoto.isOn" -->
       <l-tile-layer
-        v-if="orthophotoIsOn"
-        :url="orthophotoUrl"
-        :opacity="Number(orthophotoOpacity) / 100"
-        :z-index="1"
-        :attribution="'IGN'"
+        v-if="orthophoto.isOn"
+        :url="orthophoto.url"
+        :opacity="Number(orthophoto.opacity) / 100"
+        :z-index="orthophoto.zIndex"
+        :attribution="orthophoto.attribution"
       />
-      <!-- v-if="!['Aucune', 'Points EPOC'].includes(selectedLayer) || (['Aucune', 'Points EPOC'].includes(selectedLayer) && !planIsOn && !orthophotoIsOn)" -->
+      <!-- <l-wms-tile-layer
+        :key="clcWms.name"
+        :base-url="clcWms.url"
+        :layers="clcWms.layers"
+        :name="clcWms.name"
+        :z-index="3"
+        :attribution="clcWms.attribution"
+        format="image/png"
+        layer-type="base"
+      >
+      </l-wms-tile-layer> -->
+      <!-- v-if="!['Aucune', 'Points EPOC'].includes(selectedLayer) || (['Aucune', 'Points EPOC'].includes(selectedLayer) && !plan.isOn && !orthophoto.isOn)" -->
       <l-tile-layer
-        v-if="!planIsOn && !orthophotoIsOn"
+        v-if="!plan.isOn && !orthophoto.isOn"
         :url="osmUrl"
         :attribution="'© les contributeurs d’OpenStreetMap'"
       />
@@ -165,7 +176,13 @@
 
 <script>
 import L from 'leaflet'
-import { LMap, LGeoJson, LControl } from 'vue2-leaflet'
+import {
+  LMap,
+  LGeoJson,
+  LControl,
+  LTileLayer,
+  // LWMSTileLayer,
+} from 'vue2-leaflet'
 // import 'leaflet/dist/leaflet.css'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
@@ -177,6 +194,8 @@ export default {
     LMap,
     LGeoJson,
     LControl,
+    'l-tile-layer': LTileLayer,
+    // 'l-wms-tile-layer': LWMSTileLayer,
     'knowledge-level-control': KnowledgeLevelControl,
     'feature-dashboard-control': FeatureDashboardControl,
     'epoc-dashboard-control': EpocDashboardControl,
@@ -209,20 +228,12 @@ export default {
       type: Boolean,
       required: true,
     },
-    planIsOn: {
-      type: Boolean,
+    plan: {
+      type: Object,
       required: true,
     },
-    planOpacity: {
-      type: String,
-      required: true,
-    },
-    orthophotoIsOn: {
-      type: Boolean,
-      required: true,
-    },
-    orthophotoOpacity: {
-      type: String,
+    orthophoto: {
+      type: Object,
       required: true,
     },
     selectedTerritoryBounds: {
@@ -242,16 +253,6 @@ export default {
     // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     osmUrl:
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    planUrl:
-      'https://wxs.ign.fr/pratique/geoportail/wmts?' +
-      '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
-      '&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&FORMAT=image/png' +
-      '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
-    orthophotoUrl:
-      'https://wxs.ign.fr/pratique/geoportail/wmts?' +
-      '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
-      '&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&FORMAT=image/jpeg' +
-      '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
     envelope: null,
     initTerritory: null,
     disableScrollPropagation: true,
