@@ -1,7 +1,9 @@
 <template>
   <v-container fluid>
     <main class="TopSection">
-      <h2 class="black02 fw-600 text-center">Les dernières actualités</h2>
+      <header>
+        <h2 class="black02 fw-600 text-center">Les dernières actualités</h2>
+      </header>
     </main>
     <section class="NewsSection">
       <div
