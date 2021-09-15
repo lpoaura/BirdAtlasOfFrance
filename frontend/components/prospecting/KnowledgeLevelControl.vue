@@ -4,13 +4,13 @@
       <div class="MapControlHeaderTitles">
         <div class="KnowledgeLevel">
           <h4 class="fw-bold">Indice de complétude</h4>
-          <div class="HelpWrapper">
+          <div class="HelperWrapper">
             <img class="HelpIcon" src="/help.svg" />
-            <div class="HelpVocabularyTip"></div>
-            <h5 class="HelpVocabularyInfo white02">
-              Rapport entre le nombre d'espèces observées sur la période
-              2019-2024 et le nombre d’espèces observées sur les périodes
-              précédentes.
+            <div class="HelperTip"></div>
+            <h5 class="HelperContent white02 nowrap">
+              Rapport entre le nombre d'espèces<br />observées sur la période
+              2019-2024<br />et le nombre d’espèces observées<br />sur les
+              périodes précédentes.
             </h5>
           </div>
         </div>
@@ -264,48 +264,28 @@ export default {
   align-items: center;
 }
 
-.HelpWrapper {
-  position: relative;
-  margin-left: 10px;
-  display: flex;
-}
-
 .HelpIcon {
   height: 20px;
+  margin-left: 10px;
   cursor: pointer;
 }
 
-.HelpVocabularyTip {
-  display: none;
-  position: absolute;
-  z-index: 6;
-  background: #262626;
-  width: 12px;
-  height: 12px;
-  left: 28px;
-  top: 4px;
-  transform: rotate(45deg);
+.HelperTip {
+  left: 38px;
+  top: 2px;
 }
 
-.HelpIcon:hover ~ .HelpVocabularyTip {
+.HelpIcon:hover ~ .HelperTip {
   display: block;
 }
 
-.HelpVocabularyInfo {
-  display: none;
-  position: absolute;
-  z-index: 6;
-  top: -10px;
-  left: 34px;
-  background: #262626;
-  width: 266px;
-  padding: 10px;
-  border-radius: 8px;
-  filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.32));
+.HelperContent {
+  top: -12px;
+  left: 46px;
 }
 
-.HelpIcon:hover ~ .HelpVocabularyInfo {
-  display: block;
+.HelpIcon:hover ~ .HelperContent {
+  display: flex;
 }
 
 .KnowledgeLevelPieChartWrapper {

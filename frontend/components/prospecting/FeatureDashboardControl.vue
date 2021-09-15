@@ -46,7 +46,7 @@
         v-show="selectedMenuItem === 'Tableau de bord'"
         class="MapControlOverflow"
       >
-        <h4 class="black02 fw-bold bottom-margin-16">
+        <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
           Indice de complétude ({{
             selectedSeason.label
               .replace('Période de ', '')
@@ -146,7 +146,7 @@
         </div>
         <div class="TableHeader" :class="scrolled ? 'fixed' : ''">
           <div class="TableLineContent">
-            <span class="black02 fw-600 align-end">
+            <span class="black02 fw-600 align-end flex-1">
               {{ filteredSpecies.list.length }} espèce(s)
             </span>
             <div class="TableColumnsWrapper">
@@ -171,7 +171,24 @@
             class="TableLineContent pointer"
             @click="updateClickedSpecies(taxon)"
           >
-            <span>{{ taxon[`common_name_${lang}`] }}</span>
+            <div class="HelperWrapper">
+              <div
+                class="Dot"
+                :class="
+                  taxon.breeding.new_status
+                    ? taxon.breeding.new_status.replace('Nicheur ', '')
+                    : ''
+                "
+              ></div>
+              <div v-if="taxon.breeding.new_status" class="HelperTip"></div>
+              <h5
+                v-if="taxon.breeding.new_status"
+                class="HelperContent white02 nowrap"
+              >
+                {{ taxon.breeding.new_status }}
+              </h5>
+            </div>
+            <span class="flex-1">{{ taxon[`common_name_${lang}`] }}</span>
             <div class="TableColumnsWrapper">
               <div class="TableColumn">
                 <img
@@ -197,7 +214,7 @@
         v-show="selectedMenuItem === 'Prospection'"
         class="MapControlOverflow"
       >
-        <h4 class="black02 fw-bold bottom-margin-16">
+        <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
           Durée totale de prospection ({{
             selectedSeason.label
               .replace('Période de ', '')
@@ -742,7 +759,7 @@ export default {
 }
 
 .AutocompleteWrapper {
-  margin-bottom: 24px;
+  margin: 24px 0;
 }
 
 .AutocompleteSearchIconWrapper {
@@ -757,6 +774,10 @@ export default {
   align-self: flex-end;
 }
 
+.flex-1 {
+  flex: 1;
+}
+
 .TableHeader {
   background: #fcfcfc;
 }
@@ -764,6 +785,7 @@ export default {
 .TableHeader.fixed {
   position: -webkit-sticky;
   position: sticky;
+  z-index: 1; /* Pour que les .Dot ne passent pas par-dessus */
   top: 0;
 }
 
@@ -774,7 +796,6 @@ export default {
 .TableLineContent {
   margin-bottom: 8px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -809,5 +830,42 @@ export default {
 
 .TableCheckIcon {
   width: 15px;
+}
+
+.Dot {
+  background: #fcfcfc;
+  min-width: 12px;
+  max-width: 12px;
+  min-height: 12px;
+  max-height: 12px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.Dot.possible {
+  background: #eece25;
+}
+.Dot.probable {
+  background: #eb6a0a;
+}
+.Dot.certain {
+  background: #932747;
+}
+
+.HelperTip {
+  left: 20px;
+  top: -2px;
+}
+
+.Dot:hover ~ .HelperTip {
+  display: block;
+}
+
+.HelperContent {
+  top: -19px;
+  left: 28px;
+}
+
+.Dot:hover ~ .HelperContent {
+  display: flex;
 }
 </style>
