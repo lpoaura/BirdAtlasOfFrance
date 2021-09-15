@@ -148,6 +148,10 @@ h6 {
   text-align: center;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 /********** GLOBAL COMPONENTS **********/
 
 /* Global padding and margin */
@@ -177,6 +181,10 @@ div.container.container--fluid {
 
 .bottom-margin-40 {
   margin-bottom: 40px !important;
+}
+
+.top-margin-24 {
+  margin-top: 24px;
 }
 
 .right-margin-8 {
@@ -676,6 +684,32 @@ a.Vocabulary:hover::after {
   text-align: center;
 }
 
+/* Helpers */
+.HelperWrapper {
+  position: relative;
+  display: flex;
+}
+
+.HelperTip {
+  display: none;
+  position: absolute;
+  z-index: 7;
+  background: #262626;
+  width: 16px;
+  height: 16px;
+  transform: rotate(45deg);
+}
+
+.HelperContent {
+  display: none;
+  position: absolute;
+  z-index: 6;
+  background: #262626;
+  padding: 16px;
+  border-radius: 8px;
+  filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.32));
+}
+
 /********** NAVBAR **********/
 
 .NavBar {
@@ -1057,12 +1091,14 @@ a.Vocabulary:hover::after {
 .MapControlSplit.main {
   /* height: 2px;
   min-height: 2px; */
+  margin-bottom: 0;
   background: rgba(57, 118, 90, 0.4);
 }
 
 .MapControlOverflow {
   padding-right: 16px;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
 }
 

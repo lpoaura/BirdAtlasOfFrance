@@ -25,20 +25,22 @@
                 ')'
           }}
         </span>
-        <div class="EpocPropertyCopy"></div>
       </li>
       <li class="MapControlDataOption">
         <div class="EpocPropertyLabel fw-500">Coordonnées</div>
         <div class="EpocPropertyValue">
-          {{ epocPointCoordinates[0] }}, {{ epocPointCoordinates[1] }}
-        </div>
-        <div class="EpocPropertyCopy">
-          <img
-            v-clipboard:copy="epocPointCoordinates"
-            class="MapControlDataOptionIcon"
-            src="/copy.svg"
-            title="Copier les coordonnées"
-          />
+          <span class="right-margin-8">
+            {{ epocPointCoordinates[0] }}, {{ epocPointCoordinates[1] }}
+          </span>
+          <div class="HelperWrapper">
+            <img
+              v-clipboard:copy="epocPointCoordinates"
+              class="MapControlDataOptionIcon"
+              src="/copy.svg"
+            />
+            <div class="HelperTip"></div>
+            <h5 class="HelperContent white02 nowrap">Copier les coordonnées</h5>
+          </div>
         </div>
       </li>
       <a
@@ -105,22 +107,36 @@ export default {
 }
 
 .EpocPropertyLabel {
-  flex: 0.5;
+  flex: 0.4;
 }
 
 .EpocPropertyValue {
   flex: 1;
-}
-
-.EpocPropertyCopy {
-  flex: 0.2;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
 }
 
 .MapControlDataOptionIcon {
   margin-right: 0;
   cursor: pointer;
+}
+
+.HelperTip {
+  left: 4px;
+  top: 34px;
+}
+
+.MapControlDataOptionIcon:hover ~ .HelperTip {
+  display: block;
+}
+
+.HelperContent {
+  top: 42px;
+  left: -74px;
+}
+
+.MapControlDataOptionIcon:hover ~ .HelperContent {
+  display: flex;
 }
 
 .SeeMoreWrapper {

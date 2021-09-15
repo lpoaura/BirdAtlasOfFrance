@@ -26,23 +26,21 @@
         :style="{ transform: 'translateX' + '(' + currentOffset + 'px' + ')' }"
       >
         <div v-for="(item, index) in newsItems" :key="index" class="NewsCard">
-          <div class="CardContent bottom-margin-16">
-            <div class="CardOverflow">
-              <div
-                class="CardPicture"
-                :src="item.picture"
-                :style="{
-                  background: `url(/news/${item.picture}) center / cover`,
-                }"
-              ></div>
-              <span class="black03 bottom-margin-8">
-                {{ item.author }} &nbsp;•&nbsp;
-                {{ $formatDate(item.createdAt, true) }}
-              </span>
-              <h4 class="CardTitle fw-bold bottom-margin-16">
-                {{ item.title }}
-              </h4>
-            </div>
+          <div class="CardHeader bottom-margin-16">
+            <div
+              class="CardPicture"
+              :src="item.picture"
+              :style="{
+                background: `url(/news/${item.picture}) center / cover`,
+              }"
+            ></div>
+            <span class="black03 bottom-margin-8">
+              {{ item.author }} &nbsp;•&nbsp;
+              {{ $formatDate(item.createdAt, true) }}
+            </span>
+            <h4 class="CardTitle fw-bold bottom-margin-16">
+              {{ item.title }}
+            </h4>
             <div class="CardOverflow CardSubtitle">
               <nuxt-content :document="item" />
               <div class="CardSubtitleBlurring"></div>
@@ -249,19 +247,18 @@ h5.Subtitle {
   margin-right: 0;
 }
 
-.CardContent,
+.CardHeader,
 .CardFooter,
 .CardOverflow {
   display: flex;
   flex-direction: column;
 }
 
-.CardContent {
+.CardHeader,
+.CardOverflow,
+.nuxt-content-container {
+  flex: 1;
   overflow-y: hidden;
-}
-
-.CardOverflow {
-  max-height: 100%;
 }
 
 .CardPicture {
@@ -275,7 +272,6 @@ h5.Subtitle {
 
 .CardSubtitle {
   position: relative;
-  overflow-y: hidden;
 }
 
 .CardSubtitleBlurring {
@@ -290,11 +286,6 @@ h5.Subtitle {
   bottom: 0;
   width: 100%;
   height: 26px;
-}
-
-.nuxt-content-container {
-  max-height: 100%;
-  overflow-y: hidden;
 }
 
 .CardSeeMore {
@@ -331,6 +322,10 @@ h5.Subtitle {
 
   .CardPicture {
     height: 160px;
+  }
+
+  .CardTitle {
+    max-height: 42px;
   }
 
   .NewsCard h4.bottom-margin-16 {
