@@ -55,18 +55,18 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
         )
 
     def get_by_area_type_and_code(
-        self, db: Session, area_code: str, type_code: str, envelop: bool
+        self, db: Session, area_code: str, type_code: str, bbox: bool
     ) -> Query:
         id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
         geom = (
-            geofunc.ST_Envelope(geofunc.ST_Transform(LAreas.geom, 4326))
-            if envelop
-            else geofunc.ST_Transform(LAreas.geom, 4326)
+            geofunc.ST_AsGeoJSON(geofunc.ST_Envelope(geofunc.ST_Transform(LAreas.geom, 4326)))
+            if bbox
+            else LAreas.geojson_4326
         )
         return (
             db.query(
                 LAreas.id_area.label("id"),
-                geofunc.ST_AsGeoJSON(geom).label("geometry"),
+                geom.label("geometry"),
                 func.json_build_object(
                     "area_code",
                     LAreas.area_code,

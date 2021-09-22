@@ -20,8 +20,14 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
         db: Session,
         period: str,
         cd_nom: int,
+        grid: bool,
         envelope: Optional[List] = None,
     ) -> List:
+        geom = (
+            LAreas.geojson_4326
+            if grid
+            else geofunc.ST_AsGeoJSON(geofunc.ST_Transform(geofunc.ST_Centroid(LAreas.geom), 4326))
+        )
         status_field = {
             "breeding_old": {
                 "condition": AreaKnowledgeTaxaList.breeding_count_data_old > 0,
@@ -54,9 +60,7 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
                 func.json_build_object("status", status_field[period]["status"]).label(
                     "properties"
                 ),
-                geofunc.ST_AsGeoJSON(
-                    geofunc.ST_Transform(geofunc.ST_Centroid(LAreas.geom), 4326)
-                ).label("geometry"),
+                geom.label("geometry"),
             )
             .join(LAreas, LAreas.id_area == AreaKnowledgeTaxaList.id_area)
             .filter(AreaKnowledgeTaxaList.cd_nom == cd_nom)

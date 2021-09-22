@@ -146,12 +146,12 @@ def get_area_geom_by_type_and_code(
     db: Session = Depends(get_db),
     area_code: str,
     type_code: str,
-    envelop: Optional[Union[bool, str]] = False,
+    bbox: Optional[Union[bool, str]] = False,
 ) -> Any:
-    if isinstance(envelop, str):
-        envelop: bool = True
+    if isinstance(bbox, str):
+        bbox: bool = True
     area = l_areas.get_by_area_type_and_code(
-        db=db, area_code=area_code, type_code=type_code, envelop=envelop
+        db=db, area_code=area_code, type_code=type_code, bbox=bbox
     )
     if not area:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Get not found")
