@@ -17,7 +17,7 @@ $$
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_data_for_atlas CASCADE;
         RAISE INFO '-- % -- CREATE MV atlas.mv_data_for_atlas', clock_timestamp();
         RAISE INFO '-- % -- COMMENT AND INDEXES ON atlas.mv_data_for_atlas', clock_timestamp();
-        CREATE MATERIALIZED VIEW atlas.mv_data_for_atlas AS
+        CREATE MATERIALIZED VIEW atlas.mv_data_for_atlas AS (
         WITH
             cor_area_synthese AS (
                 SELECT
@@ -62,7 +62,10 @@ $$
               AND synthese.id_nomenclature_valid_status IN (ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '1'),
                                                             ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '2'))
               AND synthese.id_nomenclature_observation_status !=
-                  ref_nomenclatures.get_id_nomenclature('STATUT_OBS', 'No');
+                  ref_nomenclatures.get_id_nomenclature('STATUT_OBS', 'No')
+              AND date_min >= '2007-01-01')
+        WITH NO DATA
+        ;
         COMMENT ON MATERIALIZED VIEW atlas.mv_data_for_atlas IS 'All datas used for atlas';
         CREATE UNIQUE INDEX i_data_for_atlas_id_area_id_data ON atlas.mv_data_for_atlas (id_area, id_data);
         CREATE INDEX i_data_for_atlas_cdnom ON atlas.mv_data_for_atlas (cd_nom);
@@ -124,7 +127,9 @@ $$
                           st_setsrid(st_makepoint(cast(item ->> 'lon' AS NUMERIC), cast(item ->> 'lat' AS NUMERIC)),
                                      4326), areas.geom)
               AND cast(item ->> 'date_start' AS DATE) > '2018-12-31'
-                );
+                )
+
+        WITH NO DATA;
         RAISE INFO '-- % -- COMMENT AND INDEXES ON atlas.mv_forms_for_atlas', clock_timestamp();
         COMMENT ON MATERIALIZED VIEW atlas.mv_forms_for_atlas IS 'All forms realized during atlas period';
 --         CREATE UNIQUE INDEX i_unique_forms_for_atlas_idforms on atlas.mv_forms_for_atlas(id_form_universal);
