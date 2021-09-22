@@ -9,6 +9,7 @@ $$
         /* Vue matérialisée finale */
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_general_stats;
         CREATE MATERIALIZED VIEW atlas.mv_general_stats AS
+        (
         WITH
             fromdata AS (
                 SELECT
@@ -41,7 +42,8 @@ $$
           , fromforms.*
             FROM
                 fromdata
-              , fromforms;
+              , fromforms)
+        WITH NO DATA;
         COMMIT;
     END
 $$
