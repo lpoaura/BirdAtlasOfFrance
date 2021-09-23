@@ -35,7 +35,7 @@ $$
         -- some minimum date
         /* Materialized view to list all taxa in area */
         CREATE MATERIALIZED VIEW atlas.mv_area_knowledge_list_taxa AS
-        WITH
+        (WITH
             atlas_code AS (
                 /* Liste des codes nidif VisioNature */
                 SELECT
@@ -94,7 +94,8 @@ $$
           , sci_name
             FROM
                 result
-                    JOIN names ON names.cd_nom = result.cd_nom;
+                    JOIN names ON names.cd_nom = result.cd_nom)
+        WITH NO DATA;
         CREATE UNIQUE INDEX i_area_knowledge_list_taxa_id_area_cd_nom ON atlas.mv_area_knowledge_list_taxa (id_area, cd_nom);
         COMMIT;
     END

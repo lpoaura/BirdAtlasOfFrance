@@ -50,7 +50,8 @@ BEGIN
             JOIN taxonomie.v_bibtaxon_attributs_animalia attributes ON taxa.cd_nom = attributes.cd_ref
         WHERE
             taxa.enabled
-            AND taxa.available);
+            AND taxa.available)
+        WITH NO DATA;
     CREATE UNIQUE INDEX i_uniq_mv_search_taxa_code ON atlas.mv_search_taxa (code);
     CREATE INDEX i_mv_search_taxa_search_string_trgm ON atlas.mv_search_taxa USING gist (search_string gist_trgm_ops);
     COMMIT;

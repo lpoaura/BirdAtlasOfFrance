@@ -23,7 +23,7 @@ $$
         /* Materialized view to list all taxa in area */
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_dashboard;
         CREATE MATERIALIZED VIEW atlas.mv_area_dashboard AS
-        WITH
+        (WITH
             data_synth AS (
                 SELECT
                     mv_data_for_atlas.id_area
@@ -62,7 +62,8 @@ $$
           , form_synth.prospecting_hours_breeding
             FROM
                 data_synth
-                    FULL JOIN form_synth ON data_synth.id_area = form_synth.id_area;
+                    FULL JOIN form_synth ON data_synth.id_area = form_synth.id_area)
+        WITH NO DATA;
         COMMENT ON MATERIALIZED VIEW atlas.mv_area_dashboard IS 'Statistiques générales par zonages';
         CREATE UNIQUE INDEX i_area_dashboard_id_area ON atlas.mv_area_dashboard (id_area);
         COMMIT;
