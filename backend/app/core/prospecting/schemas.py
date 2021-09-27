@@ -91,7 +91,7 @@ class AreaKnowledgeTaxaListSchema(BaseModel):
     all_period: AreaKnowledgeTaxaListGenericDetailSchema
     wintering: AreaKnowledgeTaxaListGenericDetailSchema
     breeding: AreaKnowledgeTaxaListBreedingDetailSchema
-    phenology: List
+    phenology: List[int]
 
     class Config:
         orm_mode = True
