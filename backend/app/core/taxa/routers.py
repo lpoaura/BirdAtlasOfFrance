@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Union
 
 from fastapi import APIRouter, Depends, HTTPException
 from geojson_pydantic.features import FeatureCollection
@@ -39,13 +39,18 @@ def list_lareas(
     cd_nom: int,
     period: str = "all_period_new",
     db: Session = Depends(get_db),
+    grid: Optional[Union[bool, str]] = False,
     envelope: Optional[str] = None,
 ) -> Any:
+    if isinstance(grid, str):
+        grid: bool = True
     if envelope:
         logger.debug(f"envelop qs: {envelope}")
         envelope = [float(c) for c in envelope.split(",")]
     logger.debug(f"envelop {envelope} {type(envelope)}")
-    areas = taxa_distrib.taxa_distribution(db=db, cd_nom=cd_nom, period=period, envelope=envelope)
+    areas = taxa_distrib.taxa_distribution(
+        db=db, cd_nom=cd_nom, period=period, grid=grid, envelope=envelope
+    )
     features = [
         TaxaDistributionFeature(
             properties=a.properties,
