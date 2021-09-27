@@ -1,4 +1,5 @@
 from sqlalchemy import Boolean, Column, Date, DateTime, Integer, String, Text
+from sqlalchemy.dialects.postgresql import ARRAY
 
 from app.utils.db import Base
 
@@ -67,3 +68,4 @@ class AreaKnowledgeTaxaList(Base):
     wintering_count_data_old = Column(Integer)
     wintering_count_data_new = Column(Integer)
     wintering_last_obs = Column(Integer)
+    phenology = Column(ARRAY(item_type=Integer))
