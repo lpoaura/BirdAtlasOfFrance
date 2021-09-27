@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Union
 
 from fastapi import APIRouter, Depends, HTTPException
 from geojson_pydantic.features import Feature, FeatureCollection
@@ -142,9 +142,17 @@ def get_area_by_coordinates(
     tags=["ref_geo"],
 )
 def get_area_geom_by_type_and_code(
-    *, db: Session = Depends(get_db), area_code: str, type_code: str
+    *,
+    db: Session = Depends(get_db),
+    area_code: str,
+    type_code: str,
+    bbox: Optional[Union[bool, str]] = False,
 ) -> Any:
-    area = l_areas.get_by_area_type_and_code(db=db, area_code=area_code, type_code=type_code)
+    if isinstance(bbox, str):
+        bbox: bool = True
+    area = l_areas.get_by_area_type_and_code(
+        db=db, area_code=area_code, type_code=type_code, bbox=bbox
+    )
     if not area:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Get not found")
     feature = LAreasFeatureProperties(
