@@ -4,7 +4,7 @@ AREA KNOWLEDGE LIST TAXA
 Evaluate for each area and each season  knowledge level comparing old taxa count with new taxa count
 
 ACTUAL TIME : 24minutes to create, too long...
- */
+*/
 DO
 $$
     BEGIN
@@ -35,7 +35,8 @@ $$
         -- some minimum date
         /* Materialized view to list all taxa in area */
         CREATE MATERIALIZED VIEW atlas.mv_area_knowledge_list_taxa AS
-        (WITH
+        (
+        WITH
             atlas_code AS (
                 /* Liste des codes nidif VisioNature */
                 SELECT
@@ -60,24 +61,26 @@ $$
           , result AS
                 (SELECT
                      data.id_area
-                   , mv_taxa_groups.cd_group                                                                        AS cd_nom
-                   , count(id_data) FILTER (WHERE old_data_all_period)                                              AS all_period_count_data_old
-                   , count(id_data) FILTER (WHERE new_data_all_period)                                              AS all_period_count_data_new
-                   , extract(YEAR FROM max(data.date_min))                                                          AS all_period_last_obs
-                   , count(id_data) FILTER (WHERE new_data_breeding)                                                AS breeding_count_data_new
+                   , mv_taxa_groups.cd_group                                                     AS cd_nom
+                   , count(id_data) FILTER (WHERE old_data_all_period)                           AS all_period_count_data_old
+                   , count(id_data) FILTER (WHERE new_data_all_period)                           AS all_period_count_data_new
+                   , extract(YEAR FROM max(data.date_min))                                       AS all_period_last_obs
+                   , count(id_data) FILTER (WHERE new_data_breeding)                             AS breeding_count_data_new
                    , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
                              (max(ac.hierarchy) FILTER (WHERE new_data_breeding))::TEXT, 'VN_ATLAS_CODE',
-                             'label_default')                                                                       AS breeding_status_new
-                   , count(id_data) FILTER (WHERE old_data_breeding)                                                AS breeding_count_data_old
+                             'label_default')                                                    AS breeding_status_new
+                   , count(id_data) FILTER (WHERE old_data_breeding)                             AS breeding_count_data_old
                    , extract(YEAR FROM
-                             (max(data.date_min) FILTER (WHERE bird_breed_code IS NOT NULL)))                       AS breeding_last_obs
+                             (max(data.date_min) FILTER (WHERE bird_breed_code IS NOT NULL)))    AS breeding_last_obs
                    , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
                              (max(ac.hierarchy) FILTER (WHERE old_data_breeding))::TEXT, 'VN_ATLAS_CODE',
-                             'label_default')                                                                       AS breeding_status_old
-                   , count(id_data) FILTER (WHERE old_data_wintering)                                               AS wintering_count_data_old
-                   , count(id_data) FILTER (WHERE new_data_wintering)                                               AS wintering_count_data_new
+                             'label_default')                                                    AS breeding_status_old
+                   , count(id_data) FILTER (WHERE old_data_wintering)                            AS wintering_count_data_old
+                   , count(id_data) FILTER (WHERE new_data_wintering)                            AS wintering_count_data_new
                    , extract(YEAR FROM (max(data.date_min)
-                                        FILTER (WHERE old_data_breeding OR new_data_wintering)))                    AS wintering_last_obs
+                                        FILTER (WHERE old_data_breeding OR new_data_wintering))) AS wintering_last_obs
+                   , array_agg(DISTINCT extract(MONTH FROM data.date_min)::INT
+                               ORDER BY extract(MONTH FROM data.date_min)::INT ASC)                  AS phenology
                      FROM
                          atlas.mv_data_for_atlas data
                              JOIN atlas.mv_taxa_groups ON data.cd_nom = mv_taxa_groups.cd_nom
@@ -102,3 +105,4 @@ $$
 $$
 ;
 
+REFRESH MATERIALIZED VIEW atlas.mv_area_knowledge_list_taxa;
