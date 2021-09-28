@@ -194,14 +194,14 @@
                 <img
                   v-show="taxon[selectedSpeciesStatus.value].old_count > 0"
                   class="TableCheckIcon"
-                  src="/check.svg"
+                  src="/check-green.svg"
                 />
               </div>
               <div class="TableColumn">
                 <img
                   v-show="taxon[selectedSpeciesStatus.value].new_count > 0"
                   class="TableCheckIcon"
-                  src="/check.svg"
+                  src="/check-green.svg"
                 />
               </div>
             </div>
@@ -318,6 +318,20 @@
               ? 'Espèce observée avant 2019'
               : 'Espèce non observée avant 2019'
           }}
+        </div>
+        <div class="PhenologyWrapper">
+          <div
+            v-for="(item, index) in clickedSpecies.phenology"
+            :key="index"
+            class="PhenologyItem"
+          >
+            <span class="black02 bottom-margin-8">{{ item.label }}</span>
+            <img
+              v-show="item.is_present"
+              class="PhenologyCheckIcon"
+              src="/check.svg"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -719,6 +733,17 @@ export default {
       this.seeMoreMunicipalitiesIsClicked = false
     },
     updateClickedSpecies(taxon) {
+      const months = this.months.map((item) => {
+        return item.charAt(0)
+      })
+      const phenology = months.map((item, index) => {
+        return {
+          label: item,
+          is_present:
+            taxon.phenology.find((d) => d === index + 1) !== undefined,
+        }
+      })
+      taxon.phenology = phenology
       this.clickedSpecies = taxon
     },
     deleteClickedSpecies() {
@@ -867,5 +892,26 @@ export default {
 
 .Dot:hover ~ .HelperContent {
   display: flex;
+}
+
+.PhenologyWrapper {
+  margin-top: 24px;
+  display: flex;
+}
+
+.PhenologyItem {
+  width: 14px;
+  margin-right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.PhenologyItem:last-child {
+  margin-right: 0;
+}
+
+.PhenologyCheckIcon {
+  width: 100%;
 }
 </style>
