@@ -31,14 +31,14 @@ $$
                 areas.id_area
               , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
-                    gn_synthese.synthese
-                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                    atlas.mv_data_for_atlas
+                        JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
+                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
                       t_taxa.enabled
-                  AND synthese.date_min > '2019-01-31'::DATE
+                  AND mv_data_for_atlas.date_min > '2019-01-31'::DATE
                 GROUP BY areas.id_area
         )
           , old_data_allperiod AS (
@@ -46,14 +46,14 @@ $$
                 areas.id_area
               , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
-                    gn_synthese.synthese
-                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                    atlas.mv_data_for_atlas
+                        JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
+                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
                       t_taxa.enabled
-                  AND synthese.date_min < '2019-01-31'::DATE
+                  AND mv_data_for_atlas.date_min < '2019-01-31'::DATE
                 GROUP BY areas.id_area
         )
           , old_data_wintering AS (
@@ -61,20 +61,20 @@ $$
                 areas.id_area
               , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
-                    gn_synthese.synthese
-                        JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
-                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                    atlas.mv_data_for_atlas
+                        JOIN src_lpodatas.t_c_synthese_extended tcse ON mv_data_for_atlas.id_data = tcse.id_synthese
+                        JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
+                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
                       t_taxa.enabled
                   AND tcse.bird_breed_code IS NULL
                   AND extract(
                               MONTH
-                              FROM synthese.date_min
+                              FROM mv_data_for_atlas.date_min
                           ) IN (12, 1)
-                  AND synthese.date_min < '2019-01-31'
+                  AND mv_data_for_atlas.date_min < '2019-01-31'
                 GROUP BY areas.id_area
         )
           , new_data_wintering AS (
@@ -82,20 +82,20 @@ $$
                 areas.id_area
               , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
-                    gn_synthese.synthese
-                        JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
-                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                    atlas.mv_data_for_atlas
+                        JOIN src_lpodatas.t_c_synthese_extended tcse ON mv_data_for_atlas.id_data = tcse.id_synthese
+                        JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
+                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
                       t_taxa.enabled
                   AND tcse.bird_breed_code IS NULL
                   AND extract(
                               MONTH
-                              FROM synthese.date_min
+                              FROM mv_data_for_atlas.date_min
                           ) IN (12, 1)
-                  AND synthese.date_min > '2019-11-30'
+                  AND mv_data_for_atlas.date_min > '2019-11-30'
                 GROUP BY areas.id_area
         )
           , old_data_breeding AS (
@@ -103,16 +103,16 @@ $$
                 areas.id_area
               , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
-                    gn_synthese.synthese
-                        JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
-                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                    atlas.mv_data_for_atlas
+                        JOIN src_lpodatas.t_c_synthese_extended tcse ON mv_data_for_atlas.id_data = tcse.id_synthese
+                        JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
+                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
                       t_taxa.enabled
                   AND tcse.bird_breed_code BETWEEN 2 AND 50
-                  AND synthese.date_min < '2019-01-01'
+                  AND mv_data_for_atlas.date_min < '2019-01-01'
                 GROUP BY areas.id_area
         )
           , new_data_breeding AS (
@@ -120,16 +120,16 @@ $$
                 areas.id_area
               , count(DISTINCT mv_taxa_groups.cd_group) AS count_cd_nom
                 FROM
-                    gn_synthese.synthese
-                        JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
-                        JOIN atlas.mv_taxa_groups ON synthese.cd_nom = mv_taxa_groups.cd_nom
+                    atlas.mv_data_for_atlas
+                        JOIN src_lpodatas.t_c_synthese_extended tcse ON mv_data_for_atlas.id_data = tcse.id_synthese
+                        JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
+                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
                         JOIN areas ON cor_area_synthese.id_area = areas.id_area
                 WHERE
                       t_taxa.enabled
                   AND tcse.bird_breed_code BETWEEN 2 AND 50
-                  AND synthese.date_min > '2018-12-31'::DATE
+                  AND mv_data_for_atlas.date_min > '2018-12-31'::DATE
                 GROUP BY areas.id_area
         )
         SELECT
@@ -185,3 +185,4 @@ $$
 ;
 
 
+REFRESH MATERIALIZED VIEW atlas.mv_area_knowledge_level;
