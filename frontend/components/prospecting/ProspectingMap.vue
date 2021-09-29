@@ -586,6 +586,7 @@ export default {
       }
     },
     updateZoom(newZoom) {
+      // console.log('Old zoom : ' + this.currentZoom)
       // console.log('New zoom : ' + newZoom)
       this.currentZoom = newZoom
       if (this.currentZoom < 11) {
@@ -671,6 +672,7 @@ export default {
         !(
           !this.isProgramaticZoom &&
           this.currentZoom > this.oldZoomSpeciesDistribution &&
+          this.currentZoom !== 11 &&
           !this.axiosSourceSpeciesDistribution
         )
       ) {
@@ -683,9 +685,10 @@ export default {
         this.axiosSourceSpeciesDistribution = cancelToken.source()
         this.speciesDistributionIsLoading = true
         this.noSpeciesData = false
+        const grid = this.currentZoom >= 11
         this.$axios
           .$get(
-            `/api/v1/taxa/${species.code}?period=${this.selectedSeason.value}_new&envelope=${this.envelope}`,
+            `/api/v1/taxa/${species.code}?period=${this.selectedSeason.value}_new&grid=${grid}&envelope=${this.envelope}`,
             {
               cancelToken: this.axiosSourceSpeciesDistribution.token,
             }
