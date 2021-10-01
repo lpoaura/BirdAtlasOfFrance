@@ -1,101 +1,95 @@
 <!-- Attendre l'API avec les emprises -->
 <template>
-  <div v-click-outside="closeSelectBox" class="MapSelectorWrapper">
-    <div class="MapSelectorSelectedOption" @click="openOrCloseSelectBox">
-      <img class="MapSelectorIcon" src="/location.svg" />
-      <h5 class="fw-600 right-margin-12">{{ selectedTerritory.name }}</h5>
-      <img
-        class="MapSelectorChevron"
-        :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
-      />
-    </div>
-    <div v-show="selectIsOpen" class="MapSelectorBox">
-      <div class="MapSelectorHeader">
-        <h4 class="black02 fw-600">Territoires</h4>
-        <div class="DisplayingTypeWrapper">
-          <div
-            v-for="(type, index) in displayingTypesList"
-            :key="index"
-            class="DisplayingType"
-            :class="
-              type.label === selectedDisplayingType.label ? 'selected' : ''
-            "
-            @click="updateSelectedDisplayingType(type)"
-          >
-            <img class="DisplayingTypeIcon" :src="type.icon" />
-          </div>
-        </div>
-      </div>
-      <div class="AutocompleteWrapper map">
-        <input v-model="search" type="text" placeholder="Rechercher" />
-        <div class="AutocompleteGadgets map">
-          <div class="AutocompleteCloseIconWrapper map">
-            <img
-              v-show="search.length > 0"
-              class="AutocompleteCloseIcon"
-              src="/close.svg"
-              @click="clearResults"
-            />
-          </div>
-          <div class="AutocompleteSearchIconWrapper map">
-            <img class="AutocompleteSearchIcon map" src="/search.svg" />
-          </div>
-        </div>
-      </div>
-      <div
-        v-if="selectedDisplayingType.label === 'grid'"
-        class="TerritoriesGrid"
-      >
-        <!-- MANQUE @click="updateSelectedTerritory(territory)" -->
+  <div v-show="selectIsOpen" class="MapSelectorBox">
+    <div class="MapSelectorHeader">
+      <h4 class="black02 fw-600">Territoires</h4>
+      <div class="DisplayingTypeWrapper">
         <div
-          v-for="(territory, index) in filteredTerritories"
+          v-for="(type, index) in displayingTypesList"
           :key="index"
-          class="TerritoriesCard"
-          :class="[
-            territory.name === selectedTerritory.name ? 'selected' : '',
-            territory.isActive ? '' : 'inactive',
-          ]"
+          class="DisplayingType"
+          :class="type.label === selectedDisplayingType.label ? 'selected' : ''"
+          @click="updateSelectedDisplayingType(type)"
         >
-          <img class="TerritoriesCardsIcon" :src="territory.icon" />
-          <h6 class="text-center">{{ territory.name }}</h6>
-          <h5
-            v-show="!territory.isActive"
-            class="UnavailableData fw-600 text-center"
-          >
-            Données non disponibles actuellement
-          </h5>
+          <img class="DisplayingTypeIcon" :src="type.icon" />
         </div>
       </div>
-      <div v-else class="TerritoriesList">
-        <!-- MANQUE @click="updateSelectedTerritory(territory)" -->
-        <li
-          v-for="(territory, index) in filteredTerritories"
-          :key="index"
-          class="RadioOption"
-          :class="[
-            territory.name === selectedTerritory.name ? 'selected' : '',
-            territory.isActive ? '' : 'inactive',
-          ]"
-        >
-          <div class="RadioLabel">
-            <div class="RadioButton">
-              <div
-                v-show="territory.name === selectedTerritory.name"
-                class="RadioButtonSelected"
-              ></div>
-            </div>
-            {{ territory.name }}
-          </div>
-        </li>
+    </div>
+    <div class="AutocompleteWrapper map">
+      <input v-model="search" type="text" placeholder="Rechercher" />
+      <div class="AutocompleteGadgets map">
+        <div class="AutocompleteCloseIconWrapper map">
+          <img
+            v-show="search.length > 0"
+            class="AutocompleteCloseIcon"
+            src="/close.svg"
+            @click="clearResults"
+          />
+        </div>
+        <div class="AutocompleteSearchIconWrapper map">
+          <img class="AutocompleteSearchIcon map" src="/search.svg" />
+        </div>
       </div>
+    </div>
+    <div v-if="selectedDisplayingType.label === 'grid'" class="TerritoriesGrid">
+      <!-- MANQUE @click="updateSelectedTerritory(territory)" -->
+      <div
+        v-for="(territory, index) in filteredTerritories"
+        :key="index"
+        class="TerritoriesCard"
+        :class="[
+          territory.name === selectedTerritory.name ? 'selected' : '',
+          territory.isActive ? '' : 'inactive',
+        ]"
+      >
+        <img class="TerritoriesCardsIcon" :src="territory.icon" />
+        <h6 class="text-center">{{ territory.name }}</h6>
+        <h5
+          v-show="!territory.isActive"
+          class="UnavailableData fw-600 text-center"
+        >
+          Données non disponibles actuellement
+        </h5>
+      </div>
+    </div>
+    <div v-else class="TerritoriesList">
+      <!-- MANQUE @click="updateSelectedTerritory(territory)" -->
+      <li
+        v-for="(territory, index) in filteredTerritories"
+        :key="index"
+        class="RadioOption"
+        :class="[
+          territory.name === selectedTerritory.name ? 'selected' : '',
+          territory.isActive ? '' : 'inactive',
+        ]"
+      >
+        <div class="RadioLabel">
+          <div class="RadioButton">
+            <div
+              v-show="territory.name === selectedTerritory.name"
+              class="RadioButtonSelected"
+            ></div>
+          </div>
+          {{ territory.name }}
+        </div>
+      </li>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    selectIsOpen: {
+      type: Boolean,
+      required: true,
+    },
+    selectedTerritory: {
+      type: Object,
+      required: true,
+    },
+  },
   data: () => ({
-    selectIsOpen: false,
     displayingTypesList: [
       { label: 'grid', icon: '/grid.svg' },
       { label: 'list', icon: '/list.svg' },
@@ -168,11 +162,6 @@ export default {
         isActive: false,
       },
     ],
-    selectedTerritory: {
-      name: 'France métropolitaine',
-      icon: '/prospecting/France-metropolitaine.svg',
-      isActive: true,
-    },
     search: '',
   }),
   computed: {
@@ -192,21 +181,15 @@ export default {
     },
   },
   methods: {
-    openOrCloseSelectBox() {
-      this.selectIsOpen = !this.selectIsOpen
-    },
-    closeSelectBox() {
-      this.selectIsOpen = false
-    },
     updateSelectedDisplayingType(type) {
       this.selectedDisplayingType = type
     },
     clearResults() {
       this.search = ''
     },
-    updateSelectedTerritory(territory) {
-      this.selectedTerritory = territory
-    },
+    // updateSelectedTerritory(territory) {
+    //   this.$emit('selectedTerritory', territory)
+    // },
   },
 }
 </script>

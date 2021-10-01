@@ -7,23 +7,61 @@
           @selectedSpecies="updateSelectedSpecies"
         />
       </div>
-      <div class="Selectors">
-        <seasons-selector
-          :selected-season="selectedSeason"
-          @selectedSeason="updateSelectedSeason"
-        />
-        <layers-selector
-          :selected-layer="selectedLayer"
-          :selected-species="selectedSpecies"
-          @selectedLayer="updateSelectedLayer"
-          @epocOdfOfficialIsOn="updateEpocOdfOfficial"
-          @epocOdfReserveIsOn="updateEpocOdfReserve"
-          @planIsOn="updatePlan"
-          @planOpacity="updatePlanOpacity"
-          @orthophotoIsOn="updateOrthophoto"
-          @orthophotoOpacity="updateOrthophotoOpacity"
-        />
-        <territories-selector />
+      <div class="MapSelectors large">
+        <div v-click-outside="closeSeasonsBox" class="MapSelectorWrapper">
+          <div class="MapSelectorSelectedOption" @click="openOrCloseSeasonsBox">
+            <img class="MapSelectorIcon" src="/calendar.svg" />
+            <h5 class="fw-600 right-margin-12">{{ selectedSeason.label }}</h5>
+            <img
+              class="MapSelectorChevron"
+              :src="seasonIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
+            />
+          </div>
+          <seasons-selector
+            :select-is-open="seasonIsOpen"
+            :selected-season="selectedSeason"
+            @selectedSeason="updateSelectedSeason"
+          />
+        </div>
+        <div v-click-outside="closeLayersBox" class="MapSelectorWrapper">
+          <div class="MapSelectorSelectedOption" @click="openOrCloseLayersBox">
+            <img class="MapSelectorIcon" src="/layers.svg" />
+            <h5 class="fw-600 right-margin-12">Couches</h5>
+            <img
+              class="MapSelectorChevron"
+              :src="layerIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
+            />
+          </div>
+          <layers-selector
+            :select-is-open="layerIsOpen"
+            :selected-layer="selectedLayer"
+            :selected-species="selectedSpecies"
+            @selectedLayer="updateSelectedLayer"
+            @epocOdfOfficialIsOn="updateEpocOdfOfficial"
+            @epocOdfReserveIsOn="updateEpocOdfReserve"
+            @planIsOn="updatePlan"
+            @planOpacity="updatePlanOpacity"
+            @orthophotoIsOn="updateOrthophoto"
+            @orthophotoOpacity="updateOrthophotoOpacity"
+          />
+        </div>
+        <div v-click-outside="closeTerritoriesBox" class="MapSelectorWrapper">
+          <div
+            class="MapSelectorSelectedOption"
+            @click="openOrCloseTerritoriesBox"
+          >
+            <img class="MapSelectorIcon" src="/location.svg" />
+            <h5 class="fw-600 right-margin-12">{{ selectedTerritory.name }}</h5>
+            <img
+              class="MapSelectorChevron"
+              :src="territoryIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
+            />
+          </div>
+          <territories-selector
+            :select-is-open="territoryIsOpen"
+            :selected-territory="selectedTerritory"
+          />
+        </div>
       </div>
     </header>
     <client-only>
@@ -32,12 +70,20 @@
         :selected-species="selectedSpecies"
         :selected-season="selectedSeason"
         :selected-layer="selectedLayer"
+        :selected-territory="selectedTerritory"
         :epoc-odf-official-is-on="epocOdfOfficialIsOn"
         :epoc-odf-reserve-is-on="epocOdfReserveIsOn"
         :plan="plan"
         :orthophoto="orthophoto"
-        :selected-territory-bounds="selectedTerritoryBounds"
         @selectedSpecies="updateSelectedSpecies"
+        @selectedSeason="updateSelectedSeason"
+        @selectedLayer="updateSelectedLayer"
+        @epocOdfOfficialIsOn="updateEpocOdfOfficial"
+        @epocOdfReserveIsOn="updateEpocOdfReserve"
+        @planIsOn="updatePlan"
+        @planOpacity="updatePlanOpacity"
+        @orthophotoIsOn="updateOrthophoto"
+        @orthophotoOpacity="updateOrthophotoOpacity"
       />
     </client-only>
   </v-container>
@@ -113,7 +159,12 @@ export default {
       visible: true,
       transparent: true,
     },
-    selectedTerritoryBounds: null,
+    selectedTerritory: {
+      name: 'France métropolitaine',
+    },
+    seasonIsOpen: false,
+    layerIsOpen: false,
+    territoryIsOpen: false,
   }),
   methods: {
     updateSelectedArea(data) {
@@ -127,6 +178,7 @@ export default {
     },
     updateSelectedSeason(season) {
       this.selectedSeason = season
+      this.seasonIsOpen = false
     },
     updateSelectedLayer(layer) {
       this.selectedLayer = layer
@@ -152,8 +204,23 @@ export default {
     updateOrthophotoOpacity(value) {
       this.orthophoto.opacity = value
     },
-    updateSelectedTerritory(bounds) {
-      this.selectedTerritoryBounds = bounds
+    openOrCloseSeasonsBox() {
+      this.seasonIsOpen = !this.seasonIsOpen
+    },
+    closeSeasonsBox() {
+      this.seasonIsOpen = false
+    },
+    openOrCloseLayersBox() {
+      this.layerIsOpen = !this.layerIsOpen
+    },
+    closeLayersBox() {
+      this.layerIsOpen = false
+    },
+    openOrCloseTerritoriesBox() {
+      this.territoryIsOpen = !this.territoryIsOpen
+    },
+    closeTerritoriesBox() {
+      this.territoryIsOpen = false
     },
   },
   head() {
@@ -173,7 +240,7 @@ header {
   background: #fcfcfc;
   width: 100%;
   height: 68px;
-  padding: 0 2% 0 10px;
+  padding: 0 24px 0 10px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid rgba(57, 118, 90, 0.1);
   display: flex;
@@ -186,8 +253,13 @@ header {
   height: 44px;
 }
 
-.Selectors {
-  display: flex;
-  justify-content: flex-end;
+@media screen and (max-width: 950px) {
+  header {
+    padding: 0 10px;
+  }
+
+  .MapSearchBar {
+    width: 100%;
+  }
 }
 </style>

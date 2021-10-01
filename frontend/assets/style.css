@@ -608,12 +608,16 @@ a.Vocabulary:hover::after {
   position: absolute;
   top: 0;
   right: 0;
+  background: #fff;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
 .AutocompleteCloseIconWrapper {
+  width: 20px;
+  height: 20px;
+  margin-right: 30px;
   display: flex;
 }
 
@@ -733,7 +737,7 @@ a.Vocabulary:hover::after {
   align-items: center;
 }
 
-.NavBar .ODFLogo {
+.NavBarODFLogoWrapper .ODFLogo {
   height: 36px;
 }
 
@@ -918,6 +922,15 @@ a.Vocabulary:hover::after {
 /********** MAP **********/
 
 /* Dropdown selectors */
+.MapSelectors.large {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.MapSelectors.mobile {
+  display: none;
+}
+
 .MapSelectorWrapper {
   position: relative;
   margin-right: 26px;
@@ -926,7 +939,12 @@ a.Vocabulary:hover::after {
   align-items: flex-end;
 }
 
-.MapSelectorWrapper:last-child {
+.MapSelectors.mobile .MapSelectorWrapper {
+  margin-right: 16px;
+}
+
+.MapSelectorWrapper:last-child,
+.MapSelectors.mobile .MapSelectorWrapper:last-child {
   margin-right: 0;
 }
 
@@ -951,13 +969,18 @@ a.Vocabulary:hover::after {
   top: 30px;
   background: #fcfcfc;
   width: 334px;
+  max-width: calc(100vw - 20px);
   max-height: calc(100vh - 136px);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
   border-radius: 8px;
   padding: 16px 0 16px 16px;
-  overflow: auto;
   display: flex;
   flex-direction: column;
+}
+
+.MapSelectors.mobile .MapSelectorBox {
+  top: 50px;
+  max-height: calc(100vh - 208px);
 }
 
 .MapSelectorHeader {
@@ -1014,6 +1037,8 @@ a.Vocabulary:hover::after {
 }
 
 .AutocompleteGadgets.map {
+  background: linear-gradient(rgba(38, 38, 38, 0.03), rgba(38, 38, 38, 0.03)),
+  white;
   height: 42px;
   border-radius: 8px;
   padding: 0 5px;
@@ -1022,6 +1047,7 @@ a.Vocabulary:hover::after {
 .AutocompleteCloseIconWrapper.map {
   width: 14px;
   height: 14px;
+  margin-right: 16px;
 }
 
 .AutocompleteSearchIconWrapper.map {
@@ -1181,6 +1207,10 @@ a.Vocabulary:hover::after {
   display: flex;
 }
 
+.MiniMapControl.selected {
+  background: #EECE25;
+}
+
 .MiniMapControl .Icon {
   width: 24px;
   height: 24px;
@@ -1245,6 +1275,10 @@ a.Vocabulary:hover::after {
 }
 .leaflet-tooltip-right::before {
   border-right-color: rgba(0, 0, 0, 0) !important;
+}
+
+.leaflet-bottom.leaflet-left .InformationControl {
+  display: none;
 }
 
 /********** CONTACT FORMS **********/
@@ -1331,6 +1365,35 @@ textarea.ContactFormTextarea:focus {
   border: 1px solid #eece25;
 }
 
+/********** VUETIFY OVERLAY **********/
+
+/* Pagination */
+button.v-pagination__item,
+button.v-pagination__navigation {
+  box-shadow: none;
+}
+
+button.v-pagination__navigation .theme--light.v-icon {
+  color: #000;
+}
+
+.theme--light.v-pagination .v-pagination__item {
+  background: #fcfcfc !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  line-height: 21px !important;
+  color: #000 !important;
+}
+
+.theme--light.v-pagination .v-pagination__item--active {
+  background: rgba(96, 128, 113, 0.2) !important;
+  font-weight: bold !important;
+}
+
+.theme--light.v-pagination .v-pagination__navigation {
+  background: #fcfcfc !important;
+}
+
 /********** RESPONSIVE **********/
 
 @media screen and (max-width: 1050px) {
@@ -1338,6 +1401,31 @@ textarea.ContactFormTextarea:focus {
 
   .InformativePagePicture {
     width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  /********** MAP **********/
+  .MapSelectors.large {
+    display: none;
+  }
+
+  .MapSelectors.mobile {
+    display: flex;
+  }
+
+  /* Pour que les .MapSelectorWrapper (en mobile) passent au-dessus des .MapControl du bas */
+  .leaflet-top.leaflet-right {
+    z-index: 1001;
+  }
+
+  .leaflet-top.leaflet-right .InformationControl {
+    display: none;
+  }
+
+  .leaflet-bottom.leaflet-left .InformationControl {
+    display: flex;
+    max-width: calc(100vw - 72px)
   }
 }
 
@@ -1419,33 +1507,4 @@ textarea.ContactFormTextarea:focus {
   .InformativePagePicture {
     margin: 16px 0;
   }
-}
-
-/********** VUETIFY OVERLAY **********/
-
-/* Pagination */
-button.v-pagination__item,
-button.v-pagination__navigation {
-  box-shadow: none;
-}
-
-button.v-pagination__navigation .theme--light.v-icon {
-  color: #000;
-}
-
-.theme--light.v-pagination .v-pagination__item {
-  background: #fcfcfc !important;
-  font-family: 'Poppins', sans-serif !important;
-  font-size: 14px !important;
-  line-height: 21px !important;
-  color: #000 !important;
-}
-
-.theme--light.v-pagination .v-pagination__item--active {
-  background: rgba(96, 128, 113, 0.2) !important;
-  font-weight: bold !important;
-}
-
-.theme--light.v-pagination .v-pagination__navigation {
-  background: #fcfcfc !important;
 }
