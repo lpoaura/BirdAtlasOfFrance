@@ -6,13 +6,19 @@
   >
     <input
       v-model="search"
+      class="large"
       type="text"
       :placeholder="selectedType.placeholder"
     />
+    <input
+      v-model="search"
+      class="small"
+      type="text"
+      placeholder="Rechercher"
+    />
     <div class="AutocompleteGadgets map">
-      <div class="AutocompleteCloseIconWrapper map">
+      <div v-if="search.length > 0" class="AutocompleteCloseIconWrapper map">
         <img
-          v-show="search.length > 0"
           class="AutocompleteCloseIcon"
           src="/close.svg"
           @click="clearResults"
@@ -228,9 +234,12 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
+.AutocompleteWrapper input.small {
+  display: none;
+}
+
 .AutocompleteSearchSplit {
   height: 26px;
-  margin-left: 16px;
 }
 
 .AutocompleteDropdownWrapper {
@@ -274,5 +283,14 @@ export default {
 
 .AutocompleteNoResults {
   padding: 4px 8px;
+}
+
+@media screen and (max-width: 440px) {
+  .AutocompleteWrapper input.large {
+    display: none;
+  }
+  .AutocompleteWrapper input.small {
+    display: flex;
+  }
 }
 </style>

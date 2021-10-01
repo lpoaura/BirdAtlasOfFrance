@@ -1,36 +1,26 @@
 <template>
-  <div v-click-outside="closeSelectBox" class="MapSelectorWrapper">
-    <div class="MapSelectorSelectedOption" @click="openOrCloseSelectBox">
-      <img class="MapSelectorIcon" src="/calendar.svg" />
-      <h5 class="fw-600 right-margin-12">{{ selectedSeason.label }}</h5>
-      <img
-        class="MapSelectorChevron"
-        :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
-      />
+  <div v-show="selectIsOpen" class="MapSelectorBox">
+    <div class="MapSelectorHeader">
+      <h4 class="black02 fw-600">Périodes</h4>
     </div>
-    <div v-show="selectIsOpen" class="MapSelectorBox">
-      <div class="MapSelectorHeader">
-        <h4 class="black02 fw-600">Périodes</h4>
-      </div>
-      <div class="MapSelectorOverflow">
-        <li
-          v-for="(season, index) in seasonsList"
-          :key="index"
-          class="RadioOption"
-          :class="season.label === selectedSeason.label ? 'selected' : ''"
-          @click="updateSelectedSeason(season)"
-        >
-          <div class="RadioLabel">
-            <div class="RadioButton">
-              <div
-                v-show="season.label === selectedSeason.label"
-                class="RadioButtonSelected"
-              ></div>
-            </div>
-            {{ season.label }}
+    <div class="MapSelectorOverflow">
+      <li
+        v-for="(season, index) in seasonsList"
+        :key="index"
+        class="RadioOption"
+        :class="season.label === selectedSeason.label ? 'selected' : ''"
+        @click="updateSelectedSeason(season)"
+      >
+        <div class="RadioLabel">
+          <div class="RadioButton">
+            <div
+              v-show="season.label === selectedSeason.label"
+              class="RadioButtonSelected"
+            ></div>
           </div>
-        </li>
-      </div>
+          {{ season.label }}
+        </div>
+      </li>
     </div>
   </div>
 </template>
@@ -38,13 +28,16 @@
 <script>
 export default {
   props: {
+    selectIsOpen: {
+      type: Boolean,
+      required: true,
+    },
     selectedSeason: {
       type: Object,
       required: true,
     },
   },
   data: () => ({
-    selectIsOpen: false,
     seasonsList: [
       {
         label: 'Toutes saisons',
@@ -89,15 +82,8 @@ export default {
     ],
   }),
   methods: {
-    openOrCloseSelectBox() {
-      this.selectIsOpen = !this.selectIsOpen
-    },
-    closeSelectBox() {
-      this.selectIsOpen = false
-    },
     updateSelectedSeason(season) {
       this.$emit('selectedSeason', season)
-      this.selectIsOpen = false
     },
   },
 }
@@ -106,5 +92,9 @@ export default {
 <style scoped>
 .MapSelectorBox {
   width: 280px;
+}
+
+.MapSelectors.mobile .MapSelectorBox {
+  right: -116px;
 }
 </style>
