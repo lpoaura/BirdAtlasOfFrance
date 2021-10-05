@@ -1,5 +1,6 @@
 <template>
   <div id="map-wrap">
+    <!-- MAP -->
     <l-map
       ref="myMap"
       :zoom="zoom"
@@ -123,6 +124,21 @@
           </div>
           <epoc-dashboard-control :clicked-epoc-point="clickedEpocPoint" />
         </section>
+        <!-- Apparaît si au moins une des conditions précédentes est remplie -->
+        <div
+          v-show="
+            (selectedLayer === 'Indice de complétude' && !clickedFeature) ||
+            (['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+              clickedFeature &&
+              !clickedEpocPoint) ||
+            (selectedLayer === 'Répartition de l\'espèce' && selectedSpecies) ||
+            (selectedLayer === 'Points EPOC' && clickedEpocPoint)
+          "
+          class="MiniMapControl mobile"
+          @click="openMobileMapControl"
+        >
+          <img class="Icon" src="/information.svg" />
+        </div>
       </l-control>
       <!-- Top right -->
       <l-control
@@ -167,7 +183,7 @@
             Pas de données pour la saison et l'emprise choisies.
           </h5>
         </div>
-        <div class="MapSelectors mobile">
+        <div class="MapSelectors">
           <div v-click-outside="closeSeasonsBox" class="MapSelectorWrapper">
             <div
               class="MiniMapControl"
@@ -211,7 +227,6 @@
             >
               <img class="Icon" src="/location.svg" />
             </div>
-            <!-- AJOUTER LE TerritoriesSelector ICI  -->
             <territories-selector
               :select-is-open="territoryIsOpen"
               :selected-territory="selectedTerritory"
@@ -306,26 +321,37 @@ export default {
   },
   props: {
     selectedArea: {
+      // Zonage sélectionné dans la barre de recherche
       type: Object,
       required: false,
       default: null,
     },
     selectedSpecies: {
+      // Espèce sélectionnée dans la barre de recherche
       type: Object,
       required: false,
       default: null,
     },
     selectedSeason: {
+      // Saison sélectionnée
       type: Object,
       required: true,
     },
     selectedLayer: {
+      // Couche sélectionnée
       type: String,
       required: true,
     },
     selectedTerritory: {
+      // Territoire affiché (FrMet ou DOM-TOM)
       type: Object,
       required: true,
+    },
+    clickedFeature: {
+      // On clique sur une maille
+      type: Object,
+      required: false,
+      default: null,
     },
     epocOdfOfficialIsOn: {
       type: Boolean,
@@ -343,8 +369,14 @@ export default {
       type: Object,
       required: true,
     },
+    // MOBILE
+    mobileMapControlIsOpen: {
+      type: Boolean,
+      required: true,
+    },
   },
   data: () => ({
+    // CONFIGURATION DE LA CARTE
     zoom: 11,
     currentZoom: 11,
     oldZoomKnowledgeLevel: 100,
@@ -357,24 +389,28 @@ export default {
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     envelope: null,
     initTerritory: null,
-    disableScrollPropagation: true,
+    // CONFIGURATION DES GEOJSON
+    // Indice de complétude
     knowledgeLevelGeojson: null,
-    speciesDistributionGeojson: null,
-    epocOdfOfficialGeojson: null,
-    epocOdfReserveGeojson: null,
     axiosSourceKnowledgeLevel: null,
     axiosErrorKnowledgeLevel: null,
+    knowledgeLevelIsLoading: false,
+    // Répartition de l'espèce
+    speciesDistributionGeojson: null,
     axiosSourceSpeciesDistribution: null,
     axiosErrorSpeciesDistribution: null,
-    knowledgeLevelIsLoading: false,
     speciesDistributionIsLoading: false,
+    // Points EPOC
+    epocOdfOfficialGeojson: null,
+    epocOdfReserveGeojson: null,
+    // CONFIGURATION DES MAPCONTROLS
+    disableScrollPropagation: true,
     noSpeciesData: false,
     featuresClasses: [0.25, 0.5, 0.75, 1],
-    clickedFeature: null,
-    searchedFeatureId: null,
-    searchedFeatureCode: null,
-    clickedEpocPoint: null,
-    indeterminate: true,
+    searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
+    searchedFeatureCode: null, // Le zonage sélectionné est une maille (recherche depuis la page d'Accueil)
+    clickedEpocPoint: null, // On clique sur un point EPOC
+    indeterminate: true, // Progress (loading)
     // MOBILE
     seasonIsOpen: false,
     layerIsOpen: false,
@@ -557,6 +593,7 @@ export default {
     selectedArea(newVal) {
       if (newVal) {
         if (newVal.type_code === 'ATLAS_GRID') {
+          // Pouvoir afficher le tableau de bord si c'est une maille qui est sélectionnée
           this.searchedFeatureId = newVal.id
         }
         this.zoomToArea(newVal.bounds)
@@ -724,6 +761,7 @@ export default {
           )
           .then((data) => {
             this.knowledgeLevelGeojson = data
+            // Pouvoir afficher le tableau de bord si c'est une maille qui est sélectionnée
             if (this.searchedFeatureId) {
               const clickedFeature = this.knowledgeLevelGeojson.features.filter(
                 (feature) => {
@@ -899,6 +937,9 @@ export default {
       this.clickedEpocPoint = null
     },
     // MOBILE
+    openMobileMapControl() {
+      this.$emit('mobileMapControl', true)
+    },
     openOrCloseSeasonsBox() {
       this.seasonIsOpen = !this.seasonIsOpen
     },

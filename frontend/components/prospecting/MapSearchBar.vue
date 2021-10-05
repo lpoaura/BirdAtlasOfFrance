@@ -285,6 +285,8 @@ export default {
   padding: 4px 8px;
 }
 
+/********** RESPONSIVE **********/
+
 @media screen and (max-width: 440px) {
   .AutocompleteWrapper input.large {
     display: none;

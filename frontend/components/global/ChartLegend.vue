@@ -56,6 +56,8 @@ export default {
   margin-right: 8px;
 }
 
+/********** RESPONSIVE **********/
+
 @media screen and (max-width: 680px) {
   .ChartLegend {
     margin-bottom: 16px;

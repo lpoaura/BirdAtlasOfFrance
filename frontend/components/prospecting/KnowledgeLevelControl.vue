@@ -16,6 +16,11 @@
         </div>
         <h5 class="fw-500">France métropolitaine</h5>
       </div>
+      <img
+        class="MobileMapControlCloseIcon"
+        src="/cross.svg"
+        @click="closeMobileMapControl"
+      />
     </header>
     <div class="KnowledgeLevelPieChartWrapper">
       <div class="KnowledgeLevelPieChart">
@@ -250,6 +255,12 @@ export default {
         })
       })
   },
+  methods: {
+    // MOBILE
+    closeMobileMapControl() {
+      this.$emit('mobileMapControl', false)
+    },
+  },
 }
 </script>
 
@@ -257,6 +268,10 @@ export default {
 .MapControl {
   width: 420px;
   padding: 16px;
+}
+
+.MapControlHeader {
+  margin-right: 0;
 }
 
 .KnowledgeLevel {
@@ -332,5 +347,34 @@ export default {
   border-radius: 6px;
   float: left;
   margin-right: 16px;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 680px) {
+  h4.fw-bold {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  h3.KnowledgeLevelGlobalData {
+    font-size: 24px;
+    line-height: 36px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .KnowledgeLevelPieChartWrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .KnowledgeLevelPieChart {
+    margin-bottom: 24px;
+  }
+
+  .PieChartLegend {
+    width: 180px;
+  }
 }
 </style>

@@ -55,6 +55,8 @@ div.container.container--fluid {
   padding: 32px 16%;
 }
 
+/********** RESPONSIVE **********/
+
 @media screen and (max-width: 920px) {
   .TopSection {
     padding: 16px 5% 0 5%;

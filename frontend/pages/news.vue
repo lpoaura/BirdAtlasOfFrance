@@ -141,6 +141,8 @@ export default {
   bottom: 9px;
 }
 
+/********** RESPONSIVE **********/
+
 @media screen and (max-width: 680px) {
   h2.fw-600 {
     font-weight: bold;

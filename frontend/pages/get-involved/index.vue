@@ -120,6 +120,8 @@ export default {
   display: none;
 }
 
+/********** RESPONSIVE **********/
+
 @media screen and (max-width: 680px) {
   .TopSection {
     height: 270px;
