@@ -922,12 +922,13 @@ a.Vocabulary:hover::after {
 /********** MAP **********/
 
 /* Dropdown selectors */
-.MapSelectors.large {
+.MapSelectors {
   display: flex;
   justify-content: flex-end;
 }
 
-.MapSelectors.mobile {
+.leaflet-control .MapSelectors,
+.MiniMapControl.mobile {
   display: none;
 }
 
@@ -939,12 +940,12 @@ a.Vocabulary:hover::after {
   align-items: flex-end;
 }
 
-.MapSelectors.mobile .MapSelectorWrapper {
+.leaflet-control .MapSelectorWrapper {
   margin-right: 16px;
 }
 
 .MapSelectorWrapper:last-child,
-.MapSelectors.mobile .MapSelectorWrapper:last-child {
+.leaflet-control .MapSelectorWrapper:last-child {
   margin-right: 0;
 }
 
@@ -978,7 +979,7 @@ a.Vocabulary:hover::after {
   flex-direction: column;
 }
 
-.MapSelectors.mobile .MapSelectorBox {
+.leaflet-control .MapSelectorBox {
   top: 50px;
   max-height: calc(100vh - 208px);
 }
@@ -1197,6 +1198,27 @@ a.Vocabulary:hover::after {
   margin-right: 12px;
 }
 
+.MobileMapControl {
+  position: absolute;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(38, 38, 38, 0.6);
+  display: flex;
+}
+
+.MobileMapControlCloseIcon {
+  display: none;
+}
+
+.MobileMapControl .MobileMapControlCloseIcon {
+  width: 24px;
+  cursor: pointer;
+  display: flex;
+}
+
 .MiniMapControl {
   width: 42px;
   height: 42px;
@@ -1406,12 +1428,23 @@ button.v-pagination__navigation .theme--light.v-icon {
 
 @media screen and (max-width: 950px) {
   /********** MAP **********/
-  .MapSelectors.large {
+  .MapSelectors {
     display: none;
   }
 
-  .MapSelectors.mobile {
+  .leaflet-control .MapSelectors,
+  .MiniMapControl.mobile {
     display: flex;
+  }
+
+  .leaflet-control .MapControl {
+    display: none;
+  }
+
+  .MapControl {
+    max-width: calc(100vw - 20px);
+    max-height: calc(100vh - 20px);
+    margin: auto;
   }
 
   /* Pour que les .MapSelectorWrapper (en mobile) passent au-dessus des .MapControl du bas */

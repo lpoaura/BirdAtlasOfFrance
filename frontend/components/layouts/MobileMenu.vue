@@ -13,7 +13,7 @@
       <div class="NavBarIconsMenu">
         <img
           class="NavBarCloseIcon"
-          src="/nav-bar/close.svg"
+          src="/cross.svg"
           @click="hideMobileMenu(0)"
         />
       </div>

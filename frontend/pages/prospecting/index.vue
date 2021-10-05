@@ -1,5 +1,12 @@
 <template>
   <v-container fluid>
+    <div v-if="mobileMapControlIsOpen" class="MobileMapControl">
+      <knowledge-level-control
+        v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
+        :selected-season="selectedSeason"
+        @mobileMapControl="openOrCloseMobileMapControl"
+      />
+    </div>
     <header>
       <div class="MapSearchBar">
         <map-search-bar
@@ -7,7 +14,7 @@
           @selectedSpecies="updateSelectedSpecies"
         />
       </div>
-      <div class="MapSelectors large">
+      <div class="MapSelectors">
         <div v-click-outside="closeSeasonsBox" class="MapSelectorWrapper">
           <div class="MapSelectorSelectedOption" @click="openOrCloseSeasonsBox">
             <img class="MapSelectorIcon" src="/calendar.svg" />
@@ -71,10 +78,12 @@
         :selected-season="selectedSeason"
         :selected-layer="selectedLayer"
         :selected-territory="selectedTerritory"
+        :clicked-feature="clickedFeature"
         :epoc-odf-official-is-on="epocOdfOfficialIsOn"
         :epoc-odf-reserve-is-on="epocOdfReserveIsOn"
         :plan="plan"
         :orthophoto="orthophoto"
+        :mobile-map-control-is-open="mobileMapControlIsOpen"
         @selectedSpecies="updateSelectedSpecies"
         @selectedSeason="updateSelectedSeason"
         @selectedLayer="updateSelectedLayer"
@@ -84,6 +93,7 @@
         @planOpacity="updatePlanOpacity"
         @orthophotoIsOn="updateOrthophoto"
         @orthophotoOpacity="updateOrthophotoOpacity"
+        @mobileMapControl="openOrCloseMobileMapControl"
       />
     </client-only>
   </v-container>
@@ -94,6 +104,7 @@ import MapSearchBar from '~/components/prospecting/MapSearchBar.vue'
 import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
 import LayersSelector from '~/components/prospecting/LayersSelector.vue'
 import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
+import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 
 export default {
   components: {
@@ -106,11 +117,13 @@ export default {
         return import('~/components/prospecting/ProspectingMap.vue')
       }
     },
+    'knowledge-level-control': KnowledgeLevelControl,
   },
   data: () => ({
-    selectedArea: null,
-    selectedSpecies: null,
+    selectedArea: null, // Zonage sélectionné dans la barre de recherche
+    selectedSpecies: null, // Espèce sélectionnée dans la barre de recherche
     selectedSeason: {
+      // Saison sélectionnée
       label: 'Toutes saisons',
       value: 'all_period',
       featuresColors: [
@@ -122,8 +135,13 @@ export default {
       ],
       speciesDistributionColors: ['#336950'],
     },
-    selectedLayer: 'Indice de complétude',
-    epocPointsIsOn: true,
+    selectedLayer: 'Indice de complétude', // Couche sélectionnée
+    selectedTerritory: {
+      // Territoire affiché (FrMet ou DOM-TOM)
+      name: 'France métropolitaine',
+    },
+    clickedFeature: null, // On clique sur une maille
+    // epocPointsIsOn: true, À PASSER DANS ProspectingMap
     epocOdfOfficialIsOn: true,
     epocOdfReserveIsOn: true,
     plan: {
@@ -148,23 +166,22 @@ export default {
       zIndex: 1,
       attribution: 'IGN Orthophotographies',
     },
-    clc: {
-      isOn: false,
-      url: 'http://wxs.ign.fr/corinelandcover/geoportail/r/wms',
-      layers: 'LANDCOVER.CLC18',
-      opacity: '50',
-      zIndex: 3,
-      attribution: 'Corine Land Cover 2018',
-      name: 'Corine Land Cover 2018',
-      visible: true,
-      transparent: true,
-    },
-    selectedTerritory: {
-      name: 'France métropolitaine',
-    },
+    // clc: { À PASSER DANS ProspectingMap
+    //   isOn: false,
+    //   url: 'http://wxs.ign.fr/corinelandcover/geoportail/r/wms',
+    //   layers: 'LANDCOVER.CLC18',
+    //   opacity: '50',
+    //   zIndex: 3,
+    //   attribution: 'Corine Land Cover 2018',
+    //   name: 'Corine Land Cover 2018',
+    //   visible: true,
+    //   transparent: true,
+    // },
     seasonIsOpen: false,
     layerIsOpen: false,
     territoryIsOpen: false,
+    // MOBILE
+    mobileMapControlIsOpen: false,
   }),
   methods: {
     updateSelectedArea(data) {
@@ -222,6 +239,10 @@ export default {
     closeTerritoriesBox() {
       this.territoryIsOpen = false
     },
+    // MOBILE
+    openOrCloseMobileMapControl(value) {
+      this.mobileMapControlIsOpen = value
+    },
   },
   head() {
     return {
@@ -252,6 +273,8 @@ header {
   width: 420px;
   height: 44px;
 }
+
+/********** RESPONSIVE **********/
 
 @media screen and (max-width: 950px) {
   header {

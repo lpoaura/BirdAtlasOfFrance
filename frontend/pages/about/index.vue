@@ -75,7 +75,7 @@ export default {
       //   route: '/get-involved',
       // },
       {
-        icon: '/glossary.svg',
+        icon: '/information.svg',
         title: 'Lexique',
         subtitle:
           'Retrouvez ici toutes les définitions des mots utilisés sur le projet ODF.',
