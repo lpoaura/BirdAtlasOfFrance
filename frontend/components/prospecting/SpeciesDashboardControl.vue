@@ -1,6 +1,6 @@
 <template>
   <section class="MapControl">
-    <div class="MapControlHeader">
+    <header class="MapControlHeader">
       <div class="MapControlHeaderTitles">
         <h4 class="fw-bold bottom-margin-4">
           {{ selectedSpecies[`common_name_${lang}`] }}
@@ -14,7 +14,12 @@
           }}
         </h5>
       </div>
-    </div>
+      <img
+        class="MobileMapControlCloseIcon"
+        src="/cross.svg"
+        @click="closeMobileMapControl"
+      />
+    </header>
     <div class="MapControlOverflow">
       <div class="FeaturesLegend">
         <div
@@ -30,7 +35,10 @@
           {{ featuresLabels[selectedSeason.value][index] }}
         </div>
       </div>
-      <div class="PrimaryButton outlined" @click="deleteSelectedSpecies">
+      <div
+        class="PrimaryButton outlined top-margin-24"
+        @click="deleteSelectedSpecies"
+      >
         Fermer
       </div>
     </div>
@@ -65,6 +73,10 @@ export default {
         query: { species: undefined },
       })
     },
+    // MOBILE
+    closeMobileMapControl() {
+      this.$emit('mobileMapControl', false)
+    },
   },
 }
 </script>
@@ -74,9 +86,10 @@ export default {
   width: 420px;
 }
 
+/* À REMETTRE lorsque le bouton "Voir la fiche espèce" sera dispo
 .FeaturesLegend {
   margin-bottom: 24px;
-}
+} */
 
 .FeaturesLegendLabel {
   margin-bottom: 16px;
@@ -99,5 +112,9 @@ export default {
   float: left;
   margin-right: 12px;
   display: flex;
+}
+
+.MobileMapControl .MapControlOverflow .PrimaryButton.outlined {
+  display: none;
 }
 </style>

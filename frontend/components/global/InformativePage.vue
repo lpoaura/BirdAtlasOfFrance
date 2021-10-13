@@ -180,6 +180,8 @@ header {
   display: none;
 }
 
+/********** RESPONSIVE **********/
+
 @media screen and (max-width: 920px) {
   header {
     padding: 16px 5%;

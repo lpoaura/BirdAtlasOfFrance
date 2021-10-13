@@ -25,28 +25,47 @@
         >
           <img class="MapControlDownloadButtonIcon" src="/download.svg" />
         </a>
+        <img
+          class="MobileMapControlCloseIcon"
+          src="/cross.svg"
+          @click="closeMobileMapControl"
+        />
       </header>
       <menu class="TabMenu">
         <span
           v-for="(item, index) in menuItems"
           :key="index"
           class="TabItem"
-          :class="item === selectedMenuItem ? 'selected' : ''"
+          :class="item.label === selectedMenuItem.label ? 'selected' : ''"
           @click="updateSelectedMenuItem(item)"
         >
-          {{ item }}
+          {{ item.label }}
         </span>
       </menu>
+      <div class="MobileMapControlMenuWrapper">
+        <dropdown-list
+          v-model="selectedMenuItem"
+          :z-index="3"
+          :items-list="menuItems"
+        />
+        <a
+          class="MapControlDownloadButton"
+          :href="`/files/map/grid/${featureProperties.area_name}.pdf`"
+          target="_blank"
+        >
+          <img class="MapControlDownloadButtonIcon" src="/download.svg" />
+        </a>
+      </div>
       <div
         class="MapControlSplit main right-margin-16"
-        :class="scrolled && selectedMenuItem === 'Espèces' ? 'fixed' : ''"
+        :class="scrolled && selectedMenuItem.label === 'Espèces' ? 'fixed' : ''"
       ></div>
       <!-- Onglet "Tableau de bord" -->
       <div
-        v-show="selectedMenuItem === 'Tableau de bord'"
+        v-show="selectedMenuItem.label === 'Tableau de bord'"
         class="MapControlOverflow"
       >
-        <h4 class="black02 fw-bold bottom-margin-16">
+        <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
           Indice de complétude ({{
             selectedSeason.label
               .replace('Période de ', '')
@@ -66,7 +85,7 @@
             }}%
           </h3>
           <h5 class="black03">
-            des espèces de référence ont été signalées<br />
+            des espèces de référence ont été signalées<br class="br" />
             sur la période Atlas 2019-2024
           </h5>
         </div>
@@ -86,10 +105,16 @@
           </h4>
           <div class="MapControlSeeMore">
             <h5
-              class="green01 fw-600 right-margin-12"
+              class="large green01 fw-600 right-margin-12"
               @click="updateSeeMoreMunicipalities"
             >
               Voir toutes les communes
+            </h5>
+            <h5
+              class="small green01 fw-600 right-margin-12"
+              @click="updateSeeMoreMunicipalities"
+            >
+              Voir tout
             </h5>
             <img
               class="MapControlSeeMoreChevron"
@@ -111,7 +136,7 @@
       </div>
       <!-- Onglet "Espèces" -->
       <div
-        v-show="selectedMenuItem === 'Espèces'"
+        v-show="selectedMenuItem.label === 'Espèces'"
         id="species-overflow"
         class="MapControlOverflow"
       >
@@ -144,19 +169,36 @@
             {{ item.label }}
           </div>
         </div>
+        <dropdown-list
+          v-model="selectedSpeciesStatus"
+          :z-index="2"
+          :items-list="speciesStatusList"
+        />
         <div class="TableHeader" :class="scrolled ? 'fixed' : ''">
           <div class="TableLineContent">
-            <span class="black02 fw-600 align-end">
-              {{ filteredSpecies.list.length }} espèce(s)
+            <span class="black02 fw-600 align-end flex-1">
+              {{ filteredSpecies.list.length }} espèces
             </span>
             <div class="TableColumnsWrapper">
-              <span class="TableColumn black02 fw-500">
+              <span class="TableColumn large black02 fw-500">
                 Avant 2019
-                <h5>({{ filteredSpecies.old_count }} espèces)</h5>
+                <h5>({{ filteredSpecies.old_count }} esp.)</h5>
               </span>
-              <span class="TableColumn black02 fw-500">
+              <span class="TableColumn small black02 fw-500">
+                <div class="flex">
+                  <font style="font-family: sans-serif">&lt;</font>&nbsp;2019
+                </div>
+                <h5>({{ filteredSpecies.old_count }} esp.)</h5>
+              </span>
+              <span class="TableColumn large black02 fw-500">
                 Après 2019
-                <h5>({{ filteredSpecies.new_count }} espèces)</h5>
+                <h5>({{ filteredSpecies.new_count }} esp.)</h5>
+              </span>
+              <span class="TableColumn small black02 fw-500">
+                <div class="flex">
+                  <font style="font-family: sans-serif">&ge;</font>&nbsp;2019
+                </div>
+                <h5>({{ filteredSpecies.new_count }} esp.)</h5>
               </span>
             </div>
           </div>
@@ -171,20 +213,37 @@
             class="TableLineContent pointer"
             @click="updateClickedSpecies(taxon)"
           >
-            <span>{{ taxon[`common_name_${lang}`] }}</span>
+            <div class="HelperWrapper">
+              <div
+                class="Dot"
+                :class="
+                  taxon.breeding.new_status
+                    ? taxon.breeding.new_status.replace('Nicheur ', '')
+                    : ''
+                "
+              ></div>
+              <div v-if="taxon.breeding.new_status" class="HelperTip"></div>
+              <h5
+                v-if="taxon.breeding.new_status"
+                class="HelperContent white02 nowrap"
+              >
+                {{ taxon.breeding.new_status }}
+              </h5>
+            </div>
+            <span class="flex-1">{{ taxon[`common_name_${lang}`] }}</span>
             <div class="TableColumnsWrapper">
               <div class="TableColumn">
                 <img
                   v-show="taxon[selectedSpeciesStatus.value].old_count > 0"
                   class="TableCheckIcon"
-                  src="/check.svg"
+                  src="/check-green.svg"
                 />
               </div>
               <div class="TableColumn">
                 <img
                   v-show="taxon[selectedSpeciesStatus.value].new_count > 0"
                   class="TableCheckIcon"
-                  src="/check.svg"
+                  src="/check-green.svg"
                 />
               </div>
             </div>
@@ -194,10 +253,10 @@
       </div>
       <!-- Onglet "Prospection" -->
       <div
-        v-show="selectedMenuItem === 'Prospection'"
+        v-show="selectedMenuItem.label === 'Prospection'"
         class="MapControlOverflow"
       >
-        <h4 class="black02 fw-bold bottom-margin-16">
+        <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
           Durée totale de prospection ({{
             selectedSeason.label
               .replace('Période de ', '')
@@ -207,24 +266,16 @@
         </h4>
         <div class="MapControlKeyData">
           <h3
-            class="MapControlKeyDataValue fw-bold right-margin-24"
+            class="MapControlKeyDataValue large fw-bold right-margin-24"
             :class="selectedSeason.value"
           >
-            {{
-              selectedSeason.label === 'Toutes saisons'
-                ? Math.round(
-                    (featureDataKey.prospecting_hours_breeding +
-                      featureDataKey.prospecting_hours_wintering +
-                      featureDataKey.prospecting_hours_other_period) *
-                      10
-                  ) / 10
-                : Math.round(
-                    featureDataKey[
-                      'prospecting_hours_' + selectedSeason.value
-                    ] * 10
-                  ) / 10
-            }}
-            heure(s)
+            {{ prospectingHours }} heure(s)
+          </h3>
+          <h3
+            class="MapControlKeyDataValue small fw-bold right-margin-24"
+            :class="selectedSeason.value"
+          >
+            {{ prospectingHours }} h
           </h3>
           <h5 class="black03">enregistrées sur la période Atlas 2019-2024</h5>
         </div>
@@ -302,6 +353,20 @@
               : 'Espèce non observée avant 2019'
           }}
         </div>
+        <div class="MapControlDataOption">
+          <img class="MapControlDataOptionIcon" src="/calendar.svg" />
+          Calendrier d'observation :
+        </div>
+        <div class="PhenologyWrapper">
+          <div
+            v-for="(item, index) in clickedSpecies.phenology"
+            :key="index"
+            class="PhenologyItem"
+            :class="item.is_present ? 'colored' : ''"
+          >
+            <span class="black02">{{ item.label }}</span>
+          </div>
+        </div>
       </div>
     </div>
     <!-- EPOC DASHBOARD -->
@@ -313,6 +378,7 @@
       <epoc-dashboard-control
         v-if="clickedEpocItem"
         :clicked-epoc-point="clickedEpocItem"
+        @mobileMapControl="closeMobileMapControl"
       />
     </div>
   </section>
@@ -395,8 +461,12 @@ export default {
       'Nov',
       'Déc',
     ],
-    menuItems: ['Tableau de bord', 'Espèces', 'Prospection'],
-    selectedMenuItem: 'Tableau de bord',
+    menuItems: [
+      { label: 'Tableau de bord' },
+      { label: 'Espèces' },
+      { label: 'Prospection' },
+    ],
+    selectedMenuItem: { label: 'Tableau de bord' },
     speciesStatusList: [
       { label: 'Toutes', value: 'all_period' },
       { label: 'Espèces nicheuses', value: 'breeding' },
@@ -440,13 +510,33 @@ export default {
         new_count: speciesNewCount,
       }
     },
+    prospectingHours() {
+      if (this.selectedSeason.label === 'Toutes saisons') {
+        return (
+          Math.round(
+            (this.featureDataKey.prospecting_hours_breeding +
+              this.featureDataKey.prospecting_hours_wintering +
+              this.featureDataKey.prospecting_hours_other_period) *
+              10
+          ) / 10
+        )
+      } else {
+        return (
+          Math.round(
+            this.featureDataKey[
+              'prospecting_hours_' + this.selectedSeason.value
+            ] * 10
+          ) / 10
+        )
+      }
+    },
   },
   watch: {
     clickedFeature(newVal) {
       this.clickedSpecies = null
       this.clickedEpocItem = null
       this.seeMoreMunicipalitiesIsClicked = false
-      this.selectedMenuItem = 'Tableau de bord'
+      this.selectedMenuItem = { label: 'Tableau de bord' }
       this.initiateFeatureData(newVal)
       this.$axios
         .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
@@ -462,10 +552,12 @@ export default {
           // console.log(formattedData)
           // Get bar plot size
           const margin = { top: 10, right: 0, bottom: 30, left: 40 }
-          const barPlotWidth =
+          const barPlotWidth = Math.max(
             parseFloat(d3.select('.TimeDistributionBarPlot').style('width')) -
-            margin.left -
-            margin.right
+              margin.left -
+              margin.right,
+            360
+          )
           const barPlotHeight =
             parseFloat(d3.select('.TimeDistributionBarPlot').style('height')) -
             margin.top -
@@ -547,10 +639,12 @@ export default {
         // console.log(formattedData)
         // Get bar plot size
         const margin = { top: 10, right: 0, bottom: 30, left: 40 }
-        const barPlotWidth =
+        const barPlotWidth = Math.max(
           parseFloat(d3.select('.TimeDistributionBarPlot').style('width')) -
-          margin.left -
-          margin.right
+            margin.left -
+            margin.right,
+          360
+        )
         const barPlotHeight =
           parseFloat(d3.select('.TimeDistributionBarPlot').style('height')) -
           margin.top -
@@ -702,6 +796,17 @@ export default {
       this.seeMoreMunicipalitiesIsClicked = false
     },
     updateClickedSpecies(taxon) {
+      const months = this.months.map((item) => {
+        return item.charAt(0)
+      })
+      const phenology = months.map((item, index) => {
+        return {
+          label: item,
+          is_present:
+            taxon.phenology.find((d) => d === index + 1) !== undefined,
+        }
+      })
+      taxon.phenology = phenology
       this.clickedSpecies = taxon
     },
     deleteClickedSpecies() {
@@ -726,6 +831,10 @@ export default {
       this.scrolled =
         document.getElementById('species-overflow').scrollTop > 132
     },
+    // MOBILE
+    closeMobileMapControl() {
+      this.$emit('mobileMapControl', false)
+    },
   },
 }
 </script>
@@ -735,6 +844,10 @@ export default {
   width: 506px;
 }
 
+.DropdownListWrapper {
+  margin-bottom: 24px !important;
+}
+
 .TimeDistributionBarPlot {
   width: 100%;
   height: 300px;
@@ -742,11 +855,7 @@ export default {
 }
 
 .AutocompleteWrapper {
-  margin-bottom: 24px;
-}
-
-.AutocompleteSearchIconWrapper {
-  margin-left: 16px;
+  margin: 24px 0;
 }
 
 .pointer {
@@ -757,6 +866,10 @@ export default {
   align-self: flex-end;
 }
 
+.flex-1 {
+  flex: 1;
+}
+
 .TableHeader {
   background: #fcfcfc;
 }
@@ -764,6 +877,7 @@ export default {
 .TableHeader.fixed {
   position: -webkit-sticky;
   position: sticky;
+  z-index: 1; /* Pour que les .Dot ne passent pas par-dessus */
   top: 0;
 }
 
@@ -774,8 +888,13 @@ export default {
 .TableLineContent {
   margin-bottom: 8px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+}
+
+.TableLineContent span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .TableLine:last-child .TableLineContent {
@@ -788,11 +907,15 @@ export default {
 }
 
 .TableColumn {
-  width: 100px;
+  width: 86px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+span.TableColumn.small {
+  display: none;
 }
 
 .MapControlSplit.header {
@@ -809,5 +932,108 @@ export default {
 
 .TableCheckIcon {
   width: 15px;
+}
+
+.Dot {
+  background: #fcfcfc;
+  min-width: 12px;
+  max-width: 12px;
+  min-height: 12px;
+  max-height: 12px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.Dot.possible {
+  background: #eece25;
+}
+.Dot.probable {
+  background: #eb6a0a;
+}
+.Dot.certain {
+  background: #932747;
+}
+
+.HelperTip {
+  left: 20px;
+  top: -2px;
+}
+
+.Dot:hover ~ .HelperTip {
+  display: block;
+}
+
+.HelperContent {
+  top: -19px;
+  left: 28px;
+}
+
+.Dot:hover ~ .HelperContent {
+  display: flex;
+}
+
+.PhenologyWrapper {
+  width: 100%;
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.PhenologyItem {
+  min-width: 24px;
+  max-width: 24px;
+  min-height: 24px;
+  max-height: 24px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.PhenologyItem.colored {
+  background: rgba(57, 118, 90, 0.3);
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 680px) {
+  h3.MapControlKeyDataValue {
+    font-size: 24px;
+    line-height: 36px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .br,
+  .MapControlSeeMore h5.large.green01,
+  span.TableColumn.large,
+  .MapControlKeyDataValue.large {
+    display: none;
+  }
+
+  .MapControlSeeMore h5.small.green01,
+  span.TableColumn.small,
+  .MapControlKeyDataValue.small {
+    display: flex;
+  }
+
+  .TableColumn {
+    width: 66px;
+  }
+
+  .TableLineContent.pointer span.flex-1 {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .PhenologyItem {
+    min-width: 20px;
+    max-width: 20px;
+    min-height: 20px;
+    max-height: 20px;
+  }
+  .PhenologyItem span {
+    font-size: 12px;
+    line-height: 18px;
+  }
 }
 </style>
