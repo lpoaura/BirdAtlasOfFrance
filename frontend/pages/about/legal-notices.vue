@@ -16,6 +16,8 @@ export default {
 </script>
 
 <style scoped>
+/********** RESPONSIVE **********/
+
 @media screen and (max-width: 545px) {
   div.container.container--fluid >>> .TabMenu {
     display: none;

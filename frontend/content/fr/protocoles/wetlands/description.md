@@ -57,4 +57,4 @@ Ces données servent à produire des informations régulières sur les statuts, 
 
 </div>
 
-<img class="InformativePagePicture" style="width: 80%" src="/get-involved/Wetlands-species-card.png" />
+<img class="InformativePagePicture" style="width: 80%" src="/get-involved/Wetlands-species-card.jpg" />

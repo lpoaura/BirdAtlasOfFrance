@@ -2,9 +2,8 @@
   <div v-click-outside="closeSearchBar" class="AutocompleteWrapper">
     <input v-model="search" type="text" placeholder="Rechercher" />
     <div class="AutocompleteGadgets">
-      <div class="AutocompleteCloseIconWrapper">
+      <div v-if="search.length > 0" class="AutocompleteCloseIconWrapper">
         <img
-          v-show="search.length > 0"
           class="AutocompleteCloseIcon"
           src="/close.svg"
           @click="clearResults"
@@ -186,14 +185,8 @@ export default {
   padding: 0 10px;
 }
 
-.AutocompleteCloseIconWrapper {
-  width: 20px;
-  height: 20px;
-}
-
 .AutocompleteSearchSplit {
   height: 40px;
-  margin-left: 30px;
 }
 
 .AutocompleteDropdownWrapper {
@@ -267,11 +260,11 @@ export default {
   .AutocompleteCloseIconWrapper {
     width: 16px;
     height: 16px;
+    margin-right: 10px;
   }
 
   .AutocompleteSearchSplit {
     height: 32px;
-    margin-left: 10px;
   }
 
   .AutocompleteDropdownWrapper {
@@ -337,10 +330,6 @@ export default {
 @media screen and (max-width: 370px) {
   .AutocompleteCloseIconWrapper {
     display: none;
-  }
-
-  .AutocompleteSearchSplit {
-    margin-left: 0;
   }
 }
 </style>

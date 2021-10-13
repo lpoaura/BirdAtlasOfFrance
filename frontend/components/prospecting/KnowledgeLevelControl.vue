@@ -4,20 +4,25 @@
       <div class="MapControlHeaderTitles">
         <div class="KnowledgeLevel">
           <h4 class="fw-bold">Indice de complétude</h4>
-          <div class="HelpWrapper">
+          <div class="HelperWrapper">
             <img class="HelpIcon" src="/help.svg" />
-            <div class="HelpVocabularyTip"></div>
-            <h5 class="HelpVocabularyInfo white02">
-              Rapport entre le nombre d'espèces observées sur la période
-              2019-2024 et le nombre d’espèces observées sur les périodes
-              précédentes.
+            <div class="HelperTip"></div>
+            <h5 class="HelperContent white02 nowrap">
+              Rapport entre le nombre d'espèces<br />observées sur la période
+              2019-2024<br />et le nombre d’espèces observées<br />sur les
+              périodes précédentes.
             </h5>
           </div>
         </div>
         <h5 class="fw-500">France métropolitaine</h5>
       </div>
+      <img
+        class="MobileMapControlCloseIcon"
+        src="/cross.svg"
+        @click="closeMobileMapControl"
+      />
     </header>
-    <div class="KnowledgeLevelPieChartWrapper">
+    <div class="KnowledgeLevelPieChartWrapper flex">
       <div class="KnowledgeLevelPieChart">
         <svg class="PieChartSvg"></svg>
         <h3 class="KnowledgeLevelGlobalData black02 fw-bold">
@@ -250,6 +255,12 @@ export default {
         })
       })
   },
+  methods: {
+    // MOBILE
+    closeMobileMapControl() {
+      this.$emit('mobileMapControl', false)
+    },
+  },
 }
 </script>
 
@@ -259,56 +270,36 @@ export default {
   padding: 16px;
 }
 
+.MapControlHeader {
+  margin-right: 0;
+}
+
 .KnowledgeLevel {
   display: flex;
   align-items: center;
 }
 
-.HelpWrapper {
-  position: relative;
-  margin-left: 10px;
-  display: flex;
-}
-
 .HelpIcon {
   height: 20px;
+  margin-left: 10px;
   cursor: pointer;
 }
 
-.HelpVocabularyTip {
-  display: none;
-  position: absolute;
-  z-index: 6;
-  background: #262626;
-  width: 12px;
-  height: 12px;
-  left: 28px;
-  top: 4px;
-  transform: rotate(45deg);
+.HelperTip {
+  left: 12px;
+  top: 32px;
 }
 
-.HelpIcon:hover ~ .HelpVocabularyTip {
+.HelpIcon:hover ~ .HelperTip {
   display: block;
 }
 
-.HelpVocabularyInfo {
-  display: none;
-  position: absolute;
-  z-index: 6;
-  top: -10px;
-  left: 34px;
-  background: #262626;
-  width: 266px;
-  padding: 10px;
-  border-radius: 8px;
-  filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.32));
+.HelperContent {
+  top: 40px;
+  left: -156px;
 }
 
-.HelpIcon:hover ~ .HelpVocabularyInfo {
-  display: block;
-}
-
-.KnowledgeLevelPieChartWrapper {
+.HelpIcon:hover ~ .HelperContent {
   display: flex;
 }
 
@@ -352,5 +343,29 @@ export default {
   border-radius: 6px;
   float: left;
   margin-right: 16px;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 680px) {
+  h3.KnowledgeLevelGlobalData {
+    font-size: 24px;
+    line-height: 36px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .KnowledgeLevelPieChartWrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .KnowledgeLevelPieChart {
+    margin-bottom: 24px;
+  }
+
+  .PieChartLegend {
+    width: 180px;
+  }
 }
 </style>

@@ -4,6 +4,7 @@ picture: actualite-1.jpg
 credit: 'Photo : Pieter Verheij'
 centering: center
 author: Oiseaux de France
+date: '2021-08-25'
 tags: ['ODF']
 active: true
 ---
