@@ -7,6 +7,10 @@ body {
   width: 100%;
 }
 
+.flex {
+  display: flex;
+}
+
 /********** TYPOGRAPHY **********/
 
 .PlayfairDisplayTypo {
@@ -1089,6 +1093,7 @@ a.Vocabulary:hover::after {
 
 .MapControlDownloadButton {
   width: 42px;
+  min-width: 42px;
   height: 42px;
   border: 2px solid rgba(57, 118, 90, 0.1);
   box-sizing: border-box;
@@ -1135,6 +1140,12 @@ a.Vocabulary:hover::after {
   align-items: center;
 }
 
+.MapControlKeyDataValue {
+  white-space: nowrap;
+}
+.MapControlKeyDataValue.small {
+  display: none;
+}
 .MapControlKeyDataValue.all_period {
   color: #39765a;
 }
@@ -1182,6 +1193,10 @@ a.Vocabulary:hover::after {
   align-items: center;
 }
 
+.MapControlSeeMore h5.small.green01 {
+  display: none;
+}
+
 .MapControlSeeMoreChevron {
   height: 7px;
 }
@@ -1198,25 +1213,53 @@ a.Vocabulary:hover::after {
   margin-right: 12px;
 }
 
-.MobileMapControl {
-  position: absolute;
-  z-index: 2000;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(38, 38, 38, 0.6);
-  display: flex;
-}
-
-.MobileMapControlCloseIcon {
+.MobileMapControl,
+.MobileMapControlCloseIcon,
+.MobileMapControl header.MapControlHeader .MapControlDownloadButton,
+.MobileMapControl menu.TabMenu,
+.MobileMapControlMenuWrapper,
+.MobileMapControl .ChipMenu,
+.MapControlOverflow .DropdownListWrapper {
   display: none;
 }
 
+.MobileMapControl .MapControl {
+  max-width: calc(100vw - 20px);
+  --maxHeight: calc(100vh - 20px);
+  margin: auto;
+}
+
 .MobileMapControl .MobileMapControlCloseIcon {
+  display: flex;
   width: 24px;
   cursor: pointer;
+  align-self: flex-start;
+}
+
+.MobileMapControl .MobileMapControlMenuWrapper {
   display: flex;
+  max-height: 66px;
+  margin-right: 16px;
+}
+
+.MobileMapControl .MobileMapControlMenuWrapper .MapControlDownloadButton {
+  margin-left: 16px;
+}
+
+.MobileMapControl .MobileMapControlMenuWrapper .PrimaryButton.outlined {
+  width: 100%;
+}
+
+.MobileMapControl .MapControlOverflow .DropdownListWrapper {
+  display: block;
+}
+
+.MobileMapControl .TimeDistributionBarPlot {
+  /* Le scroll apparaît parfois sur grand écran sans raison apparente... */
+  overflow-x: auto;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch; /* iOS */
+  overflow-y: hidden;
 }
 
 .MiniMapControl {
@@ -1428,7 +1471,8 @@ button.v-pagination__navigation .theme--light.v-icon {
 
 @media screen and (max-width: 950px) {
   /********** MAP **********/
-  .MapSelectors {
+  .MapSelectors,
+  .leaflet-control .MapControl {
     display: none;
   }
 
@@ -1437,14 +1481,15 @@ button.v-pagination__navigation .theme--light.v-icon {
     display: flex;
   }
 
-  .leaflet-control .MapControl {
-    display: none;
-  }
-
-  .MapControl {
-    max-width: calc(100vw - 20px);
-    max-height: calc(100vh - 20px);
-    margin: auto;
+  .MobileMapControl {
+    display: flex;
+    position: absolute;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(38, 38, 38, 0.6);
   }
 
   /* Pour que les .MapSelectorWrapper (en mobile) passent au-dessus des .MapControl du bas */
@@ -1512,6 +1557,11 @@ button.v-pagination__navigation .theme--light.v-icon {
   h4 {
     font-size: 14px;
     line-height: 21px;
+  }
+
+  .MapControl h4.fw-bold {
+    font-size: 16px;
+    line-height: 24px;
   }
 
   /********** MAIN PAGES **********/

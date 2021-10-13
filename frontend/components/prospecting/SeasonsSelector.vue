@@ -94,7 +94,7 @@ export default {
   width: 280px;
 }
 
-.MapSelectors.mobile .MapSelectorBox {
+.leaflet-control .MapSelectorBox {
   right: -116px;
 }
 </style>

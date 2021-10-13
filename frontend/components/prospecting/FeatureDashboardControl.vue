@@ -25,25 +25,44 @@
         >
           <img class="MapControlDownloadButtonIcon" src="/download.svg" />
         </a>
+        <img
+          class="MobileMapControlCloseIcon"
+          src="/cross.svg"
+          @click="closeMobileMapControl"
+        />
       </header>
       <menu class="TabMenu">
         <span
           v-for="(item, index) in menuItems"
           :key="index"
           class="TabItem"
-          :class="item === selectedMenuItem ? 'selected' : ''"
+          :class="item.label === selectedMenuItem.label ? 'selected' : ''"
           @click="updateSelectedMenuItem(item)"
         >
-          {{ item }}
+          {{ item.label }}
         </span>
       </menu>
+      <div class="MobileMapControlMenuWrapper">
+        <dropdown-list
+          v-model="selectedMenuItem"
+          :z-index="3"
+          :items-list="menuItems"
+        />
+        <a
+          class="MapControlDownloadButton"
+          :href="`/files/map/grid/${featureProperties.area_name}.pdf`"
+          target="_blank"
+        >
+          <img class="MapControlDownloadButtonIcon" src="/download.svg" />
+        </a>
+      </div>
       <div
         class="MapControlSplit main right-margin-16"
-        :class="scrolled && selectedMenuItem === 'Espèces' ? 'fixed' : ''"
+        :class="scrolled && selectedMenuItem.label === 'Espèces' ? 'fixed' : ''"
       ></div>
       <!-- Onglet "Tableau de bord" -->
       <div
-        v-show="selectedMenuItem === 'Tableau de bord'"
+        v-show="selectedMenuItem.label === 'Tableau de bord'"
         class="MapControlOverflow"
       >
         <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
@@ -66,7 +85,7 @@
             }}%
           </h3>
           <h5 class="black03">
-            des espèces de référence ont été signalées<br />
+            des espèces de référence ont été signalées<br class="br" />
             sur la période Atlas 2019-2024
           </h5>
         </div>
@@ -86,10 +105,16 @@
           </h4>
           <div class="MapControlSeeMore">
             <h5
-              class="green01 fw-600 right-margin-12"
+              class="large green01 fw-600 right-margin-12"
               @click="updateSeeMoreMunicipalities"
             >
               Voir toutes les communes
+            </h5>
+            <h5
+              class="small green01 fw-600 right-margin-12"
+              @click="updateSeeMoreMunicipalities"
+            >
+              Voir tout
             </h5>
             <img
               class="MapControlSeeMoreChevron"
@@ -111,7 +136,7 @@
       </div>
       <!-- Onglet "Espèces" -->
       <div
-        v-show="selectedMenuItem === 'Espèces'"
+        v-show="selectedMenuItem.label === 'Espèces'"
         id="species-overflow"
         class="MapControlOverflow"
       >
@@ -144,19 +169,36 @@
             {{ item.label }}
           </div>
         </div>
+        <dropdown-list
+          v-model="selectedSpeciesStatus"
+          :z-index="2"
+          :items-list="speciesStatusList"
+        />
         <div class="TableHeader" :class="scrolled ? 'fixed' : ''">
           <div class="TableLineContent">
             <span class="black02 fw-600 align-end flex-1">
-              {{ filteredSpecies.list.length }} espèce(s)
+              {{ filteredSpecies.list.length }} espèces
             </span>
             <div class="TableColumnsWrapper">
-              <span class="TableColumn black02 fw-500">
+              <span class="TableColumn large black02 fw-500">
                 Avant 2019
-                <h5>({{ filteredSpecies.old_count }} espèces)</h5>
+                <h5>({{ filteredSpecies.old_count }} esp.)</h5>
               </span>
-              <span class="TableColumn black02 fw-500">
+              <span class="TableColumn small black02 fw-500">
+                <div class="flex">
+                  <font style="font-family: sans-serif">&lt;</font>&nbsp;2019
+                </div>
+                <h5>({{ filteredSpecies.old_count }} esp.)</h5>
+              </span>
+              <span class="TableColumn large black02 fw-500">
                 Après 2019
-                <h5>({{ filteredSpecies.new_count }} espèces)</h5>
+                <h5>({{ filteredSpecies.new_count }} esp.)</h5>
+              </span>
+              <span class="TableColumn small black02 fw-500">
+                <div class="flex">
+                  <font style="font-family: sans-serif">&ge;</font>&nbsp;2019
+                </div>
+                <h5>({{ filteredSpecies.new_count }} esp.)</h5>
               </span>
             </div>
           </div>
@@ -211,7 +253,7 @@
       </div>
       <!-- Onglet "Prospection" -->
       <div
-        v-show="selectedMenuItem === 'Prospection'"
+        v-show="selectedMenuItem.label === 'Prospection'"
         class="MapControlOverflow"
       >
         <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
@@ -224,24 +266,16 @@
         </h4>
         <div class="MapControlKeyData">
           <h3
-            class="MapControlKeyDataValue fw-bold right-margin-24"
+            class="MapControlKeyDataValue large fw-bold right-margin-24"
             :class="selectedSeason.value"
           >
-            {{
-              selectedSeason.label === 'Toutes saisons'
-                ? Math.round(
-                    (featureDataKey.prospecting_hours_breeding +
-                      featureDataKey.prospecting_hours_wintering +
-                      featureDataKey.prospecting_hours_other_period) *
-                      10
-                  ) / 10
-                : Math.round(
-                    featureDataKey[
-                      'prospecting_hours_' + selectedSeason.value
-                    ] * 10
-                  ) / 10
-            }}
-            heure(s)
+            {{ prospectingHours }} heure(s)
+          </h3>
+          <h3
+            class="MapControlKeyDataValue small fw-bold right-margin-24"
+            :class="selectedSeason.value"
+          >
+            {{ prospectingHours }} h
           </h3>
           <h5 class="black03">enregistrées sur la période Atlas 2019-2024</h5>
         </div>
@@ -319,18 +353,18 @@
               : 'Espèce non observée avant 2019'
           }}
         </div>
+        <div class="MapControlDataOption">
+          <img class="MapControlDataOptionIcon" src="/calendar.svg" />
+          Calendrier d'observation :
+        </div>
         <div class="PhenologyWrapper">
           <div
             v-for="(item, index) in clickedSpecies.phenology"
             :key="index"
             class="PhenologyItem"
+            :class="item.is_present ? 'colored' : ''"
           >
-            <span class="black02 bottom-margin-8">{{ item.label }}</span>
-            <img
-              v-show="item.is_present"
-              class="PhenologyCheckIcon"
-              src="/check.svg"
-            />
+            <span class="black02">{{ item.label }}</span>
           </div>
         </div>
       </div>
@@ -344,6 +378,7 @@
       <epoc-dashboard-control
         v-if="clickedEpocItem"
         :clicked-epoc-point="clickedEpocItem"
+        @mobileMapControl="closeMobileMapControl"
       />
     </div>
   </section>
@@ -426,8 +461,12 @@ export default {
       'Nov',
       'Déc',
     ],
-    menuItems: ['Tableau de bord', 'Espèces', 'Prospection'],
-    selectedMenuItem: 'Tableau de bord',
+    menuItems: [
+      { label: 'Tableau de bord' },
+      { label: 'Espèces' },
+      { label: 'Prospection' },
+    ],
+    selectedMenuItem: { label: 'Tableau de bord' },
     speciesStatusList: [
       { label: 'Toutes', value: 'all_period' },
       { label: 'Espèces nicheuses', value: 'breeding' },
@@ -471,13 +510,33 @@ export default {
         new_count: speciesNewCount,
       }
     },
+    prospectingHours() {
+      if (this.selectedSeason.label === 'Toutes saisons') {
+        return (
+          Math.round(
+            (this.featureDataKey.prospecting_hours_breeding +
+              this.featureDataKey.prospecting_hours_wintering +
+              this.featureDataKey.prospecting_hours_other_period) *
+              10
+          ) / 10
+        )
+      } else {
+        return (
+          Math.round(
+            this.featureDataKey[
+              'prospecting_hours_' + this.selectedSeason.value
+            ] * 10
+          ) / 10
+        )
+      }
+    },
   },
   watch: {
     clickedFeature(newVal) {
       this.clickedSpecies = null
       this.clickedEpocItem = null
       this.seeMoreMunicipalitiesIsClicked = false
-      this.selectedMenuItem = 'Tableau de bord'
+      this.selectedMenuItem = { label: 'Tableau de bord' }
       this.initiateFeatureData(newVal)
       this.$axios
         .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
@@ -493,10 +552,12 @@ export default {
           // console.log(formattedData)
           // Get bar plot size
           const margin = { top: 10, right: 0, bottom: 30, left: 40 }
-          const barPlotWidth =
+          const barPlotWidth = Math.max(
             parseFloat(d3.select('.TimeDistributionBarPlot').style('width')) -
-            margin.left -
-            margin.right
+              margin.left -
+              margin.right,
+            360
+          )
           const barPlotHeight =
             parseFloat(d3.select('.TimeDistributionBarPlot').style('height')) -
             margin.top -
@@ -578,10 +639,12 @@ export default {
         // console.log(formattedData)
         // Get bar plot size
         const margin = { top: 10, right: 0, bottom: 30, left: 40 }
-        const barPlotWidth =
+        const barPlotWidth = Math.max(
           parseFloat(d3.select('.TimeDistributionBarPlot').style('width')) -
-          margin.left -
-          margin.right
+            margin.left -
+            margin.right,
+          360
+        )
         const barPlotHeight =
           parseFloat(d3.select('.TimeDistributionBarPlot').style('height')) -
           margin.top -
@@ -768,6 +831,10 @@ export default {
       this.scrolled =
         document.getElementById('species-overflow').scrollTop > 132
     },
+    // MOBILE
+    closeMobileMapControl() {
+      this.$emit('mobileMapControl', false)
+    },
   },
 }
 </script>
@@ -775,6 +842,10 @@ export default {
 <style scoped>
 .MapControl {
   width: 506px;
+}
+
+.DropdownListWrapper {
+  margin-bottom: 24px !important;
 }
 
 .TimeDistributionBarPlot {
@@ -785,10 +856,6 @@ export default {
 
 .AutocompleteWrapper {
   margin: 24px 0;
-}
-
-.AutocompleteSearchIconWrapper {
-  margin-left: 16px;
 }
 
 .pointer {
@@ -824,6 +891,12 @@ export default {
   align-items: center;
 }
 
+.TableLineContent span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .TableLine:last-child .TableLineContent {
   margin-bottom: 0;
 }
@@ -834,11 +907,15 @@ export default {
 }
 
 .TableColumn {
-  width: 100px;
+  width: 86px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+span.TableColumn.small {
+  display: none;
 }
 
 .MapControlSplit.header {
@@ -895,23 +972,68 @@ export default {
 }
 
 .PhenologyWrapper {
-  margin-top: 24px;
+  width: 100%;
+  margin-top: 16px;
   display: flex;
+  justify-content: space-between;
 }
 
 .PhenologyItem {
-  width: 14px;
-  margin-right: 24px;
+  min-width: 24px;
+  max-width: 24px;
+  min-height: 24px;
+  max-height: 24px;
+  border-radius: 50%;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-.PhenologyItem:last-child {
-  margin-right: 0;
+.PhenologyItem.colored {
+  background: rgba(57, 118, 90, 0.3);
 }
 
-.PhenologyCheckIcon {
-  width: 100%;
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 680px) {
+  h3.MapControlKeyDataValue {
+    font-size: 24px;
+    line-height: 36px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .br,
+  .MapControlSeeMore h5.large.green01,
+  span.TableColumn.large,
+  .MapControlKeyDataValue.large {
+    display: none;
+  }
+
+  .MapControlSeeMore h5.small.green01,
+  span.TableColumn.small,
+  .MapControlKeyDataValue.small {
+    display: flex;
+  }
+
+  .TableColumn {
+    width: 66px;
+  }
+
+  .TableLineContent.pointer span.flex-1 {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .PhenologyItem {
+    min-width: 20px;
+    max-width: 20px;
+    min-height: 20px;
+    max-height: 20px;
+  }
+  .PhenologyItem span {
+    font-size: 12px;
+    line-height: 18px;
+  }
 }
 </style>

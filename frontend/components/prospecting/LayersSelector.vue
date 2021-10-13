@@ -190,10 +190,6 @@ export default {
 </script>
 
 <style scoped>
-.MapSelectors.mobile .MapSelectorBox {
-  right: -58px;
-}
-
 .BackgroundMapsSplit {
   width: 100%;
   height: 1px;
@@ -262,5 +258,9 @@ input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.leaflet-control .MapSelectorBox {
+  right: -58px;
 }
 </style>

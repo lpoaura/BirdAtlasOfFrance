@@ -70,6 +70,7 @@ export default {
 
 <style scoped>
 .DropdownListWrapper {
+  position: relative; /* Nécessaire pour prendre en compte le z-index dans certains cas */
   width: 100%;
   height: 42px;
   margin-bottom: 32px;

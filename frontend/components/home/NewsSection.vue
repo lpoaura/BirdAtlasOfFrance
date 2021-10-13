@@ -36,7 +36,7 @@
             ></div>
             <span class="black03 bottom-margin-8">
               {{ item.author }} &nbsp;•&nbsp;
-              {{ $formatDate(item.createdAt, true) }}
+              {{ $formatDate(item.date, true) }}
             </span>
             <h4 class="CardTitle fw-bold bottom-margin-16">
               {{ item.title }}
