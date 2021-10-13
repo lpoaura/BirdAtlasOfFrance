@@ -1,24 +1,26 @@
 <template>
   <v-container fluid>
-    <header>
-      <breadcrumb style="margin-bottom: 20px" />
-      <h1 class="PageTitle">Lexique</h1>
-    </header>
-    <section class="GlossarySection">
-      <label>Espèces sensibles</label>
-      <span class="Definition">
+    <main class="TopSection breadcrumb">
+      <breadcrumb />
+      <header>
+        <h2 class="black02 fw-600 text-center">Lexique</h2>
+      </header>
+    </main>
+    <section class="Section">
+      <h4 class="black02 fw-600 bottom-margin-8">Espèces sensibles</h4>
+      <span class="black02 bottom-margin-24">
         Certaines espèces ont été masquées en raison de leur sensibilité. Les
         espèces concernées sont les suivantes : Aigle de Bonelli, Aigle pomarin,
         Balbuzard pêcheur, Grue cendrée, Gypaète barbu, Pie-grièche à poitrine
         rose, Pygargue à queue blanche, Vautour percnoptère.
       </span>
-      <label>Indice de complétude</label>
-      <span class="Definition">
+      <h4 class="black02 fw-600 bottom-margin-8">Indice de complétude</h4>
+      <span class="black02 bottom-margin-24">
         Rapport entre le nombre d'espèces observées sur la période 2019-2024 et
         le nombre d’espèces observées sur les périodes précédentes.
       </span>
-      <label>Maille</label>
-      <span class="Definition">
+      <h4 class="black02 fw-600 bottom-margin-8">Maille</h4>
+      <span class="black02 bottom-margin-24">
         Carré de 10km de côté dans lequel s’effectue une prospection.
       </span>
     </section>
@@ -45,56 +47,23 @@ div.container.container--fluid {
   padding-top: 68px;
 }
 
-header {
-  width: 100%;
-  padding: 24px 16% 32px 16%;
-  display: flex;
-  flex-direction: column;
+.TopSection {
+  padding: 16px 16% 0 16%;
 }
 
-.PageTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 32px;
-  line-height: 48px;
-  color: #000;
-  text-align: center;
+.Section {
+  padding: 32px 16%;
 }
 
-.GlossarySection {
-  width: 100%;
-  padding: 0 16% 10px 16%;
-  display: flex;
-  flex-direction: column;
-}
+/********** RESPONSIVE **********/
 
-label {
-  margin-bottom: 6px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  color: #000;
-}
-
-.Definition {
-  margin-bottom: 16px;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  color: #000;
-}
-
-@media screen and (max-width: 768px) {
-  header {
-    padding: 24px 6% 32px 6%;
+@media screen and (max-width: 920px) {
+  .TopSection {
+    padding: 16px 5% 0 5%;
   }
-  .GlossarySection {
-    padding: 0 6% 10px 6%;
+
+  .Section {
+    padding: 32px 5%;
   }
 }
 </style>

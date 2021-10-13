@@ -13,7 +13,7 @@
       <div class="NavBarIconsMenu">
         <img
           class="NavBarCloseIcon"
-          src="/nav-bar/close.svg"
+          src="/cross.svg"
           @click="hideMobileMenu(0)"
         />
       </div>
@@ -106,7 +106,7 @@ export default {
 
 header {
   width: 100%;
-  height: 88px;
+  height: 68px;
   margin-bottom: 40px;
   padding: 0 5%;
   display: flex;

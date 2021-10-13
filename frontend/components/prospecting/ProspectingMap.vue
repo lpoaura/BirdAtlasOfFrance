@@ -1,5 +1,6 @@
 <template>
   <div id="map-wrap">
+    <!-- MAP -->
     <l-map
       ref="myMap"
       :zoom="zoom"
@@ -10,28 +11,41 @@
       @update:bounds="updateEnvelope"
       @update:zoom="updateZoom"
     >
-      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && planIsOn" -->
+      <!-- LAYERS -->
+      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && plan.isOn" -->
       <l-tile-layer
-        v-if="planIsOn"
-        :url="planUrl"
-        :opacity="Number(planOpacity) / 100"
-        :z-index="2"
-        :attribution="'IGN'"
+        v-if="plan.isOn"
+        :url="plan.url"
+        :opacity="Number(plan.opacity) / 100"
+        :z-index="plan.zIndex"
+        :attribution="plan.attribution"
       />
-      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && orthophotoIsOn" -->
+      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && orthophoto.isOn" -->
       <l-tile-layer
-        v-if="orthophotoIsOn"
-        :url="orthophotoUrl"
-        :opacity="Number(orthophotoOpacity) / 100"
-        :z-index="1"
-        :attribution="'IGN'"
+        v-if="orthophoto.isOn"
+        :url="orthophoto.url"
+        :opacity="Number(orthophoto.opacity) / 100"
+        :z-index="orthophoto.zIndex"
+        :attribution="orthophoto.attribution"
       />
-      <!-- v-if="!['Aucune', 'Points EPOC'].includes(selectedLayer) || (['Aucune', 'Points EPOC'].includes(selectedLayer) && !planIsOn && !orthophotoIsOn)" -->
+      <!-- <l-wms-tile-layer
+        :key="clcWms.name"
+        :base-url="clcWms.url"
+        :layers="clcWms.layers"
+        :name="clcWms.name"
+        :z-index="3"
+        :attribution="clcWms.attribution"
+        format="image/png"
+        layer-type="base"
+      >
+      </l-wms-tile-layer> -->
+      <!-- v-if="!['Aucune', 'Points EPOC'].includes(selectedLayer) || (['Aucune', 'Points EPOC'].includes(selectedLayer) && !plan.isOn && !orthophoto.isOn)" -->
       <l-tile-layer
-        v-if="!planIsOn && !orthophotoIsOn"
+        v-if="!plan.isOn && !orthophoto.isOn"
         :url="osmUrl"
         :attribution="'© les contributeurs d’OpenStreetMap'"
       />
+      <!-- GEOJSON -->
       <l-geo-json
         v-if="
           selectedSpecies &&
@@ -69,6 +83,8 @@
         :geojson="epocOdfReserveGeojson"
         :options="epocOdfReserveGeojsonOptions"
       />
+      <!-- MAP CONTROLS -->
+      <!-- Top left -->
       <l-control
         position="topleft"
         :disable-scroll-propagation="disableScrollPropagation"
@@ -94,7 +110,7 @@
         />
         <section
           v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
-          class="MapControl epoc"
+          class="MapControl"
         >
           <div
             v-if="clickedFeature"
@@ -108,28 +124,36 @@
           </div>
           <epoc-dashboard-control :clicked-epoc-point="clickedEpocPoint" />
         </section>
-      </l-control>
-      <l-control
-        v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
-        position="topleft"
-      >
-        <div class="InformationControl">
-          <h5 class="black02 fw-500">
-            Trop de points à afficher, zoomez à l’échelle d’une maille pour
-            visualiser les points EPOC.
-          </h5>
+        <!-- Apparaît si au moins une des conditions précédentes est remplie -->
+        <div
+          v-show="
+            (selectedLayer === 'Indice de complétude' && !clickedFeature) ||
+            (['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+              clickedFeature &&
+              !clickedEpocPoint) ||
+            (selectedLayer === 'Répartition de l\'espèce' && selectedSpecies) ||
+            (selectedLayer === 'Points EPOC' && clickedEpocPoint)
+          "
+          class="MiniMapControl mobile"
+          @click="openMobileMapControl"
+        >
+          <img class="Icon" src="/information.svg" />
         </div>
       </l-control>
+      <!-- Top right -->
       <l-control
-        v-show="
-          (knowledgeLevelIsLoading &&
-            selectedLayer === 'Indice de complétude') ||
-          (speciesDistributionIsLoading &&
-            selectedLayer === 'Répartition de l\'espèce')
-        "
         position="topright"
+        :disable-scroll-propagation="disableScrollPropagation"
       >
-        <div class="InformationControl">
+        <div
+          v-show="
+            (knowledgeLevelIsLoading &&
+              selectedLayer === 'Indice de complétude') ||
+            (speciesDistributionIsLoading &&
+              selectedLayer === 'Répartition de l\'espèce')
+          "
+          class="InformationControl"
+        >
           <v-progress-circular
             :size="20"
             :width="3"
@@ -138,21 +162,120 @@
           />
           <h5 class="black02 fw-500">Chargement des données</h5>
         </div>
+        <div
+          v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
+          class="InformationControl"
+        >
+          <h5 class="black02 fw-500">
+            Trop de points à afficher, zoomez à l’échelle d’une maille pour
+            visualiser les points EPOC.
+          </h5>
+        </div>
+        <div
+          v-show="
+            !speciesDistributionIsLoading &&
+            noSpeciesData &&
+            selectedLayer === 'Répartition de l\'espèce'
+          "
+          class="InformationControl"
+        >
+          <h5 class="black02 fw-500">
+            Pas de données pour la saison et l'emprise choisies.
+          </h5>
+        </div>
+        <div class="MapSelectors">
+          <div v-click-outside="closeSeasonsBox" class="MapSelectorWrapper">
+            <div
+              class="MiniMapControl"
+              :class="seasonIsOpen ? 'selected' : ''"
+              @click="openOrCloseSeasonsBox"
+            >
+              <img class="Icon" src="/calendar.svg" />
+            </div>
+            <seasons-selector
+              :select-is-open="seasonIsOpen"
+              :selected-season="selectedSeason"
+              @selectedSeason="updateSelectedSeason"
+            />
+          </div>
+          <div v-click-outside="closeLayersBox" class="MapSelectorWrapper">
+            <div
+              class="MiniMapControl"
+              :class="layerIsOpen ? 'selected' : ''"
+              @click="openOrCloseLayersBox"
+            >
+              <img class="Icon" src="/layers.svg" />
+            </div>
+            <layers-selector
+              :select-is-open="layerIsOpen"
+              :selected-layer="selectedLayer"
+              :selected-species="selectedSpecies"
+              @selectedLayer="updateSelectedLayer"
+              @epocOdfOfficialIsOn="updateEpocOdfOfficial"
+              @epocOdfReserveIsOn="updateEpocOdfReserve"
+              @planIsOn="updatePlan"
+              @planOpacity="updatePlanOpacity"
+              @orthophotoIsOn="updateOrthophoto"
+              @orthophotoOpacity="updateOrthophotoOpacity"
+            />
+          </div>
+          <div v-click-outside="closeTerritoriesBox" class="MapSelectorWrapper">
+            <div
+              class="MiniMapControl"
+              :class="territoryIsOpen ? 'selected' : ''"
+              @click="openOrCloseTerritoriesBox"
+            >
+              <img class="Icon" src="/location.svg" />
+            </div>
+            <territories-selector
+              :select-is-open="territoryIsOpen"
+              :selected-territory="selectedTerritory"
+            />
+          </div>
+        </div>
       </l-control>
-      <l-control
-        v-show="
-          !speciesDistributionIsLoading &&
-          noSpeciesData &&
-          selectedLayer === 'Répartition de l\'espèce'
-        "
-        position="topright"
-      >
-        <div class="InformationControl">
+      <!-- Bottom left -->
+      <l-control position="bottomleft">
+        <div
+          v-show="
+            (knowledgeLevelIsLoading &&
+              selectedLayer === 'Indice de complétude') ||
+            (speciesDistributionIsLoading &&
+              selectedLayer === 'Répartition de l\'espèce')
+          "
+          class="InformationControl"
+        >
+          <v-progress-circular
+            :size="20"
+            :width="3"
+            :indeterminate="indeterminate"
+            class="right-margin-8"
+          />
+          <h5 class="black02 fw-500">Chargement des données</h5>
+        </div>
+        <div
+          v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
+          class="InformationControl"
+        >
+          <h5 class="black02 fw-500">
+            Trop de points à afficher, zoomez à l’échelle d’une maille pour
+            visualiser les points EPOC.
+          </h5>
+        </div>
+        <div
+          v-show="
+            !speciesDistributionIsLoading &&
+            noSpeciesData &&
+            selectedLayer === 'Répartition de l\'espèce'
+          "
+          class="InformationControl"
+        >
           <h5 class="black02 fw-500">
             Pas de données pour la saison et l'emprise choisies.
           </h5>
         </div>
       </l-control>
+      <!-- Bottom right -->
       <l-control-zoom position="bottomright"></l-control-zoom>
       <l-control position="bottomright">
         <div class="MiniMapControl" @click="geolocate">
@@ -165,41 +288,76 @@
 
 <script>
 import L from 'leaflet'
-import { LMap, LGeoJson, LControl } from 'vue2-leaflet'
+import {
+  LMap,
+  LGeoJson,
+  LControl,
+  LTileLayer,
+  // LWMSTileLayer,
+} from 'vue2-leaflet'
 // import 'leaflet/dist/leaflet.css'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
 import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
 import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
+import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
+import LayersSelector from '~/components/prospecting/LayersSelector.vue'
+import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
 
 export default {
   components: {
     LMap,
     LGeoJson,
     LControl,
+    'l-tile-layer': LTileLayer,
+    // 'l-wms-tile-layer': LWMSTileLayer,
     'knowledge-level-control': KnowledgeLevelControl,
     'feature-dashboard-control': FeatureDashboardControl,
     'epoc-dashboard-control': EpocDashboardControl,
     'species-dashboard-control': SpeciesDashboardControl,
+    'seasons-selector': SeasonsSelector,
+    'layers-selector': LayersSelector,
+    'territories-selector': TerritoriesSelector,
   },
   props: {
     selectedArea: {
+      // Zonage sélectionné dans la barre de recherche
       type: Object,
       required: false,
       default: null,
     },
     selectedSpecies: {
+      // Espèce sélectionnée dans la barre de recherche
       type: Object,
       required: false,
       default: null,
     },
     selectedSeason: {
+      // Saison sélectionnée
       type: Object,
       required: true,
     },
     selectedLayer: {
+      // Couche sélectionnée
       type: String,
       required: true,
+    },
+    selectedTerritory: {
+      // Territoire affiché (FrMet ou DOM-TOM)
+      type: Object,
+      required: true,
+    },
+    clickedFeature: {
+      // On clique sur une maille
+      type: Object,
+      required: false,
+      default: null,
+    },
+    clickedEpocPoint: {
+      // On clique sur un point EPOC
+      type: Object,
+      required: false,
+      default: null,
     },
     epocOdfOfficialIsOn: {
       type: Boolean,
@@ -209,29 +367,22 @@ export default {
       type: Boolean,
       required: true,
     },
-    planIsOn: {
-      type: Boolean,
-      required: true,
-    },
-    planOpacity: {
-      type: String,
-      required: true,
-    },
-    orthophotoIsOn: {
-      type: Boolean,
-      required: true,
-    },
-    orthophotoOpacity: {
-      type: String,
-      required: true,
-    },
-    selectedTerritoryBounds: {
+    plan: {
       type: Object,
-      required: false,
-      default: null,
+      required: true,
+    },
+    orthophoto: {
+      type: Object,
+      required: true,
+    },
+    // MOBILE
+    mobileMapControlIsOpen: {
+      type: Boolean,
+      required: true,
     },
   },
   data: () => ({
+    // CONFIGURATION DE LA CARTE
     zoom: 11,
     currentZoom: 11,
     oldZoomKnowledgeLevel: 100,
@@ -242,36 +393,33 @@ export default {
     // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     osmUrl:
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    planUrl:
-      'https://wxs.ign.fr/pratique/geoportail/wmts?' +
-      '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
-      '&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&FORMAT=image/png' +
-      '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
-    orthophotoUrl:
-      'https://wxs.ign.fr/pratique/geoportail/wmts?' +
-      '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
-      '&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&FORMAT=image/jpeg' +
-      '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
     envelope: null,
     initTerritory: null,
-    disableScrollPropagation: true,
+    // CONFIGURATION DES GEOJSON
+    // Indice de complétude
     knowledgeLevelGeojson: null,
-    speciesDistributionGeojson: null,
-    epocOdfOfficialGeojson: null,
-    epocOdfReserveGeojson: null,
     axiosSourceKnowledgeLevel: null,
     axiosErrorKnowledgeLevel: null,
+    knowledgeLevelIsLoading: false,
+    // Répartition de l'espèce
+    speciesDistributionGeojson: null,
     axiosSourceSpeciesDistribution: null,
     axiosErrorSpeciesDistribution: null,
-    knowledgeLevelIsLoading: false,
     speciesDistributionIsLoading: false,
+    // Points EPOC
+    epocOdfOfficialGeojson: null,
+    epocOdfReserveGeojson: null,
+    // CONFIGURATION DES MAPCONTROLS
+    disableScrollPropagation: true,
     noSpeciesData: false,
     featuresClasses: [0.25, 0.5, 0.75, 1],
-    clickedFeature: null,
-    searchedFeatureId: null,
-    searchedFeatureCode: null,
-    clickedEpocPoint: null,
-    indeterminate: true,
+    searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
+    searchedFeatureCode: null, // Le zonage sélectionné est une maille (recherche depuis l'URL)
+    indeterminate: true, // Progress (loading)
+    // MOBILE
+    seasonIsOpen: false,
+    layerIsOpen: false,
+    territoryIsOpen: false,
   }),
   computed: {
     knowledgeLevelGeojsonOptions() {
@@ -289,9 +437,10 @@ export default {
             this.resetFeatureStyle(event)
           },
           click: (event) => {
-            this.clickedEpocPoint = null
-            this.clickedFeature = JSON.parse(JSON.stringify(feature))
+            this.$emit('clickedEpocPoint', null)
+            this.$emit('clickedFeature', JSON.parse(JSON.stringify(feature)))
             this.zoomToFeature(event)
+            this.openMobileMapControl()
           },
         })
       }
@@ -406,7 +555,8 @@ export default {
         })
         layer.on({
           click: (event) => {
-            this.clickedEpocPoint = feature
+            this.$emit('clickedEpocPoint', feature)
+            this.openMobileMapControl()
           },
         })
       }
@@ -440,7 +590,8 @@ export default {
         })
         layer.on({
           click: (event) => {
-            this.clickedEpocPoint = feature
+            this.$emit('clickedEpocPoint', feature)
+            this.openMobileMapControl()
           },
         })
       }
@@ -450,17 +601,18 @@ export default {
     selectedArea(newVal) {
       if (newVal) {
         if (newVal.type_code === 'ATLAS_GRID') {
+          // Pouvoir afficher le tableau de bord si c'est une maille qui est sélectionnée
           this.searchedFeatureId = newVal.id
         }
         this.zoomToArea(newVal.bounds)
-        this.clickedFeature = null
-        this.clickedEpocPoint = null
+        this.$emit('clickedFeature', null)
+        this.$emit('clickedEpocPoint', null)
       }
     },
     selectedSpecies(newVal) {
       if (newVal) {
-        this.clickedFeature = null
-        this.clickedEpocPoint = null
+        this.$emit('clickedFeature', null)
+        this.$emit('clickedEpocPoint', null)
         this.oldZoomSpeciesDistribution = 101
         this.updateSpeciesDistributionGeojson(newVal)
       }
@@ -472,12 +624,9 @@ export default {
     },
     selectedLayer(newVal) {
       if (newVal === 'Aucune') {
-        this.clickedFeature = null
+        this.$emit('clickedFeature', null)
       }
-      this.clickedEpocPoint = null
-    },
-    selectedTerritoryBounds(newVal) {
-      this.zoomToTerritory(newVal)
+      this.$emit('clickedEpocPoint', null)
     },
   },
   mounted() {
@@ -585,11 +734,12 @@ export default {
       }
     },
     updateZoom(newZoom) {
+      // console.log('Old zoom : ' + this.currentZoom)
       // console.log('New zoom : ' + newZoom)
       this.currentZoom = newZoom
       if (this.currentZoom < 11) {
-        this.clickedFeature = null
-        this.clickedEpocPoint = null
+        this.$emit('clickedFeature', null)
+        this.$emit('clickedEpocPoint', null)
       }
     },
     updateKnowledgeLevelGeojson() {
@@ -619,6 +769,7 @@ export default {
           )
           .then((data) => {
             this.knowledgeLevelGeojson = data
+            // Pouvoir afficher le tableau de bord si c'est une maille qui est sélectionnée
             if (this.searchedFeatureId) {
               const clickedFeature = this.knowledgeLevelGeojson.features.filter(
                 (feature) => {
@@ -626,7 +777,7 @@ export default {
                 }
               )
               if (clickedFeature.length > 0) {
-                this.clickedFeature = clickedFeature[0]
+                this.$emit('clickedFeature', clickedFeature[0])
                 this.searchedFeatureId = null
               }
             }
@@ -639,7 +790,7 @@ export default {
                 }
               )
               if (clickedFeature.length > 0) {
-                this.clickedFeature = clickedFeature[0]
+                this.$emit('clickedFeature', clickedFeature[0])
                 this.searchedFeatureCode = null
               }
             }
@@ -670,6 +821,7 @@ export default {
         !(
           !this.isProgramaticZoom &&
           this.currentZoom > this.oldZoomSpeciesDistribution &&
+          this.currentZoom !== 11 &&
           !this.axiosSourceSpeciesDistribution
         )
       ) {
@@ -682,9 +834,10 @@ export default {
         this.axiosSourceSpeciesDistribution = cancelToken.source()
         this.speciesDistributionIsLoading = true
         this.noSpeciesData = false
+        const grid = this.currentZoom >= 11
         this.$axios
           .$get(
-            `/api/v1/taxa/${species.code}?period=${this.selectedSeason.value}_new&envelope=${this.envelope}`,
+            `/api/v1/taxa/${species.code}?period=${this.selectedSeason.value}_new&grid=${grid}&envelope=${this.envelope}`,
             {
               cancelToken: this.axiosSourceSpeciesDistribution.token,
             }
@@ -773,7 +926,7 @@ export default {
             path: '/prospecting',
             query: { area: undefined, type: undefined },
           })
-          this.clickedFeature = null
+          this.$emit('clickedFeature', null)
         }
       }
     },
@@ -785,22 +938,58 @@ export default {
       this.isProgramaticZoom = true
       this.$refs.myMap.mapObject.fitBounds(bounds)
     },
-    // À SUPPRIMER lorsque les emprises de région/DOM-TOM seront dispos
-    zoomToTerritory(bounds) {
-      const firstCorner = L.latLng(bounds._northEast.lat, bounds._northEast.lng)
-      const secondCorner = L.latLng(
-        bounds._southWest.lat,
-        bounds._southWest.lng
-      )
-      const latLngBounds = L.latLngBounds(firstCorner, secondCorner)
-      this.isProgramaticZoom = true
-      this.$refs.myMap.mapObject.fitBounds(latLngBounds)
-    },
     deleteSelectedSpecies() {
       this.$emit('selectedSpecies', null)
     },
     deleteClickedEpocPoint() {
-      this.clickedEpocPoint = null
+      this.$emit('clickedEpocPoint', null)
+    },
+    // MOBILE
+    openMobileMapControl() {
+      this.$emit('mobileMapControl', true)
+    },
+    openOrCloseSeasonsBox() {
+      this.seasonIsOpen = !this.seasonIsOpen
+    },
+    closeSeasonsBox() {
+      this.seasonIsOpen = false
+    },
+    updateSelectedSeason(season) {
+      this.$emit('selectedSeason', season)
+      this.seasonIsOpen = false
+    },
+    openOrCloseLayersBox() {
+      this.layerIsOpen = !this.layerIsOpen
+    },
+    closeLayersBox() {
+      this.layerIsOpen = false
+    },
+    updateSelectedLayer(layer) {
+      this.$emit('selectedLayer', layer)
+    },
+    updateEpocOdfOfficial(value) {
+      this.$emit('epocOdfOfficialIsOn', value)
+    },
+    updateEpocOdfReserve(value) {
+      this.$emit('epocOdfReserveIsOn', value)
+    },
+    updatePlan(value) {
+      this.$emit('planIsOn', value)
+    },
+    updatePlanOpacity(value) {
+      this.$emit('planOpacity', value)
+    },
+    updateOrthophoto(value) {
+      this.$emit('orthophotoIsOn', value)
+    },
+    updateOrthophotoOpacity(value) {
+      this.$emit('orthophotoOpacity', value)
+    },
+    openOrCloseTerritoriesBox() {
+      this.territoryIsOpen = !this.territoryIsOpen
+    },
+    closeTerritoriesBox() {
+      this.territoryIsOpen = false
     },
   },
 }
@@ -809,10 +998,5 @@ export default {
 <style scoped>
 #map-wrap {
   height: calc(100vh - 136px);
-}
-
-.MapControl.epoc {
-  width: 506px;
-  max-height: calc(100vh - 156px);
 }
 </style>

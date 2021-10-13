@@ -4,6 +4,7 @@ picture: actualite-3.jpg
 credit: 'Photo : Emile Barbelette'
 centering: center
 author: Oiseaux de France
+date: '2021-09-02'
 tags: ['Nouveautés', 'ODF']
 active: true
 ---

@@ -20,6 +20,23 @@ export default {
   // mounted() {
   //   console.log(this.$i18n)
   //   // La locale courante est accessible depuis this.$i18n.localeProperties
+  //   this.$axios
+  //     .$get(
+  //       'https://www.xeno-canto.org/api/2/recordings?query=Circus+pygargus+cnt:France',
+  //       {
+  //         headers: {
+  //           'Access-Control-Allow-Origin': '*',
+  //           'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+  //           'Access-Control-Allow-Credentials': true,
+  //         },
+  //       }
+  //     )
+  //     .then((data) => {
+  //       console.log(data)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
   // },
   head() {
     return {

@@ -3,6 +3,14 @@ body {
   overflow-x: hidden !important;
 }
 
+body {
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
 /********** TYPOGRAPHY **********/
 
 .PlayfairDisplayTypo {
@@ -144,6 +152,10 @@ h6 {
   text-align: center;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 /********** GLOBAL COMPONENTS **********/
 
 /* Global padding and margin */
@@ -167,8 +179,16 @@ div.container.container--fluid {
   margin-bottom: 16px !important;
 }
 
+.bottom-margin-24 {
+  margin-bottom: 24px !important;
+}
+
 .bottom-margin-40 {
   margin-bottom: 40px !important;
+}
+
+.top-margin-24 {
+  margin-top: 24px;
 }
 
 .right-margin-8 {
@@ -462,6 +482,7 @@ a.Vocabulary:hover::after {
 }
 
 .MenuCard {
+  flex: 1;
   margin: 12px;
   border-radius: 16px;
 }
@@ -591,12 +612,16 @@ a.Vocabulary:hover::after {
   position: absolute;
   top: 0;
   right: 0;
+  background: #fff;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
 .AutocompleteCloseIconWrapper {
+  width: 20px;
+  height: 20px;
+  margin-right: 30px;
   display: flex;
 }
 
@@ -667,6 +692,32 @@ a.Vocabulary:hover::after {
   text-align: center;
 }
 
+/* Helpers */
+.HelperWrapper {
+  position: relative;
+  display: flex;
+}
+
+.HelperTip {
+  display: none;
+  position: absolute;
+  z-index: 7;
+  background: #262626;
+  width: 16px;
+  height: 16px;
+  transform: rotate(45deg);
+}
+
+.HelperContent {
+  display: none;
+  position: absolute;
+  z-index: 6;
+  background: #262626;
+  padding: 16px;
+  border-radius: 8px;
+  filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.32));
+}
+
 /********** NAVBAR **********/
 
 .NavBar {
@@ -690,7 +741,7 @@ a.Vocabulary:hover::after {
   align-items: center;
 }
 
-.NavBar .ODFLogo {
+.NavBarODFLogoWrapper .ODFLogo {
   height: 36px;
 }
 
@@ -757,10 +808,33 @@ a.Vocabulary:hover::after {
   align-items: center;
 }
 
+.TopSection.breadcrumb {
+  flex-direction: column;
+  align-items: inherit;
+}
+
 .TopSectionContent {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.TopSectionPictureCredit {
+  position: absolute;
+  z-index: 1;
+  left: max(12%, calc((100% - 1200px) / 2));
+  width: 76%;
+  max-width: 1200px;
+  text-align: right;
+}
+
+.MenuCardsContent {
+  background: #fcfcfc;
+  width: 76%;
+  max-width: 1200px;
+  border-radius: 24px;
+  padding: 12px;
+  display: flex;
 }
 
 .Section {
@@ -852,6 +926,16 @@ a.Vocabulary:hover::after {
 /********** MAP **********/
 
 /* Dropdown selectors */
+.MapSelectors {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.leaflet-control .MapSelectors,
+.MiniMapControl.mobile {
+  display: none;
+}
+
 .MapSelectorWrapper {
   position: relative;
   margin-right: 26px;
@@ -860,7 +944,12 @@ a.Vocabulary:hover::after {
   align-items: flex-end;
 }
 
-.MapSelectorWrapper:last-child {
+.leaflet-control .MapSelectorWrapper {
+  margin-right: 16px;
+}
+
+.MapSelectorWrapper:last-child,
+.leaflet-control .MapSelectorWrapper:last-child {
   margin-right: 0;
 }
 
@@ -885,13 +974,18 @@ a.Vocabulary:hover::after {
   top: 30px;
   background: #fcfcfc;
   width: 334px;
+  max-width: calc(100vw - 20px);
   max-height: calc(100vh - 136px);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
   border-radius: 8px;
   padding: 16px 0 16px 16px;
-  overflow: auto;
   display: flex;
   flex-direction: column;
+}
+
+.leaflet-control .MapSelectorBox {
+  top: 50px;
+  max-height: calc(100vh - 208px);
 }
 
 .MapSelectorHeader {
@@ -948,6 +1042,8 @@ a.Vocabulary:hover::after {
 }
 
 .AutocompleteGadgets.map {
+  background: linear-gradient(rgba(38, 38, 38, 0.03), rgba(38, 38, 38, 0.03)),
+  white;
   height: 42px;
   border-radius: 8px;
   padding: 0 5px;
@@ -956,6 +1052,7 @@ a.Vocabulary:hover::after {
 .AutocompleteCloseIconWrapper.map {
   width: 14px;
   height: 14px;
+  margin-right: 16px;
 }
 
 .AutocompleteSearchIconWrapper.map {
@@ -996,6 +1093,7 @@ a.Vocabulary:hover::after {
 
 .MapControlDownloadButton {
   width: 42px;
+  min-width: 42px;
   height: 42px;
   border: 2px solid rgba(57, 118, 90, 0.1);
   box-sizing: border-box;
@@ -1025,12 +1123,14 @@ a.Vocabulary:hover::after {
 .MapControlSplit.main {
   /* height: 2px;
   min-height: 2px; */
+  margin-bottom: 0;
   background: rgba(57, 118, 90, 0.4);
 }
 
 .MapControlOverflow {
   padding-right: 16px;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
 }
 
@@ -1040,6 +1140,12 @@ a.Vocabulary:hover::after {
   align-items: center;
 }
 
+.MapControlKeyDataValue {
+  white-space: nowrap;
+}
+.MapControlKeyDataValue.small {
+  display: none;
+}
 .MapControlKeyDataValue.all_period {
   color: #39765a;
 }
@@ -1087,6 +1193,10 @@ a.Vocabulary:hover::after {
   align-items: center;
 }
 
+.MapControlSeeMore h5.small.green01 {
+  display: none;
+}
+
 .MapControlSeeMoreChevron {
   height: 7px;
 }
@@ -1103,6 +1213,55 @@ a.Vocabulary:hover::after {
   margin-right: 12px;
 }
 
+.MobileMapControl,
+.MobileMapControlCloseIcon,
+.MobileMapControl header.MapControlHeader .MapControlDownloadButton,
+.MobileMapControl menu.TabMenu,
+.MobileMapControlMenuWrapper,
+.MobileMapControl .ChipMenu,
+.MapControlOverflow .DropdownListWrapper {
+  display: none;
+}
+
+.MobileMapControl .MapControl {
+  max-width: calc(100vw - 20px);
+  --maxHeight: calc(100vh - 20px);
+  margin: auto;
+}
+
+.MobileMapControl .MobileMapControlCloseIcon {
+  display: flex;
+  width: 24px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.MobileMapControl .MobileMapControlMenuWrapper {
+  display: flex;
+  max-height: 66px;
+  margin-right: 16px;
+}
+
+.MobileMapControl .MobileMapControlMenuWrapper .MapControlDownloadButton {
+  margin-left: 16px;
+}
+
+.MobileMapControl .MobileMapControlMenuWrapper .PrimaryButton.outlined {
+  width: 100%;
+}
+
+.MobileMapControl .MapControlOverflow .DropdownListWrapper {
+  display: block;
+}
+
+.MobileMapControl .TimeDistributionBarPlot {
+  /* Le scroll apparaît parfois sur grand écran sans raison apparente... */
+  overflow-x: auto;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch; /* iOS */
+  overflow-y: hidden;
+}
+
 .MiniMapControl {
   width: 42px;
   height: 42px;
@@ -1111,6 +1270,10 @@ a.Vocabulary:hover::after {
   border-radius: 8px;
   cursor: pointer;
   display: flex;
+}
+
+.MiniMapControl.selected {
+  background: #EECE25;
 }
 
 .MiniMapControl .Icon {
@@ -1177,6 +1340,10 @@ a.Vocabulary:hover::after {
 }
 .leaflet-tooltip-right::before {
   border-right-color: rgba(0, 0, 0, 0) !important;
+}
+
+.leaflet-bottom.leaflet-left .InformationControl {
+  display: none;
 }
 
 /********** CONTACT FORMS **********/
@@ -1263,6 +1430,35 @@ textarea.ContactFormTextarea:focus {
   border: 1px solid #eece25;
 }
 
+/********** VUETIFY OVERLAY **********/
+
+/* Pagination */
+button.v-pagination__item,
+button.v-pagination__navigation {
+  box-shadow: none;
+}
+
+button.v-pagination__navigation .theme--light.v-icon {
+  color: #000;
+}
+
+.theme--light.v-pagination .v-pagination__item {
+  background: #fcfcfc !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 14px !important;
+  line-height: 21px !important;
+  color: #000 !important;
+}
+
+.theme--light.v-pagination .v-pagination__item--active {
+  background: rgba(96, 128, 113, 0.2) !important;
+  font-weight: bold !important;
+}
+
+.theme--light.v-pagination .v-pagination__navigation {
+  background: #fcfcfc !important;
+}
+
 /********** RESPONSIVE **********/
 
 @media screen and (max-width: 1050px) {
@@ -1270,6 +1466,44 @@ textarea.ContactFormTextarea:focus {
 
   .InformativePagePicture {
     width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  /********** MAP **********/
+  .MapSelectors,
+  .leaflet-control .MapControl {
+    display: none;
+  }
+
+  .leaflet-control .MapSelectors,
+  .MiniMapControl.mobile {
+    display: flex;
+  }
+
+  .MobileMapControl {
+    display: flex;
+    position: absolute;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(38, 38, 38, 0.6);
+  }
+
+  /* Pour que les .MapSelectorWrapper (en mobile) passent au-dessus des .MapControl du bas */
+  .leaflet-top.leaflet-right {
+    z-index: 1001;
+  }
+
+  .leaflet-top.leaflet-right .InformationControl {
+    display: none;
+  }
+
+  .leaflet-bottom.leaflet-left .InformationControl {
+    display: flex;
+    max-width: calc(100vw - 72px)
   }
 }
 
@@ -1325,6 +1559,11 @@ textarea.ContactFormTextarea:focus {
     line-height: 21px;
   }
 
+  .MapControl h4.fw-bold {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
   /********** MAIN PAGES **********/
 
   .Section {
@@ -1351,33 +1590,4 @@ textarea.ContactFormTextarea:focus {
   .InformativePagePicture {
     margin: 16px 0;
   }
-}
-
-/********** VUETIFY OVERLAY **********/
-
-/* Pagination */
-button.v-pagination__item,
-button.v-pagination__navigation {
-  box-shadow: none;
-}
-
-button.v-pagination__navigation .theme--light.v-icon {
-  color: #000;
-}
-
-.theme--light.v-pagination .v-pagination__item {
-  background: #fcfcfc !important;
-  font-family: 'Poppins', sans-serif !important;
-  font-size: 14px !important;
-  line-height: 21px !important;
-  color: #000 !important;
-}
-
-.theme--light.v-pagination .v-pagination__item--active {
-  background: rgba(96, 128, 113, 0.2) !important;
-  font-weight: bold !important;
-}
-
-.theme--light.v-pagination .v-pagination__navigation {
-  background: #fcfcfc !important;
 }
