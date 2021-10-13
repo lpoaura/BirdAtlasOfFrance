@@ -11,7 +11,28 @@
       >
         <img class="MapControlDownloadButtonIcon" src="/download.svg" />
       </a>
+      <img
+        class="MobileMapControlCloseIcon"
+        src="/cross.svg"
+        @click="closeMobileMapControl"
+      />
     </header>
+    <div class="MobileMapControlMenuWrapper">
+      <a
+        :href="`https://www.google.fr/maps/place/${epocPointCoordinates}`"
+        target="_blank"
+        class="PrimaryButton outlined bottom-margin-24"
+      >
+        Ouvrir sur Google Maps
+      </a>
+      <a
+        class="MapControlDownloadButton"
+        :href="`/files/map/epoc/${clickedEpocPoint.properties.id_epoc}.pdf`"
+        target="_blank"
+      >
+        <img class="MapControlDownloadButtonIcon" src="/download.svg" />
+      </a>
+    </div>
     <div class="MapControlSplit right-margin-16"></div>
     <div class="MapControlOverflow">
       <li class="MapControlDataOption">
@@ -96,6 +117,10 @@ export default {
     updateEpocHelpStatus() {
       this.epocHelpIsOpen = !this.epocHelpIsOpen
     },
+    // MOBILE
+    closeMobileMapControl() {
+      this.$emit('mobileMapControl', false)
+    },
   },
 }
 </script>
@@ -107,7 +132,7 @@ export default {
 }
 
 .EpocPropertyLabel {
-  flex: 0.4;
+  flex: 0.45;
 }
 
 .EpocPropertyValue {
@@ -139,6 +164,10 @@ export default {
   display: flex;
 }
 
+.MobileMapControl .MapControlOverflow .PrimaryButton.outlined {
+  display: none;
+}
+
 .SeeMoreWrapper {
   cursor: pointer;
   display: flex;
@@ -152,5 +181,13 @@ export default {
 
 p {
   margin-top: 16px;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 400px) {
+  .EpocPropertyLabel {
+    flex: 0.8;
+  }
 }
 </style>

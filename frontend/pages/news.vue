@@ -23,7 +23,7 @@
         </div>
         <span class="black03 bottom-margin-16">
           {{ item.author }} &nbsp;•&nbsp;
-          {{ $formatDate(item.createdAt, true) }}
+          {{ $formatDate(item.date, true) }}
         </span>
         <h3 class="black02 fw-600 bottom-margin-16">
           {{ item.title }}
@@ -37,7 +37,7 @@
       </div>
       <v-pagination
         v-model="currentPage"
-        :length="paginationNumber"
+        :length="pagesNumber"
         :total-visible="7"
         circle
       ></v-pagination>
@@ -49,13 +49,13 @@
 export default {
   data: () => ({
     newsItems: [],
-    paginationNumber: 1,
+    pagesNumber: 1,
     currentPage: 1,
-    newsNumberPerPage: 4,
+    newsNumberPerPage: 5,
   }),
   computed: {
     resultsNewsItems() {
-      if (this.paginationNumber <= 1) {
+      if (this.pagesNumber <= 1) {
         return this.newsItems
       } else {
         const resultsNewsIndexes = Array(this.newsNumberPerPage)
@@ -69,14 +69,16 @@ export default {
     },
   },
   mounted() {
-    this.$content(`fr/actualites`)
+    this.$content('fr/actualites')
       .where({ active: true })
-      .sortBy('createdAt', 'desc')
+      .sortBy('date', 'desc')
       .fetch()
       .then((news) => {
         this.newsItems = news
-        this.paginationNumber =
-          Math.floor(this.newsItems.length / this.newsNumberPerPage) + 1
+        this.pagesNumber =
+          this.newsItems.length % this.newsNumberPerPage === 0
+            ? this.newsItems.length / this.newsNumberPerPage
+            : Math.floor(this.newsItems.length / this.newsNumberPerPage) + 1
       })
       .catch((error) => {
         console.log(error)

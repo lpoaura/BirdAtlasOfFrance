@@ -22,7 +22,7 @@
         @click="closeMobileMapControl"
       />
     </header>
-    <div class="KnowledgeLevelPieChartWrapper">
+    <div class="KnowledgeLevelPieChartWrapper flex">
       <div class="KnowledgeLevelPieChart">
         <svg class="PieChartSvg"></svg>
         <h3 class="KnowledgeLevelGlobalData black02 fw-bold">
@@ -286,8 +286,8 @@ export default {
 }
 
 .HelperTip {
-  left: 38px;
-  top: 2px;
+  left: 12px;
+  top: 32px;
 }
 
 .HelpIcon:hover ~ .HelperTip {
@@ -295,15 +295,11 @@ export default {
 }
 
 .HelperContent {
-  top: -12px;
-  left: 46px;
+  top: 40px;
+  left: -156px;
 }
 
 .HelpIcon:hover ~ .HelperContent {
-  display: flex;
-}
-
-.KnowledgeLevelPieChartWrapper {
   display: flex;
 }
 
@@ -352,11 +348,6 @@ export default {
 /********** RESPONSIVE **********/
 
 @media screen and (max-width: 680px) {
-  h4.fw-bold {
-    font-size: 16px;
-    line-height: 24px;
-  }
-
   h3.KnowledgeLevelGlobalData {
     font-size: 24px;
     line-height: 36px;

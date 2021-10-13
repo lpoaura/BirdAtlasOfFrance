@@ -56,7 +56,7 @@
               <span class="black02 fw-500">
                 {{ pieChartLabels.breeding }}
               </span>
-              <span class="black02 inline">
+              <span class="black02 flex">
                 <div class="right-margin-16">
                   {{
                     $toPercent(
@@ -81,7 +81,7 @@
               <span class="black02 fw-500">
                 {{ pieChartLabels.wintering }}
               </span>
-              <span class="black02 inline">
+              <span class="black02 flex">
                 <div class="right-margin-16">
                   {{
                     $toPercent(
@@ -107,7 +107,7 @@
               <span class="black02 fw-500">
                 {{ pieChartLabels.other_period }}
               </span>
-              <span class="black02 inline">
+              <span class="black02 flex">
                 <div class="right-margin-16">
                   {{
                     $toPercent(
@@ -302,10 +302,6 @@ export default {
 .Column-2-LabelWrapper {
   display: flex;
   flex-direction: column;
-}
-
-span.inline {
-  display: flex;
 }
 
 /********** RESPONSIVE **********/

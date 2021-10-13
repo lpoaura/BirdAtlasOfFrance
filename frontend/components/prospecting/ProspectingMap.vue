@@ -110,7 +110,7 @@
         />
         <section
           v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
-          class="MapControl epoc"
+          class="MapControl"
         >
           <div
             v-if="clickedFeature"
@@ -353,6 +353,12 @@ export default {
       required: false,
       default: null,
     },
+    clickedEpocPoint: {
+      // On clique sur un point EPOC
+      type: Object,
+      required: false,
+      default: null,
+    },
     epocOdfOfficialIsOn: {
       type: Boolean,
       required: true,
@@ -408,8 +414,7 @@ export default {
     noSpeciesData: false,
     featuresClasses: [0.25, 0.5, 0.75, 1],
     searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
-    searchedFeatureCode: null, // Le zonage sélectionné est une maille (recherche depuis la page d'Accueil)
-    clickedEpocPoint: null, // On clique sur un point EPOC
+    searchedFeatureCode: null, // Le zonage sélectionné est une maille (recherche depuis l'URL)
     indeterminate: true, // Progress (loading)
     // MOBILE
     seasonIsOpen: false,
@@ -432,9 +437,10 @@ export default {
             this.resetFeatureStyle(event)
           },
           click: (event) => {
-            this.clickedEpocPoint = null
-            this.clickedFeature = JSON.parse(JSON.stringify(feature))
+            this.$emit('clickedEpocPoint', null)
+            this.$emit('clickedFeature', JSON.parse(JSON.stringify(feature)))
             this.zoomToFeature(event)
+            this.openMobileMapControl()
           },
         })
       }
@@ -549,7 +555,8 @@ export default {
         })
         layer.on({
           click: (event) => {
-            this.clickedEpocPoint = feature
+            this.$emit('clickedEpocPoint', feature)
+            this.openMobileMapControl()
           },
         })
       }
@@ -583,7 +590,8 @@ export default {
         })
         layer.on({
           click: (event) => {
-            this.clickedEpocPoint = feature
+            this.$emit('clickedEpocPoint', feature)
+            this.openMobileMapControl()
           },
         })
       }
@@ -597,14 +605,14 @@ export default {
           this.searchedFeatureId = newVal.id
         }
         this.zoomToArea(newVal.bounds)
-        this.clickedFeature = null
-        this.clickedEpocPoint = null
+        this.$emit('clickedFeature', null)
+        this.$emit('clickedEpocPoint', null)
       }
     },
     selectedSpecies(newVal) {
       if (newVal) {
-        this.clickedFeature = null
-        this.clickedEpocPoint = null
+        this.$emit('clickedFeature', null)
+        this.$emit('clickedEpocPoint', null)
         this.oldZoomSpeciesDistribution = 101
         this.updateSpeciesDistributionGeojson(newVal)
       }
@@ -616,9 +624,9 @@ export default {
     },
     selectedLayer(newVal) {
       if (newVal === 'Aucune') {
-        this.clickedFeature = null
+        this.$emit('clickedFeature', null)
       }
-      this.clickedEpocPoint = null
+      this.$emit('clickedEpocPoint', null)
     },
   },
   mounted() {
@@ -730,8 +738,8 @@ export default {
       // console.log('New zoom : ' + newZoom)
       this.currentZoom = newZoom
       if (this.currentZoom < 11) {
-        this.clickedFeature = null
-        this.clickedEpocPoint = null
+        this.$emit('clickedFeature', null)
+        this.$emit('clickedEpocPoint', null)
       }
     },
     updateKnowledgeLevelGeojson() {
@@ -769,7 +777,7 @@ export default {
                 }
               )
               if (clickedFeature.length > 0) {
-                this.clickedFeature = clickedFeature[0]
+                this.$emit('clickedFeature', clickedFeature[0])
                 this.searchedFeatureId = null
               }
             }
@@ -782,7 +790,7 @@ export default {
                 }
               )
               if (clickedFeature.length > 0) {
-                this.clickedFeature = clickedFeature[0]
+                this.$emit('clickedFeature', clickedFeature[0])
                 this.searchedFeatureCode = null
               }
             }
@@ -918,7 +926,7 @@ export default {
             path: '/prospecting',
             query: { area: undefined, type: undefined },
           })
-          this.clickedFeature = null
+          this.$emit('clickedFeature', null)
         }
       }
     },
@@ -934,7 +942,7 @@ export default {
       this.$emit('selectedSpecies', null)
     },
     deleteClickedEpocPoint() {
-      this.clickedEpocPoint = null
+      this.$emit('clickedEpocPoint', null)
     },
     // MOBILE
     openMobileMapControl() {
@@ -990,10 +998,5 @@ export default {
 <style scoped>
 #map-wrap {
   height: calc(100vh - 136px);
-}
-
-.MapControl.epoc {
-  width: 506px;
-  max-height: calc(100vh - 156px);
 }
 </style>

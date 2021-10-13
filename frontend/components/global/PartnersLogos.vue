@@ -3,7 +3,7 @@
     <div
       v-for="(partner, index) in partnersToShow.list"
       :key="index"
-      class="PartnerLogoItem"
+      class="PartnerLogoItem flex"
     >
       <img
         class="PartnerLogo"
@@ -26,49 +26,49 @@ export default {
     partnersList: [
       {
         type: 'financial',
-        list: ['Ministere-Transition-Ecologique.jpg', 'RTE.png'],
+        list: ['Ministere-Transition-Ecologique.jpg', 'RTE.jpg'],
       },
       {
         type: 'scientific',
-        list: ['MNHN.png', 'OFB.jpg'],
+        list: ['MNHN.jpg', 'OFB.jpg'],
       },
       {
         type: 'technical',
         list: [
           'ALEPE.jpg',
-          'ANA.png',
+          'ANA.jpg',
           'Bretagne-Vivante.jpg',
-          'C.O.Gard.png',
+          'C.O.Gard.jpg',
           'Charente-Nature.jpg',
           'Cistude-Nature.jpg',
           'Eure-et-Loir-Nature.jpg',
-          'GEPOG.png',
-          'GEPOMAY.png',
-          'GNLA.png',
+          'GEPOG.jpg',
+          'GEPOMAY.jpg',
+          'GNLA.jpg',
           'GODS.jpg',
-          'GOG.png',
-          'GON.png',
-          'GONm.png',
-          'GOR.png',
-          'Indre-Nature.png',
+          'GOG.jpg',
+          'GON.jpg',
+          'GONm.jpg',
+          'GOR.jpg',
+          'Indre-Nature.jpg',
           'Loiret-Nature-Environnement.jpg',
           'LPO-France.jpg',
-          'LPO-AuRA.png',
-          'LPO-Bourgogne-Franche-Comte.png',
+          'LPO-AuRA.jpg',
+          'LPO-Bourgogne-Franche-Comte.jpg',
           'LPO-Bretagne.jpg',
           'LPO-Grand-Est.jpg',
-          'LPO-Nord.png',
-          'LPO-Normandie.png',
-          'LPO-Occitanie.png',
-          'LPO-PACA.png',
-          'LPO-Pays-de-la-Loire.png',
-          'LPO-Touraine.png',
+          'LPO-Nord.jpg',
+          'LPO-Normandie.jpg',
+          'LPO-Occitanie.jpg',
+          'LPO-PACA.jpg',
+          'LPO-Pays-de-la-Loire.jpg',
+          'LPO-Touraine.jpg',
           'Mayenne-Nature-Environnement.jpg',
           'Nature-18.jpg',
           'Nature-Environnement-17.jpg',
-          'ODONAT.png',
-          'Picardie-Nature.png',
-          'SEOF.png',
+          'ODONAT.jpg',
+          'Picardie-Nature.jpg',
+          'SEOF.jpg',
           'SEOR.gif',
           'SSNTG82.jpg',
         ],
@@ -98,10 +98,6 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   grid-gap: 60px;
-}
-
-.PartnerLogoItem {
-  display: flex;
 }
 
 .PartnerLogo {

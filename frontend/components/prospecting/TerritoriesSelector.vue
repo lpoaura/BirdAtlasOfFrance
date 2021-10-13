@@ -200,10 +200,6 @@ export default {
   margin: 0 16px 20px 0;
 }
 
-.AutocompleteSearchIconWrapper {
-  margin-left: 16px;
-}
-
 .TerritoriesGrid,
 .TerritoriesList {
   padding-right: 16px;

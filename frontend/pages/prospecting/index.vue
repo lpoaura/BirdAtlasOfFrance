@@ -6,10 +6,44 @@
         :selected-season="selectedSeason"
         @mobileMapControl="openOrCloseMobileMapControl"
       />
+      <feature-dashboard-control
+        v-if="
+          ['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+          clickedFeature &&
+          !clickedEpocPoint
+        "
+        :clicked-feature="clickedFeature"
+        :selected-season="selectedSeason"
+        @mobileMapControl="openOrCloseMobileMapControl"
+      />
+      <species-dashboard-control
+        v-if="selectedLayer === 'Répartition de l\'espèce' && selectedSpecies"
+        :selected-species="selectedSpecies"
+        :selected-season="selectedSeason"
+        @mobileMapControl="openOrCloseMobileMapControl"
+      />
+      <section
+        v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
+        class="MapControl"
+      >
+        <div
+          v-if="clickedFeature"
+          class="MapControlComeBack"
+          @click="updateClickedEpocPoint(null)"
+        >
+          <img class="MapControlComeBackIcon" src="/previous.svg" />
+          <span class="fw-500">{{ clickedFeature.properties.area_name }}</span>
+        </div>
+        <epoc-dashboard-control
+          :clicked-epoc-point="clickedEpocPoint"
+          @mobileMapControl="openOrCloseMobileMapControl"
+        />
+      </section>
     </div>
     <header>
       <div class="MapSearchBar">
         <map-search-bar
+          :selected-species="selectedSpecies"
           @selectedArea="updateSelectedArea"
           @selectedSpecies="updateSelectedSpecies"
         />
@@ -79,6 +113,7 @@
         :selected-layer="selectedLayer"
         :selected-territory="selectedTerritory"
         :clicked-feature="clickedFeature"
+        :clicked-epoc-point="clickedEpocPoint"
         :epoc-odf-official-is-on="epocOdfOfficialIsOn"
         :epoc-odf-reserve-is-on="epocOdfReserveIsOn"
         :plan="plan"
@@ -87,6 +122,8 @@
         @selectedSpecies="updateSelectedSpecies"
         @selectedSeason="updateSelectedSeason"
         @selectedLayer="updateSelectedLayer"
+        @clickedFeature="updateClickedFeature"
+        @clickedEpocPoint="updateClickedEpocPoint"
         @epocOdfOfficialIsOn="updateEpocOdfOfficial"
         @epocOdfReserveIsOn="updateEpocOdfReserve"
         @planIsOn="updatePlan"
@@ -105,6 +142,8 @@ import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
 import LayersSelector from '~/components/prospecting/LayersSelector.vue'
 import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
+import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
+import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
 
 export default {
   components: {
@@ -118,6 +157,8 @@ export default {
       }
     },
     'knowledge-level-control': KnowledgeLevelControl,
+    'feature-dashboard-control': FeatureDashboardControl,
+    'species-dashboard-control': SpeciesDashboardControl,
   },
   data: () => ({
     selectedArea: null, // Zonage sélectionné dans la barre de recherche
@@ -141,6 +182,7 @@ export default {
       name: 'France métropolitaine',
     },
     clickedFeature: null, // On clique sur une maille
+    clickedEpocPoint: null, // On clique sur un point EPOC
     // epocPointsIsOn: true, À PASSER DANS ProspectingMap
     epocOdfOfficialIsOn: true,
     epocOdfReserveIsOn: true,
@@ -199,6 +241,12 @@ export default {
     },
     updateSelectedLayer(layer) {
       this.selectedLayer = layer
+    },
+    updateClickedFeature(feature) {
+      this.clickedFeature = feature
+    },
+    updateClickedEpocPoint(epoc) {
+      this.clickedEpocPoint = epoc
     },
     updateEpocPoints(value) {
       this.epocPointsIsOn = value
