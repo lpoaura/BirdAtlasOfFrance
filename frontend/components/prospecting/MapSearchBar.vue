@@ -6,13 +6,19 @@
   >
     <input
       v-model="search"
+      class="large"
       type="text"
       :placeholder="selectedType.placeholder"
     />
+    <input
+      v-model="search"
+      class="small"
+      type="text"
+      placeholder="Rechercher"
+    />
     <div class="AutocompleteGadgets map">
-      <div class="AutocompleteCloseIconWrapper map">
+      <div v-if="search.length > 0" class="AutocompleteCloseIconWrapper map">
         <img
-          v-show="search.length > 0"
           class="AutocompleteCloseIcon"
           src="/close.svg"
           @click="clearResults"
@@ -74,6 +80,14 @@
 
 <script>
 export default {
+  props: {
+    selectedSpecies: {
+      // Nécessaire si l'espèce est supprimée via son tableau de bord (ProspectingMap)
+      type: Object,
+      required: false,
+      default: null,
+    },
+  },
   data: () => ({
     search: '',
     dataList: [],
@@ -101,39 +115,42 @@ export default {
     lang: 'fr',
   }),
   watch: {
-    search(newVal, oldVal) {
-      if (!this.speciesIsSelected) {
-        if (newVal === '' || newVal.length < 3) {
-          this.autocompleteIsOpen = false
+    search(newVal) {
+      if (!this.searchIsProgramatic) {
+        if (!this.speciesIsSelected) {
+          if (newVal === '' || newVal.length < 3) {
+            this.autocompleteIsOpen = false
+          } else {
+            this.$axios
+              .$get(this.selectedType.api + `${newVal}`)
+              .then((data) => {
+                if (data.length === 0 && this.selectedType.label === 'Lieu') {
+                  this.autocompleteIsOpen = false
+                } else {
+                  this.autocompleteIsOpen = true
+                  this.dataList = data
+                }
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          }
         } else {
-          this.$axios
-            .$get(this.selectedType.api + `${newVal}`)
-            .then((data) => {
-              if (data.length === 0 && this.selectedType.label === 'Lieu') {
-                this.autocompleteIsOpen = false
-              } else {
-                this.autocompleteIsOpen = true
-                this.dataList = data
-              }
-            })
-            .catch((error) => {
-              console.log(error)
-            })
+          this.speciesIsSelected = false
+          this.$emit('selectedSpecies', null)
+          this.$router.push({
+            path: '/prospecting',
+            query: { species: undefined },
+          })
         }
       }
-      if (
-        this.speciesIsSelected &&
-        !this.searchIsProgramatic &&
-        newVal.lenght !== oldVal.length
-      ) {
-        this.speciesIsSelected = false
-        this.$emit('selectedSpecies', null)
-        this.$router.push({
-          path: '/prospecting',
-          query: { species: undefined },
-        })
-      }
       this.searchIsProgramatic = false
+    },
+    selectedSpecies(newVal) {
+      if (!newVal) {
+        this.speciesIsSelected = false
+        this.search = ''
+      }
     },
   },
   mounted() {
@@ -158,7 +175,9 @@ export default {
     updateSelectedType(type) {
       this.selectIsOpen = false
       this.selectedType = type
-      this.updateSearch(this.search)
+      if (!this.speciesIsSelected) {
+        this.updateSearch(this.search)
+      }
     },
     updateSearch(newVal) {
       if (newVal === '' || newVal.length < 3) {
@@ -187,14 +206,20 @@ export default {
           path: '/prospecting',
           query: { species: `${data.code}` },
         })
-        this.searchIsProgramatic = true
-        this.search = data[`common_name_${this.lang}`]
+        if (this.search !== data[`common_name_${this.lang}`]) {
+          this.searchIsProgramatic = true
+          this.search = data[`common_name_${this.lang}`]
+        }
       } else {
         this.$emit('selectedArea', data)
         this.$router.push({
           path: '/prospecting',
           query: { area: `${data.code}`, type: `${data.type_code}` },
         })
+        if (this.search !== data.name.replace('10kmL93', '')) {
+          this.searchIsProgramatic = true
+          this.search = data.name.replace('10kmL93', '')
+        }
       }
       this.autocompleteIsOpen = false
     },
@@ -228,9 +253,12 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
+.AutocompleteWrapper input.small {
+  display: none;
+}
+
 .AutocompleteSearchSplit {
   height: 26px;
-  margin-left: 16px;
 }
 
 .AutocompleteDropdownWrapper {
@@ -258,7 +286,7 @@ export default {
 }
 
 .AutocompleteResultsSplit {
-  width: 410px;
+  width: calc(100% - 10px);
   margin-left: 5px;
 }
 
@@ -274,5 +302,16 @@ export default {
 
 .AutocompleteNoResults {
   padding: 4px 8px;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 440px) {
+  .AutocompleteWrapper input.large {
+    display: none;
+  }
+  .AutocompleteWrapper input.small {
+    display: flex;
+  }
 }
 </style>

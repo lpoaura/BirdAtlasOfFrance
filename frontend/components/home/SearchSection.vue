@@ -1,7 +1,7 @@
 <template>
   <main class="TopSection">
-    <div class="HomePicture">
-      <div class="HomePictureGradient"></div>
+    <div class="TopSectionPicture">
+      <div class="PictureGradient"></div>
       <div class="TopSectionContent">
         <header>
           <h1 class="PlayfairDisplayTypo">
@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <h6 class="PictureCredit white01 fw-300">
+    <h6 class="TopSectionPictureCredit white01 fw-300">
       Photo : Phatéon à bec jaune, Florent Bignon
     </h6>
     <div class="MenuCardsContent">
@@ -79,7 +79,7 @@ export default {
   align-items: flex-start;
 }
 
-.HomePicture {
+.TopSectionPicture {
   position: relative;
   background: linear-gradient(
       101.98deg,
@@ -90,9 +90,10 @@ export default {
   width: 100%;
   height: 86%;
   display: flex;
+  justify-content: center;
 }
 
-.HomePictureGradient {
+.PictureGradient {
   position: absolute;
   z-index: 1;
   background: linear-gradient(
@@ -125,14 +126,8 @@ export default {
   height: 60px;
 }
 
-.PictureCredit {
-  position: absolute;
-  z-index: 1;
-  left: max(12%, calc((100% - 1200px) / 2));
+.TopSectionPictureCredit {
   bottom: 29%;
-  width: 76%;
-  max-width: 1200px;
-  text-align: right;
 }
 
 .MenuCardsContent {
@@ -140,17 +135,7 @@ export default {
   z-index: 1;
   left: max(12%, calc((100% - 1200px) / 2));
   bottom: 0;
-  background: #fcfcfc;
-  width: 76%;
-  max-width: 1200px;
   height: 28%;
-  border-radius: 24px;
-  padding: 12px;
-  display: flex;
-}
-
-.MenuCard {
-  flex: 1;
 }
 
 .CardIcon {
@@ -163,7 +148,7 @@ export default {
 /********** RESPONSIVE **********/
 
 @media screen and (max-width: 920px) {
-  .HomePicture /* Recentrer l'image d'accueil */ {
+  .TopSectionPicture /* Recentrer l'image d'accueil */ {
     background: linear-gradient(
         101.98deg,
         #3957a4 0%,
@@ -182,6 +167,12 @@ export default {
     max-width: 710px;
   }
 
+  .TopSectionPictureCredit,
+  .MenuCardsContent {
+    width: 90%;
+    left: 5%;
+  }
+
   h4.CardTitle {
     font-size: 14px;
     line-height: 21px;
@@ -194,7 +185,7 @@ export default {
     min-height: 0;
   }
 
-  .HomePicture /* Modifier l'image d'accueil sur mobile */ {
+  .TopSectionPicture /* Modifier l'image d'accueil sur mobile */ {
     height: 100%;
     background: linear-gradient(
         101.98deg,
@@ -204,7 +195,7 @@ export default {
       url('/home/home-picture-mobile.jpg') 70% / cover, #3957a4;
   }
 
-  .HomePictureGradient {
+  .PictureGradient {
     height: 100%;
   }
 
@@ -221,7 +212,7 @@ export default {
     height: 50px;
   }
 
-  .PictureCredit {
+  .TopSectionPictureCredit {
     left: 7%;
     bottom: 8px;
     width: 86%;

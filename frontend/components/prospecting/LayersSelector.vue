@@ -1,124 +1,110 @@
 <template>
-  <div v-click-outside="closeSelectBox" class="MapSelectorWrapper">
-    <div class="MapSelectorSelectedOption" @click="openOrCloseSelectBox">
-      <img class="MapSelectorIcon" src="/layers.svg" />
-      <h5 class="fw-600 right-margin-12">Couches</h5>
-      <img
-        class="MapSelectorChevron"
-        :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
-      />
+  <div v-show="selectIsOpen" class="MapSelectorBox">
+    <div class="MapSelectorHeader">
+      <h4 class="black02 fw-600">Couches</h4>
     </div>
-    <div v-show="selectIsOpen" class="MapSelectorBox">
-      <div class="MapSelectorHeader">
-        <h4 class="black02 fw-600">Couches</h4>
-      </div>
-      <div class="MapSelectorOverflow">
-        <li
-          v-for="(layer, index) in layersList"
-          :key="index"
-          class="RadioOption"
-          :class="layer.label === selectedLayer ? 'selected' : ''"
-          @click="updateSelectedLayer(layer.label)"
-        >
+    <div class="MapSelectorOverflow">
+      <li
+        v-for="(layer, index) in layersList"
+        :key="index"
+        class="RadioOption"
+        :class="layer.label === selectedLayer ? 'selected' : ''"
+        @click="updateSelectedLayer(layer.label)"
+      >
+        <div class="RadioLabel">
+          <div class="RadioButton">
+            <div
+              v-show="layer.label === selectedLayer"
+              class="RadioButtonSelected"
+            ></div>
+          </div>
+          {{ layer.label }}
+        </div>
+        <h5 v-if="layer.subtitle" class="RadioSubtitle black04">
+          {{ layer.subtitle }}
+        </h5>
+      </li>
+      <div v-show="selectedLayer === 'Points EPOC'">
+        <!-- Ajouter les points EPOC classiques -->
+        <div class="RadioOption epoc">
           <div class="RadioLabel">
-            <div class="RadioButton">
-              <div
-                v-show="layer.label === selectedLayer"
-                class="RadioButtonSelected"
-              ></div>
-            </div>
-            {{ layer.label }}
-          </div>
-          <h5 v-if="layer.subtitle" class="RadioSubtitle black04">
-            {{ layer.subtitle }}
-          </h5>
-        </li>
-        <div v-show="selectedLayer === 'Points EPOC'">
-          <!-- Ajouter les points EPOC classiques -->
-          <div class="RadioOption epoc">
-            <div class="RadioLabel">
-              <switch-button v-model="epocOdfOfficialIsOn" />
-              EPOC ODF
-            </div>
-          </div>
-          <div class="RadioOption epoc">
-            <div class="RadioLabel">
-              <switch-button v-model="epocOdfReserveIsOn" />
-              EPOC ODF de réserve
-            </div>
+            <switch-button v-model="epocOdfOfficialIsOn" />
+            EPOC ODF
           </div>
         </div>
-        <div
-          v-if="selectedSpecies"
-          class="RadioOption"
-          :class="speciesDistributionLayer === selectedLayer ? 'selected' : ''"
-          @click="updateSelectedLayer(speciesDistributionLayer)"
-        >
+        <div class="RadioOption epoc">
           <div class="RadioLabel">
-            <div class="RadioButton">
-              <div
-                v-show="speciesDistributionLayer === selectedLayer"
-                class="RadioButtonSelected"
-              ></div>
-            </div>
-            {{ speciesDistributionLayer }}
+            <switch-button v-model="epocOdfReserveIsOn" />
+            EPOC ODF de réserve
           </div>
-          <!-- <h5 class="RadioSubtitle black04">
+        </div>
+      </div>
+      <div
+        v-if="selectedSpecies"
+        class="RadioOption"
+        :class="speciesDistributionLayer === selectedLayer ? 'selected' : ''"
+        @click="updateSelectedLayer(speciesDistributionLayer)"
+      >
+        <div class="RadioLabel">
+          <div class="RadioButton">
+            <div
+              v-show="speciesDistributionLayer === selectedLayer"
+              class="RadioButtonSelected"
+            ></div>
+          </div>
+          {{ speciesDistributionLayer }}
+        </div>
+        <!-- <h5 class="RadioSubtitle black04">
             Non compatible avec les fonds carthographiques Plan et
             Orthophotographies
           </h5> -->
-        </div>
-        <!-- v-show="['Aucune', 'Points EPOC'].includes(selectedLayer)" -->
-        <div class="BackgroundMapsWrapper">
-          <div class="BackgroundMapsSplit"></div>
-          <h4 class="black02 fw-600 bottom-margin-16">
-            Fonds carthographiques
-          </h4>
-          <div class="BackgroundMap">
-            <switch-button v-model="planIsOn" />
-            <div class="BackgroundMapSlider">
-              <span class="BackgroundMapLabel black02"> Plan </span>
-              <range-slider
-                v-show="planIsOn"
-                v-model="planOpacity"
-                :min="0"
-                :max="100"
-              />
-            </div>
-            <div v-show="planIsOn" class="BackgroundMapInput">
-              <input
-                v-model="planOpacity"
-                type="number"
-                value="50"
-                min="0"
-                max="100"
-              />
-              <span class="black04 unit">%</span>
-            </div>
+      </div>
+      <!-- v-show="['Aucune', 'Points EPOC'].includes(selectedLayer)" -->
+      <div class="BackgroundMapsWrapper">
+        <div class="BackgroundMapsSplit"></div>
+        <h4 class="black02 fw-600 bottom-margin-16">Fonds carthographiques</h4>
+        <div class="BackgroundMap">
+          <switch-button v-model="planIsOn" />
+          <div class="BackgroundMapSlider">
+            <span class="BackgroundMapLabel black02"> Plan </span>
+            <range-slider
+              v-show="planIsOn"
+              v-model="planOpacity"
+              :min="0"
+              :max="100"
+            />
           </div>
-          <div class="BackgroundMap">
-            <switch-button v-model="orthophotoIsOn" />
-            <div class="BackgroundMapSlider">
-              <span class="BackgroundMapLabel black02">
-                Orthophotographies
-              </span>
-              <range-slider
-                v-show="orthophotoIsOn"
-                v-model="orthophotoOpacity"
-                :min="0"
-                :max="100"
-              />
-            </div>
-            <div v-show="orthophotoIsOn" class="BackgroundMapInput">
-              <input
-                v-model="orthophotoOpacity"
-                type="number"
-                value="50"
-                min="0"
-                max="100"
-              />
-              <span class="black04 unit">%</span>
-            </div>
+          <div v-show="planIsOn" class="BackgroundMapInput">
+            <input
+              v-model="planOpacity"
+              type="number"
+              value="50"
+              min="0"
+              max="100"
+            />
+            <span class="black04 unit">%</span>
+          </div>
+        </div>
+        <div class="BackgroundMap">
+          <switch-button v-model="orthophotoIsOn" />
+          <div class="BackgroundMapSlider">
+            <span class="BackgroundMapLabel black02"> Orthophotographies </span>
+            <range-slider
+              v-show="orthophotoIsOn"
+              v-model="orthophotoOpacity"
+              :min="0"
+              :max="100"
+            />
+          </div>
+          <div v-show="orthophotoIsOn" class="BackgroundMapInput">
+            <input
+              v-model="orthophotoOpacity"
+              type="number"
+              value="50"
+              min="0"
+              max="100"
+            />
+            <span class="black04 unit">%</span>
           </div>
         </div>
       </div>
@@ -129,6 +115,10 @@
 <script>
 export default {
   props: {
+    selectIsOpen: {
+      type: Boolean,
+      required: true,
+    },
     selectedLayer: {
       type: String,
       required: true,
@@ -140,7 +130,6 @@ export default {
     },
   },
   data: () => ({
-    selectIsOpen: false,
     layersList: [
       { label: 'Aucune', subtitle: null },
       {
@@ -193,12 +182,6 @@ export default {
     },
   },
   methods: {
-    openOrCloseSelectBox() {
-      this.selectIsOpen = !this.selectIsOpen
-    },
-    closeSelectBox() {
-      this.selectIsOpen = false
-    },
     updateSelectedLayer(layer) {
       this.$emit('selectedLayer', layer)
     },
@@ -275,5 +258,9 @@ input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.leaflet-control .MapSelectorBox {
+  right: -58px;
 }
 </style>

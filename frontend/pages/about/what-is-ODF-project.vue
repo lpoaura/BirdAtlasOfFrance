@@ -24,6 +24,8 @@ div.container.container--fluid >>> .InformativePageLogo {
   height: 60px;
 }
 
+/********** RESPONSIVE **********/
+
 @media screen and (max-width: 1240px) {
   div.container.container--fluid >>> .TabMenu {
     display: none;

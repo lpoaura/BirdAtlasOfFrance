@@ -142,6 +142,7 @@ class AreaKnowledgeTaxaListActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
                 "old_status",
                 AreaKnowledgeTaxaList.breeding_status_old,
             ).label("breeding"),
+            AreaKnowledgeTaxaList.phenology,
         ).filter(AreaKnowledgeTaxaList.id_area == id_area)
 
         if limit:

@@ -11,7 +11,28 @@
       >
         <img class="MapControlDownloadButtonIcon" src="/download.svg" />
       </a>
+      <img
+        class="MobileMapControlCloseIcon"
+        src="/cross.svg"
+        @click="closeMobileMapControl"
+      />
     </header>
+    <div class="MobileMapControlMenuWrapper">
+      <a
+        :href="`https://www.google.fr/maps/place/${epocPointCoordinates}`"
+        target="_blank"
+        class="PrimaryButton outlined bottom-margin-24"
+      >
+        Ouvrir sur Google Maps
+      </a>
+      <a
+        class="MapControlDownloadButton"
+        :href="`/files/map/epoc/${clickedEpocPoint.properties.id_epoc}.pdf`"
+        target="_blank"
+      >
+        <img class="MapControlDownloadButtonIcon" src="/download.svg" />
+      </a>
+    </div>
     <div class="MapControlSplit right-margin-16"></div>
     <div class="MapControlOverflow">
       <li class="MapControlDataOption">
@@ -25,20 +46,22 @@
                 ')'
           }}
         </span>
-        <div class="EpocPropertyCopy"></div>
       </li>
       <li class="MapControlDataOption">
         <div class="EpocPropertyLabel fw-500">Coordonnées</div>
         <div class="EpocPropertyValue">
-          {{ epocPointCoordinates[0] }}, {{ epocPointCoordinates[1] }}
-        </div>
-        <div class="EpocPropertyCopy">
-          <img
-            v-clipboard:copy="epocPointCoordinates"
-            class="MapControlDataOptionIcon"
-            src="/copy.svg"
-            title="Copier les coordonnées"
-          />
+          <span class="right-margin-8">
+            {{ epocPointCoordinates[0] }}, {{ epocPointCoordinates[1] }}
+          </span>
+          <div class="HelperWrapper">
+            <img
+              v-clipboard:copy="epocPointCoordinates"
+              class="MapControlDataOptionIcon"
+              src="/copy.svg"
+            />
+            <div class="HelperTip"></div>
+            <h5 class="HelperContent white02 nowrap">Copier les coordonnées</h5>
+          </div>
         </div>
       </li>
       <a
@@ -94,6 +117,10 @@ export default {
     updateEpocHelpStatus() {
       this.epocHelpIsOpen = !this.epocHelpIsOpen
     },
+    // MOBILE
+    closeMobileMapControl() {
+      this.$emit('mobileMapControl', false)
+    },
   },
 }
 </script>
@@ -105,22 +132,40 @@ export default {
 }
 
 .EpocPropertyLabel {
-  flex: 0.5;
+  flex: 0.45;
 }
 
 .EpocPropertyValue {
   flex: 1;
-}
-
-.EpocPropertyCopy {
-  flex: 0.2;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
 }
 
 .MapControlDataOptionIcon {
   margin-right: 0;
   cursor: pointer;
+}
+
+.HelperTip {
+  left: 4px;
+  top: 34px;
+}
+
+.MapControlDataOptionIcon:hover ~ .HelperTip {
+  display: block;
+}
+
+.HelperContent {
+  top: 42px;
+  left: -74px;
+}
+
+.MapControlDataOptionIcon:hover ~ .HelperContent {
+  display: flex;
+}
+
+.MobileMapControl .MapControlOverflow .PrimaryButton.outlined {
+  display: none;
 }
 
 .SeeMoreWrapper {
@@ -136,5 +181,13 @@ export default {
 
 p {
   margin-top: 16px;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 400px) {
+  .EpocPropertyLabel {
+    flex: 0.8;
+  }
 }
 </style>
