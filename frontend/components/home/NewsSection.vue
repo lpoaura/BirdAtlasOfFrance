@@ -100,7 +100,7 @@ export default {
   mounted() {
     this.$content(`fr/actualites`)
       .where({ active: true })
-      .sortBy('createdAt', 'desc')
+      .sortBy('date', 'desc')
       .fetch()
       .then((news) => {
         this.newsItems = news
