@@ -1213,7 +1213,13 @@ a.Vocabulary:hover::after {
   margin-right: 12px;
 }
 
-.MobileMapControl,
+.MobileMapControl {
+  /* Cacher l'élément tout en gardant ses valeurs de taille */
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+  display: flex;
+}
 .MobileMapControlCloseIcon,
 .MobileMapControl header.MapControlHeader .MapControlDownloadButton,
 .MobileMapControl menu.TabMenu,
@@ -1471,9 +1477,14 @@ button.v-pagination__navigation .theme--light.v-icon {
 
 @media screen and (max-width: 950px) {
   /********** MAP **********/
-  .MapSelectors,
-  .leaflet-control .MapControl {
+  .MapSelectors {
     display: none;
+  }
+  .leaflet-control .MapControl {
+    /* Cacher l'élément tout en gardant ses valeurs de taille */
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
   }
 
   .leaflet-control .MapSelectors,
@@ -1482,11 +1493,9 @@ button.v-pagination__navigation .theme--light.v-icon {
   }
 
   .MobileMapControl {
-    display: flex;
-    position: absolute;
     z-index: 2000;
-    top: 0;
-    left: 0;
+    top: 0 !important;
+    left: 0 !important;
     width: 100vw;
     height: 100vh;
     background: rgba(38, 38, 38, 0.6);
