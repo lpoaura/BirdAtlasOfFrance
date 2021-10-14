@@ -778,6 +778,7 @@ export default {
               )
               if (clickedFeature.length > 0) {
                 this.$emit('clickedFeature', clickedFeature[0])
+                this.openMobileMapControl()
                 this.searchedFeatureId = null
               }
             }
@@ -791,6 +792,7 @@ export default {
               )
               if (clickedFeature.length > 0) {
                 this.$emit('clickedFeature', clickedFeature[0])
+                this.openMobileMapControl()
                 this.searchedFeatureCode = null
               }
             }

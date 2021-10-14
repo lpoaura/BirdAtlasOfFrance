@@ -1,6 +1,6 @@
 <template>
   <section
-    :class="display ? 'display' : ''"
+    v-if="display"
     class="MobileMenu"
     :style="{ top: topPosition + 'px' }"
   >
@@ -87,7 +87,6 @@ export default {
 
 <style scoped>
 .MobileMenu {
-  display: none;
   position: absolute;
   z-index: 11;
   left: 0;
@@ -95,13 +94,10 @@ export default {
   height: 100vh;
   background: linear-gradient(rgba(57, 118, 90, 0.1), rgba(57, 118, 90, 0.1)),
     white;
-
-  /* transition: 0.4s; */
-}
-
-.MobileMenu.display {
   display: flex;
   flex-direction: column;
+
+  /* transition: 0.4s; */
 }
 
 header {

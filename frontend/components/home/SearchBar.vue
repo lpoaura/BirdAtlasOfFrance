@@ -48,7 +48,10 @@
         {{
           selectedType.label === 'Espèce'
             ? data[`common_name_${lang}`]
-            : data.name.replace('10kmL93', '')
+            : data.name.replace('10kmL93', '') +
+              ' (' +
+              data.code.slice(0, -3) +
+              ')'
         }}
         <i v-if="selectedType.label === 'Espèce'">({{ data.sci_name }})</i>
       </li>
@@ -97,7 +100,7 @@ export default {
         this.$axios
           .$get(this.selectedType.api + `${newVal}`)
           .then((data) => {
-            if (data.length === 0 && this.selectedType.label === 'Commune') {
+            if (data.length === 0 && this.selectedType.label === 'Lieu') {
               this.autocompleteIsOpen = false
             } else {
               this.autocompleteIsOpen = true
@@ -126,7 +129,7 @@ export default {
         this.$axios
           .$get(this.selectedType.api + `${newVal}`)
           .then((data) => {
-            if (data.length === 0 && this.selectedType.label === 'Commune') {
+            if (data.length === 0 && this.selectedType.label === 'Lieu') {
               this.autocompleteIsOpen = false
             } else {
               this.autocompleteIsOpen = true
