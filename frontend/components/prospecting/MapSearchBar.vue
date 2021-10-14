@@ -66,6 +66,11 @@
             : data.name.replace('10kmL93', '')
         }}
         <i v-if="selectedType.label === 'Espèce'">({{ data.sci_name }})</i>
+        {{
+          selectedType.label === 'Lieu' && data.type_code !== 'ATLAS_GRID'
+            ? ' (' + data.code.slice(0, -3) + ')'
+            : ''
+        }}
       </li>
       <h5
         v-if="dataList.length === 0"

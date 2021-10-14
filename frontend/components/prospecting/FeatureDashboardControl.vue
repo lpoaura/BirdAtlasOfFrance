@@ -553,13 +553,23 @@ export default {
           // Get bar plot size
           const margin = { top: 10, right: 0, bottom: 30, left: 40 }
           const barPlotWidth = Math.max(
-            parseFloat(d3.select('.TimeDistributionBarPlot').style('width')) -
+            parseFloat(
+              d3
+                .select(this.$el)
+                .select('.TimeDistributionBarPlot')
+                .style('width')
+            ) -
               margin.left -
               margin.right,
             360
           )
           const barPlotHeight =
-            parseFloat(d3.select('.TimeDistributionBarPlot').style('height')) -
+            parseFloat(
+              d3
+                .select(this.$el)
+                .select('.TimeDistributionBarPlot')
+                .style('height')
+            ) -
             margin.top -
             margin.bottom
           // Set X axis
@@ -584,6 +594,7 @@ export default {
             ])
           // Update bars
           const barPlotBars = d3
+            .select(this.$el)
             .select('.BarPlotSvg')
             .selectAll('.bars')
             .data(formattedData)
@@ -605,15 +616,22 @@ export default {
             })
             .attr('fill', 'rgba(57, 118, 90, 0.8)')
           // Update Y axis
-          d3.select('.yAxis')
+          d3.select(this.$el)
+            .select('.yAxis')
             .call(d3.axisLeft(y))
             .selectAll('text')
             .attr(
               'style',
               "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
             )
-          d3.select('.BarPlotSvg').selectAll('path').style('opacity', 0)
-          d3.select('.BarPlotSvg').selectAll('line').style('opacity', 0)
+          d3.select(this.$el)
+            .select('.BarPlotSvg')
+            .selectAll('path')
+            .style('opacity', 0)
+          d3.select(this.$el)
+            .select('.BarPlotSvg')
+            .selectAll('line')
+            .style('opacity', 0)
         })
         .catch((error) => {
           console.log(error)
@@ -640,17 +658,28 @@ export default {
         // Get bar plot size
         const margin = { top: 10, right: 0, bottom: 30, left: 40 }
         const barPlotWidth = Math.max(
-          parseFloat(d3.select('.TimeDistributionBarPlot').style('width')) -
+          parseFloat(
+            d3
+              .select(this.$el)
+              .select('.TimeDistributionBarPlot')
+              .style('width')
+          ) -
             margin.left -
             margin.right,
           360
         )
         const barPlotHeight =
-          parseFloat(d3.select('.TimeDistributionBarPlot').style('height')) -
+          parseFloat(
+            d3
+              .select(this.$el)
+              .select('.TimeDistributionBarPlot')
+              .style('height')
+          ) -
           margin.top -
           margin.bottom
         // Get bar plot svg and set size
         const barPlotSvg = d3
+          .select(this.$el)
           .select('.BarPlotSvg')
           .attr('width', barPlotWidth + margin.left + margin.right)
           .attr('height', barPlotHeight + margin.top + margin.bottom)
