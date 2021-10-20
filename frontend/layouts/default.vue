@@ -25,13 +25,7 @@
       <standard-nav-bar
         v-else
         :background-color="
-          ['/news', '/en/news'].includes(
-            $route.path.endsWith('/') && $route.path.length > 1
-              ? $route.path.slice(0, -1)
-              : $route.path
-          ) && !scrolled
-            ? 'transparent'
-            : ''
+          $route.path.includes('/news') && !scrolled ? 'transparent' : ''
         "
         :nav-items="navItems"
         @showMobileMenu="showMobileMenu"
@@ -51,8 +45,6 @@
         [
           '/',
           '/en',
-          '/news',
-          '/en/news',
           '/get-involved',
           '/en/get-involved',
           '/about',
@@ -61,7 +53,7 @@
           $route.path.endsWith('/') && $route.path.length > 1
             ? $route.path.slice(0, -1)
             : $route.path
-        )
+        ) || $route.path.includes('/news')
       "
     />
   </v-app>

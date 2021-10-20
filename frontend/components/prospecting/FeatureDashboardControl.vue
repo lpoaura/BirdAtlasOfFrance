@@ -551,7 +551,7 @@ export default {
           })
           // console.log(formattedData)
           // Get bar plot size
-          const margin = { top: 10, right: 0, bottom: 30, left: 40 }
+          const margin = { top: 10, right: 0, bottom: 24, left: 40 }
           const barPlotWidth = Math.max(
             parseFloat(
               d3
@@ -563,15 +563,7 @@ export default {
               margin.right,
             360
           )
-          const barPlotHeight =
-            parseFloat(
-              d3
-                .select(this.$el)
-                .select('.TimeDistributionBarPlot')
-                .style('height')
-            ) -
-            margin.top -
-            margin.bottom
+          const barPlotHeight = 295 - margin.top - margin.bottom
           // Set X axis
           const x = d3
             .scaleBand()
@@ -656,7 +648,7 @@ export default {
         })
         // console.log(formattedData)
         // Get bar plot size
-        const margin = { top: 10, right: 0, bottom: 30, left: 40 }
+        const margin = { top: 10, right: 0, bottom: 24, left: 40 }
         const barPlotWidth = Math.max(
           parseFloat(
             d3
@@ -668,15 +660,7 @@ export default {
             margin.right,
           360
         )
-        const barPlotHeight =
-          parseFloat(
-            d3
-              .select(this.$el)
-              .select('.TimeDistributionBarPlot')
-              .style('height')
-          ) -
-          margin.top -
-          margin.bottom
+        const barPlotHeight = 295 - margin.top - margin.bottom
         // Get bar plot svg and set size
         const barPlotSvg = d3
           .select(this.$el)
@@ -879,7 +863,6 @@ export default {
 
 .TimeDistributionBarPlot {
   width: 100%;
-  height: 300px;
   margin-bottom: 16px;
 }
 
