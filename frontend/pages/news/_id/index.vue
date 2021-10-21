@@ -36,6 +36,7 @@ export default {
   },
   head() {
     return {
+      titleTemplate: null,
       title: this.news.title,
       meta: [
         {
@@ -44,52 +45,52 @@ export default {
           content: this.newsContent,
         },
         {
-          hid: 'og:type',
+          hid: 'og-type',
           property: 'og:type',
           content: 'website',
         },
         {
-          hid: 'og:url',
+          hid: 'og-url',
           property: 'og:url',
           content: `https://www.oiseauxdefrance.org${this.$route.fullPath}`,
         },
         {
-          hid: 'og:title',
+          hid: 'og-title',
           property: 'og:title',
           content: this.news.title,
         },
         {
-          hid: 'og:description',
+          hid: 'og-description',
           property: 'og:description',
           content: this.newsContent,
         },
         {
-          hid: 'og:image',
+          hid: 'og-image',
           property: 'og:image',
           content: this.news.picture,
         },
         {
-          hid: 'twitter:card',
+          hid: 'twitter-card',
           property: 'twitter:card',
           content: 'summary_large_image',
         },
         {
-          hid: 'twitter:url',
+          hid: 'twitter-url',
           property: 'twitter:url',
           content: `https://www.oiseauxdefrance.org${this.$route.fullPath}`,
         },
         {
-          hid: 'twitter:title',
+          hid: 'twitter-title',
           property: 'twitter:title',
           content: this.news.title,
         },
         {
-          hid: 'twitter:description',
+          hid: 'twitter-description',
           property: 'twitter:description',
           content: this.newsContent,
         },
         {
-          hid: 'twitter:image',
+          hid: 'twitter-image',
           property: 'twitter:image',
           content: this.news.picture,
         },
