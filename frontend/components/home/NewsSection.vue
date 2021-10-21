@@ -56,10 +56,7 @@
                 {{ tag }}
               </div>
             </div>
-            <nuxt-link
-              :to="{ path: '/news', hash: item.slug }"
-              class="CardSeeMore"
-            >
+            <nuxt-link :to="`/news/${item.slug}`" class="CardSeeMore">
               <h5 class="green01 fw-600 right-margin-8">Lire la suite</h5>
               <img src="arrow-right-green.svg" class="CardSeeMoreArrow" />
             </nuxt-link>
@@ -155,17 +152,6 @@ export default {
         return 0
       }
     },
-    // calculateTotalCardsWidth() {
-    //   const cardWidth = document.getElementsByClassName('NewsCard')[0]
-    //     .offsetWidth
-    //   const cardMarginRight = parseFloat(
-    //     window.getComputedStyle(document.getElementsByClassName('NewsCard')[0])
-    //       .marginRight
-    //   )
-    //   return (
-    //     this.newsItems.length * (cardWidth + cardMarginRight) - cardMarginRight
-    //   )
-    // },
     calculateCardWidth() {
       const cardWidth = document.getElementsByClassName('NewsCard')[0]
         .offsetWidth
@@ -286,15 +272,6 @@ h5.Subtitle {
   bottom: 0;
   width: 100%;
   height: 26px;
-}
-
-.CardSeeMore {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.CardSeeMoreArrow {
-  width: 8px;
 }
 
 /********** RESPONSIVE **********/
