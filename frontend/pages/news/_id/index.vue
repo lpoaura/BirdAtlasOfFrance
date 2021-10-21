@@ -2,7 +2,7 @@
   <v-container fluid>
     <main class="TopSection"></main>
     <section class="NewsSection">
-      <news-card :news="news" />
+      <news-card :news="page" />
     </section>
   </v-container>
 </template>
@@ -14,85 +14,95 @@ export default {
   components: {
     'news-card': NewsCard,
   },
+  async asyncData({ $content, params }) {
+    const page = await $content(`fr/actualites/${params.id}`).fetch()
+    return { page }
+  },
   data: () => ({
-    news: {},
+    // news: {},
     newsContent: '',
   }),
   mounted() {
-    const id = this.$route.params.id
-    this.$content(`fr/actualites/${id}`)
-      .fetch()
-      .then((news) => {
-        this.news = news
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-      .finally(() => {
-        this.newsContent = document.getElementsByClassName(
-          'nuxt-content'
-        )[0].textContent
-      })
+    this.newsContent = document.getElementsByClassName(
+      'nuxt-content'
+    )[0].textContent
+    // console.log(this.newsContent)
+    //   const id = this.$route.params.id
+    //   this.$content(`fr/actualites/${id}`)
+    //     .fetch()
+    //     .then((news) => {
+    //       this.news = news
+    //     })
+    //     .catch((error) => {
+    //       console.log(error)
+    //     })
+    //     .finally(() => {
+    //       this.newsContent = document.getElementsByClassName(
+    //         'nuxt-content'
+    //       )[0].textContent
+    //     })
   },
   head() {
+    // console.log(this.page)
+    const newsContent = this.newsContent
+    const route = this.$route
     return {
-      titleTemplate: null,
-      title: this.news.title,
+      title: this.page.title,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: this.newsContent,
+          content: newsContent,
         },
         {
-          hid: 'og-type',
+          hid: 'og:type',
           property: 'og:type',
           content: 'website',
         },
         {
-          hid: 'og-url',
+          hid: 'og:url',
           property: 'og:url',
-          content: `https://www.oiseauxdefrance.org${this.$route.fullPath}`,
+          content: `https://www.oiseauxdefrance.org${route.fullPath}`,
         },
         {
-          hid: 'og-title',
+          hid: 'og:title',
           property: 'og:title',
-          content: this.news.title,
+          content: this.page.title,
         },
         {
-          hid: 'og-description',
+          hid: 'og:description',
           property: 'og:description',
-          content: this.newsContent,
+          content: newsContent,
         },
         {
-          hid: 'og-image',
+          hid: 'og:image',
           property: 'og:image',
-          content: this.news.picture,
+          content: this.page.picture,
         },
         {
-          hid: 'twitter-card',
+          hid: 'twitter:card',
           property: 'twitter:card',
           content: 'summary_large_image',
         },
         {
-          hid: 'twitter-url',
+          hid: 'twitter:url',
           property: 'twitter:url',
-          content: `https://www.oiseauxdefrance.org${this.$route.fullPath}`,
+          content: `https://www.oiseauxdefrance.org${route.fullPath}`,
         },
         {
-          hid: 'twitter-title',
+          hid: 'twitter:title',
           property: 'twitter:title',
-          content: this.news.title,
+          content: this.page.title,
         },
         {
-          hid: 'twitter-description',
+          hid: 'twitter:description',
           property: 'twitter:description',
-          content: this.newsContent,
+          content: newsContent,
         },
         {
-          hid: 'twitter-image',
+          hid: 'twitter:image',
           property: 'twitter:image',
-          content: this.news.picture,
+          content: this.page.picture,
         },
       ],
     }
