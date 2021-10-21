@@ -10,7 +10,7 @@
       :class="[selectedItem ? '' : 'placeholder', selectIsOpen ? 'open' : '']"
       @click="openOrCloseSelect"
     >
-      <span>{{ selectedItem ? selectedItem : defaultMessage }}</span>
+      <span>{{ selectedItem || defaultMessage }}</span>
       <img
         class="DropdownListChevron"
         :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
