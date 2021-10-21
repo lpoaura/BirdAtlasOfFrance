@@ -534,6 +534,15 @@ a.Vocabulary:hover::after {
   border-radius: 8px;
 }
 
+.CardSeeMore {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.CardSeeMoreArrow {
+  width: 8px;
+}
+
 /* Badges */
 .Badge {
   padding: 8px 16px;
@@ -1261,11 +1270,9 @@ a.Vocabulary:hover::after {
 }
 
 .MobileMapControl .TimeDistributionBarPlot {
-  /* Le scroll apparaît parfois sur grand écran sans raison apparente... */
   overflow-x: auto;
   touch-action: pan-x;
   -webkit-overflow-scrolling: touch; /* iOS */
-  overflow-y: hidden;
 }
 
 .MiniMapControl {
