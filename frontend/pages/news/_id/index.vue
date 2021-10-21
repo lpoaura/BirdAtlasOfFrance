@@ -16,6 +16,7 @@ export default {
   },
   data: () => ({
     news: {},
+    newsContent: '',
   }),
   mounted() {
     const id = this.$route.params.id
@@ -27,10 +28,72 @@ export default {
       .catch((error) => {
         console.log(error)
       })
+      .finally(() => {
+        this.newsContent = document.getElementsByClassName(
+          'nuxt-content'
+        )[0].textContent
+      })
   },
   head() {
     return {
       title: this.news.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.newsContent,
+        },
+        {
+          hid: 'og:type',
+          property: 'og:type',
+          content: 'website',
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `https://www.oiseauxdefrance.org${this.$route.fullPath}`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: this.news.title,
+        },
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: this.newsContent,
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: this.news.picture,
+        },
+        {
+          hid: 'twitter:card',
+          property: 'twitter:card',
+          content: 'summary_large_image',
+        },
+        {
+          hid: 'twitter:url',
+          property: 'twitter:url',
+          content: `https://www.oiseauxdefrance.org${this.$route.fullPath}`,
+        },
+        {
+          hid: 'twitter:title',
+          property: 'twitter:title',
+          content: this.news.title,
+        },
+        {
+          hid: 'twitter:description',
+          property: 'twitter:description',
+          content: this.newsContent,
+        },
+        {
+          hid: 'twitter:image',
+          property: 'twitter:image',
+          content: this.news.picture,
+        },
+      ],
     }
   },
 }
