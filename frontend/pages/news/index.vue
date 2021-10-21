@@ -6,47 +6,29 @@
       </header>
     </main>
     <section class="NewsSection">
-      <div
+      <news-card
         v-for="(item, index) in resultsNewsItems"
-        :id="item.slug"
         :key="index"
-        class="NewsCard"
-      >
-        <div
-          class="CardPicture"
-          :src="item.picture"
-          :style="{
-            background: `url(/news/${item.picture}) ${item.centering} / cover`,
-          }"
-        >
-          <h5 class="white02 PictureCredit">{{ item.credit }}</h5>
-        </div>
-        <span class="black03 bottom-margin-16">
-          {{ item.author }} &nbsp;•&nbsp;
-          {{ $formatDate(item.date, true) }}
-        </span>
-        <h3 class="black02 fw-600 bottom-margin-16">
-          {{ item.title }}
-        </h3>
-        <nuxt-content :document="item" />
-        <div class="TagMenu no-bottom-margin">
-          <div v-for="(tag, tagIndex) in item.tags" :key="tagIndex" class="Tag">
-            {{ tag }}
-          </div>
-        </div>
-      </div>
+        :news="item"
+      />
       <v-pagination
         v-model="currentPage"
         :length="pagesNumber"
         :total-visible="7"
         circle
+        class="top-margin-24"
       ></v-pagination>
     </section>
   </v-container>
 </template>
 
 <script>
+import NewsCard from '~/components/news/NewsCard.vue'
+
 export default {
+  components: {
+    'news-card': NewsCard,
+  },
   data: () => ({
     newsItems: [],
     pagesNumber: 1,
@@ -123,26 +105,6 @@ export default {
   align-items: center;
 }
 
-.NewsCard {
-  width: 800px;
-  max-width: 90vw;
-  margin-bottom: 24px;
-}
-
-.NewsCard:last-child {
-  margin-bottom: 50px;
-}
-
-.CardPicture {
-  height: 200px;
-}
-
-.PictureCredit {
-  position: absolute;
-  right: 12px;
-  bottom: 9px;
-}
-
 /********** RESPONSIVE **********/
 
 @media screen and (max-width: 680px) {
@@ -152,17 +114,6 @@ export default {
 
   .NewsSection {
     padding-bottom: 24px;
-  }
-
-  h3 {
-    font-size: 24px;
-    line-height: 36px;
-  }
-}
-
-@media screen and (max-width: 550px) {
-  .CardPicture {
-    background-position: center center !important;
   }
 }
 </style>
