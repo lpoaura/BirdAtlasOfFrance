@@ -29,7 +29,8 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
         geom = (
             geofunc.ST_AsGeoJSON(geofunc.ST_Envelope(geofunc.ST_Transform(LAreas.geom, 4326)))
             if bbox
-            else LAreas.geojson_4326
+            # else LAreas.geojson_4326
+            else geofunc.ST_AsGeoJSON(geofunc.ST_SimplifyPreserveTopology(LAreas.geom, 0.005))
         )
 
         q = db.query(
@@ -113,7 +114,7 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
                         geofunc.ST_MakeEnvelope(
                             envelope[0], envelope[1], envelope[2], envelope[3], 4326
                         ),
-                        2154,
+                        4326,
                     ),
                 )
             )

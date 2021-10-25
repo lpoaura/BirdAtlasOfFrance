@@ -34,7 +34,7 @@ class LAreas(Base):
     id_type = Column(Integer, ForeignKey("ref_geo.bib_areas_types.id_type"))
     area_name = Column(String)
     area_code = Column(String)
-    geom = Column(Geometry("GEOMETRY", 2154))
+    geom = Column(Geometry("GEOMETRY", 4326))
     geojson_4326 = Column(Text)
     source = Column(String)
     enable = Column(Boolean)

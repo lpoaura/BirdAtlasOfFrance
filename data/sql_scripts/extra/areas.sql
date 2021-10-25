@@ -2,6 +2,7 @@
 AREAS
 -----
 Filter terrestrial Areas based on municipalities geom
+Required: first execute atlas_4_web.sql
 */
 
 
@@ -31,7 +32,12 @@ $$
         INSERT INTO
             ref_geo.bib_areas_types(type_name, type_code, type_desc, ref_name, ref_version, num_version)
             VALUES
-            ('Territoires de l''Atlas', 'ATLAS_TERRITORY', 'Territoires utilisés pour l''Atlas ODF', NULL, NULL, NULL)
+                ( 'Territoires de l''Atlas'
+                , 'ATLAS_TERRITORY'
+                , 'Territoires utilisés pour l''Atlas ODF'
+                , NULL
+                , NULL
+                , NULL)
         ON CONFLICT DO NOTHING;
 
         INSERT INTO
@@ -83,6 +89,46 @@ $$
               AND area_code::INT > 10
             GROUP BY source
         ON CONFLICT DO NOTHING;
+
+        CREATE TEMPORARY TABLE tmp_area_atlas_territory AS
+        SELECT *
+            FROM
+                ref_geo.l_areas
+            WHERE
+                  id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
+              AND area_code NOT LIKE 'FRMET';
+
+
+        INSERT INTO
+            ref_geo.l_areas ( id_type
+                            , area_name
+                            , area_code
+                            , geom
+                            , centroid
+                            , geojson_4326
+                            , source
+                            , comment
+                            , enable
+                            , additional_data
+                            , meta_create_date
+                            , meta_update_date)
+        SELECT
+            ref_geo.get_id_area_type('ATLAS_TERRITORY_SIMPLIFY')
+          , l_areas.area_name
+          , l_areas.area_code
+          , t.geom
+          , st_centroid(t.geom)
+          , st_asgeojson(t.geom)
+          , source
+          , 'Zonages simplifiés pour un usage web'
+          , TRUE
+          , '{}'::JSONB
+          , now()
+          , now()
+            FROM
+                simplifylayerpreservetopology('', 'tmp_area_atlas_territory', 'id_area', 'geom',
+                                              0.01) AS t(gid INT, geom GEOMETRY)
+                    JOIN ref_geo.l_areas ON t.gid = l_areas.id_area
 
     END
 $$
