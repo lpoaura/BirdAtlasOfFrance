@@ -17,7 +17,8 @@ $$
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_data_for_atlas CASCADE;
         RAISE INFO '-- % -- CREATE MV atlas.mv_data_for_atlas', clock_timestamp();
         RAISE INFO '-- % -- COMMENT AND INDEXES ON atlas.mv_data_for_atlas', clock_timestamp();
-        CREATE MATERIALIZED VIEW atlas.mv_data_for_atlas AS (
+        CREATE MATERIALIZED VIEW atlas.mv_data_for_atlas AS
+        (
         WITH
             cor_area_synthese AS (
                 SELECT
@@ -64,8 +65,7 @@ $$
               AND synthese.id_nomenclature_observation_status !=
                   ref_nomenclatures.get_id_nomenclature('STATUT_OBS', 'No')
               AND date_min >= '2007-01-01')
-        WITH NO DATA
-        ;
+        WITH NO DATA;
         COMMENT ON MATERIALIZED VIEW atlas.mv_data_for_atlas IS 'All datas used for atlas';
         CREATE UNIQUE INDEX i_data_for_atlas_id_area_id_data ON atlas.mv_data_for_atlas (id_area, id_data);
         CREATE INDEX i_data_for_atlas_cdnom ON atlas.mv_data_for_atlas (cd_nom);
@@ -290,5 +290,4 @@ $$
     END
 $$
 ;
-
 
