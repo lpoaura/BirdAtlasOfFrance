@@ -1,7 +1,7 @@
 ---
 title: Mise à jour des données d'ODF en cours
 picture: actualite-5.jpg
-credit: ''
+credit:
 centering: center
 author: Oiseaux de France
 date: '2021-10-14'

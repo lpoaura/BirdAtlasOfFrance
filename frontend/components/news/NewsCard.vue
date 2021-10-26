@@ -1,6 +1,3 @@
-<!-- Partager sur LinkedIn : href="https://www.linkedin.com/sharing/share-offsite/?url=https://oiseauxdefrance.org/news" -->
-<!-- Partager sur Facebook : href="https://www.facebook.com/sharer/sharer.php?u=https://oiseauxdefrance.org/news" -->
-<!-- Partager sur Twitter : href="https://twitter.com/intent/tweet?url=https://oiseauxdefrance.org/news" -->
 <template>
   <div class="NewsCard">
     <div
@@ -10,12 +7,33 @@
         background: `url(/news/${news.picture}) ${news.centering} / cover`,
       }"
     >
-      <h5 class="white02 PictureCredit">{{ news.credit }}</h5>
+      <h5 v-if="news.credit" class="white02 PictureCredit">
+        Photo : {{ news.credit }}
+      </h5>
     </div>
-    <span class="black03 bottom-margin-16">
-      {{ news.author }} &nbsp;•&nbsp;
-      {{ $formatDate(news.date, true) }}
-    </span>
+    <div class="CardMetadata">
+      <span class="black03">
+        {{ news.author }} &nbsp;•&nbsp;
+        {{ $formatDate(news.date, true) }}
+      </span>
+      <div v-click-outside="closeSharing" class="CardSharingWrapper">
+        <div class="CardSharing" @click="openOrCloseSharing">
+          <img src="/share.svg" class="CardSharingIcon" />
+        </div>
+        <div v-show="sharingIsOpen" class="CardSharingBox">
+          <a
+            v-for="(item, index) in socialNetworks"
+            :key="index"
+            class="CardSharingSocialNetwork"
+            :href="`${item.url}https://oiseauxdefrance.org/news/${news.slug}`"
+            target="_blank"
+          >
+            <img class="SocialNetworkIcon" :src="item.logo" />
+            <h4>{{ item.label }}</h4>
+          </a>
+        </div>
+      </div>
+    </div>
     <h3 class="black02 fw-600 bottom-margin-16">
       {{ news.title }}
     </h3>
@@ -54,6 +72,39 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    sharingIsOpen: false,
+    socialNetworks: [
+      {
+        label: 'Twitter',
+        logo: '/news/twitter.svg',
+        url: 'https://twitter.com/intent/tweet?url=',
+      },
+      {
+        label: 'Facebook',
+        logo: '/news/facebook.svg',
+        url: 'https://www.facebook.com/sharer/sharer.php?u=',
+      },
+      {
+        label: 'LinkedIn',
+        logo: '/news/linkedin.svg',
+        url: 'https://www.linkedin.com/sharing/share-offsite/?url=',
+      },
+      {
+        label: 'WhatsApp',
+        logo: '/news/whatsapp.svg',
+        url: 'https://api.whatsapp.com/send?text=',
+      },
+    ],
+  }),
+  methods: {
+    openOrCloseSharing() {
+      this.sharingIsOpen = !this.sharingIsOpen
+    },
+    closeSharing() {
+      this.sharingIsOpen = false
+    },
+  },
 }
 </script>
 
@@ -76,6 +127,60 @@ export default {
   position: absolute;
   right: 12px;
   bottom: 9px;
+}
+
+.CardMetadata {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.CardSharingWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.CardSharing {
+  background: rgba(38, 38, 38, 0.1);
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  min-height: 32px;
+  margin-left: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+}
+
+.CardSharingIcon {
+  width: 16px;
+  margin: auto;
+}
+
+.CardSharingBox {
+  position: absolute;
+  z-index: 5;
+  top: 40px;
+  background: #fcfcfc;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.CardSharingSocialNetwork {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.SocialNetworkIcon {
+  width: 16px;
+  margin-right: 12px;
 }
 
 .CardFooter {
