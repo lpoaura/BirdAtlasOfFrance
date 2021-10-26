@@ -1,7 +1,7 @@
 ---
 title: Une thèse ODF sur les données EPOC
 picture: actualite-4.jpg
-credit: 'Photo : Yves Brasse'
+credit: Yves Brasse
 centering: center
 author: Oiseaux de France
 date: '2021-10-13'
