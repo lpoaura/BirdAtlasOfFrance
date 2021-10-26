@@ -1,7 +1,7 @@
 ---
 title: Newsletter ODF
 picture: actualite-1.jpg
-credit: 'Photo : Pieter Verheij'
+credit: Pieter Verheij
 centering: center
 author: Oiseaux de France
 date: '2021-08-25'

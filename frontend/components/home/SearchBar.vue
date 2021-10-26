@@ -2,13 +2,12 @@
   <div v-click-outside="closeSearchBar" class="AutocompleteWrapper">
     <input v-model="search" type="text" placeholder="Rechercher" />
     <div class="AutocompleteGadgets">
-      <div v-if="search.length > 0" class="AutocompleteCloseIconWrapper">
-        <img
-          class="AutocompleteCloseIcon"
-          src="/close.svg"
-          @click="clearResults"
-        />
-      </div>
+      <img
+        v-if="search.length > 0"
+        class="AutocompleteCloseIcon"
+        src="/close.svg"
+        @click="clearResults"
+      />
       <div class="AutocompleteSearchSplit"></div>
       <div class="AutocompleteDropdownWrapper">
         <div
@@ -33,7 +32,7 @@
           </li>
         </div>
       </div>
-      <div class="AutocompleteSearchIconWrapper">
+      <div class="AutocompleteSearch">
         <img class="AutocompleteSearchIcon" src="/search.svg" />
       </div>
     </div>
@@ -216,7 +215,7 @@ export default {
   line-height: 24px;
 }
 
-.AutocompleteSearchIconWrapper {
+.AutocompleteSearch {
   width: 40px;
   height: 40px;
   border-radius: 8px;
@@ -260,10 +259,10 @@ export default {
     padding: 0 8px;
   }
 
-  .AutocompleteCloseIconWrapper {
+  .AutocompleteCloseIcon {
     width: 16px;
     height: 16px;
-    margin-right: 10px;
+    margin-right: 16px;
   }
 
   .AutocompleteSearchSplit {
@@ -299,7 +298,7 @@ export default {
     line-height: 18px;
   }
 
-  .AutocompleteSearchIconWrapper {
+  .AutocompleteSearch {
     width: 34px;
     height: 34px;
   }
@@ -331,7 +330,7 @@ export default {
 }
 
 @media screen and (max-width: 370px) {
-  .AutocompleteCloseIconWrapper {
+  .AutocompleteCloseIcon {
     display: none;
   }
 }

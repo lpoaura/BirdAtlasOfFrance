@@ -50,6 +50,11 @@ export default {
       }
     },
   },
+  watch: {
+    currentPage(newVal) {
+      window.scrollTo(0, 0)
+    },
+  },
   mounted() {
     this.$content('fr/actualites')
       .where({ active: true })

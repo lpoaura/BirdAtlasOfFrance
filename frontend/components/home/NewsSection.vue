@@ -25,38 +25,38 @@
         class="Carousel"
         :style="{ transform: 'translateX' + '(' + currentOffset + 'px' + ')' }"
       >
-        <div v-for="(item, index) in newsItems" :key="index" class="NewsCard">
+        <div v-for="(news, index) in newsItems" :key="index" class="NewsCard">
           <div class="CardHeader bottom-margin-16">
             <div
               class="CardPicture"
-              :src="item.picture"
+              :src="news.picture"
               :style="{
-                background: `url(/news/${item.picture}) center / cover`,
+                background: `url(/news/${news.picture}) center / cover`,
               }"
             ></div>
             <span class="black03 bottom-margin-8">
-              {{ item.author }} &nbsp;•&nbsp;
-              {{ $formatDate(item.date, true) }}
+              {{ news.author }} &nbsp;•&nbsp;
+              {{ $formatDate(news.date, true) }}
             </span>
             <h4 class="CardTitle fw-bold bottom-margin-16">
-              {{ item.title }}
+              {{ news.title }}
             </h4>
             <div class="CardOverflow CardSubtitle">
-              <nuxt-content :document="item" />
+              <nuxt-content :document="news" />
               <div class="CardSubtitleBlurring"></div>
             </div>
           </div>
           <div class="CardFooter">
             <div class="TagMenu">
               <div
-                v-for="(tag, tagIndex) in item.tags"
+                v-for="(tag, tagIndex) in news.tags"
                 :key="tagIndex"
                 class="Tag"
               >
                 {{ tag }}
               </div>
             </div>
-            <nuxt-link :to="`/news/${item.slug}`" class="CardSeeMore">
+            <nuxt-link :to="`/news/${news.slug}`" class="CardSeeMore">
               <h5 class="green01 fw-600 right-margin-8">Lire la suite</h5>
               <img src="arrow-right-green.svg" class="CardSeeMoreArrow" />
             </nuxt-link>

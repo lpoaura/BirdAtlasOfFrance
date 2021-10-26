@@ -390,13 +390,24 @@ a.Vocabulary:hover::after {
   cursor: auto;
 }
 
-/* Tab, Selector & Chip menus */
+/* Tab, Selector, Chip and Tag menus */
 .TabMenu,
 .SelectorMenu,
 .ChipMenu,
 .TagMenu {
   margin-bottom: 24px;
+  white-space: nowrap;
   display: flex;
+}
+
+.TagMenu {
+  overflow-x: scroll;
+  touch-action: pan-x;
+  -webkit-overflow-scrolling: touch; /* iOS */
+
+  /* Hide scrollbar */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .TabItem {
@@ -627,16 +638,10 @@ a.Vocabulary:hover::after {
   align-items: center;
 }
 
-.AutocompleteCloseIconWrapper {
+.AutocompleteCloseIcon {
   width: 20px;
   height: 20px;
   margin-right: 30px;
-  display: flex;
-}
-
-.AutocompleteCloseIcon {
-  width: 100%;
-  margin: auto;
   cursor: pointer;
 }
 
@@ -660,7 +665,7 @@ a.Vocabulary:hover::after {
 
 /* See Dropdown lists for AutocompleteDropdownOptionsBox */
 
-.AutocompleteSearchIconWrapper {
+.AutocompleteSearch {
   background: #eece25;
   display: flex;
 }
@@ -1058,13 +1063,13 @@ a.Vocabulary:hover::after {
   padding: 0 5px;
 }
 
-.AutocompleteCloseIconWrapper.map {
+.AutocompleteCloseIcon.map {
   width: 14px;
   height: 14px;
   margin-right: 16px;
 }
 
-.AutocompleteSearchIconWrapper.map {
+.AutocompleteSearch.map {
   width: 32px;
   height: 32px;
   border-radius: 4px;

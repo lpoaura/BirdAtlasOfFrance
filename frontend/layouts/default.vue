@@ -76,6 +76,7 @@ export default {
     scrolled: false,
     displayMobileMenu: false,
     currentScroll: 0,
+    currentPath: '',
   }),
   computed: {
     navItems() {
@@ -121,15 +122,26 @@ export default {
       return window.innerWidth < 915
     },
     showMobileMenu() {
-      document.documentElement.style.overflow = 'hidden'
-      document.body.style.position = 'fixed'
       this.currentScroll = window.scrollY
+      this.currentPath = this.$route.path
+      document.documentElement.style.overflow = 'hidden'
+      document.body.style.position = 'fixed' // Needed for iOS
+      document.body.style.top = `-${this.currentScroll}px` // Needed for iOS
       this.displayMobileMenu = true
     },
     hideMobileMenu() {
-      this.displayMobileMenu = false
-      document.documentElement.style.overflow = 'auto'
-      document.body.style.position = ''
+      document.documentElement.style.removeProperty('overflow')
+      document.body.style.removeProperty('position')
+      document.body.style.removeProperty('top')
+      if (this.currentPath === this.$route.path) {
+        // Si on ferme le menu mobile sans changer de page
+        window.scrollTo(0, this.currentScroll)
+        setTimeout(() => {
+          this.displayMobileMenu = false
+        }, 250)
+      } else {
+        this.displayMobileMenu = false
+      }
     },
     listener() {
       this.$debounce(this.handleScroll())
