@@ -2,7 +2,7 @@
   <v-container fluid>
     <main class="TopSection"></main>
     <section class="NewsSection">
-      <news-card :news="page" />
+      <news-card :news="news" />
     </section>
   </v-container>
 </template>
@@ -15,39 +15,22 @@ export default {
     'news-card': NewsCard,
   },
   async asyncData({ $content, params }) {
-    const page = await $content(`fr/actualites/${params.id}`).fetch()
-    return { page }
+    const news = await $content(`fr/actualites/${params.id}`).fetch()
+    return { news }
   },
   data: () => ({
-    // news: {},
     newsContent: '',
   }),
   mounted() {
     this.newsContent = document.getElementsByClassName(
       'nuxt-content'
     )[0].textContent
-    // console.log(this.newsContent)
-    //   const id = this.$route.params.id
-    //   this.$content(`fr/actualites/${id}`)
-    //     .fetch()
-    //     .then((news) => {
-    //       this.news = news
-    //     })
-    //     .catch((error) => {
-    //       console.log(error)
-    //     })
-    //     .finally(() => {
-    //       this.newsContent = document.getElementsByClassName(
-    //         'nuxt-content'
-    //       )[0].textContent
-    //     })
   },
   head() {
-    // console.log(this.page)
     const newsContent = this.newsContent
     const route = this.$route
     return {
-      title: this.page.title,
+      title: this.news.title,
       meta: [
         {
           hid: 'description',
@@ -67,7 +50,7 @@ export default {
         {
           hid: 'og:title',
           property: 'og:title',
-          content: this.page.title,
+          content: `${this.news.title} | Atlas des Oiseaux de France`,
         },
         {
           hid: 'og:description',
@@ -77,7 +60,7 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content: this.page.picture,
+          content: `/news/${this.news.picture}`,
         },
         {
           hid: 'twitter:card',
@@ -92,7 +75,7 @@ export default {
         {
           hid: 'twitter:title',
           property: 'twitter:title',
-          content: this.page.title,
+          content: `${this.news.title} | Atlas des Oiseaux de France`,
         },
         {
           hid: 'twitter:description',
@@ -102,7 +85,7 @@ export default {
         {
           hid: 'twitter:image',
           property: 'twitter:image',
-          content: this.page.picture,
+          content: `/news/${this.news.picture}`,
         },
       ],
     }

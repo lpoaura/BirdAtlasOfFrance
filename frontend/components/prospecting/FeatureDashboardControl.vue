@@ -143,15 +143,13 @@
         <div class="AutocompleteWrapper map">
           <input v-model="search" type="text" placeholder="Rechercher" />
           <div class="AutocompleteGadgets map">
-            <div class="AutocompleteCloseIconWrapper map">
-              <img
-                v-show="search.length > 0"
-                class="AutocompleteCloseIcon"
-                src="/close.svg"
-                @click="clearResults"
-              />
-            </div>
-            <div class="AutocompleteSearchIconWrapper map">
+            <img
+              v-if="search.length > 0"
+              class="AutocompleteCloseIcon map"
+              src="/close.svg"
+              @click="clearResults"
+            />
+            <div class="AutocompleteSearch map">
               <img class="AutocompleteSearchIcon map" src="/search.svg" />
             </div>
           </div>
