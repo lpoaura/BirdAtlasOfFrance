@@ -17,13 +17,12 @@
       placeholder="Rechercher"
     />
     <div class="AutocompleteGadgets map">
-      <div v-if="search.length > 0" class="AutocompleteCloseIconWrapper map">
-        <img
-          class="AutocompleteCloseIcon"
-          src="/close.svg"
-          @click="clearResults"
-        />
-      </div>
+      <img
+        v-if="search.length > 0"
+        class="AutocompleteCloseIcon map"
+        src="/close.svg"
+        @click="clearResults"
+      />
       <div class="AutocompleteSearchSplit"></div>
       <div class="AutocompleteDropdownWrapper">
         <div
@@ -48,7 +47,7 @@
           </li>
         </div>
       </div>
-      <div class="AutocompleteSearchIconWrapper map">
+      <div class="AutocompleteSearch map">
         <img class="AutocompleteSearchIcon map" src="/search.svg" />
       </div>
     </div>

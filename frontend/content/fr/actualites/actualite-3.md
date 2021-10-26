@@ -1,7 +1,7 @@
 ---
 title: Oiseaux de France évolue !
 picture: actualite-3.jpg
-credit: 'Photo : Emile Barbelette'
+credit: Emile Barbelette
 centering: center
 author: Oiseaux de France
 date: '2021-09-02'

@@ -50,7 +50,7 @@
               ? 'selected'
               : ''
           "
-          @click.native="hideMobileMenu(100)"
+          @click.native="hideMobileMenu(200)"
         >
           Aide
         </nuxt-link>

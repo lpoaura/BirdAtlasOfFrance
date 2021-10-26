@@ -1,7 +1,7 @@
 <template>
   <div class="CaptchaContent">
     <span class="black02 fw-500 bottom-margin-8">Test de sécurité</span>
-    <div class="CaptchaInputsWrapper">
+    <div class="CaptchaInputWrapper">
       <span class="CaptchaInstruction"
         >Veuillez recopier le code <b>{{ captchaRef }}</b> ci-après :</span
       >
@@ -39,7 +39,7 @@ export default {
   flex-direction: column;
 }
 
-.CaptchaInputsWrapper {
+.CaptchaInputWrapper {
   margin-bottom: 24px;
   display: flex;
   align-items: center;
