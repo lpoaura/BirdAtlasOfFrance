@@ -47,6 +47,10 @@
       />
       <!-- GEOJSON -->
       <l-geo-json
+        :geojson="regionsGeojson"
+        :options-style="regionsGeojsonStyle"
+      />
+      <l-geo-json
         v-if="
           selectedSpecies &&
           selectedLayer === 'Répartition de l\'espèce' &&
@@ -396,6 +400,8 @@ export default {
     envelope: null,
     initTerritory: null,
     // CONFIGURATION DES GEOJSON
+    // Limites des régions
+    regionsGeojson: null,
     // Indice de complétude
     knowledgeLevelGeojson: null,
     axiosSourceKnowledgeLevel: null,
@@ -422,6 +428,15 @@ export default {
     territoryIsOpen: false,
   }),
   computed: {
+    regionsGeojsonStyle() {
+      return {
+        weight: 2,
+        color: '#262626',
+        opacity: 1,
+        fillOpacity: 0,
+        interactive: false,
+      }
+    },
     knowledgeLevelGeojsonOptions() {
       return {
         onEachFeature: this.knowledgeLevelOnEachFeature,
@@ -493,6 +508,7 @@ export default {
           // },
           click: (event) => {
             this.zoomToFeature(event)
+            this.updateSpeciesDistributionGeojson(this.selectedSpecies)
           },
         })
       }
@@ -678,6 +694,16 @@ export default {
             console.log(error)
           })
       }
+      this.$axios
+        .$get(
+          '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true&envelope=-5.460205078125001,42.16340342422403,8.371582031250002,51.19999983412071'
+        )
+        .then((data) => {
+          this.regionsGeojson = data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   },
   methods: {
