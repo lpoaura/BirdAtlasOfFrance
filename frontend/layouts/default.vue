@@ -1,9 +1,6 @@
 <template>
   <v-app>
-    <transition
-      v-if="!['/mobile', '/mobile/'].includes($route.path)"
-      name="navBar"
-    >
+    <transition v-if="!$route.path.includes('/mobile')" name="navBar">
       <transparent-nav-bar
         v-if="
           [
@@ -42,18 +39,8 @@
     </v-main>
     <app-footer
       v-show="
-        [
-          '/',
-          '/en',
-          '/get-involved',
-          '/en/get-involved',
-          '/about',
-          '/en/about',
-        ].includes(
-          $route.path.endsWith('/') && $route.path.length > 1
-            ? $route.path.slice(0, -1)
-            : $route.path
-        ) || $route.path.includes('/news')
+        !$route.path.includes('/prospecting') &&
+        !$route.path.includes('/mobile')
       "
     />
   </v-app>
