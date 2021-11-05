@@ -57,44 +57,12 @@ Period options are:
 * `allperiod`
 * `wintering`
 * `breeding`
-
     """,
 )
-def knowledge_level_global_general_stats_data(
-    period: str = "allperiod", db: Session = Depends(get_db)
+def knowledge_level_general_stats_data(
+    id_area: int = None, period: str = "allperiod", db: Session = Depends(get_db)
 ) -> Any:
-    q = knowledge_level_general_stats.query(db=db, period=period)
-    logger.debug(q)
-    if not q:
-        raise HTTPException(status_code=404, detail="Data not found")
-    return q
-
-
-@router.get(
-    "/knowledge_level/{id_area}",
-    response_model=KnowledgeLevelGeneralStatsSchema,
-    tags=["main"],
-    summary="Global knowledge level",
-    description="""# Global knowledge level
-
-Global knowledge level for atlas, from area counts categorized by knowledge level:
-* average
-* from 0 to 25%
-* from 25 to 50%
-* from 50 to 75%
-* from 75 to 100%
-* over 100%
-
-Period options are:
-* `allperiod`
-* `wintering`
-* `breeding`
-    """,
-)
-def knowledge_level_territory_general_stats_data(
-    id_area: int, period: str = "allperiod", db: Session = Depends(get_db)
-) -> Any:
-    q = knowledge_level_general_stats.query(db=db, territory_id=id_area, period=period)
+    q = knowledge_level_general_stats.query(db=db, id_area=id_area, period=period)
     logger.debug(q)
     if not q:
         raise HTTPException(status_code=404, detail="Data not found")

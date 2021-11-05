@@ -1,7 +1,4 @@
 import logging
-from typing import List, Optional
-
-from geoalchemy2 import functions
 
 # from sqlalchemy_utils.functions import json_sql
 from sqlalchemy import and_, func
@@ -10,8 +7,7 @@ from sqlalchemy.orm import Query, Session
 from app.core.actions.crud import BaseReadOnlyActions
 
 from ..prospecting.models import AreaKnowledgeLevel
-from ..ref_geo.actions import bib_areas_types
-from ..ref_geo.models import BibAreasTypes, LAreas
+from ..ref_geo.models import LAreas
 from .models import GeneralStats
 
 logger = logging.getLogger(__name__)
@@ -50,7 +46,7 @@ class KnowledgeLevelGeneralStatsActions(BaseReadOnlyActions[AreaKnowledgeLevel])
         BaseReadOnlyActions ([type]): [description]
     """
 
-    def query(self, db: Session, territory_id: int = None, period: str = "allperiod") -> Query:
+    def query(self, db: Session, id_area: int = None, period: str = "allperiod") -> Query:
         """[summary]
 
         Args:
@@ -106,10 +102,10 @@ class KnowledgeLevelGeneralStatsActions(BaseReadOnlyActions[AreaKnowledgeLevel])
             # .filter(LAreas.id_type == territory_type)
         )
         q = (
-            q.filter(LAreas.id_area == territory_id)
+            q.filter(LAreas.id_area == id_area)
             .filter(LAreas.geom.intersects(AreaKnowledgeLevel.geom))
             .group_by(LAreas.id_area)
-            if territory_id
+            if id_area
             else q
         )
         logger.debug(q)
