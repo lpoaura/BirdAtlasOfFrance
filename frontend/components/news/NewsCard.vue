@@ -83,7 +83,7 @@ export default {
       {
         label: 'Facebook',
         logo: '/news/facebook.svg',
-        url: 'https://www.facebook.com/sharer/sharer.php?u=',
+        url: 'https://www.facebook.com/share.php?u=',
       },
       {
         label: 'LinkedIn',
