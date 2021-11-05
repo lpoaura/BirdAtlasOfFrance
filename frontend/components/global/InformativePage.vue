@@ -126,7 +126,6 @@ div.container.container--fluid {
 
 header {
   background: #fcfcfc;
-  border-bottom: 1px solid rgba(51, 105, 80, 0.2);
   width: 100%;
   padding: 16px 16%;
   display: flex;
