@@ -230,10 +230,9 @@ Map representation classes to illustration taxon count by grid, using ntile meth
     """,
 )
 def count_taxon_classes(
-    id_area: int,
-    db: Session = Depends(get_db),
+    id_area: int, db: Session = Depends(get_db), period: Optional[str] = "all_period"
 ) -> Any:
-    q = taxon_count_classes_by_territory.get_classes(db=db, id_area=id_area)
+    q = taxon_count_classes_by_territory.get_classes(db=db, id_area=id_area, period=period)
     if len(q) == 0:
         HTTPException(status_code=404, detail="Data not found")
     return q
