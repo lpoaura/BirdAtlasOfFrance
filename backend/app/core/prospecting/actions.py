@@ -282,7 +282,7 @@ class EpocActions(BaseReadOnlyActions[Epoc]):
 
 
 class TaxonCountClassesByTerritoryActions(BaseReadOnlyActions[TaxonCountClassesByTerritory]):
-    def get_classes(self, db: Session, id_area: int) -> List:
+    def get_classes(self, db: Session, id_area: int, period: str = "all_period") -> List:
         """[summary]
 
         Args:
@@ -299,7 +299,10 @@ class TaxonCountClassesByTerritoryActions(BaseReadOnlyActions[TaxonCountClassesB
             TaxonCountClassesByTerritory.min,
             TaxonCountClassesByTerritory.max,
         ).order_by(TaxonCountClassesByTerritory.ntile)
-        q = q.filter(TaxonCountClassesByTerritory.id_area == id_area)
+        q = q.filter(
+            TaxonCountClassesByTerritory.id_area == id_area,
+            TaxonCountClassesByTerritory.period == period,
+        )
         return q.all()
 
 
