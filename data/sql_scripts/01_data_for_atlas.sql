@@ -87,14 +87,8 @@ $$
                         ref_geo.l_areas
                     WHERE
                           enable IS TRUE
-                      AND id_type = (
-                        SELECT
-                            id_type
-                            FROM
-                                ref_geo.bib_areas_types
-                            WHERE
-                                type_code = 'ATLAS_GRID'
-                            LIMIT 1))
+                      AND id_type = ref_geo.get_id_area_type('ATLAS_GRID')
+                )
         SELECT
             areas.id_area
           , site                                                                      AS site
