@@ -13,7 +13,7 @@ from app.core.commons.models import AreaKnowledgeTaxaList, DataForAtlas
 from app.core.ref_geo.actions import bib_areas_types
 from app.core.ref_geo.models import BibAreasTypes, LAreas
 
-from .models import AreaDashboard, AreaKnowledgeLevel, Epoc
+from .models import AreaDashboard, AreaKnowledgeLevel, Epoc, TaxonCountClassesByTerritory
 
 logger = logging.getLogger(__name__)
 
@@ -281,7 +281,35 @@ class EpocActions(BaseReadOnlyActions[Epoc]):
         return q.all()
 
 
+class TaxonCountClassesByTerritoryActions(BaseReadOnlyActions[TaxonCountClassesByTerritory]):
+    def get_classes(self, db: Session, id_area: int, period: str = "all_period") -> List:
+        """[summary]
+
+        Args:
+            db (Session): DB Session
+            envelope (Optional[List], optional): Filtering by bounding box. Defaults to None.
+            id_area (Optional[int], optional): Filtering by area. Defaults to None.
+            status (Optional[str], optional): Filtering by status. Defaults to None
+
+        Returns:
+            Query: Return
+        """
+        q = db.query(
+            TaxonCountClassesByTerritory.ntile,
+            TaxonCountClassesByTerritory.min,
+            TaxonCountClassesByTerritory.max,
+        ).order_by(TaxonCountClassesByTerritory.ntile)
+        q = q.filter(
+            TaxonCountClassesByTerritory.id_area == id_area,
+            TaxonCountClassesByTerritory.period == period,
+        )
+        return q.all()
+
+
 area_knowledge_level = AreaKnowledgeLevelActions(AreaKnowledgeLevel)
 area_knowledge_taxa_list = AreaKnowledgeTaxaListActions(AreaKnowledgeTaxaList)
 area_dashboard = AreaDashboardActions(AreaDashboard)
 epoc = EpocActions(Epoc)
+taxon_count_classes_by_territory = TaxonCountClassesByTerritoryActions(
+    TaxonCountClassesByTerritory
+)

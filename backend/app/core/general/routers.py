@@ -59,7 +59,7 @@ Period options are:
 * `breeding`
     """,
 )
-def knowledge_level_general_stats_data(
+def knowledge_level(
     id_area: int = None, period: str = "allperiod", db: Session = Depends(get_db)
 ) -> Any:
     q = knowledge_level_general_stats.query(db=db, id_area=id_area, period=period)

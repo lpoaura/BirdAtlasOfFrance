@@ -39,8 +39,10 @@ $$
           , synthese.id_synthese                    AS id_data
           , synthese.cd_nom
           , synthese.date_min::DATE
-          , synthese.date_min > '2019-01-31'::DATE  AS new_data_all_period
-          , synthese.date_min <= '2019-01-31'::DATE AS old_data_all_period
+          , (synthese.date_min > '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
+            AND synthese.date_min >= '2019-01-01'))  AS new_data_all_period
+          , (synthese.date_min <= '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
+            AND synthese.date_min < '2019-01-01')) AS old_data_all_period
           , (tcse.bird_breed_code IS NULL
             AND extract(MONTH FROM synthese.date_min) IN (12, 1)
             AND synthese.date_min <= '2019-01-31')  AS old_data_wintering
@@ -48,9 +50,9 @@ $$
             AND extract(MONTH FROM synthese.date_min) IN (12, 1)
             AND synthese.date_min > '2019-11-30')   AS new_data_wintering
           , (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min <= '2019-01-01')  AS old_data_breeding
+            AND synthese.date_min < '2019-01-01')  AS old_data_breeding
           , (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min > '2019-01-01')   AS new_data_breeding
+            AND synthese.date_min >= '2019-01-01')   AS new_data_breeding
           , tcse.bird_breed_code
             FROM
                 gn_synthese.synthese
@@ -87,14 +89,8 @@ $$
                         ref_geo.l_areas
                     WHERE
                           enable IS TRUE
-                      AND id_type = (
-                        SELECT
-                            id_type
-                            FROM
-                                ref_geo.bib_areas_types
-                            WHERE
-                                type_code = 'ATLAS_GRID'
-                            LIMIT 1))
+                      AND id_type = ref_geo.get_id_area_type('ATLAS_GRID')
+            )
         SELECT
             areas.id_area
           , site                                                                      AS site

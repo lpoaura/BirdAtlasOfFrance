@@ -1,5 +1,6 @@
 from geoalchemy2 import Geometry
-from sqlalchemy import DECIMAL, Column, Float, ForeignKey, Integer, String, Table
+from sqlalchemy import (DECIMAL, Column, Float, ForeignKey, Integer, String,
+                        Table)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
@@ -80,3 +81,16 @@ class Epoc(Base):
     area_code = Column(String)
     geom = Column(Geometry(geometry_type="POINT", srid=4326))
     geojson = Column(JSONB)
+
+
+class TaxonCountClassesByTerritory(Base):
+    __tablename__ = "mv_taxon_count_classes_by_territory"
+    __table_args__ = {
+        "schema": "atlas",
+    }
+    id = Column(Integer, primary_key=True)
+    period = Column(String)
+    id_area = Column(Integer)
+    ntile = Column(Integer)
+    min = Column(Integer)
+    max = Column(Integer)
