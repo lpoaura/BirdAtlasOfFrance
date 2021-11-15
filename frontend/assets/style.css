@@ -863,6 +863,8 @@ a.Vocabulary:hover::after {
   background: rgba(57, 118, 90, 0.1);
   min-height: calc(100vh - 328px);
   padding: 20px 16%;
+  border-top: 1px solid rgba(51, 105, 80, 0.2);
+  border-bottom: 1px solid rgba(51, 105, 80, 0.2);
 }
 
 .InformativePageTitle,
