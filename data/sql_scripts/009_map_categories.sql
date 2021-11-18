@@ -67,10 +67,10 @@ $$
             GROUP BY
                 period, group_id_area, ntile
             ORDER BY
-                period, group_id_area, ntile;
+                period, group_id_area, ntile
+        WITH NO DATA;
         COMMENT ON MATERIALIZED VIEW atlas.mv_taxon_count_classes_by_territory IS 'Classes based on taxa count, for all period and for each atlas territory';
         COMMIT;
     END
 $$
 ;
-

@@ -9,7 +9,7 @@ $$
     BEGIN
         /* Vue matérialisée finale */
         RAISE NOTICE 'INFO: (RE)CREATE MV atlas mv_area_knowledge_level';
-        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_knowledge_level;
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_knowledge_level CASCADE;
         CREATE MATERIALIZED VIEW atlas.mv_area_knowledge_level AS
         (
         WITH
@@ -34,10 +34,9 @@ $$
                     atlas.mv_data_for_atlas
                         JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
-                        JOIN areas ON cor_area_synthese.id_area = areas.id_area
+                        JOIN areas ON mv_data_for_atlas.id_area = areas.id_area
                 WHERE
-                      t_taxa.enabled
+                      (t_taxa.available AND t_taxa.enabled)
                   AND mv_data_for_atlas.date_min > '2019-01-31'::DATE
                 GROUP BY areas.id_area
         )
@@ -49,10 +48,9 @@ $$
                     atlas.mv_data_for_atlas
                         JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
-                        JOIN areas ON cor_area_synthese.id_area = areas.id_area
+                        JOIN areas ON mv_data_for_atlas.id_area = areas.id_area
                 WHERE
-                      t_taxa.enabled
+                      (t_taxa.available AND t_taxa.enabled)
                   AND mv_data_for_atlas.date_min < '2019-01-31'::DATE
                 GROUP BY areas.id_area
         )
@@ -65,10 +63,9 @@ $$
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON mv_data_for_atlas.id_data = tcse.id_synthese
                         JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
-                        JOIN areas ON cor_area_synthese.id_area = areas.id_area
+                        JOIN areas ON mv_data_for_atlas.id_area = areas.id_area
                 WHERE
-                      t_taxa.enabled
+                      (t_taxa.available AND t_taxa.enabled)
                   AND tcse.bird_breed_code IS NULL
                   AND extract(
                               MONTH
@@ -86,10 +83,9 @@ $$
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON mv_data_for_atlas.id_data = tcse.id_synthese
                         JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
-                        JOIN areas ON cor_area_synthese.id_area = areas.id_area
+                        JOIN areas ON mv_data_for_atlas.id_area = areas.id_area
                 WHERE
-                      t_taxa.enabled
+                      (t_taxa.available AND t_taxa.enabled)
                   AND tcse.bird_breed_code IS NULL
                   AND extract(
                               MONTH
@@ -107,10 +103,9 @@ $$
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON mv_data_for_atlas.id_data = tcse.id_synthese
                         JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
-                        JOIN areas ON cor_area_synthese.id_area = areas.id_area
+                        JOIN areas ON mv_data_for_atlas.id_area = areas.id_area
                 WHERE
-                      t_taxa.enabled
+                      (t_taxa.available AND t_taxa.enabled)
                   AND tcse.bird_breed_code BETWEEN 2 AND 50
                   AND mv_data_for_atlas.date_min < '2019-01-01'
                 GROUP BY areas.id_area
@@ -124,10 +119,9 @@ $$
                         JOIN src_lpodatas.t_c_synthese_extended tcse ON mv_data_for_atlas.id_data = tcse.id_synthese
                         JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                         JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                        JOIN gn_synthese.cor_area_synthese ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
-                        JOIN areas ON cor_area_synthese.id_area = areas.id_area
+                        JOIN areas ON mv_data_for_atlas.id_area = areas.id_area
                 WHERE
-                      t_taxa.enabled
+                      (t_taxa.available AND t_taxa.enabled)
                   AND tcse.bird_breed_code BETWEEN 2 AND 50
                   AND mv_data_for_atlas.date_min > '2018-12-31'::DATE
                 GROUP BY areas.id_area
@@ -184,5 +178,3 @@ $$
 $$
 ;
 
-
-REFRESH MATERIALIZED VIEW atlas.mv_area_knowledge_level;
