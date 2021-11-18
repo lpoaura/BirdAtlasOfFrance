@@ -38,21 +38,20 @@ $$
           , id_form                                 AS id_form_universal
           , synthese.id_synthese                    AS id_data
           , synthese.cd_nom
+          , synthese.altitude_min                   AS altitude
           , synthese.date_min::DATE
           , (synthese.date_min > '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min >= '2019-01-01'))  AS new_data_all_period
+            AND synthese.date_min >= '2019-01-01')) AS new_data_all_period
           , (synthese.date_min <= '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min < '2019-01-01')) AS old_data_all_period
-          , (tcse.bird_breed_code IS NULL
-            AND extract(MONTH FROM synthese.date_min) IN (12, 1)
+            AND synthese.date_min < '2019-01-01'))  AS old_data_all_period
+          , (extract(MONTH FROM synthese.date_min) IN (12, 1)
             AND synthese.date_min <= '2019-01-31')  AS old_data_wintering
-          , (tcse.bird_breed_code IS NULL
-            AND extract(MONTH FROM synthese.date_min) IN (12, 1)
+          , (extract(MONTH FROM synthese.date_min) IN (12, 1)
             AND synthese.date_min > '2019-11-30')   AS new_data_wintering
           , (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min < '2019-01-01')  AS old_data_breeding
+            AND synthese.date_min < '2019-01-01')   AS old_data_breeding
           , (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min >= '2019-01-01')   AS new_data_breeding
+            AND synthese.date_min >= '2019-01-01')  AS new_data_breeding
           , tcse.bird_breed_code
             FROM
                 gn_synthese.synthese
