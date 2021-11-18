@@ -38,15 +38,9 @@ dev_back() {
 }
 
 dev_front() {
-
     cd frontend
     nvm use
     npm run dev
-}
-
-dev_all() {
-    dev_back &
-    dev_front
 }
 
 for value in $*; do
@@ -68,6 +62,7 @@ for value in $*; do
     fi
     if [ $value == "run_all" ]; then
         echo "Starting frontend in dev mode"
-        dev_all
+        dev_back &
+        dev_front
     fi
 done
