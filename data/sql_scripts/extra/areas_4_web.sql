@@ -20,6 +20,8 @@ Work to properly simplify geom for web usage
 -- @param tolerance: float, the simplify tolerance, in object's unit
 -- @return a setof (gid, geom) where gid is the identifier of the multipolygon, geom is the simplified geometry
 
+BEGIN
+;
 
 CREATE OR REPLACE FUNCTION simplifylayerpreservetopology(schemaname TEXT, tablename TEXT, idcol TEXT, geom_col TEXT
 , tolerance FLOAT)
@@ -138,15 +140,16 @@ END;
 $$ LANGUAGE plpgsql STRICT
 ;
 
-SELECT
-    id_type
-  , type_code
-  , type_name
-    FROM
-        ref_geo.bib_areas_types
-;
+--
+-- SELECT
+--     id_type
+--   , type_code
+--   , type_name
+--     FROM
+--         ref_geo.bib_areas_types
+-- ;
 
-CREATE OR REPLACE VIEW ref_geo.v_c_area_atlas_territory AS
+CREATE VIEW ref_geo.v_c_area_atlas_territory AS
 SELECT *
     FROM
         ref_geo.l_areas
@@ -155,22 +158,23 @@ SELECT *
       AND area_code NOT LIKE 'FRMET'
 ;
 
-DROP TABLE tmp.atlas_territory_simp
-;
-
-CREATE TABLE tmp.atlas_territory_simp AS
-SELECT
-    t.*
-  , l_areas.area_name
-  , l_areas.area_code
-    FROM
-        simplifylayerpreservetopology('ref_geo', 'v_c_area_atlas_territory', 'id_area', 'geom',
-                                      0.01) AS t(gid INT, geom GEOMETRY)
-            JOIN ref_geo.l_areas ON t.gid = l_areas.id_area
-;
-
-SELECT populate_geometry_columns()
-;
+--
+-- DROP TABLE tmp.atlas_territory_simp
+-- ;
+--
+-- CREATE TEMPORARY TABLE atlas_territory_simp AS
+-- SELECT
+--     t.*
+--   , l_areas.area_name
+--   , l_areas.area_code
+--     FROM
+--         simplifylayerpreservetopology('ref_geo', 'v_c_area_atlas_territory', 'id_area', 'geom',
+--                                       0.01) AS t(gid INT, geom GEOMETRY)
+--             JOIN ref_geo.l_areas ON t.gid = l_areas.id_area
+-- ;
+--
+-- SELECT populate_geometry_columns()
+-- ;
 
 INSERT INTO
     ref_geo.bib_areas_types (type_name, type_code, type_desc, ref_name, ref_version, num_version)
@@ -215,3 +219,8 @@ SELECT
             JOIN ref_geo.l_areas ON t.gid = l_areas.id_area
 ;
 
+DROP VIEW ref_geo.v_c_area_atlas_territory
+;
+
+COMMIT
+;
