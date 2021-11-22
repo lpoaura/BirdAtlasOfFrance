@@ -71,8 +71,6 @@ export default {
 <style scoped>
 .TopSection {
   position: relative;
-
-  /* height: clamp(580px, 94vh, 784px); */
   min-height: 580px;
   height: 94vh;
   max-height: 784px;
@@ -81,12 +79,16 @@ export default {
 
 .TopSectionPicture {
   position: relative;
+
+  /* Utiliser les exif ou iptc pour gérer les libellés des photos */
   background: linear-gradient(
       101.98deg,
       #3957a4 0%,
       rgba(57, 87, 164, 0) 69.37%
     ),
     url('/home/home-picture.jpg') center / cover, #3957a4;
+
+  /* background: url('/home/home-picture-1.JPG') center / cover, #3957a4; */
   width: 100%;
   height: 86%;
   display: flex;

@@ -47,6 +47,7 @@
       />
       <!-- GEOJSON -->
       <l-geo-json
+        v-if="currentZoom <= 9"
         :geojson="regionsGeojson"
         :options-style="regionsGeojsonStyle"
       />
@@ -645,6 +646,15 @@ export default {
       this.$emit('clickedEpocPoint', null)
     },
   },
+  // beforeMount() {
+  //   console.log(this.detectMobile())
+  //   if (this.detectMobile()) {
+  //     // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+  //     const vh = window.innerHeight * 0.01
+  //     // Then we set the value in the --vh custom property to the root of the document
+  //     document.documentElement.style.setProperty('--vh', `${vh}px`)
+  //   }
+  // },
   mounted() {
     // console.log('mounted')
     this.isProgramaticZoom = true
@@ -696,7 +706,7 @@ export default {
       }
       this.$axios
         .$get(
-          '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true&envelope=-5.460205078125001,42.16340342422403,8.371582031250002,51.19999983412071'
+          '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true&envelope=-17.962646484375004,42.081916678306335,10.107421875000002,51.2206474303833'
         )
         .then((data) => {
           this.regionsGeojson = data
@@ -1019,6 +1029,20 @@ export default {
     closeTerritoriesBox() {
       this.territoryIsOpen = false
     },
+    // detectMobile() {
+    //   const toMatch = [
+    //     /Android/i,
+    //     /webOS/i,
+    //     /iPhone/i,
+    //     /iPad/i,
+    //     /iPod/i,
+    //     /BlackBerry/i,
+    //     /Windows Phone/i,
+    //   ]
+    //   return toMatch.some((item) => {
+    //     return navigator.userAgent.match(item)
+    //   })
+    // },
   },
 }
 </script>
@@ -1026,5 +1050,6 @@ export default {
 <style scoped>
 #map-wrap {
   height: calc(100vh - 136px);
+  height: calc(calc(var(--vh, 1vh) * 100) - 136px);
 }
 </style>
