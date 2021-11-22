@@ -225,7 +225,7 @@
                 v-if="taxon.breeding.new_status"
                 class="HelperContent white02 nowrap"
               >
-                {{ taxon.breeding.new_status }}
+                {{ taxon.breeding.new_status }} (ODF)
               </h5>
             </div>
             <span class="flex-1">{{ taxon[`common_name_${lang}`] }}</span>
@@ -353,7 +353,7 @@
         </div>
         <div class="MapControlDataOption">
           <img class="MapControlDataOptionIcon" src="/calendar.svg" />
-          Calendrier d'observation :
+          Calendrier d'observation sur la période Atlas 2019-2024 :
         </div>
         <div class="PhenologyWrapper">
           <div
@@ -807,17 +807,19 @@ export default {
       this.seeMoreMunicipalitiesIsClicked = false
     },
     updateClickedSpecies(taxon) {
-      const months = this.months.map((item) => {
-        return item.charAt(0)
-      })
-      const phenology = months.map((item, index) => {
-        return {
-          label: item,
-          is_present:
-            taxon.phenology.find((d) => d === index + 1) !== undefined,
-        }
-      })
-      taxon.phenology = phenology
+      if (!taxon.phenology[0].label) {
+        const months = this.months.map((item) => {
+          return item.charAt(0)
+        })
+        const phenology = months.map((item, index) => {
+          return {
+            label: item,
+            is_present:
+              taxon.phenology.find((d) => d === index + 1) !== undefined,
+          }
+        })
+        taxon.phenology = phenology
+      }
       this.clickedSpecies = taxon
     },
     deleteClickedSpecies() {

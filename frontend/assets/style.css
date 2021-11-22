@@ -1002,6 +1002,7 @@ a.Vocabulary:hover::after {
 .leaflet-control .MapSelectorBox {
   top: 50px;
   max-height: calc(100vh - 208px);
+  max-height: calc(calc(var(--vh, 1vh) * 100) - 208px);
 }
 
 .MapSelectorHeader {
@@ -1037,6 +1038,7 @@ a.Vocabulary:hover::after {
 
 .MapSelectorOverflow {
   padding-right: 16px;
+  /* flex: 1; Nécessaire pour iOS */
   overflow-y: auto;
   scrollbar-width: thin;
 }

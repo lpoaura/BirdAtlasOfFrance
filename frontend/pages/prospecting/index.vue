@@ -48,6 +48,7 @@
           @selectedSpecies="updateSelectedSpecies"
         />
       </div>
+      <!-- {{ detectMob() }} -->
       <div class="MapSelectors">
         <div v-click-outside="closeSeasonsBox" class="MapSelectorWrapper">
           <div class="MapSelectorSelectedOption" @click="openOrCloseSeasonsBox">
@@ -225,7 +226,29 @@ export default {
     // MOBILE
     mobileMapControlIsOpen: false,
   }),
+  mounted() {
+    document.documentElement.style.overflow = 'hidden'
+    document.body.style.position = 'fixed' // Needed for iOS
+  },
+  beforeDestroy() {
+    document.documentElement.style.removeProperty('overflow')
+    document.body.style.removeProperty('position')
+  },
   methods: {
+    // detectMob() {
+    //   const toMatch = [
+    //     /Android/i,
+    //     /webOS/i,
+    //     /iPhone/i,
+    //     /iPad/i,
+    //     /iPod/i,
+    //     /BlackBerry/i,
+    //     /Windows Phone/i,
+    //   ]
+    //   return toMatch.some((item) => {
+    //     return navigator.userAgent.match(item)
+    //   })
+    // },
     updateSelectedArea(data) {
       this.selectedArea = data
     },
