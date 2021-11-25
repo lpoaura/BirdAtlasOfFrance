@@ -9,6 +9,8 @@ from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
 from app.core.ref_geo.models import LAreas
 
+from .models import MvTaxaAltitudeDistribution
+
 logger = logging.getLogger(__name__)
 
 
@@ -81,6 +83,22 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
             )
 
         logger.debug(f"<taxa_distribution> q {q}")
+        return q.all()
+
+
+class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvTaxaAltitudeDistribution]):
+    """[summary]
+
+    Args:
+        BaseReadOnlyActions ([type]): [description]
+    """
+
+    def taxa_alti_distribution(self, db: Session, id_area: int, cd_nom: int = None):
+
+        q = db.query(MvTaxaAltitudeDistribution.range, MvTaxaAltitudeDistribution.count).filter(
+            MvTaxaAltitudeDistribution.id_area == id_area
+        )
+        q = q.filter(MvTaxaAltitudeDistribution.cd_nom == cd_nom) if cd_nom is not None else q
         return q.all()
 
 
