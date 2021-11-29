@@ -47,7 +47,7 @@
       />
       <!-- GEOJSON -->
       <l-geo-json
-        v-if="currentZoom <= 9"
+        v-if="currentZoom <= 8"
         :geojson="regionsGeojson"
         :options-style="regionsGeojsonStyle"
       />
@@ -646,18 +646,16 @@ export default {
       this.$emit('clickedEpocPoint', null)
     },
   },
-  // beforeMount() {
-  //   console.log(this.detectMobile())
-  //   if (this.detectMobile()) {
-  //     // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-  //     const vh = window.innerHeight * 0.01
-  //     // Then we set the value in the --vh custom property to the root of the document
-  //     document.documentElement.style.setProperty('--vh', `${vh}px`)
-  //   }
-  // },
+  beforeMount() {
+    if (this.detectMobile()) {
+      // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+      const vh = window.innerHeight * 0.01
+      // Then we set the value in the --vh custom property to the root of the document
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+    }
+  },
   mounted() {
     // console.log('mounted')
-    this.isProgramaticZoom = true
     if (this.$route.query.area && this.$route.query.type) {
       this.$axios
         .$get(
@@ -668,6 +666,7 @@ export default {
             this.searchedFeatureCode = this.$route.query.area
           }
           const area = L.geoJSON(data)
+          this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
         .catch((error) => {
@@ -688,6 +687,7 @@ export default {
           )
           .then((data) => {
             const territory = L.geoJSON(data)
+            this.isProgramaticZoom = true
             this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
           })
           .catch((error) => {
@@ -704,20 +704,21 @@ export default {
             console.log(error)
           })
       }
-      this.$axios
-        .$get(
-          '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true&envelope=-17.962646484375004,42.081916678306335,10.107421875000002,51.2206474303833'
-        )
-        .then((data) => {
-          this.regionsGeojson = data
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     }
+    this.$axios
+      .$get(
+        '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true&envelope=-17.962646484375004,42.081916678306335,10.107421875000002,51.2206474303833'
+      )
+      .then((data) => {
+        this.regionsGeojson = data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   },
   methods: {
     setGeolocation(position) {
+      this.isProgramaticZoom = true
       this.center = [position.coords.latitude, position.coords.longitude]
     },
     catchGeolocationError() {
@@ -728,6 +729,7 @@ export default {
         )
         .then((data) => {
           const territory = L.geoJSON(data)
+          this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
         })
         .catch((error) => {
@@ -1029,20 +1031,20 @@ export default {
     closeTerritoriesBox() {
       this.territoryIsOpen = false
     },
-    // detectMobile() {
-    //   const toMatch = [
-    //     /Android/i,
-    //     /webOS/i,
-    //     /iPhone/i,
-    //     /iPad/i,
-    //     /iPod/i,
-    //     /BlackBerry/i,
-    //     /Windows Phone/i,
-    //   ]
-    //   return toMatch.some((item) => {
-    //     return navigator.userAgent.match(item)
-    //   })
-    // },
+    detectMobile() {
+      const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i,
+      ]
+      return toMatch.some((item) => {
+        return navigator.userAgent.match(item)
+      })
+    },
   },
 }
 </script>

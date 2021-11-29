@@ -1,8 +1,10 @@
 <template>
   <div v-show="selectIsOpen" class="MapSelectorBox">
-    <div class="MapSelectorHeader">
-      <h4 class="black02 fw-600">Périodes</h4>
-    </div>
+    <header class="MapSelectorHeader">
+      <div class="MapSelectorInfo">
+        <h4 class="black02 fw-600">Périodes</h4>
+      </div>
+    </header>
     <div class="MapSelectorOverflow">
       <li
         v-for="(season, index) in seasonsList"

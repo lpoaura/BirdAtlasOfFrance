@@ -1,24 +1,26 @@
 <template>
   <section class="MapControl">
     <header class="MapControlHeader">
-      <div class="MapControlHeaderTitles">
-        <h4 class="fw-bold bottom-margin-4">
-          {{ selectedSpecies[`common_name_${lang}`] }}
-        </h4>
-        <h5 class="fw-300">
-          <i>{{ selectedSpecies.sci_name }}</i>
-          {{
-            selectedSpecies.common_name_en
-              ? ' - ' + selectedSpecies.common_name_en
-              : ''
-          }}
-        </h5>
+      <div class="MapControlInfo">
+        <div class="MapControlInfoTitles">
+          <h4 class="fw-bold bottom-margin-4">
+            {{ selectedSpecies[`common_name_${lang}`] }}
+          </h4>
+          <h5 class="fw-300">
+            <i>{{ selectedSpecies.sci_name }}</i>
+            {{
+              selectedSpecies.common_name_en
+                ? ' - ' + selectedSpecies.common_name_en
+                : ''
+            }}
+          </h5>
+        </div>
+        <img
+          class="MobileMapControlCloseIcon"
+          src="/cross.svg"
+          @click="closeMobileMapControl"
+        />
       </div>
-      <img
-        class="MobileMapControlCloseIcon"
-        src="/cross.svg"
-        @click="closeMobileMapControl"
-      />
     </header>
     <div class="MapControlOverflow">
       <div class="FeaturesLegend">

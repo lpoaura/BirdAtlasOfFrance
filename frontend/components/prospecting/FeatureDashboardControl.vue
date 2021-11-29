@@ -9,57 +9,61 @@
     >
       <!-- Header -->
       <header class="MapControlHeader">
-        <div class="MapControlHeaderTitles">
-          <h4 class="fw-bold bottom-margin-4">
-            {{ featureProperties.area_name }}
-          </h4>
-          <h5 class="black03">
-            Dernière actualisation le
-            {{ $formatDate(featureDataKey.last_date, false) }}
-          </h5>
+        <div class="MapControlInfo">
+          <div class="MapControlInfoTitles">
+            <h4 class="fw-bold bottom-margin-4">
+              {{ featureProperties.area_name }}
+            </h4>
+            <h5 class="black03">
+              Dernière actualisation le
+              {{ $formatDate(featureDataKey.last_date, false) }}
+            </h5>
+          </div>
+          <a
+            class="MapControlDownloadButton"
+            :href="`/files/map/grid/${featureProperties.area_name}.pdf`"
+            target="_blank"
+          >
+            <img class="MapControlDownloadButtonIcon" src="/download.svg" />
+          </a>
+          <img
+            class="MobileMapControlCloseIcon"
+            src="/cross.svg"
+            @click="closeMobileMapControl"
+          />
         </div>
-        <a
-          class="MapControlDownloadButton"
-          :href="`/files/map/grid/${featureProperties.area_name}.pdf`"
-          target="_blank"
-        >
-          <img class="MapControlDownloadButtonIcon" src="/download.svg" />
-        </a>
-        <img
-          class="MobileMapControlCloseIcon"
-          src="/cross.svg"
-          @click="closeMobileMapControl"
-        />
+        <menu class="TabMenu">
+          <span
+            v-for="(item, index) in menuItems"
+            :key="index"
+            class="TabItem"
+            :class="item.label === selectedMenuItem.label ? 'selected' : ''"
+            @click="updateSelectedMenuItem(item)"
+          >
+            {{ item.label }}
+          </span>
+        </menu>
+        <div class="MobileMapControlMenuWrapper">
+          <dropdown-list
+            v-model="selectedMenuItem"
+            :z-index="3"
+            :items-list="menuItems"
+          />
+          <a
+            class="MapControlDownloadButton"
+            :href="`/files/map/grid/${featureProperties.area_name}.pdf`"
+            target="_blank"
+          >
+            <img class="MapControlDownloadButtonIcon" src="/download.svg" />
+          </a>
+        </div>
+        <div
+          class="MapControlSplit main right-margin-16"
+          :class="
+            scrolled && selectedMenuItem.label === 'Espèces' ? 'fixed' : ''
+          "
+        ></div>
       </header>
-      <menu class="TabMenu">
-        <span
-          v-for="(item, index) in menuItems"
-          :key="index"
-          class="TabItem"
-          :class="item.label === selectedMenuItem.label ? 'selected' : ''"
-          @click="updateSelectedMenuItem(item)"
-        >
-          {{ item.label }}
-        </span>
-      </menu>
-      <div class="MobileMapControlMenuWrapper">
-        <dropdown-list
-          v-model="selectedMenuItem"
-          :z-index="3"
-          :items-list="menuItems"
-        />
-        <a
-          class="MapControlDownloadButton"
-          :href="`/files/map/grid/${featureProperties.area_name}.pdf`"
-          target="_blank"
-        >
-          <img class="MapControlDownloadButtonIcon" src="/download.svg" />
-        </a>
-      </div>
-      <div
-        class="MapControlSplit main right-margin-16"
-        :class="scrolled && selectedMenuItem.label === 'Espèces' ? 'fixed' : ''"
-      ></div>
       <!-- Onglet "Tableau de bord" -->
       <div
         v-show="selectedMenuItem.label === 'Tableau de bord'"
@@ -137,7 +141,7 @@
       <!-- Onglet "Espèces" -->
       <div
         v-show="selectedMenuItem.label === 'Espèces'"
-        id="species-overflow"
+        ref="speciesOverflow"
         class="MapControlOverflow"
       >
         <div class="AutocompleteWrapper map">
@@ -629,9 +633,7 @@ export default {
     },
   },
   mounted() {
-    document
-      .getElementById('species-overflow')
-      .addEventListener('scroll', this.listener)
+    this.$refs.speciesOverflow.addEventListener('scroll', this.listener)
     this.initiateFeatureData(this.clickedFeature)
     this.$axios
       .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
@@ -841,8 +843,7 @@ export default {
       this.$debounce(this.handleScroll())
     },
     handleScroll() {
-      this.scrolled =
-        document.getElementById('species-overflow').scrollTop > 132
+      this.scrolled = this.$refs.speciesOverflow.scrollTop > 132
     },
     // MOBILE
     closeMobileMapControl() {

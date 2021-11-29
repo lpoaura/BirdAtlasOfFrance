@@ -18,6 +18,7 @@
       </div>
     </div>
     <h6 class="TopSectionPictureCredit white01 fw-300">
+      <!-- Photo : {{ homePicture.title }}, {{ homePicture.author }} -->
       Photo : Phatéon à bec jaune, Florent Bignon
     </h6>
     <div class="MenuCardsContent">
@@ -36,12 +37,20 @@
 
 <script>
 import SearchBar from '~/components/home/SearchBar.vue'
+// const ExifReader = require('exifreader')
 
 export default {
   components: {
     'search-bar': SearchBar,
   },
   data: () => ({
+    randomInt: 0,
+    homePicture: {
+      title: '',
+      author: '',
+      largeFocus: 0,
+      mobileFocus: 0,
+    },
     cards: [
       // {
       //   icon: '/book.svg',
@@ -65,6 +74,43 @@ export default {
       },
     ],
   }),
+  // beforeMount() {
+  //   this.randomInt = Math.floor(Math.random() * 5)
+  //   console.log(this.randomInt)
+  //   // this.randomInt = 5
+  //   ExifReader.load(`/home/home-picture-${this.randomInt.toString()}.jpg`).then(
+  //     (tags) => {
+  //       this.homePicture.title = tags.title.description
+  //       this.homePicture.author = tags.creator.description.replace(
+  //         'type="Seq" ',
+  //         ''
+  //       )
+  //       document.documentElement.style.setProperty(
+  //         '--largePictureUrl',
+  //         `url('/home/home-picture-${this.randomInt}.jpg')`
+  //       )
+  //       document.documentElement.style.setProperty(
+  //         '--mobilePictureUrl',
+  //         `url('/home/home-picture-${this.randomInt}-mobile.jpg')`
+  //       )
+  //       // console.log(tags)
+  //       // console.log(this.homePicture.title)
+  //       // console.log(this.homePicture.author)
+  //       // console.log(JSON.parse(tags.description.description))
+  //       const focusing = JSON.parse(tags.description.description)
+  //       this.homePicture.largeFocus = focusing.large
+  //       this.homePicture.mobileFocus = focusing.mobile
+  //       document.documentElement.style.setProperty(
+  //         '--largeFocus',
+  //         `${this.homePicture.largeFocus}%`
+  //       )
+  //       document.documentElement.style.setProperty(
+  //         '--mobileFocus',
+  //         `${this.homePicture.mobileFocus}%`
+  //       )
+  //     }
+  //   )
+  // },
 }
 </script>
 
@@ -79,16 +125,15 @@ export default {
 
 .TopSectionPicture {
   position: relative;
-
-  /* Utiliser les exif ou iptc pour gérer les libellés des photos */
   background: linear-gradient(
       101.98deg,
       #3957a4 0%,
       rgba(57, 87, 164, 0) 69.37%
     ),
-    url('/home/home-picture.jpg') center / cover, #3957a4;
+    url('/home/home-picture-0.jpg') center / cover, #3957a4;
 
-  /* background: url('/home/home-picture-1.JPG') center / cover, #3957a4; */
+  /* var(--largePictureUrl) center / cover,
+    #3957a4; */
   width: 100%;
   height: 86%;
   display: flex;
@@ -156,7 +201,11 @@ export default {
         #3957a4 0%,
         rgba(57, 87, 164, 0) 69.37%
       ),
-      url('/home/home-picture.jpg') 66% / cover, #3957a4;
+      url('/home/home-picture-0.jpg') 66% / cover, #3957a4;
+
+    /* var(--largePictureUrl) var(--largeFocus) / cover, #3957a4;
+    var(--largePictureUrl) 100% / cover,
+      #3957a4; */
   }
 
   .TopSectionContent {
@@ -194,7 +243,11 @@ export default {
         #3957a4 0%,
         rgba(57, 87, 164, 0) 69.37%
       ),
-      url('/home/home-picture-mobile.jpg') 70% / cover, #3957a4;
+      url('/home/home-picture-0-mobile.jpg') 70% / cover, #3957a4;
+
+    /* var(--mobilePictureUrl) var(--mobileFocus) / cover, #3957a4;
+    var(--mobilePictureUrl) 100% / cover, 
+      #3957a4; */
   }
 
   .PictureGradient {
