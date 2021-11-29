@@ -1,34 +1,38 @@
 <!-- Attendre l'API avec les emprises -->
 <template>
   <div v-show="selectIsOpen" class="MapSelectorBox">
-    <div class="MapSelectorHeader">
-      <h4 class="black02 fw-600">Territoires</h4>
-      <div class="DisplayingTypeWrapper">
-        <div
-          v-for="(type, index) in displayingTypesList"
-          :key="index"
-          class="DisplayingType"
-          :class="type.label === selectedDisplayingType.label ? 'selected' : ''"
-          @click="updateSelectedDisplayingType(type)"
-        >
-          <img class="DisplayingTypeIcon" :src="type.icon" />
+    <header class="MapSelectorHeader">
+      <div class="MapSelectorInfo">
+        <h4 class="black02 fw-600">Territoires</h4>
+        <div class="DisplayingTypeWrapper">
+          <div
+            v-for="(type, index) in displayingTypesList"
+            :key="index"
+            class="DisplayingType"
+            :class="
+              type.label === selectedDisplayingType.label ? 'selected' : ''
+            "
+            @click="updateSelectedDisplayingType(type)"
+          >
+            <img class="DisplayingTypeIcon" :src="type.icon" />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="AutocompleteWrapper map">
-      <input v-model="search" type="text" placeholder="Rechercher" />
-      <div class="AutocompleteGadgets map">
-        <img
-          v-if="search.length > 0"
-          class="AutocompleteCloseIcon map"
-          src="/close.svg"
-          @click="clearResults"
-        />
-        <div class="AutocompleteSearch map">
-          <img class="AutocompleteSearchIcon map" src="/search.svg" />
+      <div class="AutocompleteWrapper map">
+        <input v-model="search" type="text" placeholder="Rechercher" />
+        <div class="AutocompleteGadgets map">
+          <img
+            v-if="search.length > 0"
+            class="AutocompleteCloseIcon map"
+            src="/close.svg"
+            @click="clearResults"
+          />
+          <div class="AutocompleteSearch map">
+            <img class="AutocompleteSearchIcon map" src="/search.svg" />
+          </div>
         </div>
       </div>
-    </div>
+    </header>
     <div v-if="selectedDisplayingType.label === 'grid'" class="TerritoriesGrid">
       <!-- MANQUE @click="updateSelectedTerritory(territory)" -->
       <div
@@ -200,6 +204,7 @@ export default {
 
 .TerritoriesGrid,
 .TerritoriesList {
+  flex: 1;
   padding-right: 16px;
   overflow-y: auto;
   scrollbar-width: thin;

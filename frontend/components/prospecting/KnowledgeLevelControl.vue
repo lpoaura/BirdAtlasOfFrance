@@ -1,7 +1,7 @@
 <template>
   <section class="MapControl">
-    <header class="MapControlHeader">
-      <div class="MapControlHeaderTitles">
+    <header class="MapControlInfo">
+      <div class="MapControlInfoTitles">
         <div class="KnowledgeLevel">
           <h4 class="fw-bold">Indice de complétude</h4>
           <div class="HelperWrapper">
@@ -270,7 +270,7 @@ export default {
   padding: 16px;
 }
 
-.MapControlHeader {
+.MapControlInfo {
   margin-right: 0;
 }
 
