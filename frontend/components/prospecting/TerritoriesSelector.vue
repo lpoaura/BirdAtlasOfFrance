@@ -1,4 +1,3 @@
-<!-- Attendre l'API avec les emprises -->
 <template>
   <div v-show="selectIsOpen" class="MapSelectorBox">
     <header class="MapSelectorHeader">
@@ -34,7 +33,6 @@
       </div>
     </header>
     <div v-if="selectedDisplayingType.label === 'grid'" class="TerritoriesGrid">
-      <!-- MANQUE @click="updateSelectedTerritory(territory)" -->
       <div
         v-for="(territory, index) in filteredTerritories"
         :key="index"
@@ -43,6 +41,7 @@
           territory.name === selectedTerritory.name ? 'selected' : '',
           territory.isActive ? '' : 'inactive',
         ]"
+        @click="territory.isActive ? updateSelectedTerritory(territory) : null"
       >
         <img class="TerritoriesCardsIcon" :src="territory.icon" />
         <h6 class="text-center">{{ territory.name }}</h6>
@@ -55,7 +54,6 @@
       </div>
     </div>
     <div v-else class="TerritoriesList">
-      <!-- MANQUE @click="updateSelectedTerritory(territory)" -->
       <li
         v-for="(territory, index) in filteredTerritories"
         :key="index"
@@ -64,6 +62,7 @@
           territory.name === selectedTerritory.name ? 'selected' : '',
           territory.isActive ? '' : 'inactive',
         ]"
+        @click="territory.isActive ? updateSelectedTerritory(territory) : null"
       >
         <div class="RadioLabel">
           <div class="RadioButton">
@@ -109,12 +108,12 @@ export default {
         isActive: false,
       },
       {
-        name: 'Guyane française',
+        name: 'Guyane',
         icon: '/prospecting/Guyane.svg',
-        isActive: false,
+        isActive: true,
       },
       {
-        name: 'La Martinique',
+        name: 'Martinique',
         icon: '/prospecting/Martinique.svg',
         isActive: false,
       },
@@ -189,9 +188,9 @@ export default {
     clearResults() {
       this.search = ''
     },
-    // updateSelectedTerritory(territory) {
-    //   this.$emit('selectedTerritory', territory)
-    // },
+    updateSelectedTerritory(territory) {
+      this.$emit('selectedTerritory', territory)
+    },
   },
 }
 </script>

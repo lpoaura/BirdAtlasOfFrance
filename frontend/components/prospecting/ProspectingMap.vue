@@ -237,6 +237,7 @@
             <territories-selector
               :select-is-open="territoryIsOpen"
               :selected-territory="selectedTerritory"
+              @selectedTerritory="updateSelectedTerritory"
             />
           </div>
         </div>
@@ -410,6 +411,8 @@ export default {
     // CONFIGURATION DES GEOJSON
     // Limites des régions
     regionsGeojson: null,
+    // Emprises des territoires
+    territoriesEnvelopes: null,
     // Indice de complétude
     knowledgeLevelGeojson: null,
     axiosSourceKnowledgeLevel: null,
@@ -652,6 +655,17 @@ export default {
       }
       this.$emit('clickedEpocPoint', null)
     },
+    selectedTerritory(newVal) {
+      if (newVal.name) {
+        const territory = L.geoJSON(
+          this.territoriesEnvelopes.features.filter((item) => {
+            return item.properties.area_name === newVal.name
+          })
+        )
+        this.isProgramaticZoom = true
+        this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
+      }
+    },
   },
   beforeMount() {
     if (this.detectMobile()) {
@@ -718,6 +732,14 @@ export default {
       )
       .then((data) => {
         this.regionsGeojson = data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    this.$axios
+      .$get('/api/v1/lareas/type/ATLAS_TERRITORY?bbox=true&only_enable=true')
+      .then((data) => {
+        this.territoriesEnvelopes = data
       })
       .catch((error) => {
         console.log(error)
@@ -1059,6 +1081,10 @@ export default {
       this.territoryIsOpen = !this.territoryIsOpen
     },
     closeTerritoriesBox() {
+      this.territoryIsOpen = false
+    },
+    updateSelectedTerritory(territory) {
+      this.$emit('selectedTerritory', territory)
       this.territoryIsOpen = false
     },
     detectMobile() {
