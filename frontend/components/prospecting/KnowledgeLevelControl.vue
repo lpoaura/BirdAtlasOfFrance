@@ -1,7 +1,7 @@
 <template>
   <section class="MapControl">
-    <header class="MapControlHeader">
-      <div class="MapControlHeaderTitles">
+    <header class="MapControlInfo">
+      <div class="MapControlInfoTitles">
         <div class="KnowledgeLevel">
           <h4 class="fw-bold">Indice de complétude</h4>
           <div class="HelperWrapper">
@@ -14,7 +14,13 @@
             </h5>
           </div>
         </div>
-        <h5 class="fw-500">France métropolitaine</h5>
+        <h5 v-if="currentTerritory.id" class="fw-500 bottom-margin-24">
+          {{ currentTerritory.name }}
+        </h5>
+        <h5 v-else class="fw-500">
+          Placez le centre de la carte sur un territoire français pour
+          visualiser l'indice de complétude.
+        </h5>
       </div>
       <img
         class="MobileMapControlCloseIcon"
@@ -22,7 +28,10 @@
         @click="closeMobileMapControl"
       />
     </header>
-    <div class="KnowledgeLevelPieChartWrapper flex">
+    <div
+      v-show="currentTerritory.id"
+      class="KnowledgeLevelPieChartWrapper flex"
+    >
       <div class="KnowledgeLevelPieChart">
         <svg class="PieChartSvg"></svg>
         <h3 class="KnowledgeLevelGlobalData black02 fw-bold">
@@ -58,6 +67,10 @@ const d3 = require('d3')
 
 export default {
   props: {
+    currentTerritory: {
+      type: Object,
+      required: true,
+    },
     selectedSeason: {
       type: Object,
       required: true,
@@ -155,6 +168,11 @@ export default {
     },
   },
   watch: {
+    currentTerritory(newVal) {
+      if (newVal.id) {
+        this.updateGlobalKnowledgeLevel()
+      }
+    },
     selectedSeason(newVal) {
       // Le watch permet de mettre à jour le graphe quand on change la saison sur la répartition de l'espèce
       // Define pie chart colors
@@ -168,6 +186,7 @@ export default {
         .sort(null)(this.globalKnowledgeLevel[this.selectedSeason.value].data)
       // Create pie chart
       const pieChartSvg = d3
+        .select(this.$el)
         .select('.PieChartSvg')
         .selectAll('path')
         .data(pieChartData)
@@ -186,76 +205,107 @@ export default {
     },
   },
   mounted() {
-    this.$axios.$get('/api/v1/knowledge_level').then((data) => {
-      // console.log(data)
-      this.globalKnowledgeLevel.all_period.average = this.$toPercent(
-        data.average
+    // Get pie chart size
+    const pieChartHeight = parseFloat(
+      d3.select(this.$el).select('.KnowledgeLevelPieChart').style('height')
+    )
+    // Get pie chart svg and set size
+    const pieChartSvg = d3
+      .select(this.$el)
+      .select('.PieChartSvg')
+      .attr('width', pieChartHeight)
+      .attr('height', pieChartHeight)
+    // Define pie chart colors
+    const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
+    // Define pie chart shape
+    this.arcPath = d3
+      .arc()
+      .outerRadius(pieChartHeight / 2)
+      .innerRadius(pieChartHeight / 3.2)
+    // Define default data (0)
+    const pieChartData = d3
+      .pie()
+      .value(function (d) {
+        return d.value
+      })
+      .sort(null)(this.globalKnowledgeLevel.all_period.data)
+    // Create pie chart
+    pieChartSvg
+      .append('g')
+      .attr(
+        'transform',
+        `translate(${pieChartHeight / 2}, ${pieChartHeight / 2})`
       )
-      const dataArray = Object.values(data)
-      dataArray.slice(1, dataArray.length).forEach((item, index) => {
-        this.globalKnowledgeLevel.all_period.data[index].value = item
+      .selectAll('path')
+      .data(pieChartData)
+      .join('path')
+      .attr('class', 'arc')
+      .attr('d', this.arcPath)
+      .attr('fill', function (d) {
+        return color(d.data.label)
       })
-      // Get pie chart size
-      const pieChartHeight = parseFloat(
-        d3.select('.KnowledgeLevelPieChart').style('height')
-      )
-      // Get pie chart svg and set size
-      const pieChartSvg = d3
-        .select('.PieChartSvg')
-        .attr('width', pieChartHeight)
-        .attr('height', pieChartHeight)
-      // Define pie chart colors
-      const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
-      // Define pie chart shape
-      this.arcPath = d3
-        .arc()
-        .outerRadius(pieChartHeight / 2)
-        .innerRadius(pieChartHeight / 3.2)
-      // Define data
-      const pieChartData = d3
-        .pie()
-        .value(function (d) {
-          return d.value
-        })
-        .sort(null)(this.globalKnowledgeLevel.all_period.data)
-      // Create pie chart
-      pieChartSvg
-        .append('g')
-        .attr(
-          'transform',
-          `translate(${pieChartHeight / 2}, ${pieChartHeight / 2})`
-        )
-        .selectAll('path')
-        .data(pieChartData)
-        .join('path')
-        .attr('class', 'arc')
-        .attr('d', this.arcPath)
-        .attr('fill', function (d) {
-          return color(d.data.label)
-        })
-    })
-    this.$axios.$get('/api/v1/knowledge_level?period=breeding').then((data) => {
-      // console.log(data)
-      this.globalKnowledgeLevel.breeding.average = this.$toPercent(data.average)
-      const dataArray = Object.values(data)
-      dataArray.slice(1, dataArray.length).forEach((item, index) => {
-        this.globalKnowledgeLevel.breeding.data[index].value = item
-      })
-    })
-    this.$axios
-      .$get('/api/v1/knowledge_level?period=wintering')
-      .then((data) => {
-        // console.log(data)
-        this.globalKnowledgeLevel.wintering.average = this.$toPercent(
-          data.average
-        )
-        const dataArray = Object.values(data)
-        dataArray.slice(1, dataArray.length).forEach((item, index) => {
-          this.globalKnowledgeLevel.wintering.data[index].value = item
-        })
-      })
+    if (this.currentTerritory.id) {
+      this.updateGlobalKnowledgeLevel()
+    }
   },
   methods: {
+    updateGlobalKnowledgeLevel() {
+      Promise.all([
+        this.$axios.$get(
+          `/api/v1/knowledge_level?id_area=${this.currentTerritory.id}&period=allperiod`
+        ),
+        this.$axios.$get(
+          `/api/v1/knowledge_level?id_area=${this.currentTerritory.id}&period=breeding`
+        ),
+        this.$axios.$get(
+          `/api/v1/knowledge_level?id_area=${this.currentTerritory.id}&period=wintering`
+        ),
+      ])
+        .then((responses) => {
+          const seasons = ['all_period', 'breeding', 'wintering']
+          responses.forEach((item, index) => {
+            this.globalKnowledgeLevel[seasons[index]].average = this.$toPercent(
+              item.average
+            )
+            const dataArray = Object.values(item)
+            dataArray.slice(1, dataArray.length).forEach((i, j) => {
+              this.globalKnowledgeLevel[seasons[index]].data[j].value = i
+            })
+          })
+          // Define pie chart colors
+          const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
+          // Update data
+          const pieChartData = d3
+            .pie()
+            .value(function (d) {
+              return d.value
+            })
+            .sort(null)(
+            this.globalKnowledgeLevel[this.selectedSeason.value].data
+          )
+          // Create pie chart
+          const pieChartSvg = d3
+            .select(this.$el)
+            .select('.PieChartSvg')
+            .selectAll('path')
+            .data(pieChartData)
+          pieChartSvg.exit().remove()
+          pieChartSvg
+            .enter()
+            .append('path')
+            .merge(pieChartSvg)
+            .transition()
+            .duration(150)
+            .attr('class', 'arc')
+            .attr('d', this.arcPath)
+            .attr('fill', function (d) {
+              return color(d.data.label)
+            })
+        })
+        .catch((errors) => {
+          console.log(errors)
+        })
+    },
     // MOBILE
     closeMobileMapControl() {
       this.$emit('mobileMapControl', false)
@@ -270,7 +320,8 @@ export default {
   padding: 16px;
 }
 
-.MapControlHeader {
+.MapControlInfo {
+  margin-bottom: 0;
   margin-right: 0;
 }
 
