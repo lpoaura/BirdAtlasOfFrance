@@ -79,15 +79,16 @@ $$
                    , count(id_data) FILTER (WHERE new_data_wintering)                            AS wintering_count_data_new
                    , extract(YEAR FROM (max(data.date_min)
                                         FILTER (WHERE old_data_breeding OR new_data_wintering))) AS wintering_last_obs
-                   , array_agg(DISTINCT extract(MONTH FROM data.date_min)::INT
-                               ORDER BY extract(MONTH FROM data.date_min)::INT ASC)                  AS phenology
+                   , coalesce(array_agg(DISTINCT extract(MONTH FROM data.date_min)::INT
+                              ORDER BY extract(MONTH FROM data.date_min)::INT ASC)
+                              FILTER (WHERE new_data_all_period ), '{}'::INT[])                  AS phenology
                      FROM
                          atlas.mv_data_for_atlas data
                              JOIN atlas.mv_taxa_groups ON data.cd_nom = mv_taxa_groups.cd_nom
                              JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
                              LEFT JOIN atlas_code ac ON ac.cd_nomenclature = data.bird_breed_code
                      WHERE
-                         t_taxa.available
+                         (t_taxa.available AND t_taxa.enabled)
                      GROUP BY
                          data.id_area, mv_taxa_groups.cd_group)
         SELECT

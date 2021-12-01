@@ -997,14 +997,16 @@ a.Vocabulary:hover::after {
   padding: 16px 0 16px 16px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .leaflet-control .MapSelectorBox {
   top: 50px;
   max-height: calc(100vh - 208px);
+  max-height: calc(calc(var(--vh, 1vh) * 100) - 208px);
 }
 
-.MapSelectorHeader {
+.MapSelectorInfo {
   margin: 0 16px 20px 0;
   display: flex;
   justify-content: space-between;
@@ -1036,6 +1038,7 @@ a.Vocabulary:hover::after {
 }
 
 .MapSelectorOverflow {
+  flex: 1;
   padding-right: 16px;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -1095,14 +1098,21 @@ a.Vocabulary:hover::after {
   flex-direction: column;
 }
 
-.MapControlHeader {
+.MapControl .MapControlDashboard {
+  max-height: calc(var(--maxHeight) - 32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.MapControlInfo {
   margin: 0 16px 24px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.MapControlHeaderTitles {
+.MapControlInfoTitles {
   display: flex;
   flex-direction: column;
 }
@@ -1123,12 +1133,6 @@ a.Vocabulary:hover::after {
   margin: auto;
 }
 
-.MapControl .MapControlDashboard {
-  max-height: calc(var(--maxHeight) - 32px);
-  display: flex;
-  flex-direction: column;
-}
-
 .MapControlSplit {
   height: 1px;
   min-height: 1px;
@@ -1144,6 +1148,7 @@ a.Vocabulary:hover::after {
 }
 
 .MapControlOverflow {
+  flex: 1;
   padding-right: 16px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1247,7 +1252,7 @@ a.Vocabulary:hover::after {
 
 .MobileMapControl .MapControl {
   max-width: calc(100vw - 20px);
-  --maxHeight: calc(100vh - 20px);
+  --maxHeight: calc(calc(var(--vh, 1vh) * 100) - 20px);
   margin: auto;
 }
 
@@ -1278,7 +1283,7 @@ a.Vocabulary:hover::after {
 
 .MobileMapControl .TimeDistributionBarPlot {
   overflow-x: auto;
-  touch-action: pan-x;
+  touch-action: auto;
   -webkit-overflow-scrolling: touch; /* iOS */
 }
 
@@ -1512,6 +1517,7 @@ button.v-pagination__navigation .theme--light.v-icon {
     left: 0 !important;
     width: 100vw;
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     background: rgba(38, 38, 38, 0.6);
   }
 

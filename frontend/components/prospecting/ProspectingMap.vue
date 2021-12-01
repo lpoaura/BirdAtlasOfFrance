@@ -10,6 +10,7 @@
       @ready="initiateEnvelope"
       @update:bounds="updateEnvelope"
       @update:zoom="updateZoom"
+      @update:center="updateCenter"
     >
       <!-- LAYERS -->
       <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && plan.isOn" -->
@@ -47,6 +48,7 @@
       />
       <!-- GEOJSON -->
       <l-geo-json
+        v-if="currentZoom <= 8"
         :geojson="regionsGeojson"
         :options-style="regionsGeojsonStyle"
       />
@@ -95,6 +97,7 @@
       >
         <knowledge-level-control
           v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
+          :current-territory="currentTerritory"
           :selected-season="selectedSeason"
         />
         <feature-dashboard-control
@@ -234,6 +237,7 @@
             <territories-selector
               :select-is-open="territoryIsOpen"
               :selected-territory="selectedTerritory"
+              @selectedTerritory="updateSelectedTerritory"
             />
           </div>
         </div>
@@ -347,7 +351,12 @@ export default {
       required: true,
     },
     selectedTerritory: {
-      // Territoire affiché (FrMet ou DOM-TOM)
+      // Territoire cliqué (FrMet ou DOM-TOM)
+      type: Object,
+      required: true,
+    },
+    currentTerritory: {
+      // Territoire sur lequel est centrée la carte (peut être non défini)
       type: Object,
       required: true,
     },
@@ -402,6 +411,8 @@ export default {
     // CONFIGURATION DES GEOJSON
     // Limites des régions
     regionsGeojson: null,
+    // Emprises des territoires
+    territoriesEnvelopes: null,
     // Indice de complétude
     knowledgeLevelGeojson: null,
     axiosSourceKnowledgeLevel: null,
@@ -644,10 +655,28 @@ export default {
       }
       this.$emit('clickedEpocPoint', null)
     },
+    selectedTerritory(newVal) {
+      if (newVal.name) {
+        const territory = L.geoJSON(
+          this.territoriesEnvelopes.features.filter((item) => {
+            return item.properties.area_name === newVal.name
+          })
+        )
+        this.isProgramaticZoom = true
+        this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
+      }
+    },
+  },
+  beforeMount() {
+    if (this.detectMobile()) {
+      // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+      const vh = window.innerHeight * 0.01
+      // Then we set the value in the --vh custom property to the root of the document
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+    }
   },
   mounted() {
     // console.log('mounted')
-    this.isProgramaticZoom = true
     if (this.$route.query.area && this.$route.query.type) {
       this.$axios
         .$get(
@@ -658,6 +687,7 @@ export default {
             this.searchedFeatureCode = this.$route.query.area
           }
           const area = L.geoJSON(data)
+          this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
         .catch((error) => {
@@ -678,6 +708,7 @@ export default {
           )
           .then((data) => {
             const territory = L.geoJSON(data)
+            this.isProgramaticZoom = true
             this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
           })
           .catch((error) => {
@@ -694,20 +725,29 @@ export default {
             console.log(error)
           })
       }
-      this.$axios
-        .$get(
-          '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true&envelope=-5.460205078125001,42.16340342422403,8.371582031250002,51.19999983412071'
-        )
-        .then((data) => {
-          this.regionsGeojson = data
-        })
-        .catch((error) => {
-          console.log(error)
-        })
     }
+    this.$axios
+      .$get(
+        '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true&envelope=-17.962646484375004,42.081916678306335,10.107421875000002,51.2206474303833'
+      )
+      .then((data) => {
+        this.regionsGeojson = data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    this.$axios
+      .$get('/api/v1/lareas/type/ATLAS_TERRITORY?bbox=true&only_enable=true')
+      .then((data) => {
+        this.territoriesEnvelopes = data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   },
   methods: {
     setGeolocation(position) {
+      this.isProgramaticZoom = true
       this.center = [position.coords.latitude, position.coords.longitude]
     },
     catchGeolocationError() {
@@ -718,6 +758,7 @@ export default {
         )
         .then((data) => {
           const territory = L.geoJSON(data)
+          this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
         })
         .catch((error) => {
@@ -767,6 +808,29 @@ export default {
         this.$emit('clickedFeature', null)
         this.$emit('clickedEpocPoint', null)
       }
+    },
+    updateCenter(newCenter) {
+      this.$axios
+        .$get(
+          `api/v1/lareas/position?coordinates=${newCenter.lng},${newCenter.lat}&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true`
+        )
+        .then((data) => {
+          if (data.id !== this.currentTerritory.id) {
+            this.$emit('currentTerritory', {
+              id: data.id,
+              name: data.properties.area_name,
+            })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          if (this.currentTerritory.id) {
+            this.$emit('currentTerritory', {
+              id: null,
+              name: null,
+            })
+          }
+        })
     },
     updateKnowledgeLevelGeojson() {
       // console.log('[updateGeojson]')
@@ -1019,6 +1083,24 @@ export default {
     closeTerritoriesBox() {
       this.territoryIsOpen = false
     },
+    updateSelectedTerritory(territory) {
+      this.$emit('selectedTerritory', territory)
+      this.territoryIsOpen = false
+    },
+    detectMobile() {
+      const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i,
+      ]
+      return toMatch.some((item) => {
+        return navigator.userAgent.match(item)
+      })
+    },
   },
 }
 </script>
@@ -1026,5 +1108,6 @@ export default {
 <style scoped>
 #map-wrap {
   height: calc(100vh - 136px);
+  height: calc(calc(var(--vh, 1vh) * 100) - 136px);
 }
 </style>
