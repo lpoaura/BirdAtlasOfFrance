@@ -183,3 +183,13 @@ class EpocSchema(FeatureCollection):
 
     class Config:
         orm_mode = True
+
+
+class TaxonCountClassesByTerritorySchema(BaseModel):
+
+    ntile: int
+    min: Optional[int]
+    max: Optional[int]
+
+    class Config:
+        orm_mode = True

@@ -8,7 +8,13 @@ from sqlalchemy.orm import Session
 
 from app.utils.db import get_db, settings
 
-from .actions import area_dashboard, area_knowledge_level, area_knowledge_taxa_list, epoc
+from .actions import (
+    area_dashboard,
+    area_knowledge_level,
+    area_knowledge_taxa_list,
+    epoc,
+    taxon_count_classes_by_territory,
+)
 from .schemas import (
     AreaDashboardIntersectAreas,
     AreaDashboardSchema,
@@ -20,6 +26,7 @@ from .schemas import (
     EpocFeaturePropertiesSchema,
     EpocFeatureSchema,
     EpocSchema,
+    TaxonCountClassesByTerritorySchema,
 )
 
 logger = logging.getLogger(__name__)
@@ -210,3 +217,22 @@ def epoc_list(
     logger.debug(f"step4: {(time.time() - start_time) * 1000}")
     logger.debug(f"EpocSchema type {type(EpocSchema(features=features))}")
     return EpocSchema(features=features)
+
+
+@router.get(
+    "/map/count_taxon_classes/{id_area}",
+    response_model=List[TaxonCountClassesByTerritorySchema],
+    tags=["prospecting"],
+    summary="Count taxon map classes",
+    description="""# Count taxon map classes
+
+Map representation classes to illustration taxon count by grid, using ntile method with 5 classes.
+    """,
+)
+def count_taxon_classes(
+    id_area: int, db: Session = Depends(get_db), period: Optional[str] = "all_period"
+) -> Any:
+    q = taxon_count_classes_by_territory.get_classes(db=db, id_area=id_area, period=period)
+    if len(q) == 0:
+        HTTPException(status_code=404, detail="Data not found")
+    return q
