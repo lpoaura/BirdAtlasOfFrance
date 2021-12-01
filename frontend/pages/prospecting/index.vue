@@ -3,6 +3,7 @@
     <div v-if="mobileMapControlIsOpen" class="MobileMapControl">
       <knowledge-level-control
         v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
+        :current-territory="currentTerritory"
         :selected-season="selectedSeason"
         @mobileMapControl="openOrCloseMobileMapControl"
       />
@@ -112,6 +113,7 @@
         :selected-season="selectedSeason"
         :selected-layer="selectedLayer"
         :selected-territory="selectedTerritory"
+        :current-territory="currentTerritory"
         :clicked-feature="clickedFeature"
         :clicked-epoc-point="clickedEpocPoint"
         :epoc-odf-official-is-on="epocOdfOfficialIsOn"
@@ -122,6 +124,7 @@
         @selectedSpecies="updateSelectedSpecies"
         @selectedSeason="updateSelectedSeason"
         @selectedLayer="updateSelectedLayer"
+        @currentTerritory="updateCurrentTerritory"
         @clickedFeature="updateClickedFeature"
         @clickedEpocPoint="updateClickedEpocPoint"
         @epocOdfOfficialIsOn="updateEpocOdfOfficial"
@@ -178,8 +181,13 @@ export default {
     },
     selectedLayer: 'Indice de complétude', // Couche sélectionnée
     selectedTerritory: {
-      // Territoire affiché (FrMet ou DOM-TOM)
+      // Territoire cliqué (FrMet ou DOM-TOM)
       name: 'France métropolitaine',
+    },
+    currentTerritory: {
+      // Territoire sur lequel est centrée la carte (peut être non défini)
+      id: null,
+      name: null,
     },
     clickedFeature: null, // On clique sur une maille
     clickedEpocPoint: null, // On clique sur un point EPOC
@@ -249,6 +257,9 @@ export default {
     },
     updateSelectedLayer(layer) {
       this.selectedLayer = layer
+    },
+    updateCurrentTerritory(territory) {
+      this.currentTerritory = territory
     },
     updateClickedFeature(feature) {
       this.clickedFeature = feature

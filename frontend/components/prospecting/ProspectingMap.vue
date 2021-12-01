@@ -10,6 +10,7 @@
       @ready="initiateEnvelope"
       @update:bounds="updateEnvelope"
       @update:zoom="updateZoom"
+      @update:center="updateCenter"
     >
       <!-- LAYERS -->
       <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && plan.isOn" -->
@@ -96,6 +97,7 @@
       >
         <knowledge-level-control
           v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
+          :current-territory="currentTerritory"
           :selected-season="selectedSeason"
         />
         <feature-dashboard-control
@@ -348,7 +350,12 @@ export default {
       required: true,
     },
     selectedTerritory: {
-      // Territoire affiché (FrMet ou DOM-TOM)
+      // Territoire cliqué (FrMet ou DOM-TOM)
+      type: Object,
+      required: true,
+    },
+    currentTerritory: {
+      // Territoire sur lequel est centrée la carte (peut être non défini)
       type: Object,
       required: true,
     },
@@ -779,6 +786,29 @@ export default {
         this.$emit('clickedFeature', null)
         this.$emit('clickedEpocPoint', null)
       }
+    },
+    updateCenter(newCenter) {
+      this.$axios
+        .$get(
+          `api/v1/lareas/position?coordinates=${newCenter.lng},${newCenter.lat}&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true`
+        )
+        .then((data) => {
+          if (data.id !== this.currentTerritory.id) {
+            this.$emit('currentTerritory', {
+              id: data.id,
+              name: data.properties.area_name,
+            })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          if (this.currentTerritory.id) {
+            this.$emit('currentTerritory', {
+              id: null,
+              name: null,
+            })
+          }
+        })
     },
     updateKnowledgeLevelGeojson() {
       // console.log('[updateGeojson]')
