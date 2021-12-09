@@ -19,6 +19,7 @@
     "@nuxtjs/pwa": "^3.0.2",
     "core-js": "^3.6.5",
     "d3": "^6.5.0",
+    "exifreader": "^4.1.0",
     "leaflet": "^1.7.1",
     "nuxt": "^2.14.6",
     "nuxt-clipboard": "0.0.4",

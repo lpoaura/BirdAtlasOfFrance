@@ -1,6 +1,15 @@
 <template>
   <main class="TopSection">
     <div class="TopSectionPicture">
+      <!-- <div
+      class="TopSectionPicture"
+      :style="{
+        '--largeUrl': homePicture.largeUrl,
+        '--mobileUrl': homePicture.mobileUrl,
+        '--largeFocus': `${homePicture.largeFocus}%`,
+        '--mobileFocus': `${homePicture.mobileFocus}%`,
+      }"
+    > -->
       <div class="PictureGradient"></div>
       <div class="TopSectionContent">
         <header>
@@ -18,7 +27,8 @@
       </div>
     </div>
     <h6 class="TopSectionPictureCredit white01 fw-300">
-      Photo : Phatéon à bec jaune, Florent Bignon
+      <!-- Photo : {{ homePicture.title }}, {{ homePicture.author }} -->
+      Photo : Phaéton à bec jaune, Florent Bignon
     </h6>
     <div class="MenuCardsContent">
       <nuxt-link
@@ -36,12 +46,22 @@
 
 <script>
 import SearchBar from '~/components/home/SearchBar.vue'
+// const ExifReader = require('exifreader')
 
 export default {
   components: {
     'search-bar': SearchBar,
   },
   data: () => ({
+    randomInt: 0,
+    homePicture: {
+      title: '',
+      author: '',
+      largeUrl: '',
+      mobileUrl: '',
+      largeFocus: 0,
+      mobileFocus: 0,
+    },
     cards: [
       // {
       //   icon: '/book.svg',
@@ -65,14 +85,35 @@ export default {
       },
     ],
   }),
+  // created() {
+  //   this.randomInt = Math.floor(Math.random() * 5)
+  //   console.log(this.randomInt)
+  //   // this.randomInt = 5
+  //   this.homePicture.largeUrl = `url('/home/home-picture-${this.randomInt}.jpg')`
+  //   this.homePicture.mobileUrl = `url('/home/home-picture-${this.randomInt}-mobile.jpg')`
+  //   ExifReader.load(`/home/home-picture-${this.randomInt.toString()}.jpg`).then(
+  //     (tags) => {
+  //       this.homePicture.title = tags.title.description
+  //       this.homePicture.author = tags.creator.description.replace(
+  //         'type="Seq" ',
+  //         ''
+  //       )
+  //       // console.log(tags)
+  //       // console.log(this.homePicture.title)
+  //       // console.log(this.homePicture.author)
+  //       // console.log(JSON.parse(tags.description.description))
+  //       const focusing = JSON.parse(tags.description.description)
+  //       this.homePicture.largeFocus = focusing.large
+  //       this.homePicture.mobileFocus = focusing.mobile
+  //     }
+  //   )
+  // },
 }
 </script>
 
 <style scoped>
 .TopSection {
   position: relative;
-
-  /* height: clamp(580px, 94vh, 784px); */
   min-height: 580px;
   height: 94vh;
   max-height: 784px;
@@ -86,7 +127,9 @@ export default {
       #3957a4 0%,
       rgba(57, 87, 164, 0) 69.37%
     ),
-    url('/home/home-picture.jpg') center / cover, #3957a4;
+    url('/home/home-picture-0.jpg') center / cover, #3957a4;
+
+  /* var(--largeUrl) center / cover, #3957a4; */
   width: 100%;
   height: 86%;
   display: flex;
@@ -154,7 +197,10 @@ export default {
         #3957a4 0%,
         rgba(57, 87, 164, 0) 69.37%
       ),
-      url('/home/home-picture.jpg') 66% / cover, #3957a4;
+      url('/home/home-picture-0.jpg') 66% / cover, #3957a4;
+
+    /* var(--largeUrl) var(--largeFocus) / cover, #3957a4;
+    var(--largeUrl) 100% / cover, #3957a4; */
   }
 
   .TopSectionContent {
@@ -192,7 +238,10 @@ export default {
         #3957a4 0%,
         rgba(57, 87, 164, 0) 69.37%
       ),
-      url('/home/home-picture-mobile.jpg') 70% / cover, #3957a4;
+      url('/home/home-picture-0-mobile.jpg') 70% / cover, #3957a4;
+
+    /* var(--mobileUrl) var(--mobileFocus) / cover, #3957a4;
+    var(--mobileUrl) 100% / cover, #3957a4; */
   }
 
   .PictureGradient {

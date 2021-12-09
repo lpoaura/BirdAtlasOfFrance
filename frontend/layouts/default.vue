@@ -117,8 +117,11 @@ export default {
       this.displayMobileMenu = true
     },
     hideMobileMenu() {
-      document.documentElement.style.removeProperty('overflow')
-      document.body.style.removeProperty('position')
+      if (!this.$route.path.includes('/prospecting')) {
+        // Si on sélectionne un onglet (excepté l'onglet "Carte")
+        document.documentElement.style.removeProperty('overflow')
+        document.body.style.removeProperty('position')
+      }
       document.body.style.removeProperty('top')
       if (this.currentPath === this.$route.path) {
         // Si on ferme le menu mobile sans changer de page
