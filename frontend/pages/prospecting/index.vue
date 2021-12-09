@@ -3,6 +3,7 @@
     <div v-if="mobileMapControlIsOpen" class="MobileMapControl">
       <knowledge-level-control
         v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
+        :current-territory="currentTerritory"
         :selected-season="selectedSeason"
         @mobileMapControl="openOrCloseMobileMapControl"
       />
@@ -92,7 +93,7 @@
             @click="openOrCloseTerritoriesBox"
           >
             <img class="MapSelectorIcon" src="/location.svg" />
-            <h5 class="fw-600 right-margin-12">{{ selectedTerritory.name }}</h5>
+            <h5 class="fw-600 right-margin-12">Territoires</h5>
             <img
               class="MapSelectorChevron"
               :src="territoryIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
@@ -101,6 +102,7 @@
           <territories-selector
             :select-is-open="territoryIsOpen"
             :selected-territory="selectedTerritory"
+            @selectedTerritory="updateSelectedTerritory"
           />
         </div>
       </div>
@@ -112,6 +114,7 @@
         :selected-season="selectedSeason"
         :selected-layer="selectedLayer"
         :selected-territory="selectedTerritory"
+        :current-territory="currentTerritory"
         :clicked-feature="clickedFeature"
         :clicked-epoc-point="clickedEpocPoint"
         :epoc-odf-official-is-on="epocOdfOfficialIsOn"
@@ -122,6 +125,8 @@
         @selectedSpecies="updateSelectedSpecies"
         @selectedSeason="updateSelectedSeason"
         @selectedLayer="updateSelectedLayer"
+        @selectedTerritory="updateSelectedTerritory"
+        @currentTerritory="updateCurrentTerritory"
         @clickedFeature="updateClickedFeature"
         @clickedEpocPoint="updateClickedEpocPoint"
         @epocOdfOfficialIsOn="updateEpocOdfOfficial"
@@ -178,8 +183,15 @@ export default {
     },
     selectedLayer: 'Indice de complétude', // Couche sélectionnée
     selectedTerritory: {
-      // Territoire affiché (FrMet ou DOM-TOM)
-      name: 'France métropolitaine',
+      // Territoire cliqué (FrMet ou DOM-TOM)
+      name: null,
+      icon: null,
+      isActive: null,
+    },
+    currentTerritory: {
+      // Territoire sur lequel est centrée la carte (peut être non défini)
+      id: null,
+      name: null,
     },
     clickedFeature: null, // On clique sur une maille
     clickedEpocPoint: null, // On clique sur un point EPOC
@@ -225,6 +237,14 @@ export default {
     // MOBILE
     mobileMapControlIsOpen: false,
   }),
+  mounted() {
+    document.documentElement.style.overflow = 'hidden'
+    document.body.style.position = 'fixed' // Needed for iOS
+  },
+  beforeDestroy() {
+    document.documentElement.style.removeProperty('overflow')
+    document.body.style.removeProperty('position')
+  },
   methods: {
     updateSelectedArea(data) {
       this.selectedArea = data
@@ -241,6 +261,23 @@ export default {
     },
     updateSelectedLayer(layer) {
       this.selectedLayer = layer
+    },
+    updateSelectedTerritory(territory) {
+      this.selectedTerritory = territory
+      this.territoryIsOpen = false
+    },
+    updateCurrentTerritory(territory) {
+      this.currentTerritory = territory
+      if (
+        this.selectedTerritory.name &&
+        this.currentTerritory.name !== this.selectedTerritory.name
+      ) {
+        this.selectedTerritory = {
+          name: null,
+          icon: null,
+          isActive: null,
+        }
+      }
     },
     updateClickedFeature(feature) {
       this.clickedFeature = feature
