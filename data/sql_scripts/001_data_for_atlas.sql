@@ -53,6 +53,7 @@ $$
           , (tcse.bird_breed_code BETWEEN 2 AND 50
             AND synthese.date_min >= '2019-01-01')  AS new_data_breeding
           , tcse.bird_breed_code
+        ,  'Migration active' = ANY (tcse.behaviour) as active_migration
             FROM
                 gn_synthese.synthese
                     JOIN cor_area_synthese ON cor_area_synthese.id_synthese = synthese.id_synthese
@@ -136,4 +137,7 @@ $$
     END
 $$
 ;
+
+
+grant select on all tables in SCHEMA atlas to odfapp    ;
 
