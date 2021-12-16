@@ -36,9 +36,10 @@ Attributed in gn_vn2synthese scripts, validation status is defined as follow:
 * When data is under verification or submitted (but not accepted) to Certification Committee, then data is doubtful and excluded from atlas.
 * Else, data is probable and included in atlas.
 
-Source script:
+Source script from  [gn_vn2synthese](https://github.com/lpoaura/gn_vn2synthese/):
 
 ```sql
+    ...
     SELECT
         -- When chr or chn accepted then certain, when admin_hidden then is douteux else probable.
         CASE
@@ -53,12 +54,34 @@ Source script:
                 ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '2')
             END
         INTO the_id_nomenclature_valid_status;
-
+    ...
 ```
 
 ### Observation status
 
-Coming soon...
+* Absent when :
+  * count = 0 and estimation code like 'EXACT_VALUE
+  * or atlas_code = '99'
+* Else Present
+
+Source script from [gn_vn2synthese](https://github.com/lpoaura/gn_vn2synthese/):
+
+```sql
+    ...
+    SELECT
+        CASE
+            -- Absent when (count = 0 and estimation code like EXACT_VALUE) or atlas_code = '99'
+            WHEN ((new.item #>> '{observers,0,count}' = '0'
+                AND new.item #>> '{observers,0,estimation_code}' LIKE 'EXACT_VALUE') OR
+                  (new.item #>> '{observers,0,atlas_code}' = '99')) THEN
+                ref_nomenclatures.get_id_nomenclature('STATUT_OBS', 'No')
+            ELSE
+                -- Else Present
+                ref_nomenclatures.get_id_nomenclature('STATUT_OBS', 'Pr')
+            END
+        INTO the_id_nomenclature_observation_status;
+    ...
+```
 
 ### Period attribution
 
