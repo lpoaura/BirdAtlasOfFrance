@@ -22,9 +22,8 @@ export default {
     newsContent: '',
   }),
   mounted() {
-    this.newsContent = document.getElementsByClassName(
-      'nuxt-content'
-    )[0].textContent
+    this.newsContent =
+      document.getElementsByClassName('nuxt-content')[0].textContent
   },
   head() {
     const newsContent = this.newsContent

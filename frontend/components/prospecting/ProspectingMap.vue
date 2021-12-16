@@ -295,15 +295,6 @@
 </template>
 
 <script>
-import L from 'leaflet'
-import {
-  LMap,
-  LGeoJson,
-  LControl,
-  LTileLayer,
-  // LWMSTileLayer,
-} from 'vue2-leaflet'
-// import 'leaflet/dist/leaflet.css'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
 import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
@@ -314,11 +305,6 @@ import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vu
 
 export default {
   components: {
-    LMap,
-    LGeoJson,
-    LControl,
-    'l-tile-layer': LTileLayer,
-    // 'l-wms-tile-layer': LWMSTileLayer,
     'knowledge-level-control': KnowledgeLevelControl,
     'feature-dashboard-control': FeatureDashboardControl,
     'epoc-dashboard-control': EpocDashboardControl,

@@ -75,13 +75,11 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       {
         rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=Playfair+Display:300,400,500,600,700,800,900&display=swap',
+        href: 'https://fonts.googleapis.com/css?family=Playfair+Display:300,400,500,600,700,800,900&display=swap',
       },
       {
         rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap',
+        href: 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap',
       },
     ],
   },
@@ -101,6 +99,7 @@ export default {
     '~/plugins/getPageTitle.js',
     '~/plugins/departmentsList.js',
     '~/plugins/debounce.js',
+    { src: '~/plugins/vueLeaflet.js', ssr: false },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -120,13 +119,11 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/i18n',
     'nuxt-leaflet',
     '@nuxt/content',
-    // 'nuxt-i18n',
     'nuxt-mail',
     'nuxt-clipboard',
     [
