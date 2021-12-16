@@ -141,11 +141,10 @@ export default {
       }
     },
     calculateMaxOffset() {
-      const totalCardsWidth = document.getElementsByClassName('Carousel')[0]
-        .offsetWidth
-      const carouselWrapperWidth = document.getElementsByClassName(
-        'CarouselWrapper'
-      )[0].offsetWidth
+      const totalCardsWidth =
+        document.getElementsByClassName('Carousel')[0].offsetWidth
+      const carouselWrapperWidth =
+        document.getElementsByClassName('CarouselWrapper')[0].offsetWidth
       if (totalCardsWidth > carouselWrapperWidth) {
         return -(totalCardsWidth - carouselWrapperWidth)
       } else {
@@ -153,8 +152,8 @@ export default {
       }
     },
     calculateCardWidth() {
-      const cardWidth = document.getElementsByClassName('NewsCard')[0]
-        .offsetWidth
+      const cardWidth =
+        document.getElementsByClassName('NewsCard')[0].offsetWidth
       const cardMarginRight = parseFloat(
         window.getComputedStyle(document.getElementsByClassName('NewsCard')[0])
           .marginRight

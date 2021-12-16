@@ -4,13 +4,13 @@ module.exports = {
     browser: true,
     node: true,
   },
+  requireConfigFile: false,
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
   },
   extends: [
     '@nuxtjs',
     'prettier',
-    'prettier/vue',
     'plugin:prettier/recommended',
     'plugin:nuxt/recommended',
   ],
