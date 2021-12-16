@@ -19,9 +19,9 @@ class TaxaDistributionFeaturesCollection(FeatureCollection):
         orm_mode = True
 
 
-class TaxaAltitudeDistributionSchema(BaseModel):
-    range: List
-    count: int
+# class TaxaAltitudeDistributionSchema(BaseModel):
+#     range: List
+#     count: int
 
-    class Config:
-        orm_mode = True
+#     class Config:
+#         orm_mode = True
