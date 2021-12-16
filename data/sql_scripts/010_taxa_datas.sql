@@ -1,16 +1,18 @@
 /*
 TAXA DATAS
 -----
-Distribution
-TODO: Altitude distribution, actually returns 21 classes...
-
-
+Taxa relative data (generally by atlas territories)
+* Altitude distribution:
+    TODO: Altitude distribution, actually returns 21 classes...
+* ...
  */
+
 
 
 DO
 $$
     BEGIN
+        set WORK_MEM = '10GB' ;
         /* Vue matérialisée finale */
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_territory_altitude_ranges;
         CREATE MATERIALIZED VIEW atlas.mv_territory_altitude_ranges AS
@@ -46,7 +48,6 @@ $$
 
         CREATE UNIQUE INDEX ON atlas.mv_territory_altitude_ranges (id);
 
-        SELECT * FROM atlas.mv_territory_altitude_ranges;
 
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_alti_distribution;
         CREATE MATERIALIZED VIEW atlas.mv_alti_distribution AS
@@ -81,22 +82,23 @@ $$
 $$
 ;
 
-SELECT *
-    FROM
-        atlas.mv_alti_distribution
-;
-
-GRANT SELECT ON atlas.mv_alti_distribution TO odfapp
-;
-
-SELECT
-    atlas.mv_alti_distribution.range AS atlas_mv_alti_distribution_range
-  , atlas.mv_alti_distribution.count AS atlas_mv_alti_distribution_count
-    FROM
-        atlas.mv_alti_distribution
-    WHERE
-        atlas.mv_alti_distribution.id_area = 87138
-;
+--
+-- SELECT *
+--     FROM
+--         atlas.mv_alti_distribution
+-- ;
+--
+-- GRANT SELECT ON atlas.mv_alti_distribution TO odfapp
+-- ;
+--
+-- SELECT
+--     atlas.mv_alti_distribution.range AS atlas_mv_alti_distribution_range
+--   , atlas.mv_alti_distribution.count AS atlas_mv_alti_distribution_count
+--     FROM
+--         atlas.mv_alti_distribution
+--     WHERE
+--         atlas.mv_alti_distribution.id_area = 87138
+-- ;
 
 --
 -- SELECT
@@ -286,46 +288,46 @@ SELECT
 --     GROUP BY
 --         id_area
 --       , cd_nom
-
-CREATE TABLE tmp.max_alti_by_territory AS
-SELECT
-    cor_area_synthese.id_area
-  , (max(mv_data_for_atlas.altitude) + (20 - mod(max(mv_data_for_atlas.altitude), 20))) AS alti
-    FROM
-        atlas.mv_data_for_atlas
-            JOIN gn_synthese.cor_area_synthese
-                 ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
-    WHERE
-            cor_area_synthese.id_area IN (
-            SELECT
-                id_area
-                FROM
-                    ref_geo.l_areas
-                WHERE
-                      id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
-                  AND enable)
-    GROUP BY
-        cor_area_synthese.id_area
-;
-
-SELECT
-    row_number() OVER ()                                       AS id
-  , id_area
-  , int4range(i, i + (SELECT round(alti, -2) / 20)::INT, '[)') AS range
-    FROM
-        tmp.max_alti_by_territory
-            CROSS JOIN generate_series(0, round(alti, -2)::int,
-                                       (round(alti, -2) / 20)::INT) t(i)
-;
-
-SELECT *
-    FROM
-        tmp.max_alti_by_territory
-;
-
-SELECT
-    alti
-  , ceil(alti / pow(20, 2)) * pow(20, 2)
-  , ceil(alti / pow(20, 2)) * pow(20, 2)/20
-    FROM
-        tmp.max_alti_by_territory;
+--
+-- CREATE TABLE tmp.max_alti_by_territory AS
+-- SELECT
+--     cor_area_synthese.id_area
+--   , (max(mv_data_for_atlas.altitude) + (20 - mod(max(mv_data_for_atlas.altitude), 20))) AS alti
+--     FROM
+--         atlas.mv_data_for_atlas
+--             JOIN gn_synthese.cor_area_synthese
+--                  ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
+--     WHERE
+--             cor_area_synthese.id_area IN (
+--             SELECT
+--                 id_area
+--                 FROM
+--                     ref_geo.l_areas
+--                 WHERE
+--                       id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
+--                   AND enable)
+--     GROUP BY
+--         cor_area_synthese.id_area
+-- ;
+--
+-- SELECT
+--     row_number() OVER ()                                       AS id
+--   , id_area
+--   , int4range(i, i + (SELECT round(alti, -2) / 20)::INT, '[)') AS range
+--     FROM
+--         tmp.max_alti_by_territory
+--             CROSS JOIN generate_series(0, round(alti, -2)::int,
+--                                        (round(alti, -2) / 20)::INT) t(i)
+-- ;
+--
+-- SELECT *
+--     FROM
+--         tmp.max_alti_by_territory
+-- ;
+--
+-- SELECT
+--     alti
+--   , ceil(alti / pow(20, 2)) * pow(20, 2)
+--   , ceil(alti / pow(20, 2)) * pow(20, 2)/20
+--     FROM
+--         tmp.max_alti_by_territory;
