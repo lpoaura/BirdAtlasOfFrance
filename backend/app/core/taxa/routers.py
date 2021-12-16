@@ -9,10 +9,10 @@ from starlette.status import HTTP_404_NOT_FOUND
 
 from app.utils.db import get_db
 
-from .actions import altitude_distrib, taxa_distrib
-from .schemas import (
-    FeatureCollection,
-    TaxaAltitudeDistributionSchema,
+from .actions import taxa_distrib
+
+# from .actions import  taxa_distrib, altitude_distrib
+from .schemas import (  # FeatureCollection,; TaxaAltitudeDistributionSchema,
     TaxaDistributionFeature,
     TaxaDistributionFeaturesCollection,
 )
@@ -71,31 +71,31 @@ def list_lareas(
     return TaxaDistributionFeaturesCollection(features=features)
 
 
-@router.get(
-    "/data/altitudes/{id_area}",
-    response_model=TaxaAltitudeDistributionSchema,
-    tags=["taxa"],
-    summary="taxon geographic distribution",
-    description="""# Taxon geographic distribution
+# @router.get(
+#     "/data/altitudes/{id_area}",
+#     response_model=TaxaAltitudeDistributionSchema,
+#     tags=["taxa"],
+#     summary="taxon geographic distribution",
+#     description="""# Taxon geographic distribution
 
-This returns grid centroids with taxon presence for old or new atlas. For breeding period, status returned is breeding status.
+# This returns grid centroids with taxon presence for old or new atlas. For breeding period, status returned is breeding status.
 
-Period choices must be one of following choices :
-* `breeding_new`: Breeding presence and status for new atlas 
-* `breeding_old`: Breeding presence and status from previous atlas 
-* `wintering_new`: Wintering presence for new atlas
-* `wintering_old`: Wintering presence from previous atlas
-* `all_period_new`: All period presence for new atlas
-* `all_period_old`: All period presence from previous atlas
-""",
-)
-def altitude_distribution(
-    id_area: int,
-    cd_nom: int = None,
-    db: Session = Depends(get_db),
-) -> Any:
-    # for a in areas:
-    #     f = TaxaDistributionFeature(**a)
-    #     features.append(f)
-    # collection = TaxaDistributionFeatureCollection(features=features)
-    return altitude_distrib.taxa_alti_distribution(db=db, id_area=id_area, cd_nom=cd_nom)
+# Period choices must be one of following choices :
+# * `breeding_new`: Breeding presence and status for new atlas
+# * `breeding_old`: Breeding presence and status from previous atlas
+# * `wintering_new`: Wintering presence for new atlas
+# * `wintering_old`: Wintering presence from previous atlas
+# * `all_period_new`: All period presence for new atlas
+# * `all_period_old`: All period presence from previous atlas
+# """,
+# )
+# def altitude_distribution(
+#     id_area: int,
+#     cd_nom: int = None,
+#     db: Session = Depends(get_db),
+# ) -> Any:
+#     # for a in areas:
+#     #     f = TaxaDistributionFeature(**a)
+#     #     features.append(f)
+#     # collection = TaxaDistributionFeatureCollection(features=features)
+#     return altitude_distrib.taxa_alti_distribution(db=db, id_area=id_area, cd_nom=cd_nom)
