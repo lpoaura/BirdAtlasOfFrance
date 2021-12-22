@@ -13,6 +13,7 @@ from .actions import (
     area_knowledge_level,
     area_knowledge_taxa_list,
     epoc,
+    realized_epoc,
     taxon_count_classes_by_territory,
 )
 from .schemas import (
@@ -26,6 +27,9 @@ from .schemas import (
     EpocFeaturePropertiesSchema,
     EpocFeatureSchema,
     EpocSchema,
+    RealizedEpocFeaturePropertiesSchema,
+    RealizedEpocFeatureSchema,
+    RealizedEpocSchema,
     TaxonCountClassesByTerritorySchema,
 )
 
@@ -217,6 +221,50 @@ def epoc_list(
     logger.debug(f"step4: {(time.time() - start_time) * 1000}")
     logger.debug(f"EpocSchema type {type(EpocSchema(features=features))}")
     return EpocSchema(features=features)
+
+
+@router.get(
+    "/epoc/realized",
+    response_model=RealizedEpocSchema,
+    tags=["prospecting"],
+    summary="Realized EPOC geolocation",
+    description="""# Realized EPOC protocol geolocation
+
+Realized EPOC points, from "EPOC..." project codes ("**EPOC**" vs "**EPOC-ODF**")
+
+Project code can be optionaly optionally using the query string `project_code=...` . Project code filter must be one of the following:
+* `EPOC`
+* `EPOC-ODF`
+    """,
+)
+def realized_epoc_list(
+    db: Session = Depends(get_db),
+    project_code: Optional[str] = None,
+    id_area: Optional[int] = None,
+    envelope: Optional[str] = None,
+) -> Any:
+    start_time = time.time()
+    envelope = [float(c) for c in envelope.split(",")] if envelope else None
+    epocs = realized_epoc.get_realized_epocs(
+        db=db, envelope=envelope, project_code=project_code, id_area=id_area
+    )
+    features = []
+    if len(epocs) == 0:
+        HTTPException(status_code=404, detail="Data not found")
+    logger.debug(f"step3: {(time.time() - start_time) * 1000}")
+    for e in epocs:
+        de = e._asdict()
+        geojson = de.pop("geometry", None)
+        logger.debug(f"GeoJSON {type(geojson)} {geojson}")
+        f = RealizedEpocFeatureSchema(
+            properties=(RealizedEpocFeaturePropertiesSchema(**de)),
+            geometry=json.loads(geojson),
+            id=e.id,
+        )
+        features.append(f)
+    logger.debug(f"step4: {(time.time() - start_time) * 1000}")
+    logger.debug(f"RealizedEpocSchema type {type(RealizedEpocSchema(features=features))}")
+    return RealizedEpocSchema(features=features)
 
 
 @router.get(
