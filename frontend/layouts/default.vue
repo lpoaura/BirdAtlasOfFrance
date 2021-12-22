@@ -156,6 +156,7 @@ export default {
 .navBar-leave-active {
   transition: opacity 0.3s;
 }
+
 .navBar-enter,
 .navBar-leave-to {
   opacity: 0;

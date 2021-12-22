@@ -314,6 +314,7 @@ export default {
   .AutocompleteWrapper input.large {
     display: none;
   }
+
   .AutocompleteWrapper input.small {
     display: flex;
   }
