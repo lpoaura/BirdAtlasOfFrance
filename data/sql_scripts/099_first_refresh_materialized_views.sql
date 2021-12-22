@@ -44,7 +44,8 @@ $$
         REFRESH MATERIALIZED VIEW atlas.mv_general_stats;
         RAISE INFO '-- % -- INTERVAL FROM START SCRIPT', delta;
         RAISE INFO '-- % -- END SCRIPT', clock_timestamp();
-        REFRESH MATERIALIZED VIEW atlas.mv_taxon_count_classes_by_territory;
+--         REFRESH MATERIALIZED VIEW atlas.mv_taxon_count_classes_by_territory;
+        REFRESH MATERIALIZED VIEW atlas.mv_realized_epoc;
         COMMIT;
     END
 $$
