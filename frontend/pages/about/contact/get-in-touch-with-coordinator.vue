@@ -132,6 +132,11 @@ export default {
     validForm: false,
     disabledButton: false,
   }),
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
+  },
   mounted() {
     this.captchaRef = this.$generateCaptcha()
   },
@@ -209,11 +214,6 @@ export default {
     deleteAlertMessage() {
       this.alertMessage = null
     },
-  },
-  head() {
-    return {
-      title: this.$getPageTitle(this.$route.path),
-    }
   },
 }
 </script>

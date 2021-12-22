@@ -21,10 +21,6 @@ export default {
   data: () => ({
     newsContent: '',
   }),
-  mounted() {
-    this.newsContent =
-      document.getElementsByClassName('nuxt-content')[0].textContent
-  },
   head() {
     const newsContent = this.newsContent
     const route = this.$route
@@ -88,6 +84,10 @@ export default {
         },
       ],
     }
+  },
+  mounted() {
+    this.newsContent =
+      document.getElementsByClassName('nuxt-content')[0].textContent
   },
 }
 </script>

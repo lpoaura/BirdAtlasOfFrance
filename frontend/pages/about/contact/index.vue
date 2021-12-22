@@ -74,15 +74,15 @@ export default {
     ],
     isSelected: false,
   }),
-  methods: {
-    updateIsSelected() {
-      this.isSelected = true
-    },
-  },
   head() {
     return {
       title: this.$getPageTitle(this.$route.path),
     }
+  },
+  methods: {
+    updateIsSelected() {
+      this.isSelected = true
+    },
   },
 }
 </script>
