@@ -108,7 +108,7 @@ export default {
 }
 
 .Section {
-  padding: 32px 5% 40px 5%;
+  padding: 32px 5% 40px;
   align-items: center;
 }
 

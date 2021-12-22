@@ -479,9 +479,8 @@ export default {
   }),
   computed: {
     filteredSpecies() {
-      let filteredSpecies = this.featureTaxaList[
-        this.selectedSpeciesStatus.value
-      ]
+      let filteredSpecies =
+        this.featureTaxaList[this.selectedSpeciesStatus.value]
       if (this.search.length > 0) {
         filteredSpecies = this.featureTaxaList[
           this.selectedSpeciesStatus.value
@@ -738,10 +737,8 @@ export default {
       // console.log('----------------------------------------')
       // console.log('ID : ' + this.featureID)
       this.featureProperties = feature.properties
-      this.featureProperties.area_name = this.featureProperties.area_name.replace(
-        '10kmL93',
-        ''
-      )
+      this.featureProperties.area_name =
+        this.featureProperties.area_name.replace('10kmL93', '')
       // console.log('Properties :')
       // console.log(this.featureProperties)
       this.$router.push({
@@ -888,7 +885,6 @@ export default {
 }
 
 .TableHeader.fixed {
-  position: -webkit-sticky;
   position: sticky;
   z-index: 1; /* Pour que les .Dot ne passent pas par-dessus */
   top: 0;
@@ -956,12 +952,15 @@ span.TableColumn.small {
   border-radius: 50%;
   margin-right: 10px;
 }
+
 .Dot.possible {
   background: #eece25;
 }
+
 .Dot.probable {
   background: #eb6a0a;
 }
+
 .Dot.certain {
   background: #932747;
 }
@@ -1044,6 +1043,7 @@ span.TableColumn.small {
     min-height: 20px;
     max-height: 20px;
   }
+
   .PhenologyItem span {
     font-size: 12px;
     line-height: 18px;
