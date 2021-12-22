@@ -136,6 +136,16 @@ class AreaDashboardTimeDistribSchema(BaseModel):
         orm_mode = True
 
 
+class AreaDashboardIntersectAreas(BaseModel):
+
+    id_area: str
+    area_code: str
+    area_name: str
+
+    class Config:
+        orm_mode = True
+
+
 class EpocFeaturePropertiesSchema(BaseModel):
     """[summary]
 
@@ -147,16 +157,6 @@ class EpocFeaturePropertiesSchema(BaseModel):
     id_ff: str
     status: str
     rang_rsv: Optional[int]
-
-    class Config:
-        orm_mode = True
-
-
-class AreaDashboardIntersectAreas(BaseModel):
-
-    id_area: str
-    area_code: str
-    area_name: str
 
     class Config:
         orm_mode = True
@@ -180,6 +180,45 @@ class EpocSchema(FeatureCollection):
     """
 
     features: List[EpocFeatureSchema]
+
+    class Config:
+        orm_mode = True
+
+
+class RealizedEpocFeaturePropertiesSchema(BaseModel):
+    """[summary]
+
+    Args:
+        BaseModel ([type]): [description]
+    """
+
+    project_code: str
+    timelength_secs: int
+    date: datetime.date
+    time: datetime.time
+
+    class Config:
+        orm_mode = True
+
+
+class RealizedEpocFeatureSchema(Feature):
+    """[summary]
+
+    Args:
+        Feature ([type]): [description]
+    """
+
+    properties: RealizedEpocFeaturePropertiesSchema
+
+
+class RealizedEpocSchema(FeatureCollection):
+    """[summary]
+
+    Args:
+        FeatureCollection ([type]): [description]
+    """
+
+    features: List[RealizedEpocFeatureSchema]
 
     class Config:
         orm_mode = True

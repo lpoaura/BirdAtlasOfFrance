@@ -13,7 +13,13 @@ from app.core.commons.models import AreaKnowledgeTaxaList, DataForAtlas
 from app.core.ref_geo.actions import bib_areas_types
 from app.core.ref_geo.models import BibAreasTypes, LAreas
 
-from .models import AreaDashboard, AreaKnowledgeLevel, Epoc, TaxonCountClassesByTerritory
+from .models import (
+    AreaDashboard,
+    AreaKnowledgeLevel,
+    Epoc,
+    RealizedEpoc,
+    TaxonCountClassesByTerritory,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -281,6 +287,50 @@ class EpocActions(BaseReadOnlyActions[Epoc]):
         return q.all()
 
 
+class RealizedEpocActions(BaseReadOnlyActions[RealizedEpoc]):
+    def get_realized_epocs(
+        self,
+        db: Session,
+        id_area: Optional[int] = None,
+        project_code: Optional[str] = None,
+        envelope: Optional[List] = None,
+    ) -> List:
+        """[summary]
+
+        Args:
+            db (Session): DB Session
+            envelope (Optional[List], optional): Filtering by bounding box. Defaults to None.
+            id_area (Optional[int], optional): Filtering by area. Defaults to None.
+            status (Optional[str], optional): Filtering by status. Defaults to None
+
+        Returns:
+            Query: Return
+        """
+        q = db.query(
+            RealizedEpoc.id,
+            RealizedEpoc.project_code,
+            RealizedEpoc.timelength_secs,
+            RealizedEpoc.date,
+            RealizedEpoc.time,
+            functions.ST_AsGeoJSON(RealizedEpoc.geom).label("geometry"),
+        )
+        q = q.filter(RealizedEpoc.project_code == project_code) if project_code else q
+        q = q.filter(RealizedEpoc.id_area == id_area) if id_area else q
+        q = (
+            q.filter(
+                functions.ST_Intersects(
+                    RealizedEpoc.geom,
+                    functions.ST_MakeEnvelope(
+                        envelope[0], envelope[1], envelope[2], envelope[3], 4326
+                    ),
+                ),
+            )
+            if envelope
+            else q
+        )
+        return q.all()
+
+
 class TaxonCountClassesByTerritoryActions(BaseReadOnlyActions[TaxonCountClassesByTerritory]):
     def get_classes(self, db: Session, id_area: int, period: str = "all_period") -> List:
         """[summary]
@@ -310,6 +360,7 @@ area_knowledge_level = AreaKnowledgeLevelActions(AreaKnowledgeLevel)
 area_knowledge_taxa_list = AreaKnowledgeTaxaListActions(AreaKnowledgeTaxaList)
 area_dashboard = AreaDashboardActions(AreaDashboard)
 epoc = EpocActions(Epoc)
+realized_epoc = RealizedEpocActions(RealizedEpoc)
 taxon_count_classes_by_territory = TaxonCountClassesByTerritoryActions(
     TaxonCountClassesByTerritory
 )

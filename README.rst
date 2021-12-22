@@ -19,9 +19,6 @@ A LPO Agir pour la Biodiversité France project.
 
 .. contents:: **Topics**
 
-.. warning::
-    Currently in development.
-
 Project Setup
 =============
 
@@ -35,12 +32,14 @@ Licence
 Team
 ====
 
-* `@eguilley <https://github.com/eguilley>`_ (`LPO Auvergne-Rhône-Alpes <https://github.com/lpoaura/>`_), project manager/main developer
-* `@lpofredc <https://github.com/lpofredc/>`_ (`LPO Auvergne-Rhône-Alpes <https://github.com/lpoaura/>`_), main developer
+* `@eguilley <https://github.com/eguilley>`_ (`LPO Auvergne-Rhône-Alpes <https://github.com/lpoaura/>`_), project manager/lead developer
+* `@lpofredc <https://github.com/lpofredc/>`_ (`LPO Auvergne-Rhône-Alpes <https://github.com/lpoaura/>`_), lead developer
+* `@afourneyron <https://github.com/afourneyron>`_ (`LPO Auvergne-Rhône-Alpes <https://github.com/lpoaura/>`_), data manager
 * `@jgc <https://github.com/jgc>`_ (`LPO Auvergne-Rhône-Alpes <https://github.com/lpoaura/>`_), coordinator
 
 .. image:: https://raw.githubusercontent.com/lpoaura/biodivsport-widget/master/images/LPO_AuRA_l250px.png
     :align: center
     :height: 100px
     :alt: Logo LPOAuRA
+
 
