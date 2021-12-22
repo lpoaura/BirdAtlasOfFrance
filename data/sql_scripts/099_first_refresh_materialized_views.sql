@@ -49,4 +49,3 @@ $$
     END
 $$
 ;
-REFRESH MATERIALIZED VIEW atlas.mv_forms_for_atlas;
