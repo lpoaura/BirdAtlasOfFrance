@@ -9,7 +9,12 @@ $$
     BEGIN
         /* Vue matérialisée finale */
 --         INSERT INTO
---             gn_synthese.t_sources (name_source, desc_source, meta_create_date, meta_update_date)
+--             gn_synthese.t_sources (
+--                  name_source,
+--                  desc_source,
+--                  meta_create_date,
+--                  meta_update_date
+--                  )
 --         SELECT DISTINCT
 --             source
 --           , source
@@ -101,18 +106,34 @@ $$
                     JOIN ref_geo.l_areas ON
                     replace(area_code, '10kmL93', '') = code_maille;
 
+--         DELETE
+--             FROM
+--                 gn_synthese.cor_area_synthese
+--             WHERE
+--                     id_synthese IN (
+--                     SELECT
+--                         id_synthese
+--                         FROM
+--                             gn_synthese.synthese
+--                         WHERE
+--                             id_source IN (SELECT DISTINCT id_source FROM tmp.aofm_2009_2012)
+--                 );
+
         INSERT INTO gn_synthese.cor_area_synthese(id_area, id_synthese)
         SELECT
             id_area
           , id_synthese
             FROM
                 gn_synthese.synthese
-              , ref_geo.l_areas
+                    JOIN ref_geo.l_areas a
+                         ON public.st_intersects(synthese.the_geom_local, a.geom)
             WHERE
-                  l_areas.enable
-              AND st_intersects(the_geom_local, geom)
+                  a.enable
+              AND (st_geometrytype(synthese.the_geom_local) = 'ST_Point' OR
+                   NOT public.st_touches(synthese.the_geom_local, a.geom))
               AND id_source IN (SELECT DISTINCT id_source FROM tmp.aofm_2009_2012)
         ON CONFLICT (id_area, id_synthese) DO NOTHING;
+
         RAISE NOTICE 'insert into cor_area_synthese';
         INSERT INTO
             src_lpodatas.t_c_synthese_extended ( id_synthese
@@ -171,6 +192,9 @@ SELECT
     GROUP BY
         name_source
 ;
-select current_user;
 
-grant select on taxonomie.taxref to odfapp;
+SELECT current_user
+;
+
+GRANT SELECT ON taxonomie.taxref TO odfapp
+;
