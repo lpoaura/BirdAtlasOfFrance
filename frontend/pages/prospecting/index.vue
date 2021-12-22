@@ -237,6 +237,11 @@ export default {
     // MOBILE
     mobileMapControlIsOpen: false,
   }),
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
+  },
   mounted() {
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
@@ -328,11 +333,6 @@ export default {
     openOrCloseMobileMapControl(value) {
       this.mobileMapControlIsOpen = value
     },
-  },
-  head() {
-    return {
-      title: this.$getPageTitle(this.$route.path),
-    }
   },
 }
 </script>

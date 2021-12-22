@@ -99,7 +99,7 @@ export default {
     '~/plugins/getPageTitle.js',
     '~/plugins/departmentsList.js',
     '~/plugins/debounce.js',
-    { src: '~/plugins/vueLeaflet.js', ssr: false },
+    // { src: '~/plugins/vueLeaflet.js', ssr: false },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -114,14 +114,14 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+    // '@nuxtjs/pwa',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/i18n',
+    // '@nuxtjs/i18n',
     'nuxt-leaflet',
     '@nuxt/content',
     'nuxt-mail',

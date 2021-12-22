@@ -104,15 +104,15 @@ export default {
     ],
     selectedQuestion: null,
   }),
-  methods: {
-    updateQuestionStatus(index) {
-      this.questions[index].isOpen = !this.questions[index].isOpen
-    },
-  },
   head() {
     return {
       title: this.$getPageTitle(this.$route.path),
     }
+  },
+  methods: {
+    updateQuestionStatus(index) {
+      this.questions[index].isOpen = !this.questions[index].isOpen
+    },
   },
 }
 </script>
