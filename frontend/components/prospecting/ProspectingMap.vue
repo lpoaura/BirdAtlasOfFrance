@@ -491,7 +491,7 @@ export default {
     },
     speciesDistributionPointToLayer() {
       return (geojsonPoint, latlng) => {
-        return L.circle(latlng, { radius: 4800 })
+        return this.$L.circle(latlng, { radius: 4800 })
       }
     },
     speciesDistributionOnEachFeature() {
@@ -547,12 +547,12 @@ export default {
     },
     epocOdfOfficialPointToLayer() {
       return (geojsonPoint, latlng) => {
-        const epocOdfOfficialIcon = new L.Icon({
+        const epocOdfOfficialIcon = new this.$L.Icon({
           iconUrl: '/prospecting/epoc-ODF-Official.svg',
           iconSize: [32, 39],
           iconAnchor: [16, 35.5],
         })
-        return L.marker(latlng, {
+        return this.$L.marker(latlng, {
           icon: epocOdfOfficialIcon,
         })
       }
@@ -582,12 +582,12 @@ export default {
     },
     epocOdfReservePointToLayer() {
       return (geojsonPoint, latlng) => {
-        const epocOdfReserveIcon = new L.Icon({
+        const epocOdfReserveIcon = new this.$L.Icon({
           iconUrl: '/prospecting/epoc-ODF-Reserve.svg',
           iconSize: [32, 39],
           iconAnchor: [16, 35.5],
         })
-        return L.marker(latlng, {
+        return this.$L.marker(latlng, {
           icon: epocOdfReserveIcon,
         })
       }
@@ -643,7 +643,7 @@ export default {
     },
     selectedTerritory(newVal) {
       if (newVal.name) {
-        const territory = L.geoJSON(
+        const territory = this.$L.geoJSON(
           this.territoriesEnvelopes.features.filter((item) => {
             return item.properties.area_name === newVal.name
           })
@@ -672,7 +672,7 @@ export default {
           if (this.$route.query.type === 'ATLAS_GRID') {
             this.searchedFeatureCode = this.$route.query.area
           }
-          const area = L.geoJSON(data)
+          const area = this.$L.geoJSON(data)
           this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
@@ -693,7 +693,7 @@ export default {
             'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
           )
           .then((data) => {
-            const territory = L.geoJSON(data)
+            const territory = this.$L.geoJSON(data)
             this.isProgramaticZoom = true
             this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
           })
@@ -743,7 +743,7 @@ export default {
           'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
         )
         .then((data) => {
-          const territory = L.geoJSON(data)
+          const territory = this.$L.geoJSON(data)
           this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
         })
@@ -992,7 +992,7 @@ export default {
     geolocate() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          const center = L.latLng(
+          const center = this.$L.latLng(
             position.coords.latitude,
             position.coords.longitude
           )
