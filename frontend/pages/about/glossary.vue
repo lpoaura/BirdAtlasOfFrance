@@ -48,7 +48,7 @@ div.container.container--fluid {
 }
 
 .TopSection {
-  padding: 16px 16% 0 16%;
+  padding: 16px 16% 0;
 }
 
 .Section {
@@ -59,7 +59,7 @@ div.container.container--fluid {
 
 @media screen and (max-width: 920px) {
   .TopSection {
-    padding: 16px 5% 0 5%;
+    padding: 16px 5% 0;
   }
 
   .Section {

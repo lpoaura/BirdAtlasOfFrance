@@ -69,6 +69,9 @@ export default {
     ],
     selectedSpeciesGroup: null,
   }),
+  head: {
+    title: 'Quel dispositif dois-je utiliser ?',
+  },
   computed: {
     resultsCards() {
       if (!this.selectedSpeciesGroup) {
@@ -84,9 +87,6 @@ export default {
     updateSelectedSpeciesGroup(speciesGroup) {
       this.selectedSpeciesGroup = speciesGroup
     },
-  },
-  head: {
-    title: 'Quel dispositif dois-je utiliser ?',
   },
 }
 </script>

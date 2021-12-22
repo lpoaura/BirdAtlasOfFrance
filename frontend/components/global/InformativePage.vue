@@ -59,6 +59,11 @@ export default {
     menuItems: [],
     selectedMenuItem: { hash: '', label: '' },
   }),
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
+  },
   computed: {
     // Permet de mettre à jour selectedMenuItem seulement après le $router.push
     selectedMenuItemModel: {
@@ -110,11 +115,6 @@ export default {
     updateSelectedMenuItem(item) {
       this.$router.push(`${item.hash}`)
     },
-  },
-  head() {
-    return {
-      title: this.$getPageTitle(this.$route.path),
-    }
   },
 }
 </script>

@@ -74,15 +74,15 @@ export default {
     ],
     isSelected: false,
   }),
-  methods: {
-    updateIsSelected() {
-      this.isSelected = true
-    },
-  },
   head() {
     return {
       title: this.$getPageTitle(this.$route.path),
     }
+  },
+  methods: {
+    updateIsSelected() {
+      this.isSelected = true
+    },
   },
 }
 </script>
@@ -94,7 +94,7 @@ div.container.container--fluid {
 
 header {
   width: 100%;
-  padding: 24px 4vw 40px 4vw;
+  padding: 24px 4vw 40px;
   display: flex;
   flex-direction: column;
 }

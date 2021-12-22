@@ -35,6 +35,11 @@ export default {
     currentPage: 1,
     newsNumberPerPage: 5,
   }),
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
+  },
   computed: {
     resultsNewsItems() {
       if (this.pagesNumber <= 1) {
@@ -86,11 +91,6 @@ export default {
           }, 10)
         }
       })
-  },
-  head() {
-    return {
-      title: this.$getPageTitle(this.$route.path),
-    }
   },
 }
 </script>

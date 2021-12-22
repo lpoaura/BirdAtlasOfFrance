@@ -1062,7 +1062,7 @@ a.Vocabulary:hover::after {
 
 .AutocompleteGadgets.map {
   background: linear-gradient(rgba(38, 38, 38, 0.03), rgba(38, 38, 38, 0.03)),
-  white;
+    white;
   height: 42px;
   border-radius: 8px;
   padding: 0 5px;
@@ -1298,7 +1298,7 @@ a.Vocabulary:hover::after {
 }
 
 .MiniMapControl.selected {
-  background: #EECE25;
+  background: #eece25;
 }
 
 .MiniMapControl .Icon {
@@ -1532,7 +1532,7 @@ button.v-pagination__navigation .theme--light.v-icon {
 
   .leaflet-bottom.leaflet-left .InformationControl {
     display: flex;
-    max-width: calc(100vw - 72px)
+    max-width: calc(100vw - 72px);
   }
 }
 

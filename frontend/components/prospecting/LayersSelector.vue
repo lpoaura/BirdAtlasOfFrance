@@ -196,7 +196,7 @@ export default {
   width: 100%;
   height: 1px;
   min-height: 1px;
-  margin: 10px 0 16px 0;
+  margin: 10px 0 16px;
   background: rgba(57, 118, 90, 0.1);
 }
 
@@ -252,13 +252,13 @@ export default {
 
 /* Mozilla Firefox */
 input[type='number'] {
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 /* Chrome */
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 
