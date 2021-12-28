@@ -149,6 +149,7 @@ import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vu
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
 import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
+import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
 
 export default {
   components: {
@@ -164,6 +165,7 @@ export default {
     'knowledge-level-control': KnowledgeLevelControl,
     'feature-dashboard-control': FeatureDashboardControl,
     'species-dashboard-control': SpeciesDashboardControl,
+    'epoc-dashboard-control': EpocDashboardControl,
   },
   data: () => ({
     selectedArea: null, // Zonage sélectionné dans la barre de recherche

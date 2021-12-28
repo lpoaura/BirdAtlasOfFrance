@@ -1,6 +1,6 @@
 <template>
   <div class="EpocDashboardControl">
-    <header class="MapControlHeader">
+    <header class="MapControlInfo">
       <h4 class="fw-bold">
         {{ clickedEpocPoint.properties.id_ff }}
       </h4>

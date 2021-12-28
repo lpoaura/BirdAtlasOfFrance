@@ -1196,6 +1196,10 @@ a.Vocabulary:hover::after {
   margin-bottom: 0;
 }
 
+.MapControlDataOption.top-margin:first-child {
+  margin-top: 24px;
+}
+
 .MapControlDataOptionIcon {
   width: 24px;
   margin-right: 24px;
@@ -1242,7 +1246,7 @@ a.Vocabulary:hover::after {
   display: flex;
 }
 .MobileMapControlCloseIcon,
-.MobileMapControl header.MapControlHeader .MapControlDownloadButton,
+.MobileMapControl .MapControlInfo .MapControlDownloadButton,
 .MobileMapControl menu.TabMenu,
 .MobileMapControlMenuWrapper,
 .MobileMapControl .ChipMenu,

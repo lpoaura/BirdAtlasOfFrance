@@ -305,17 +305,17 @@
         <img class="MapControlComeBackIcon" src="/previous.svg" />
         <span class="fw-500">{{ featureProperties.area_name }}</span>
       </div>
-      <header class="MapControlHeader">
+      <header class="MapControlInfo">
         <h4 class="fw-bold">
           Communes ({{ featureMunicipalitiesList.length }})
         </h4>
       </header>
-      <div class="MapControlSplit right-margin-16"></div>
+      <div class="MapControlSplit right-margin-16 no-bottom-margin"></div>
       <div class="MapControlOverflow">
         <li
           v-for="(municipality, index) in featureMunicipalitiesList"
           :key="index"
-          class="MapControlDataOption"
+          class="MapControlDataOption top-margin"
         >
           {{ municipality.area_name }}
         </li>
@@ -327,14 +327,14 @@
         <img class="MapControlComeBackIcon" src="/previous.svg" />
         <span class="fw-500">{{ featureProperties.area_name }}</span>
       </div>
-      <header class="MapControlHeader">
+      <header class="MapControlInfo">
         <h4 class="fw-bold">
           {{ clickedSpecies[`common_name_${lang}`] }}
         </h4>
       </header>
-      <div class="MapControlSplit right-margin-16"></div>
+      <div class="MapControlSplit right-margin-16 no-bottom-margin"></div>
       <div class="MapControlOverflow">
-        <div class="MapControlDataOption">
+        <div class="MapControlDataOption top-margin-24">
           <img
             class="MapControlDataOptionIcon"
             src="/nav-bar/burger-black.svg"
@@ -806,10 +806,19 @@ export default {
       this.seeMoreMunicipalitiesIsClicked = false
     },
     updateClickedSpecies(taxon) {
-      if (!taxon.phenology[0].label) {
-        const months = this.months.map((item) => {
-          return item.charAt(0)
+      const months = this.months.map((item) => {
+        return item.charAt(0)
+      })
+      if (!taxon.phenology[0]) {
+        const phenology = months.map((item) => {
+          return {
+            label: item,
+            is_present: false,
+          }
         })
+        taxon.phenology = phenology
+      }
+      if (!taxon.phenology[0].label) {
         const phenology = months.map((item, index) => {
           return {
             label: item,
