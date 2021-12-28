@@ -49,8 +49,8 @@
       <!-- GEOJSON -->
       <l-geo-json
         v-if="currentZoom <= 8"
-        :geojson="regionsGeojson"
-        :options-style="regionsGeojsonStyle"
+        :geojson="territoriesGeojson"
+        :options-style="territoriesGeojsonStyle"
       />
       <l-geo-json
         v-if="
@@ -395,8 +395,8 @@ export default {
     envelope: null,
     initTerritory: null,
     // CONFIGURATION DES GEOJSON
-    // Limites des régions
-    regionsGeojson: null,
+    // Limites des territoires
+    territoriesGeojson: null,
     // Emprises des territoires
     territoriesEnvelopes: null,
     // Indice de complétude
@@ -425,7 +425,7 @@ export default {
     territoryIsOpen: false,
   }),
   computed: {
-    regionsGeojsonStyle() {
+    territoriesGeojsonStyle() {
       return {
         weight: 2,
         color: '#262626',
@@ -714,10 +714,10 @@ export default {
     }
     this.$axios
       .$get(
-        '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true&envelope=-17.962646484375004,42.081916678306335,10.107421875000002,51.2206474303833'
+        '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true'
       )
       .then((data) => {
-        this.regionsGeojson = data
+        this.territoriesGeojson = data
       })
       .catch((error) => {
         console.log(error)
