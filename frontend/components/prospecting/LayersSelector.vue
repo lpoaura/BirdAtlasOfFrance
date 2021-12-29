@@ -27,11 +27,16 @@
         </h5>
       </li>
       <div v-show="selectedLayer === 'Points EPOC'">
-        <!-- Ajouter les points EPOC classiques -->
+        <div class="RadioOption epoc">
+          <div class="RadioLabel">
+            <switch-button v-model="epocIsOn" />
+            Formulaires EPOC
+          </div>
+        </div>
         <div class="RadioOption epoc">
           <div class="RadioLabel">
             <switch-button v-model="epocOdfOfficialIsOn" />
-            EPOC ODF
+            EPOC ODF officiels
           </div>
         </div>
         <div class="RadioOption epoc">
@@ -143,7 +148,7 @@ export default {
       { label: 'Points EPOC', subtitle: null },
     ],
     speciesDistributionLayer: "Répartition de l'espèce",
-    epocPointsIsOn: true,
+    epocIsOn: true,
     epocOdfOfficialIsOn: true,
     epocOdfReserveIsOn: true,
     planIsOn: false,
@@ -159,6 +164,9 @@ export default {
     },
   },
   watch: {
+    epocIsOn(newVal) {
+      this.$emit('epocIsOn', newVal)
+    },
     epocOdfOfficialIsOn(newVal) {
       this.$emit('epocOdfOfficialIsOn', newVal)
     },

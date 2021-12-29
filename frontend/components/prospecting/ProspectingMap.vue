@@ -74,6 +74,15 @@
       <l-geo-json
         v-if="
           selectedLayer === 'Points EPOC' &&
+          epocIsOn &&
+          currentZoom >= 11
+        "
+        :geojson="epocGeojson"
+        :options="epocGeojsonOptions"
+      />
+      <l-geo-json
+        v-if="
+          selectedLayer === 'Points EPOC' &&
           epocOdfOfficialIsOn &&
           currentZoom >= 11
         "
@@ -218,6 +227,7 @@
               :selected-layer="selectedLayer"
               :selected-species="selectedSpecies"
               @selectedLayer="updateSelectedLayer"
+              @epocIsOn="updateEpoc"
               @epocOdfOfficialIsOn="updateEpocOdfOfficial"
               @epocOdfReserveIsOn="updateEpocOdfReserve"
               @planIsOn="updatePlan"
@@ -358,6 +368,10 @@ export default {
       required: false,
       default: null,
     },
+    epocIsOn: {
+      type: Boolean,
+      required: true,
+    },
     epocOdfOfficialIsOn: {
       type: Boolean,
       required: true,
@@ -410,6 +424,7 @@ export default {
     axiosErrorSpeciesDistribution: null,
     speciesDistributionIsLoading: false,
     // Points EPOC
+    epocGeojson: null,
     epocOdfOfficialGeojson: null,
     epocOdfReserveGeojson: null,
     // CONFIGURATION DES MAPCONTROLS
@@ -539,6 +554,41 @@ export default {
         }
       }
     },
+    epocGeojsonOptions() {
+      return {
+        pointToLayer: this.epocPointToLayer,
+        onEachFeature: this.epocOnEachFeature,
+      }
+    },
+    epocPointToLayer() {
+      return (geojsonPoint, latlng) => {
+        const epocIcon = new this.$L.Icon({
+          iconUrl: '/prospecting/epoc.svg',
+          iconSize: [32, 39],
+          iconAnchor: [16, 35.5],
+        })
+        return this.$L.marker(latlng, {
+          icon: epocIcon,
+        })
+      }
+    },
+    epocOnEachFeature() {
+      return (feature, layer) => {
+        layer.bindTooltip(`Formulaire ${feature.properties.project_code}`, {
+          direction: 'right',
+          offset: [14, -18],
+          permanent: false,
+          opacity: 1,
+          className: 'LeafletTooltip',
+        })
+        layer.on({
+          click: (event) => {
+            this.$emit('clickedEpocPoint', feature)
+            this.openMobileMapControl()
+          },
+        })
+      }
+    },
     epocOdfOfficialGeojsonOptions() {
       return {
         pointToLayer: this.epocOdfOfficialPointToLayer,
@@ -559,7 +609,7 @@ export default {
     },
     epocOdfOfficialOnEachFeature() {
       return (feature, layer) => {
-        layer.bindTooltip('EPOC ODF', {
+        layer.bindTooltip('EPOC ODF officiel', {
           direction: 'right',
           offset: [14, -18],
           permanent: false,
@@ -769,6 +819,7 @@ export default {
       this.envelope = this.defineEnvelope(initBounds)
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
+        this.updateEpocGeojson()
         this.updateEpocOdfOfficialGeojson()
         this.updateEpocOdfReserveGeojson()
       }
@@ -779,6 +830,7 @@ export default {
       this.envelope = this.defineEnvelope(newBounds)
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
+        this.updateEpocGeojson()
         this.updateEpocOdfOfficialGeojson()
         this.updateEpocOdfReserveGeojson()
       }
@@ -943,6 +995,16 @@ export default {
       this.oldZoomSpeciesDistribution = this.currentZoom
       this.isProgramaticZoom = false
     },
+    updateEpocGeojson() {
+      this.$axios
+        .$get(`/api/v1/epoc/realized?envelope=${this.envelope}`)
+        .then((data) => {
+          this.epocGeojson = data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
     updateEpocOdfOfficialGeojson() {
       this.$axios
         .$get(`/api/v1/epoc?status=Officiel&envelope=${this.envelope}`)
@@ -1044,6 +1106,9 @@ export default {
     },
     updateSelectedLayer(layer) {
       this.$emit('selectedLayer', layer)
+    },
+    updateEpoc(value) {
+      this.$emit('epocIsOn', value)
     },
     updateEpocOdfOfficial(value) {
       this.$emit('epocOdfOfficialIsOn', value)

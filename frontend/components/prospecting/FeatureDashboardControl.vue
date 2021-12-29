@@ -737,8 +737,9 @@ export default {
       // console.log('----------------------------------------')
       // console.log('ID : ' + this.featureID)
       this.featureProperties = feature.properties
-      this.featureProperties.area_name =
-        this.featureProperties.area_name.replace('10kmL93', '')
+      this.featureProperties.area_name = this.featureProperties.area_name
+        .replace('10kmL93', '')
+        .replace('10kmUTM22', '')
       // console.log('Properties :')
       // console.log(this.featureProperties)
       this.$router.push({
