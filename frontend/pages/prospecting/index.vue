@@ -79,6 +79,7 @@
             :selected-layer="selectedLayer"
             :selected-species="selectedSpecies"
             @selectedLayer="updateSelectedLayer"
+            @epocIsOn="updateEpoc"
             @epocOdfOfficialIsOn="updateEpocOdfOfficial"
             @epocOdfReserveIsOn="updateEpocOdfReserve"
             @planIsOn="updatePlan"
@@ -117,6 +118,7 @@
         :current-territory="currentTerritory"
         :clicked-feature="clickedFeature"
         :clicked-epoc-point="clickedEpocPoint"
+        :epoc-is-on="epocIsOn"
         :epoc-odf-official-is-on="epocOdfOfficialIsOn"
         :epoc-odf-reserve-is-on="epocOdfReserveIsOn"
         :plan="plan"
@@ -129,6 +131,7 @@
         @currentTerritory="updateCurrentTerritory"
         @clickedFeature="updateClickedFeature"
         @clickedEpocPoint="updateClickedEpocPoint"
+        @epocIsOn="updateEpoc"
         @epocOdfOfficialIsOn="updateEpocOdfOfficial"
         @epocOdfReserveIsOn="updateEpocOdfReserve"
         @planIsOn="updatePlan"
@@ -197,7 +200,7 @@ export default {
     },
     clickedFeature: null, // On clique sur une maille
     clickedEpocPoint: null, // On clique sur un point EPOC
-    // epocPointsIsOn: true, À PASSER DANS ProspectingMap
+    epocIsOn: true,
     epocOdfOfficialIsOn: true,
     epocOdfReserveIsOn: true,
     plan: {
@@ -292,8 +295,8 @@ export default {
     updateClickedEpocPoint(epoc) {
       this.clickedEpocPoint = epoc
     },
-    updateEpocPoints(value) {
-      this.epocPointsIsOn = value
+    updateEpoc(value) {
+      this.epocIsOn = value
     },
     updateEpocOdfOfficial(value) {
       this.epocOdfOfficialIsOn = value
