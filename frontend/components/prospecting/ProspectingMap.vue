@@ -65,6 +65,7 @@
       <l-geo-json
         v-if="
           selectedLayer === 'Indice de complétude' ||
+          selectedLayer === 'Nombre d\'espèces par maille' ||
           (selectedLayer === 'Points EPOC' && currentZoom >= 11)
         "
         :geojson="knowledgeLevelGeojson"
@@ -72,11 +73,7 @@
         :options-style="knowledgeLevelGeojsonStyle"
       />
       <l-geo-json
-        v-if="
-          selectedLayer === 'Points EPOC' &&
-          epocIsOn &&
-          currentZoom >= 11
-        "
+        v-if="selectedLayer === 'Points EPOC' && epocIsOn && currentZoom >= 11"
         :geojson="epocGeojson"
         :options="epocGeojsonOptions"
       />
@@ -109,9 +106,21 @@
           :current-territory="currentTerritory"
           :selected-season="selectedSeason"
         />
+        <count-taxa-control
+          v-show="
+            selectedLayer === 'Nombre d\'espèces par maille' && !clickedFeature
+          "
+          :current-territory="currentTerritory"
+          :count-taxa-classes="countTaxaClasses"
+          :selected-season="selectedSeason"
+        />
         <feature-dashboard-control
           v-if="
-            ['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+            [
+              'Indice de complétude',
+              'Nombre d\'espèces par maille',
+              'Points EPOC',
+            ].includes(selectedLayer) &&
             clickedFeature &&
             !clickedEpocPoint
           "
@@ -144,7 +153,13 @@
         <div
           v-show="
             (selectedLayer === 'Indice de complétude' && !clickedFeature) ||
-            (['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+            (selectedLayer === 'Nombre d\'espèces par maille' &&
+              !clickedFeature) ||
+            ([
+              'Indice de complétude',
+              'Nombre d\'espèces par maille',
+              'Points EPOC',
+            ].includes(selectedLayer) &&
               clickedFeature &&
               !clickedEpocPoint) ||
             (selectedLayer === 'Répartition de l\'espèce' && selectedSpecies) ||
@@ -164,7 +179,9 @@
         <div
           v-show="
             (knowledgeLevelIsLoading &&
-              selectedLayer === 'Indice de complétude') ||
+              ['Indice de complétude', 'Nombre d\'espèces par maille'].includes(
+                selectedLayer
+              )) ||
             (speciesDistributionIsLoading &&
               selectedLayer === 'Répartition de l\'espèce')
           "
@@ -306,6 +323,7 @@
 
 <script>
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
+import CountTaxaControl from '~/components/prospecting/CountTaxaControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
 import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
 import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
@@ -316,6 +334,7 @@ import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vu
 export default {
   components: {
     'knowledge-level-control': KnowledgeLevelControl,
+    'count-taxa-control': CountTaxaControl,
     'feature-dashboard-control': FeatureDashboardControl,
     'epoc-dashboard-control': EpocDashboardControl,
     'species-dashboard-control': SpeciesDashboardControl,
@@ -354,6 +373,11 @@ export default {
     currentTerritory: {
       // Territoire sur lequel est centrée la carte (peut être non défini)
       type: Object,
+      required: true,
+    },
+    countTaxaClasses: {
+      // Classes pour la couche "Nb d'espèces par maille"
+      type: Array,
       required: true,
     },
     clickedFeature: {
@@ -430,7 +454,7 @@ export default {
     // CONFIGURATION DES MAPCONTROLS
     disableScrollPropagation: true,
     noSpeciesData: false,
-    featuresClasses: [0.25, 0.5, 0.75, 1],
+    knowledgeLevelClasses: [0.25, 0.5, 0.75, 1],
     searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
     searchedFeatureCode: null, // Le zonage sélectionné est une maille (recherche depuis l'URL)
     indeterminate: true, // Progress (loading)
@@ -485,6 +509,18 @@ export default {
             opacity: 1,
             fillColor: this.setFeatureColor(
               feature.properties[season].percent_knowledge
+            ),
+            fillOpacity: 0.6,
+          }
+        }
+        if (selectedLayer === "Nombre d'espèces par maille") {
+          season = this.selectedSeason.value // À améliorer
+          return {
+            weight: 0.8,
+            color: '#FFFFFF',
+            opacity: 1,
+            fillColor: this.setFeatureColor(
+              feature.properties[season].new_count
             ),
             fillOpacity: 0.6,
           }
@@ -1025,17 +1061,30 @@ export default {
           console.log(error)
         })
     },
-    setFeatureColor(percent) {
+    setFeatureColor(number) {
       const featuresColors = this.selectedSeason.featuresColors
-      return percent >= this.featuresClasses[3]
-        ? featuresColors[4]
-        : percent > this.featuresClasses[2]
-        ? featuresColors[3]
-        : percent > this.featuresClasses[1]
-        ? featuresColors[2]
-        : percent > this.featuresClasses[0]
-        ? featuresColors[1]
-        : featuresColors[0]
+      if (this.selectedLayer === 'Indice de complétude') {
+        return number >= this.knowledgeLevelClasses[3]
+          ? featuresColors[4]
+          : number > this.knowledgeLevelClasses[2]
+          ? featuresColors[3]
+          : number > this.knowledgeLevelClasses[1]
+          ? featuresColors[2]
+          : number > this.knowledgeLevelClasses[0]
+          ? featuresColors[1]
+          : featuresColors[0]
+      }
+      if (this.selectedLayer === "Nombre d'espèces par maille") {
+        return number >= this.countTaxaClasses[3].max
+          ? featuresColors[4]
+          : number > this.countTaxaClasses[2].max
+          ? featuresColors[3]
+          : number > this.countTaxaClasses[1].max
+          ? featuresColors[2]
+          : number > this.countTaxaClasses[0].max
+          ? featuresColors[1]
+          : featuresColors[0]
+      }
     },
     highlightFeature(event) {
       event.target.setStyle({
