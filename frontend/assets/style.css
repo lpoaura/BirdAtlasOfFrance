@@ -1263,6 +1263,7 @@ a.Vocabulary:hover::after {
 .MobileMapControl .MobileMapControlCloseIcon {
   display: flex;
   width: 24px;
+  margin-left: 12px;
   cursor: pointer;
   align-self: flex-start;
 }

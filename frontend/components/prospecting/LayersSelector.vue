@@ -145,6 +145,7 @@ export default {
         // subtitle:
         //   'Non compatible avec les fonds carthographiques Plan et Orthophotographies',
       },
+      { label: "Nombre d'espèces par maille", subtitle: null },
       { label: 'Points EPOC', subtitle: null },
     ],
     speciesDistributionLayer: "Répartition de l'espèce",

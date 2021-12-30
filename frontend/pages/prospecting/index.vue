@@ -7,9 +7,18 @@
         :selected-season="selectedSeason"
         @mobileMapControl="openOrCloseMobileMapControl"
       />
+      <count-taxa-control
+        v-show="
+          selectedLayer === 'Nombre d\'espèces par maille' && !clickedFeature
+        "
+        :current-territory="currentTerritory"
+        :count-taxa-classes="countTaxaClasses"
+        :selected-season="selectedSeason"
+        @mobileMapControl="openOrCloseMobileMapControl"
+      />
       <feature-dashboard-control
         v-if="
-          ['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+          ['Indice de complétude', 'Nombre d\'espèces par maille', 'Points EPOC'].includes(selectedLayer) &&
           clickedFeature &&
           !clickedEpocPoint
         "
@@ -116,6 +125,7 @@
         :selected-layer="selectedLayer"
         :selected-territory="selectedTerritory"
         :current-territory="currentTerritory"
+        :count-taxa-classes="countTaxaClasses"
         :clicked-feature="clickedFeature"
         :clicked-epoc-point="clickedEpocPoint"
         :epoc-is-on="epocIsOn"
@@ -150,6 +160,7 @@ import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
 import LayersSelector from '~/components/prospecting/LayersSelector.vue'
 import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
+import CountTaxaControl from '~/components/prospecting/CountTaxaControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
 import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
 import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
@@ -166,6 +177,7 @@ export default {
       }
     },
     'knowledge-level-control': KnowledgeLevelControl,
+    'count-taxa-control': CountTaxaControl,
     'feature-dashboard-control': FeatureDashboardControl,
     'species-dashboard-control': SpeciesDashboardControl,
     'epoc-dashboard-control': EpocDashboardControl,
@@ -198,6 +210,7 @@ export default {
       id: null,
       name: null,
     },
+    countTaxaClasses: [], // Classes pour la couche "Nb d'espèces par maille"
     clickedFeature: null, // On clique sur une maille
     clickedEpocPoint: null, // On clique sur un point EPOC
     epocIsOn: true,
@@ -278,6 +291,18 @@ export default {
     },
     updateCurrentTerritory(territory) {
       this.currentTerritory = territory
+      if (territory.id) {
+        this.$axios
+          .$get(
+            `api/v1/map/count_taxon_classes/${territory.id}?period=all_period`
+          )
+          .then((data) => {
+            this.countTaxaClasses = data
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
       if (
         this.selectedTerritory.name &&
         this.currentTerritory.name !== this.selectedTerritory.name
