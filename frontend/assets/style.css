@@ -124,6 +124,10 @@ h6 {
   color: #39765a;
 }
 
+.red01 {
+  color: #EF2E2E;
+}
+
 .fw-300 {
   font-weight: 300;
 }
@@ -142,6 +146,10 @@ h6 {
 
 .italic {
   font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
 }
 
 .text-shadow {
@@ -181,6 +189,10 @@ div.container.container--fluid {
 
 .bottom-margin-24 {
   margin-bottom: 24px !important;
+}
+
+.bottom-margin-32 {
+  margin-bottom: 32px !important;
 }
 
 .bottom-margin-40 {
@@ -400,6 +412,11 @@ a.Vocabulary:hover::after {
   display: flex;
 }
 
+.SelectorMenu {
+  margin: -6px 0 18px 0;
+  flex-wrap: wrap;
+}
+
 .TagMenu {
   overflow-x: scroll;
   touch-action: pan-x;
@@ -431,7 +448,7 @@ a.Vocabulary:hover::after {
 }
 
 .SelectorItem {
-  margin-right: 16px;
+  margin: 6px 16px 6px 0;
   padding: 12px 24px;
   border: 1px solid rgba(38, 38, 38, 0.1);
   box-sizing: border-box;
@@ -476,7 +493,8 @@ a.Vocabulary:hover::after {
 
 /* Cards */
 .MenuCard,
-.ProtocolCard {
+.ProtocolCard,
+.ContactCard {
   background: #efefef;
   padding: 12px 24px;
   text-decoration: none;
@@ -492,13 +510,28 @@ a.Vocabulary:hover::after {
   margin-bottom: 16px;
 }
 
-.MenuCard {
-  flex: 1;
-  margin: 12px;
+.MenuCard,
+.ContactCard {
   border-radius: 16px;
 }
 
-.MenuCard:hover {
+.MenuCard {
+  flex: 1;
+  margin: 12px;
+}
+
+.ContactCard {
+  height: 155px;
+  cursor: pointer;
+}
+
+.ContactCard.selected {
+  background: rgba(238, 206, 37, 0.2);
+  border: 3px solid #eece25;
+}
+
+.MenuCard:hover,
+.ContactCard:hover {
   background: rgba(238, 206, 37, 0.2);
 }
 
@@ -917,7 +950,7 @@ a.Vocabulary:hover::after {
 .ProtocolsDocumentsGrid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   grid-gap: 20px;
 }
 
@@ -1378,42 +1411,17 @@ a.Vocabulary:hover::after {
 
 /********** CONTACT FORMS **********/
 
-.ContactFormHeader {
-  width: 100%;
-  padding: 24px 16% 60px 16%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Création d'une section ET d'un contenu : formulaire à largeur fixe et centré */
-.ContactFormSection,
-.ConfirmationSection {
-  padding-bottom: 2%;
-  display: flex;
-}
-
 .ContactFormContent {
+  width: 600px;
+  max-width: 90vw;
   margin: auto;
   display: flex;
   flex-direction: column;
 }
 
 .ContactFormAlert {
-  width: 626px;
-  height: 32px;
-  margin-bottom: 24px;
-  padding: 0 12px;
-  border: 1px solid #f44336;
-  box-sizing: border-box;
-  border-radius: 8px;
-  color: #f44336;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ContactFormAlertMessage {
-  color: #f44336;
+  margin: -12px 0 24px 0;
+  color: #EF2E2E;
 }
 
 .ContactFormAlertCloseIcon {
@@ -1421,7 +1429,7 @@ a.Vocabulary:hover::after {
 }
 
 input.ContactFormInput {
-  width: 626px;
+  width: 100%;
   height: 32px;
   margin-bottom: 24px;
   padding: 0 12px;
