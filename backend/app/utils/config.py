@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     APP_SYSNAME: Optional[str] = "odf_api"
     API_PREFIX: Optional[str] = "/api/v1"
     APP_URL: str
+    SENTRY_DSN: Optional[str] = None
 
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
