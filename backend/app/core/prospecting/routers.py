@@ -203,7 +203,6 @@ def epoc_list(
 ) -> Any:
     start_time = time.time()
     envelope = [float(c) for c in envelope.split(",")] if envelope else None
-    logger.debug(f"STATUS {status}")
     epocs = epoc.get_epocs(db=db, envelope=envelope, status=status, id_area=id_area)
     features = []
     if len(epocs) == 0:
@@ -255,7 +254,6 @@ def realized_epoc_list(
     for e in epocs:
         de = e._asdict()
         geojson = de.pop("geometry", None)
-        logger.debug(f"GeoJSON {type(geojson)} {geojson}")
         f = RealizedEpocFeatureSchema(
             properties=(RealizedEpocFeaturePropertiesSchema(**de)),
             geometry=json.loads(geojson),
@@ -263,7 +261,6 @@ def realized_epoc_list(
         )
         features.append(f)
     logger.debug(f"step4: {(time.time() - start_time) * 1000}")
-    logger.debug(f"RealizedEpocSchema type {type(RealizedEpocSchema(features=features))}")
     return RealizedEpocSchema(features=features)
 
 
