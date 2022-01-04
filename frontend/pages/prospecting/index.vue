@@ -88,9 +88,8 @@
             :selected-layer="selectedLayer"
             :selected-species="selectedSpecies"
             @selectedLayer="updateSelectedLayer"
-            @epocIsOn="updateEpoc"
-            @epocOdfOfficialIsOn="updateEpocOdfOfficial"
-            @epocOdfReserveIsOn="updateEpocOdfReserve"
+            @epocRealizedIsOn="updateEpocRealized"
+            @epocOdfIsOn="updateEpocOdf"
             @planIsOn="updatePlan"
             @planOpacity="updatePlanOpacity"
             @orthophotoIsOn="updateOrthophoto"
@@ -128,9 +127,8 @@
         :count-taxa-classes="countTaxaClasses"
         :clicked-feature="clickedFeature"
         :clicked-epoc-point="clickedEpocPoint"
-        :epoc-is-on="epocIsOn"
-        :epoc-odf-official-is-on="epocOdfOfficialIsOn"
-        :epoc-odf-reserve-is-on="epocOdfReserveIsOn"
+        :epoc-realized-is-on="epocRealizedIsOn"
+        :epoc-odf-is-on="epocOdfIsOn"
         :plan="plan"
         :orthophoto="orthophoto"
         :mobile-map-control-is-open="mobileMapControlIsOpen"
@@ -141,9 +139,8 @@
         @currentTerritory="updateCurrentTerritory"
         @clickedFeature="updateClickedFeature"
         @clickedEpocPoint="updateClickedEpocPoint"
-        @epocIsOn="updateEpoc"
-        @epocOdfOfficialIsOn="updateEpocOdfOfficial"
-        @epocOdfReserveIsOn="updateEpocOdfReserve"
+        @epocRealizedIsOn="updateEpocRealized"
+        @epocOdfIsOn="updateEpocOdf"
         @planIsOn="updatePlan"
         @planOpacity="updatePlanOpacity"
         @orthophotoIsOn="updateOrthophoto"
@@ -213,9 +210,8 @@ export default {
     countTaxaClasses: [], // Classes pour la couche "Nb d'espèces par maille"
     clickedFeature: null, // On clique sur une maille
     clickedEpocPoint: null, // On clique sur un point EPOC
-    epocIsOn: true,
-    epocOdfOfficialIsOn: true,
-    epocOdfReserveIsOn: true,
+    epocRealizedIsOn: true,
+    epocOdfIsOn: true,
     plan: {
       isOn: false,
       url:
@@ -320,14 +316,11 @@ export default {
     updateClickedEpocPoint(epoc) {
       this.clickedEpocPoint = epoc
     },
-    updateEpoc(value) {
-      this.epocIsOn = value
+    updateEpocRealized(value) {
+      this.epocRealizedIsOn = value
     },
-    updateEpocOdfOfficial(value) {
-      this.epocOdfOfficialIsOn = value
-    },
-    updateEpocOdfReserve(value) {
-      this.epocOdfReserveIsOn = value
+    updateEpocOdf(value) {
+      this.epocOdfIsOn = value
     },
     updatePlan(value) {
       this.plan.isOn = value

@@ -2,12 +2,13 @@
   <div class="EpocDashboardControl">
     <header class="MapControlInfo">
       <h4 v-if="clickedEpocPoint.properties.id_ff" class="fw-bold">
-        {{ clickedEpocPoint.properties.id_ff }}
+        {{ clickedEpocPoint.properties.id_ff.replace('-', ' ').replace(/_/g, ' ') }}
       </h4>
       <h4 v-else class="fw-bold">
-        {{ 'Formulaire ' + clickedEpocPoint.properties.project_code }}
+        {{ clickedEpocPoint.properties.project_code.replace('-', ' ') + ' réalisé'}}
       </h4>
       <a
+        v-if="clickedEpocPoint.properties.id_ff"
         class="MapControlDownloadButton"
         :href="`/files/map/epoc/${clickedEpocPoint.properties.id_epoc}.pdf`"
         target="_blank"
@@ -29,6 +30,7 @@
         Ouvrir sur Google Maps
       </a>
       <a
+        v-if="clickedEpocPoint.properties.id_ff"
         class="MapControlDownloadButton"
         :href="`/files/map/epoc/${clickedEpocPoint.properties.id_epoc}.pdf`"
         target="_blank"
@@ -54,7 +56,7 @@
             }}
           </span>
           <span v-else class="EpocPropertyValue">
-            {{ 'Formulaire ' + clickedEpocPoint.properties.project_code }}
+            {{ clickedEpocPoint.properties.project_code.replace('-', ' ') + ' réalisé'}}
           </span>
         </li>
         <li class="MapControlDataOption">

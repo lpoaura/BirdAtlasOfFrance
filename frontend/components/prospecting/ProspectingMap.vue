@@ -73,27 +73,20 @@
         :options-style="knowledgeLevelGeojsonStyle"
       />
       <l-geo-json
-        v-if="selectedLayer === 'Points EPOC' && epocIsOn && currentZoom >= 11"
-        :geojson="epocGeojson"
-        :options="epocGeojsonOptions"
+        v-if="
+          selectedLayer === 'Points EPOC' &&
+          epocRealizedIsOn &&
+          currentZoom >= 11
+        "
+        :geojson="epocRealizedGeojson"
+        :options="epocRealizedGeojsonOptions"
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Points EPOC' &&
-          epocOdfOfficialIsOn &&
-          currentZoom >= 11
+          selectedLayer === 'Points EPOC' && epocOdfIsOn && currentZoom >= 11
         "
-        :geojson="epocOdfOfficialGeojson"
-        :options="epocOdfOfficialGeojsonOptions"
-      />
-      <l-geo-json
-        v-if="
-          selectedLayer === 'Points EPOC' &&
-          epocOdfReserveIsOn &&
-          currentZoom >= 11
-        "
-        :geojson="epocOdfReserveGeojson"
-        :options="epocOdfReserveGeojsonOptions"
+        :geojson="epocOdfGeojson"
+        :options="epocOdfGeojsonOptions"
       />
       <!-- MAP CONTROLS -->
       <!-- Top left -->
@@ -244,9 +237,8 @@
               :selected-layer="selectedLayer"
               :selected-species="selectedSpecies"
               @selectedLayer="updateSelectedLayer"
-              @epocIsOn="updateEpoc"
-              @epocOdfOfficialIsOn="updateEpocOdfOfficial"
-              @epocOdfReserveIsOn="updateEpocOdfReserve"
+              @epocRealizedIsOn="updateEpocRealized"
+              @epocOdfIsOn="updateEpocOdf"
               @planIsOn="updatePlan"
               @planOpacity="updatePlanOpacity"
               @orthophotoIsOn="updateOrthophoto"
@@ -392,15 +384,11 @@ export default {
       required: false,
       default: null,
     },
-    epocIsOn: {
+    epocRealizedIsOn: {
       type: Boolean,
       required: true,
     },
-    epocOdfOfficialIsOn: {
-      type: Boolean,
-      required: true,
-    },
-    epocOdfReserveIsOn: {
+    epocOdfIsOn: {
       type: Boolean,
       required: true,
     },
@@ -448,9 +436,8 @@ export default {
     axiosErrorSpeciesDistribution: null,
     speciesDistributionIsLoading: false,
     // Points EPOC
-    epocGeojson: null,
-    epocOdfOfficialGeojson: null,
-    epocOdfReserveGeojson: null,
+    epocRealizedGeojson: null,
+    epocOdfGeojson: null,
     // CONFIGURATION DES MAPCONTROLS
     disableScrollPropagation: true,
     noSpeciesData: false,
@@ -590,27 +577,30 @@ export default {
         }
       }
     },
-    epocGeojsonOptions() {
+    epocRealizedGeojsonOptions() {
       return {
-        pointToLayer: this.epocPointToLayer,
-        onEachFeature: this.epocOnEachFeature,
+        pointToLayer: this.epocRealizedPointToLayer,
+        onEachFeature: this.epocRealizedOnEachFeature,
       }
     },
-    epocPointToLayer() {
+    epocRealizedPointToLayer() {
       return (geojsonPoint, latlng) => {
-        const epocIcon = new this.$L.Icon({
-          iconUrl: '/prospecting/epoc.svg',
+        const epocRealizedIcon = new this.$L.Icon({
+          iconUrl:
+            geojsonPoint.properties.project_code === 'EPOC'
+              ? '/prospecting/epoc-realized.svg'
+              : '/prospecting/epoc-ODF-realized.svg',
           iconSize: [32, 39],
           iconAnchor: [16, 35.5],
         })
         return this.$L.marker(latlng, {
-          icon: epocIcon,
+          icon: epocRealizedIcon,
         })
       }
     },
-    epocOnEachFeature() {
+    epocRealizedOnEachFeature() {
       return (feature, layer) => {
-        layer.bindTooltip(`Formulaire ${feature.properties.project_code}`, {
+        layer.bindTooltip(`${feature.properties.project_code.replace('-', ' ')} réalisé`, {
           direction: 'right',
           offset: [14, -18],
           permanent: false,
@@ -625,68 +615,41 @@ export default {
         })
       }
     },
-    epocOdfOfficialGeojsonOptions() {
+    epocOdfGeojsonOptions() {
       return {
-        pointToLayer: this.epocOdfOfficialPointToLayer,
-        onEachFeature: this.epocOdfOfficialOnEachFeature,
+        pointToLayer: this.epocOdfPointToLayer,
+        onEachFeature: this.epocOdfOnEachFeature,
       }
     },
-    epocOdfOfficialPointToLayer() {
+    epocOdfPointToLayer() {
       return (geojsonPoint, latlng) => {
-        const epocOdfOfficialIcon = new this.$L.Icon({
-          iconUrl: '/prospecting/epoc-ODF-Official.svg',
+        const epocOdfIcon = new this.$L.Icon({
+          iconUrl:
+            geojsonPoint.properties.status === 'Officiel'
+              ? '/prospecting/epoc-ODF-Official.svg'
+              : '/prospecting/epoc-ODF-Reserve.svg',
           iconSize: [32, 39],
           iconAnchor: [16, 35.5],
         })
         return this.$L.marker(latlng, {
-          icon: epocOdfOfficialIcon,
+          icon: epocOdfIcon,
         })
       }
     },
-    epocOdfOfficialOnEachFeature() {
+    epocOdfOnEachFeature() {
       return (feature, layer) => {
-        layer.bindTooltip('EPOC ODF officiel', {
-          direction: 'right',
-          offset: [14, -18],
-          permanent: false,
-          opacity: 1,
-          className: 'LeafletTooltip',
-        })
-        layer.on({
-          click: (event) => {
-            this.$emit('clickedEpocPoint', feature)
-            this.openMobileMapControl()
-          },
-        })
-      }
-    },
-    epocOdfReserveGeojsonOptions() {
-      return {
-        pointToLayer: this.epocOdfReservePointToLayer,
-        onEachFeature: this.epocOdfReserveOnEachFeature,
-      }
-    },
-    epocOdfReservePointToLayer() {
-      return (geojsonPoint, latlng) => {
-        const epocOdfReserveIcon = new this.$L.Icon({
-          iconUrl: '/prospecting/epoc-ODF-Reserve.svg',
-          iconSize: [32, 39],
-          iconAnchor: [16, 35.5],
-        })
-        return this.$L.marker(latlng, {
-          icon: epocOdfReserveIcon,
-        })
-      }
-    },
-    epocOdfReserveOnEachFeature() {
-      return (feature, layer) => {
-        layer.bindTooltip('EPOC ODF de réserve', {
-          direction: 'right',
-          offset: [14, -18],
-          permanent: false,
-          opacity: 1,
-          className: 'LeafletTooltip',
-        })
+        layer.bindTooltip(
+          `EPOC ODF ${
+            feature.properties.status === 'Officiel' ? 'officiel' : 'de réserve'
+          }`,
+          {
+            direction: 'right',
+            offset: [14, -18],
+            permanent: false,
+            opacity: 1,
+            className: 'LeafletTooltip',
+          }
+        )
         layer.on({
           click: (event) => {
             this.$emit('clickedEpocPoint', feature)
@@ -855,9 +818,8 @@ export default {
       this.envelope = this.defineEnvelope(initBounds)
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
-        this.updateEpocGeojson()
-        this.updateEpocOdfOfficialGeojson()
-        this.updateEpocOdfReserveGeojson()
+        this.updateEpocRealizedGeojson()
+        this.updateEpocOdfGeojson()
       }
     },
     updateEnvelope(newBounds) {
@@ -866,9 +828,8 @@ export default {
       this.envelope = this.defineEnvelope(newBounds)
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
-        this.updateEpocGeojson()
-        this.updateEpocOdfOfficialGeojson()
-        this.updateEpocOdfReserveGeojson()
+        this.updateEpocRealizedGeojson()
+        this.updateEpocOdfGeojson()
       }
       if (this.selectedSpecies) {
         this.updateSpeciesDistributionGeojson(this.selectedSpecies)
@@ -1031,31 +992,21 @@ export default {
       this.oldZoomSpeciesDistribution = this.currentZoom
       this.isProgramaticZoom = false
     },
-    updateEpocGeojson() {
+    updateEpocRealizedGeojson() {
       this.$axios
         .$get(`/api/v1/epoc/realized?envelope=${this.envelope}`)
         .then((data) => {
-          this.epocGeojson = data
+          this.epocRealizedGeojson = data
         })
         .catch((error) => {
           console.log(error)
         })
     },
-    updateEpocOdfOfficialGeojson() {
+    updateEpocOdfGeojson() {
       this.$axios
-        .$get(`/api/v1/epoc?status=Officiel&envelope=${this.envelope}`)
+        .$get(`/api/v1/epoc?envelope=${this.envelope}`)
         .then((data) => {
-          this.epocOdfOfficialGeojson = data
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-    updateEpocOdfReserveGeojson() {
-      this.$axios
-        .$get(`/api/v1/epoc?status=Reserve&envelope=${this.envelope}`)
-        .then((data) => {
-          this.epocOdfReserveGeojson = data
+          this.epocOdfGeojson = data
         })
         .catch((error) => {
           console.log(error)
@@ -1156,14 +1107,11 @@ export default {
     updateSelectedLayer(layer) {
       this.$emit('selectedLayer', layer)
     },
-    updateEpoc(value) {
-      this.$emit('epocIsOn', value)
+    updateEpocRealized(value) {
+      this.$emit('epocRealizedIsOn', value)
     },
-    updateEpocOdfOfficial(value) {
-      this.$emit('epocOdfOfficialIsOn', value)
-    },
-    updateEpocOdfReserve(value) {
-      this.$emit('epocOdfReserveIsOn', value)
+    updateEpocOdf(value) {
+      this.$emit('epocOdfIsOn', value)
     },
     updatePlan(value) {
       this.$emit('planIsOn', value)
