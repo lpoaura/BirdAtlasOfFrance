@@ -18,7 +18,11 @@
       />
       <feature-dashboard-control
         v-if="
-          ['Indice de complétude', 'Nombre d\'espèces par maille', 'Points EPOC'].includes(selectedLayer) &&
+          [
+            'Indice de complétude',
+            'Nombre d\'espèces par maille',
+            'Points EPOC',
+          ].includes(selectedLayer) &&
           clickedFeature &&
           !clickedEpocPoint
         "
@@ -207,7 +211,12 @@ export default {
       id: null,
       name: null,
     },
-    countTaxaClasses: [], // Classes pour la couche "Nb d'espèces par maille"
+    countTaxaClasses: {
+      // Classes pour la couche "Nb d'espèces par maille"
+      all_period: [],
+      breeding: [],
+      wintering: [],
+    },
     clickedFeature: null, // On clique sur une maille
     clickedEpocPoint: null, // On clique sur un point EPOC
     epocRealizedIsOn: true,
@@ -288,15 +297,30 @@ export default {
     updateCurrentTerritory(territory) {
       this.currentTerritory = territory
       if (territory.id) {
-        this.$axios
-          .$get(
+        Promise.all([
+          this.$axios.$get(
             `api/v1/map/count_taxon_classes/${territory.id}?period=all_period`
-          )
-          .then((data) => {
-            this.countTaxaClasses = data
+          ),
+          this.$axios.$get(
+            `api/v1/map/count_taxon_classes/${territory.id}?period=breeding`
+          ),
+          this.$axios.$get(
+            `api/v1/map/count_taxon_classes/${territory.id}?period=wintering`
+          ),
+        ])
+          .then((responses) => {
+            const seasons = ['all_period', 'breeding', 'wintering']
+            responses.forEach((item, index) => {
+              this.countTaxaClasses[seasons[index]] = item
+              this.countTaxaClasses[seasons[index]].forEach((taxaClass, i) => {
+                if (i !== this.countTaxaClasses[seasons[index]].length - 1) {
+                  taxaClass.max -= 1
+                }
+              })
+            })
           })
-          .catch((error) => {
-            console.log(error)
+          .catch((errors) => {
+            console.log(errors)
           })
       }
       if (

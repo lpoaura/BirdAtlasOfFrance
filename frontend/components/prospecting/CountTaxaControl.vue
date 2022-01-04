@@ -19,7 +19,7 @@
     </header>
     <div v-show="currentTerritory.id" class="Legend">
       <span
-        v-for="(item, index) in countTaxaClasses"
+        v-for="(item, index) in countTaxaClasses[selectedSeason.value]"
         :key="index"
         class="LegendItem black02 fw-500"
       >
@@ -28,7 +28,11 @@
             background: selectedSeason.featuresColors[index],
           }"
         ></i>
-        {{ countTaxaClasses[index].min + '-' + countTaxaClasses[index].max }}
+        {{
+          countTaxaClasses[selectedSeason.value][index].min +
+          '-' +
+          countTaxaClasses[selectedSeason.value][index].max
+        }}
       </span>
     </div>
   </section>
@@ -42,7 +46,7 @@ export default {
       required: true,
     },
     countTaxaClasses: {
-      type: Array,
+      type: Object,
       required: true,
     },
     selectedSeason: {
