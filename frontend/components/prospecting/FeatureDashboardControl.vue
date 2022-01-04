@@ -283,20 +283,59 @@
         </div>
         <div class="MapControlSplit"></div>
         <h4 class="black02 fw-bold bottom-margin-16">
-          Points EPOC ODF ({{ featureEpocList.length }})
+          Points EPOC ODF 2021 ({{ featureEpocOdfList.length }})
+          <!-- Points EPOC ODF {{ new Date().getFullYear() }} ({{ featureEpocOdfList.length }}) -->
         </h4>
         <li
-          v-for="(epoc, index) in featureEpocList"
-          :key="index"
+          v-for="(epoc, index) in featureEpocOdfList"
+          :key="'epocOdf' + index"
           class="MapControlDataOption pointer"
           @click="updateClickedEpocItem(epoc)"
         >
           <img class="MapControlDataOptionIcon" src="/location.svg" />
-          {{ epoc.properties.id_ff }}
+          {{ epoc.properties.id_ff.replace('-', ' ').replace(/_/g, ' ') }}
         </li>
-        <span v-if="featureEpocList.length === 0" class="black02">
-          Aucun point EPOC à afficher dans cette maille
-        </span>
+        <li
+          v-if="featureEpocOdfList.length === 0"
+          class="MapControlDataOption bottom-margin-24"
+        >
+          Aucun point EPOC ODF à afficher dans cette maille.
+        </li>
+        <div class="MapControlSplit top-margin-24"></div>
+        <h4 class="black02 fw-bold bottom-margin-16">
+          Points EPOC ODF réalisés ({{ featureEpocOdfRealizedList.length }})
+        </h4>
+        <li
+          v-for="(epoc, index) in featureEpocOdfRealizedList"
+          :key="'epocOdfRealized' + index"
+          class="MapControlDataOption pointer"
+          @click="updateClickedEpocItem(epoc)"
+        >
+          <img class="MapControlDataOptionIcon" src="/location.svg" />
+          EPOC ODF réalisé le
+          {{
+            $formatDate(epoc.properties.date, true) +
+            ' à ' +
+            epoc.properties.time.slice(0, -3)
+          }}
+        </li>
+        <li
+          v-if="featureEpocOdfRealizedList.length === 0"
+          class="MapControlDataOption bottom-margin-24"
+        >
+          Aucun point EPOC ODF réalisé dans cette maille.
+        </li>
+        <div class="MapControlSplit top-margin-24"></div>
+        <h4 class="black02 fw-bold bottom-margin-16">
+          Points EPOC réalisés ({{ featureEpocRealizedList.length }})
+        </h4>
+        <li v-if="featureEpocRealizedList.length > 0" class="MapControlDataOption">
+          Pour accéder aux informations des points EPOC réalisés, veuillez les
+          sélectionner directement sur la carte.
+        </li>
+        <li v-else class="MapControlDataOption">
+          Aucun point EPOC réalisé dans cette maille.
+        </li>
       </div>
     </div>
     <!-- MUNICIPALITIES DASHBOARD -->
@@ -441,7 +480,9 @@ export default {
       wintering: [],
     },
     featureMunicipalitiesList: [],
-    featureEpocList: {},
+    featureEpocOdfList: {},
+    featureEpocOdfRealizedList: {},
+    featureEpocRealizedList: {},
     search: '',
     seeMoreMunicipalitiesIsClicked: false,
     clickedSpecies: null,
@@ -789,9 +830,24 @@ export default {
       this.$axios
         .$get(`/api/v1/epoc?id_area=${this.featureID}`)
         .then((data) => {
-          // console.log('Liste des points EPOC :')
+          // console.log('Liste des points EPOC ODF statiques :')
           // console.log(data.features)
-          this.featureEpocList = data.features
+          this.featureEpocOdfList = data.features
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      this.$axios
+        .$get(`/api/v1/epoc/realized?id_area=${this.featureID}`)
+        .then((data) => {
+          // console.log('Liste des points EPOC réalisés :')
+          // console.log(data.features)
+          this.featureEpocOdfRealizedList = data.features.filter((epoc) => {
+            return epoc.properties.project_code === 'EPOC-ODF'
+          })
+          this.featureEpocRealizedList = data.features.filter((epoc) => {
+            return epoc.properties.project_code === 'EPOC'
+          })
         })
         .catch((error) => {
           console.log(error)

@@ -29,20 +29,15 @@
       <div v-show="selectedLayer === 'Points EPOC'">
         <div class="RadioOption epoc">
           <div class="RadioLabel">
-            <switch-button v-model="epocIsOn" />
-            Formulaires EPOC
+            <switch-button v-model="epocRealizedIsOn" />
+            EPOC réalisés
           </div>
         </div>
         <div class="RadioOption epoc">
           <div class="RadioLabel">
-            <switch-button v-model="epocOdfOfficialIsOn" />
-            EPOC ODF officiels
-          </div>
-        </div>
-        <div class="RadioOption epoc">
-          <div class="RadioLabel">
-            <switch-button v-model="epocOdfReserveIsOn" />
-            EPOC ODF de réserve
+            <switch-button v-model="epocOdfIsOn" />
+            EPOC ODF 2021
+            <!-- EPOC ODF {{ new Date().getFullYear() }} -->
           </div>
         </div>
       </div>
@@ -149,9 +144,8 @@ export default {
       { label: 'Points EPOC', subtitle: null },
     ],
     speciesDistributionLayer: "Répartition de l'espèce",
-    epocIsOn: true,
-    epocOdfOfficialIsOn: true,
-    epocOdfReserveIsOn: true,
+    epocRealizedIsOn: true,
+    epocOdfIsOn: true,
     planIsOn: false,
     planOpacity: '50',
     orthophotoIsOn: false,
@@ -165,14 +159,11 @@ export default {
     },
   },
   watch: {
-    epocIsOn(newVal) {
-      this.$emit('epocIsOn', newVal)
+    epocRealizedIsOn(newVal) {
+      this.$emit('epocRealizedIsOn', newVal)
     },
-    epocOdfOfficialIsOn(newVal) {
-      this.$emit('epocOdfOfficialIsOn', newVal)
-    },
-    epocOdfReserveIsOn(newVal) {
-      this.$emit('epocOdfReserveIsOn', newVal)
+    epocOdfIsOn(newVal) {
+      this.$emit('epocOdfIsOn', newVal)
     },
     planIsOn(newVal) {
       this.$emit('planIsOn', newVal)
