@@ -369,7 +369,7 @@ export default {
     },
     countTaxaClasses: {
       // Classes pour la couche "Nb d'espèces par maille"
-      type: Array,
+      type: Object,
       required: true,
     },
     clickedFeature: {
@@ -441,7 +441,7 @@ export default {
     // CONFIGURATION DES MAPCONTROLS
     disableScrollPropagation: true,
     noSpeciesData: false,
-    knowledgeLevelClasses: [0.25, 0.5, 0.75, 1],
+    knowledgeLevelClasses: [0, 0.25, 0.5, 0.75, 1],
     searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
     searchedFeatureCode: null, // Le zonage sélectionné est une maille (recherche depuis l'URL)
     indeterminate: true, // Progress (loading)
@@ -600,13 +600,16 @@ export default {
     },
     epocRealizedOnEachFeature() {
       return (feature, layer) => {
-        layer.bindTooltip(`${feature.properties.project_code.replace('-', ' ')} réalisé`, {
-          direction: 'right',
-          offset: [14, -18],
-          permanent: false,
-          opacity: 1,
-          className: 'LeafletTooltip',
-        })
+        layer.bindTooltip(
+          `${feature.properties.project_code.replace('-', ' ')} réalisé`,
+          {
+            direction: 'right',
+            offset: [14, -18],
+            permanent: false,
+            opacity: 1,
+            className: 'LeafletTooltip',
+          }
+        )
         layer.on({
           click: (event) => {
             this.$emit('clickedEpocPoint', feature)
@@ -1015,24 +1018,24 @@ export default {
     setFeatureColor(number) {
       const featuresColors = this.selectedSeason.featuresColors
       if (this.selectedLayer === 'Indice de complétude') {
-        return number >= this.knowledgeLevelClasses[3]
+        return number >= this.knowledgeLevelClasses[4]
           ? featuresColors[4]
-          : number > this.knowledgeLevelClasses[2]
+          : number >= this.knowledgeLevelClasses[3]
           ? featuresColors[3]
-          : number > this.knowledgeLevelClasses[1]
+          : number >= this.knowledgeLevelClasses[2]
           ? featuresColors[2]
-          : number > this.knowledgeLevelClasses[0]
+          : number >= this.knowledgeLevelClasses[1]
           ? featuresColors[1]
           : featuresColors[0]
       }
       if (this.selectedLayer === "Nombre d'espèces par maille") {
-        return number >= this.countTaxaClasses[3].max
+        return number >= this.countTaxaClasses[this.selectedSeason.value][4].min
           ? featuresColors[4]
-          : number > this.countTaxaClasses[2].max
+          : number >= this.countTaxaClasses[this.selectedSeason.value][3].min
           ? featuresColors[3]
-          : number > this.countTaxaClasses[1].max
+          : number >= this.countTaxaClasses[this.selectedSeason.value][2].min
           ? featuresColors[2]
-          : number > this.countTaxaClasses[0].max
+          : number >= this.countTaxaClasses[this.selectedSeason.value][1].min
           ? featuresColors[1]
           : featuresColors[0]
       }
