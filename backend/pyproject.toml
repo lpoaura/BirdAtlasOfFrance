@@ -20,6 +20,7 @@ GeoAlchemy2 = "^0.8.5"
 coloredlogs = "^15.0"
 loguru = "^0.5.3"
 geojson-pydantic = "^0.2.3"
+sentry-sdk = "^1.5.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
