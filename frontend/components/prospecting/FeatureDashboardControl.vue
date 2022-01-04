@@ -94,6 +94,47 @@
           </h5>
         </div>
         <div class="MapControlSplit"></div>
+        <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
+          Nombre d'espèces ({{
+            selectedSeason.label
+              .replace('Période de ', '')
+              .replace("Période d'", '')
+              .toLowerCase()
+          }})
+        </h4>
+        <div class="MapControlKeyData">
+          <h3
+            class="MapControlKeyDataValue large fw-bold right-margin-24"
+            :class="selectedSeason.value"
+          >
+            {{ featureProperties[selectedSeason.value].old_count }} espèces
+          </h3>
+          <h3
+            class="MapControlKeyDataValue small fw-bold right-margin-24"
+            :class="selectedSeason.value"
+          >
+            {{ featureProperties[selectedSeason.value].old_count }} esp.
+          </h3>
+          <h5 class="black03">ont été signalées sur la période <b>Avant 2019</b></h5>
+        </div>
+        <div class="MapControlKeyData">
+          <h3
+            class="MapControlKeyDataValue large fw-bold right-margin-24"
+            :class="selectedSeason.value"
+          >
+            {{ featureProperties[selectedSeason.value].new_count }} espèces
+          </h3>
+          <h3
+            class="MapControlKeyDataValue small fw-bold right-margin-24"
+            :class="selectedSeason.value"
+          >
+            {{ featureProperties[selectedSeason.value].new_count }} esp.
+          </h3>
+          <h5 class="black03">
+            ont été signalées sur la période <b>Atlas 2019-2024</b>
+          </h5>
+        </div>
+        <div class="MapControlSplit"></div>
         <h4 class="black02 fw-bold bottom-margin-16">
           Répartition temporelle des données ({{
             $thousandDelimiter(featureDataKey.data_count)
@@ -329,7 +370,10 @@
         <h4 class="black02 fw-bold bottom-margin-16">
           Points EPOC réalisés ({{ featureEpocRealizedList.length }})
         </h4>
-        <li v-if="featureEpocRealizedList.length > 0" class="MapControlDataOption">
+        <li
+          v-if="featureEpocRealizedList.length > 0"
+          class="MapControlDataOption"
+        >
           Pour accéder aux informations des points EPOC réalisés, veuillez les
           sélectionner directement sur la carte.
         </li>
