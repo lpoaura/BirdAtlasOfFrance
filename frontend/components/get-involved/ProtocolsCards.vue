@@ -133,7 +133,7 @@ export default {
 .ProtocolsCardsGrid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-gap: 24px;
 }
 
@@ -141,7 +141,7 @@ export default {
 
 @media screen and (max-width: 680px) {
   .ProtocolsCardsGrid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     grid-gap: 16px;
   }
 

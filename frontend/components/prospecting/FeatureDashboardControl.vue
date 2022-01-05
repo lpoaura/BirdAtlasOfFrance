@@ -94,6 +94,47 @@
           </h5>
         </div>
         <div class="MapControlSplit"></div>
+        <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
+          Nombre d'espèces ({{
+            selectedSeason.label
+              .replace('Période de ', '')
+              .replace("Période d'", '')
+              .toLowerCase()
+          }})
+        </h4>
+        <div class="MapControlKeyData">
+          <h3
+            class="MapControlKeyDataValue large fw-bold right-margin-24"
+            :class="selectedSeason.value"
+          >
+            {{ featureProperties[selectedSeason.value].old_count }} espèces
+          </h3>
+          <h3
+            class="MapControlKeyDataValue small fw-bold right-margin-24"
+            :class="selectedSeason.value"
+          >
+            {{ featureProperties[selectedSeason.value].old_count }} esp.
+          </h3>
+          <h5 class="black03">ont été signalées sur la période <b>Avant 2019</b></h5>
+        </div>
+        <div class="MapControlKeyData">
+          <h3
+            class="MapControlKeyDataValue large fw-bold right-margin-24"
+            :class="selectedSeason.value"
+          >
+            {{ featureProperties[selectedSeason.value].new_count }} espèces
+          </h3>
+          <h3
+            class="MapControlKeyDataValue small fw-bold right-margin-24"
+            :class="selectedSeason.value"
+          >
+            {{ featureProperties[selectedSeason.value].new_count }} esp.
+          </h3>
+          <h5 class="black03">
+            ont été signalées sur la période <b>Atlas 2019-2024</b>
+          </h5>
+        </div>
+        <div class="MapControlSplit"></div>
         <h4 class="black02 fw-bold bottom-margin-16">
           Répartition temporelle des données ({{
             $thousandDelimiter(featureDataKey.data_count)
@@ -283,20 +324,62 @@
         </div>
         <div class="MapControlSplit"></div>
         <h4 class="black02 fw-bold bottom-margin-16">
-          Points EPOC ODF ({{ featureEpocList.length }})
+          Points EPOC ODF 2021 ({{ featureEpocOdfList.length }})
+          <!-- Points EPOC ODF {{ new Date().getFullYear() }} ({{ featureEpocOdfList.length }}) -->
         </h4>
         <li
-          v-for="(epoc, index) in featureEpocList"
-          :key="index"
+          v-for="(epoc, index) in featureEpocOdfList"
+          :key="'epocOdf' + index"
           class="MapControlDataOption pointer"
           @click="updateClickedEpocItem(epoc)"
         >
           <img class="MapControlDataOptionIcon" src="/location.svg" />
-          {{ epoc.properties.id_ff }}
+          {{ epoc.properties.id_ff.replace('-', ' ').replace(/_/g, ' ') }}
         </li>
-        <span v-if="featureEpocList.length === 0" class="black02">
-          Aucun point EPOC à afficher dans cette maille
-        </span>
+        <li
+          v-if="featureEpocOdfList.length === 0"
+          class="MapControlDataOption bottom-margin-24"
+        >
+          Aucun point EPOC ODF à afficher dans cette maille.
+        </li>
+        <div class="MapControlSplit top-margin-24"></div>
+        <h4 class="black02 fw-bold bottom-margin-16">
+          Points EPOC ODF réalisés ({{ featureEpocOdfRealizedList.length }})
+        </h4>
+        <li
+          v-for="(epoc, index) in featureEpocOdfRealizedList"
+          :key="'epocOdfRealized' + index"
+          class="MapControlDataOption pointer"
+          @click="updateClickedEpocItem(epoc)"
+        >
+          <img class="MapControlDataOptionIcon" src="/location.svg" />
+          EPOC ODF réalisé le
+          {{
+            $formatDate(epoc.properties.date, true) +
+            ' à ' +
+            epoc.properties.time.slice(0, -3)
+          }}
+        </li>
+        <li
+          v-if="featureEpocOdfRealizedList.length === 0"
+          class="MapControlDataOption bottom-margin-24"
+        >
+          Aucun point EPOC ODF réalisé dans cette maille.
+        </li>
+        <div class="MapControlSplit top-margin-24"></div>
+        <h4 class="black02 fw-bold bottom-margin-16">
+          Points EPOC réalisés ({{ featureEpocRealizedList.length }})
+        </h4>
+        <li
+          v-if="featureEpocRealizedList.length > 0"
+          class="MapControlDataOption"
+        >
+          Pour accéder aux informations des points EPOC réalisés, veuillez les
+          sélectionner directement sur la carte.
+        </li>
+        <li v-else class="MapControlDataOption">
+          Aucun point EPOC réalisé dans cette maille.
+        </li>
       </div>
     </div>
     <!-- MUNICIPALITIES DASHBOARD -->
@@ -305,17 +388,17 @@
         <img class="MapControlComeBackIcon" src="/previous.svg" />
         <span class="fw-500">{{ featureProperties.area_name }}</span>
       </div>
-      <header class="MapControlHeader">
+      <header class="MapControlInfo">
         <h4 class="fw-bold">
           Communes ({{ featureMunicipalitiesList.length }})
         </h4>
       </header>
-      <div class="MapControlSplit right-margin-16"></div>
+      <div class="MapControlSplit right-margin-16 no-bottom-margin"></div>
       <div class="MapControlOverflow">
         <li
           v-for="(municipality, index) in featureMunicipalitiesList"
           :key="index"
-          class="MapControlDataOption"
+          class="MapControlDataOption top-margin"
         >
           {{ municipality.area_name }}
         </li>
@@ -327,14 +410,14 @@
         <img class="MapControlComeBackIcon" src="/previous.svg" />
         <span class="fw-500">{{ featureProperties.area_name }}</span>
       </div>
-      <header class="MapControlHeader">
+      <header class="MapControlInfo">
         <h4 class="fw-bold">
           {{ clickedSpecies[`common_name_${lang}`] }}
         </h4>
       </header>
-      <div class="MapControlSplit right-margin-16"></div>
+      <div class="MapControlSplit right-margin-16 no-bottom-margin"></div>
       <div class="MapControlOverflow">
-        <div class="MapControlDataOption">
+        <div class="MapControlDataOption top-margin-24">
           <img
             class="MapControlDataOptionIcon"
             src="/nav-bar/burger-black.svg"
@@ -441,7 +524,9 @@ export default {
       wintering: [],
     },
     featureMunicipalitiesList: [],
-    featureEpocList: {},
+    featureEpocOdfList: {},
+    featureEpocOdfRealizedList: {},
+    featureEpocRealizedList: {},
     search: '',
     seeMoreMunicipalitiesIsClicked: false,
     clickedSpecies: null,
@@ -737,8 +822,9 @@ export default {
       // console.log('----------------------------------------')
       // console.log('ID : ' + this.featureID)
       this.featureProperties = feature.properties
-      this.featureProperties.area_name =
-        this.featureProperties.area_name.replace('10kmL93', '')
+      this.featureProperties.area_name = this.featureProperties.area_name
+        .replace('10kmL93', '')
+        .replace('10kmUTM22', '')
       // console.log('Properties :')
       // console.log(this.featureProperties)
       this.$router.push({
@@ -788,9 +874,24 @@ export default {
       this.$axios
         .$get(`/api/v1/epoc?id_area=${this.featureID}`)
         .then((data) => {
-          // console.log('Liste des points EPOC :')
+          // console.log('Liste des points EPOC ODF statiques :')
           // console.log(data.features)
-          this.featureEpocList = data.features
+          this.featureEpocOdfList = data.features
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      this.$axios
+        .$get(`/api/v1/epoc/realized?id_area=${this.featureID}`)
+        .then((data) => {
+          // console.log('Liste des points EPOC réalisés :')
+          // console.log(data.features)
+          this.featureEpocOdfRealizedList = data.features.filter((epoc) => {
+            return epoc.properties.project_code === 'EPOC-ODF'
+          })
+          this.featureEpocRealizedList = data.features.filter((epoc) => {
+            return epoc.properties.project_code === 'EPOC'
+          })
         })
         .catch((error) => {
           console.log(error)
@@ -806,10 +907,19 @@ export default {
       this.seeMoreMunicipalitiesIsClicked = false
     },
     updateClickedSpecies(taxon) {
-      if (!taxon.phenology[0].label) {
-        const months = this.months.map((item) => {
-          return item.charAt(0)
+      const months = this.months.map((item) => {
+        return item.charAt(0)
+      })
+      if (!taxon.phenology[0]) {
+        const phenology = months.map((item) => {
+          return {
+            label: item,
+            is_present: false,
+          }
         })
+        taxon.phenology = phenology
+      }
+      if (!taxon.phenology[0].label) {
         const phenology = months.map((item, index) => {
           return {
             label: item,

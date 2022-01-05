@@ -62,7 +62,7 @@
         {{
           selectedType.label === 'Espèce'
             ? data[`common_name_${lang}`]
-            : data.name.replace('10kmL93', '')
+            : data.name.replace('10kmL93', '').replace('10kmUTM22', '')
         }}
         <i v-if="selectedType.label === 'Espèce'">({{ data.sci_name }})</i>
         {{
@@ -220,9 +220,14 @@ export default {
           path: '/prospecting',
           query: { area: `${data.code}`, type: `${data.type_code}` },
         })
-        if (this.search !== data.name.replace('10kmL93', '')) {
+        if (
+          this.search !==
+          data.name.replace('10kmL93', '').replace('10kmUTM22', '')
+        ) {
           this.searchIsProgramatic = true
-          this.search = data.name.replace('10kmL93', '')
+          this.search = data.name
+            .replace('10kmL93', '')
+            .replace('10kmUTM22', '')
         }
       }
       this.autocompleteIsOpen = false

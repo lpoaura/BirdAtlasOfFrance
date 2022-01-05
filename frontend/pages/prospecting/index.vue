@@ -7,9 +7,22 @@
         :selected-season="selectedSeason"
         @mobileMapControl="openOrCloseMobileMapControl"
       />
+      <count-taxa-control
+        v-show="
+          selectedLayer === 'Nombre d\'espèces par maille' && !clickedFeature
+        "
+        :current-territory="currentTerritory"
+        :count-taxa-classes="countTaxaClasses"
+        :selected-season="selectedSeason"
+        @mobileMapControl="openOrCloseMobileMapControl"
+      />
       <feature-dashboard-control
         v-if="
-          ['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+          [
+            'Indice de complétude',
+            'Nombre d\'espèces par maille',
+            'Points EPOC',
+          ].includes(selectedLayer) &&
           clickedFeature &&
           !clickedEpocPoint
         "
@@ -79,8 +92,8 @@
             :selected-layer="selectedLayer"
             :selected-species="selectedSpecies"
             @selectedLayer="updateSelectedLayer"
-            @epocOdfOfficialIsOn="updateEpocOdfOfficial"
-            @epocOdfReserveIsOn="updateEpocOdfReserve"
+            @epocRealizedIsOn="updateEpocRealized"
+            @epocOdfIsOn="updateEpocOdf"
             @planIsOn="updatePlan"
             @planOpacity="updatePlanOpacity"
             @orthophotoIsOn="updateOrthophoto"
@@ -115,10 +128,11 @@
         :selected-layer="selectedLayer"
         :selected-territory="selectedTerritory"
         :current-territory="currentTerritory"
+        :count-taxa-classes="countTaxaClasses"
         :clicked-feature="clickedFeature"
         :clicked-epoc-point="clickedEpocPoint"
-        :epoc-odf-official-is-on="epocOdfOfficialIsOn"
-        :epoc-odf-reserve-is-on="epocOdfReserveIsOn"
+        :epoc-realized-is-on="epocRealizedIsOn"
+        :epoc-odf-is-on="epocOdfIsOn"
         :plan="plan"
         :orthophoto="orthophoto"
         :mobile-map-control-is-open="mobileMapControlIsOpen"
@@ -129,8 +143,8 @@
         @currentTerritory="updateCurrentTerritory"
         @clickedFeature="updateClickedFeature"
         @clickedEpocPoint="updateClickedEpocPoint"
-        @epocOdfOfficialIsOn="updateEpocOdfOfficial"
-        @epocOdfReserveIsOn="updateEpocOdfReserve"
+        @epocRealizedIsOn="updateEpocRealized"
+        @epocOdfIsOn="updateEpocOdf"
         @planIsOn="updatePlan"
         @planOpacity="updatePlanOpacity"
         @orthophotoIsOn="updateOrthophoto"
@@ -147,8 +161,10 @@ import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
 import LayersSelector from '~/components/prospecting/LayersSelector.vue'
 import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
+import CountTaxaControl from '~/components/prospecting/CountTaxaControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
 import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
+import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
 
 export default {
   components: {
@@ -162,8 +178,10 @@ export default {
       }
     },
     'knowledge-level-control': KnowledgeLevelControl,
+    'count-taxa-control': CountTaxaControl,
     'feature-dashboard-control': FeatureDashboardControl,
     'species-dashboard-control': SpeciesDashboardControl,
+    'epoc-dashboard-control': EpocDashboardControl,
   },
   data: () => ({
     selectedArea: null, // Zonage sélectionné dans la barre de recherche
@@ -193,11 +211,16 @@ export default {
       id: null,
       name: null,
     },
+    countTaxaClasses: {
+      // Classes pour la couche "Nb d'espèces par maille"
+      all_period: [],
+      breeding: [],
+      wintering: [],
+    },
     clickedFeature: null, // On clique sur une maille
     clickedEpocPoint: null, // On clique sur un point EPOC
-    // epocPointsIsOn: true, À PASSER DANS ProspectingMap
-    epocOdfOfficialIsOn: true,
-    epocOdfReserveIsOn: true,
+    epocRealizedIsOn: true,
+    epocOdfIsOn: true,
     plan: {
       isOn: false,
       url:
@@ -273,6 +296,33 @@ export default {
     },
     updateCurrentTerritory(territory) {
       this.currentTerritory = territory
+      if (territory.id) {
+        Promise.all([
+          this.$axios.$get(
+            `api/v1/map/count_taxon_classes/${territory.id}?period=all_period`
+          ),
+          this.$axios.$get(
+            `api/v1/map/count_taxon_classes/${territory.id}?period=breeding`
+          ),
+          this.$axios.$get(
+            `api/v1/map/count_taxon_classes/${territory.id}?period=wintering`
+          ),
+        ])
+          .then((responses) => {
+            const seasons = ['all_period', 'breeding', 'wintering']
+            responses.forEach((item, index) => {
+              this.countTaxaClasses[seasons[index]] = item
+              this.countTaxaClasses[seasons[index]].forEach((taxaClass, i) => {
+                if (i !== this.countTaxaClasses[seasons[index]].length - 1) {
+                  taxaClass.max -= 1
+                }
+              })
+            })
+          })
+          .catch((errors) => {
+            console.log(errors)
+          })
+      }
       if (
         this.selectedTerritory.name &&
         this.currentTerritory.name !== this.selectedTerritory.name
@@ -290,14 +340,11 @@ export default {
     updateClickedEpocPoint(epoc) {
       this.clickedEpocPoint = epoc
     },
-    updateEpocPoints(value) {
-      this.epocPointsIsOn = value
+    updateEpocRealized(value) {
+      this.epocRealizedIsOn = value
     },
-    updateEpocOdfOfficial(value) {
-      this.epocOdfOfficialIsOn = value
-    },
-    updateEpocOdfReserve(value) {
-      this.epocOdfReserveIsOn = value
+    updateEpocOdf(value) {
+      this.epocOdfIsOn = value
     },
     updatePlan(value) {
       this.plan.isOn = value

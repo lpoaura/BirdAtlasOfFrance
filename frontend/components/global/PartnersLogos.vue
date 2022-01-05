@@ -97,7 +97,8 @@ export default {
   margin-bottom: 30px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  grid-gap: 60px;
+  row-gap: 36px;
+  column-gap: 60px;
 }
 
 .PartnerLogo {
