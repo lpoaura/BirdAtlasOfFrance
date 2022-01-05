@@ -2,1212 +2,1271 @@
 
 ***Actualized on 2022-01-05***
 
-
-| sci\_name | rank | include |
-| :--- | :--- | :--- |
-| Acanthis flammea | ES | Acanthis flammea cabaret, Acanthis flammea, Acanthis flammea flammea |
-| Acanthis flammea cabaret | SSES | Acanthis flammea cabaret |
-| Acanthis flammea flammea | SSES | Acanthis flammea flammea |
-| Accipiter bicolor | ES | Accipiter bicolor |
-| Accipiter gentilis | ES | Accipiter gentilis |
-| Accipiter nisus | ES | Accipiter nisus |
-| Accipiter poliogaster | ES | Accipiter poliogaster |
-| Accipiter superciliosus | ES | Accipiter superciliosus |
-| Acridotheres tristis | ES | Acridotheres tristis |
-| Acrocephalus agricola | ES | Acrocephalus agricola |
-| Acrocephalus arundinaceus | ES | Acrocephalus arundinaceus |
-| Acrocephalus dumetorum | ES | Acrocephalus dumetorum |
-| Acrocephalus melanopogon | ES | Acrocephalus melanopogon |
-| Acrocephalus paludicola | ES | Acrocephalus paludicola |
-| Acrocephalus palustris | ES | Acrocephalus palustris |
-| Acrocephalus schoenobaenus | ES | Acrocephalus schoenobaenus |
-| Acrocephalus scirpaceus | ES | Acrocephalus scirpaceus |
-| Actitis hypoleucos | ES | Actitis hypoleucos |
-| Actitis macularius | ES | Actitis macularius |
-| Aegithalos caudatus | ES | Aegithalos caudatus |
-| Aegolius funereus | ES | Aegolius funereus |
-| Aegypius monachus | ES | Aegypius monachus |
-| Aeronautes montivagus | ES | Aeronautes montivagus |
-| Agamia agami | ES | Agamia agami |
-| Agapornis fischeri | ES | Agapornis fischeri |
-| Agapornis personatus | ES | Agapornis personatus |
-| Agapornis pullarius | ES | Agapornis pullarius |
-| Aix galericulata | ES | Aix galericulata |
-| Aix sponsa | ES | Aix sponsa |
-| Alauda arvensis | ES | Alauda arvensis |
-| Alaudala rufescens | ES | Alaudala rufescens |
-| Alca torda | ES | Alca torda |
-| Alcedo atthis | ES | Alcedo atthis |
-| Alectoris chukar | ES | Alectoris chukar |
-| Alectoris graeca | ES | Alectoris graeca |
-| Alectoris rufa | ES | Alectoris rufa |
-| Alle alle | ES | Alle alle |
-| Alopochen aegyptiaca | ES | Alopochen aegyptiaca |
-| Amandava amandava | ES | Amandava amandava |
-| Amaurolimnas concolor | ES | Amaurolimnas concolor |
-| Amazilia brevirostris | ES | Amazilia brevirostris |
-| Amazilia fimbriata | ES | Amazilia fimbriata |
-| Amazilia leucogaster | ES | Amazilia leucogaster |
-| Amazona amazonica | ES | Amazona amazonica |
-| Amazona dufresniana | ES | Amazona dufresniana |
-| Amazona farinosa | ES | Amazona farinosa |
-| Amazona ochrocephala | ES | Amazona ochrocephala |
-| Ammodramus humeralis | ES | Ammodramus humeralis |
-| Ammomanes cinctura | ES | Ammomanes cinctura |
-| Anabacerthia ruficaudata | ES | Anabacerthia ruficaudata |
-| Anas acuta | ES | Anas acuta |
-| Anas bahamensis | ES | Anas bahamensis |
-| Anas crecca | ES | Anas crecca, Anas crecca carolinensis |
-| Anas crecca carolinensis | ES | Anas crecca carolinensis |
-| Anas platyrhynchos | ES | Anas platyrhynchos |
-| Anhinga anhinga | ES | Anhinga anhinga |
-| Anous stolidus | ES | Anous stolidus |
-| Anser albifrons | ES | Anser albifrons albifrons, Anser albifrons flavirostris, Anser albifrons |
-| Anser anser | ES | Anser anser anser, Anser anser rubrirostris, Anser anser |
-| Anser brachyrhynchus | ES | Anser brachyrhynchus |
-| Anser caerulescens | ES | Anser caerulescens |
-| Anser erythropus | ES | Anser erythropus |
-| Anser fabalis | ES | Anser fabalis fabalis, Anser fabalis rossicus, Anser fabalis |
-| Anser indicus | ES | Anser indicus |
-| Anthracothorax nigricollis | ES | Anthracothorax nigricollis |
-| Anthracothorax viridigula | ES | Anthracothorax viridigula |
-| Anthus campestris | ES | Anthus campestris |
-| Anthus cervinus | ES | Anthus cervinus |
-| Anthus godlewskii | ES | Anthus godlewskii |
-| Anthus gustavi | ES | Anthus gustavi |
-| Anthus hodgsoni | ES | Anthus hodgsoni |
-| Anthus lutescens | ES | Anthus lutescens |
-| Anthus petrosus | ES | Anthus petrosus, Anthus petrosus littoralis, Anthus petrosus petrosus |
-| Anthus pratensis | ES | Anthus pratensis |
-| Anthus richardi | ES | Anthus richardi |
-| Anthus rubescens | ES | Anthus rubescens |
-| Anthus spinoletta | ES | Anthus spinoletta |
-| Anthus trivialis | ES | Anthus trivialis |
-| Antrostomus rufus | ES | Antrostomus rufus |
-| Apus affinis | ES | Apus affinis |
-| Apus apus | ES | Apus apus |
-| Apus pallidus | ES | Apus pallidus |
-| Aquila adalberti | ES | Aquila adalberti |
-| Aquila chrysaetos | ES | Aquila chrysaetos |
-| Aquila heliaca | ES | Aquila heliaca |
-| Aquila nipalensis | ES | Aquila nipalensis |
-| Ara ararauna | ES | Ara ararauna |
-| Ara chloropterus | ES | Ara chloropterus |
-| Ara macao | ES | Ara macao |
-| Aramides axillaris | ES | Aramides axillaris |
-| Aramides mangle | ES | Aramides mangle |
-| Aramus guarauna | ES | Aramus guarauna |
-| Ara severus | ES | Ara severus |
-| Aratinga solstitialis | ES | Aratinga solstitialis |
-| Ardea alba | ES | Ardea alba |
-| Ardea cinerea | ES | Ardea cinerea |
-| Ardea cocoi | ES | Ardea cocoi |
-| Ardea herodias | ES | Ardea herodias |
-| Ardea melanocephala | ES | Ardea melanocephala |
-| Ardea purpurea | ES | Ardea purpurea |
-| Ardeola ralloides | ES | Ardeola ralloides |
-| Arenaria interpres | ES | Arenaria interpres |
-| Arremon taciturnus | ES | Arremon taciturnus |
-| Arundinicola leucocephala | ES | Arundinicola leucocephala |
-| Asio flammeus | ES | Asio flammeus |
-| Asio otus | ES | Asio otus |
-| Asio stygius | ES | Asio stygius |
-| Athene cunicularia | ES | Athene cunicularia |
-| Athene noctua | ES | Athene noctua |
-| Atticora fasciata | ES | Atticora fasciata |
-| Atticora tibialis | ES | Atticora tibialis |
-| Attila cinnamomeus | ES | Attila cinnamomeus |
-| Attila spadiceus | ES | Attila spadiceus |
-| Aulacorhynchus whitelianus | ES | Aulacorhynchus whitelianus |
-| Automolus infuscatus | ES | Automolus infuscatus |
-| Automolus ochrolaemus | ES | Automolus ochrolaemus |
-| Automolus rufipileatus | ES | Automolus rufipileatus |
-| Avocettula recurvirostris | ES | Avocettula recurvirostris |
-| Aythya affinis | ES | Aythya affinis |
-| Aythya americana | ES | Aythya americana |
-| Aythya collaris | ES | Aythya collaris |
-| Aythya ferina | ES | Aythya ferina |
-| Aythya fuligula | ES | Aythya fuligula |
-| Aythya marila | ES | Aythya marila |
-| Aythya nyroca | ES | Aythya nyroca |
-| Bartramia longicauda | ES | Bartramia longicauda |
-| Berlepschia rikeri | ES | Berlepschia rikeri |
-| Bombycilla garrulus | ES | Bombycilla garrulus |
-| Bonasa bonasia | ES | Bonasa bonasia |
-| Botaurus pinnatus | ES | Botaurus pinnatus |
-| Botaurus stellaris | ES | Botaurus stellaris |
-| Brachygalba lugubris | ES | Brachygalba lugubris |
-| Branta bernicla | ES | Branta bernicla hrota, Branta bernicla bernicla, Branta bernicla, Branta bernicla nigricans |
-| Branta canadensis | ES | Branta canadensis |
-| Branta leucopsis | ES | Branta leucopsis |
-| Branta ruficollis | ES | Branta ruficollis |
-| Brotogeris chrysoptera | ES | Brotogeris chrysoptera |
-| Brotogeris versicolurus | ES | Brotogeris versicolurus |
-| Bubo bubo | ES | Bubo bubo |
-| Bubo scandiacus | ES | Bubo scandiacus |
-| Bubo virginianus | ES | Bubo virginianus |
-| Bubulcus ibis | ES | Bubulcus ibis |
-| Bucanetes githagineus | ES | Bucanetes githagineus |
-| Bucco capensis | ES | Bucco capensis |
-| Bucco tamatia | ES | Bucco tamatia |
-| Bucephala albeola | ES | Bucephala albeola |
-| Bucephala clangula | ES | Bucephala clangula |
-| Bucephala islandica | ES | Bucephala islandica |
-| Bulweria bulwerii | ES | Bulweria bulwerii |
-| Burhinus oedicnemus | ES | Burhinus oedicnemus |
-| Busarellus nigricollis | ES | Busarellus nigricollis |
-| Buteo albonotatus | ES | Buteo albonotatus |
-| Buteo brachyurus | ES | Buteo brachyurus |
-| Buteo buteo | ES | Buteo buteo vulpinus, Buteo buteo |
-| Buteogallus aequinoctialis | ES | Buteogallus aequinoctialis |
-| Buteogallus meridionalis | ES | Buteogallus meridionalis |
-| Buteogallus urubitinga | ES | Buteogallus urubitinga |
-| Buteo jamaicensis | ES | Buteo jamaicensis |
-| Buteo lagopus | ES | Buteo lagopus |
-| Buteo nitidus | ES | Buteo nitidus |
-| Buteo platypterus | ES | Buteo platypterus |
-| Buteo rufinus | ES | Buteo rufinus |
-| Butorides striata | ES | Butorides striata |
-| Butorides virescens | ES | Butorides virescens |
-| Cacicus cela | ES | Cacicus cela |
-| Cacicus haemorrhous | ES | Cacicus haemorrhous |
-| Cairina moschata | ES | Cairina moschata |
-| Calandrella brachydactyla | ES | Calandrella brachydactyla |
-| Calcarius lapponicus | ES | Calcarius lapponicus |
-| Calidris acuminata | ES | Calidris acuminata |
-| Calidris alba | ES | Calidris alba |
-| Calidris alpina | ES | Calidris alpina schinzii, Calidris alpina |
-| Calidris bairdii | ES | Calidris bairdii |
-| Calidris canutus | ES | Calidris canutus |
-| Calidris falcinellus | ES | Calidris falcinellus |
-| Calidris ferruginea | ES | Calidris ferruginea |
-| Calidris fuscicollis | ES | Calidris fuscicollis |
-| Calidris himantopus | ES | Calidris himantopus |
-| Calidris maritima | ES | Calidris maritima |
-| Calidris mauri | ES | Calidris mauri |
-| Calidris melanotos | ES | Calidris melanotos |
-| Calidris minuta | ES | Calidris minuta |
-| Calidris minutilla | ES | Calidris minutilla |
-| Calidris pugnax | ES | Calidris pugnax |
-| Calidris pusilla | ES | Calidris pusilla |
-| Calidris ruficollis | ES | Calidris ruficollis |
-| Calidris subruficollis | ES | Calidris subruficollis |
-| Calidris temminckii | ES | Calidris temminckii |
-| Callipepla californica | ES | Callipepla californica |
-| Calliphlox amethystina | ES | Calliphlox amethystina |
-| Callonetta leucophrys | ES | Callonetta leucophrys |
-| Calonectris borealis | ES | Calonectris borealis |
-| Calonectris diomedea | ES | Calonectris diomedea |
-| Campephilus melanoleucos | ES | Campephilus melanoleucos |
-| Campephilus rubricollis | ES | Campephilus rubricollis |
-| Camptostoma obsoletum | ES | Camptostoma obsoletum |
-| Campylopterus largipennis | ES | Campylopterus largipennis |
-| Campylorhamphus procurvoides | ES | Campylorhamphus procurvoides |
-| Capito niger | ES | Capito niger |
-| Caprimulgus europaeus | ES | Caprimulgus europaeus |
-| Caprimulgus ruficollis | ES | Caprimulgus ruficollis |
-| Capsiempis flaveola | ES | Capsiempis flaveola |
-| Caracara cheriway | ES | Caracara cheriway |
-| Carduelis carduelis | ES | Carduelis carduelis |
-| Carduelis citrinella | ES | Carduelis citrinella |
-| Carduelis corsicana | ES | Carduelis corsicana |
-| Carpodacus erythrinus | ES | Carpodacus erythrinus |
-| Caryothraustes canadensis | ES | Caryothraustes canadensis |
-| Cathartes aura | ES | Cathartes aura |
-| Cathartes burrovianus | ES | Cathartes burrovianus |
-| Cathartes melambrotus | ES | Cathartes melambrotus |
-| Catharus fuscescens | ES | Catharus fuscescens |
-| Catharus guttatus | ES | Catharus guttatus |
-| Catharus minimus | ES | Catharus minimus |
-| Catharus ustulatus | ES | Catharus ustulatus |
-| Cecropis daurica | ES | Cecropis daurica |
-| Celeus elegans | ES | Celeus elegans |
-| Celeus flavus | ES | Celeus flavus |
-| Celeus torquatus | ES | Celeus torquatus |
-| Celeus undatus | ES | Celeus undatus |
-| Cepphus grylle | ES | Cepphus grylle |
-| Ceratopipra erythrocephala | ES | Ceratopipra erythrocephala |
-| Cercomacra cinerascens | ES | Cercomacra cinerascens |
-| Cercotrichas galactotes | ES | Cercotrichas galactotes |
-| Certhia americana | ES | Certhia americana |
-| Certhia brachydactyla | ES | Certhia brachydactyla |
-| Certhia familiaris | ES | Certhia familiaris |
-| Certhiaxis cinnamomeus | ES | Certhiaxis cinnamomeus |
-| Cettia cetti | ES | Cettia cetti |
-| Chaetura brachyura | ES | Chaetura brachyura |
-| Chaetura chapmani | ES | Chaetura chapmani |
-| Chaetura meridionalis | ES | Chaetura meridionalis |
-| Chaetura spinicaudus | ES | Chaetura spinicaudus |
-| Charadrius alexandrinus | ES | Charadrius alexandrinus |
-| Charadrius asiaticus | ES | Charadrius asiaticus |
-| Charadrius collaris | ES | Charadrius collaris |
-| Charadrius dubius | ES | Charadrius dubius |
-| Charadrius hiaticula | ES | Charadrius hiaticula |
-| Charadrius leschenaultii | ES | Charadrius leschenaultii |
-| Charadrius mongolus | ES | Charadrius mongolus |
-| Charadrius semipalmatus | ES | Charadrius semipalmatus |
-| Charadrius vociferus | ES | Charadrius vociferus |
-| Charadrius wilsonia | ES | Charadrius wilsonia |
-| Chelidoptera tenebrosa | ES | Chelidoptera tenebrosa |
-| Chiroxiphia pareola | ES | Chiroxiphia pareola |
-| Chlidonias hybrida | ES | Chlidonias hybrida |
-| Chlidonias leucopterus | ES | Chlidonias leucopterus |
-| Chlidonias niger | ES | Chlidonias niger, Chlidonias niger surinamensis |
-| Chlorestes notata | ES | Chlorestes notata |
-| Chloris chloris | ES | Chloris chloris |
-| Chloroceryle aenea | ES | Chloroceryle aenea |
-| Chloroceryle amazona | ES | Chloroceryle amazona |
-| Chloroceryle americana | ES | Chloroceryle americana |
-| Chloroceryle inda | ES | Chloroceryle inda |
-| Chlorophanes spiza | ES | Chlorophanes spiza |
-| Chlorostilbon mellisugus | ES | Chlorostilbon mellisugus |
-| Chondrohierax uncinatus | ES | Chondrohierax uncinatus |
-| Chordeiles acutipennis | ES | Chordeiles acutipennis |
-| Chordeiles minor | ES | Chordeiles minor |
-| Chroicocephalus cirrocephalus | ES | Chroicocephalus cirrocephalus |
-| Chroicocephalus genei | ES | Chroicocephalus genei |
-| Chroicocephalus philadelphia | ES | Chroicocephalus philadelphia |
-| Chroicocephalus ridibundus | ES | Chroicocephalus ridibundus |
-| Chrysolampis mosquitus | ES | Chrysolampis mosquitus |
-| Chrysolophus pictus | ES | Chrysolophus pictus |
-| Chrysomus icterocephalus | ES | Chrysomus icterocephalus |
-| Ciccaba huhula | ES | Ciccaba huhula |
-| Ciccaba virgata | ES | Ciccaba virgata |
-| Ciconia ciconia | ES | Ciconia ciconia |
-| Ciconia maguari | ES | Ciconia maguari |
-| Ciconia nigra | ES | Ciconia nigra |
-| Cinclus cinclus | ES | Cinclus cinclus |
-| Circaetus gallicus | ES | Circaetus gallicus |
-| Circus aeruginosus | ES | Circus aeruginosus |
-| Circus buffoni | ES | Circus buffoni |
-| Circus cyaneus | ES | Circus cyaneus |
-| Circus macrourus | ES | Circus macrourus |
-| Circus pygargus | ES | Circus pygargus |
-| Cisticola juncidis | ES | Cisticola juncidis |
-| Clamator glandarius | ES | Clamator glandarius |
-| Clanga clanga | ES | Clanga clanga |
-| Clangula hyemalis | ES | Clangula hyemalis |
-| Claravis pretiosa | ES | Claravis pretiosa |
-| Cnemotriccus fuscatus | ES | Cnemotriccus fuscatus |
-| Coccothraustes coccothraustes | ES | Coccothraustes coccothraustes |
-| Coccycua minuta | ES | Coccycua minuta |
-| Coccyzus americanus | ES | Coccyzus americanus |
-| Coccyzus euleri | ES | Coccyzus euleri |
-| Coccyzus melacoryphus | ES | Coccyzus melacoryphus |
-| Coccyzus minor | ES | Coccyzus minor |
-| Cochlearius cochlearius | ES | Cochlearius cochlearius |
-| Coereba flaveola | ES | Coereba flaveola |
-| Colaptes punctigula | ES | Colaptes punctigula |
-| Colaptes rubiginosus | ES | Colaptes rubiginosus |
-| Colibri delphinae | ES | Colibri delphinae |
-| Colinus cristatus | ES | Colinus cristatus |
-| Colinus virginianus | ES | Colinus virginianus |
-| Colonia colonus | ES | Colonia colonus |
-| Columba livia | ES | Columba livia, Columba livia domestica |
-| Columba livia domestica | ES | Columba livia domestica |
-| Columba oenas | ES | Columba oenas |
-| Columba palumbus | ES | Columba palumbus |
-| Columbina minuta | ES | Columbina minuta |
-| Columbina passerina | ES | Columbina passerina |
-| Columbina talpacoti | ES | Columbina talpacoti |
-| Conirostrum bicolor | ES | Conirostrum bicolor |
-| Conirostrum speciosum | ES | Conirostrum speciosum |
-| Conopias parvus | ES | Conopias parvus |
-| Conopophaga aurita | ES | Conopophaga aurita |
-| Conothraupis speculigera | ES | Conothraupis speculigera |
-| Contopus albogularis | ES | Contopus albogularis |
-| Contopus cinereus | ES | Contopus cinereus |
-| Contopus cooperi | ES | Contopus cooperi |
-| Contopus sordidulus | ES | Contopus sordidulus |
-| Coracias garrulus | ES | Coracias garrulus |
-| Coragyps atratus | ES | Coragyps atratus |
-| Corapipo gutturalis | ES | Corapipo gutturalis |
-| Corvus albus | ES | Corvus albus |
-| Corvus corax | ES | Corvus corax |
-| Corvus corone | ES | Corvus corone cornix, Corvus corone |
-| Corvus corone cornix | SSES | Corvus corone cornix |
-| Corvus frugilegus | ES | Corvus frugilegus |
-| Corvus monedula | ES | Corvus monedula, Corvus monedula spermologus, Corvus monedula soemmeringii |
-| Corvus splendens | ES | Corvus splendens |
-| Corythopis torquatus | ES | Corythopis torquatus |
-| Cotinga cayana | ES | Cotinga cayana |
-| Cotinga cotinga | ES | Cotinga cotinga |
-| Coturnix coturnix | ES | Coturnix coturnix |
-| Crax alector | ES | Crax alector |
-| Crex crex | ES | Crex crex |
-| Crithagra mozambica | ES | Crithagra mozambica |
-| Crotophaga ani | ES | Crotophaga ani |
-| Crotophaga major | ES | Crotophaga major |
-| Crypturellus brevirostris | ES | Crypturellus brevirostris |
-| Crypturellus cinereus | ES | Crypturellus cinereus |
-| Crypturellus erythropus | ES | Crypturellus erythropus |
-| Crypturellus soui | ES | Crypturellus soui |
-| Crypturellus variegatus | ES | Crypturellus variegatus |
-| Cuculus canorus | ES | Cuculus canorus |
-| Cursorius cursor | ES | Cursorius cursor |
-| Cyanerpes caeruleus | ES | Cyanerpes caeruleus |
-| Cyanerpes cyaneus | ES | Cyanerpes cyaneus |
-| Cyanicterus cyanicterus | ES | Cyanicterus cyanicterus |
-| Cyanistes caeruleus | ES | Cyanistes caeruleus |
-| Cyanistes cyanus | ES | Cyanistes cyanus |
-| Cyanocorax cayanus | ES | Cyanocorax cayanus |
-| Cyclarhis gujanensis | ES | Cyclarhis gujanensis |
-| Cygnus atratus | ES | Cygnus atratus |
-| Cygnus columbianus | ES | Cygnus columbianus bewickii, Cygnus columbianus |
-| Cygnus cygnus | ES | Cygnus cygnus |
-| Cygnus olor | ES | Cygnus olor |
-| Cymbilaimus lineatus | ES | Cymbilaimus lineatus |
-| Cyphorhinus arada | ES | Cyphorhinus arada |
-| Cypseloides cryptus | ES | Cypseloides cryptus |
-| Cypseloides niger | ES | Cypseloides niger |
-| Dacnis cayana | ES | Dacnis cayana |
-| Dacnis lineata | ES | Dacnis lineata |
-| Daptrius ater | ES | Daptrius ater |
-| Deconychura longicauda | ES | Deconychura longicauda |
-| Delichon urbicum | ES | Delichon urbicum |
-| Dendrexetastes rufigula | ES | Dendrexetastes rufigula |
-| Dendrocincla fuliginosa | ES | Dendrocincla fuliginosa |
-| Dendrocincla merula | ES | Dendrocincla merula |
-| Dendrocolaptes certhia | ES | Dendrocolaptes certhia |
-| Dendrocolaptes picumnus | ES | Dendrocolaptes picumnus |
-| Dendrocopos leucotos | ES | Dendrocopos leucotos |
-| Dendrocopos major | ES | Dendrocopos major |
-| Dendrocopos medius | ES | Dendrocopos medius |
-| Dendrocopos minor | ES | Dendrocopos minor |
-| Dendrocygna arborea | ES | Dendrocygna arborea |
-| Dendrocygna autumnalis | ES | Dendrocygna autumnalis |
-| Dendrocygna bicolor | ES | Dendrocygna bicolor |
-| Dendrocygna viduata | ES | Dendrocygna viduata |
-| Dendroplex picus | ES | Dendroplex picus |
-| Deroptyus accipitrinus | ES | Deroptyus accipitrinus |
-| Diopsittaca nobilis | ES | Diopsittaca nobilis |
-| Discosura longicaudus | ES | Discosura longicaudus |
-| Dixiphia pipra | ES | Dixiphia pipra |
-| Dolichonyx oryzivorus | ES | Dolichonyx oryzivorus |
-| Donacobius atricapilla | ES | Donacobius atricapilla |
-| Dromococcyx pavoninus | ES | Dromococcyx pavoninus |
-| Dryocopus lineatus | ES | Dryocopus lineatus |
-| Dryocopus martius | ES | Dryocopus martius |
-| Egretta caerulea | ES | Egretta caerulea |
-| Egretta garzetta | ES | Egretta garzetta |
-| Egretta gularis | ES | Egretta gularis |
-| Egretta thula | ES | Egretta thula |
-| Egretta tricolor | ES | Egretta tricolor |
-| Elaenia chiriquensis | ES | Elaenia chiriquensis |
-| Elaenia cristata | ES | Elaenia cristata |
-| Elaenia flavogaster | ES | Elaenia flavogaster |
-| Elaenia parvirostris | ES | Elaenia parvirostris |
-| Elaenia ruficeps | ES | Elaenia ruficeps |
-| Elanoides forficatus | ES | Elanoides forficatus |
-| Elanus caeruleus | ES | Elanus caeruleus |
-| Elanus leucurus | ES | Elanus leucurus |
-| Emberiza aureola | ES | Emberiza aureola |
-| Emberiza caesia | ES | Emberiza caesia |
-| Emberiza calandra | ES | Emberiza calandra |
-| Emberiza cia | ES | Emberiza cia |
-| Emberiza cirlus | ES | Emberiza cirlus |
-| Emberiza citrinella | ES | Emberiza citrinella |
-| Emberiza hortulana | ES | Emberiza hortulana |
-| Emberiza leucocephalos | ES | Emberiza leucocephalos |
-| Emberiza melanocephala | ES | Emberiza melanocephala |
-| Emberiza pusilla | ES | Emberiza pusilla |
-| Emberiza rustica | ES | Emberiza rustica |
-| Emberiza rutila | ES | Emberiza rutila |
-| Emberiza schoeniclus | ES | Emberiza schoeniclus, Emberiza schoeniclus witherbyi |
-| Emberiza spodocephala | ES | Emberiza spodocephala |
-| Emberizoides herbicola | ES | Emberizoides herbicola |
-| Empidonomus varius | ES | Empidonomus varius |
-| Epinecrophylla gutturalis | ES | Epinecrophylla gutturalis |
-| Eremophila alpestris | ES | Eremophila alpestris |
-| Erithacus rubecula | ES | Erithacus rubecula |
-| Estrilda astrild | ES | Estrilda astrild |
-| Euchrepomis callinota | ES | Euchrepomis callinota |
-| Euchrepomis spodioptila | ES | Euchrepomis spodioptila |
-| Eudocimus albus | ES | Eudocimus albus |
-| Eudocimus ruber | ES | Eudocimus ruber |
-| Eudromias morinellus | ES | Eudromias morinellus |
-| Euodice malabarica | ES | Euodice malabarica |
-| Euphonia cayennensis | ES | Euphonia cayennensis |
-| Euphonia chlorotica | ES | Euphonia chlorotica |
-| Euphonia chrysopasta | ES | Euphonia chrysopasta |
-| Euphonia cyanocephala | ES | Euphonia cyanocephala |
-| Euphonia finschi | ES | Euphonia finschi |
-| Euphonia minuta | ES | Euphonia minuta |
-| Euphonia plumbea | ES | Euphonia plumbea |
-| Euphonia violacea | ES | Euphonia violacea |
-| Euplectes orix | ES | Euplectes orix |
-| Eurypyga helias | ES | Eurypyga helias |
-| Falco biarmicus | ES | Falco biarmicus |
-| Falco cherrug | ES | Falco cherrug |
-| Falco columbarius | ES | Falco columbarius |
-| Falco concolor | ES | Falco concolor |
-| Falco deiroleucus | ES | Falco deiroleucus |
-| Falco eleonorae | ES | Falco eleonorae |
-| Falco femoralis | ES | Falco femoralis |
-| Falco naumanni | ES | Falco naumanni |
-| Falco peregrinus | ES | Falco peregrinus calidus, Falco peregrinus, Falco peregrinus peregrinus |
-| Falco rufigularis | ES | Falco rufigularis |
-| Falco rusticolus | ES | Falco rusticolus |
-| Falco subbuteo | ES | Falco subbuteo |
-| Falco tinnunculus | ES | Falco tinnunculus |
-| Falco vespertinus | ES | Falco vespertinus |
-| Ficedula albicollis | ES | Ficedula albicollis |
-| Ficedula hypoleuca | ES | Ficedula hypoleuca |
-| Ficedula parva | ES | Ficedula parva |
-| Ficedula semitorquata | ES | Ficedula semitorquata |
-| Florisuga mellivora | ES | Florisuga mellivora |
-| Fluvicola pica | ES | Fluvicola pica |
-| Formicarius analis | ES | Formicarius analis |
-| Formicarius colma | ES | Formicarius colma |
-| Formicivora grisea | ES | Formicivora grisea |
-| Forpus passerinus | ES | Forpus passerinus |
-| Fratercula arctica | ES | Fratercula arctica |
-| Frederickena viridis | ES | Frederickena viridis |
-| Fregata magnificens | ES | Fregata magnificens |
-| Fringilla coelebs | ES | Fringilla coelebs |
-| Fringilla montifringilla | ES | Fringilla montifringilla |
-| Fulica atra | ES | Fulica atra |
-| Fulmarus glacialis | ES | Fulmarus glacialis |
-| Galbula albirostris | ES | Galbula albirostris |
-| Galbula dea | ES | Galbula dea |
-| Galbula galbula | ES | Galbula galbula |
-| Galbula leucogastra | ES | Galbula leucogastra |
-| Galerida cristata | ES | Galerida cristata |
-| Galerida theklae | ES | Galerida theklae |
-| Gallinago delicata | ES | Gallinago delicata |
-| Gallinago gallinago | ES | Gallinago gallinago |
-| Gallinago media | ES | Gallinago media |
-| Gallinago paraguaiae | ES | Gallinago paraguaiae |
-| Gallinago undulata | ES | Gallinago undulata |
-| Gallinula chloropus | ES | Gallinula chloropus |
-| Gallinula galeata | ES | Gallinula galeata |
-| Gampsonyx swainsonii | ES | Gampsonyx swainsonii |
-| Garrulus glandarius | ES | Garrulus glandarius |
-| Gavia adamsii | ES | Gavia adamsii |
-| Gavia arctica | ES | Gavia arctica |
-| Gavia immer | ES | Gavia immer |
-| Gavia stellata | ES | Gavia stellata |
-| Gelochelidon nilotica | ES | Gelochelidon nilotica |
-| Geokichla sibirica | ES | Geokichla sibirica |
-| Geothlypis aequinoctialis | ES | Geothlypis aequinoctialis |
-| Geothlypis trichas | ES | Geothlypis trichas |
-| Geotrygon montana | ES | Geotrygon montana |
-| Geranospiza caerulescens | ES | Geranospiza caerulescens |
-| Glareola maldivarum | ES | Glareola maldivarum |
-| Glareola nordmanni | ES | Glareola nordmanni |
-| Glareola pratincola | ES | Glareola pratincola |
-| Glaucidium hardyi | ES | Glaucidium hardyi |
-| Glaucidium passerinum | ES | Glaucidium passerinum |
-| Glaucis hirsutus | ES | Glaucis hirsutus |
-| Glyphorynchus spirurus | ES | Glyphorynchus spirurus |
-| Grallaria varia | ES | Grallaria varia |
-| Granatellus pelzelni | ES | Granatellus pelzelni |
-| Graydidascalus brachyurus | ES | Graydidascalus brachyurus |
-| Gymnoderus foetidus | ES | Gymnoderus foetidus |
-| Gymnopithys rufigula | ES | Gymnopithys rufigula |
-| Gyps fulvus | ES | Gyps fulvus |
-| Gyps rueppellii | ES | Gyps rueppellii |
-| Haematoderus militaris | ES | Haematoderus militaris |
-| Haematopus ostralegus | ES | Haematopus ostralegus |
-| Haematopus palliatus | ES | Haematopus palliatus |
-| Haliaeetus leucocephalus | ES | Haliaeetus leucocephalus |
-| Harpagus bidentatus | ES | Harpagus bidentatus |
-| Harpagus diodon | ES | Harpagus diodon |
-| Harpia harpyja | ES | Harpia harpyja |
-| Helicolestes hamatus | ES | Helicolestes hamatus |
-| Heliomaster longirostris | ES | Heliomaster longirostris |
-| Heliornis fulica | ES | Heliornis fulica |
-| Heliothryx auritus | ES | Heliothryx auritus |
-| Hemithraupis flavicollis | ES | Hemithraupis flavicollis |
-| Hemithraupis guira | ES | Hemithraupis guira |
-| Hemitriccus josephinae | ES | Hemitriccus josephinae |
-| Hemitriccus zosterops | ES | Hemitriccus zosterops |
-| Henicorhina leucosticta | ES | Henicorhina leucosticta |
-| Herpetotheres cachinnans | ES | Herpetotheres cachinnans |
-| Herpsilochmus dorsimaculatus | ES | Herpsilochmus dorsimaculatus |
-| Herpsilochmus stictocephalus | ES | Herpsilochmus stictocephalus |
-| Herpsilochmus sticturus | ES | Herpsilochmus sticturus |
-| Hesperiphona vespertina | ES | Hesperiphona vespertina |
-| Hieraaetus pennatus | ES | Hieraaetus pennatus |
-| Himantopus himantopus | ES | Himantopus himantopus |
-| Hippolais icterina | ES | Hippolais icterina |
-| Hippolais polyglotta | ES | Hippolais polyglotta |
-| Hirundinea ferruginea | ES | Hirundinea ferruginea |
-| Hirundo rustica | ES | Hirundo rustica |
-| Histrionicus histrionicus | ES | Histrionicus histrionicus |
-| Hydrobates castro | ES | Hydrobates castro |
-| Hydrobates leucorhous | ES | Hydrobates leucorhous |
-| Hydrobates pelagicus | ES | Hydrobates pelagicus |
-| Hydrocoloeus minutus | ES | Hydrocoloeus minutus |
-| Hydroprogne caspia | ES | Hydroprogne caspia |
-| Hydropsalis climacocerca | ES | Hydropsalis climacocerca |
-| Hylexetastes perrotii | ES | Hylexetastes perrotii |
-| Hylocharis cyanus | ES | Hylocharis cyanus |
-| Hylocharis sapphirina | ES | Hylocharis sapphirina |
-| Hylopezus macularius | ES | Hylopezus macularius |
-| Hylophilus pectoralis | ES | Hylophilus pectoralis |
-| Hylophilus semicinereus | ES | Hylophilus semicinereus |
-| Hylophilus thoracicus | ES | Hylophilus thoracicus |
-| Hylophylax naevius | ES | Hylophylax naevius |
-| Hypocnemis cantator | ES | Hypocnemis cantator |
-| Hypocnemoides melanopogon | ES | Hypocnemoides melanopogon |
-| Ibycter americanus | ES | Ibycter americanus |
-| Ichthyaetus audouinii | ES | Ichthyaetus audouinii |
-| Ichthyaetus melanocephalus | ES | Ichthyaetus melanocephalus |
-| Icterus cayanensis | ES | Icterus cayanensis |
-| Icterus galbula | ES | Icterus galbula |
-| Icterus nigrogularis | ES | Icterus nigrogularis |
-| Ictinia plumbea | ES | Ictinia plumbea |
-| Iduna caligata | ES | Iduna caligata |
-| Iduna opaca | ES | Iduna opaca |
-| Iduna pallida | ES | Iduna pallida |
-| Iduna rama | ES | Iduna rama |
-| Inezia caudata | ES | Inezia caudata |
-| Iodopleura fusca | ES | Iodopleura fusca |
-| Isleria guttata | ES | Isleria guttata |
-| Ixobrychus exilis | ES | Ixobrychus exilis |
-| Ixobrychus involucris | ES | Ixobrychus involucris |
-| Ixobrychus minutus | ES | Ixobrychus minutus |
-| Jabiru mycteria | ES | Jabiru mycteria |
-| Jacamerops aureus | ES | Jacamerops aureus |
-| Jacana jacana | ES | Jacana jacana |
-| Jynx torquilla | ES | Jynx torquilla |
-| Lagopus muta | ES | Lagopus muta, Lagopus muta pyrenaica |
-| Lamprospiza melanoleuca | ES | Lamprospiza melanoleuca |
-| Laniocera hypopyrra | ES | Laniocera hypopyrra |
-| Lanio fulvus | ES | Lanio fulvus |
-| Lanius collurio | ES | Lanius collurio |
-| Lanius cristatus | ES | Lanius cristatus |
-| Lanius excubitor | ES | Lanius excubitor |
-| Lanius isabellinus | ES | Lanius isabellinus |
-| Lanius meridionalis | ES | Lanius meridionalis |
-| Lanius nubicus | ES | Lanius nubicus |
-| Lanius senator | ES | Lanius senator senator, Lanius senator badius, Lanius senator |
-| Larus argentatus | ES | Larus argentatus |
-| Larus cachinnans | ES | Larus cachinnans |
-| Larus canus | ES | Larus canus |
-| Larus delawarensis | ES | Larus delawarensis |
-| Larus dominicanus | ES | Larus dominicanus |
-| Larus fuscus | ES | Larus fuscus, Larus fuscus intermedius, Larus fuscus graellsii, Larus fuscus fuscus |
-| Larus glaucoides | ES | Larus glaucoides |
-| Larus hyperboreus | ES | Larus hyperboreus |
-| Larus marinus | ES | Larus marinus |
-| Larus michahellis | ES | Larus michahellis |
-| Larus smithsonianus | ES | Larus smithsonianus |
-| Laterallus exilis | ES | Laterallus exilis |
-| Laterallus melanophaius | ES | Laterallus melanophaius |
-| Lathrotriccus euleri | ES | Lathrotriccus euleri |
-| Legatus leucophaius | ES | Legatus leucophaius |
-| Leiothrix lutea | ES | Leiothrix lutea |
-| Lepidocolaptes albolineatus | ES | Lepidocolaptes albolineatus |
-| Lepidothrix serena | ES | Lepidothrix serena |
-| Leptodon cayanensis | ES | Leptodon cayanensis |
-| Leptopogon amaurocephalus | ES | Leptopogon amaurocephalus |
-| Leptotila rufaxilla | ES | Leptotila rufaxilla |
-| Leptotila verreauxi | ES | Leptotila verreauxi |
-| Leucophaeus atricilla | ES | Leucophaeus atricilla |
-| Leucophaeus pipixcan | ES | Leucophaeus pipixcan |
-| Leucopternis melanops | ES | Leucopternis melanops |
-| Limnodromus griseus | ES | Limnodromus griseus |
-| Limnodromus scolopaceus | ES | Limnodromus scolopaceus |
-| Limosa haemastica | ES | Limosa haemastica |
-| Limosa lapponica | ES | Limosa lapponica |
-| Limosa limosa | ES | Limosa limosa islandica, Limosa limosa |
-| Linaria cannabina | ES | Linaria cannabina |
-| Linaria flavirostris | ES | Linaria flavirostris |
-| Lipaugus vociferans | ES | Lipaugus vociferans |
-| Locustella certhiola | ES | Locustella certhiola |
-| Locustella fluviatilis | ES | Locustella fluviatilis |
-| Locustella lanceolata | ES | Locustella lanceolata |
-| Locustella luscinioides | ES | Locustella luscinioides |
-| Locustella naevia | ES | Locustella naevia |
-| Lonchura oryzivora | ES | Lonchura oryzivora |
-| Lophodytes cucullatus | ES | Lophodytes cucullatus |
-| Lophophanes cristatus | ES | Lophophanes cristatus |
-| Lophornis ornatus | ES | Lophornis ornatus |
-| Lophostrix cristata | ES | Lophostrix cristata |
-| Lophotriccus galeatus | ES | Lophotriccus galeatus |
-| Lophotriccus vitiosus | ES | Lophotriccus vitiosus |
-| Loxia curvirostra | ES | Loxia curvirostra |
-| Loxia leucoptera | ES | Loxia leucoptera |
-| Loxia pytyopsittacus | ES | Loxia pytyopsittacus |
-| Lullula arborea | ES | Lullula arborea |
-| Lurocalis semitorquatus | ES | Lurocalis semitorquatus |
-| Luscinia luscinia | ES | Luscinia luscinia |
-| Luscinia megarhynchos | ES | Luscinia megarhynchos |
-| Luscinia svecica | ES | Luscinia svecica cyanecula, Luscinia svecica svecica, Luscinia svecica namnetum, Luscinia svecica |
-| Lymnocryptes minimus | ES | Lymnocryptes minimus |
-| Lyrurus tetrix | ES | Lyrurus tetrix |
-| Malacoptila fusca | ES | Malacoptila fusca |
-| Manacus manacus | ES | Manacus manacus |
-| Mareca americana | ES | Mareca americana |
-| Mareca penelope | ES | Mareca penelope |
-| Mareca strepera | ES | Mareca strepera |
-| Marmaronetta angustirostris | ES | Marmaronetta angustirostris |
-| Megaceryle alcyon | ES | Megaceryle alcyon |
-| Megaceryle torquata | ES | Megaceryle torquata |
-| Megarynchus pitangua | ES | Megarynchus pitangua |
-| Megascops choliba | ES | Megascops choliba |
-| Megascops watsonii | ES | Megascops watsonii |
-| Melanerpes candidus | ES | Melanerpes candidus |
-| Melanerpes cruentatus | ES | Melanerpes cruentatus |
-| Melanitta americana | ES | Melanitta americana |
-| Melanitta fusca | ES | Melanitta fusca |
-| Melanitta nigra | ES | Melanitta nigra |
-| Melanitta perspicillata | ES | Melanitta perspicillata |
-| Melanocorypha bimaculata | ES | Melanocorypha bimaculata |
-| Melanocorypha calandra | ES | Melanocorypha calandra |
-| Meleagris gallopavo | ES | Meleagris gallopavo |
-| Melopsittacus undulatus | ES | Melopsittacus undulatus |
-| Melospiza melodia | ES | Melospiza melodia |
-| Mergellus albellus | ES | Mergellus albellus |
-| Mergus merganser | ES | Mergus merganser |
-| Mergus serrator | ES | Mergus serrator |
-| Merops apiaster | ES | Merops apiaster |
-| Merops persicus | ES | Merops persicus |
-| Mesembrinibis cayennensis | ES | Mesembrinibis cayennensis |
-| Micrastur gilvicollis | ES | Micrastur gilvicollis |
-| Micrastur mirandollei | ES | Micrastur mirandollei |
-| Micrastur ruficollis | ES | Micrastur ruficollis |
-| Micrastur semitorquatus | ES | Micrastur semitorquatus |
-| Microbates collaris | ES | Microbates collaris |
-| Microcarbo pygmaeus | ES | Microcarbo pygmaeus |
-| Microcerculus bambla | ES | Microcerculus bambla |
-| Micropygia schomburgkii | ES | Micropygia schomburgkii |
-| Microrhopias quixensis | ES | Microrhopias quixensis |
-| Milvago chimachima | ES | Milvago chimachima |
-| Milvus migrans | ES | Milvus migrans |
-| Milvus milvus | ES | Milvus milvus |
-| Mimus gilvus | ES | Mimus gilvus |
-| Mimus polyglottos | ES | Mimus polyglottos |
-| Mionectes macconnelli | ES | Mionectes macconnelli |
-| Mionectes oleagineus | ES | Mionectes oleagineus |
-| Mniotilta varia | ES | Mniotilta varia |
-| Molothrus bonariensis | ES | Molothrus bonariensis |
-| Molothrus oryzivorus | ES | Molothrus oryzivorus |
-| Momotus momota | ES | Momotus momota |
-| Monasa atra | ES | Monasa atra |
-| Monticola saxatilis | ES | Monticola saxatilis |
-| Monticola solitarius | ES | Monticola solitarius |
-| Montifringilla nivalis | ES | Montifringilla nivalis |
-| Morphnus guianensis | ES | Morphnus guianensis |
-| Morus bassanus | ES | Morus bassanus |
-| Motacilla alba | ES | Motacilla alba alba, Motacilla alba, Motacilla alba yarrellii |
-| Motacilla cinerea | ES | Motacilla cinerea |
-| Motacilla citreola | ES | Motacilla citreola |
-| Motacilla flava | ES | Motacilla flava flava, Motacilla flava beema, Motacilla flava thunbergi, Motacilla flava cinereocapilla, Motacilla flava iberiae, Motacilla flava, Motacilla flava flavissima |
-| Motacilla flava flavissima | SSES | Motacilla flava flavissima |
-| Muscicapa striata | ES | Muscicapa striata |
-| Mycteria americana | ES | Mycteria americana |
-| Myiarchus ferox | ES | Myiarchus ferox |
-| Myiarchus swainsoni | ES | Myiarchus swainsoni |
-| Myiarchus tuberculifer | ES | Myiarchus tuberculifer |
-| Myiarchus tyrannulus | ES | Myiarchus tyrannulus |
-| Myiobius barbatus | ES | Myiobius barbatus |
-| Myiodynastes maculatus | ES | Myiodynastes maculatus |
-| Myiopagis caniceps | ES | Myiopagis caniceps |
-| Myiopagis flavivertex | ES | Myiopagis flavivertex |
-| Myiopagis gaimardii | ES | Myiopagis gaimardii |
-| Myiophobus fasciatus | ES | Myiophobus fasciatus |
-| Myiopsitta monacha | ES | Myiopsitta monacha |
-| Myiornis ecaudatus | ES | Myiornis ecaudatus |
-| Myiozetetes cayanensis | ES | Myiozetetes cayanensis |
-| Myiozetetes luteiventris | ES | Myiozetetes luteiventris |
-| Myiozetetes similis | ES | Myiozetetes similis |
-| Myrmelastes leucostigma | ES | Myrmelastes leucostigma |
-| Myrmoborus leucophrys | ES | Myrmoborus leucophrys |
-| Myrmoderus ferrugineus | ES | Myrmoderus ferrugineus |
-| Myrmophylax atrothorax | ES | Myrmophylax atrothorax |
-| Myrmornis torquata | ES | Myrmornis torquata |
-| Myrmothera campanisona | ES | Myrmothera campanisona |
-| Myrmotherula axillaris | ES | Myrmotherula axillaris |
-| Myrmotherula brachyura | ES | Myrmotherula brachyura |
-| Myrmotherula longipennis | ES | Myrmotherula longipennis |
-| Myrmotherula menetriesii | ES | Myrmotherula menetriesii |
-| Myrmotherula surinamensis | ES | Myrmotherula surinamensis |
-| Nasica longirostris | ES | Nasica longirostris |
-| Nemosia pileata | ES | Nemosia pileata |
-| Neopelma chrysocephalum | ES | Neopelma chrysocephalum |
-| Neopipo cinnamomea | ES | Neopipo cinnamomea |
-| Netta peposaca | ES | Netta peposaca |
-| Netta rufina | ES | Netta rufina |
-| Nomonyx dominicus | ES | Nomonyx dominicus |
-| Nonnula rubecula | ES | Nonnula rubecula |
-| Notharchus macrorhynchos | ES | Notharchus macrorhynchos |
-| Notharchus tectus | ES | Notharchus tectus |
-| Nucifraga caryocatactes | ES | Nucifraga caryocatactes, Nucifraga caryocatactes caryocatactes |
-| Numenius arquata | ES | Numenius arquata |
-| Numenius phaeopus | ES | Numenius phaeopus phaeopus, Numenius phaeopus, Numenius phaeopus hudsonicus |
-| Numida meleagris | ES | Numida meleagris |
-| Nyctanassa violacea | ES | Nyctanassa violacea |
-| Nyctibius aethereus | ES | Nyctibius aethereus |
-| Nyctibius bracteatus | ES | Nyctibius bracteatus |
-| Nyctibius grandis | ES | Nyctibius grandis |
-| Nyctibius griseus | ES | Nyctibius griseus |
-| Nyctibius leucopterus | ES | Nyctibius leucopterus |
-| Nycticorax nycticorax | ES | Nycticorax nycticorax |
-| Nyctidromus albicollis | ES | Nyctidromus albicollis |
-| Nyctiprogne leucopyga | ES | Nyctiprogne leucopyga |
-| Nymphicus hollandicus | ES | Nymphicus hollandicus |
-| Oceanites oceanicus | ES | Oceanites oceanicus |
-| Odontophorus gujanensis | ES | Odontophorus gujanensis |
-| Oenanthe deserti | ES | Oenanthe deserti |
-| Oenanthe hispanica | ES | Oenanthe hispanica |
-| Oenanthe isabellina | ES | Oenanthe isabellina |
-| Oenanthe leucopyga | ES | Oenanthe leucopyga |
-| Oenanthe leucura | ES | Oenanthe leucura |
-| Oenanthe oenanthe | ES | Oenanthe oenanthe, Oenanthe oenanthe leucorhoa |
-| Oenanthe pleschanka | ES | Oenanthe pleschanka |
-| Oenanthe xanthoprymna | ES | Oenanthe xanthoprymna |
-| Onychoprion anaethetus | ES | Onychoprion anaethetus |
-| Onychoprion fuscatus | ES | Onychoprion fuscatus |
-| Onychorhynchus coronatus | ES | Onychorhynchus coronatus |
-| Opisthocomus hoazin | ES | Opisthocomus hoazin |
-| Oriolus oriolus | ES | Oriolus oriolus |
-| Ornithion inerme | ES | Ornithion inerme |
-| Ortalis motmot | ES | Ortalis motmot |
-| Otis tarda | ES | Otis tarda |
-| Otus scops | ES | Otus scops |
-| Oxyruncus cristatus | ES | Oxyruncus cristatus |
-| Oxyura jamaicensis | ES | Oxyura jamaicensis |
-| Oxyura leucocephala | ES | Oxyura leucocephala |
-| Pachyramphus marginatus | ES | Pachyramphus marginatus |
-| Pachyramphus minor | ES | Pachyramphus minor |
-| Pachyramphus polychopterus | ES | Pachyramphus polychopterus |
-| Pachyramphus rufus | ES | Pachyramphus rufus |
-| Pachyramphus surinamus | ES | Pachyramphus surinamus |
-| Pachysylvia muscicapina | ES | Pachysylvia muscicapina |
-| Pagophila eburnea | ES | Pagophila eburnea |
-| Panurus biarmicus | ES | Panurus biarmicus |
-| Panyptila cayennensis | ES | Panyptila cayennensis |
-| Pardirallus maculatus | ES | Pardirallus maculatus |
-| Parkesia noveboracensis | ES | Parkesia noveboracensis |
-| Paroaria gularis | ES | Paroaria gularis |
-| Parus major | ES | Parus major |
-| Passer domesticus | ES | Passer domesticus, Passer domesticus domesticus |
-| Passerella iliaca | ES | Passerella iliaca |
-| Passer hispaniolensis | ES | Passer hispaniolensis |
-| Passer italiae | ES | Passer italiae |
-| Passer montanus | ES | Passer montanus |
-| Pastor roseus | ES | Pastor roseus |
-| Patagioenas cayennensis | ES | Patagioenas cayennensis |
-| Patagioenas plumbea | ES | Patagioenas plumbea |
-| Patagioenas speciosa | ES | Patagioenas speciosa |
-| Patagioenas subvinacea | ES | Patagioenas subvinacea |
-| Pavo cristatus | ES | Pavo cristatus |
-| Pelecanus crispus | ES | Pelecanus crispus |
-| Pelecanus occidentalis | ES | Pelecanus occidentalis |
-| Pelecanus onocrotalus | ES | Pelecanus onocrotalus |
-| Pelecanus rufescens | ES | Pelecanus rufescens |
-| Penelope marail | ES | Penelope marail |
-| Percnostola rufifrons | ES | Percnostola rufifrons |
-| Perdix perdix | ES | Perdix perdix hispaniensis, Perdix perdix |
-| Periparus ater | ES | Periparus ater |
-| Perissocephalus tricolor | ES | Perissocephalus tricolor |
-| Pernis apivorus | ES | Pernis apivorus |
-| Petrochelidon pyrrhonota | ES | Petrochelidon pyrrhonota |
-| Petronia petronia | ES | Petronia petronia |
-| Phaeomyias murina | ES | Phaeomyias murina |
-| Phaethon aethereus | ES | Phaethon aethereus |
-| Phaethornis augusti | ES | Phaethornis augusti |
-| Phaethornis bourcieri | ES | Phaethornis bourcieri |
-| Phaethornis longuemareus | ES | Phaethornis longuemareus |
-| Phaethornis malaris | ES | Phaethornis malaris |
-| Phaethornis ruber | ES | Phaethornis ruber |
-| Phaethornis superciliosus | ES | Phaethornis superciliosus |
-| Phaetusa simplex | ES | Phaetusa simplex |
-| Phalacrocorax aristotelis | ES | Phalacrocorax aristotelis, Phalacrocorax aristotelis desmarestii |
-| Phalacrocorax auritus | ES | Phalacrocorax auritus |
-| Phalacrocorax brasilianus | ES | Phalacrocorax brasilianus |
-| Phalacrocorax carbo | ES | Phalacrocorax carbo sinensis, Phalacrocorax carbo carbo, Phalacrocorax carbo |
-| Phalaropus fulicarius | ES | Phalaropus fulicarius |
-| Phalaropus lobatus | ES | Phalaropus lobatus |
-| Phasianus colchicus | ES | Phasianus colchicus |
-| Pheucticus ludovicianus | ES | Pheucticus ludovicianus |
-| Philydor erythrocercum | ES | Philydor erythrocercum |
-| Philydor pyrrhodes | ES | Philydor pyrrhodes |
-| Phoenicircus carnifex | ES | Phoenicircus carnifex |
-| Phoenicopterus chilensis | ES | Phoenicopterus chilensis |
-| Phoenicopterus roseus | ES | Phoenicopterus roseus |
-| Phoenicopterus ruber | ES | Phoenicopterus ruber |
-| Phoenicurus moussieri | ES | Phoenicurus moussieri |
-| Phoenicurus ochruros | ES | Phoenicurus ochruros |
-| Phoenicurus phoenicurus | ES | Phoenicurus phoenicurus |
-| Phyllomyias griseiceps | ES | Phyllomyias griseiceps |
-| Phylloscartes virescens | ES | Phylloscartes virescens |
-| Phylloscopus bonelli | ES | Phylloscopus bonelli |
-| Phylloscopus borealis | ES | Phylloscopus borealis |
-| Phylloscopus collybita | ES | Phylloscopus collybita tristis, Phylloscopus collybita, Phylloscopus collybita abietinus |
-| Phylloscopus fuscatus | ES | Phylloscopus fuscatus |
-| Phylloscopus humei | ES | Phylloscopus humei |
-| Phylloscopus ibericus | ES | Phylloscopus ibericus |
-| Phylloscopus inornatus | ES | Phylloscopus inornatus |
-| Phylloscopus nitidus | ES | Phylloscopus nitidus |
-| Phylloscopus orientalis | ES | Phylloscopus orientalis |
-| Phylloscopus plumbeitarsus | ES | Phylloscopus plumbeitarsus |
-| Phylloscopus proregulus | ES | Phylloscopus proregulus |
-| Phylloscopus schwarzi | ES | Phylloscopus schwarzi |
-| Phylloscopus sibilatrix | ES | Phylloscopus sibilatrix |
-| Phylloscopus trochiloides | ES | Phylloscopus trochiloides |
-| Phylloscopus trochilus | ES | Phylloscopus trochilus, Phylloscopus trochilus acredula |
-| Piaya cayana | ES | Piaya cayana |
-| Piaya melanogaster | ES | Piaya melanogaster |
-| Pica pica | ES | Pica pica |
-| Picoides tridactylus | ES | Picoides tridactylus |
-| Piculus chrysochloros | ES | Piculus chrysochloros |
-| Piculus flavigula | ES | Piculus flavigula |
-| Picumnus cirratus | ES | Picumnus cirratus |
-| Picumnus exilis | ES | Picumnus exilis |
-| Picumnus minutissimus | ES | Picumnus minutissimus |
-| Picumnus spilogaster | ES | Picumnus spilogaster |
-| Picus canus | ES | Picus canus |
-| Picus sharpei | ES | Picus sharpei |
-| Picus viridis | ES | Picus viridis viridis, Picus viridis |
-| Pilherodius pileatus | ES | Pilherodius pileatus |
-| Pionites melanocephalus | ES | Pionites melanocephalus |
-| Pionus fuscus | ES | Pionus fuscus |
-| Pionus menstruus | ES | Pionus menstruus |
-| Pipile cumanensis | ES | Pipile cumanensis |
-| Pipra aureola | ES | Pipra aureola |
-| Piprites chloris | ES | Piprites chloris |
-| Piranga flava | ES | Piranga flava haemalea, Piranga flava |
-| Piranga olivacea | ES | Piranga olivacea |
-| Piranga rubra | ES | Piranga rubra |
-| Pitangus lictor | ES | Pitangus lictor |
-| Pitangus sulphuratus | ES | Pitangus sulphuratus |
-| Pithys albifrons | ES | Pithys albifrons |
-| Platalea ajaja | ES | Platalea ajaja |
-| Platalea leucorodia | ES | Platalea leucorodia |
-| Platyrinchus coronatus | ES | Platyrinchus coronatus |
-| Platyrinchus mystaceus | ES | Platyrinchus mystaceus |
-| Platyrinchus platyrhynchos | ES | Platyrinchus platyrhynchos |
-| Platyrinchus saturatus | ES | Platyrinchus saturatus |
-| Plectrophenax nivalis | ES | Plectrophenax nivalis |
-| Plegadis falcinellus | ES | Plegadis falcinellus |
-| Ploceus cucullatus | ES | Ploceus cucullatus |
-| Pluvialis apricaria | ES | Pluvialis apricaria |
-| Pluvialis dominica | ES | Pluvialis dominica |
-| Pluvialis fulva | ES | Pluvialis fulva |
-| Pluvialis squatarola | ES | Pluvialis squatarola |
-| Pluvianus aegyptius | ES | Pluvianus aegyptius |
-| Podiceps auritus | ES | Podiceps auritus |
-| Podiceps cristatus | ES | Podiceps cristatus |
-| Podiceps grisegena | ES | Podiceps grisegena |
-| Podiceps nigricollis | ES | Podiceps nigricollis |
-| Podilymbus podiceps | ES | Podilymbus podiceps |
-| Poecile montanus | ES | Poecile montanus montanus, Poecile montanus |
-| Poecile montanus montanus | SSES | Poecile montanus montanus |
-| Poecile palustris | ES | Poecile palustris |
-| Poecilotriccus fumifrons | ES | Poecilotriccus fumifrons |
-| Polioptila guianensis | ES | Polioptila guianensis |
-| Polioptila plumbea | ES | Polioptila plumbea |
-| Polystictus pectoralis | ES | Polystictus pectoralis |
-| Polytmus guainumbi | ES | Polytmus guainumbi |
-| Polytmus theresiae | ES | Polytmus theresiae |
-| Porphyrio flavirostris | ES | Porphyrio flavirostris |
-| Porphyrio porphyrio | ES | Porphyrio porphyrio |
-| Porzana carolina | ES | Porzana carolina |
-| Porzana porzana | ES | Porzana porzana |
-| Procnias albus | ES | Procnias albus |
-| Progne chalybea | ES | Progne chalybea |
-| Progne dominicensis | ES | Progne dominicensis |
-| Progne elegans | ES | Progne elegans |
-| Progne subis | ES | Progne subis |
-| Progne tapera | ES | Progne tapera |
-| Protonotaria citrea | ES | Protonotaria citrea |
-| Prunella collaris | ES | Prunella collaris |
-| Prunella modularis | ES | Prunella modularis |
-| Psarocolius decumanus | ES | Psarocolius decumanus |
-| Psarocolius viridis | ES | Psarocolius viridis |
-| Pseudocolopteryx sclateri | ES | Pseudocolopteryx sclateri |
-| Psittacula krameri | ES | Psittacula krameri |
-| Psittacus erithacus | ES | Psittacus erithacus |
-| Psophia crepitans | ES | Psophia crepitans |
-| Pterocles alchata | ES | Pterocles alchata |
-| Pterodroma feae | ES | Pterodroma feae |
-| Pteroglossus aracari | ES | Pteroglossus aracari |
-| Pteroglossus viridis | ES | Pteroglossus viridis |
-| Ptyonoprogne rupestris | ES | Ptyonoprogne rupestris |
-| Puffinus lherminieri | ES | Puffinus lherminieri, Puffinus lherminieri baroli |
-| Puffinus mauretanicus | ES | Puffinus mauretanicus |
-| Puffinus puffinus | ES | Puffinus puffinus |
-| Puffinus tenuirostris | ES | Puffinus tenuirostris |
-| Puffinus yelkouan | ES | Puffinus yelkouan |
-| Pulsatrix perspicillata | ES | Pulsatrix perspicillata |
-| Pycnonotus cafer | ES | Pycnonotus cafer |
-| Pycnonotus jocosus | ES | Pycnonotus jocosus |
-| Pygiptila stellaris | ES | Pygiptila stellaris |
-| Pygochelidon cyanoleuca | ES | Pygochelidon cyanoleuca |
-| Pygochelidon melanoleuca | ES | Pygochelidon melanoleuca |
-| Pyrilia caica | ES | Pyrilia caica |
-| Pyrrhocorax graculus | ES | Pyrrhocorax graculus |
-| Pyrrhocorax pyrrhocorax | ES | Pyrrhocorax pyrrhocorax |
-| Pyrrhula pyrrhula | ES | Pyrrhula pyrrhula, Pyrrhula pyrrhula pyrrhula, Pyrrhula pyrrhula europaea |
-| Pyrrhura picta | ES | Pyrrhura picta |
-| Querula purpurata | ES | Querula purpurata |
-| Quiscalus lugubris | ES | Quiscalus lugubris |
-| Quiscalus quiscula | ES | Quiscalus quiscula |
-| Rallus aquaticus | ES | Rallus aquaticus |
-| Rallus longirostris | ES | Rallus longirostris |
-| Ramphastos toco | ES | Ramphastos toco |
-| Ramphastos tucanus | ES | Ramphastos tucanus |
-| Ramphastos vitellinus | ES | Ramphastos vitellinus |
-| Ramphocaenus melanurus | ES | Ramphocaenus melanurus |
-| Ramphocelus carbo | ES | Ramphocelus carbo |
-| Ramphotrigon ruficauda | ES | Ramphotrigon ruficauda |
-| Recurvirostra avosetta | ES | Recurvirostra avosetta |
-| Regulus calendula | ES | Regulus calendula |
-| Regulus ignicapilla | ES | Regulus ignicapilla |
-| Regulus regulus | ES | Regulus regulus |
-| Remiz pendulinus | ES | Remiz pendulinus |
-| Rhodostethia rosea | ES | Rhodostethia rosea |
-| Rhynchocyclus olivaceus | ES | Rhynchocyclus olivaceus |
-| Rhytipterna immunda | ES | Rhytipterna immunda |
-| Rhytipterna simplex | ES | Rhytipterna simplex |
-| Riparia riparia | ES | Riparia riparia |
-| Rissa tridactyla | ES | Rissa tridactyla |
-| Rostrhamus sociabilis | ES | Rostrhamus sociabilis |
-| Rupicola rupicola | ES | Rupicola rupicola |
-| Rynchops niger | ES | Rynchops niger |
-| Sakesphorus canadensis | ES | Sakesphorus canadensis |
-| Saltator coerulescens | ES | Saltator coerulescens |
-| Saltator grossus | ES | Saltator grossus |
-| Saltator maximus | ES | Saltator maximus |
-| Sarcoramphus papa | ES | Sarcoramphus papa |
-| Saxicola maurus | ES | Saxicola maurus |
-| Saxicola rubetra | ES | Saxicola rubetra |
-| Saxicola rubicola | ES | Saxicola rubicola |
-| Schiffornis olivacea | ES | Schiffornis olivacea |
-| Schistochlamys melanopis | ES | Schistochlamys melanopis |
-| Sclateria naevia | ES | Sclateria naevia |
-| Sclerurus caudacutus | ES | Sclerurus caudacutus |
-| Sclerurus mexicanus | ES | Sclerurus mexicanus |
-| Sclerurus rufigularis | ES | Sclerurus rufigularis |
-| Scolopax minor | ES | Scolopax minor |
-| Scolopax rusticola | ES | Scolopax rusticola |
-| Seiurus aurocapilla | ES | Seiurus aurocapilla |
-| Selenidera piperivora | ES | Selenidera piperivora |
-| Serinus serinus | ES | Serinus serinus |
-| Setophaga americana | ES | Setophaga americana |
-| Setophaga castanea | ES | Setophaga castanea |
-| Setophaga fusca | ES | Setophaga fusca |
-| Setophaga pensylvanica | ES | Setophaga pensylvanica |
-| Setophaga ruticilla | ES | Setophaga ruticilla |
-| Setophaga striata | ES | Setophaga striata |
-| Sicalis luteola | ES | Sicalis luteola |
-| Sirystes subcanescens | ES | Sirystes subcanescens |
-| Sitta europaea | ES | Sitta europaea |
-| Sittasomus griseicapillus | ES | Sittasomus griseicapillus |
-| Sitta whiteheadi | ES | Sitta whiteheadi |
-| Somateria mollissima | ES | Somateria mollissima |
-| Somateria spectabilis | ES | Somateria spectabilis |
-| Spatula clypeata | ES | Spatula clypeata |
-| Spatula cyanoptera | ES | Spatula cyanoptera |
-| Spatula discors | ES | Spatula discors |
-| Spatula querquedula | ES | Spatula querquedula |
-| Spinus spinus | ES | Spinus spinus |
-| Spiza americana | ES | Spiza americana |
-| Spizaetus melanoleucus | ES | Spizaetus melanoleucus |
-| Spizaetus ornatus | ES | Spizaetus ornatus |
-| Spizaetus tyrannus | ES | Spizaetus tyrannus |
-| Sporophila americana | ES | Sporophila americana |
-| Sporophila bouvreuil | ES | Sporophila bouvreuil |
-| Sporophila bouvronides | ES | Sporophila bouvronides |
-| Sporophila castaneiventris | ES | Sporophila castaneiventris |
-| Sporophila lineola | ES | Sporophila lineola |
-| Sporophila minuta | ES | Sporophila minuta |
-| Sporophila nigricollis | ES | Sporophila nigricollis |
-| Sporophila plumbea | ES | Sporophila plumbea |
-| Sporophila schistacea | ES | Sporophila schistacea |
-| Steatornis caripensis | ES | Steatornis caripensis |
-| Stelgidopteryx ruficollis | ES | Stelgidopteryx ruficollis |
-| Stercorarius longicaudus | ES | Stercorarius longicaudus |
-| Stercorarius maccormicki | ES | Stercorarius maccormicki |
-| Stercorarius parasiticus | ES | Stercorarius parasiticus |
-| Stercorarius pomarinus | ES | Stercorarius pomarinus |
-| Stercorarius skua | ES | Stercorarius skua |
-| Sterna dougallii | ES | Sterna dougallii |
-| Sterna forsteri | ES | Sterna forsteri |
-| Sterna hirundo | ES | Sterna hirundo |
-| Sterna paradisaea | ES | Sterna paradisaea |
-| Sternula albifrons | ES | Sternula albifrons |
-| Sternula antillarum | ES | Sternula antillarum |
-| Sternula superciliaris | ES | Sternula superciliaris |
-| Streptopelia decaocto | ES | Streptopelia decaocto |
-| Streptopelia orientalis | ES | Streptopelia orientalis |
-| Streptopelia roseogrisea | ES | Streptopelia roseogrisea |
-| Streptopelia senegalensis | ES | Streptopelia senegalensis |
-| Streptopelia turtur | ES | Streptopelia turtur |
-| Streptoprocne zonaris | ES | Streptoprocne zonaris |
-| Strix aluco | ES | Strix aluco |
-| Sturnella magna | ES | Sturnella magna |
-| Sturnella militaris | ES | Sturnella militaris |
-| Sturnus unicolor | ES | Sturnus unicolor |
-| Sturnus vulgaris | ES | Sturnus vulgaris |
-| Sublegatus arenarum | ES | Sublegatus arenarum |
-| Sublegatus obscurior | ES | Sublegatus obscurior |
-| Sula dactylatra | ES | Sula dactylatra |
-| Sula leucogaster | ES | Sula leucogaster |
-| Sula sula | ES | Sula sula |
-| Surnia ulula | ES | Surnia ulula |
-| Sylvia atricapilla | ES | Sylvia atricapilla |
-| Sylvia borin | ES | Sylvia borin |
-| Sylvia cantillans | ES | Sylvia cantillans albistriata, Sylvia cantillans |
-| Sylvia communis | ES | Sylvia communis |
-| Sylvia conspicillata | ES | Sylvia conspicillata |
-| Sylvia curruca | ES | Sylvia curruca |
-| Sylvia deserti | ES | Sylvia deserti |
-| Sylvia deserticola | ES | Sylvia deserticola |
-| Sylvia hortensis | ES | Sylvia hortensis |
-| Sylvia melanocephala | ES | Sylvia melanocephala |
-| Sylvia nisoria | ES | Sylvia nisoria |
-| Sylvia sarda | ES | Sylvia sarda |
-| Sylvia subalpina | ES | Sylvia subalpina |
-| Sylvia undata | ES | Sylvia undata |
-| Synallaxis albescens | ES | Synallaxis albescens |
-| Synallaxis gujanensis | ES | Synallaxis gujanensis |
-| Synallaxis macconnelli | ES | Synallaxis macconnelli |
-| Syrmaticus reevesii | ES | Syrmaticus reevesii |
-| Tachornis squamata | ES | Tachornis squamata |
-| Tachybaptus dominicus | ES | Tachybaptus dominicus |
-| Tachybaptus ruficollis | ES | Tachybaptus ruficollis |
-| Tachycineta albiventer | ES | Tachycineta albiventer |
-| Tachycineta bicolor | ES | Tachycineta bicolor |
-| Tachymarptis melba | ES | Tachymarptis melba |
-| Tachyphonus cristatus | ES | Tachyphonus cristatus |
-| Tachyphonus luctuosus | ES | Tachyphonus luctuosus |
-| Tachyphonus phoenicius | ES | Tachyphonus phoenicius |
-| Tachyphonus rufus | ES | Tachyphonus rufus |
-| Tachyphonus surinamus | ES | Tachyphonus surinamus |
-| Tadorna ferruginea | ES | Tadorna ferruginea |
-| Tadorna tadorna | ES | Tadorna tadorna |
-| Tangara cayana | ES | Tangara cayana |
-| Tangara chilensis | ES | Tangara chilensis |
-| Tangara guttata | ES | Tangara guttata |
-| Tangara gyrola | ES | Tangara gyrola |
-| Tangara mexicana | ES | Tangara mexicana |
-| Tangara punctata | ES | Tangara punctata |
-| Tangara varia | ES | Tangara varia |
-| Tangara velia | ES | Tangara velia |
-| Tapera naevia | ES | Tapera naevia |
-| Taraba major | ES | Taraba major |
-| Tarsiger cyanurus | ES | Tarsiger cyanurus |
-| Terenotriccus erythrurus | ES | Terenotriccus erythrurus |
-| Tersina viridis | ES | Tersina viridis |
-| Tetrao urogallus | ES | Tetrao urogallus |
-| Tetrax tetrax | ES | Tetrax tetrax |
-| Thalassarche melanophris | ES | Thalassarche melanophris |
-| Thalasseus bengalensis | ES | Thalasseus bengalensis |
-| Thalasseus sandvicensis | ES | Thalasseus sandvicensis sandvicensis, Thalasseus sandvicensis eurygnathus, Thalasseus sandvicensis acuflavidus, Thalasseus sandvicensis |
-| Thalurania furcata | ES | Thalurania furcata |
-| Thamnomanes ardesiacus | ES | Thamnomanes ardesiacus |
-| Thamnomanes caesius | ES | Thamnomanes caesius |
-| Thamnophilus amazonicus | ES | Thamnophilus amazonicus |
-| Thamnophilus doliatus | ES | Thamnophilus doliatus |
-| Thamnophilus melanothorax | ES | Thamnophilus melanothorax |
-| Thamnophilus murinus | ES | Thamnophilus murinus |
-| Thamnophilus nigrocinereus | ES | Thamnophilus nigrocinereus |
-| Thamnophilus punctatus | ES | Thamnophilus punctatus |
-| Threnetes leucurus | ES | Threnetes leucurus |
-| Threnetes niger | ES | Threnetes niger |
-| Threskiornis aethiopicus | ES | Threskiornis aethiopicus |
-| Thripophaga gutturata | ES | Thripophaga gutturata |
-| Tichodroma muraria | ES | Tichodroma muraria |
-| Tigrisoma fasciatum | ES | Tigrisoma fasciatum |
-| Tigrisoma lineatum | ES | Tigrisoma lineatum |
-| Tinamus major | ES | Tinamus major |
-| Tityra cayana | ES | Tityra cayana |
-| Tityra inquisitor | ES | Tityra inquisitor |
-| Todirostrum cinereum | ES | Todirostrum cinereum |
-| Todirostrum maculatum | ES | Todirostrum maculatum |
-| Todirostrum pictum | ES | Todirostrum pictum |
-| Tolmomyias assimilis | ES | Tolmomyias assimilis |
-| Tolmomyias flaviventris | ES | Tolmomyias flaviventris |
-| Tolmomyias poliocephalus | ES | Tolmomyias poliocephalus |
-| Tolmomyias sulphurescens | ES | Tolmomyias sulphurescens |
-| Topaza pella | ES | Topaza pella |
-| Torgos tracheliotus | ES | Torgos tracheliotus |
-| Touit batavicus | ES | Touit batavicus |
-| Touit purpuratus | ES | Touit purpuratus |
-| Trichoglossus haematodus | ES | Trichoglossus haematodus |
-| Tringa erythropus | ES | Tringa erythropus |
-| Tringa flavipes | ES | Tringa flavipes |
-| Tringa glareola | ES | Tringa glareola |
-| Tringa melanoleuca | ES | Tringa melanoleuca |
-| Tringa nebularia | ES | Tringa nebularia |
-| Tringa ochropus | ES | Tringa ochropus |
-| Tringa semipalmata | ES | Tringa semipalmata |
-| Tringa solitaria | ES | Tringa solitaria |
-| Tringa stagnatilis | ES | Tringa stagnatilis |
-| Tringa totanus | ES | Tringa totanus |
-| Troglodytes aedon | ES | Troglodytes aedon |
-| Troglodytes troglodytes | ES | Troglodytes troglodytes |
-| Trogon collaris | ES | Trogon collaris |
-| Trogon melanurus | ES | Trogon melanurus |
-| Trogon rufus | ES | Trogon rufus |
-| Trogon violaceus | ES | Trogon violaceus |
-| Trogon viridis | ES | Trogon viridis |
-| Tunchiornis ochraceiceps | ES | Tunchiornis ochraceiceps |
-| Turdus albicollis | ES | Turdus albicollis |
-| Turdus atrogularis | ES | Turdus atrogularis |
-| Turdus eunomus | ES | Turdus eunomus |
-| Turdus fumigatus | ES | Turdus fumigatus |
-| Turdus iliacus | ES | Turdus iliacus |
-| Turdus leucomelas | ES | Turdus leucomelas |
-| Turdus merula | ES | Turdus merula |
-| Turdus migratorius | ES | Turdus migratorius |
-| Turdus nudigenis | ES | Turdus nudigenis |
-| Turdus obscurus | ES | Turdus obscurus |
-| Turdus philomelos | ES | Turdus philomelos |
-| Turdus pilaris | ES | Turdus pilaris |
-| Turdus ruficollis | ES | Turdus ruficollis |
-| Turdus torquatus | ES | Turdus torquatus, Turdus torquatus alpestris, Turdus torquatus torquatus |
-| Turdus viscivorus | ES | Turdus viscivorus |
-| Tyranneutes virescens | ES | Tyranneutes virescens |
-| Tyrannopsis sulphurea | ES | Tyrannopsis sulphurea |
-| Tyrannulus elatus | ES | Tyrannulus elatus |
-| Tyrannus albogularis | ES | Tyrannus albogularis |
-| Tyrannus dominicensis | ES | Tyrannus dominicensis |
-| Tyrannus melancholicus | ES | Tyrannus melancholicus |
-| Tyrannus savana | ES | Tyrannus savana |
-| Tyrannus tyrannus | ES | Tyrannus tyrannus |
-| Tyto alba | ES | Tyto alba |
-| Upupa epops | ES | Upupa epops |
-| Uraeginthus bengalus | ES | Uraeginthus bengalus |
-| Uria aalge | ES | Uria aalge |
-| Uria lomvia | ES | Uria lomvia |
-| Vanellus armatus | ES | Vanellus armatus |
-| Vanellus cayanus | ES | Vanellus cayanus |
-| Vanellus chilensis | ES | Vanellus chilensis |
-| Vanellus gregarius | ES | Vanellus gregarius |
-| Vanellus leucurus | ES | Vanellus leucurus |
-| Vanellus miles | ES | Vanellus miles |
-| Vanellus vanellus | ES | Vanellus vanellus |
-| Veniliornis cassini | ES | Veniliornis cassini |
-| Veniliornis passerinus | ES | Veniliornis passerinus |
-| Veniliornis sanguineus | ES | Veniliornis sanguineus |
-| Vidua macroura | ES | Vidua macroura |
-| Vireo altiloquus | ES | Vireo altiloquus |
-| Vireolanius leucotis | ES | Vireolanius leucotis |
-| Vireo olivaceus | ES | Vireo olivaceus |
-| Volatinia jacarina | ES | Volatinia jacarina |
-| Willisornis poecilinotus | ES | Willisornis poecilinotus |
-| Xema sabini | ES | Xema sabini |
-| Xenopipo atronitens | ES | Xenopipo atronitens |
-| Xenops minutus | ES | Xenops minutus |
-| Xenops tenuirostris | ES | Xenops tenuirostris |
-| Xenus cinereus | ES | Xenus cinereus |
-| Xiphocolaptes promeropirhynchus | ES | Xiphocolaptes promeropirhynchus |
-| Xipholena punicea | ES | Xipholena punicea |
-| Xiphorhynchus guttatus | ES | Xiphorhynchus guttatus |
-| Xiphorhynchus obsoletus | ES | Xiphorhynchus obsoletus |
-| Xiphorhynchus pardalotus | ES | Xiphorhynchus pardalotus |
-| Zapornia parva | ES | Zapornia parva |
-| Zapornia pusilla | ES | Zapornia pusilla |
-| Zebrilus undulatus | ES | Zebrilus undulatus |
-| Zenaida auriculata | ES | Zenaida auriculata |
-| Zenaida macroura | ES | Zenaida macroura |
-| Zimmerius acer | ES | Zimmerius acer |
-| Zonotrichia albicollis | ES | Zonotrichia albicollis |
-| Zonotrichia capensis | ES | Zonotrichia capensis |
-| Zonotrichia leucophrys | ES | Zonotrichia leucophrys |
+| odf\_sci\_name | rank | include | hidden |
+| :--- | :--- | :--- | :--- |
+| Acanthis flammea | ES | Acanthis flammea, Acanthis flammea flammea, Acanthis flammea cabaret | NULL |
+| Acanthis flammea cabaret | SSES | Acanthis flammea cabaret | NULL |
+| Acanthis flammea flammea | SSES | Acanthis flammea flammea | NULL |
+| Accipiter bicolor | ES | Accipiter bicolor | NULL |
+| Accipiter gentilis | ES | Accipiter gentilis | NULL |
+| Accipiter nisus | ES | Accipiter nisus | NULL |
+| Accipiter poliogaster | ES | Accipiter poliogaster | NULL |
+| Accipiter superciliosus | ES | Accipiter superciliosus | NULL |
+| Acridotheres tristis | ES | Acridotheres tristis | NULL |
+| Acrocephalus agricola | ES | Acrocephalus agricola | NULL |
+| Acrocephalus arundinaceus | ES | Acrocephalus arundinaceus | NULL |
+| Acrocephalus dumetorum | ES | Acrocephalus dumetorum | NULL |
+| Acrocephalus melanopogon | ES | Acrocephalus melanopogon | NULL |
+| Acrocephalus paludicola | ES | Acrocephalus paludicola | NULL |
+| Acrocephalus palustris | ES | Acrocephalus palustris | NULL |
+| Acrocephalus schoenobaenus | ES | Acrocephalus schoenobaenus | NULL |
+| Acrocephalus scirpaceus | ES | Acrocephalus scirpaceus | NULL |
+| Actitis hypoleucos | ES | Actitis hypoleucos | NULL |
+| Actitis macularius | ES | Actitis macularius | NULL |
+| Aegithalos caudatus | ES | Aegithalos caudatus | NULL |
+| Aegolius funereus | ES | Aegolius funereus | NULL |
+| Aegypius monachus | ES | Aegypius monachus | NULL |
+| Aeronautes montivagus | ES | Aeronautes montivagus | NULL |
+| Agamia agami | ES | Agamia agami | NULL |
+| Agapornis fischeri | ES | Agapornis fischeri | NULL |
+| Agapornis personatus | ES | Agapornis personatus | NULL |
+| Agapornis pullarius | ES | Agapornis pullarius | NULL |
+| Aix galericulata | ES | Aix galericulata | NULL |
+| Aix sponsa | ES | Aix sponsa | NULL |
+| Alauda arvensis | ES | Alauda arvensis | NULL |
+| Alaudala rufescens | ES | Alaudala rufescens | NULL |
+| Alca torda | ES | Alca torda | NULL |
+| Alcedo atthis | ES | Alcedo atthis | NULL |
+| Alectoris chukar | ES | Alectoris chukar | NULL |
+| Alectoris graeca | ES | Alectoris graeca | NULL |
+| Alectoris rufa | ES | Alectoris rufa | NULL |
+| Alle alle | ES | Alle alle | NULL |
+| Alopochen aegyptiaca | ES | Alopochen aegyptiaca | NULL |
+| Amandava amandava | ES | Amandava amandava | NULL |
+| Amaurolimnas concolor | ES | Amaurolimnas concolor | NULL |
+| Amazilia brevirostris | ES | Amazilia brevirostris | NULL |
+| Amazilia fimbriata | ES | Amazilia fimbriata | NULL |
+| Amazilia leucogaster | ES | Amazilia leucogaster | NULL |
+| Amazona amazonica | ES | Amazona amazonica | NULL |
+| Amazona dufresniana | ES | Amazona dufresniana | NULL |
+| Amazona farinosa | ES | Amazona farinosa | NULL |
+| Amazona ochrocephala | ES | Amazona ochrocephala | NULL |
+| Ammodramus humeralis | ES | Ammodramus humeralis | NULL |
+| Ammomanes cinctura | ES | Ammomanes cinctura | NULL |
+| Anabacerthia ruficaudata | ES | Anabacerthia ruficaudata | NULL |
+| Anas acuta | ES | Anas acuta | NULL |
+| Anas bahamensis | ES | Anas bahamensis | NULL |
+| Anas crecca | ES | Anas crecca carolinensis, Anas crecca | NULL |
+| Anas crecca carolinensis | ES | Anas crecca carolinensis | NULL |
+| Anas platyrhynchos | ES | Anas platyrhynchos | NULL |
+| Anas rubripes | ES | Anas rubripes | NULL |
+| Anhinga anhinga | ES | Anhinga anhinga | NULL |
+| Anous stolidus | ES | Anous stolidus | NULL |
+| Anser albifrons | ES | Anser albifrons albifrons, Anser albifrons, Anser albifrons flavirostris | NULL |
+| Anser anser | ES | Anser anser, Anser anser anser, Anser anser rubrirostris | NULL |
+| Anser brachyrhynchus | ES | Anser brachyrhynchus | NULL |
+| Anser caerulescens | ES | Anser caerulescens | NULL |
+| Anser erythropus | ES | Anser erythropus | NULL |
+| Anser fabalis | ES | Anser fabalis fabalis, Anser fabalis, Anser fabalis rossicus | NULL |
+| Anser indicus | ES | Anser indicus | NULL |
+| Anthracothorax nigricollis | ES | Anthracothorax nigricollis | NULL |
+| Anthracothorax viridigula | ES | Anthracothorax viridigula | NULL |
+| Anthus campestris | ES | Anthus campestris | NULL |
+| Anthus cervinus | ES | Anthus cervinus | NULL |
+| Anthus godlewskii | ES | Anthus godlewskii | NULL |
+| Anthus gustavi | ES | Anthus gustavi | NULL |
+| Anthus hodgsoni | ES | Anthus hodgsoni | NULL |
+| Anthus lutescens | ES | Anthus lutescens | NULL |
+| Anthus petrosus | ES | Anthus petrosus petrosus, Anthus petrosus littoralis, Anthus petrosus | NULL |
+| Anthus pratensis | ES | Anthus pratensis | NULL |
+| Anthus richardi | ES | Anthus richardi | NULL |
+| Anthus rubescens | ES | Anthus rubescens | NULL |
+| Anthus spinoletta | ES | Anthus spinoletta | NULL |
+| Anthus trivialis | ES | Anthus trivialis | NULL |
+| Antrostomus rufus | ES | Antrostomus rufus | NULL |
+| Apus affinis | ES | Apus affinis | NULL |
+| Apus apus | ES | Apus apus | NULL |
+| Apus pallidus | ES | Apus pallidus | NULL |
+| Aquila adalberti | ES | Aquila adalberti | NULL |
+| Aquila chrysaetos | ES | Aquila chrysaetos | NULL |
+| Aquila fasciata | ES | Aquila fasciata | yes |
+| Aquila heliaca | ES | Aquila heliaca | NULL |
+| Aquila nipalensis | ES | Aquila nipalensis | NULL |
+| Ara ararauna | ES | Ara ararauna | NULL |
+| Ara chloropterus | ES | Ara chloropterus | NULL |
+| Ara macao | ES | Ara macao | NULL |
+| Aramides axillaris | ES | Aramides axillaris | NULL |
+| Aramides cajaneus | ES | Aramides cajaneus | NULL |
+| Aramides mangle | ES | Aramides mangle | NULL |
+| Aramus guarauna | ES | Aramus guarauna | NULL |
+| Ara severus | ES | Ara severus | NULL |
+| Aratinga nenday | ES | Aratinga nenday | NULL |
+| Aratinga solstitialis | ES | Aratinga solstitialis | NULL |
+| Ardea alba | ES | Ardea alba | NULL |
+| Ardea cinerea | ES | Ardea cinerea | NULL |
+| Ardea cocoi | ES | Ardea cocoi | NULL |
+| Ardea herodias | ES | Ardea herodias | NULL |
+| Ardea melanocephala | ES | Ardea melanocephala | NULL |
+| Ardea purpurea | ES | Ardea purpurea | NULL |
+| Ardenna gravis | ES | Ardenna gravis | NULL |
+| Ardenna grisea | ES | Ardenna grisea | NULL |
+| Ardeola ralloides | ES | Ardeola ralloides | NULL |
+| Arenaria interpres | ES | Arenaria interpres | NULL |
+| Arremon taciturnus | ES | Arremon taciturnus | NULL |
+| Arundinicola leucocephala | ES | Arundinicola leucocephala | NULL |
+| Asio clamator | ES | Asio clamator | NULL |
+| Asio flammeus | ES | Asio flammeus | NULL |
+| Asio otus | ES | Asio otus | NULL |
+| Asio stygius | ES | Asio stygius | NULL |
+| Athene cunicularia | ES | Athene cunicularia | NULL |
+| Athene noctua | ES | Athene noctua | NULL |
+| Atticora fasciata | ES | Atticora fasciata | NULL |
+| Atticora tibialis | ES | Atticora tibialis | NULL |
+| Attila cinnamomeus | ES | Attila cinnamomeus | NULL |
+| Attila spadiceus | ES | Attila spadiceus | NULL |
+| Aulacorhynchus whitelianus | ES | Aulacorhynchus whitelianus | NULL |
+| Automolus infuscatus | ES | Automolus infuscatus | NULL |
+| Automolus ochrolaemus | ES | Automolus ochrolaemus | NULL |
+| Automolus rufipileatus | ES | Automolus rufipileatus | NULL |
+| Avocettula recurvirostris | ES | Avocettula recurvirostris | NULL |
+| Aythya affinis | ES | Aythya affinis | NULL |
+| Aythya americana | ES | Aythya americana | NULL |
+| Aythya collaris | ES | Aythya collaris | NULL |
+| Aythya ferina | ES | Aythya ferina | NULL |
+| Aythya fuligula | ES | Aythya fuligula | NULL |
+| Aythya marila | ES | Aythya marila | NULL |
+| Aythya nyroca | ES | Aythya nyroca | NULL |
+| Bartramia longicauda | ES | Bartramia longicauda | NULL |
+| Berlepschia rikeri | ES | Berlepschia rikeri | NULL |
+| Bombycilla garrulus | ES | Bombycilla garrulus | NULL |
+| Bonasa bonasia | ES | Bonasa bonasia | NULL |
+| Botaurus pinnatus | ES | Botaurus pinnatus | NULL |
+| Botaurus stellaris | ES | Botaurus stellaris | NULL |
+| Brachygalba lugubris | ES | Brachygalba lugubris | NULL |
+| Branta bernicla | ES | Branta bernicla hrota, Branta bernicla, Branta bernicla nigricans, Branta bernicla bernicla | NULL |
+| Branta canadensis | ES | Branta canadensis | NULL |
+| Branta leucopsis | ES | Branta leucopsis | NULL |
+| Branta ruficollis | ES | Branta ruficollis | NULL |
+| Brotogeris chrysoptera | ES | Brotogeris chrysoptera | NULL |
+| Brotogeris versicolurus | ES | Brotogeris versicolurus | NULL |
+| Bubo bubo | ES | Bubo bubo | NULL |
+| Bubo scandiacus | ES | Bubo scandiacus | NULL |
+| Bubo virginianus | ES | Bubo virginianus | NULL |
+| Bubulcus ibis | ES | Bubulcus ibis | NULL |
+| Bucanetes githagineus | ES | Bucanetes githagineus | NULL |
+| Bucco capensis | ES | Bucco capensis | NULL |
+| Bucco tamatia | ES | Bucco tamatia | NULL |
+| Bucephala albeola | ES | Bucephala albeola | NULL |
+| Bucephala clangula | ES | Bucephala clangula | NULL |
+| Bucephala islandica | ES | Bucephala islandica | NULL |
+| Bulweria bulwerii | ES | Bulweria bulwerii | NULL |
+| Burhinus oedicnemus | ES | Burhinus oedicnemus | NULL |
+| Busarellus nigricollis | ES | Busarellus nigricollis | NULL |
+| Buteo albonotatus | ES | Buteo albonotatus | NULL |
+| Buteo brachyurus | ES | Buteo brachyurus | NULL |
+| Buteo buteo | ES | Buteo buteo, Buteo buteo vulpinus | NULL |
+| Buteogallus aequinoctialis | ES | Buteogallus aequinoctialis | NULL |
+| Buteogallus meridionalis | ES | Buteogallus meridionalis | NULL |
+| Buteogallus schistaceus | ES | Buteogallus schistaceus | NULL |
+| Buteogallus urubitinga | ES | Buteogallus urubitinga | NULL |
+| Buteo jamaicensis | ES | Buteo jamaicensis | NULL |
+| Buteo lagopus | ES | Buteo lagopus | NULL |
+| Buteo nitidus | ES | Buteo nitidus | NULL |
+| Buteo platypterus | ES | Buteo platypterus | NULL |
+| Buteo rufinus | ES | Buteo rufinus | NULL |
+| Butorides striata | ES | Butorides striata | NULL |
+| Butorides virescens | ES | Butorides virescens | NULL |
+| Cacicus cela | ES | Cacicus cela | NULL |
+| Cacicus haemorrhous | ES | Cacicus haemorrhous | NULL |
+| Cairina moschata | ES | Cairina moschata | NULL |
+| Calandrella brachydactyla | ES | Calandrella brachydactyla | NULL |
+| Calcarius lapponicus | ES | Calcarius lapponicus | NULL |
+| Calidris acuminata | ES | Calidris acuminata | NULL |
+| Calidris alba | ES | Calidris alba | NULL |
+| Calidris alpina | ES | Calidris alpina schinzii, Calidris alpina | NULL |
+| Calidris bairdii | ES | Calidris bairdii | NULL |
+| Calidris canutus | ES | Calidris canutus | NULL |
+| Calidris falcinellus | ES | Calidris falcinellus | NULL |
+| Calidris ferruginea | ES | Calidris ferruginea | NULL |
+| Calidris fuscicollis | ES | Calidris fuscicollis | NULL |
+| Calidris himantopus | ES | Calidris himantopus | NULL |
+| Calidris maritima | ES | Calidris maritima | NULL |
+| Calidris mauri | ES | Calidris mauri | NULL |
+| Calidris melanotos | ES | Calidris melanotos | NULL |
+| Calidris minuta | ES | Calidris minuta | NULL |
+| Calidris minutilla | ES | Calidris minutilla | NULL |
+| Calidris pugnax | ES | Calidris pugnax | NULL |
+| Calidris pusilla | ES | Calidris pusilla | NULL |
+| Calidris ruficollis | ES | Calidris ruficollis | NULL |
+| Calidris subruficollis | ES | Calidris subruficollis | NULL |
+| Calidris temminckii | ES | Calidris temminckii | NULL |
+| Callipepla californica | ES | Callipepla californica | NULL |
+| Calliphlox amethystina | ES | Calliphlox amethystina | NULL |
+| Callonetta leucophrys | ES | Callonetta leucophrys | NULL |
+| Calonectris borealis | ES | Calonectris borealis | NULL |
+| Calonectris diomedea | ES | Calonectris diomedea | NULL |
+| Campephilus melanoleucos | ES | Campephilus melanoleucos | NULL |
+| Campephilus rubricollis | ES | Campephilus rubricollis | NULL |
+| Camptostoma obsoletum | ES | Camptostoma obsoletum | NULL |
+| Campylopterus largipennis | ES | Campylopterus largipennis | NULL |
+| Campylorhamphus procurvoides | ES | Campylorhamphus procurvoides | NULL |
+| Cantorchilus leucotis | ES | Cantorchilus leucotis | NULL |
+| Capito niger | ES | Capito niger | NULL |
+| Caprimulgus europaeus | ES | Caprimulgus europaeus | NULL |
+| Caprimulgus ruficollis | ES | Caprimulgus ruficollis | NULL |
+| Capsiempis flaveola | ES | Capsiempis flaveola | NULL |
+| Caracara cheriway | ES | Caracara cheriway | NULL |
+| Carduelis carduelis | ES | Carduelis carduelis | NULL |
+| Carduelis citrinella | ES | Carduelis citrinella | NULL |
+| Carduelis corsicana | ES | Carduelis corsicana | NULL |
+| Carpodacus erythrinus | ES | Carpodacus erythrinus | NULL |
+| Caryothraustes canadensis | ES | Caryothraustes canadensis | NULL |
+| Cathartes aura | ES | Cathartes aura | NULL |
+| Cathartes burrovianus | ES | Cathartes burrovianus | NULL |
+| Cathartes melambrotus | ES | Cathartes melambrotus | NULL |
+| Catharus fuscescens | ES | Catharus fuscescens | NULL |
+| Catharus guttatus | ES | Catharus guttatus | NULL |
+| Catharus minimus | ES | Catharus minimus | NULL |
+| Catharus ustulatus | ES | Catharus ustulatus | NULL |
+| Cecropis daurica | ES | Cecropis daurica | NULL |
+| Celeus elegans | ES | Celeus elegans | NULL |
+| Celeus flavus | ES | Celeus flavus | NULL |
+| Celeus torquatus | ES | Celeus torquatus | NULL |
+| Celeus undatus | ES | Celeus undatus | NULL |
+| Cepphus grylle | ES | Cepphus grylle | NULL |
+| Ceratopipra erythrocephala | ES | Ceratopipra erythrocephala | NULL |
+| Cercomacra cinerascens | ES | Cercomacra cinerascens | NULL |
+| Cercomacroides nigrescens | ES | Cercomacroides nigrescens | NULL |
+| Cercomacroides tyrannina | ES | Cercomacroides tyrannina | NULL |
+| Cercotrichas galactotes | ES | Cercotrichas galactotes | NULL |
+| Certhia americana | ES | Certhia americana | NULL |
+| Certhia brachydactyla | ES | Certhia brachydactyla | NULL |
+| Certhia familiaris | ES | Certhia familiaris | NULL |
+| Certhiasomus stictolaemus | ES | Certhiasomus stictolaemus | NULL |
+| Certhiaxis cinnamomeus | ES | Certhiaxis cinnamomeus | NULL |
+| Cettia cetti | ES | Cettia cetti | NULL |
+| Chaetura brachyura | ES | Chaetura brachyura | NULL |
+| Chaetura chapmani | ES | Chaetura chapmani | NULL |
+| Chaetura meridionalis | ES | Chaetura meridionalis | NULL |
+| Chaetura spinicaudus | ES | Chaetura spinicaudus | NULL |
+| Charadrius alexandrinus | ES | Charadrius alexandrinus | NULL |
+| Charadrius asiaticus | ES | Charadrius asiaticus | NULL |
+| Charadrius collaris | ES | Charadrius collaris | NULL |
+| Charadrius dubius | ES | Charadrius dubius | NULL |
+| Charadrius hiaticula | ES | Charadrius hiaticula | NULL |
+| Charadrius leschenaultii | ES | Charadrius leschenaultii | NULL |
+| Charadrius mongolus | ES | Charadrius mongolus | NULL |
+| Charadrius pecuarius | ES | Charadrius pecuarius | NULL |
+| Charadrius semipalmatus | ES | Charadrius semipalmatus | NULL |
+| Charadrius vociferus | ES | Charadrius vociferus | NULL |
+| Charadrius wilsonia | ES | Charadrius wilsonia | NULL |
+| Chelidoptera tenebrosa | ES | Chelidoptera tenebrosa | NULL |
+| Chersophilus duponti | ES | Chersophilus duponti | NULL |
+| Chiroxiphia pareola | ES | Chiroxiphia pareola | NULL |
+| Chlidonias hybrida | ES | Chlidonias hybrida | NULL |
+| Chlidonias leucopterus | ES | Chlidonias leucopterus | NULL |
+| Chlidonias niger | ES | Chlidonias niger, Chlidonias niger surinamensis | NULL |
+| Chlorestes notata | ES | Chlorestes notata | NULL |
+| Chloris chloris | ES | Chloris chloris | NULL |
+| Chloroceryle aenea | ES | Chloroceryle aenea | NULL |
+| Chloroceryle amazona | ES | Chloroceryle amazona | NULL |
+| Chloroceryle americana | ES | Chloroceryle americana | NULL |
+| Chloroceryle inda | ES | Chloroceryle inda | NULL |
+| Chlorophanes spiza | ES | Chlorophanes spiza | NULL |
+| Chlorostilbon mellisugus | ES | Chlorostilbon mellisugus | NULL |
+| Chondrohierax uncinatus | ES | Chondrohierax uncinatus | NULL |
+| Chordeiles acutipennis | ES | Chordeiles acutipennis | NULL |
+| Chordeiles minor | ES | Chordeiles minor | NULL |
+| Chroicocephalus cirrocephalus | ES | Chroicocephalus cirrocephalus | NULL |
+| Chroicocephalus genei | ES | Chroicocephalus genei | NULL |
+| Chroicocephalus philadelphia | ES | Chroicocephalus philadelphia | NULL |
+| Chroicocephalus ridibundus | ES | Chroicocephalus ridibundus | NULL |
+| Chrysolampis mosquitus | ES | Chrysolampis mosquitus | NULL |
+| Chrysolophus pictus | ES | Chrysolophus pictus | NULL |
+| Chrysomus icterocephalus | ES | Chrysomus icterocephalus | NULL |
+| Ciccaba huhula | ES | Ciccaba huhula | NULL |
+| Ciccaba virgata | ES | Ciccaba virgata | NULL |
+| Ciconia ciconia | ES | Ciconia ciconia | NULL |
+| Ciconia maguari | ES | Ciconia maguari | NULL |
+| Ciconia nigra | ES | Ciconia nigra | NULL |
+| Cinclus cinclus | ES | Cinclus cinclus | NULL |
+| Circaetus gallicus | ES | Circaetus gallicus | NULL |
+| Circus aeruginosus | ES | Circus aeruginosus | NULL |
+| Circus buffoni | ES | Circus buffoni | NULL |
+| Circus cyaneus | ES | Circus cyaneus | NULL |
+| Circus macrourus | ES | Circus macrourus | NULL |
+| Circus pygargus | ES | Circus pygargus | NULL |
+| Cisticola juncidis | ES | Cisticola juncidis | NULL |
+| Clamator glandarius | ES | Clamator glandarius | NULL |
+| Clanga clanga | ES | Clanga clanga | NULL |
+| Clanga pomarina | ES | Clanga pomarina | yes |
+| Clangula hyemalis | ES | Clangula hyemalis | NULL |
+| Claravis pretiosa | ES | Claravis pretiosa | NULL |
+| Cnemotriccus fuscatus | ES | Cnemotriccus fuscatus | NULL |
+| Coccothraustes coccothraustes | ES | Coccothraustes coccothraustes | NULL |
+| Coccycua minuta | ES | Coccycua minuta | NULL |
+| Coccyzus americanus | ES | Coccyzus americanus | NULL |
+| Coccyzus euleri | ES | Coccyzus euleri | NULL |
+| Coccyzus melacoryphus | ES | Coccyzus melacoryphus | NULL |
+| Coccyzus minor | ES | Coccyzus minor | NULL |
+| Cochlearius cochlearius | ES | Cochlearius cochlearius | NULL |
+| Coereba flaveola | ES | Coereba flaveola | NULL |
+| Colaptes punctigula | ES | Colaptes punctigula | NULL |
+| Colaptes rubiginosus | ES | Colaptes rubiginosus | NULL |
+| Colibri delphinae | ES | Colibri delphinae | NULL |
+| Colinus cristatus | ES | Colinus cristatus | NULL |
+| Colinus virginianus | ES | Colinus virginianus | NULL |
+| Colonia colonus | ES | Colonia colonus | NULL |
+| Columba livia | ES | Columba livia domestica, Columba livia | NULL |
+| Columba livia domestica | ES | Columba livia domestica | NULL |
+| Columba oenas | ES | Columba oenas | NULL |
+| Columba palumbus | ES | Columba palumbus | NULL |
+| Columbina minuta | ES | Columbina minuta | NULL |
+| Columbina passerina | ES | Columbina passerina | NULL |
+| Columbina talpacoti | ES | Columbina talpacoti | NULL |
+| Conirostrum bicolor | ES | Conirostrum bicolor | NULL |
+| Conirostrum speciosum | ES | Conirostrum speciosum | NULL |
+| Conopias parvus | ES | Conopias parvus | NULL |
+| Conopophaga aurita | ES | Conopophaga aurita | NULL |
+| Conothraupis speculigera | ES | Conothraupis speculigera | NULL |
+| Contopus albogularis | ES | Contopus albogularis | NULL |
+| Contopus cinereus | ES | Contopus cinereus | NULL |
+| Contopus cooperi | ES | Contopus cooperi | NULL |
+| Contopus sordidulus | ES | Contopus sordidulus | NULL |
+| Coracias garrulus | ES | Coracias garrulus | NULL |
+| Coragyps atratus | ES | Coragyps atratus | NULL |
+| Corapipo gutturalis | ES | Corapipo gutturalis | NULL |
+| Corvus albus | ES | Corvus albus | NULL |
+| Corvus corax | ES | Corvus corax | NULL |
+| Corvus corone | ES | Corvus corone cornix, Corvus corone | NULL |
+| Corvus corone cornix | SSES | Corvus corone cornix | NULL |
+| Corvus dauuricus | ES | Corvus dauuricus | NULL |
+| Corvus frugilegus | ES | Corvus frugilegus | NULL |
+| Corvus monedula | ES | Corvus monedula spermologus, Corvus monedula soemmeringii, Corvus monedula | NULL |
+| Corvus splendens | ES | Corvus splendens | NULL |
+| Corythopis torquatus | ES | Corythopis torquatus | NULL |
+| Cotinga cayana | ES | Cotinga cayana | NULL |
+| Cotinga cotinga | ES | Cotinga cotinga | NULL |
+| Coturnix coturnix | ES | Coturnix coturnix | NULL |
+| Crax alector | ES | Crax alector | NULL |
+| Crex crex | ES | Crex crex | NULL |
+| Crithagra mozambica | ES | Crithagra mozambica | NULL |
+| Crotophaga ani | ES | Crotophaga ani | NULL |
+| Crotophaga major | ES | Crotophaga major | NULL |
+| Crypturellus brevirostris | ES | Crypturellus brevirostris | NULL |
+| Crypturellus cinereus | ES | Crypturellus cinereus | NULL |
+| Crypturellus erythropus | ES | Crypturellus erythropus | NULL |
+| Crypturellus soui | ES | Crypturellus soui | NULL |
+| Crypturellus variegatus | ES | Crypturellus variegatus | NULL |
+| Cuculus canorus | ES | Cuculus canorus | NULL |
+| Cursorius cursor | ES | Cursorius cursor | NULL |
+| Cyanerpes caeruleus | ES | Cyanerpes caeruleus | NULL |
+| Cyanerpes cyaneus | ES | Cyanerpes cyaneus | NULL |
+| Cyanicterus cyanicterus | ES | Cyanicterus cyanicterus | NULL |
+| Cyanistes caeruleus | ES | Cyanistes caeruleus | NULL |
+| Cyanistes cyanus | ES | Cyanistes cyanus | NULL |
+| Cyanocorax cayanus | ES | Cyanocorax cayanus | NULL |
+| Cyanoloxia rothschildii | ES | Cyanoloxia rothschildii | NULL |
+| Cyclarhis gujanensis | ES | Cyclarhis gujanensis | NULL |
+| Cygnus atratus | ES | Cygnus atratus | NULL |
+| Cygnus columbianus | ES | Cygnus columbianus bewickii, Cygnus columbianus | NULL |
+| Cygnus cygnus | ES | Cygnus cygnus | NULL |
+| Cygnus olor | ES | Cygnus olor | NULL |
+| Cymbilaimus lineatus | ES | Cymbilaimus lineatus | NULL |
+| Cyphorhinus arada | ES | Cyphorhinus arada | NULL |
+| Cypseloides cryptus | ES | Cypseloides cryptus | NULL |
+| Cypseloides niger | ES | Cypseloides niger | NULL |
+| Dacnis cayana | ES | Dacnis cayana | NULL |
+| Dacnis lineata | ES | Dacnis lineata | NULL |
+| Daptrius ater | ES | Daptrius ater | NULL |
+| Deconychura longicauda | ES | Deconychura longicauda | NULL |
+| Delichon urbicum | ES | Delichon urbicum | NULL |
+| Dendrexetastes rufigula | ES | Dendrexetastes rufigula | NULL |
+| Dendrocincla fuliginosa | ES | Dendrocincla fuliginosa | NULL |
+| Dendrocincla merula | ES | Dendrocincla merula | NULL |
+| Dendrocolaptes certhia | ES | Dendrocolaptes certhia | NULL |
+| Dendrocolaptes picumnus | ES | Dendrocolaptes picumnus | NULL |
+| Dendrocopos leucotos | ES | Dendrocopos leucotos | NULL |
+| Dendrocopos major | ES | Dendrocopos major | NULL |
+| Dendrocopos medius | ES | Dendrocopos medius | NULL |
+| Dendrocopos minor | ES | Dendrocopos minor | NULL |
+| Dendrocygna arborea | ES | Dendrocygna arborea | NULL |
+| Dendrocygna autumnalis | ES | Dendrocygna autumnalis | NULL |
+| Dendrocygna bicolor | ES | Dendrocygna bicolor | NULL |
+| Dendrocygna viduata | ES | Dendrocygna viduata | NULL |
+| Dendroplex picus | ES | Dendroplex picus | NULL |
+| Deroptyus accipitrinus | ES | Deroptyus accipitrinus | NULL |
+| Diopsittaca nobilis | ES | Diopsittaca nobilis | NULL |
+| Discosura longicaudus | ES | Discosura longicaudus | NULL |
+| Dixiphia pipra | ES | Dixiphia pipra | NULL |
+| Dolichonyx oryzivorus | ES | Dolichonyx oryzivorus | NULL |
+| Donacobius atricapilla | ES | Donacobius atricapilla | NULL |
+| Dromococcyx pavoninus | ES | Dromococcyx pavoninus | NULL |
+| Dryocopus lineatus | ES | Dryocopus lineatus | NULL |
+| Dryocopus martius | ES | Dryocopus martius | NULL |
+| Egretta caerulea | ES | Egretta caerulea | NULL |
+| Egretta garzetta | ES | Egretta garzetta | NULL |
+| Egretta gularis | ES | Egretta gularis | NULL |
+| Egretta thula | ES | Egretta thula | NULL |
+| Egretta tricolor | ES | Egretta tricolor | NULL |
+| Elaenia chiriquensis | ES | Elaenia chiriquensis | NULL |
+| Elaenia cristata | ES | Elaenia cristata | NULL |
+| Elaenia flavogaster | ES | Elaenia flavogaster | NULL |
+| Elaenia parvirostris | ES | Elaenia parvirostris | NULL |
+| Elaenia ruficeps | ES | Elaenia ruficeps | NULL |
+| Elanoides forficatus | ES | Elanoides forficatus | NULL |
+| Elanus caeruleus | ES | Elanus caeruleus | NULL |
+| Elanus leucurus | ES | Elanus leucurus | NULL |
+| Emberiza aureola | ES | Emberiza aureola | NULL |
+| Emberiza bruniceps | ES | Emberiza bruniceps | NULL |
+| Emberiza caesia | ES | Emberiza caesia | NULL |
+| Emberiza calandra | ES | Emberiza calandra | NULL |
+| Emberiza cia | ES | Emberiza cia | NULL |
+| Emberiza cirlus | ES | Emberiza cirlus | NULL |
+| Emberiza citrinella | ES | Emberiza citrinella | NULL |
+| Emberiza hortulana | ES | Emberiza hortulana | NULL |
+| Emberiza leucocephalos | ES | Emberiza leucocephalos | NULL |
+| Emberiza melanocephala | ES | Emberiza melanocephala | NULL |
+| Emberiza pusilla | ES | Emberiza pusilla | NULL |
+| Emberiza rustica | ES | Emberiza rustica | NULL |
+| Emberiza rutila | ES | Emberiza rutila | NULL |
+| Emberiza schoeniclus | ES | Emberiza schoeniclus, Emberiza schoeniclus witherbyi | NULL |
+| Emberiza spodocephala | ES | Emberiza spodocephala | NULL |
+| Emberizoides herbicola | ES | Emberizoides herbicola | NULL |
+| Empidonomus varius | ES | Empidonomus varius | NULL |
+| Epinecrophylla gutturalis | ES | Epinecrophylla gutturalis | NULL |
+| Eremophila alpestris | ES | Eremophila alpestris | NULL |
+| Erithacus rubecula | ES | Erithacus rubecula | NULL |
+| Estrilda astrild | ES | Estrilda astrild | NULL |
+| Estrilda melpoda | ES | Estrilda melpoda | NULL |
+| Estrilda troglodytes | ES | Estrilda troglodytes | NULL |
+| Euchrepomis callinota | ES | Euchrepomis callinota | NULL |
+| Euchrepomis spodioptila | ES | Euchrepomis spodioptila | NULL |
+| Eudocimus albus | ES | Eudocimus albus | NULL |
+| Eudocimus ruber | ES | Eudocimus ruber | NULL |
+| Eudromias morinellus | ES | Eudromias morinellus | NULL |
+| Euodice malabarica | ES | Euodice malabarica | NULL |
+| Euphonia cayennensis | ES | Euphonia cayennensis | NULL |
+| Euphonia chlorotica | ES | Euphonia chlorotica | NULL |
+| Euphonia chrysopasta | ES | Euphonia chrysopasta | NULL |
+| Euphonia cyanocephala | ES | Euphonia cyanocephala | NULL |
+| Euphonia finschi | ES | Euphonia finschi | NULL |
+| Euphonia minuta | ES | Euphonia minuta | NULL |
+| Euphonia plumbea | ES | Euphonia plumbea | NULL |
+| Euphonia violacea | ES | Euphonia violacea | NULL |
+| Euplectes orix | ES | Euplectes orix | NULL |
+| Eupsittula pertinax | ES | Eupsittula pertinax | NULL |
+| Eurypyga helias | ES | Eurypyga helias | NULL |
+| Falco biarmicus | ES | Falco biarmicus | NULL |
+| Falco cherrug | ES | Falco cherrug | NULL |
+| Falco columbarius | ES | Falco columbarius | NULL |
+| Falco concolor | ES | Falco concolor | NULL |
+| Falco deiroleucus | ES | Falco deiroleucus | NULL |
+| Falco eleonorae | ES | Falco eleonorae | NULL |
+| Falco femoralis | ES | Falco femoralis | NULL |
+| Falco naumanni | ES | Falco naumanni | NULL |
+| Falco peregrinus | ES | Falco peregrinus calidus, Falco peregrinus peregrinus, Falco peregrinus | NULL |
+| Falco rufigularis | ES | Falco rufigularis | NULL |
+| Falco rusticolus | ES | Falco rusticolus | NULL |
+| Falco subbuteo | ES | Falco subbuteo | NULL |
+| Falco tinnunculus | ES | Falco tinnunculus | NULL |
+| Falco vespertinus | ES | Falco vespertinus | NULL |
+| Ficedula albicollis | ES | Ficedula albicollis | NULL |
+| Ficedula hypoleuca | ES | Ficedula hypoleuca | NULL |
+| Ficedula parva | ES | Ficedula parva | NULL |
+| Ficedula semitorquata | ES | Ficedula semitorquata | NULL |
+| Florisuga mellivora | ES | Florisuga mellivora | NULL |
+| Fluvicola pica | ES | Fluvicola pica | NULL |
+| Formicarius analis | ES | Formicarius analis | NULL |
+| Formicarius colma | ES | Formicarius colma | NULL |
+| Formicivora grisea | ES | Formicivora grisea | NULL |
+| Forpus passerinus | ES | Forpus passerinus | NULL |
+| Fratercula arctica | ES | Fratercula arctica | NULL |
+| Frederickena viridis | ES | Frederickena viridis | NULL |
+| Fregata magnificens | ES | Fregata magnificens | NULL |
+| Fringilla coelebs | ES | Fringilla coelebs | NULL |
+| Fringilla montifringilla | ES | Fringilla montifringilla | NULL |
+| Fulica americana | ES | Fulica americana | NULL |
+| Fulica atra | ES | Fulica atra | NULL |
+| Fulmarus glacialis | ES | Fulmarus glacialis | NULL |
+| Galbula albirostris | ES | Galbula albirostris | NULL |
+| Galbula dea | ES | Galbula dea | NULL |
+| Galbula galbula | ES | Galbula galbula | NULL |
+| Galbula leucogastra | ES | Galbula leucogastra | NULL |
+| Galerida cristata | ES | Galerida cristata | NULL |
+| Galerida theklae | ES | Galerida theklae | NULL |
+| Gallinago delicata | ES | Gallinago delicata | NULL |
+| Gallinago gallinago | ES | Gallinago gallinago | NULL |
+| Gallinago media | ES | Gallinago media | NULL |
+| Gallinago paraguaiae | ES | Gallinago paraguaiae | NULL |
+| Gallinago undulata | ES | Gallinago undulata | NULL |
+| Gallinula chloropus | ES | Gallinula chloropus | NULL |
+| Gallinula galeata | ES | Gallinula galeata | NULL |
+| Gampsonyx swainsonii | ES | Gampsonyx swainsonii | NULL |
+| Garrulus glandarius | ES | Garrulus glandarius | NULL |
+| Gavia adamsii | ES | Gavia adamsii | NULL |
+| Gavia arctica | ES | Gavia arctica | NULL |
+| Gavia immer | ES | Gavia immer | NULL |
+| Gavia stellata | ES | Gavia stellata | NULL |
+| Gelochelidon nilotica | ES | Gelochelidon nilotica | NULL |
+| Geokichla sibirica | ES | Geokichla sibirica | NULL |
+| Geothlypis aequinoctialis | ES | Geothlypis aequinoctialis | NULL |
+| Geothlypis trichas | ES | Geothlypis trichas | NULL |
+| Geotrygon montana | ES | Geotrygon montana | NULL |
+| Geranoaetus albicaudatus | ES | Geranoaetus albicaudatus | NULL |
+| Geranospiza caerulescens | ES | Geranospiza caerulescens | NULL |
+| Glareola maldivarum | ES | Glareola maldivarum | NULL |
+| Glareola nordmanni | ES | Glareola nordmanni | NULL |
+| Glareola pratincola | ES | Glareola pratincola | NULL |
+| Glaucidium hardyi | ES | Glaucidium hardyi | NULL |
+| Glaucidium passerinum | ES | Glaucidium passerinum | NULL |
+| Glaucis hirsutus | ES | Glaucis hirsutus | NULL |
+| Glyphorynchus spirurus | ES | Glyphorynchus spirurus | NULL |
+| Gracula religiosa | ES | Gracula religiosa | NULL |
+| Grallaria varia | ES | Grallaria varia | NULL |
+| Granatellus pelzelni | ES | Granatellus pelzelni | NULL |
+| Graydidascalus brachyurus | ES | Graydidascalus brachyurus | NULL |
+| Grus grus | ES | Grus grus | yes |
+| Gymnoderus foetidus | ES | Gymnoderus foetidus | NULL |
+| Gymnopithys rufigula | ES | Gymnopithys rufigula | NULL |
+| Gypaetus barbatus | ES | Gypaetus barbatus | yes |
+| Gyps fulvus | ES | Gyps fulvus | NULL |
+| Gyps rueppellii | ES | Gyps rueppellii | NULL |
+| Haematoderus militaris | ES | Haematoderus militaris | NULL |
+| Haematopus ostralegus | ES | Haematopus ostralegus | NULL |
+| Haematopus palliatus | ES | Haematopus palliatus | NULL |
+| Haliaeetus albicilla | ES | Haliaeetus albicilla | yes |
+| Haliaeetus leucocephalus | ES | Haliaeetus leucocephalus | NULL |
+| Harpagus bidentatus | ES | Harpagus bidentatus | NULL |
+| Harpagus diodon | ES | Harpagus diodon | NULL |
+| Harpia harpyja | ES | Harpia harpyja | NULL |
+| Helicolestes hamatus | ES | Helicolestes hamatus | NULL |
+| Heliomaster longirostris | ES | Heliomaster longirostris | NULL |
+| Heliornis fulica | ES | Heliornis fulica | NULL |
+| Heliothryx auritus | ES | Heliothryx auritus | NULL |
+| Hemithraupis flavicollis | ES | Hemithraupis flavicollis | NULL |
+| Hemithraupis guira | ES | Hemithraupis guira | NULL |
+| Hemitriccus josephinae | ES | Hemitriccus josephinae | NULL |
+| Hemitriccus zosterops | ES | Hemitriccus zosterops | NULL |
+| Henicorhina leucosticta | ES | Henicorhina leucosticta | NULL |
+| Herpetotheres cachinnans | ES | Herpetotheres cachinnans | NULL |
+| Herpsilochmus dorsimaculatus | ES | Herpsilochmus dorsimaculatus | NULL |
+| Herpsilochmus stictocephalus | ES | Herpsilochmus stictocephalus | NULL |
+| Herpsilochmus sticturus | ES | Herpsilochmus sticturus | NULL |
+| Hesperiphona vespertina | ES | Hesperiphona vespertina | NULL |
+| Hieraaetus pennatus | ES | Hieraaetus pennatus | NULL |
+| Himantopus himantopus | ES | Himantopus himantopus | NULL |
+| Himantopus mexicanus | ES | Himantopus mexicanus | NULL |
+| Hippolais icterina | ES | Hippolais icterina | NULL |
+| Hippolais polyglotta | ES | Hippolais polyglotta | NULL |
+| Hirundinea ferruginea | ES | Hirundinea ferruginea | NULL |
+| Hirundo rustica | ES | Hirundo rustica | NULL |
+| Histrionicus histrionicus | ES | Histrionicus histrionicus | NULL |
+| Hydrobates castro | ES | Hydrobates castro | NULL |
+| Hydrobates leucorhous | ES | Hydrobates leucorhous | NULL |
+| Hydrobates monorhis | ES | Hydrobates monorhis | NULL |
+| Hydrobates pelagicus | ES | Hydrobates pelagicus | NULL |
+| Hydrocoloeus minutus | ES | Hydrocoloeus minutus | NULL |
+| Hydroprogne caspia | ES | Hydroprogne caspia | NULL |
+| Hydropsalis cayennensis | ES | Hydropsalis cayennensis | NULL |
+| Hydropsalis climacocerca | ES | Hydropsalis climacocerca | NULL |
+| Hylexetastes perrotii | ES | Hylexetastes perrotii | NULL |
+| Hylocharis cyanus | ES | Hylocharis cyanus | NULL |
+| Hylocharis sapphirina | ES | Hylocharis sapphirina | NULL |
+| Hylopezus macularius | ES | Hylopezus macularius | NULL |
+| Hylophilus pectoralis | ES | Hylophilus pectoralis | NULL |
+| Hylophilus semicinereus | ES | Hylophilus semicinereus | NULL |
+| Hylophilus thoracicus | ES | Hylophilus thoracicus | NULL |
+| Hylophylax naevius | ES | Hylophylax naevius | NULL |
+| Hypocnemis cantator | ES | Hypocnemis cantator | NULL |
+| Hypocnemoides melanopogon | ES | Hypocnemoides melanopogon | NULL |
+| Ibycter americanus | ES | Ibycter americanus | NULL |
+| Ichthyaetus audouinii | ES | Ichthyaetus audouinii | NULL |
+| Ichthyaetus melanocephalus | ES | Ichthyaetus melanocephalus | NULL |
+| Icterus cayanensis | ES | Icterus cayanensis | NULL |
+| Icterus galbula | ES | Icterus galbula | NULL |
+| Icterus nigrogularis | ES | Icterus nigrogularis | NULL |
+| Ictinia plumbea | ES | Ictinia plumbea | NULL |
+| Iduna caligata | ES | Iduna caligata | NULL |
+| Iduna opaca | ES | Iduna opaca | NULL |
+| Iduna pallida | ES | Iduna pallida | NULL |
+| Iduna rama | ES | Iduna rama | NULL |
+| Inezia caudata | ES | Inezia caudata | NULL |
+| Iodopleura fusca | ES | Iodopleura fusca | NULL |
+| Isleria guttata | ES | Isleria guttata | NULL |
+| Ixobrychus exilis | ES | Ixobrychus exilis | NULL |
+| Ixobrychus involucris | ES | Ixobrychus involucris | NULL |
+| Ixobrychus minutus | ES | Ixobrychus minutus | NULL |
+| Jabiru mycteria | ES | Jabiru mycteria | NULL |
+| Jacamerops aureus | ES | Jacamerops aureus | NULL |
+| Jacana jacana | ES | Jacana jacana | NULL |
+| Jynx torquilla | ES | Jynx torquilla | NULL |
+| Lagopus muta | ES | Lagopus muta, Lagopus muta pyrenaica | NULL |
+| Lamprospiza melanoleuca | ES | Lamprospiza melanoleuca | NULL |
+| Laniocera hypopyrra | ES | Laniocera hypopyrra | NULL |
+| Lanio fulvus | ES | Lanio fulvus | NULL |
+| Lanius collurio | ES | Lanius collurio | NULL |
+| Lanius cristatus | ES | Lanius cristatus | NULL |
+| Lanius excubitor | ES | Lanius excubitor | NULL |
+| Lanius isabellinus | ES | Lanius isabellinus | NULL |
+| Lanius meridionalis | ES | Lanius meridionalis | NULL |
+| Lanius minor | ES | Lanius minor | yes |
+| Lanius nubicus | ES | Lanius nubicus | NULL |
+| Lanius senator | ES | Lanius senator senator, Lanius senator, Lanius senator badius | NULL |
+| Larus argentatus | ES | Larus argentatus | NULL |
+| Larus cachinnans | ES | Larus cachinnans | NULL |
+| Larus canus | ES | Larus canus | NULL |
+| Larus delawarensis | ES | Larus delawarensis | NULL |
+| Larus dominicanus | ES | Larus dominicanus | NULL |
+| Larus fuscus | ES | Larus fuscus fuscus, Larus fuscus graellsii, Larus fuscus, Larus fuscus intermedius | NULL |
+| Larus glaucoides | ES | Larus glaucoides | NULL |
+| Larus hyperboreus | ES | Larus hyperboreus | NULL |
+| Larus marinus | ES | Larus marinus | NULL |
+| Larus michahellis | ES | Larus michahellis | NULL |
+| Larus smithsonianus | ES | Larus smithsonianus | NULL |
+| Laterallus exilis | ES | Laterallus exilis | NULL |
+| Laterallus melanophaius | ES | Laterallus melanophaius | NULL |
+| Lathrotriccus euleri | ES | Lathrotriccus euleri | NULL |
+| Legatus leucophaius | ES | Legatus leucophaius | NULL |
+| Leiothrix lutea | ES | Leiothrix lutea | NULL |
+| Lepidocolaptes albolineatus | ES | Lepidocolaptes albolineatus | NULL |
+| Lepidothrix serena | ES | Lepidothrix serena | NULL |
+| Leptodon cayanensis | ES | Leptodon cayanensis | NULL |
+| Leptopogon amaurocephalus | ES | Leptopogon amaurocephalus | NULL |
+| Leptotila rufaxilla | ES | Leptotila rufaxilla | NULL |
+| Leptotila verreauxi | ES | Leptotila verreauxi | NULL |
+| Leucophaeus atricilla | ES | Leucophaeus atricilla | NULL |
+| Leucophaeus pipixcan | ES | Leucophaeus pipixcan | NULL |
+| Leucopternis melanops | ES | Leucopternis melanops | NULL |
+| Limnodromus griseus | ES | Limnodromus griseus | NULL |
+| Limnodromus scolopaceus | ES | Limnodromus scolopaceus | NULL |
+| Limosa haemastica | ES | Limosa haemastica | NULL |
+| Limosa lapponica | ES | Limosa lapponica | NULL |
+| Limosa limosa | ES | Limosa limosa islandica, Limosa limosa | NULL |
+| Linaria cannabina | ES | Linaria cannabina | NULL |
+| Linaria flavirostris | ES | Linaria flavirostris | NULL |
+| Lipaugus vociferans | ES | Lipaugus vociferans | NULL |
+| Locustella certhiola | ES | Locustella certhiola | NULL |
+| Locustella fluviatilis | ES | Locustella fluviatilis | NULL |
+| Locustella lanceolata | ES | Locustella lanceolata | NULL |
+| Locustella luscinioides | ES | Locustella luscinioides | NULL |
+| Locustella naevia | ES | Locustella naevia | NULL |
+| Lonchura malacca | ES | Lonchura malacca | NULL |
+| Lonchura oryzivora | ES | Lonchura oryzivora | NULL |
+| Lophodytes cucullatus | ES | Lophodytes cucullatus | NULL |
+| Lophophanes cristatus | ES | Lophophanes cristatus | NULL |
+| Lophornis ornatus | ES | Lophornis ornatus | NULL |
+| Lophostrix cristata | ES | Lophostrix cristata | NULL |
+| Lophotriccus galeatus | ES | Lophotriccus galeatus | NULL |
+| Lophotriccus vitiosus | ES | Lophotriccus vitiosus | NULL |
+| Loxia curvirostra | ES | Loxia curvirostra | NULL |
+| Loxia leucoptera | ES | Loxia leucoptera | NULL |
+| Loxia pytyopsittacus | ES | Loxia pytyopsittacus | NULL |
+| Lullula arborea | ES | Lullula arborea | NULL |
+| Lurocalis semitorquatus | ES | Lurocalis semitorquatus | NULL |
+| Luscinia luscinia | ES | Luscinia luscinia | NULL |
+| Luscinia megarhynchos | ES | Luscinia megarhynchos | NULL |
+| Luscinia svecica | ES | Luscinia svecica svecica, Luscinia svecica namnetum, Luscinia svecica cyanecula, Luscinia svecica | NULL |
+| Lymnocryptes minimus | ES | Lymnocryptes minimus | NULL |
+| Lyrurus tetrix | ES | Lyrurus tetrix | NULL |
+| Malacoptila fusca | ES | Malacoptila fusca | NULL |
+| Manacus manacus | ES | Manacus manacus | NULL |
+| Mareca americana | ES | Mareca americana | NULL |
+| Mareca penelope | ES | Mareca penelope | NULL |
+| Mareca strepera | ES | Mareca strepera | NULL |
+| Marmaronetta angustirostris | ES | Marmaronetta angustirostris | NULL |
+| Megaceryle alcyon | ES | Megaceryle alcyon | NULL |
+| Megaceryle torquata | ES | Megaceryle torquata | NULL |
+| Megarynchus pitangua | ES | Megarynchus pitangua | NULL |
+| Megascops choliba | ES | Megascops choliba | NULL |
+| Megascops watsonii | ES | Megascops watsonii | NULL |
+| Melanerpes candidus | ES | Melanerpes candidus | NULL |
+| Melanerpes cruentatus | ES | Melanerpes cruentatus | NULL |
+| Melanitta americana | ES | Melanitta americana | NULL |
+| Melanitta fusca | ES | Melanitta fusca | NULL |
+| Melanitta nigra | ES | Melanitta nigra | NULL |
+| Melanitta perspicillata | ES | Melanitta perspicillata | NULL |
+| Melanocorypha bimaculata | ES | Melanocorypha bimaculata | NULL |
+| Melanocorypha calandra | ES | Melanocorypha calandra | NULL |
+| Meleagris gallopavo | ES | Meleagris gallopavo | NULL |
+| Melopsittacus undulatus | ES | Melopsittacus undulatus | NULL |
+| Melospiza melodia | ES | Melospiza melodia | NULL |
+| Mergellus albellus | ES | Mergellus albellus | NULL |
+| Mergus merganser | ES | Mergus merganser | NULL |
+| Mergus serrator | ES | Mergus serrator | NULL |
+| Merops apiaster | ES | Merops apiaster | NULL |
+| Merops persicus | ES | Merops persicus | NULL |
+| Mesembrinibis cayennensis | ES | Mesembrinibis cayennensis | NULL |
+| Micrastur gilvicollis | ES | Micrastur gilvicollis | NULL |
+| Micrastur mirandollei | ES | Micrastur mirandollei | NULL |
+| Micrastur ruficollis | ES | Micrastur ruficollis | NULL |
+| Micrastur semitorquatus | ES | Micrastur semitorquatus | NULL |
+| Microbates collaris | ES | Microbates collaris | NULL |
+| Microcarbo pygmaeus | ES | Microcarbo pygmaeus | NULL |
+| Microcerculus bambla | ES | Microcerculus bambla | NULL |
+| Micropygia schomburgkii | ES | Micropygia schomburgkii | NULL |
+| Microrhopias quixensis | ES | Microrhopias quixensis | NULL |
+| Milvago chimachima | ES | Milvago chimachima | NULL |
+| Milvus migrans | ES | Milvus migrans | NULL |
+| Milvus milvus | ES | Milvus milvus | NULL |
+| Mimus gilvus | ES | Mimus gilvus | NULL |
+| Mimus polyglottos | ES | Mimus polyglottos | NULL |
+| Mionectes macconnelli | ES | Mionectes macconnelli | NULL |
+| Mionectes oleagineus | ES | Mionectes oleagineus | NULL |
+| Mniotilta varia | ES | Mniotilta varia | NULL |
+| Molothrus bonariensis | ES | Molothrus bonariensis | NULL |
+| Molothrus oryzivorus | ES | Molothrus oryzivorus | NULL |
+| Momotus momota | ES | Momotus momota | NULL |
+| Monasa atra | ES | Monasa atra | NULL |
+| Monticola saxatilis | ES | Monticola saxatilis | NULL |
+| Monticola solitarius | ES | Monticola solitarius | NULL |
+| Montifringilla nivalis | ES | Montifringilla nivalis | NULL |
+| Morphnus guianensis | ES | Morphnus guianensis | NULL |
+| Morus bassanus | ES | Morus bassanus | NULL |
+| Motacilla alba | ES | Motacilla alba, Motacilla alba yarrellii, Motacilla alba alba | NULL |
+| Motacilla cinerea | ES | Motacilla cinerea | NULL |
+| Motacilla citreola | ES | Motacilla citreola | NULL |
+| Motacilla flava | ES | Motacilla flava flava, Motacilla flava iberiae, Motacilla flava cinereocapilla, Motacilla flava thunbergi, Motacilla flava beema, Motacilla flava flavissima, Motacilla flava | NULL |
+| Motacilla flava flavissima | SSES | Motacilla flava flavissima | NULL |
+| Muscicapa striata | ES | Muscicapa striata | NULL |
+| Mustelirallus albicollis | ES | Mustelirallus albicollis | NULL |
+| Mycteria americana | ES | Mycteria americana | NULL |
+| Myiarchus ferox | ES | Myiarchus ferox | NULL |
+| Myiarchus swainsoni | ES | Myiarchus swainsoni | NULL |
+| Myiarchus tuberculifer | ES | Myiarchus tuberculifer | NULL |
+| Myiarchus tyrannulus | ES | Myiarchus tyrannulus | NULL |
+| Myiobius barbatus | ES | Myiobius barbatus | NULL |
+| Myiodynastes maculatus | ES | Myiodynastes maculatus | NULL |
+| Myiopagis caniceps | ES | Myiopagis caniceps | NULL |
+| Myiopagis flavivertex | ES | Myiopagis flavivertex | NULL |
+| Myiopagis gaimardii | ES | Myiopagis gaimardii | NULL |
+| Myiophobus fasciatus | ES | Myiophobus fasciatus | NULL |
+| Myiopsitta monacha | ES | Myiopsitta monacha | NULL |
+| Myiornis ecaudatus | ES | Myiornis ecaudatus | NULL |
+| Myiothlypis rivularis | ES | Myiothlypis rivularis | NULL |
+| Myiozetetes cayanensis | ES | Myiozetetes cayanensis | NULL |
+| Myiozetetes luteiventris | ES | Myiozetetes luteiventris | NULL |
+| Myiozetetes similis | ES | Myiozetetes similis | NULL |
+| Myrmelastes leucostigma | ES | Myrmelastes leucostigma | NULL |
+| Myrmoborus leucophrys | ES | Myrmoborus leucophrys | NULL |
+| Myrmoderus ferrugineus | ES | Myrmoderus ferrugineus | NULL |
+| Myrmophylax atrothorax | ES | Myrmophylax atrothorax | NULL |
+| Myrmornis torquata | ES | Myrmornis torquata | NULL |
+| Myrmothera campanisona | ES | Myrmothera campanisona | NULL |
+| Myrmotherula axillaris | ES | Myrmotherula axillaris | NULL |
+| Myrmotherula brachyura | ES | Myrmotherula brachyura | NULL |
+| Myrmotherula longipennis | ES | Myrmotherula longipennis | NULL |
+| Myrmotherula menetriesii | ES | Myrmotherula menetriesii | NULL |
+| Myrmotherula surinamensis | ES | Myrmotherula surinamensis | NULL |
+| Nasica longirostris | ES | Nasica longirostris | NULL |
+| Nemosia pileata | ES | Nemosia pileata | NULL |
+| Neopelma chrysocephalum | ES | Neopelma chrysocephalum | NULL |
+| Neophron percnopterus | ES | Neophron percnopterus | yes |
+| Neopipo cinnamomea | ES | Neopipo cinnamomea | NULL |
+| Netta peposaca | ES | Netta peposaca | NULL |
+| Netta rufina | ES | Netta rufina | NULL |
+| Nomonyx dominicus | ES | Nomonyx dominicus | NULL |
+| Nonnula rubecula | ES | Nonnula rubecula | NULL |
+| Notharchus macrorhynchos | ES | Notharchus macrorhynchos | NULL |
+| Notharchus tectus | ES | Notharchus tectus | NULL |
+| Nucifraga caryocatactes | ES | Nucifraga caryocatactes, Nucifraga caryocatactes caryocatactes | NULL |
+| Numenius arquata | ES | Numenius arquata | NULL |
+| Numenius phaeopus | ES | Numenius phaeopus hudsonicus, Numenius phaeopus, Numenius phaeopus phaeopus | NULL |
+| Numenius tenuirostris | ES | Numenius tenuirostris | NULL |
+| Numida meleagris | ES | Numida meleagris | NULL |
+| Nyctanassa violacea | ES | Nyctanassa violacea | NULL |
+| Nyctibius aethereus | ES | Nyctibius aethereus | NULL |
+| Nyctibius bracteatus | ES | Nyctibius bracteatus | NULL |
+| Nyctibius grandis | ES | Nyctibius grandis | NULL |
+| Nyctibius griseus | ES | Nyctibius griseus | NULL |
+| Nyctibius leucopterus | ES | Nyctibius leucopterus | NULL |
+| Nycticorax nycticorax | ES | Nycticorax nycticorax | NULL |
+| Nyctidromus albicollis | ES | Nyctidromus albicollis | NULL |
+| Nyctipolus nigrescens | ES | Nyctipolus nigrescens | NULL |
+| Nyctiprogne leucopyga | ES | Nyctiprogne leucopyga | NULL |
+| Nymphicus hollandicus | ES | Nymphicus hollandicus | NULL |
+| Oceanites oceanicus | ES | Oceanites oceanicus | NULL |
+| Odontophorus gujanensis | ES | Odontophorus gujanensis | NULL |
+| Oenanthe deserti | ES | Oenanthe deserti | NULL |
+| Oenanthe hispanica | ES | Oenanthe hispanica | NULL |
+| Oenanthe isabellina | ES | Oenanthe isabellina | NULL |
+| Oenanthe leucopyga | ES | Oenanthe leucopyga | NULL |
+| Oenanthe leucura | ES | Oenanthe leucura | NULL |
+| Oenanthe oenanthe | ES | Oenanthe oenanthe leucorhoa, Oenanthe oenanthe | NULL |
+| Oenanthe pleschanka | ES | Oenanthe pleschanka | NULL |
+| Oenanthe xanthoprymna | ES | Oenanthe xanthoprymna | NULL |
+| Onychoprion anaethetus | ES | Onychoprion anaethetus | NULL |
+| Onychoprion fuscatus | ES | Onychoprion fuscatus | NULL |
+| Onychorhynchus coronatus | ES | Onychorhynchus coronatus | NULL |
+| Opisthocomus hoazin | ES | Opisthocomus hoazin | NULL |
+| Oriolus oriolus | ES | Oriolus oriolus | NULL |
+| Ornithion inerme | ES | Ornithion inerme | NULL |
+| Ortalis motmot | ES | Ortalis motmot | NULL |
+| Orthopsittaca manilatus | ES | Orthopsittaca manilatus | NULL |
+| Otis tarda | ES | Otis tarda | NULL |
+| Otus scops | ES | Otus scops | NULL |
+| Oxyruncus cristatus | ES | Oxyruncus cristatus | NULL |
+| Oxyura jamaicensis | ES | Oxyura jamaicensis | NULL |
+| Oxyura leucocephala | ES | Oxyura leucocephala | NULL |
+| Pachyramphus marginatus | ES | Pachyramphus marginatus | NULL |
+| Pachyramphus minor | ES | Pachyramphus minor | NULL |
+| Pachyramphus polychopterus | ES | Pachyramphus polychopterus | NULL |
+| Pachyramphus rufus | ES | Pachyramphus rufus | NULL |
+| Pachyramphus surinamus | ES | Pachyramphus surinamus | NULL |
+| Pachysylvia muscicapina | ES | Pachysylvia muscicapina | NULL |
+| Pagophila eburnea | ES | Pagophila eburnea | NULL |
+| Pandion haliaetus | ES | Pandion haliaetus | yes |
+| Panurus biarmicus | ES | Panurus biarmicus | NULL |
+| Panyptila cayennensis | ES | Panyptila cayennensis | NULL |
+| Pardirallus maculatus | ES | Pardirallus maculatus | NULL |
+| Parkesia noveboracensis | ES | Parkesia noveboracensis | NULL |
+| Paroaria gularis | ES | Paroaria gularis | NULL |
+| Parus major | ES | Parus major | NULL |
+| Passer domesticus | ES | Passer domesticus domesticus, Passer domesticus | NULL |
+| Passerella iliaca | ES | Passerella iliaca | NULL |
+| Passer hispaniolensis | ES | Passer hispaniolensis | NULL |
+| Passer italiae | ES | Passer italiae | NULL |
+| Passer montanus | ES | Passer montanus | NULL |
+| Pastor roseus | ES | Pastor roseus | NULL |
+| Patagioenas cayennensis | ES | Patagioenas cayennensis | NULL |
+| Patagioenas plumbea | ES | Patagioenas plumbea | NULL |
+| Patagioenas speciosa | ES | Patagioenas speciosa | NULL |
+| Patagioenas subvinacea | ES | Patagioenas subvinacea | NULL |
+| Pavo cristatus | ES | Pavo cristatus | NULL |
+| Pelecanus crispus | ES | Pelecanus crispus | NULL |
+| Pelecanus occidentalis | ES | Pelecanus occidentalis | NULL |
+| Pelecanus onocrotalus | ES | Pelecanus onocrotalus | NULL |
+| Pelecanus rufescens | ES | Pelecanus rufescens | NULL |
+| Penelope marail | ES | Penelope marail | NULL |
+| Percnostola rufifrons | ES | Percnostola rufifrons | NULL |
+| Perdix perdix | ES | Perdix perdix, Perdix perdix hispaniensis | NULL |
+| Periparus ater | ES | Periparus ater | NULL |
+| Perissocephalus tricolor | ES | Perissocephalus tricolor | NULL |
+| Pernis apivorus | ES | Pernis apivorus | NULL |
+| Petrochelidon pyrrhonota | ES | Petrochelidon pyrrhonota | NULL |
+| Petronia petronia | ES | Petronia petronia | NULL |
+| Phaeomyias murina | ES | Phaeomyias murina | NULL |
+| Phaethon aethereus | ES | Phaethon aethereus | NULL |
+| Phaethornis augusti | ES | Phaethornis augusti | NULL |
+| Phaethornis bourcieri | ES | Phaethornis bourcieri | NULL |
+| Phaethornis longuemareus | ES | Phaethornis longuemareus | NULL |
+| Phaethornis malaris | ES | Phaethornis malaris | NULL |
+| Phaethornis ruber | ES | Phaethornis ruber | NULL |
+| Phaethornis superciliosus | ES | Phaethornis superciliosus | NULL |
+| Phaetusa simplex | ES | Phaetusa simplex | NULL |
+| Phalacrocorax aristotelis | ES | Phalacrocorax aristotelis desmarestii, Phalacrocorax aristotelis | NULL |
+| Phalacrocorax auritus | ES | Phalacrocorax auritus | NULL |
+| Phalacrocorax brasilianus | ES | Phalacrocorax brasilianus | NULL |
+| Phalacrocorax carbo | ES | Phalacrocorax carbo carbo, Phalacrocorax carbo sinensis, Phalacrocorax carbo | NULL |
+| Phalaropus fulicarius | ES | Phalaropus fulicarius | NULL |
+| Phalaropus lobatus | ES | Phalaropus lobatus | NULL |
+| Phasianus colchicus | ES | Phasianus colchicus | NULL |
+| Pheucticus ludovicianus | ES | Pheucticus ludovicianus | NULL |
+| Pheugopedius coraya | ES | Pheugopedius coraya | NULL |
+| Philydor erythrocercum | ES | Philydor erythrocercum | NULL |
+| Philydor pyrrhodes | ES | Philydor pyrrhodes | NULL |
+| Phoenicircus carnifex | ES | Phoenicircus carnifex | NULL |
+| Phoenicopterus chilensis | ES | Phoenicopterus chilensis | NULL |
+| Phoenicopterus roseus | ES | Phoenicopterus roseus | NULL |
+| Phoenicopterus ruber | ES | Phoenicopterus ruber | NULL |
+| Phoenicurus moussieri | ES | Phoenicurus moussieri | NULL |
+| Phoenicurus ochruros | ES | Phoenicurus ochruros | NULL |
+| Phoenicurus phoenicurus | ES | Phoenicurus phoenicurus | NULL |
+| Phyllomyias griseiceps | ES | Phyllomyias griseiceps | NULL |
+| Phylloscartes virescens | ES | Phylloscartes virescens | NULL |
+| Phylloscopus bonelli | ES | Phylloscopus bonelli | NULL |
+| Phylloscopus borealis | ES | Phylloscopus borealis | NULL |
+| Phylloscopus collybita | ES | Phylloscopus collybita tristis, Phylloscopus collybita abietinus, Phylloscopus collybita | NULL |
+| Phylloscopus fuscatus | ES | Phylloscopus fuscatus | NULL |
+| Phylloscopus humei | ES | Phylloscopus humei | NULL |
+| Phylloscopus ibericus | ES | Phylloscopus ibericus | NULL |
+| Phylloscopus inornatus | ES | Phylloscopus inornatus | NULL |
+| Phylloscopus nitidus | ES | Phylloscopus nitidus | NULL |
+| Phylloscopus orientalis | ES | Phylloscopus orientalis | NULL |
+| Phylloscopus plumbeitarsus | ES | Phylloscopus plumbeitarsus | NULL |
+| Phylloscopus proregulus | ES | Phylloscopus proregulus | NULL |
+| Phylloscopus schwarzi | ES | Phylloscopus schwarzi | NULL |
+| Phylloscopus sibilatrix | ES | Phylloscopus sibilatrix | NULL |
+| Phylloscopus trochiloides | ES | Phylloscopus trochiloides | NULL |
+| Phylloscopus trochilus | ES | Phylloscopus trochilus, Phylloscopus trochilus acredula | NULL |
+| Piaya cayana | ES | Piaya cayana | NULL |
+| Piaya melanogaster | ES | Piaya melanogaster | NULL |
+| Pica pica | ES | Pica pica | NULL |
+| Picoides tridactylus | ES | Picoides tridactylus | NULL |
+| Piculus chrysochloros | ES | Piculus chrysochloros | NULL |
+| Piculus flavigula | ES | Piculus flavigula | NULL |
+| Picumnus cirratus | ES | Picumnus cirratus | NULL |
+| Picumnus exilis | ES | Picumnus exilis | NULL |
+| Picumnus minutissimus | ES | Picumnus minutissimus | NULL |
+| Picumnus spilogaster | ES | Picumnus spilogaster | NULL |
+| Picus canus | ES | Picus canus | NULL |
+| Picus sharpei | ES | Picus sharpei | NULL |
+| Picus viridis | ES | Picus viridis, Picus viridis viridis | NULL |
+| Pilherodius pileatus | ES | Pilherodius pileatus | NULL |
+| Pinicola enucleator | ES | Pinicola enucleator | NULL |
+| Pionites melanocephalus | ES | Pionites melanocephalus | NULL |
+| Pionus fuscus | ES | Pionus fuscus | NULL |
+| Pionus menstruus | ES | Pionus menstruus | NULL |
+| Pipile cumanensis | ES | Pipile cumanensis | NULL |
+| Pipra aureola | ES | Pipra aureola | NULL |
+| Piprites chloris | ES | Piprites chloris | NULL |
+| Piranga flava | ES | Piranga flava, Piranga flava haemalea | NULL |
+| Piranga olivacea | ES | Piranga olivacea | NULL |
+| Piranga rubra | ES | Piranga rubra | NULL |
+| Pitangus lictor | ES | Pitangus lictor | NULL |
+| Pitangus sulphuratus | ES | Pitangus sulphuratus | NULL |
+| Pithys albifrons | ES | Pithys albifrons | NULL |
+| Platalea ajaja | ES | Platalea ajaja | NULL |
+| Platalea leucorodia | ES | Platalea leucorodia | NULL |
+| Platyrinchus coronatus | ES | Platyrinchus coronatus | NULL |
+| Platyrinchus mystaceus | ES | Platyrinchus mystaceus | NULL |
+| Platyrinchus platyrhynchos | ES | Platyrinchus platyrhynchos | NULL |
+| Platyrinchus saturatus | ES | Platyrinchus saturatus | NULL |
+| Plectrophenax nivalis | ES | Plectrophenax nivalis | NULL |
+| Plegadis falcinellus | ES | Plegadis falcinellus | NULL |
+| Ploceus cucullatus | ES | Ploceus cucullatus | NULL |
+| Ploceus melanocephalus | ES | Ploceus melanocephalus | NULL |
+| Pluvialis apricaria | ES | Pluvialis apricaria | NULL |
+| Pluvialis dominica | ES | Pluvialis dominica | NULL |
+| Pluvialis fulva | ES | Pluvialis fulva | NULL |
+| Pluvialis squatarola | ES | Pluvialis squatarola | NULL |
+| Pluvianus aegyptius | ES | Pluvianus aegyptius | NULL |
+| Podiceps auritus | ES | Podiceps auritus | NULL |
+| Podiceps cristatus | ES | Podiceps cristatus | NULL |
+| Podiceps grisegena | ES | Podiceps grisegena | NULL |
+| Podiceps nigricollis | ES | Podiceps nigricollis | NULL |
+| Podilymbus podiceps | ES | Podilymbus podiceps | NULL |
+| Poecile montanus | ES | Poecile montanus, Poecile montanus montanus | NULL |
+| Poecile montanus montanus | SSES | Poecile montanus montanus | NULL |
+| Poecile palustris | ES | Poecile palustris | NULL |
+| Poecilotriccus fumifrons | ES | Poecilotriccus fumifrons | NULL |
+| Polioptila guianensis | ES | Polioptila guianensis | NULL |
+| Polioptila plumbea | ES | Polioptila plumbea | NULL |
+| Polystictus pectoralis | ES | Polystictus pectoralis | NULL |
+| Polytmus guainumbi | ES | Polytmus guainumbi | NULL |
+| Polytmus theresiae | ES | Polytmus theresiae | NULL |
+| Porphyrio alleni | ES | Porphyrio alleni | NULL |
+| Porphyrio flavirostris | ES | Porphyrio flavirostris | NULL |
+| Porphyrio martinicus | ES | Porphyrio martinicus | NULL |
+| Porphyrio porphyrio | ES | Porphyrio porphyrio | NULL |
+| Porzana carolina | ES | Porzana carolina | NULL |
+| Porzana porzana | ES | Porzana porzana | NULL |
+| Procnias albus | ES | Procnias albus | NULL |
+| Progne chalybea | ES | Progne chalybea | NULL |
+| Progne dominicensis | ES | Progne dominicensis | NULL |
+| Progne elegans | ES | Progne elegans | NULL |
+| Progne subis | ES | Progne subis | NULL |
+| Progne tapera | ES | Progne tapera | NULL |
+| Protonotaria citrea | ES | Protonotaria citrea | NULL |
+| Prunella collaris | ES | Prunella collaris | NULL |
+| Prunella modularis | ES | Prunella modularis | NULL |
+| Psarocolius decumanus | ES | Psarocolius decumanus | NULL |
+| Psarocolius viridis | ES | Psarocolius viridis | NULL |
+| Pseudastur albicollis | ES | Pseudastur albicollis | NULL |
+| Pseudocolopteryx sclateri | ES | Pseudocolopteryx sclateri | NULL |
+| Psittacara leucophthalmus | ES | Psittacara leucophthalmus | NULL |
+| Psittacula krameri | ES | Psittacula krameri | NULL |
+| Psittacus erithacus | ES | Psittacus erithacus | NULL |
+| Psophia crepitans | ES | Psophia crepitans | NULL |
+| Pterocles alchata | ES | Pterocles alchata | NULL |
+| Pterodroma feae | ES | Pterodroma feae | NULL |
+| Pteroglossus aracari | ES | Pteroglossus aracari | NULL |
+| Pteroglossus viridis | ES | Pteroglossus viridis | NULL |
+| Ptyonoprogne rupestris | ES | Ptyonoprogne rupestris | NULL |
+| Puffinus assimilis | ES | Puffinus assimilis | NULL |
+| Puffinus lherminieri | ES | Puffinus lherminieri, Puffinus lherminieri baroli | NULL |
+| Puffinus mauretanicus | ES | Puffinus mauretanicus | NULL |
+| Puffinus puffinus | ES | Puffinus puffinus | NULL |
+| Puffinus tenuirostris | ES | Puffinus tenuirostris | NULL |
+| Puffinus yelkouan | ES | Puffinus yelkouan | NULL |
+| Pulsatrix perspicillata | ES | Pulsatrix perspicillata | NULL |
+| Pycnonotus cafer | ES | Pycnonotus cafer | NULL |
+| Pycnonotus jocosus | ES | Pycnonotus jocosus | NULL |
+| Pygiptila stellaris | ES | Pygiptila stellaris | NULL |
+| Pygochelidon cyanoleuca | ES | Pygochelidon cyanoleuca | NULL |
+| Pygochelidon melanoleuca | ES | Pygochelidon melanoleuca | NULL |
+| Pyrilia caica | ES | Pyrilia caica | NULL |
+| Pyrrhocorax graculus | ES | Pyrrhocorax graculus | NULL |
+| Pyrrhocorax pyrrhocorax | ES | Pyrrhocorax pyrrhocorax | NULL |
+| Pyrrhula pyrrhula | ES | Pyrrhula pyrrhula, Pyrrhula pyrrhula pyrrhula, Pyrrhula pyrrhula europaea | NULL |
+| Pyrrhura picta | ES | Pyrrhura picta | NULL |
+| Querula purpurata | ES | Querula purpurata | NULL |
+| Quiscalus lugubris | ES | Quiscalus lugubris | NULL |
+| Quiscalus quiscula | ES | Quiscalus quiscula | NULL |
+| Rallus aquaticus | ES | Rallus aquaticus | NULL |
+| Rallus longirostris | ES | Rallus longirostris | NULL |
+| Ramphastos toco | ES | Ramphastos toco | NULL |
+| Ramphastos tucanus | ES | Ramphastos tucanus | NULL |
+| Ramphastos vitellinus | ES | Ramphastos vitellinus | NULL |
+| Ramphocaenus melanurus | ES | Ramphocaenus melanurus | NULL |
+| Ramphocelus carbo | ES | Ramphocelus carbo | NULL |
+| Ramphotrigon ruficauda | ES | Ramphotrigon ruficauda | NULL |
+| Recurvirostra avosetta | ES | Recurvirostra avosetta | NULL |
+| Regulus calendula | ES | Regulus calendula | NULL |
+| Regulus ignicapilla | ES | Regulus ignicapilla | NULL |
+| Regulus regulus | ES | Regulus regulus | NULL |
+| Remiz pendulinus | ES | Remiz pendulinus | NULL |
+| Rhodostethia rosea | ES | Rhodostethia rosea | NULL |
+| Rhynchocyclus olivaceus | ES | Rhynchocyclus olivaceus | NULL |
+| Rhytipterna immunda | ES | Rhytipterna immunda | NULL |
+| Rhytipterna simplex | ES | Rhytipterna simplex | NULL |
+| Riparia riparia | ES | Riparia riparia | NULL |
+| Rissa tridactyla | ES | Rissa tridactyla | NULL |
+| Rostrhamus sociabilis | ES | Rostrhamus sociabilis | NULL |
+| Rufirallus viridis | ES | Rufirallus viridis | NULL |
+| Rupicola rupicola | ES | Rupicola rupicola | NULL |
+| Rupornis magnirostris | ES | Rupornis magnirostris | NULL |
+| Rynchops niger | ES | Rynchops niger | NULL |
+| Sakesphorus canadensis | ES | Sakesphorus canadensis | NULL |
+| Saltator coerulescens | ES | Saltator coerulescens | NULL |
+| Saltator grossus | ES | Saltator grossus | NULL |
+| Saltator maximus | ES | Saltator maximus | NULL |
+| Sarcoramphus papa | ES | Sarcoramphus papa | NULL |
+| Saxicola maurus | ES | Saxicola maurus | NULL |
+| Saxicola rubetra | ES | Saxicola rubetra | NULL |
+| Saxicola rubicola | ES | Saxicola rubicola | NULL |
+| Schiffornis olivacea | ES | Schiffornis olivacea | NULL |
+| Schistochlamys melanopis | ES | Schistochlamys melanopis | NULL |
+| Sclateria naevia | ES | Sclateria naevia | NULL |
+| Sclerurus caudacutus | ES | Sclerurus caudacutus | NULL |
+| Sclerurus mexicanus | ES | Sclerurus mexicanus | NULL |
+| Sclerurus rufigularis | ES | Sclerurus rufigularis | NULL |
+| Scolopax minor | ES | Scolopax minor | NULL |
+| Scolopax rusticola | ES | Scolopax rusticola | NULL |
+| Seiurus aurocapilla | ES | Seiurus aurocapilla | NULL |
+| Selenidera piperivora | ES | Selenidera piperivora | NULL |
+| Serinus serinus | ES | Serinus serinus | NULL |
+| Setopagis maculosa | ES | Setopagis maculosa | NULL |
+| Setophaga americana | ES | Setophaga americana | NULL |
+| Setophaga castanea | ES | Setophaga castanea | NULL |
+| Setophaga fusca | ES | Setophaga fusca | NULL |
+| Setophaga pensylvanica | ES | Setophaga pensylvanica | NULL |
+| Setophaga petechia | ES | Setophaga petechia | NULL |
+| Setophaga pitiayumi | ES | Setophaga pitiayumi | NULL |
+| Setophaga ruticilla | ES | Setophaga ruticilla | NULL |
+| Setophaga striata | ES | Setophaga striata | NULL |
+| Sicalis flaveola | ES | Sicalis flaveola | NULL |
+| Sicalis luteola | ES | Sicalis luteola | NULL |
+| Sirystes subcanescens | ES | Sirystes subcanescens | NULL |
+| Sitta europaea | ES | Sitta europaea | NULL |
+| Sittasomus griseicapillus | ES | Sittasomus griseicapillus | NULL |
+| Sitta whiteheadi | ES | Sitta whiteheadi | NULL |
+| Somateria mollissima | ES | Somateria mollissima | NULL |
+| Somateria spectabilis | ES | Somateria spectabilis | NULL |
+| Spatula clypeata | ES | Spatula clypeata | NULL |
+| Spatula cyanoptera | ES | Spatula cyanoptera | NULL |
+| Spatula discors | ES | Spatula discors | NULL |
+| Spatula querquedula | ES | Spatula querquedula | NULL |
+| Spinus spinus | ES | Spinus spinus | NULL |
+| Spiza americana | ES | Spiza americana | NULL |
+| Spizaetus melanoleucus | ES | Spizaetus melanoleucus | NULL |
+| Spizaetus ornatus | ES | Spizaetus ornatus | NULL |
+| Spizaetus tyrannus | ES | Spizaetus tyrannus | NULL |
+| Sporophila americana | ES | Sporophila americana | NULL |
+| Sporophila angolensis | ES | Sporophila angolensis | NULL |
+| Sporophila bouvreuil | ES | Sporophila bouvreuil | NULL |
+| Sporophila bouvronides | ES | Sporophila bouvronides | NULL |
+| Sporophila castaneiventris | ES | Sporophila castaneiventris | NULL |
+| Sporophila lineola | ES | Sporophila lineola | NULL |
+| Sporophila minuta | ES | Sporophila minuta | NULL |
+| Sporophila nigricollis | ES | Sporophila nigricollis | NULL |
+| Sporophila plumbea | ES | Sporophila plumbea | NULL |
+| Sporophila schistacea | ES | Sporophila schistacea | NULL |
+| Steatornis caripensis | ES | Steatornis caripensis | NULL |
+| Stelgidopteryx ruficollis | ES | Stelgidopteryx ruficollis | NULL |
+| Stercorarius longicaudus | ES | Stercorarius longicaudus | NULL |
+| Stercorarius maccormicki | ES | Stercorarius maccormicki | NULL |
+| Stercorarius parasiticus | ES | Stercorarius parasiticus | NULL |
+| Stercorarius pomarinus | ES | Stercorarius pomarinus | NULL |
+| Stercorarius skua | ES | Stercorarius skua | NULL |
+| Sterna dougallii | ES | Sterna dougallii | NULL |
+| Sterna forsteri | ES | Sterna forsteri | NULL |
+| Sterna hirundo | ES | Sterna hirundo | NULL |
+| Sterna paradisaea | ES | Sterna paradisaea | NULL |
+| Sternula albifrons | ES | Sternula albifrons | NULL |
+| Sternula antillarum | ES | Sternula antillarum | NULL |
+| Sternula superciliaris | ES | Sternula superciliaris | NULL |
+| Streptopelia decaocto | ES | Streptopelia decaocto | NULL |
+| Streptopelia orientalis | ES | Streptopelia orientalis | NULL |
+| Streptopelia roseogrisea | ES | Streptopelia roseogrisea | NULL |
+| Streptopelia senegalensis | ES | Streptopelia senegalensis | NULL |
+| Streptopelia turtur | ES | Streptopelia turtur | NULL |
+| Streptoprocne zonaris | ES | Streptoprocne zonaris | NULL |
+| Strix aluco | ES | Strix aluco | NULL |
+| Sturnella magna | ES | Sturnella magna | NULL |
+| Sturnella militaris | ES | Sturnella militaris | NULL |
+| Sturnus unicolor | ES | Sturnus unicolor | NULL |
+| Sturnus vulgaris | ES | Sturnus vulgaris | NULL |
+| Sublegatus arenarum | ES | Sublegatus arenarum | NULL |
+| Sublegatus obscurior | ES | Sublegatus obscurior | NULL |
+| Sula dactylatra | ES | Sula dactylatra | NULL |
+| Sula leucogaster | ES | Sula leucogaster | NULL |
+| Sula sula | ES | Sula sula | NULL |
+| Surnia ulula | ES | Surnia ulula | NULL |
+| Sylvia atricapilla | ES | Sylvia atricapilla | NULL |
+| Sylvia borin | ES | Sylvia borin | NULL |
+| Sylvia cantillans | ES | Sylvia cantillans, Sylvia cantillans albistriata | NULL |
+| Sylvia communis | ES | Sylvia communis | NULL |
+| Sylvia conspicillata | ES | Sylvia conspicillata | NULL |
+| Sylvia curruca | ES | Sylvia curruca | NULL |
+| Sylvia deserti | ES | Sylvia deserti | NULL |
+| Sylvia deserticola | ES | Sylvia deserticola | NULL |
+| Sylvia hortensis | ES | Sylvia hortensis | NULL |
+| Sylvia melanocephala | ES | Sylvia melanocephala | NULL |
+| Sylvia nisoria | ES | Sylvia nisoria | NULL |
+| Sylvia sarda | ES | Sylvia sarda | NULL |
+| Sylvia subalpina | ES | Sylvia subalpina | NULL |
+| Sylvia undata | ES | Sylvia undata | NULL |
+| Synallaxis albescens | ES | Synallaxis albescens | NULL |
+| Synallaxis gujanensis | ES | Synallaxis gujanensis | NULL |
+| Synallaxis macconnelli | ES | Synallaxis macconnelli | NULL |
+| Syrmaticus reevesii | ES | Syrmaticus reevesii | NULL |
+| Syrrhaptes paradoxus | ES | Syrrhaptes paradoxus | NULL |
+| Tachornis squamata | ES | Tachornis squamata | NULL |
+| Tachybaptus dominicus | ES | Tachybaptus dominicus | NULL |
+| Tachybaptus ruficollis | ES | Tachybaptus ruficollis | NULL |
+| Tachycineta albiventer | ES | Tachycineta albiventer | NULL |
+| Tachycineta bicolor | ES | Tachycineta bicolor | NULL |
+| Tachymarptis melba | ES | Tachymarptis melba | NULL |
+| Tachyphonus cristatus | ES | Tachyphonus cristatus | NULL |
+| Tachyphonus luctuosus | ES | Tachyphonus luctuosus | NULL |
+| Tachyphonus phoenicius | ES | Tachyphonus phoenicius | NULL |
+| Tachyphonus rufus | ES | Tachyphonus rufus | NULL |
+| Tachyphonus surinamus | ES | Tachyphonus surinamus | NULL |
+| Tadorna ferruginea | ES | Tadorna ferruginea | NULL |
+| Tadorna tadorna | ES | Tadorna tadorna | NULL |
+| Tangara cayana | ES | Tangara cayana | NULL |
+| Tangara chilensis | ES | Tangara chilensis | NULL |
+| Tangara episcopus | ES | Tangara episcopus | NULL |
+| Tangara guttata | ES | Tangara guttata | NULL |
+| Tangara gyrola | ES | Tangara gyrola | NULL |
+| Tangara mexicana | ES | Tangara mexicana | NULL |
+| Tangara palmarum | ES | Tangara palmarum | NULL |
+| Tangara punctata | ES | Tangara punctata | NULL |
+| Tangara varia | ES | Tangara varia | NULL |
+| Tangara velia | ES | Tangara velia | NULL |
+| Tapera naevia | ES | Tapera naevia | NULL |
+| Taraba major | ES | Taraba major | NULL |
+| Tarsiger cyanurus | ES | Tarsiger cyanurus | NULL |
+| Terenotriccus erythrurus | ES | Terenotriccus erythrurus | NULL |
+| Tersina viridis | ES | Tersina viridis | NULL |
+| Tetrao urogallus | ES | Tetrao urogallus | NULL |
+| Tetrax tetrax | ES | Tetrax tetrax | NULL |
+| Thalassarche melanophris | ES | Thalassarche melanophris | NULL |
+| Thalasseus bengalensis | ES | Thalasseus bengalensis | NULL |
+| Thalasseus elegans | ES | Thalasseus elegans | NULL |
+| Thalasseus maximus | ES | Thalasseus maximus | NULL |
+| Thalasseus sandvicensis | ES | Thalasseus sandvicensis acuflavidus, Thalasseus sandvicensis sandvicensis, Thalasseus sandvicensis, Thalasseus sandvicensis eurygnathus | NULL |
+| Thalurania furcata | ES | Thalurania furcata | NULL |
+| Thamnomanes ardesiacus | ES | Thamnomanes ardesiacus | NULL |
+| Thamnomanes caesius | ES | Thamnomanes caesius | NULL |
+| Thamnophilus amazonicus | ES | Thamnophilus amazonicus | NULL |
+| Thamnophilus doliatus | ES | Thamnophilus doliatus | NULL |
+| Thamnophilus melanothorax | ES | Thamnophilus melanothorax | NULL |
+| Thamnophilus murinus | ES | Thamnophilus murinus | NULL |
+| Thamnophilus nigrocinereus | ES | Thamnophilus nigrocinereus | NULL |
+| Thamnophilus punctatus | ES | Thamnophilus punctatus | NULL |
+| Threnetes leucurus | ES | Threnetes leucurus | NULL |
+| Threnetes niger | ES | Threnetes niger | NULL |
+| Threskiornis aethiopicus | ES | Threskiornis aethiopicus | NULL |
+| Thripophaga gutturata | ES | Thripophaga gutturata | NULL |
+| Tichodroma muraria | ES | Tichodroma muraria | NULL |
+| Tigrisoma fasciatum | ES | Tigrisoma fasciatum | NULL |
+| Tigrisoma lineatum | ES | Tigrisoma lineatum | NULL |
+| Tinamus major | ES | Tinamus major | NULL |
+| Tityra cayana | ES | Tityra cayana | NULL |
+| Tityra inquisitor | ES | Tityra inquisitor | NULL |
+| Todirostrum cinereum | ES | Todirostrum cinereum | NULL |
+| Todirostrum maculatum | ES | Todirostrum maculatum | NULL |
+| Todirostrum pictum | ES | Todirostrum pictum | NULL |
+| Tolmomyias assimilis | ES | Tolmomyias assimilis | NULL |
+| Tolmomyias flaviventris | ES | Tolmomyias flaviventris | NULL |
+| Tolmomyias poliocephalus | ES | Tolmomyias poliocephalus | NULL |
+| Tolmomyias sulphurescens | ES | Tolmomyias sulphurescens | NULL |
+| Topaza pella | ES | Topaza pella | NULL |
+| Torgos tracheliotus | ES | Torgos tracheliotus | NULL |
+| Touit batavicus | ES | Touit batavicus | NULL |
+| Touit purpuratus | ES | Touit purpuratus | NULL |
+| Trichoglossus haematodus | ES | Trichoglossus haematodus | NULL |
+| Tringa erythropus | ES | Tringa erythropus | NULL |
+| Tringa flavipes | ES | Tringa flavipes | NULL |
+| Tringa glareola | ES | Tringa glareola | NULL |
+| Tringa melanoleuca | ES | Tringa melanoleuca | NULL |
+| Tringa nebularia | ES | Tringa nebularia | NULL |
+| Tringa ochropus | ES | Tringa ochropus | NULL |
+| Tringa semipalmata | ES | Tringa semipalmata | NULL |
+| Tringa solitaria | ES | Tringa solitaria | NULL |
+| Tringa stagnatilis | ES | Tringa stagnatilis | NULL |
+| Tringa totanus | ES | Tringa totanus | NULL |
+| Troglodytes aedon | ES | Troglodytes aedon | NULL |
+| Troglodytes troglodytes | ES | Troglodytes troglodytes | NULL |
+| Trogon collaris | ES | Trogon collaris | NULL |
+| Trogon melanurus | ES | Trogon melanurus | NULL |
+| Trogon rufus | ES | Trogon rufus | NULL |
+| Trogon violaceus | ES | Trogon violaceus | NULL |
+| Trogon viridis | ES | Trogon viridis | NULL |
+| Tunchiornis ochraceiceps | ES | Tunchiornis ochraceiceps | NULL |
+| Turdus albicollis | ES | Turdus albicollis | NULL |
+| Turdus atrogularis | ES | Turdus atrogularis | NULL |
+| Turdus eunomus | ES | Turdus eunomus | NULL |
+| Turdus fumigatus | ES | Turdus fumigatus | NULL |
+| Turdus iliacus | ES | Turdus iliacus | NULL |
+| Turdus leucomelas | ES | Turdus leucomelas | NULL |
+| Turdus merula | ES | Turdus merula | NULL |
+| Turdus migratorius | ES | Turdus migratorius | NULL |
+| Turdus naumanni | ES | Turdus naumanni | NULL |
+| Turdus nudigenis | ES | Turdus nudigenis | NULL |
+| Turdus obscurus | ES | Turdus obscurus | NULL |
+| Turdus philomelos | ES | Turdus philomelos | NULL |
+| Turdus pilaris | ES | Turdus pilaris | NULL |
+| Turdus ruficollis | ES | Turdus ruficollis | NULL |
+| Turdus torquatus | ES | Turdus torquatus torquatus, Turdus torquatus, Turdus torquatus alpestris | NULL |
+| Turdus viscivorus | ES | Turdus viscivorus | NULL |
+| Tyranneutes virescens | ES | Tyranneutes virescens | NULL |
+| Tyrannopsis sulphurea | ES | Tyrannopsis sulphurea | NULL |
+| Tyrannulus elatus | ES | Tyrannulus elatus | NULL |
+| Tyrannus albogularis | ES | Tyrannus albogularis | NULL |
+| Tyrannus dominicensis | ES | Tyrannus dominicensis | NULL |
+| Tyrannus melancholicus | ES | Tyrannus melancholicus | NULL |
+| Tyrannus savana | ES | Tyrannus savana | NULL |
+| Tyrannus tyrannus | ES | Tyrannus tyrannus | NULL |
+| Tyto alba | ES | Tyto alba | NULL |
+| Upupa epops | ES | Upupa epops | NULL |
+| Uraeginthus bengalus | ES | Uraeginthus bengalus | NULL |
+| Uria aalge | ES | Uria aalge | NULL |
+| Uria lomvia | ES | Uria lomvia | NULL |
+| Vanellus armatus | ES | Vanellus armatus | NULL |
+| Vanellus cayanus | ES | Vanellus cayanus | NULL |
+| Vanellus chilensis | ES | Vanellus chilensis | NULL |
+| Vanellus gregarius | ES | Vanellus gregarius | NULL |
+| Vanellus leucurus | ES | Vanellus leucurus | NULL |
+| Vanellus miles | ES | Vanellus miles | NULL |
+| Vanellus vanellus | ES | Vanellus vanellus | NULL |
+| Veniliornis cassini | ES | Veniliornis cassini | NULL |
+| Veniliornis passerinus | ES | Veniliornis passerinus | NULL |
+| Veniliornis sanguineus | ES | Veniliornis sanguineus | NULL |
+| Vidua macroura | ES | Vidua macroura | NULL |
+| Vireo altiloquus | ES | Vireo altiloquus | NULL |
+| Vireolanius leucotis | ES | Vireolanius leucotis | NULL |
+| Vireo olivaceus | ES | Vireo olivaceus | NULL |
+| Volatinia jacarina | ES | Volatinia jacarina | NULL |
+| Willisornis poecilinotus | ES | Willisornis poecilinotus | NULL |
+| Xema sabini | ES | Xema sabini | NULL |
+| Xenopipo atronitens | ES | Xenopipo atronitens | NULL |
+| Xenops minutus | ES | Xenops minutus | NULL |
+| Xenops tenuirostris | ES | Xenops tenuirostris | NULL |
+| Xenus cinereus | ES | Xenus cinereus | NULL |
+| Xiphocolaptes promeropirhynchus | ES | Xiphocolaptes promeropirhynchus | NULL |
+| Xipholena punicea | ES | Xipholena punicea | NULL |
+| Xiphorhynchus guttatus | ES | Xiphorhynchus guttatus | NULL |
+| Xiphorhynchus obsoletus | ES | Xiphorhynchus obsoletus | NULL |
+| Xiphorhynchus pardalotus | ES | Xiphorhynchus pardalotus | NULL |
+| Zapornia parva | ES | Zapornia parva | NULL |
+| Zapornia pusilla | ES | Zapornia pusilla | NULL |
+| Zebrilus undulatus | ES | Zebrilus undulatus | NULL |
+| Zenaida auriculata | ES | Zenaida auriculata | NULL |
+| Zenaida macroura | ES | Zenaida macroura | NULL |
+| Zimmerius acer | ES | Zimmerius acer | NULL |
+| Zonotrichia albicollis | ES | Zonotrichia albicollis | NULL |
+| Zonotrichia capensis | ES | Zonotrichia capensis | NULL |
+| Zonotrichia leucophrys | ES | Zonotrichia leucophrys | NULL |
