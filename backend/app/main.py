@@ -57,6 +57,18 @@ app = FastAPI(
 
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
+if settings.SENTRY_DSN:
+    try:
+        import sentry_sdk
+        from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
+
+        sentry_sdk.init(dsn=settings.SENTRY_DSN)
+        app.add_middleware(SentryAsgiMiddleware)
+    except Exception:
+        # pass silently if the Sentry integration failed
+        pass
+
+
 logger = log.setup_logger_from_settings()
 
 origins = [
@@ -118,9 +130,11 @@ async def root():
     return RedirectResponse("/docs")
 
 
-@app.get("/sentry")
-async def sentry():
-    raise Exception("Test sentry integration")
+if settings.SENTRY_DSN:
+
+    @app.get("/sentry")
+    async def sentry():
+        raise Exception("Test sentry integration")
 
 
 if settings.LOG_LEVEL == "DEBUG":
