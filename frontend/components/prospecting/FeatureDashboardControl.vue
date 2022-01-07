@@ -115,7 +115,9 @@
           >
             {{ featureProperties[selectedSeason.value].old_count }} esp.
           </h3>
-          <h5 class="black03">ont été signalées sur la période <b>Avant 2019</b></h5>
+          <h5 class="black03">
+            ont été signalées sur la période <b>Avant 2019</b>
+          </h5>
         </div>
         <div class="MapControlKeyData">
           <h3
@@ -324,8 +326,9 @@
         </div>
         <div class="MapControlSplit"></div>
         <h4 class="black02 fw-bold bottom-margin-16">
-          Points EPOC ODF 2021 ({{ featureEpocOdfList.length }})
-          <!-- Points EPOC ODF {{ new Date().getFullYear() }} ({{ featureEpocOdfList.length }}) -->
+          Points EPOC ODF {{ new Date().getFullYear() }} ({{
+            featureEpocOdfList.length
+          }})
         </h4>
         <li
           v-for="(epoc, index) in featureEpocOdfList"
@@ -984,10 +987,6 @@ export default {
 
 .align-end {
   align-self: flex-end;
-}
-
-.flex-1 {
-  flex: 1;
 }
 
 .TableHeader {

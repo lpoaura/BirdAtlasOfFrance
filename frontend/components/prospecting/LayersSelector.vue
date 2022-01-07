@@ -36,8 +36,7 @@
         <div class="RadioOption epoc">
           <div class="RadioLabel">
             <switch-button v-model="epocOdfIsOn" />
-            EPOC ODF 2021
-            <!-- EPOC ODF {{ new Date().getFullYear() }} -->
+            EPOC ODF {{ new Date().getFullYear() }}
           </div>
         </div>
       </div>
