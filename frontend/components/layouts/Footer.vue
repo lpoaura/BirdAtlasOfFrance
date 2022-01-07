@@ -59,23 +59,22 @@ export default {
 <style scoped>
 footer {
   width: 100%;
-  padding: 30px 5%;
+  padding: 40px 5%;
   display: flex;
   justify-content: space-around;
   column-gap: 20px;
+  row-gap: 20px;
   align-items: flex-end;
   flex-wrap: wrap;
 }
 
 .ODFLogo {
   height: 85px;
-  margin: 10px 0;
 }
 
 .LinksSection {
   flex: 1;
   max-width: 60%;
-  margin: 10px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,7 +116,6 @@ footer {
 }
 
 .LPOSection {
-  margin: 10px 0;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -129,7 +127,7 @@ footer {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 1350px) {
+@media screen and (max-width: 1050px) {
   .LinksSection {
     max-width: none;
   }
