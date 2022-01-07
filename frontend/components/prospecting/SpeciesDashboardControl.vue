@@ -37,11 +37,19 @@
           {{ featuresLabels[selectedSeason.value][index] }}
         </div>
       </div>
-      <div
-        class="PrimaryButton outlined top-margin-24"
-        @click="deleteSelectedSpecies"
-      >
-        Fermer
+      <div class="Buttons">
+        <nuxt-link
+          :to="`/species-card/${selectedSpecies.code}`"
+          class="PrimaryButton flex-1"
+        >
+          Voir la fiche espèce
+        </nuxt-link>
+        <div
+          class="PrimaryButton outlined flex-1"
+          @click="deleteSelectedSpecies"
+        >
+          Fermer
+        </div>
       </div>
     </div>
   </section>
@@ -88,10 +96,9 @@ export default {
   width: 420px;
 }
 
-/* À REMETTRE lorsque le bouton "Voir la fiche espèce" sera dispo
 .FeaturesLegend {
   margin-bottom: 24px;
-} */
+}
 
 .FeaturesLegendLabel {
   margin-bottom: 16px;
@@ -114,6 +121,13 @@ export default {
   float: left;
   margin-right: 12px;
   display: flex;
+}
+
+.Buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 8px;
 }
 
 .MobileMapControl .MapControlOverflow .PrimaryButton.outlined {

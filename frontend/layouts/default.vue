@@ -40,7 +40,8 @@
     <app-footer
       v-show="
         !$route.path.includes('/prospecting') &&
-        !$route.path.includes('/mobile')
+        !$route.path.includes('/mobile') && 
+        !$route.path.includes('/species-card')
       "
     />
   </v-app>

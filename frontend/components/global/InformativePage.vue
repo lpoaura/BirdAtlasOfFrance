@@ -15,20 +15,20 @@
         <h5 class="black04">Dernière actualisation le {{ lastUpdate }}</h5>
         <menu class="TabMenu no-bottom-margin">
           <div
-            v-for="(item, index) in menuItems"
+            v-for="(item, index) in tabs"
             :key="index"
             class="TabItem"
-            :class="item.hash === selectedMenuItem.hash ? 'selected' : ''"
-            @click="updateSelectedMenuItem(item)"
+            :class="item.hash === selectedTab.hash ? 'selected' : ''"
+            @click="updateSelectedTab(item)"
           >
             {{ item.label }}
           </div>
         </menu>
       </div>
       <dropdown-list
-        v-model="selectedMenuItemModel"
+        v-model="selectedTabModel"
         :z-index="1"
-        :items-list="menuItems"
+        :items-list="tabs"
       />
     </header>
     <section class="InformativePageSection">
@@ -56,8 +56,8 @@ export default {
     description: '',
     logo: '',
     lastUpdate: '',
-    menuItems: [],
-    selectedMenuItem: { hash: '', label: '' },
+    tabs: [],
+    selectedTab: { hash: '', label: '' },
   }),
   head() {
     return {
@@ -65,10 +65,10 @@ export default {
     }
   },
   computed: {
-    // Permet de mettre à jour selectedMenuItem seulement après le $router.push
-    selectedMenuItemModel: {
+    // Permet de mettre à jour selectedTab seulement après le $router.push
+    selectedTabModel: {
       get() {
-        return this.selectedMenuItem
+        return this.selectedTab
       },
       set(value) {
         this.$router.push(`${value.hash}`)
@@ -76,7 +76,7 @@ export default {
     },
     tabToShow() {
       const tab = this.content.filter((tab) => {
-        return tab.hash === this.selectedMenuItem.hash
+        return tab.hash === this.selectedTab.hash
       })
       return tab[0]
     },
@@ -84,7 +84,7 @@ export default {
   watch: {
     $route(newVal) {
       /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
-      this.selectedMenuItem = this.menuItems.filter((item) => {
+      this.selectedTab = this.tabs.filter((item) => {
         return item.hash === newVal.hash
       })[0]
     },
@@ -100,10 +100,10 @@ export default {
         this.logo = content[0].logo
         const datesList = content.map((item) => item.updatedAt)
         this.lastUpdate = this.$getLatestDate(datesList)
-        this.menuItems = content.map((item) => {
+        this.tabs = content.map((item) => {
           return { hash: item.hash, label: item.title }
         })
-        this.selectedMenuItem = this.menuItems.filter((item) => {
+        this.selectedTab = this.tabs.filter((item) => {
           return item.hash === this.$route.hash
         })[0]
       })
@@ -112,7 +112,7 @@ export default {
       })
   },
   methods: {
-    updateSelectedMenuItem(item) {
+    updateSelectedTab(item) {
       this.$router.push(`${item.hash}`)
     },
   },
