@@ -15,7 +15,7 @@
     <section class="Section">
       <menu class="TabMenu">
         <div
-          v-for="(item, index) in menuItems"
+          v-for="(item, index) in speciesGroups"
           :key="index"
           class="TabItem"
           :class="item.hash === selectedSpeciesGroup.hash ? 'selected' : ''"
@@ -27,7 +27,7 @@
       <dropdown-list
         v-model="selectedSpeciesGroupModel"
         :z-index="1"
-        :items-list="menuItems"
+        :items-list="speciesGroups"
       />
       <protocols-cards :species-group-filter="selectedSpeciesGroup" />
     </section>
@@ -42,7 +42,7 @@ export default {
     'protocols-cards': ProtocolsCards,
   },
   data: () => ({
-    menuItems: [
+    speciesGroups: [
       { hash: '', label: 'Tous les dispositifs' },
       { hash: '#common-birds', label: 'Oiseaux communs' },
       { hash: '#raptors', label: 'Rapaces' },
@@ -70,13 +70,13 @@ export default {
   watch: {
     $route(newVal) {
       /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
-      this.selectedSpeciesGroup = this.menuItems.filter((item) => {
+      this.selectedSpeciesGroup = this.speciesGroups.filter((item) => {
         return item.hash === newVal.hash
       })[0]
     },
   },
   mounted() {
-    this.selectedSpeciesGroup = this.menuItems.filter((item) => {
+    this.selectedSpeciesGroup = this.speciesGroups.filter((item) => {
       return item.hash === this.$route.hash
     })[0]
   },

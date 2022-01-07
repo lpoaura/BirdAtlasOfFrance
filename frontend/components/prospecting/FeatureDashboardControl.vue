@@ -34,20 +34,20 @@
         </div>
         <menu class="TabMenu">
           <span
-            v-for="(item, index) in menuItems"
+            v-for="(item, index) in tabs"
             :key="index"
             class="TabItem"
-            :class="item.label === selectedMenuItem.label ? 'selected' : ''"
-            @click="updateSelectedMenuItem(item)"
+            :class="item.label === selectedTab.label ? 'selected' : ''"
+            @click="updateSelectedTab(item)"
           >
             {{ item.label }}
           </span>
         </menu>
         <div class="MobileMapControlMenuWrapper">
           <dropdown-list
-            v-model="selectedMenuItem"
+            v-model="selectedTab"
             :z-index="3"
-            :items-list="menuItems"
+            :items-list="tabs"
           />
           <a
             class="MapControlDownloadButton"
@@ -60,13 +60,13 @@
         <div
           class="MapControlSplit main right-margin-16"
           :class="
-            scrolled && selectedMenuItem.label === 'Espèces' ? 'fixed' : ''
+            scrolled && selectedTab.label === 'Espèces' ? 'fixed' : ''
           "
         ></div>
       </header>
       <!-- Onglet "Tableau de bord" -->
       <div
-        v-show="selectedMenuItem.label === 'Tableau de bord'"
+        v-show="selectedTab.label === 'Tableau de bord'"
         class="MapControlOverflow"
       >
         <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
@@ -115,7 +115,9 @@
           >
             {{ featureProperties[selectedSeason.value].old_count }} esp.
           </h3>
-          <h5 class="black03">ont été signalées sur la période <b>Avant 2019</b></h5>
+          <h5 class="black03">
+            ont été signalées sur la période <b>Avant 2019</b>
+          </h5>
         </div>
         <div class="MapControlKeyData">
           <h3
@@ -181,7 +183,7 @@
       </div>
       <!-- Onglet "Espèces" -->
       <div
-        v-show="selectedMenuItem.label === 'Espèces'"
+        v-show="selectedTab.label === 'Espèces'"
         ref="speciesOverflow"
         class="MapControlOverflow"
       >
@@ -296,7 +298,7 @@
       </div>
       <!-- Onglet "Prospection" -->
       <div
-        v-show="selectedMenuItem.label === 'Prospection'"
+        v-show="selectedTab.label === 'Prospection'"
         class="MapControlOverflow"
       >
         <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
@@ -452,6 +454,12 @@
             <span class="black02">{{ item.label }}</span>
           </div>
         </div>
+        <nuxt-link
+          :to="`/species-card/${clickedSpecies.cd_nom}`"
+          class="PrimaryButton flex-1"
+        >
+          Voir la fiche espèce
+        </nuxt-link>
       </div>
     </div>
     <!-- EPOC DASHBOARD -->
@@ -548,12 +556,12 @@ export default {
       'Nov',
       'Déc',
     ],
-    menuItems: [
+    tabs: [
       { label: 'Tableau de bord' },
       { label: 'Espèces' },
       { label: 'Prospection' },
     ],
-    selectedMenuItem: { label: 'Tableau de bord' },
+    selectedTab: { label: 'Tableau de bord' },
     speciesStatusList: [
       { label: 'Toutes', value: 'all_period' },
       { label: 'Espèces nicheuses', value: 'breeding' },
@@ -622,7 +630,7 @@ export default {
       this.clickedSpecies = null
       this.clickedEpocItem = null
       this.seeMoreMunicipalitiesIsClicked = false
-      this.selectedMenuItem = { label: 'Tableau de bord' }
+      this.selectedTab = { label: 'Tableau de bord' }
       this.initiateFeatureData(newVal)
       this.$axios
         .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
@@ -940,8 +948,8 @@ export default {
     deleteClickedEpocItem() {
       this.clickedEpocItem = null
     },
-    updateSelectedMenuItem(item) {
-      this.selectedMenuItem = item
+    updateSelectedTab(item) {
+      this.selectedTab = item
     },
     updateSelectedSpeciesStatus(item) {
       this.selectedSpeciesStatus = item
@@ -984,10 +992,6 @@ export default {
 
 .align-end {
   align-self: flex-end;
-}
-
-.flex-1 {
-  flex: 1;
 }
 
 .TableHeader {
@@ -1095,7 +1099,7 @@ span.TableColumn.small {
 
 .PhenologyWrapper {
   width: 100%;
-  margin-top: 16px;
+  margin: 16px 0 24px;
   display: flex;
   justify-content: space-between;
 }

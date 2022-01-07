@@ -5,7 +5,8 @@
     :style="{ 'z-index': zIndex }"
   >
     <div class="DropdownListSelectedOption" @click="openOrCloseSelect">
-      <h5 class="green01 fw-600 right-margin-8">
+      <img v-if="icon" class="MapSelectorIcon" :src="icon" />
+      <h5 class="green01 fw-600 nowrap right-margin-12">
         {{ selectedItem.label }}
       </h5>
       <img
@@ -49,6 +50,11 @@ export default {
       type: Array,
       required: true,
     },
+    icon: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   data: () => ({
     selectIsOpen: false,
@@ -80,6 +86,15 @@ export default {
   height: 42px;
   border: 2px solid rgba(57, 118, 90, 0.1);
   justify-content: center;
+}
+
+h5.green01.fw-600 {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.DropdownOptionsOverflow {
+  max-height: 150px;
 }
 
 .DropdownOption {
