@@ -25,7 +25,7 @@
             v-for="(type, index) in typeList"
             :key="index"
             class="DropdownOption"
-            :class="type.label === selectedType.label ? 'selected' : ''"
+            :class="type.value === selectedType.value ? 'selected' : ''"
             @click="updateSelectedType(type)"
           >
             {{ type.label }}
@@ -45,14 +45,14 @@
         @click="updateSelectedData(data)"
       >
         {{
-          selectedType.label === 'Espèce'
+          selectedType.value === 'species'
             ? data[`common_name_${lang}`]
             : data.name.replace('10kmL93', '').replace('10kmUTM22', '') +
               ' (' +
               data.code.slice(0, -3) +
               ')'
         }}
-        <i v-if="selectedType.label === 'Espèce'">({{ data.sci_name }})</i>
+        <i v-if="selectedType.value === 'species'">({{ data.sci_name }})</i>
       </li>
       <span
         v-if="dataList.length === 0"
@@ -73,17 +73,20 @@ export default {
     autocompleteIsOpen: false,
     typeList: [
       {
+        value: 'species',
         label: 'Espèce',
         api: '/api/v1/search_taxa?limit=10&search=',
         route: '/prospecting',
       },
       {
+        value: 'place',
         label: 'Lieu',
         api: '/api/v1/search_areas?limit=10&type_code=COM&search=',
         route: '/prospecting',
       },
     ],
     selectedType: {
+      value: 'species',
       label: 'Espèce',
       api: '/api/v1/search_taxa?limit=10&search=',
       route: '/prospecting',
@@ -99,7 +102,7 @@ export default {
         this.$axios
           .$get(this.selectedType.api + `${newVal}`)
           .then((data) => {
-            if (data.length === 0 && this.selectedType.label === 'Lieu') {
+            if (data.length === 0 && this.selectedType.value === 'place') {
               this.autocompleteIsOpen = false
             } else {
               this.autocompleteIsOpen = true
@@ -128,7 +131,7 @@ export default {
         this.$axios
           .$get(this.selectedType.api + `${newVal}`)
           .then((data) => {
-            if (data.length === 0 && this.selectedType.label === 'Lieu') {
+            if (data.length === 0 && this.selectedType.value === 'place') {
               this.autocompleteIsOpen = false
             } else {
               this.autocompleteIsOpen = true
@@ -141,7 +144,7 @@ export default {
       }
     },
     updateSelectedData(data) {
-      if (this.selectedType.label === 'Espèce') {
+      if (this.selectedType.value === 'species') {
         this.$router.push({
           path: this.selectedType.route,
           query: { species: `${data.code}` },

@@ -13,7 +13,7 @@
       @update:center="updateCenter"
     >
       <!-- LAYERS -->
-      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && plan.isOn" -->
+      <!-- v-if="['none', 'epoc'].includes(selectedLayer.value) && plan.isOn" -->
       <l-tile-layer
         v-if="plan.isOn"
         :url="plan.url"
@@ -21,7 +21,7 @@
         :z-index="plan.zIndex"
         :attribution="plan.attribution"
       />
-      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && orthophoto.isOn" -->
+      <!-- v-if="['none', 'epoc'].includes(selectedLayer.value) && orthophoto.isOn" -->
       <l-tile-layer
         v-if="orthophoto.isOn"
         :url="orthophoto.url"
@@ -40,7 +40,7 @@
         layer-type="base"
       >
       </l-wms-tile-layer> -->
-      <!-- v-if="!['Aucune', 'Points EPOC'].includes(selectedLayer) || (['Aucune', 'Points EPOC'].includes(selectedLayer) && !plan.isOn && !orthophoto.isOn)" -->
+      <!-- v-if="!['none', 'epoc'].includes(selectedLayer.value) || (['none', 'epoc'].includes(selectedLayer.value) && !plan.isOn && !orthophoto.isOn)" -->
       <l-tile-layer
         v-if="!plan.isOn && !orthophoto.isOn"
         :url="osmUrl"
@@ -55,7 +55,7 @@
       <l-geo-json
         v-if="
           selectedSpecies &&
-          selectedLayer === 'Répartition de l\'espèce' &&
+          selectedLayer.value === 'species-distribution' &&
           speciesDistributionGeojson
         "
         :geojson="speciesDistributionGeojson"
@@ -64,9 +64,9 @@
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Indice de complétude' ||
-          selectedLayer === 'Nombre d\'espèces par maille' ||
-          (selectedLayer === 'Points EPOC' && currentZoom >= 11)
+          selectedLayer.value === 'knowledge-level' ||
+          selectedLayer.value === 'species-number' ||
+          (selectedLayer.value === 'epoc' && currentZoom >= 11)
         "
         :geojson="knowledgeLevelGeojson"
         :options="knowledgeLevelGeojsonOptions"
@@ -74,7 +74,7 @@
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Points EPOC' &&
+          selectedLayer.value === 'epoc' &&
           epocRealizedIsOn &&
           currentZoom >= 11
         "
@@ -83,7 +83,7 @@
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Points EPOC' && epocOdfIsOn && currentZoom >= 11
+          selectedLayer.value === 'epoc' && epocOdfIsOn && currentZoom >= 11
         "
         :geojson="epocOdfGeojson"
         :options="epocOdfGeojsonOptions"
@@ -95,25 +95,21 @@
         :disable-scroll-propagation="disableScrollPropagation"
       >
         <knowledge-level-control
-          v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
+          v-show="selectedLayer.value === 'knowledge-level' && !clickedFeature"
           :current-territory="currentTerritory"
           :selected-season="selectedSeason"
         />
         <count-taxa-control
-          v-show="
-            selectedLayer === 'Nombre d\'espèces par maille' && !clickedFeature
-          "
+          v-show="selectedLayer.value === 'species-number' && !clickedFeature"
           :current-territory="currentTerritory"
           :count-taxa-classes="countTaxaClasses"
           :selected-season="selectedSeason"
         />
         <feature-dashboard-control
           v-if="
-            [
-              'Indice de complétude',
-              'Nombre d\'espèces par maille',
-              'Points EPOC',
-            ].includes(selectedLayer) &&
+            ['knowledge-level', 'species-number', 'epoc'].includes(
+              selectedLayer.value
+            ) &&
             clickedFeature &&
             !clickedEpocPoint
           "
@@ -121,13 +117,15 @@
           :selected-season="selectedSeason"
         />
         <species-dashboard-control
-          v-if="selectedLayer === 'Répartition de l\'espèce' && selectedSpecies"
+          v-if="
+            selectedLayer.value === 'species-distribution' && selectedSpecies
+          "
           :selected-species="selectedSpecies"
           :selected-season="selectedSeason"
           @selectedSpecies="deleteSelectedSpecies"
         />
         <section
-          v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
+          v-if="selectedLayer.value === 'epoc' && clickedEpocPoint"
           class="MapControl"
         >
           <div
@@ -145,18 +143,16 @@
         <!-- Apparaît si au moins une des conditions précédentes est remplie -->
         <div
           v-show="
-            (selectedLayer === 'Indice de complétude' && !clickedFeature) ||
-            (selectedLayer === 'Nombre d\'espèces par maille' &&
-              !clickedFeature) ||
-            ([
-              'Indice de complétude',
-              'Nombre d\'espèces par maille',
-              'Points EPOC',
-            ].includes(selectedLayer) &&
+            (selectedLayer.value === 'knowledge-level' && !clickedFeature) ||
+            (selectedLayer.value === 'species-number' && !clickedFeature) ||
+            (['knowledge-level', 'species-number', 'epoc'].includes(
+              selectedLayer.value
+            ) &&
               clickedFeature &&
               !clickedEpocPoint) ||
-            (selectedLayer === 'Répartition de l\'espèce' && selectedSpecies) ||
-            (selectedLayer === 'Points EPOC' && clickedEpocPoint)
+            (selectedLayer.value === 'species-distribution' &&
+              selectedSpecies) ||
+            (selectedLayer.value === 'epoc' && clickedEpocPoint)
           "
           class="MiniMapControl mobile"
           @click="openMobileMapControl"
@@ -172,11 +168,11 @@
         <div
           v-show="
             (knowledgeLevelIsLoading &&
-              ['Indice de complétude', 'Nombre d\'espèces par maille'].includes(
-                selectedLayer
+              ['knowledge-level', 'species-number'].includes(
+                selectedLayer.value
               )) ||
             (speciesDistributionIsLoading &&
-              selectedLayer === 'Répartition de l\'espèce')
+              selectedLayer.value === 'species-distribution')
           "
           class="InformationControl"
         >
@@ -189,7 +185,7 @@
           <h5 class="black02 fw-500">Chargement des données</h5>
         </div>
         <div
-          v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
+          v-show="selectedLayer.value === 'epoc' && currentZoom < 11"
           class="InformationControl"
         >
           <h5 class="black02 fw-500">
@@ -201,7 +197,7 @@
           v-show="
             !speciesDistributionIsLoading &&
             noSpeciesData &&
-            selectedLayer === 'Répartition de l\'espèce'
+            selectedLayer.value === 'species-distribution'
           "
           class="InformationControl"
         >
@@ -266,9 +262,9 @@
         <div
           v-show="
             (knowledgeLevelIsLoading &&
-              selectedLayer === 'Indice de complétude') ||
+              selectedLayer.value === 'knowledge-level') ||
             (speciesDistributionIsLoading &&
-              selectedLayer === 'Répartition de l\'espèce')
+              selectedLayer.value === 'species-distribution')
           "
           class="InformationControl"
         >
@@ -281,7 +277,7 @@
           <h5 class="black02 fw-500">Chargement des données</h5>
         </div>
         <div
-          v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
+          v-show="selectedLayer.value === 'epoc' && currentZoom < 11"
           class="InformationControl"
         >
           <h5 class="black02 fw-500">
@@ -293,7 +289,7 @@
           v-show="
             !speciesDistributionIsLoading &&
             noSpeciesData &&
-            selectedLayer === 'Répartition de l\'espèce'
+            selectedLayer.value === 'species-distribution'
           "
           class="InformationControl"
         >
@@ -354,7 +350,7 @@ export default {
     },
     selectedLayer: {
       // Couche sélectionnée
-      type: String,
+      type: Object,
       required: true,
     },
     selectedTerritory: {
@@ -488,7 +484,7 @@ export default {
       let season = this.selectedSeason.value // Nécessaire pour déclencher le changement de style
       return (feature, layer) => {
         selectedLayer = this.selectedLayer
-        if (selectedLayer === 'Indice de complétude') {
+        if (selectedLayer.value === 'knowledge-level') {
           season = this.selectedSeason.value // À améliorer
           return {
             weight: 0.8,
@@ -500,7 +496,7 @@ export default {
             fillOpacity: 0.6,
           }
         }
-        if (selectedLayer === "Nombre d'espèces par maille") {
+        if (selectedLayer.value === 'species-number') {
           season = this.selectedSeason.value // À améliorer
           return {
             weight: 0.8,
@@ -688,7 +684,7 @@ export default {
       }
     },
     selectedLayer(newVal) {
-      if (newVal === 'Aucune') {
+      if (newVal.value === 'none') {
         this.$emit('clickedFeature', null)
       }
       this.$emit('clickedEpocPoint', null)
@@ -1017,7 +1013,7 @@ export default {
     },
     setFeatureColor(number) {
       const featuresColors = this.selectedSeason.featuresColors
-      if (this.selectedLayer === 'Indice de complétude') {
+      if (this.selectedLayer.value === 'knowledge-level') {
         return number >= this.knowledgeLevelClasses[4]
           ? featuresColors[4]
           : number >= this.knowledgeLevelClasses[3]
@@ -1028,7 +1024,7 @@ export default {
           ? featuresColors[1]
           : featuresColors[0]
       }
-      if (this.selectedLayer === "Nombre d'espèces par maille") {
+      if (this.selectedLayer.value === 'species-number') {
         return number >= this.countTaxaClasses[this.selectedSeason.value][4].min
           ? featuresColors[4]
           : number >= this.countTaxaClasses[this.selectedSeason.value][3].min
@@ -1051,7 +1047,9 @@ export default {
       event.target.setStyle({
         weight: 0.8,
         color:
-          this.selectedLayer === 'Indice de complétude' ? '#FFFFFF' : '#C4C4C4',
+          this.selectedLayer.value === 'knowledge-level'
+            ? '#FFFFFF'
+            : '#C4C4C4',
       })
     },
     geolocate() {

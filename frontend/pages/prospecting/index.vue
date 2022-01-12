@@ -2,15 +2,13 @@
   <v-container fluid>
     <div v-if="mobileMapControlIsOpen" class="MobileMapControl">
       <knowledge-level-control
-        v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
+        v-show="selectedLayer.value === 'knowledge-level' && !clickedFeature"
         :current-territory="currentTerritory"
         :selected-season="selectedSeason"
         @mobileMapControl="openOrCloseMobileMapControl"
       />
       <count-taxa-control
-        v-show="
-          selectedLayer === 'Nombre d\'espèces par maille' && !clickedFeature
-        "
+        v-show="selectedLayer.value === 'species-number' && !clickedFeature"
         :current-territory="currentTerritory"
         :count-taxa-classes="countTaxaClasses"
         :selected-season="selectedSeason"
@@ -18,11 +16,9 @@
       />
       <feature-dashboard-control
         v-if="
-          [
-            'Indice de complétude',
-            'Nombre d\'espèces par maille',
-            'Points EPOC',
-          ].includes(selectedLayer) &&
+          ['knowledge-level', 'species-number', 'epoc'].includes(
+            selectedLayer.value
+          ) &&
           clickedFeature &&
           !clickedEpocPoint
         "
@@ -31,13 +27,13 @@
         @mobileMapControl="openOrCloseMobileMapControl"
       />
       <species-dashboard-control
-        v-if="selectedLayer === 'Répartition de l\'espèce' && selectedSpecies"
+        v-if="selectedLayer.value === 'species-distribution' && selectedSpecies"
         :selected-species="selectedSpecies"
         :selected-season="selectedSeason"
         @mobileMapControl="openOrCloseMobileMapControl"
       />
       <section
-        v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
+        v-if="selectedLayer.value === 'epoc' && clickedEpocPoint"
         class="MapControl"
       >
         <div
@@ -188,8 +184,8 @@ export default {
     selectedSpecies: null, // Espèce sélectionnée dans la barre de recherche
     selectedSeason: {
       // Saison sélectionnée
-      label: 'Toutes saisons',
       value: 'all_period',
+      label: 'Toutes saisons',
       featuresColors: [
         'rgba(51, 105, 80, 0.2)',
         'rgba(51, 105, 80, 0.4)',
@@ -199,7 +195,13 @@ export default {
       ],
       speciesDistributionColors: ['#336950'],
     },
-    selectedLayer: 'Indice de complétude', // Couche sélectionnée
+    selectedLayer: {
+      // Couche sélectionnée
+      value: 'knowledge-level',
+      label: 'Indice de complétude',
+      subtitle: null,
+      permanent: true,
+    },
     selectedTerritory: {
       // Territoire cliqué (FrMet ou DOM-TOM)
       name: null,
@@ -279,8 +281,13 @@ export default {
     },
     updateSelectedSpecies(species) {
       this.selectedSpecies = species
-      if (!species && this.selectedLayer === "Répartition de l'espèce") {
-        this.selectedLayer = 'Indice de complétude'
+      if (!species && this.selectedLayer.value === 'species-distribution') {
+        this.selectedLayer = {
+          value: 'knowledge-level',
+          label: 'Indice de complétude',
+          subtitle: null,
+          permanent: true,
+        }
       }
     },
     updateSelectedSeason(season) {
