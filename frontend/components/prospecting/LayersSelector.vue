@@ -7,16 +7,16 @@
     </header>
     <div class="MapSelectorOverflow">
       <li
-        v-for="(layer, index) in layersList"
+        v-for="(layer, index) in resultsLayers"
         :key="index"
         class="RadioOption"
-        :class="layer.label === selectedLayer ? 'selected' : ''"
-        @click="updateSelectedLayer(layer.label)"
+        :class="layer.value === selectedLayer.value ? 'selected' : ''"
+        @click="updateSelectedLayer(layer)"
       >
         <div class="RadioLabel">
           <div class="RadioButton">
             <div
-              v-show="layer.label === selectedLayer"
+              v-show="layer.value === selectedLayer.value"
               class="RadioButtonSelected"
             ></div>
           </div>
@@ -26,7 +26,7 @@
           {{ layer.subtitle }}
         </h5>
       </li>
-      <div v-show="selectedLayer === 'Points EPOC'">
+      <div v-show="selectedLayer.value === 'epoc'">
         <div class="RadioOption epoc">
           <div class="RadioLabel">
             <switch-button v-model="epocRealizedIsOn" />
@@ -39,26 +39,6 @@
             EPOC ODF {{ new Date().getFullYear() }}
           </div>
         </div>
-      </div>
-      <div
-        v-if="selectedSpecies"
-        class="RadioOption"
-        :class="speciesDistributionLayer === selectedLayer ? 'selected' : ''"
-        @click="updateSelectedLayer(speciesDistributionLayer)"
-      >
-        <div class="RadioLabel">
-          <div class="RadioButton">
-            <div
-              v-show="speciesDistributionLayer === selectedLayer"
-              class="RadioButtonSelected"
-            ></div>
-          </div>
-          {{ speciesDistributionLayer }}
-        </div>
-        <!-- <h5 class="RadioSubtitle black04">
-            Non compatible avec les fonds carthographiques Plan et
-            Orthophotographies
-          </h5> -->
       </div>
       <!-- v-show="['Aucune', 'Points EPOC'].includes(selectedLayer)" -->
       <div class="BackgroundMapsWrapper">
@@ -121,7 +101,7 @@ export default {
       required: true,
     },
     selectedLayer: {
-      type: String,
+      type: Object,
       required: true,
     },
     selectedSpecies: {
@@ -132,17 +112,29 @@ export default {
   },
   data: () => ({
     layersList: [
-      { label: 'Aucune', subtitle: null },
+      { value: 'none', label: 'Aucune', subtitle: null, permanent: true },
       {
+        value: 'knowledge-level',
         label: 'Indice de complétude',
         subtitle: null,
-        // subtitle:
-        //   'Non compatible avec les fonds carthographiques Plan et Orthophotographies',
+        // subtitle: 'Non compatible avec les fonds carthographiques Plan et Orthophotographies',
+        permanent: true,
       },
-      { label: "Nombre d'espèces par maille", subtitle: null },
-      { label: 'Points EPOC', subtitle: null },
+      {
+        value: 'species-number',
+        label: "Nombre d'espèces par maille",
+        subtitle: null,
+        permanent: true,
+      },
+      {
+        value: 'species-distribution',
+        label: "Répartition de l'espèce",
+        subtitle: null,
+        // subtitle: 'Non compatible avec les fonds carthographiques Plan et Orthophotographies',
+        permanent: false,
+      },
+      { value: 'epoc', label: 'Points EPOC', subtitle: null, permanent: true },
     ],
-    speciesDistributionLayer: "Répartition de l'espèce",
     epocRealizedIsOn: true,
     epocOdfIsOn: true,
     planIsOn: false,
@@ -151,10 +143,14 @@ export default {
     orthophotoOpacity: '50',
   }),
   computed: {
-    filteredTerritories() {
-      return this.territoriesList.filter((territory) =>
-        territory.name.toLowerCase().includes(this.search.toLowerCase())
-      )
+    resultsLayers() {
+      if (this.selectedSpecies) {
+        return this.layersList
+      } else {
+        return this.layersList.filter((layer) => {
+          return layer.permanent
+        })
+      }
     },
   },
   watch: {
@@ -178,7 +174,10 @@ export default {
     },
     selectedSpecies(newVal) {
       if (newVal) {
-        this.$emit('selectedLayer', this.speciesDistributionLayer)
+        const speciesDistributionLayer = this.layersList.filter((layer) => {
+          return layer.value === 'species-distribution'
+        })[0]
+        this.$emit('selectedLayer', speciesDistributionLayer)
       }
     },
   },

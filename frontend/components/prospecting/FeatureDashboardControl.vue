@@ -37,7 +37,7 @@
             v-for="(item, index) in menuItems"
             :key="index"
             class="TabItem"
-            :class="item.label === selectedMenuItem.label ? 'selected' : ''"
+            :class="item.value === selectedMenuItem.value ? 'selected' : ''"
             @click="updateSelectedMenuItem(item)"
           >
             {{ item.label }}
@@ -60,13 +60,13 @@
         <div
           class="MapControlSplit main right-margin-16"
           :class="
-            scrolled && selectedMenuItem.label === 'Espèces' ? 'fixed' : ''
+            scrolled && selectedMenuItem.value === 'species' ? 'fixed' : ''
           "
         ></div>
       </header>
       <!-- Onglet "Tableau de bord" -->
       <div
-        v-show="selectedMenuItem.label === 'Tableau de bord'"
+        v-show="selectedMenuItem.value === 'dashboard'"
         class="MapControlOverflow"
       >
         <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
@@ -183,7 +183,7 @@
       </div>
       <!-- Onglet "Espèces" -->
       <div
-        v-show="selectedMenuItem.label === 'Espèces'"
+        v-show="selectedMenuItem.value === 'species'"
         ref="speciesOverflow"
         class="MapControlOverflow"
       >
@@ -298,7 +298,7 @@
       </div>
       <!-- Onglet "Prospection" -->
       <div
-        v-show="selectedMenuItem.label === 'Prospection'"
+        v-show="selectedMenuItem.value === 'prospecting'"
         class="MapControlOverflow"
       >
         <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
@@ -552,11 +552,11 @@ export default {
       'Déc',
     ],
     menuItems: [
-      { label: 'Tableau de bord' },
-      { label: 'Espèces' },
-      { label: 'Prospection' },
+      { value: 'dashboard', label: 'Tableau de bord' },
+      { value: 'species', label: 'Espèces' },
+      { value: 'prospecting', label: 'Prospection' },
     ],
-    selectedMenuItem: { label: 'Tableau de bord' },
+    selectedMenuItem: { value: 'dashboard', label: 'Tableau de bord' },
     speciesStatusList: [
       { label: 'Toutes', value: 'all_period' },
       { label: 'Espèces nicheuses', value: 'breeding' },
@@ -600,7 +600,7 @@ export default {
       }
     },
     prospectingHours() {
-      if (this.selectedSeason.label === 'Toutes saisons') {
+      if (this.selectedSeason.value === 'all_period') {
         return (
           Math.round(
             (this.featureDataKey.prospecting_hours_breeding +

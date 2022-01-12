@@ -10,13 +10,13 @@
         v-for="(season, index) in seasonsList"
         :key="index"
         class="RadioOption"
-        :class="season.label === selectedSeason.label ? 'selected' : ''"
+        :class="season.value === selectedSeason.value ? 'selected' : ''"
         @click="updateSelectedSeason(season)"
       >
         <div class="RadioLabel">
           <div class="RadioButton">
             <div
-              v-show="season.label === selectedSeason.label"
+              v-show="season.value === selectedSeason.value"
               class="RadioButtonSelected"
             ></div>
           </div>
@@ -42,8 +42,8 @@ export default {
   data: () => ({
     seasonsList: [
       {
-        label: 'Toutes saisons',
         value: 'all_period',
+        label: 'Toutes saisons',
         featuresColors: [
           'rgba(51, 105, 80, 0.2)',
           'rgba(51, 105, 80, 0.4)',
@@ -54,8 +54,8 @@ export default {
         speciesDistributionColors: ['#336950'],
       },
       {
-        label: 'Période de reproduction',
         value: 'breeding',
+        label: 'Période de reproduction',
         featuresColors: [
           'rgba(230, 87, 132, 0.2)',
           'rgba(230, 87, 132, 0.4)',
@@ -70,8 +70,8 @@ export default {
         ],
       },
       {
-        label: "Période d'hivernage",
         value: 'wintering',
+        label: "Période d'hivernage",
         featuresColors: [
           'rgba(76, 97, 244, 0.2)',
           'rgba(76, 97, 244, 0.4)',
