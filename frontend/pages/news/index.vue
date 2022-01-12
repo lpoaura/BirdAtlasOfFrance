@@ -85,9 +85,9 @@ export default {
             Math.floor(selectedNewsIndex / this.newsNumberPerPage) + 1
           // Temps de latence nécessaire pour que les actualités de la page s'affichent
           setTimeout(() => {
-            document
-              .getElementById(this.$route.hash.substring(1))
-              .scrollIntoView()
+            this.$refs[this.$route.hash.substring(1)].scrollIntoView({
+              behavior: 'smooth',
+            })
           }, 10)
         }
       })
