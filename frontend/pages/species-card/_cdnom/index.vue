@@ -29,7 +29,7 @@
         </menu>
         <dropdown-list
           v-model="selectedTabModel"
-          :z-index="1"
+          :z-index="3"
           :items-list="tabs"
         />
       </div>
@@ -41,15 +41,18 @@
             v-for="(item, index) in subjectsList"
             :key="'subject' + index"
             class="TabItem vertical"
-            :class="item === selectedSubject ? 'selected' : ''"
+            :class="item.slug === selectedSubject.slug ? 'selected' : ''"
             @click="updateSelectedSubject(item)"
           >
-            {{ item }}
+            {{ item.label }}
           </div>
         </menu>
       </nav>
-      <div class="SpeciesCardContent">
-        <div class="Selectors">
+      <div ref="scrollingContainer" class="SpeciesCardTab">
+        <div
+          v-show="['diagrams', 'maps'].includes(selectedTab.value)"
+          class="Selectors"
+        >
           <dropdown-list
             v-model="selectedSeason"
             :z-index="2"
@@ -63,7 +66,63 @@
             icon="/location-green.svg"
           />
         </div>
-        Mettre un slider (overflow: auto) dans cette section
+        <div
+          v-show="selectedTab.value === 'species-card'"
+          ref="species-card"
+          class="SpeciesCardContent"
+        >
+          Test Fiche espèce
+        </div>
+        <div
+          v-show="
+            selectedTab.value === 'diagrams' &&
+            selectedSeason.value === 'all_period'
+          "
+          ref="diagrams all_period"
+          class="SpeciesCardContent"
+        >
+          <div ref="phenology-all-period" class="DiagramCard scrolling-item">
+            <h4 class="black02 fw-bold">Phénologie</h4>
+          </div>
+          <div ref="phenology-migration" class="DiagramCard scrolling-item">
+            <h4 class="black02 fw-bold">Phénologie de migration</h4>
+          </div>
+          <div ref="altitude-all-period" class="DiagramCard scrolling-item">
+            <h4 class="black02 fw-bold">
+              Répartition altitudinale des observations
+            </h4>
+          </div>
+          <div ref="test" class="DiagramCard scrolling-item">
+            <h4 class="black02 fw-bold">Test</h4>
+          </div>
+        </div>
+        <div
+          v-show="
+            selectedTab.value === 'diagrams' &&
+            selectedSeason.value === 'breeding'
+          "
+          ref="diagrams breeding"
+          class="SpeciesCardContent"
+        >
+          Test diagrammes Reproduction
+        </div>
+        <div
+          v-show="
+            selectedTab.value === 'diagrams' &&
+            selectedSeason.value === 'wintering'
+          "
+          ref="diagrams wintering"
+          class="SpeciesCardContent"
+        >
+          Test diagrammes Hivernage
+        </div>
+        <div
+          v-show="selectedTab.value === 'maps'"
+          ref="maps"
+          class="SpeciesCardContent"
+        >
+          Test Cartes
+        </div>
       </div>
     </section>
   </v-container>
@@ -75,43 +134,57 @@ export default {
     species: {},
     tabs: [
       {
+        value: 'species-card',
         hash: '',
         label: 'Fiche espèce',
         subjects: [
-          'Description',
-          'Taxonomie',
-          'Statuts',
-          'Caractéristiques',
-          'Téléchargements',
-          'Liens',
+          { label: 'Description', slug: 'description' },
+          { label: 'Taxonomie', slug: 'taxonomy' },
+          { label: 'Statuts', slug: 'status' },
+          { label: 'Caractéristiques', slug: 'characteristic' },
+          { label: 'Téléchargements', slug: 'downloads' },
+          { label: 'Liens', slug: 'links' },
         ],
       },
       {
+        value: 'diagrams',
         hash: '#diagrams',
         label: 'Diagrammes',
         subjects: {
           all_period: [
-            'Phénologie',
-            'Phénologie de migration',
-            'Répartition altitudinale',
+            { label: 'Phénologie', slug: 'phenology-all-period' },
+            { label: 'Phénologie de migration', slug: 'phenology-migration' },
+            { label: 'Répartition altitudinale', slug: 'altitude-all-period' },
+            { label: 'Test', slug: 'test' },
           ],
           breeding: [
-            'Phénologie',
-            "Tendances d'évolution",
-            'Taille de populations',
-            'Répartition altitudinale',
+            { label: 'Phénologie', slug: 'phenology-breeding' },
+            { label: "Tendances d'évolution", slug: 'trends-breeding' },
+            {
+              label: 'Taille de populations',
+              slug: 'populations-size-breeding',
+            },
+            { label: 'Répartition altitudinale', slug: 'altitude-breeding' },
           ],
           wintering: [
-            "Tendances d'évolution",
-            'Taille de populations',
-            'Répartition altitudinale',
+            { label: "Tendances d'évolution", slug: 'trends-wintering' },
+            {
+              label: 'Taille de populations',
+              slug: 'populations-size-wintering',
+            },
+            { label: 'Répartition altitudinale', slug: 'altitude-wintering' },
           ],
         },
       },
-      { hash: '#maps', label: 'Cartes', subjects: ['À définir...'] },
+      {
+        value: 'maps',
+        hash: '#maps',
+        label: 'Cartes',
+        subjects: [{ label: 'À définir...', slug: 'none' }],
+      },
     ],
     selectedTab: { hash: '', label: '', subjects: [] },
-    selectedSubject: 'Description',
+    selectedSubject: { label: '', slug: '' },
     seasonsList: [
       {
         label: 'Toutes saisons',
@@ -188,6 +261,7 @@ export default {
       label: 'France métropolitaine',
       icon: '/prospecting/France-metropolitaine.svg',
     },
+    currentScrollingItems: {},
   }),
   head: {
     title: 'Fiche espèce',
@@ -215,24 +289,28 @@ export default {
   watch: {
     $route(newVal) {
       /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
-      this.selectedTab = this.tabs.filter((item) => {
-        return item.hash === newVal.hash
-      })[0]
-      this.selectedSubject = this.selectedTab.subjects[
-        this.selectedSeason.value
+      this.defineSelectedTab()
+      const id = this.selectedTab.subjects[this.selectedSeason.value]
+        ? `${this.selectedTab.value} ${this.selectedSeason.value}`
+        : this.selectedTab.value
+      this.currentScrollingItems = [
+        ...this.$refs[id].getElementsByClassName('scrolling-item'),
       ]
-        ? this.selectedTab.subjects[this.selectedSeason.value][0]
-        : this.selectedTab.subjects[0]
     },
     selectedSeason(newVal) {
-      this.selectedSubject = this.selectedTab.subjects[
-        this.selectedSeason.value
+      this.defineSelectedSubject()
+      const id = this.selectedTab.subjects[this.selectedSeason.value]
+        ? `${this.selectedTab.value} ${this.selectedSeason.value}`
+        : this.selectedTab.value
+      this.currentScrollingItems = [
+        ...this.$refs[id].getElementsByClassName('scrolling-item'),
       ]
-        ? this.selectedTab.subjects[this.selectedSeason.value][0]
-        : this.selectedTab.subjects[0]
     },
   },
   mounted() {
+    document.documentElement.style.overflow = 'hidden'
+    document.body.style.position = 'fixed' // Needed for iOS
+    // this.$refs.scrollingContainer.addEventListener('scroll', this.listener)
     this.$axios
       .$get(`/api/v1/search_taxa?limit=1&cd_nom=${this.cdnom}`)
       .then((data) => {
@@ -242,16 +320,60 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-    this.selectedTab = this.tabs.filter((item) => {
-      return item.hash === this.$route.hash
-    })[0]
+    this.defineSelectedTab()
   },
+  // beforeDestroy() {
+  //   this.$refs.scrollingContainer.removeEventListener('scroll', this.listener)
+  // },
   methods: {
+    defineSelectedTab() {
+      this.selectedTab = this.tabs.filter((item) => {
+        return item.hash === this.$route.hash
+      })[0]
+      this.defineSelectedSubject()
+    },
+    defineSelectedSubject() {
+      this.selectedSubject = this.selectedTab.subjects[
+        this.selectedSeason.value
+      ]
+        ? this.selectedTab.subjects[this.selectedSeason.value][0]
+        : this.selectedTab.subjects[0]
+    },
     updateSelectedTab(item) {
       this.$router.push(`${item.hash}`)
     },
     updateSelectedSubject(item) {
       this.selectedSubject = item
+      if (this.$refs[item.slug]) {
+        // this.$refs.scrollingContainer.removeEventListener(
+        //   'scroll',
+        //   this.listener
+        // )
+        this.$refs[item.slug].scrollIntoView({ behavior: 'smooth' })
+        // this.$refs.scrollingContainer.addEventListener('scroll', this.listener)
+      }
+    },
+    listener() {
+      this.$debounce(this.handleScroll())
+    },
+    handleScroll() {
+      const scroll = this.$refs.scrollingContainer.scrollTop
+      const currentScrolledItem = this.currentScrollingItems.filter((item) => {
+        return (
+          item.offsetTop - 40 <= scroll &&
+          item.offsetTop + item.offsetHeight > scroll
+        )
+      })
+      if (currentScrolledItem.length > 0) {
+        const currentSubjects = this.selectedTab.subjects[
+          this.selectedSeason.value
+        ]
+          ? this.selectedTab.subjects[this.selectedSeason.value]
+          : this.selectedTab.subjects
+        this.selectedSubject = currentSubjects.filter((subject) => {
+          return subject.slug === currentScrolledItem[0].id
+        })[0]
+      }
     },
   },
 }
@@ -260,6 +382,7 @@ export default {
 <style scoped>
 div.container.container--fluid {
   height: 100vh;
+  max-height: 100vh;
   padding-top: 68px;
   display: flex;
   flex-direction: column;
@@ -272,8 +395,6 @@ header {
   border-bottom: 1px solid rgba(57, 118, 90, 0.1);
   display: flex;
   align-items: center;
-
-  /* justify-content: space-between; */
   column-gap: 24px;
   row-gap: 16px;
   flex-wrap: wrap;
@@ -313,8 +434,8 @@ header {
 
 .SpeciesCardSection {
   flex: 1;
+  position: relative;
   display: flex;
-  align-items: stretch;
 }
 
 nav.NavDrawer {
@@ -325,8 +446,12 @@ nav.NavDrawer {
   flex-direction: column;
 }
 
-.SpeciesCardContent {
-  flex: 1;
+.SpeciesCardTab {
+  position: absolute;
+  top: 0;
+  left: 300px;
+  right: 0;
+  bottom: 0;
   padding: 24px 40px;
   overflow-y: auto;
 }
@@ -346,11 +471,38 @@ nav.NavDrawer {
   margin-right: 0;
 }
 
+.SpeciesCardContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.DiagramCard {
+  width: 100%;
+  height: 300px;
+  max-width: 1050px;
+  padding: 24px 32px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(51, 105, 80, 0.2);
+  box-sizing: border-box;
+  border-radius: 16px;
+  align-self: center;
+  scroll-margin: 12px;
+}
+
+.DiagramCard:last-child {
+  margin-bottom: 0;
+}
+
 /********** RESPONSIVE **********/
 
 @media screen and (max-width: 920px) {
   nav.NavDrawer {
     display: none;
+  }
+
+  .SpeciesCardTab {
+    left: 0;
   }
 }
 
@@ -359,7 +511,7 @@ nav.NavDrawer {
     padding: 16px 5%;
   }
 
-  .SpeciesCardContent {
+  .SpeciesCardTab {
     padding: 24px 5%;
   }
 }
