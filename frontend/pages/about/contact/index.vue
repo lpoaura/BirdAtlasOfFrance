@@ -1,49 +1,51 @@
 <template>
   <v-container fluid>
-    <header>
-      <breadcrumb style="margin-bottom: 20px" />
-      <h1 class="PageTitle">Comment pouvons-nous vous aider ?</h1>
-    </header>
-    <section class="CardsSection">
+    <main class="TopSection breadcrumb">
+      <breadcrumb />
+      <header>
+        <h2 class="black02 fw-600 text-center">
+          Comment pouvons-nous vous aider ?
+        </h2>
+      </header>
+    </main>
+    <section class="Section">
       <div
-        class="Card"
+        class="ContactCard"
         :class="isSelected ? 'selected' : ''"
         @click="updateIsSelected"
       >
-        <h6 class="CardsTitle">
+        <span class="fw-500 text-center">
           J'ai une question sur les méthodes de prospection
-        </h6>
+        </span>
       </div>
       <nuxt-link
         v-for="(card, index) in cards"
         :key="index"
         :to="card.route"
-        class="Card"
+        class="ContactCard"
       >
-        <h6 class="CardsTitle">{{ card.title }}</h6>
+        <span class="fw-500 text-center">{{ card.title }}</span>
       </nuxt-link>
     </section>
-    <section v-show="isSelected" class="ProtocolsHelpSection">
-      <div class="ProtocolsHelpContent">
-        <p>Vous trouverez peut-être votre bonheur dans les pages suivantes :</p>
-        <li class="ProtocolsHelpLink">
-          <nuxt-link to="/get-involved" style="text-decoration: underline"
-            >Participer</nuxt-link
-          >
-        </li>
-        <li class="ProtocolsHelpLink">
-          <nuxt-link
-            to="/about/what-is-ODF-project#get-involved"
-            style="text-decoration: underline"
-            >Découvrir les bases de la prospection</nuxt-link
-          >
-        </li>
+    <section v-show="isSelected" class="HelpingProposalsSection">
+      <div class="HelpingProposalsContent">
+        <h4 class="black02 fw-500 bottom-margin-16">
+          Vous trouverez peut-être votre bonheur dans les pages suivantes :
+        </h4>
+        <h4 class="green01 fw-500 underline bottom-margin-16">
+          <nuxt-link to="/get-involved"> Participer </nuxt-link>
+        </h4>
+        <h4 class="green01 fw-500 underline bottom-margin-16">
+          <nuxt-link to="/about/what-is-ODF-project#get-involved">
+            Découvrir les bases de la prospection
+          </nuxt-link>
+        </h4>
         <nuxt-link
           to="/about/contact/question-about-protocols"
-          class="PrimaryButton"
-          style="margin-top: 24px"
-          >Contactez-nous</nuxt-link
+          class="PrimaryButton top-margin-24"
         >
+          Contactez-nous
+        </nuxt-link>
       </div>
     </section>
   </v-container>
@@ -92,83 +94,36 @@ div.container.container--fluid {
   padding-top: 68px;
 }
 
-header {
-  width: 100%;
-  padding: 24px 4vw 40px;
+.TopSection {
+  padding: 16px 5% 0;
+}
+
+.Section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-gap: 24px;
+}
+
+.HelpingProposalsSection {
+  padding: 0 5%;
   display: flex;
-  flex-direction: column;
 }
 
-.PageTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 32px;
-  line-height: 48px;
-  color: #000;
-  text-align: center;
-}
-
-.CardsSection {
-  padding-left: 4vw;
-  padding-bottom: 24px;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.Card {
-  background: #efefef;
-  width: 17vw;
-  height: 155px;
-  border-radius: 16px;
-  margin-right: 1.45vw;
-  margin-bottom: 1.45vw;
-  padding: 0 2%;
-  text-decoration: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.Card:hover {
-  background: rgba(238, 206, 37, 0.2);
-}
-
-.Card.selected {
-  background: rgba(238, 206, 37, 0.2);
-  border: 3px solid #eece25;
-}
-
-.CardsTitle {
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 21px;
-  text-align: center;
-  color: #262626;
-}
-
-.ProtocolsHelpSection {
-  display: flex;
-  font-family: 'Poppins', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #000;
-}
-
-.ProtocolsHelpContent {
+.HelpingProposalsContent {
   margin: auto;
   display: flex;
   flex-direction: column;
 }
 
-.ProtocolsHelpLink {
-  list-style: none;
-  margin-bottom: 16px;
+@media screen and (max-width: 680px) {
+  .Section {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-gap: 16px;
+  }
+
+  .ContactCard {
+    height: 130px;
+    padding: 0 12px;
+  }
 }
 </style>

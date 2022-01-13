@@ -47,7 +47,7 @@
         {{
           selectedType.label === 'Espèce'
             ? data[`common_name_${lang}`]
-            : data.name.replace('10kmL93', '') +
+            : data.name.replace('10kmL93', '').replace('10kmUTM22', '') +
               ' (' +
               data.code.slice(0, -3) +
               ')'

@@ -97,17 +97,11 @@ export default {
   },
   beforeMount() {
     window.addEventListener('scroll', this.listener)
-    if (this.detectMobile()) {
-      this.$router.push('/mobile')
-    }
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.listener)
   },
   methods: {
-    detectMobile() {
-      return window.innerWidth < 915
-    },
     showMobileMenu() {
       this.currentScroll = window.scrollY
       this.currentPath = this.$route.path

@@ -49,8 +49,8 @@
       <!-- GEOJSON -->
       <l-geo-json
         v-if="currentZoom <= 8"
-        :geojson="regionsGeojson"
-        :options-style="regionsGeojsonStyle"
+        :geojson="territoriesGeojson"
+        :options-style="territoriesGeojsonStyle"
       />
       <l-geo-json
         v-if="
@@ -65,6 +65,7 @@
       <l-geo-json
         v-if="
           selectedLayer === 'Indice de complétude' ||
+          selectedLayer === 'Nombre d\'espèces par maille' ||
           (selectedLayer === 'Points EPOC' && currentZoom >= 11)
         "
         :geojson="knowledgeLevelGeojson"
@@ -74,20 +75,18 @@
       <l-geo-json
         v-if="
           selectedLayer === 'Points EPOC' &&
-          epocOdfOfficialIsOn &&
+          epocRealizedIsOn &&
           currentZoom >= 11
         "
-        :geojson="epocOdfOfficialGeojson"
-        :options="epocOdfOfficialGeojsonOptions"
+        :geojson="epocRealizedGeojson"
+        :options="epocRealizedGeojsonOptions"
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Points EPOC' &&
-          epocOdfReserveIsOn &&
-          currentZoom >= 11
+          selectedLayer === 'Points EPOC' && epocOdfIsOn && currentZoom >= 11
         "
-        :geojson="epocOdfReserveGeojson"
-        :options="epocOdfReserveGeojsonOptions"
+        :geojson="epocOdfGeojson"
+        :options="epocOdfGeojsonOptions"
       />
       <!-- MAP CONTROLS -->
       <!-- Top left -->
@@ -100,9 +99,21 @@
           :current-territory="currentTerritory"
           :selected-season="selectedSeason"
         />
+        <count-taxa-control
+          v-show="
+            selectedLayer === 'Nombre d\'espèces par maille' && !clickedFeature
+          "
+          :current-territory="currentTerritory"
+          :count-taxa-classes="countTaxaClasses"
+          :selected-season="selectedSeason"
+        />
         <feature-dashboard-control
           v-if="
-            ['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+            [
+              'Indice de complétude',
+              'Nombre d\'espèces par maille',
+              'Points EPOC',
+            ].includes(selectedLayer) &&
             clickedFeature &&
             !clickedEpocPoint
           "
@@ -135,7 +146,13 @@
         <div
           v-show="
             (selectedLayer === 'Indice de complétude' && !clickedFeature) ||
-            (['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+            (selectedLayer === 'Nombre d\'espèces par maille' &&
+              !clickedFeature) ||
+            ([
+              'Indice de complétude',
+              'Nombre d\'espèces par maille',
+              'Points EPOC',
+            ].includes(selectedLayer) &&
               clickedFeature &&
               !clickedEpocPoint) ||
             (selectedLayer === 'Répartition de l\'espèce' && selectedSpecies) ||
@@ -155,7 +172,9 @@
         <div
           v-show="
             (knowledgeLevelIsLoading &&
-              selectedLayer === 'Indice de complétude') ||
+              ['Indice de complétude', 'Nombre d\'espèces par maille'].includes(
+                selectedLayer
+              )) ||
             (speciesDistributionIsLoading &&
               selectedLayer === 'Répartition de l\'espèce')
           "
@@ -218,8 +237,8 @@
               :selected-layer="selectedLayer"
               :selected-species="selectedSpecies"
               @selectedLayer="updateSelectedLayer"
-              @epocOdfOfficialIsOn="updateEpocOdfOfficial"
-              @epocOdfReserveIsOn="updateEpocOdfReserve"
+              @epocRealizedIsOn="updateEpocRealized"
+              @epocOdfIsOn="updateEpocOdf"
               @planIsOn="updatePlan"
               @planOpacity="updatePlanOpacity"
               @orthophotoIsOn="updateOrthophoto"
@@ -296,6 +315,7 @@
 
 <script>
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
+import CountTaxaControl from '~/components/prospecting/CountTaxaControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
 import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
 import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
@@ -306,6 +326,7 @@ import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vu
 export default {
   components: {
     'knowledge-level-control': KnowledgeLevelControl,
+    'count-taxa-control': CountTaxaControl,
     'feature-dashboard-control': FeatureDashboardControl,
     'epoc-dashboard-control': EpocDashboardControl,
     'species-dashboard-control': SpeciesDashboardControl,
@@ -346,6 +367,11 @@ export default {
       type: Object,
       required: true,
     },
+    countTaxaClasses: {
+      // Classes pour la couche "Nb d'espèces par maille"
+      type: Object,
+      required: true,
+    },
     clickedFeature: {
       // On clique sur une maille
       type: Object,
@@ -358,11 +384,11 @@ export default {
       required: false,
       default: null,
     },
-    epocOdfOfficialIsOn: {
+    epocRealizedIsOn: {
       type: Boolean,
       required: true,
     },
-    epocOdfReserveIsOn: {
+    epocOdfIsOn: {
       type: Boolean,
       required: true,
     },
@@ -395,8 +421,8 @@ export default {
     envelope: null,
     initTerritory: null,
     // CONFIGURATION DES GEOJSON
-    // Limites des régions
-    regionsGeojson: null,
+    // Limites des territoires
+    territoriesGeojson: null,
     // Emprises des territoires
     territoriesEnvelopes: null,
     // Indice de complétude
@@ -410,12 +436,12 @@ export default {
     axiosErrorSpeciesDistribution: null,
     speciesDistributionIsLoading: false,
     // Points EPOC
-    epocOdfOfficialGeojson: null,
-    epocOdfReserveGeojson: null,
+    epocRealizedGeojson: null,
+    epocOdfGeojson: null,
     // CONFIGURATION DES MAPCONTROLS
     disableScrollPropagation: true,
     noSpeciesData: false,
-    featuresClasses: [0.25, 0.5, 0.75, 1],
+    knowledgeLevelClasses: [0, 0.25, 0.5, 0.75, 1],
     searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
     searchedFeatureCode: null, // Le zonage sélectionné est une maille (recherche depuis l'URL)
     indeterminate: true, // Progress (loading)
@@ -425,7 +451,7 @@ export default {
     territoryIsOpen: false,
   }),
   computed: {
-    regionsGeojsonStyle() {
+    territoriesGeojsonStyle() {
       return {
         weight: 2,
         color: '#262626',
@@ -470,6 +496,18 @@ export default {
             opacity: 1,
             fillColor: this.setFeatureColor(
               feature.properties[season].percent_knowledge
+            ),
+            fillOpacity: 0.6,
+          }
+        }
+        if (selectedLayer === "Nombre d'espèces par maille") {
+          season = this.selectedSeason.value // À améliorer
+          return {
+            weight: 0.8,
+            color: '#FFFFFF',
+            opacity: 1,
+            fillColor: this.setFeatureColor(
+              feature.properties[season].new_count
             ),
             fillOpacity: 0.6,
           }
@@ -539,33 +577,39 @@ export default {
         }
       }
     },
-    epocOdfOfficialGeojsonOptions() {
+    epocRealizedGeojsonOptions() {
       return {
-        pointToLayer: this.epocOdfOfficialPointToLayer,
-        onEachFeature: this.epocOdfOfficialOnEachFeature,
+        pointToLayer: this.epocRealizedPointToLayer,
+        onEachFeature: this.epocRealizedOnEachFeature,
       }
     },
-    epocOdfOfficialPointToLayer() {
+    epocRealizedPointToLayer() {
       return (geojsonPoint, latlng) => {
-        const epocOdfOfficialIcon = new this.$L.Icon({
-          iconUrl: '/prospecting/epoc-ODF-Official.svg',
+        const epocRealizedIcon = new this.$L.Icon({
+          iconUrl:
+            geojsonPoint.properties.project_code === 'EPOC'
+              ? '/prospecting/epoc-realized.svg'
+              : '/prospecting/epoc-ODF-realized.svg',
           iconSize: [32, 39],
           iconAnchor: [16, 35.5],
         })
         return this.$L.marker(latlng, {
-          icon: epocOdfOfficialIcon,
+          icon: epocRealizedIcon,
         })
       }
     },
-    epocOdfOfficialOnEachFeature() {
+    epocRealizedOnEachFeature() {
       return (feature, layer) => {
-        layer.bindTooltip('EPOC ODF', {
-          direction: 'right',
-          offset: [14, -18],
-          permanent: false,
-          opacity: 1,
-          className: 'LeafletTooltip',
-        })
+        layer.bindTooltip(
+          `${feature.properties.project_code.replace('-', ' ')} réalisé`,
+          {
+            direction: 'right',
+            offset: [14, -18],
+            permanent: false,
+            opacity: 1,
+            className: 'LeafletTooltip',
+          }
+        )
         layer.on({
           click: (event) => {
             this.$emit('clickedEpocPoint', feature)
@@ -574,33 +618,41 @@ export default {
         })
       }
     },
-    epocOdfReserveGeojsonOptions() {
+    epocOdfGeojsonOptions() {
       return {
-        pointToLayer: this.epocOdfReservePointToLayer,
-        onEachFeature: this.epocOdfReserveOnEachFeature,
+        pointToLayer: this.epocOdfPointToLayer,
+        onEachFeature: this.epocOdfOnEachFeature,
       }
     },
-    epocOdfReservePointToLayer() {
+    epocOdfPointToLayer() {
       return (geojsonPoint, latlng) => {
-        const epocOdfReserveIcon = new this.$L.Icon({
-          iconUrl: '/prospecting/epoc-ODF-Reserve.svg',
+        const epocOdfIcon = new this.$L.Icon({
+          iconUrl:
+            geojsonPoint.properties.status === 'Officiel'
+              ? '/prospecting/epoc-ODF-Official.svg'
+              : '/prospecting/epoc-ODF-Reserve.svg',
           iconSize: [32, 39],
           iconAnchor: [16, 35.5],
         })
         return this.$L.marker(latlng, {
-          icon: epocOdfReserveIcon,
+          icon: epocOdfIcon,
         })
       }
     },
-    epocOdfReserveOnEachFeature() {
+    epocOdfOnEachFeature() {
       return (feature, layer) => {
-        layer.bindTooltip('EPOC ODF de réserve', {
-          direction: 'right',
-          offset: [14, -18],
-          permanent: false,
-          opacity: 1,
-          className: 'LeafletTooltip',
-        })
+        layer.bindTooltip(
+          `EPOC ODF ${
+            feature.properties.status === 'Officiel' ? 'officiel' : 'de réserve'
+          }`,
+          {
+            direction: 'right',
+            offset: [14, -18],
+            permanent: false,
+            opacity: 1,
+            className: 'LeafletTooltip',
+          }
+        )
         layer.on({
           click: (event) => {
             this.$emit('clickedEpocPoint', feature)
@@ -714,10 +766,10 @@ export default {
     }
     this.$axios
       .$get(
-        '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true&envelope=-17.962646484375004,42.081916678306335,10.107421875000002,51.2206474303833'
+        '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true'
       )
       .then((data) => {
-        this.regionsGeojson = data
+        this.territoriesGeojson = data
       })
       .catch((error) => {
         console.log(error)
@@ -769,8 +821,8 @@ export default {
       this.envelope = this.defineEnvelope(initBounds)
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
-        this.updateEpocOdfOfficialGeojson()
-        this.updateEpocOdfReserveGeojson()
+        this.updateEpocRealizedGeojson()
+        this.updateEpocOdfGeojson()
       }
     },
     updateEnvelope(newBounds) {
@@ -779,8 +831,8 @@ export default {
       this.envelope = this.defineEnvelope(newBounds)
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
-        this.updateEpocOdfOfficialGeojson()
-        this.updateEpocOdfReserveGeojson()
+        this.updateEpocRealizedGeojson()
+        this.updateEpocOdfGeojson()
       }
       if (this.selectedSpecies) {
         this.updateSpeciesDistributionGeojson(this.selectedSpecies)
@@ -943,37 +995,50 @@ export default {
       this.oldZoomSpeciesDistribution = this.currentZoom
       this.isProgramaticZoom = false
     },
-    updateEpocOdfOfficialGeojson() {
+    updateEpocRealizedGeojson() {
       this.$axios
-        .$get(`/api/v1/epoc?status=Officiel&envelope=${this.envelope}`)
+        .$get(`/api/v1/epoc/realized?envelope=${this.envelope}`)
         .then((data) => {
-          this.epocOdfOfficialGeojson = data
+          this.epocRealizedGeojson = data
         })
         .catch((error) => {
           console.log(error)
         })
     },
-    updateEpocOdfReserveGeojson() {
+    updateEpocOdfGeojson() {
       this.$axios
-        .$get(`/api/v1/epoc?status=Reserve&envelope=${this.envelope}`)
+        .$get(`/api/v1/epoc?envelope=${this.envelope}`)
         .then((data) => {
-          this.epocOdfReserveGeojson = data
+          this.epocOdfGeojson = data
         })
         .catch((error) => {
           console.log(error)
         })
     },
-    setFeatureColor(percent) {
+    setFeatureColor(number) {
       const featuresColors = this.selectedSeason.featuresColors
-      return percent >= this.featuresClasses[3]
-        ? featuresColors[4]
-        : percent > this.featuresClasses[2]
-        ? featuresColors[3]
-        : percent > this.featuresClasses[1]
-        ? featuresColors[2]
-        : percent > this.featuresClasses[0]
-        ? featuresColors[1]
-        : featuresColors[0]
+      if (this.selectedLayer === 'Indice de complétude') {
+        return number >= this.knowledgeLevelClasses[4]
+          ? featuresColors[4]
+          : number >= this.knowledgeLevelClasses[3]
+          ? featuresColors[3]
+          : number >= this.knowledgeLevelClasses[2]
+          ? featuresColors[2]
+          : number >= this.knowledgeLevelClasses[1]
+          ? featuresColors[1]
+          : featuresColors[0]
+      }
+      if (this.selectedLayer === "Nombre d'espèces par maille") {
+        return number >= this.countTaxaClasses[this.selectedSeason.value][4].min
+          ? featuresColors[4]
+          : number >= this.countTaxaClasses[this.selectedSeason.value][3].min
+          ? featuresColors[3]
+          : number >= this.countTaxaClasses[this.selectedSeason.value][2].min
+          ? featuresColors[2]
+          : number >= this.countTaxaClasses[this.selectedSeason.value][1].min
+          ? featuresColors[1]
+          : featuresColors[0]
+      }
     },
     highlightFeature(event) {
       event.target.setStyle({
@@ -1045,11 +1110,11 @@ export default {
     updateSelectedLayer(layer) {
       this.$emit('selectedLayer', layer)
     },
-    updateEpocOdfOfficial(value) {
-      this.$emit('epocOdfOfficialIsOn', value)
+    updateEpocRealized(value) {
+      this.$emit('epocRealizedIsOn', value)
     },
-    updateEpocOdfReserve(value) {
-      this.$emit('epocOdfReserveIsOn', value)
+    updateEpocOdf(value) {
+      this.$emit('epocOdfIsOn', value)
     },
     updatePlan(value) {
       this.$emit('planIsOn', value)
