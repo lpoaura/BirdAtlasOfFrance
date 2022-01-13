@@ -54,6 +54,7 @@ app = FastAPI(
     openapi_tags=tags_metadata,
 )
 
+
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 if settings.SENTRY_DSN:
@@ -127,6 +128,13 @@ async def root():
     logger.debug("Hello!")
     # return {"message": "Welcome to Atlas bird of France API"}
     return RedirectResponse("/docs")
+
+
+if settings.SENTRY_DSN:
+
+    @app.get("/sentry")
+    async def sentry():
+        raise Exception("Test sentry integration")
 
 
 if settings.LOG_LEVEL == "DEBUG":

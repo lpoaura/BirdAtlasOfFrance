@@ -3,11 +3,12 @@ EPOC Table
 ----------
 Description
  */
+
 DO
 $$
     BEGIN
         /* Vue matérialisée finale */
-        DROP TABLE IF EXISTS atlas.t_epoc;
+--         DROP TABLE IF EXISTS atlas.t_epoc;
         CREATE TABLE IF NOT EXISTS atlas.t_epoc
         (
             id_epoc   INTEGER PRIMARY KEY,

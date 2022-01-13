@@ -2,10 +2,10 @@ import json
 import logging
 from typing import Any, List, Optional, Union
 
-from fastapi import APIRouter, Depends, HTTPException
-from geojson_pydantic.features import Feature, FeatureCollection
+from fastapi import APIRouter, Depends, HTTPException, Response
+from geojson_pydantic.features import FeatureCollection
 from sqlalchemy.orm import Session
-from starlette.status import HTTP_404_NOT_FOUND
+from starlette.status import HTTP_204_NO_CONTENT
 
 from app.utils.db import get_db
 
@@ -30,13 +30,12 @@ def list_bibareastypes(db: Session = Depends(get_db), skip: int = 0, limit: int 
 @router.get(
     "/bibareastypes/id/{id_type}",
     response_model=BibAreasTypesSchema,
-    responses={HTTP_404_NOT_FOUND: {"model": BibAreasTypesSchema}},
     tags=["ref_geo"],
 )
 def get_bibareastypes(*, db: Session = Depends(get_db), id_type: int) -> Any:
     bibareastypes = bib_areas_types.get(db=db, id_type=id_type)
     if not bibareastypes:
-        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Post not found")
+        raise HTTPException(status_code=HTTP_204_NO_CONTENT, detail="Post not found")
     return bibareastypes
 
 
@@ -93,7 +92,7 @@ def list_lareas(
 @router.get(
     "/lareas/id/{id_area}",
     response_model=LAreasFeatureProperties,
-    responses={HTTP_404_NOT_FOUND: {"model": Feature}},
+    # responses={HTTP_204_NO_CONTENT: {"model": Feature}},
     tags=["ref_geo"],
 )
 def get_area_geom_by_id_area(
@@ -103,7 +102,7 @@ def get_area_geom_by_id_area(
 ) -> Any:
     area = l_areas.get_feature_list(db=db, id_area=id_area, bbox=bbox).first()
     if not area:
-        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Get not found")
+        return Response(status_code=HTTP_204_NO_CONTENT)
     feature = LAreasFeatureProperties(
         id=area.id, properties=area.properties, geometry=json.loads(area.geometry)
     )
@@ -113,7 +112,6 @@ def get_area_geom_by_id_area(
 @router.get(
     "/lareas/position",
     response_model=LAreasFeatureProperties,
-    responses={HTTP_404_NOT_FOUND: {"model": Feature}},
     tags=["ref_geo"],
 )
 def get_area_by_coordinates(
@@ -128,7 +126,7 @@ def get_area_by_coordinates(
         db=db, type_code=type_code, bbox=bbox, coordinates=coords, only_enable=only_enable
     ).first()
     if not area:
-        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Get not found")
+        return Response(status_code=HTTP_204_NO_CONTENT)
     feature = LAreasFeatureProperties(
         id=area.id, properties=area.properties, geometry=json.loads(area.geometry)
     )
@@ -138,7 +136,6 @@ def get_area_by_coordinates(
 @router.get(
     "/lareas/{type_code}/{area_code}",
     response_model=LAreasFeatureProperties,
-    responses={HTTP_404_NOT_FOUND: {"model": Feature}},
     tags=["ref_geo"],
 )
 def get_area_geom_by_type_and_code(
@@ -154,7 +151,7 @@ def get_area_geom_by_type_and_code(
         db=db, area_code=area_code, type_code=type_code, bbox=bbox
     )
     if not area:
-        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Get not found")
+        return Response(status_code=HTTP_204_NO_CONTENT)
     feature = LAreasFeatureProperties(
         id=area.id, properties=area.properties, geometry=json.loads(area.geometry)
     )
