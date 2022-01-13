@@ -3,6 +3,8 @@ Map classes to categorize data
 ------------------------------
 TODO: description
  */
+
+
 DO
 $$
     BEGIN
@@ -24,6 +26,7 @@ $$
                     WHERE
                           la2.id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
                       AND st_intersects(la1.geom, la2.geom)
+                      AND akl.allperiod_count_taxa_new > 0
                 UNION
                 SELECT
                     'wintering'                                                                    AS period
@@ -38,6 +41,7 @@ $$
                     WHERE
                           la2.id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
                       AND st_intersects(la1.geom, la2.geom)
+                      AND akl.wintering_count_taxa_new > 0
 
                 UNION
                 SELECT
@@ -53,6 +57,7 @@ $$
                     WHERE
                           la2.id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
                       AND st_intersects(la1.geom, la2.geom)
+                      AND akl.breeding_count_taxa_new > 0
             )
         SELECT
             row_number() OVER () AS id
@@ -75,3 +80,4 @@ $$
 $$
 ;
 
+GRANT SELECT ON ALL TABLES IN SCHEMA atlas to gnadm;
