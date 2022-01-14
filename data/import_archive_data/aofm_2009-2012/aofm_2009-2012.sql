@@ -179,22 +179,3 @@ $$
     END
 $$
 ;
-
-SELECT
-    t_sources.name_source
-  , count(*)
-    FROM
-        gn_synthese.synthese
-            JOIN src_lpodatas.t_c_synthese_extended ON synthese.id_synthese = t_c_synthese_extended.id_synthese
-            JOIN atlas.mv_data_for_atlas ON id_data = synthese.id_synthese
-            JOIN gn_synthese.t_sources ON synthese.id_source = t_sources.id_source
-            JOIN gn_synthese.cor_area_synthese ON synthese.id_synthese = cor_area_synthese.id_synthese
-    GROUP BY
-        name_source
-;
-
-SELECT current_user
-;
-
-GRANT SELECT ON taxonomie.taxref TO odfapp
-;

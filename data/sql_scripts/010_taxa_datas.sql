@@ -8,11 +8,10 @@ Taxa relative data (generally by atlas territories)
  */
 
 
-
 DO
 $$
     BEGIN
-        set WORK_MEM = '10GB' ;
+        SET WORK_MEM = '10GB';
         /* Vue matérialisée finale */
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_territory_altitude_ranges;
         CREATE MATERIALIZED VIEW atlas.mv_territory_altitude_ranges AS
@@ -59,15 +58,13 @@ $$
           , count(data.altitude) AS count
             FROM
                 atlas.mv_territory_altitude_ranges AS ranges
-                    JOIN atlas.mv_data_for_atlas data
-                         ON data.altitude <@ ranges.range
-                    JOIN gn_synthese.cor_area_synthese ON data.id_data = cor_area_synthese.id_synthese
+                    LEFT JOIN atlas.mv_data_for_atlas data
+                              ON data.altitude <@ ranges.range AND new_data_all_period
+                    JOIN gn_synthese.cor_area_synthese
+                         ON data.id_data = cor_area_synthese.id_synthese AND ranges.id_area = cor_area_synthese.id_area
                     JOIN atlas.mv_taxa_groups ON data.cd_nom = mv_taxa_groups.cd_nom
-                    JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-            WHERE
-                  new_data_all_period
-              AND ranges.id_area = cor_area_synthese.id_area
-              AND (t_taxa.available AND t_taxa.enabled)
+                    JOIN atlas.t_taxa
+                         ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND (t_taxa.available AND t_taxa.enabled)
             GROUP BY
                 ranges.id
               , mv_taxa_groups.cd_group
@@ -77,6 +74,19 @@ $$
         CREATE UNIQUE INDEX ON atlas.mv_alti_distribution (id);
         CREATE INDEX ON atlas.mv_alti_distribution (cd_nom);
         CREATE INDEX ON atlas.mv_alti_distribution (id_range);
+
+        COMMIT;
+    END
+$$
+;
+
+
+DO
+$$
+    BEGIN
+        SET WORK_MEM = '10GB';
+
+
         COMMIT;
     END
 $$
