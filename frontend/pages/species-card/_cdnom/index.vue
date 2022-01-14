@@ -67,22 +67,25 @@
           />
         </div>
         <div
-          v-show="selectedTab.value === 'species-card'"
           ref="species-card"
           class="SpeciesCardContent"
+          :class="selectedTab.value === 'species-card' ? '' : 'hidden'"
         >
           Test Fiche espèce
         </div>
         <div
-          v-show="
-            selectedTab.value === 'diagrams' &&
-            selectedSeason.value === 'all_period'
-          "
           ref="diagrams all_period"
           class="SpeciesCardContent"
+          :class="
+            selectedTab.value === 'diagrams' &&
+            selectedSeason.value === 'all_period'
+              ? ''
+              : 'hidden'
+          "
         >
           <div ref="phenology-all-period" class="DiagramCard scrolling-item">
-            <h4 class="black02 fw-bold">Phénologie</h4>
+            <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
+            <phenology-all-period />
           </div>
           <div ref="phenology-migration" class="DiagramCard scrolling-item">
             <h4 class="black02 fw-bold">Phénologie de migration</h4>
@@ -92,34 +95,35 @@
               Répartition altitudinale des observations
             </h4>
           </div>
-          <div ref="test" class="DiagramCard scrolling-item">
-            <h4 class="black02 fw-bold">Test</h4>
-          </div>
         </div>
         <div
-          v-show="
-            selectedTab.value === 'diagrams' &&
-            selectedSeason.value === 'breeding'
-          "
           ref="diagrams breeding"
           class="SpeciesCardContent"
+          :class="
+            selectedTab.value === 'diagrams' &&
+            selectedSeason.value === 'breeding'
+              ? ''
+              : 'hidden'
+          "
         >
           Test diagrammes Reproduction
         </div>
         <div
-          v-show="
-            selectedTab.value === 'diagrams' &&
-            selectedSeason.value === 'wintering'
-          "
           ref="diagrams wintering"
           class="SpeciesCardContent"
+          :class="
+            selectedTab.value === 'diagrams' &&
+            selectedSeason.value === 'wintering'
+              ? ''
+              : 'hidden'
+          "
         >
           Test diagrammes Hivernage
         </div>
         <div
-          v-show="selectedTab.value === 'maps'"
           ref="maps"
           class="SpeciesCardContent"
+          :class="selectedTab.value === 'maps' ? '' : 'hidden'"
         >
           Test Cartes
         </div>
@@ -129,7 +133,12 @@
 </template>
 
 <script>
+import PhenologyAllPeriod from '~/components/species-card/PhenologyAllPeriod.vue'
+
 export default {
+  components: {
+    'phenology-all-period': PhenologyAllPeriod,
+  },
   data: () => ({
     species: {},
     tabs: [
@@ -155,7 +164,6 @@ export default {
             { label: 'Phénologie', slug: 'phenology-all-period' },
             { label: 'Phénologie de migration', slug: 'phenology-migration' },
             { label: 'Répartition altitudinale', slug: 'altitude-all-period' },
-            { label: 'Test', slug: 'test' },
           ],
           breeding: [
             { label: 'Phénologie', slug: 'phenology-breeding' },
@@ -322,9 +330,11 @@ export default {
       })
     this.defineSelectedTab()
   },
-  // beforeDestroy() {
-  //   this.$refs.scrollingContainer.removeEventListener('scroll', this.listener)
-  // },
+  beforeDestroy() {
+    document.documentElement.style.removeProperty('overflow')
+    document.body.style.removeProperty('position')
+    // this.$refs.scrollingContainer.removeEventListener('scroll', this.listener)
+  },
   methods: {
     defineSelectedTab() {
       this.selectedTab = this.tabs.filter((item) => {
@@ -390,7 +400,6 @@ div.container.container--fluid {
 
 header {
   background: #fcfcfc;
-  width: 100%;
   padding: 16px 40px;
   border-bottom: 1px solid rgba(57, 118, 90, 0.1);
   display: flex;
@@ -454,6 +463,8 @@ nav.NavDrawer {
   bottom: 0;
   padding: 24px 40px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .Selectors {
@@ -472,14 +483,18 @@ nav.NavDrawer {
 }
 
 .SpeciesCardContent {
-  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
+.SpeciesCardContent.hidden {
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+}
+
 .DiagramCard {
   width: 100%;
-  height: 300px;
   max-width: 1050px;
   padding: 24px 32px;
   margin-bottom: 40px;
@@ -488,6 +503,8 @@ nav.NavDrawer {
   border-radius: 16px;
   align-self: center;
   scroll-margin: 12px;
+  display: flex;
+  flex-direction: column;
 }
 
 .DiagramCard:last-child {
