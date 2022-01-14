@@ -50,10 +50,7 @@ export default {
   }),
   mounted() {
     // Get bar plot size
-    const margin = { top: 10, right: 40, bottom: 24, left: 40 }
-    // setTimeout(() => {
-    console.log(d3.select('.PhenologyAllPeriodBarPlot').style('width'))
-    // }, 5000)
+    const margin = { top: 10, right: 60, bottom: 24, left: 60 }
     const barPlotWidth = Math.max(
       parseFloat(d3.select('.PhenologyAllPeriodBarPlot').style('width')) -
         margin.left -
@@ -69,28 +66,38 @@ export default {
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
     // Set X axis and add it
-    const x = d3
+    const xMonths = d3
       .scaleBand()
       .range([0, barPlotWidth])
-      .padding(0.2)
-      .domain(
-        this.formattedData.map(function (d) {
-          return d.label
-        })
-      )
+      .padding(0.26)
+      .domain([
+        'Janvier',
+        'Février',
+        'Mars',
+        'Avril',
+        'Mai',
+        'Juin',
+        'Juillet',
+        'Août',
+        'Septembre',
+        'Octobre',
+        'Novembre',
+        'Décembre',
+      ])
     barPlotSvg
       .append('g')
+      .attr('class', 'xAxis')
       .attr('transform', `translate(0, ${barPlotHeight})`)
-      .call(d3.axisBottom(x))
+      .call(d3.axisBottom(xMonths))
       .call((g) =>
         g
           .selectAll('text')
           .attr(
             'style',
-            "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
+            "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
           )
       )
-      // .call((g) => g.selectAll('line[y2]').style('opacity', 0))
+      .call((g) => g.selectAll('line[y2]').style('opacity', 0))
     // Set Y axis and add it
     const y = d3
       .scaleLinear()
@@ -117,13 +124,33 @@ export default {
           .selectAll('text')
           .attr(
             'style',
-            "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
+            "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
           )
       )
-      .call((g) => g.selectAll('line[x2]').style('opacity', 0))
+      .call((g) => g.selectAll('line[x2="-6"]').style('opacity', 0))
+    // Set Y axis label
+    barPlotSvg
+      .append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('x', -(barPlotHeight / 2))
+      .attr('y', -margin.left + 10)
+      .attr(
+        'style',
+        "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; line-height: 13px; color: #000;"
+      )
+      .text('Nombre de données')
     // Delete axis lines
     barPlotSvg.selectAll('path').style('opacity', 0)
     // Bars
+    const xDecades = d3
+      .scaleBand()
+      .range([0, barPlotWidth])
+      .padding(0.8)
+      .domain(
+        this.formattedData.map(function (d) {
+          return d.label
+        })
+      )
     barPlotSvg
       .selectAll('rect')
       .data(this.formattedData)
@@ -131,12 +158,12 @@ export default {
       .append('rect')
       .attr('class', 'bars')
       .attr('x', function (d) {
-        return x(d.label)
+        return xDecades(d.label)
       })
       .attr('y', function (d) {
         return y(d.count_data)
       })
-      .attr('width', 3)
+      .attr('width', xDecades.bandwidth())
       .attr('height', function (d) {
         return barPlotHeight - y(d.count_data)
       })
