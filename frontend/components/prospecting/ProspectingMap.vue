@@ -849,7 +849,7 @@ export default {
           `api/v1/lareas/position?coordinates=${newCenter.lng},${newCenter.lat}&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true`
         )
         .then((data) => {
-          if (data.id !== this.currentTerritory.id) {
+          if (data && data.id !== this.currentTerritory.id) {
             this.$emit('currentTerritory', {
               id: data.id,
               name: data.properties.area_name,

@@ -1,21 +1,14 @@
 import json
 import logging
-from typing import Any, List, Optional, Union
+from typing import Any, Optional, Union
 
-from fastapi import APIRouter, Depends, HTTPException
-from geojson_pydantic.features import FeatureCollection
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from starlette.status import HTTP_404_NOT_FOUND
 
 from app.utils.db import get_db
 
 from .actions import taxa_distrib
-
-# from .actions import  taxa_distrib, altitude_distrib
-from .schemas import (  # FeatureCollection,; TaxaAltitudeDistributionSchema,
-    TaxaDistributionFeature,
-    TaxaDistributionFeaturesCollection,
-)
+from .schemas import TaxaDistributionFeature, TaxaDistributionFeaturesCollection
 
 logger = logging.getLogger(__name__)
 
@@ -64,10 +57,6 @@ def list_lareas(
         )
         for a in areas
     ]
-    # for a in areas:
-    #     f = TaxaDistributionFeature(**a)
-    #     features.append(f)
-    # collection = TaxaDistributionFeatureCollection(features=features)
     return TaxaDistributionFeaturesCollection(features=features)
 
 
