@@ -855,15 +855,15 @@ export default {
               name: data.properties.area_name,
             })
           }
-        })
-        .catch((error) => {
-          console.log(error)
-          if (this.currentTerritory.id) {
+          if (!data && this.currentTerritory.id) {
             this.$emit('currentTerritory', {
               id: null,
               name: null,
             })
           }
+        })
+        .catch((error) => {
+          console.log(error)
         })
     },
     updateKnowledgeLevelGeojson() {
@@ -1046,10 +1046,11 @@ export default {
     resetFeatureStyle(event) {
       event.target.setStyle({
         weight: 0.8,
-        color:
-          this.selectedLayer.value === 'knowledge-level'
-            ? '#FFFFFF'
-            : '#C4C4C4',
+        color: ['knowledge-level', 'species-number'].includes(
+          this.selectedLayer.value
+        )
+          ? '#FFFFFF'
+          : '#C4C4C4',
       })
     },
     geolocate() {
