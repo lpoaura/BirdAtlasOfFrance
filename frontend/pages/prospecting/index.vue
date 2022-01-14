@@ -298,7 +298,15 @@ export default {
       this.selectedLayer = layer
     },
     updateSelectedTerritory(territory) {
-      this.selectedTerritory = territory
+      // Permet d'activer le watch de ProspectingMap et ainsi de recentrer la carte sur un territoire même si l'utilisateur se trouve déjà dessus
+      this.selectedTerritory = {
+        name: null,
+        icon: null,
+        isActive: null,
+      }
+      setTimeout(() => {
+        this.selectedTerritory = territory
+      }, 1)
       this.territoryIsOpen = false
     },
     updateCurrentTerritory(territory) {
@@ -320,6 +328,9 @@ export default {
             responses.forEach((item, index) => {
               this.countTaxaClasses[seasons[index]] = item
               this.countTaxaClasses[seasons[index]].forEach((taxaClass, i) => {
+                // if (i === 0) {
+                //   taxaClass.min = 0
+                // }
                 if (i !== this.countTaxaClasses[seasons[index]].length - 1) {
                   taxaClass.max -= 1
                 }

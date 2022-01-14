@@ -794,6 +794,7 @@ export default {
             'style',
             "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
           )
+        // Delete axis lines and tricks
         barPlotSvg.selectAll('path').style('opacity', 0)
         barPlotSvg.selectAll('line').style('opacity', 0)
         // Bars
