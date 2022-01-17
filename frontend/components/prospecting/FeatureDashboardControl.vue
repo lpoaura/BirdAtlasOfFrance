@@ -654,7 +654,7 @@ export default {
           )
           const barPlotHeight = 295 - margin.top - margin.bottom
           // Set X axis
-          const x = d3
+          const xAxis = d3
             .scaleBand()
             .range([0, barPlotWidth])
             .padding(0.2)
@@ -664,7 +664,7 @@ export default {
               })
             )
           // Set Y axis
-          const y = d3
+          const yAxis = d3
             .scaleLinear()
             .range([barPlotHeight, 0])
             .domain([
@@ -677,29 +677,29 @@ export default {
           const barPlotBars = d3
             .select(this.$el)
             .select('.BarPlotSvg')
-            .selectAll('.bars')
+            .selectAll('.bar')
             .data(formattedData)
           barPlotBars.exit().remove()
           barPlotBars
             .enter()
             .append('rect')
             .merge(barPlotBars)
-            .attr('class', 'bars')
+            .attr('class', 'bar')
             .attr('x', function (d) {
-              return x(d.label)
+              return xAxis(d.label)
             })
             .attr('y', function (d) {
-              return y(d.count_data)
+              return yAxis(d.count_data)
             })
-            .attr('width', x.bandwidth())
+            .attr('width', xAxis.bandwidth())
             .attr('height', function (d) {
-              return barPlotHeight - y(d.count_data)
+              return barPlotHeight - yAxis(d.count_data)
             })
             .attr('fill', 'rgba(57, 118, 90, 0.8)')
           // Update Y axis
           d3.select(this.$el)
             .select('.yAxis')
-            .call(d3.axisLeft(y))
+            .call(d3.axisLeft(yAxis))
             .selectAll('text')
             .attr(
               'style',
@@ -757,7 +757,7 @@ export default {
           .append('g')
           .attr('transform', `translate(${margin.left}, ${margin.top})`)
         // Set X axis and add it
-        const x = d3
+        const xAxis = d3
           .scaleBand()
           .range([0, barPlotWidth])
           .padding(0.2)
@@ -768,15 +768,16 @@ export default {
           )
         barPlotSvg
           .append('g')
+          .attr('class', 'xAxis')
           .attr('transform', `translate(0, ${barPlotHeight})`)
-          .call(d3.axisBottom(x))
+          .call(d3.axisBottom(xAxis))
           .selectAll('text')
           .attr(
             'style',
             "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
           )
         // Set Y axis and add it
-        const y = d3
+        const yAxis = d3
           .scaleLinear()
           .range([barPlotHeight, 0])
           .domain([
@@ -788,7 +789,7 @@ export default {
         barPlotSvg
           .append('g')
           .attr('class', 'yAxis')
-          .call(d3.axisLeft(y))
+          .call(d3.axisLeft(yAxis))
           .selectAll('text')
           .attr(
             'style',
@@ -799,20 +800,22 @@ export default {
         barPlotSvg.selectAll('line').style('opacity', 0)
         // Bars
         barPlotSvg
+          .append('g')
+          .attr('class', 'bars')
           .selectAll('rect')
           .data(formattedData)
           .enter()
           .append('rect')
-          .attr('class', 'bars')
+          .attr('class', 'bar')
           .attr('x', function (d) {
-            return x(d.label)
+            return xAxis(d.label)
           })
           .attr('y', function (d) {
-            return y(d.count_data)
+            return yAxis(d.count_data)
           })
-          .attr('width', x.bandwidth())
+          .attr('width', xAxis.bandwidth())
           .attr('height', function (d) {
-            return barPlotHeight - y(d.count_data)
+            return barPlotHeight - yAxis(d.count_data)
           })
           .attr('fill', 'rgba(57, 118, 90, 0.8)')
       })
