@@ -1,6 +1,14 @@
 <template>
-  <div class="PhenologyAllPeriodBarPlot">
-    <svg class="BarPlotSvg"></svg>
+  <div class="Chart">
+    <div class="PhenologyAllPeriodBarPlot">
+      <svg class="BarPlotSvg"></svg>
+    </div>
+    <div class="ChartLegend">
+      <h5 class="ChartLegendLabel"><i class="square"></i>Nombre de données</h5>
+      <h5 class="ChartLegendLabel">
+        <i class="round"></i>Fréquence dans les listes complètes
+      </h5>
+    </div>
   </div>
 </template>
 
@@ -9,7 +17,7 @@ const d3 = require('d3')
 
 export default {
   data: () => ({
-    formattedData: [
+    phenologyData: [
       { label: 'D1', count_data: 0 },
       { label: 'D2', count_data: 0 },
       { label: 'D3', count_data: 0 },
@@ -47,6 +55,44 @@ export default {
       { label: 'D35', count_data: 0 },
       { label: 'D36', count_data: 0 },
     ],
+    frequencyData: [
+      { label: 'D1', frequency: 0 },
+      { label: 'D2', frequency: 0 },
+      { label: 'D3', frequency: 2 },
+      { label: 'D4', frequency: 4.5 },
+      { label: 'D5', frequency: 5 },
+      { label: 'D6', frequency: 6 },
+      { label: 'D7', frequency: 8 },
+      { label: 'D8', frequency: 11 },
+      { label: 'D9', frequency: 12 },
+      { label: 'D10', frequency: 14 },
+      { label: 'D11', frequency: 14.5 },
+      { label: 'D12', frequency: 16 },
+      { label: 'D13', frequency: 19 },
+      { label: 'D14', frequency: 24 },
+      { label: 'D15', frequency: 24.5 },
+      { label: 'D16', frequency: 26 },
+      { label: 'D17', frequency: 28 },
+      { label: 'D18', frequency: 29 },
+      { label: 'D19', frequency: 26 },
+      { label: 'D20', frequency: 24.5 },
+      { label: 'D21', frequency: 22 },
+      { label: 'D22', frequency: 21 },
+      { label: 'D23', frequency: 19 },
+      { label: 'D24', frequency: 17 },
+      { label: 'D25', frequency: 16 },
+      { label: 'D26', frequency: 14.5 },
+      { label: 'D27', frequency: 9.5 },
+      { label: 'D28', frequency: 7 },
+      { label: 'D29', frequency: 5 },
+      { label: 'D30', frequency: 4.5 },
+      { label: 'D31', frequency: 4.5 },
+      { label: 'D32', frequency: 3.5 },
+      { label: 'D33', frequency: 2 },
+      { label: 'D34', frequency: 0 },
+      { label: 'D35', frequency: 0 },
+      { label: 'D36', frequency: 0 },
+    ],
   }),
   mounted() {
     // Get bar plot size
@@ -66,29 +112,29 @@ export default {
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
     // Set X axis and add it
-    const xMonths = d3
+    const xAxisMonths = d3
       .scaleBand()
       .range([0, barPlotWidth])
       .padding(0.26)
       .domain([
-        'Janvier',
-        'Février',
+        'Jan',
+        'Fév',
         'Mars',
         'Avril',
         'Mai',
         'Juin',
-        'Juillet',
+        'Juil',
         'Août',
-        'Septembre',
-        'Octobre',
-        'Novembre',
-        'Décembre',
+        'Sept',
+        'Oct',
+        'Nov',
+        'Déc',
       ])
     barPlotSvg
       .append('g')
       .attr('class', 'xAxis')
       .attr('transform', `translate(0, ${barPlotHeight})`)
-      .call(d3.axisBottom(xMonths))
+      .call(d3.axisBottom(xAxisMonths))
       .call((g) =>
         g
           .selectAll('text')
@@ -98,20 +144,20 @@ export default {
           )
       )
       .call((g) => g.selectAll('line[y2]').style('opacity', 0))
-    // Set Y axis and add it
-    const y = d3
+    // Set left Y axis and add it
+    const yAxisLeft = d3
       .scaleLinear()
       .range([barPlotHeight, 0])
       .domain([
         0,
-        d3.max(this.formattedData, function (d) {
+        d3.max(this.phenologyData, function (d) {
           return d.count_data
         }),
       ])
     barPlotSvg
       .append('g')
-      .attr('class', 'yAxis')
-      .call(d3.axisLeft(y))
+      .attr('class', 'yAxisLeft')
+      .call(d3.axisLeft(yAxisLeft))
       .call((g) =>
         g
           .selectAll('.tick line')
@@ -128,7 +174,7 @@ export default {
           )
       )
       .call((g) => g.selectAll('line[x2="-6"]').style('opacity', 0))
-    // Set Y axis label
+    // Set left Y axis label
     barPlotSvg
       .append('text')
       .attr('transform', 'rotate(-90)')
@@ -139,35 +185,112 @@ export default {
         "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; line-height: 13px; color: #000;"
       )
       .text('Nombre de données')
+    // Set right Y axis and add it
+    const yAxisRight = d3
+      .scaleLinear()
+      .range([barPlotHeight, 0])
+      .domain([
+        0,
+        d3.max(this.frequencyData, function (d) {
+          return d.frequency
+        }),
+      ])
+    const ticksNumber = Math.round(
+      d3.selectAll('.yAxisLeft .tick')._groups[0].length / 2
+    )
+    barPlotSvg
+      .append('g')
+      .attr('class', 'yAxisRight')
+      .attr('transform', `translate(${barPlotWidth}, 0)`)
+      // .call(d3.axisRight(yRight).tickValues([0, 5, 10, 15, 20, 25, 30]))
+      .call(d3.axisRight(yAxisRight).ticks(ticksNumber))
+      .call((g) =>
+        g
+          .selectAll('text')
+          .attr(
+            'style',
+            "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
+          )
+      )
+      .call((g) => g.selectAll('line[x2="6"]').style('opacity', 0))
+    // Set right Y axis label
+    barPlotSvg
+      .append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('x', -(barPlotHeight / 2))
+      .attr('y', barPlotWidth + margin.right - 10)
+      .attr(
+        'style',
+        "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; line-height: 13px; color: #000;"
+      )
+      .text('Fréquence (%)')
     // Delete axis lines
     barPlotSvg.selectAll('path').style('opacity', 0)
     // Bars
-    const xDecades = d3
+    const xAxisDecades = d3
       .scaleBand()
       .range([0, barPlotWidth])
       .padding(0.8)
       .domain(
-        this.formattedData.map(function (d) {
+        this.phenologyData.map(function (d) {
           return d.label
         })
       )
     barPlotSvg
+      .append('g')
+      .attr('class', 'bars')
       .selectAll('rect')
-      .data(this.formattedData)
+      .data(this.phenologyData)
       .enter()
       .append('rect')
-      .attr('class', 'bars')
+      .attr('class', 'bar')
       .attr('x', function (d) {
-        return xDecades(d.label)
+        return xAxisDecades(d.label)
       })
       .attr('y', function (d) {
-        return y(d.count_data)
+        return yAxisLeft(d.count_data)
       })
-      .attr('width', xDecades.bandwidth())
+      .attr('width', xAxisDecades.bandwidth())
       .attr('height', function (d) {
-        return barPlotHeight - y(d.count_data)
+        return barPlotHeight - yAxisLeft(d.count_data)
       })
       .attr('fill', '#435EF2')
+    // Lines and points
+    barPlotSvg
+      .append('path')
+      .datum(this.frequencyData)
+      .attr('fill', 'none')
+      .attr('stroke', '#8CCB6E')
+      .attr('stroke-width', 2)
+      .attr('stroke-linecap', 'round')
+      .attr('stroke-linejoin', 'round')
+      .attr(
+        'd',
+        d3
+          .line()
+          .curve(d3.curveLinear)
+          .x(function (d) {
+            return xAxisDecades(d.label)
+          })
+          .y(function (d) {
+            return yAxisRight(d.frequency)
+          })
+      )
+    barPlotSvg
+      .append('g')
+      .attr('class', 'dots')
+      .selectAll('dot')
+      .data(this.frequencyData)
+      .enter()
+      .append('circle')
+      .attr('cx', function (d) {
+        return xAxisDecades(d.label)
+      })
+      .attr('cy', function (d) {
+        return yAxisRight(d.frequency)
+      })
+      .attr('r', 4)
+      .attr('fill', '#8CCB6E')
   },
 }
 </script>
@@ -175,5 +298,59 @@ export default {
 <style scoped>
 .PhenologyAllPeriodBarPlot {
   width: 100%;
+  overflow-x: auto;
+  touch-action: auto;
+  -webkit-overflow-scrolling: touch; /* iOS */
+}
+
+.ChartLegend {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.ChartLegendLabel {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.ChartLegendLabel:last-child {
+  margin-right: 0;
+}
+
+.ChartLegendLabel i.square {
+  background: #435ef2;
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin-right: 12px;
+}
+
+.ChartLegendLabel i.round {
+  background: #8ccb6e;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  float: left;
+  margin-right: 12px;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 535px) {
+  .ChartLegend {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ChartLegendLabel {
+    margin-bottom: 16px;
+    margin-right: 0;
+  }
+
+  .ChartLegendLabel:last-child {
+    margin-bottom: 0;
+  }
 }
 </style>
