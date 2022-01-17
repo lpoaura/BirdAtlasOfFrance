@@ -625,7 +625,7 @@ export default {
       this.clickedSpecies = null
       this.clickedEpocItem = null
       this.seeMoreMunicipalitiesIsClicked = false
-      this.selectedMenuItem = { label: 'Tableau de bord' }
+      this.selectedMenuItem = { value: 'dashboard', label: 'Tableau de bord' }
       this.initiateFeatureData(newVal)
       this.$axios
         .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
