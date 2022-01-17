@@ -83,14 +83,18 @@
               : 'hidden'
           "
         >
-          <div ref="phenology-all-period" class="DiagramCard scrolling-item">
+          <div ref="phenology-all-period" class="ChartCard scrolling-item">
             <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
+            <h5 class="black03 bottom-margin-40">
+              Nombre de données cumulées par décade sur la période sélectionnée,
+              à l’exception de l’année en cours.
+            </h5>
             <phenology-all-period />
           </div>
-          <div ref="phenology-migration" class="DiagramCard scrolling-item">
+          <div ref="phenology-migration" class="ChartCard scrolling-item">
             <h4 class="black02 fw-bold">Phénologie de migration</h4>
           </div>
-          <div ref="altitude-all-period" class="DiagramCard scrolling-item">
+          <div ref="altitude-all-period" class="ChartCard scrolling-item">
             <h4 class="black02 fw-bold">
               Répartition altitudinale des observations
             </h4>
@@ -493,7 +497,7 @@ nav.NavDrawer {
   left: -9999px !important;
 }
 
-.DiagramCard {
+.ChartCard {
   width: 100%;
   max-width: 1050px;
   padding: 24px 32px;
@@ -507,8 +511,12 @@ nav.NavDrawer {
   flex-direction: column;
 }
 
-.DiagramCard:last-child {
+.ChartCard:last-child {
   margin-bottom: 0;
+}
+
+.Chart {
+  width: 100%;
 }
 
 /********** RESPONSIVE **********/
