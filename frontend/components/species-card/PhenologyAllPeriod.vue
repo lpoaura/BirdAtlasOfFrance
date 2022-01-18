@@ -1,12 +1,19 @@
 <template>
-  <div class="Chart">
-    <div class="PhenologyAllPeriodBarPlot">
+  <div class="ChartWrapper">
+    <div class="Chart">
       <svg class="BarPlotSvg"></svg>
     </div>
     <div class="ChartLegend">
-      <h5 class="ChartLegendLabel"><i class="square"></i>Nombre de données</h5>
       <h5 class="ChartLegendLabel">
-        <i class="round"></i>Fréquence dans les listes complètes
+        <i :style="{ background: formattedData.phenology.color }"></i
+        >{{ formattedData.phenology.label }}
+      </h5>
+      <h5 class="ChartLegendLabel">
+        <i
+          class="round"
+          :style="{ background: formattedData.frequency.color }"
+        ></i
+        >{{ formattedData.frequency.label }}
       </h5>
     </div>
   </div>
@@ -17,88 +24,98 @@ const d3 = require('d3')
 
 export default {
   data: () => ({
-    phenologyData: [
-      { label: 'D1', count_data: 0 },
-      { label: 'D2', count_data: 0 },
-      { label: 'D3', count_data: 0 },
-      { label: 'D4', count_data: 0 },
-      { label: 'D5', count_data: 0 },
-      { label: 'D6', count_data: 0 },
-      { label: 'D7', count_data: 0 },
-      { label: 'D8', count_data: 10 },
-      { label: 'D9', count_data: 20 },
-      { label: 'D10', count_data: 30 },
-      { label: 'D11', count_data: 40 },
-      { label: 'D12', count_data: 50 },
-      { label: 'D13', count_data: 60 },
-      { label: 'D14', count_data: 70 },
-      { label: 'D15', count_data: 90 },
-      { label: 'D16', count_data: 120 },
-      { label: 'D17', count_data: 250 },
-      { label: 'D18', count_data: 370 },
-      { label: 'D19', count_data: 550 },
-      { label: 'D20', count_data: 360 },
-      { label: 'D21', count_data: 290 },
-      { label: 'D22', count_data: 270 },
-      { label: 'D23', count_data: 200 },
-      { label: 'D24', count_data: 150 },
-      { label: 'D25', count_data: 90 },
-      { label: 'D26', count_data: 55 },
-      { label: 'D27', count_data: 40 },
-      { label: 'D28', count_data: 15 },
-      { label: 'D29', count_data: 0 },
-      { label: 'D30', count_data: 0 },
-      { label: 'D31', count_data: 0 },
-      { label: 'D32', count_data: 0 },
-      { label: 'D33', count_data: 0 },
-      { label: 'D34', count_data: 0 },
-      { label: 'D35', count_data: 0 },
-      { label: 'D36', count_data: 0 },
-    ],
-    frequencyData: [
-      { label: 'D1', frequency: 0 },
-      { label: 'D2', frequency: 0 },
-      { label: 'D3', frequency: 2 },
-      { label: 'D4', frequency: 4.5 },
-      { label: 'D5', frequency: 5 },
-      { label: 'D6', frequency: 6 },
-      { label: 'D7', frequency: 8 },
-      { label: 'D8', frequency: 11 },
-      { label: 'D9', frequency: 12 },
-      { label: 'D10', frequency: 14 },
-      { label: 'D11', frequency: 14.5 },
-      { label: 'D12', frequency: 16 },
-      { label: 'D13', frequency: 19 },
-      { label: 'D14', frequency: 24 },
-      { label: 'D15', frequency: 24.5 },
-      { label: 'D16', frequency: 26 },
-      { label: 'D17', frequency: 28 },
-      { label: 'D18', frequency: 29 },
-      { label: 'D19', frequency: 26 },
-      { label: 'D20', frequency: 24.5 },
-      { label: 'D21', frequency: 22 },
-      { label: 'D22', frequency: 21 },
-      { label: 'D23', frequency: 19 },
-      { label: 'D24', frequency: 17 },
-      { label: 'D25', frequency: 16 },
-      { label: 'D26', frequency: 14.5 },
-      { label: 'D27', frequency: 9.5 },
-      { label: 'D28', frequency: 7 },
-      { label: 'D29', frequency: 5 },
-      { label: 'D30', frequency: 4.5 },
-      { label: 'D31', frequency: 4.5 },
-      { label: 'D32', frequency: 3.5 },
-      { label: 'D33', frequency: 2 },
-      { label: 'D34', frequency: 0 },
-      { label: 'D35', frequency: 0 },
-      { label: 'D36', frequency: 0 },
-    ],
+    formattedData: {
+      phenology: {
+        label: 'Nombre de données',
+        data: [
+          { label: 'D1', count_data: 0 },
+          { label: 'D2', count_data: 0 },
+          { label: 'D3', count_data: 0 },
+          { label: 'D4', count_data: 0 },
+          { label: 'D5', count_data: 0 },
+          { label: 'D6', count_data: 0 },
+          { label: 'D7', count_data: 0 },
+          { label: 'D8', count_data: 10 },
+          { label: 'D9', count_data: 20 },
+          { label: 'D10', count_data: 30 },
+          { label: 'D11', count_data: 40 },
+          { label: 'D12', count_data: 50 },
+          { label: 'D13', count_data: 60 },
+          { label: 'D14', count_data: 70 },
+          { label: 'D15', count_data: 90 },
+          { label: 'D16', count_data: 120 },
+          { label: 'D17', count_data: 250 },
+          { label: 'D18', count_data: 370 },
+          { label: 'D19', count_data: 550 },
+          { label: 'D20', count_data: 360 },
+          { label: 'D21', count_data: 290 },
+          { label: 'D22', count_data: 270 },
+          { label: 'D23', count_data: 200 },
+          { label: 'D24', count_data: 150 },
+          { label: 'D25', count_data: 90 },
+          { label: 'D26', count_data: 55 },
+          { label: 'D27', count_data: 40 },
+          { label: 'D28', count_data: 15 },
+          { label: 'D29', count_data: 0 },
+          { label: 'D30', count_data: 0 },
+          { label: 'D31', count_data: 0 },
+          { label: 'D32', count_data: 0 },
+          { label: 'D33', count_data: 0 },
+          { label: 'D34', count_data: 0 },
+          { label: 'D35', count_data: 0 },
+          { label: 'D36', count_data: 0 },
+        ],
+        color: '#435EF2',
+      },
+      frequency: {
+        label: 'Fréquence dans les listes complètes',
+        data: [
+          { label: 'D1', frequency: 0 },
+          { label: 'D2', frequency: 0 },
+          { label: 'D3', frequency: 2 },
+          { label: 'D4', frequency: 4.5 },
+          { label: 'D5', frequency: 5 },
+          { label: 'D6', frequency: 6 },
+          { label: 'D7', frequency: 8 },
+          { label: 'D8', frequency: 11 },
+          { label: 'D9', frequency: 12 },
+          { label: 'D10', frequency: 14 },
+          { label: 'D11', frequency: 14.5 },
+          { label: 'D12', frequency: 16 },
+          { label: 'D13', frequency: 19 },
+          { label: 'D14', frequency: 24 },
+          { label: 'D15', frequency: 24.5 },
+          { label: 'D16', frequency: 26 },
+          { label: 'D17', frequency: 28 },
+          { label: 'D18', frequency: 29 },
+          { label: 'D19', frequency: 26 },
+          { label: 'D20', frequency: 24.5 },
+          { label: 'D21', frequency: 22 },
+          { label: 'D22', frequency: 21 },
+          { label: 'D23', frequency: 19 },
+          { label: 'D24', frequency: 17 },
+          { label: 'D25', frequency: 16 },
+          { label: 'D26', frequency: 14.5 },
+          { label: 'D27', frequency: 9.5 },
+          { label: 'D28', frequency: 7 },
+          { label: 'D29', frequency: 5 },
+          { label: 'D30', frequency: 4.5 },
+          { label: 'D31', frequency: 4.5 },
+          { label: 'D32', frequency: 3.5 },
+          { label: 'D33', frequency: 2 },
+          { label: 'D34', frequency: 0 },
+          { label: 'D35', frequency: 0 },
+          { label: 'D36', frequency: 0 },
+        ],
+        color: '#8CCB6E',
+      },
+    },
   }),
   mounted() {
     // Get bar plot size
     const margin = { top: 10, right: 60, bottom: 24, left: 60 }
     const barPlotWidth = Math.max(
-      parseFloat(d3.select('.PhenologyAllPeriodBarPlot').style('width')) -
+      parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
         margin.left -
         margin.right,
       360
@@ -106,6 +123,7 @@ export default {
     const barPlotHeight = 300 - margin.top - margin.bottom
     // Get bar plot svg and set size
     const barPlotSvg = d3
+      .select(this.$el)
       .select('.BarPlotSvg')
       .attr('width', barPlotWidth + margin.left + margin.right)
       .attr('height', barPlotHeight + margin.top + margin.bottom)
@@ -150,7 +168,7 @@ export default {
       .range([barPlotHeight, 0])
       .domain([
         0,
-        d3.max(this.phenologyData, function (d) {
+        d3.max(this.formattedData.phenology.data, function (d) {
           return d.count_data
         }),
       ])
@@ -184,14 +202,14 @@ export default {
         'style',
         "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; line-height: 13px; color: #000;"
       )
-      .text('Nombre de données')
+      .text(this.formattedData.phenology.label)
     // Set right Y axis and add it
     const yAxisRight = d3
       .scaleLinear()
       .range([barPlotHeight, 0])
       .domain([
         0,
-        d3.max(this.frequencyData, function (d) {
+        d3.max(this.formattedData.frequency.data, function (d) {
           return d.frequency
         }),
       ])
@@ -232,7 +250,7 @@ export default {
       .range([0, barPlotWidth])
       .padding(0.8)
       .domain(
-        this.phenologyData.map(function (d) {
+        this.formattedData.phenology.data.map(function (d) {
           return d.label
         })
       )
@@ -240,7 +258,7 @@ export default {
       .append('g')
       .attr('class', 'bars')
       .selectAll('rect')
-      .data(this.phenologyData)
+      .data(this.formattedData.phenology.data)
       .enter()
       .append('rect')
       .attr('class', 'bar')
@@ -254,13 +272,13 @@ export default {
       .attr('height', function (d) {
         return barPlotHeight - yAxisLeft(d.count_data)
       })
-      .attr('fill', '#435EF2')
+      .attr('fill', this.formattedData.phenology.color)
     // Lines and points
     barPlotSvg
       .append('path')
-      .datum(this.frequencyData)
+      .datum(this.formattedData.frequency.data)
       .attr('fill', 'none')
-      .attr('stroke', '#8CCB6E')
+      .attr('stroke', this.formattedData.frequency.color)
       .attr('stroke-width', 2)
       .attr('stroke-linecap', 'round')
       .attr('stroke-linejoin', 'round')
@@ -280,7 +298,7 @@ export default {
       .append('g')
       .attr('class', 'dots')
       .selectAll('dot')
-      .data(this.frequencyData)
+      .data(this.formattedData.frequency.data)
       .enter()
       .append('circle')
       .attr('cx', function (d) {
@@ -290,67 +308,7 @@ export default {
         return yAxisRight(d.frequency)
       })
       .attr('r', 4)
-      .attr('fill', '#8CCB6E')
+      .attr('fill', this.formattedData.frequency.color)
   },
 }
 </script>
-
-<style scoped>
-.PhenologyAllPeriodBarPlot {
-  width: 100%;
-  overflow-x: auto;
-  touch-action: auto;
-  -webkit-overflow-scrolling: touch; /* iOS */
-}
-
-.ChartLegend {
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
-}
-
-.ChartLegendLabel {
-  margin-right: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.ChartLegendLabel:last-child {
-  margin-right: 0;
-}
-
-.ChartLegendLabel i.square {
-  background: #435ef2;
-  width: 16px;
-  height: 16px;
-  float: left;
-  margin-right: 12px;
-}
-
-.ChartLegendLabel i.round {
-  background: #8ccb6e;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  float: left;
-  margin-right: 12px;
-}
-
-/********** RESPONSIVE **********/
-
-@media screen and (max-width: 535px) {
-  .ChartLegend {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .ChartLegendLabel {
-    margin-bottom: 16px;
-    margin-right: 0;
-  }
-
-  .ChartLegendLabel:last-child {
-    margin-bottom: 0;
-  }
-}
-</style>

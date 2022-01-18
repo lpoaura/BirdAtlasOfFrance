@@ -71,7 +71,7 @@
           class="SpeciesCardContent"
           :class="selectedTab.value === 'species-card' ? '' : 'hidden'"
         >
-          Test Fiche espèce
+          Fiche espèce
         </div>
         <div
           ref="diagrams all_period"
@@ -92,10 +92,15 @@
             <phenology-all-period />
           </div>
           <div ref="phenology-migration" class="ChartCard scrolling-item">
-            <h4 class="black02 fw-bold">Phénologie de migration</h4>
+            <h4 class="black02 fw-bold bottom-margin-8">Phénologie de migration</h4>
+            <h5 class="black03 bottom-margin-24">
+              Nombre de données cumulées par décade sur la période sélectionnée,
+              à l’exception de l’année en cours.
+            </h5>
+            <phenology-migration />
           </div>
           <div ref="altitude-all-period" class="ChartCard scrolling-item">
-            <h4 class="black02 fw-bold">
+            <h4 class="black02 fw-bold bottom-margin-8">
               Répartition altitudinale des observations
             </h4>
           </div>
@@ -110,7 +115,7 @@
               : 'hidden'
           "
         >
-          Test diagrammes Reproduction
+          Diagrammes Reproduction
         </div>
         <div
           ref="diagrams wintering"
@@ -122,14 +127,14 @@
               : 'hidden'
           "
         >
-          Test diagrammes Hivernage
+          Diagrammes Hivernage
         </div>
         <div
           ref="maps"
           class="SpeciesCardContent"
           :class="selectedTab.value === 'maps' ? '' : 'hidden'"
         >
-          Test Cartes
+          Cartes
         </div>
       </div>
     </section>
@@ -138,10 +143,12 @@
 
 <script>
 import PhenologyAllPeriod from '~/components/species-card/PhenologyAllPeriod.vue'
+import PhenologyMigration from '~/components/species-card/PhenologyMigration.vue'
 
 export default {
   components: {
     'phenology-all-period': PhenologyAllPeriod,
+    'phenology-migration': PhenologyMigration,
   },
   data: () => ({
     species: {},
@@ -515,8 +522,44 @@ nav.NavDrawer {
   margin-bottom: 0;
 }
 
-.Chart {
+.ChartWrapper {
   width: 100%;
+}
+
+.ChartWrapper >>> .Chart {
+  width: 100%;
+  overflow-x: auto;
+  touch-action: auto;
+  -webkit-overflow-scrolling: touch; /* iOS */
+}
+
+.ChartWrapper >>> .ChartLegend {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.ChartWrapper >>> .ChartLegendLabel {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.ChartWrapper >>> .ChartLegendLabel:last-child {
+  margin-right: 0;
+}
+
+.ChartWrapper >>> .ChartLegendLabel i {
+  width: 16px;
+  min-width: 16px;
+  height: 16px;
+  min-height: 16px;
+  float: left;
+  margin-right: 12px;
+}
+
+.ChartWrapper >>> .ChartLegendLabel i.round {
+  border-radius: 50%;
 }
 
 /********** RESPONSIVE **********/
