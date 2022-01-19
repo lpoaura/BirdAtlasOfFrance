@@ -62,7 +62,10 @@ if settings.SENTRY_DSN:
         import sentry_sdk
         from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
-        sentry_sdk.init(dsn=settings.SENTRY_DSN)
+        sentry_sdk.init(
+            dsn=settings.SENTRY_DSN,
+            traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
+        )
         app.add_middleware(SentryAsgiMiddleware)
     except Exception:
         # pass silently if the Sentry integration failed
@@ -134,6 +137,7 @@ if settings.SENTRY_DSN:
 
     @app.get("/sentry")
     async def sentry():
+        logger.debug(f"SENTRY_DSN: {settings.SENTRY_DSN}")
         raise Exception("Test sentry integration")
 
 
