@@ -270,12 +270,18 @@ export default {
   mounted() {
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
+    // window.addEventListener('deviceorientation', this.handleOrientationChange)
   },
   beforeDestroy() {
     document.documentElement.style.removeProperty('overflow')
     document.body.style.removeProperty('position')
   },
   methods: {
+    // handleOrientationChange() {
+    //   const orientation = window.screen.orientation.type
+    //   console.log(orientation)
+    //   console.log(window.innerHeight)
+    // },
     updateSelectedArea(data) {
       this.selectedArea = data
     },
