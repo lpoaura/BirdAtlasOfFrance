@@ -822,7 +822,12 @@ export default {
           margin.right,
         360
       )
-      const barPlotHeight = 295 - margin.top - margin.bottom
+      const barPlotHeight =
+        parseFloat(
+          d3.select(this.$el).select('.TimeDistributionBarPlot').style('height')
+        ) -
+        margin.top -
+        margin.bottom
       // Get bar plot svg and set size
       const barPlotSvg = d3
         .select(this.$el)
@@ -1021,7 +1026,9 @@ export default {
 
 .TimeDistributionBarPlot {
   /* width: 100%; */
+  height: 300px;
   margin-bottom: 16px;
+  overflow-y: hidden;
 }
 
 .TimeDistributionBarPlot.hidden {
