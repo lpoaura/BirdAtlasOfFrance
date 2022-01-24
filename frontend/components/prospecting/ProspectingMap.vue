@@ -1027,23 +1027,25 @@ export default {
       const featuresColors = this.selectedSeason.featuresColors
       if (this.selectedLayer.value === 'knowledge-level') {
         return number >= this.knowledgeLevelClasses[4]
-          ? featuresColors[4]
+          ? featuresColors[5]
           : number >= this.knowledgeLevelClasses[3]
-          ? featuresColors[3]
+          ? featuresColors[4]
           : number >= this.knowledgeLevelClasses[2]
-          ? featuresColors[2]
+          ? featuresColors[3]
           : number >= this.knowledgeLevelClasses[1]
-          ? featuresColors[1]
-          : featuresColors[0]
+          ? featuresColors[2]
+          : featuresColors[1]
       }
       if (this.selectedLayer.value === 'species-number') {
         return number >= this.countTaxaClasses[this.selectedSeason.value][4].min
-          ? featuresColors[4]
+          ? featuresColors[5]
           : number >= this.countTaxaClasses[this.selectedSeason.value][3].min
-          ? featuresColors[3]
+          ? featuresColors[4]
           : number >= this.countTaxaClasses[this.selectedSeason.value][2].min
-          ? featuresColors[2]
+          ? featuresColors[3]
           : number >= this.countTaxaClasses[this.selectedSeason.value][1].min
+          ? featuresColors[2]
+          : number > 0
           ? featuresColors[1]
           : featuresColors[0]
       }

@@ -187,6 +187,7 @@ export default {
       value: 'all_period',
       label: 'Toutes saisons',
       featuresColors: [
+        '#CCCCCC',
         'rgba(51, 105, 80, 0.2)',
         'rgba(51, 105, 80, 0.4)',
         'rgba(51, 105, 80, 0.6)',

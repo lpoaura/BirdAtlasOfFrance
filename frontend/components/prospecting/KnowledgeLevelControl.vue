@@ -48,7 +48,7 @@
           <span class="black02 fw-500">
             <i
               :style="{
-                background: selectedSeason.featuresColors[index],
+                background: selectedSeason.featuresColors[index + 1],
               }"
             ></i
             >{{ item.label }}
@@ -176,7 +176,7 @@ export default {
     selectedSeason(newVal) {
       // Le watch permet de mettre à jour le graphe quand on change la saison sur la répartition de l'espèce
       // Define pie chart colors
-      const color = d3.scaleOrdinal(newVal.featuresColors)
+      const color = d3.scaleOrdinal(newVal.featuresColors.slice(1))
       // Define data
       const pieChartData = d3
         .pie()
@@ -216,7 +216,7 @@ export default {
       .attr('width', pieChartHeight)
       .attr('height', pieChartHeight)
     // Define pie chart colors
-    const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
+    const color = d3.scaleOrdinal(this.selectedSeason.featuresColors.slice(1))
     // Define pie chart shape
     this.arcPath = d3
       .arc()
@@ -273,7 +273,9 @@ export default {
             })
           })
           // Define pie chart colors
-          const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
+          const color = d3.scaleOrdinal(
+            this.selectedSeason.featuresColors.slice(1)
+          )
           // Update data
           const pieChartData = d3
             .pie()
