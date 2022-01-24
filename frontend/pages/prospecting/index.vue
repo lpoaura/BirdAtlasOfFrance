@@ -320,13 +320,13 @@ export default {
       if (territory.id) {
         Promise.all([
           this.$axios.$get(
-            `api/v1/map/count_taxon_classes/${territory.id}?period=all_period`
+            `/api/v1/map/count_taxon_classes/${territory.id}?period=all_period`
           ),
           this.$axios.$get(
-            `api/v1/map/count_taxon_classes/${territory.id}?period=breeding`
+            `/api/v1/map/count_taxon_classes/${territory.id}?period=breeding`
           ),
           this.$axios.$get(
-            `api/v1/map/count_taxon_classes/${territory.id}?period=wintering`
+            `/api/v1/map/count_taxon_classes/${territory.id}?period=wintering`
           ),
         ])
           .then((responses) => {

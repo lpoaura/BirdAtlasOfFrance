@@ -739,7 +739,7 @@ export default {
         // La géolocalisation N'EST PAS supportée par le navigateur
         this.$axios
           .$get(
-            'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
+            '/api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
           )
           .then((data) => {
             const territory = this.$L.geoJSON(data)
@@ -789,7 +789,7 @@ export default {
       // Si l'utilisateur a désactivé la géolocalisation (ou tout autre problème), alors on centre sur la France métropolitaine
       this.$axios
         .$get(
-          'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
+          '/api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
         )
         .then((data) => {
           const territory = this.$L.geoJSON(data)
@@ -847,7 +847,7 @@ export default {
     updateCenter(newCenter) {
       this.$axios
         .$get(
-          `api/v1/lareas/position?coordinates=${newCenter.lng},${newCenter.lat}&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true`
+          `/api/v1/lareas/position?coordinates=${newCenter.lng},${newCenter.lat}&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true`
         )
         .then((data) => {
           if (data && data.id !== this.currentTerritory.id) {
@@ -996,7 +996,14 @@ export default {
       this.$axios
         .$get(`/api/v1/epoc/realized?envelope=${this.envelope}`)
         .then((data) => {
-          this.epocRealizedGeojson = data
+          if (data) {
+            this.epocRealizedGeojson = data
+          } else {
+            this.epocRealizedGeojson = {
+              type: 'FeatureCollection',
+              features: [],
+            }
+          }
         })
         .catch((error) => {
           console.log(error)
@@ -1006,7 +1013,11 @@ export default {
       this.$axios
         .$get(`/api/v1/epoc?envelope=${this.envelope}`)
         .then((data) => {
-          this.epocOdfGeojson = data
+          if (data) {
+            this.epocOdfGeojson = data
+          } else {
+            this.epocOdfGeojson = { type: 'FeatureCollection', features: [] }
+          }
         })
         .catch((error) => {
           console.log(error)
