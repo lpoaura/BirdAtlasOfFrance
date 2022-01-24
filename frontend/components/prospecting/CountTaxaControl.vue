@@ -18,6 +18,14 @@
       />
     </header>
     <div v-show="currentTerritory.id" class="Legend">
+      <span class="LegendItem black02 fw-500">
+        <i
+          :style="{
+            background: selectedSeason.featuresColors[0],
+          }"
+        ></i>
+        0
+      </span>
       <span
         v-for="(item, index) in countTaxaClasses[selectedSeason.value]"
         :key="index"
@@ -25,7 +33,7 @@
       >
         <i
           :style="{
-            background: selectedSeason.featuresColors[index],
+            background: selectedSeason.featuresColors[index + 1],
           }"
         ></i>
         {{

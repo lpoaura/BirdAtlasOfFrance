@@ -45,6 +45,7 @@ export default {
         value: 'all_period',
         label: 'Toutes saisons',
         featuresColors: [
+          '#CCCCCC',
           'rgba(51, 105, 80, 0.2)',
           'rgba(51, 105, 80, 0.4)',
           'rgba(51, 105, 80, 0.6)',
@@ -57,6 +58,7 @@ export default {
         value: 'breeding',
         label: 'Période de reproduction',
         featuresColors: [
+          '#CCCCCC',
           'rgba(230, 87, 132, 0.2)',
           'rgba(230, 87, 132, 0.4)',
           'rgba(230, 87, 132, 0.6)',
@@ -73,6 +75,7 @@ export default {
         value: 'wintering',
         label: "Période d'hivernage",
         featuresColors: [
+          '#CCCCCC',
           'rgba(76, 97, 244, 0.2)',
           'rgba(76, 97, 244, 0.4)',
           'rgba(76, 97, 244, 0.6)',
