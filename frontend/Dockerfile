@@ -5,6 +5,8 @@ COPY  ["package.json", "package-lock.json","./"]
 RUN npm install
 COPY . ./
 RUN npm run build
+RUN ls /app/.nuxt
+
 
 ## Prod
 FROM node:alpine
@@ -19,6 +21,7 @@ RUN npm install --production
 #   rm -rf /var/lib/{apt,dpkg,cache,log}/
 COPY nuxt.config.js ./
 COPY --from=builder ["/app/.nuxt","/app/static","/app/content","./"]
+RUN echo ">>> ls /app" && ls /app && echo ">>> end ls /app"
 # COPY --from=builder /app/static ./static/
 # COPY --from=builder /app/content ./content/
 EXPOSE 3000

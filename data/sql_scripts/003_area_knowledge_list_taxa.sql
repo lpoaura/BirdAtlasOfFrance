@@ -100,10 +100,12 @@ $$
                 result
                     JOIN names ON names.cd_nom = result.cd_nom)
         WITH NO DATA;
-        CREATE UNIQUE INDEX i_area_knowledge_list_taxa_id_area_cd_nom ON atlas.mv_area_knowledge_list_taxa (id_area, cd_nom);
+        CREATE UNIQUE INDEX i_area_knowledge_list_taxa_id_area_cd_nom ON atlas.mv_area_knowledge_list_taxa (id_area,, cd_nom);
         COMMIT;
     END
 $$
 ;
 
-grant select on atlas.mv_area_knowledge_list_taxa to odfapp;
+grant select on all tables in schema atlas to odfapp, gnadm;
+grant select on all tables in schema taxonomie to odfapp, gnadm;
+

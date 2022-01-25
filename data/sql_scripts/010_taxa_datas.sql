@@ -53,6 +53,7 @@ $$
         (
         SELECT
             row_number() OVER () AS id
+          , id_area_territory    AS id_area
           , ranges.id            AS id_range
           , cd_group             AS cd_nom
           , count(data.altitude) AS count
@@ -60,26 +61,66 @@ $$
                 atlas.mv_territory_altitude_ranges AS ranges
                     LEFT JOIN atlas.mv_data_for_atlas data
                               ON data.altitude <@ ranges.range AND new_data_all_period
-                    JOIN gn_synthese.cor_area_synthese
-                         ON data.id_data = cor_area_synthese.id_synthese AND ranges.id_area = cor_area_synthese.id_area
+                    JOIN atlas.mv_grid_territories_matching
+                         ON data.id_area = mv_grid_territories_matching.id_area_grid AND
+                            ranges.id_area = mv_grid_territories_matching.id_area_territory
                     JOIN atlas.mv_taxa_groups ON data.cd_nom = mv_taxa_groups.cd_nom
                     JOIN atlas.t_taxa
                          ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND (t_taxa.available AND t_taxa.enabled)
             GROUP BY
-                ranges.id
-              , mv_taxa_groups.cd_group
+                id_area_territory, mv_taxa_groups.cd_group, ranges.id
             ORDER BY
-                ranges.id
-              , mv_taxa_groups.cd_group);
+                id_area_territory, mv_taxa_groups.cd_group, ranges.id);
         CREATE UNIQUE INDEX ON atlas.mv_alti_distribution (id);
         CREATE INDEX ON atlas.mv_alti_distribution (cd_nom);
+        CREATE INDEX ON atlas.mv_alti_distribution (id_area);
         CREATE INDEX ON atlas.mv_alti_distribution (id_range);
+        COMMIT;
+    END
+$$
+;
+
+
+DO
+$$
+    BEGIN
+        /* Vue matérialisée finale */
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_breeding_phenology;
+        CREATE MATERIALIZED VIEW atlas.mv_taxa_breeding_phenology AS
+        SELECT
+            row_number() OVER ()                                     AS id
+          , id_area_territory                                        AS id_area
+          , cd_group                                                 AS cd_nom
+          , t.decade                                                 AS decade
+          , count(data.*) FILTER (WHERE bird_breed_code = 3)         AS breeding_start
+          , count(data.*) FILTER (WHERE bird_breed_code IN (13, 20)) AS breeding_end
+            FROM
+                generate_series(1, 36, 1) AS t(decade)
+                    LEFT JOIN atlas.mv_data_for_atlas data ON trunc(extract(DOY FROM date_min) / 10) = t.decade
+                    JOIN atlas.mv_taxa_groups ON data.cd_nom = mv_taxa_groups.cd_nom
+                    JOIN atlas.t_taxa
+                         ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND (t_taxa.available AND t_taxa.enabled)
+                    JOIN atlas.mv_grid_territories_matching ON id_area_grid = data.id_area
+            WHERE
+                coalesce(new_data_breeding, TRUE)
+-- new_data_breeding
+            GROUP BY
+                id_area_territory, mv_taxa_groups.cd_group, t.decade
+            ORDER BY
+                id_area_territory, mv_taxa_groups.cd_group, t.decade;
+        CREATE UNIQUE INDEX ON atlas.mv_taxa_breeding_phenology (id);
+        CREATE INDEX ON atlas.mv_taxa_breeding_phenology (cd_nom);
+        CREATE INDEX ON atlas.mv_taxa_breeding_phenology (id_area);
 
         COMMIT;
     END
 $$
 ;
 
+SELECT *
+    FROM
+        generate_series(1, 36, 1) AS t(decade)
+;
 
 DO
 $$
@@ -90,6 +131,13 @@ $$
         COMMIT;
     END
 $$
+;
+
+SELECT *
+    FROM
+        atlas.mv_taxa_breeding_phenology
+    WHERE
+        cd_nom = 4117
 ;
 
 --
@@ -341,3 +389,4 @@ $$
 --   , ceil(alti / pow(20, 2)) * pow(20, 2)/20
 --     FROM
 --         tmp.max_alti_by_territory;
+
