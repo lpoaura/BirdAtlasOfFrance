@@ -628,6 +628,7 @@ export default {
         .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
         .then((data) => {
           // console.log('Time distrib :')
+          if (data) {
           const formattedData = this.months.map((item, index) => {
             return {
               label: item,
@@ -710,6 +711,7 @@ export default {
             .select('.BarPlotSvg')
             .selectAll('line')
             .style('opacity', 0)
+          }
         })
         .catch((error) => {
           console.log(error)
@@ -723,6 +725,7 @@ export default {
       .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
       .then((data) => {
         // console.log('Time distrib :')
+        if (data) {
         const formattedData = this.months.map((item, index) => {
           return {
             label: item,
@@ -811,6 +814,7 @@ export default {
             return barPlotHeight - y(d.count_data)
           })
           .attr('fill', 'rgba(57, 118, 90, 0.8)')
+        }
       })
       .catch((error) => {
         console.log(error)
@@ -848,6 +852,7 @@ export default {
         .$get(`/api/v1/area/taxa_list/${this.featureID}`)
         .then((data) => {
           // console.log(data)
+          if (data) {
           this.featureTaxaList.all_period = data
           this.featureTaxaList.breeding = data.filter((item) => {
             return item.breeding.new_count > 0 || item.breeding.old_count > 0
@@ -855,6 +860,7 @@ export default {
           this.featureTaxaList.wintering = data.filter((item) => {
             return item.wintering.new_count > 0 || item.wintering.old_count > 0
           })
+          }
           // console.log('Liste des espèces par période :')
           // console.log(this.featureTaxaList)
         })
@@ -876,7 +882,9 @@ export default {
         .then((data) => {
           // console.log('Liste des points EPOC ODF statiques :')
           // console.log(data.features)
-          this.featureEpocOdfList = data.features
+          if (data) {
+            this.featureEpocOdfList = data.features
+          }
         })
         .catch((error) => {
           console.log(error)
@@ -886,12 +894,14 @@ export default {
         .then((data) => {
           // console.log('Liste des points EPOC réalisés :')
           // console.log(data.features)
-          this.featureEpocOdfRealizedList = data.features.filter((epoc) => {
-            return epoc.properties.project_code === 'EPOC-ODF'
-          })
-          this.featureEpocRealizedList = data.features.filter((epoc) => {
-            return epoc.properties.project_code === 'EPOC'
-          })
+          if (data) {
+            this.featureEpocOdfRealizedList = data.features.filter((epoc) => {
+              return epoc.properties.project_code === 'EPOC-ODF'
+            })
+            this.featureEpocRealizedList = data.features.filter((epoc) => {
+              return epoc.properties.project_code === 'EPOC'
+            })
+          }
         })
         .catch((error) => {
           console.log(error)

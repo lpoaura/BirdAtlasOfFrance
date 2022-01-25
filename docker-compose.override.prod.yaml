@@ -2,6 +2,25 @@ version: "3"
 
 services:
 
-  backend:
+  frontend:
+      
+    
+    labels:
+      traefik.http.routers.frontend.rule: Host(`${APP_DOMAIN:-dev.odf.local}`)
+      traefik.http.services.frontend.loadbalancer.server.port: 3000
+
+
+  reverse-proxy:
+    image: traefik:v2.5
+    container_name: odf_reverse_proxy
+    command:
+      - --api.insecure=true 
+      - --providers.docker=true
+      - --entrypoints.http.address=:80
     ports:
-      - ${APP_PORT:-8000}:8000
+      - 80:80
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - frontend

@@ -36,8 +36,8 @@ $$
                         atlas.mv_data_for_atlas
                             JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                             JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                    WHERE
-                        new_data_all_period
+--                     WHERE
+--                         new_data_all_period
                     GROUP BY
                         mv_data_for_atlas.id_area
             )
@@ -70,3 +70,9 @@ $$
     END
 $$
 ;
+
+REFRESH MATERIALIZED VIEW atlas.mv_area_dashboard;
+
+grant select on all tables in SCHEMA atlas to odfapp,gnadm;
+
+select * from ref_geo.l_areas where id_area = 67811;
