@@ -39,7 +39,7 @@ export default {
     },
   },
   data: () => ({
-    // RÉCUPÉRER LES PROTOCOLES DEPUIS LE DOSSIER content
+    // À FAIRE : RÉCUPÉRER LES PROTOCOLES DEPUIS LE DOSSIER content
     protocolsCards: [
       {
         icon: '/get-involved/EPOC-ODF-logo.svg',

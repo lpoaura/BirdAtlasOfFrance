@@ -11,7 +11,7 @@
       <header class="MapControlHeader">
         <div class="MapControlInfo">
           <div class="MapControlInfoTitles">
-            <h4 class="fw-bold bottom-margin-4">
+            <h4 v-if="featureProperties" class="fw-bold bottom-margin-4">
               {{ featureProperties.area_name }}
             </h4>
             <h5 v-if="featureDataKey" class="black03">
@@ -23,6 +23,7 @@
             </h5>
           </div>
           <a
+            v-if="featureProperties"
             class="MapControlDownloadButton"
             :href="`/files/map/grid/${featureProperties.area_name}.pdf`"
             target="_blank"
@@ -53,6 +54,7 @@
             :items-list="menuItems"
           />
           <a
+            v-if="featureProperties"
             class="MapControlDownloadButton"
             :href="`/files/map/grid/${featureProperties.area_name}.pdf`"
             target="_blank"
@@ -83,10 +85,6 @@
               .toLowerCase()
           }})
         </h4>
-        <h4 v-else class="black02 fw-bold top-margin-24 bottom-margin-24">
-          Il semblerait qu'aucune observation n'ait été réalisée sur cette
-          maille à ce jour.
-        </h4>
         <div v-if="featureDataKey" class="MapControlKeyData">
           <h3
             class="MapControlKeyDataValue fw-bold right-margin-24"
@@ -103,6 +101,10 @@
             sur la période Atlas 2019-2024
           </h5>
         </div>
+        <h4 v-else class="black02 fw-bold top-margin-24 bottom-margin-24">
+          Il semblerait qu'aucune observation n'ait été réalisée sur cette
+          maille à ce jour.
+        </h4>
         <div class="MapControlSplit"></div>
         <h4
           v-if="featureDataKey"
@@ -524,25 +526,7 @@ export default {
   },
   data: () => ({
     featureID: '',
-    featureProperties: {
-      area_name: '',
-      area_code: '',
-      all_period: {
-        old_count: 0,
-        new_count: 0,
-        percent_knowledge: 0,
-      },
-      breeding: {
-        old_count: 0,
-        new_count: 0,
-        percent_knowledge: 0,
-      },
-      wintering: {
-        old_count: 0,
-        new_count: 0,
-        percent_knowledge: 0,
-      },
-    },
+    featureProperties: null,
     featureDataKey: null,
     timeDistributionIsOn: true,
     featureTaxaList: null,
