@@ -187,7 +187,7 @@ export default {
       value: 'all_period',
       label: 'Toutes saisons',
       featuresColors: [
-        '#CCCCCC',
+        '#bcbcbc',
         'rgba(51, 105, 80, 0.2)',
         'rgba(51, 105, 80, 0.4)',
         'rgba(51, 105, 80, 0.6)',
@@ -331,18 +331,28 @@ export default {
           ),
         ])
           .then((responses) => {
-            const seasons = ['all_period', 'breeding', 'wintering']
-            responses.forEach((item, index) => {
-              this.countTaxaClasses[seasons[index]] = item
-              this.countTaxaClasses[seasons[index]].forEach((taxaClass, i) => {
-                // if (i === 0) {
-                //   taxaClass.min = 0
-                // }
-                if (i !== this.countTaxaClasses[seasons[index]].length - 1) {
-                  taxaClass.max -= 1
-                }
+            if (responses[0]) {
+              const seasons = ['all_period', 'breeding', 'wintering']
+              responses.forEach((item, index) => {
+                this.countTaxaClasses[seasons[index]] = item
+                this.countTaxaClasses[seasons[index]].forEach(
+                  (taxaClass, i) => {
+                    if (
+                      i !==
+                      this.countTaxaClasses[seasons[index]].length - 1
+                    ) {
+                      taxaClass.max -= 1
+                    }
+                  }
+                )
               })
-            })
+            } else {
+              this.countTaxaClasses = {
+                all_period: [],
+                breeding: [],
+                wintering: [],
+              }
+            }
           })
           .catch((errors) => {
             console.log(errors)

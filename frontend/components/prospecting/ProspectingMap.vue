@@ -816,6 +816,7 @@ export default {
       const initBounds = this.$refs.myMap.mapObject.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
+      this.updateCenter({ lat: this.center[0], lng: this.center[1] })
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
         this.updateEpocRealizedGeojson()
@@ -893,32 +894,37 @@ export default {
             }
           )
           .then((data) => {
-            this.knowledgeLevelGeojson = data
-            // Pouvoir afficher le tableau de bord si c'est une maille qui est sélectionnée
-            if (this.searchedFeatureId) {
-              const clickedFeature = this.knowledgeLevelGeojson.features.filter(
-                (feature) => {
-                  return feature.id === this.searchedFeatureId.toString()
+            if (data) {
+              this.knowledgeLevelGeojson = data
+              // Pouvoir afficher le tableau de bord si c'est une maille qui est sélectionnée
+              if (this.searchedFeatureId) {
+                const clickedFeature =
+                  this.knowledgeLevelGeojson.features.filter((feature) => {
+                    return feature.id === this.searchedFeatureId.toString()
+                  })
+                if (clickedFeature.length > 0) {
+                  this.$emit('clickedFeature', clickedFeature[0])
+                  this.openMobileMapControl()
+                  this.searchedFeatureId = null
                 }
-              )
-              if (clickedFeature.length > 0) {
-                this.$emit('clickedFeature', clickedFeature[0])
-                this.openMobileMapControl()
-                this.searchedFeatureId = null
               }
-            }
-            if (this.searchedFeatureCode) {
-              const clickedFeature = this.knowledgeLevelGeojson.features.filter(
-                (feature) => {
-                  return (
-                    feature.properties.area_code === this.searchedFeatureCode
-                  )
+              if (this.searchedFeatureCode) {
+                const clickedFeature =
+                  this.knowledgeLevelGeojson.features.filter((feature) => {
+                    return (
+                      feature.properties.area_code === this.searchedFeatureCode
+                    )
+                  })
+                if (clickedFeature.length > 0) {
+                  this.$emit('clickedFeature', clickedFeature[0])
+                  this.openMobileMapControl()
+                  this.searchedFeatureCode = null
                 }
-              )
-              if (clickedFeature.length > 0) {
-                this.$emit('clickedFeature', clickedFeature[0])
-                this.openMobileMapControl()
-                this.searchedFeatureCode = null
+              }
+            } else {
+              this.knowledgeLevelGeojson = {
+                type: 'FeatureCollection',
+                features: [],
               }
             }
           })
@@ -970,8 +976,17 @@ export default {
             }
           )
           .then((data) => {
-            this.speciesDistributionGeojson = data
-            if (data.features.length === 0) {
+            if (data) {
+              this.speciesDistributionGeojson = data
+              // À SUPPRIMER LORSQUE L'API RENVERRA UN empty string
+              if (data.features.length === 0) {
+                this.noSpeciesData = true
+              }
+            } else {
+              this.speciesDistributionGeojson = {
+                type: 'FeatureCollection',
+                features: [],
+              }
               this.noSpeciesData = true
             }
           })
@@ -1037,17 +1052,22 @@ export default {
           : featuresColors[1]
       }
       if (this.selectedLayer.value === 'species-number') {
-        return number >= this.countTaxaClasses[this.selectedSeason.value][4].min
-          ? featuresColors[5]
-          : number >= this.countTaxaClasses[this.selectedSeason.value][3].min
-          ? featuresColors[4]
-          : number >= this.countTaxaClasses[this.selectedSeason.value][2].min
-          ? featuresColors[3]
-          : number >= this.countTaxaClasses[this.selectedSeason.value][1].min
-          ? featuresColors[2]
-          : number > 0
-          ? featuresColors[1]
-          : featuresColors[0]
+        if (this.countTaxaClasses.all_period.length > 0) {
+          return number >=
+            this.countTaxaClasses[this.selectedSeason.value][4].min
+            ? featuresColors[5]
+            : number >= this.countTaxaClasses[this.selectedSeason.value][3].min
+            ? featuresColors[4]
+            : number >= this.countTaxaClasses[this.selectedSeason.value][2].min
+            ? featuresColors[3]
+            : number >= this.countTaxaClasses[this.selectedSeason.value][1].min
+            ? featuresColors[2]
+            : number > 0
+            ? featuresColors[1]
+            : featuresColors[0]
+        } else {
+          return featuresColors[0]
+        }
       }
     },
     highlightFeature(event) {
