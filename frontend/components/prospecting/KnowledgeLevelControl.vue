@@ -29,7 +29,7 @@
       />
     </header>
     <div
-      v-show="currentTerritory.id"
+      v-show="currentTerritory.id && !noAvailableData"
       class="KnowledgeLevelPieChartWrapper flex"
     >
       <div class="KnowledgeLevelPieChart">
@@ -59,6 +59,12 @@
         </div>
       </div>
     </div>
+    <span
+      v-show="currentTerritory.id && noAvailableData"
+      class="fw-500"
+    >
+      Les données de ce territoire ne sont pas encore disponibles.
+    </span>
   </section>
 </template>
 
@@ -154,6 +160,7 @@ export default {
         ],
       },
     },
+    noAvailableData: false,
     arcPath: {},
   }),
   computed: {
@@ -244,9 +251,6 @@ export default {
       .attr('fill', function (d) {
         return color(d.data.label)
       })
-    if (this.currentTerritory.id) {
-      this.updateGlobalKnowledgeLevel()
-    }
   },
   methods: {
     updateGlobalKnowledgeLevel() {
@@ -262,6 +266,8 @@ export default {
         ),
       ])
         .then((responses) => {
+          // AJOUTER if(responses[0]) QUAND L'API NE RENVERRA PLUS D'ERREUR 500
+          this.noAvailableData = false
           const seasons = ['all_period', 'breeding', 'wintering']
           responses.forEach((item, index) => {
             this.globalKnowledgeLevel[seasons[index]].average = this.$toPercent(
@@ -306,6 +312,7 @@ export default {
         })
         .catch((errors) => {
           console.log(errors)
+          this.noAvailableData = true
         })
     },
     // MOBILE
