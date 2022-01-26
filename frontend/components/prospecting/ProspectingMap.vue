@@ -13,7 +13,7 @@
       @update:center="updateCenter"
     >
       <!-- LAYERS -->
-      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && plan.isOn" -->
+      <!-- v-if="['none', 'epoc'].includes(selectedLayer.value) && plan.isOn" -->
       <l-tile-layer
         v-if="plan.isOn"
         :url="plan.url"
@@ -21,7 +21,7 @@
         :z-index="plan.zIndex"
         :attribution="plan.attribution"
       />
-      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && orthophoto.isOn" -->
+      <!-- v-if="['none', 'epoc'].includes(selectedLayer.value) && orthophoto.isOn" -->
       <l-tile-layer
         v-if="orthophoto.isOn"
         :url="orthophoto.url"
@@ -40,7 +40,7 @@
         layer-type="base"
       >
       </l-wms-tile-layer> -->
-      <!-- v-if="!['Aucune', 'Points EPOC'].includes(selectedLayer) || (['Aucune', 'Points EPOC'].includes(selectedLayer) && !plan.isOn && !orthophoto.isOn)" -->
+      <!-- v-if="!['none', 'epoc'].includes(selectedLayer.value) || (['none', 'epoc'].includes(selectedLayer.value) && !plan.isOn && !orthophoto.isOn)" -->
       <l-tile-layer
         v-if="!plan.isOn && !orthophoto.isOn"
         :url="osmUrl"
@@ -55,7 +55,7 @@
       <l-geo-json
         v-if="
           selectedSpecies &&
-          selectedLayer === 'Répartition de l\'espèce' &&
+          selectedLayer.value === 'species-distribution' &&
           speciesDistributionGeojson
         "
         :geojson="speciesDistributionGeojson"
@@ -64,9 +64,9 @@
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Indice de complétude' ||
-          selectedLayer === 'Nombre d\'espèces par maille' ||
-          (selectedLayer === 'Points EPOC' && currentZoom >= 11)
+          selectedLayer.value === 'knowledge-level' ||
+          selectedLayer.value === 'species-number' ||
+          (selectedLayer.value === 'epoc' && currentZoom >= 11)
         "
         :geojson="knowledgeLevelGeojson"
         :options="knowledgeLevelGeojsonOptions"
@@ -74,7 +74,7 @@
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Points EPOC' &&
+          selectedLayer.value === 'epoc' &&
           epocRealizedIsOn &&
           currentZoom >= 11
         "
@@ -83,7 +83,7 @@
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Points EPOC' && epocOdfIsOn && currentZoom >= 11
+          selectedLayer.value === 'epoc' && epocOdfIsOn && currentZoom >= 11
         "
         :geojson="epocOdfGeojson"
         :options="epocOdfGeojsonOptions"
@@ -95,25 +95,21 @@
         :disable-scroll-propagation="disableScrollPropagation"
       >
         <knowledge-level-control
-          v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
+          v-show="selectedLayer.value === 'knowledge-level' && !clickedFeature"
           :current-territory="currentTerritory"
           :selected-season="selectedSeason"
         />
         <count-taxa-control
-          v-show="
-            selectedLayer === 'Nombre d\'espèces par maille' && !clickedFeature
-          "
+          v-show="selectedLayer.value === 'species-number' && !clickedFeature"
           :current-territory="currentTerritory"
           :count-taxa-classes="countTaxaClasses"
           :selected-season="selectedSeason"
         />
         <feature-dashboard-control
           v-if="
-            [
-              'Indice de complétude',
-              'Nombre d\'espèces par maille',
-              'Points EPOC',
-            ].includes(selectedLayer) &&
+            ['knowledge-level', 'species-number', 'epoc'].includes(
+              selectedLayer.value
+            ) &&
             clickedFeature &&
             !clickedEpocPoint
           "
@@ -121,13 +117,15 @@
           :selected-season="selectedSeason"
         />
         <species-dashboard-control
-          v-if="selectedLayer === 'Répartition de l\'espèce' && selectedSpecies"
+          v-if="
+            selectedLayer.value === 'species-distribution' && selectedSpecies
+          "
           :selected-species="selectedSpecies"
           :selected-season="selectedSeason"
           @selectedSpecies="deleteSelectedSpecies"
         />
         <section
-          v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
+          v-if="selectedLayer.value === 'epoc' && clickedEpocPoint"
           class="MapControl"
         >
           <div
@@ -145,18 +143,16 @@
         <!-- Apparaît si au moins une des conditions précédentes est remplie -->
         <div
           v-show="
-            (selectedLayer === 'Indice de complétude' && !clickedFeature) ||
-            (selectedLayer === 'Nombre d\'espèces par maille' &&
-              !clickedFeature) ||
-            ([
-              'Indice de complétude',
-              'Nombre d\'espèces par maille',
-              'Points EPOC',
-            ].includes(selectedLayer) &&
+            (selectedLayer.value === 'knowledge-level' && !clickedFeature) ||
+            (selectedLayer.value === 'species-number' && !clickedFeature) ||
+            (['knowledge-level', 'species-number', 'epoc'].includes(
+              selectedLayer.value
+            ) &&
               clickedFeature &&
               !clickedEpocPoint) ||
-            (selectedLayer === 'Répartition de l\'espèce' && selectedSpecies) ||
-            (selectedLayer === 'Points EPOC' && clickedEpocPoint)
+            (selectedLayer.value === 'species-distribution' &&
+              selectedSpecies) ||
+            (selectedLayer.value === 'epoc' && clickedEpocPoint)
           "
           class="MiniMapControl mobile"
           @click="openMobileMapControl"
@@ -172,11 +168,11 @@
         <div
           v-show="
             (knowledgeLevelIsLoading &&
-              ['Indice de complétude', 'Nombre d\'espèces par maille'].includes(
-                selectedLayer
+              ['knowledge-level', 'species-number'].includes(
+                selectedLayer.value
               )) ||
             (speciesDistributionIsLoading &&
-              selectedLayer === 'Répartition de l\'espèce')
+              selectedLayer.value === 'species-distribution')
           "
           class="InformationControl"
         >
@@ -189,7 +185,7 @@
           <h5 class="black02 fw-500">Chargement des données</h5>
         </div>
         <div
-          v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
+          v-show="selectedLayer.value === 'epoc' && currentZoom < 11"
           class="InformationControl"
         >
           <h5 class="black02 fw-500">
@@ -201,7 +197,7 @@
           v-show="
             !speciesDistributionIsLoading &&
             noSpeciesData &&
-            selectedLayer === 'Répartition de l\'espèce'
+            selectedLayer.value === 'species-distribution'
           "
           class="InformationControl"
         >
@@ -266,9 +262,9 @@
         <div
           v-show="
             (knowledgeLevelIsLoading &&
-              selectedLayer === 'Indice de complétude') ||
+              selectedLayer.value === 'knowledge-level') ||
             (speciesDistributionIsLoading &&
-              selectedLayer === 'Répartition de l\'espèce')
+              selectedLayer.value === 'species-distribution')
           "
           class="InformationControl"
         >
@@ -281,7 +277,7 @@
           <h5 class="black02 fw-500">Chargement des données</h5>
         </div>
         <div
-          v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
+          v-show="selectedLayer.value === 'epoc' && currentZoom < 11"
           class="InformationControl"
         >
           <h5 class="black02 fw-500">
@@ -293,7 +289,7 @@
           v-show="
             !speciesDistributionIsLoading &&
             noSpeciesData &&
-            selectedLayer === 'Répartition de l\'espèce'
+            selectedLayer.value === 'species-distribution'
           "
           class="InformationControl"
         >
@@ -354,7 +350,7 @@ export default {
     },
     selectedLayer: {
       // Couche sélectionnée
-      type: String,
+      type: Object,
       required: true,
     },
     selectedTerritory: {
@@ -488,7 +484,7 @@ export default {
       let season = this.selectedSeason.value // Nécessaire pour déclencher le changement de style
       return (feature, layer) => {
         selectedLayer = this.selectedLayer
-        if (selectedLayer === 'Indice de complétude') {
+        if (selectedLayer.value === 'knowledge-level') {
           season = this.selectedSeason.value // À améliorer
           return {
             weight: 0.8,
@@ -500,7 +496,7 @@ export default {
             fillOpacity: 0.6,
           }
         }
-        if (selectedLayer === "Nombre d'espèces par maille") {
+        if (selectedLayer.value === 'species-number') {
           season = this.selectedSeason.value // À améliorer
           return {
             weight: 0.8,
@@ -688,7 +684,7 @@ export default {
       }
     },
     selectedLayer(newVal) {
-      if (newVal === 'Aucune') {
+      if (newVal.value === 'none') {
         this.$emit('clickedFeature', null)
       }
       this.$emit('clickedEpocPoint', null)
@@ -708,6 +704,7 @@ export default {
   beforeMount() {
     if (this.detectMobile()) {
       // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+      // console.log(window.innerHeight)
       const vh = window.innerHeight * 0.01
       // Then we set the value in the --vh custom property to the root of the document
       document.documentElement.style.setProperty('--vh', `${vh}px`)
@@ -742,7 +739,7 @@ export default {
         // La géolocalisation N'EST PAS supportée par le navigateur
         this.$axios
           .$get(
-            'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
+            '/api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
           )
           .then((data) => {
             const territory = this.$L.geoJSON(data)
@@ -792,7 +789,7 @@ export default {
       // Si l'utilisateur a désactivé la géolocalisation (ou tout autre problème), alors on centre sur la France métropolitaine
       this.$axios
         .$get(
-          'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
+          '/api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
         )
         .then((data) => {
           const territory = this.$L.geoJSON(data)
@@ -819,6 +816,7 @@ export default {
       const initBounds = this.$refs.myMap.mapObject.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
+      this.updateCenter({ lat: this.center[0], lng: this.center[1] })
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
         this.updateEpocRealizedGeojson()
@@ -850,7 +848,7 @@ export default {
     updateCenter(newCenter) {
       this.$axios
         .$get(
-          `api/v1/lareas/position?coordinates=${newCenter.lng},${newCenter.lat}&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true`
+          `/api/v1/lareas/position?coordinates=${newCenter.lng},${newCenter.lat}&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true`
         )
         .then((data) => {
           if (data && data.id !== this.currentTerritory.id) {
@@ -859,15 +857,15 @@ export default {
               name: data.properties.area_name,
             })
           }
-        })
-        .catch((error) => {
-          console.log(error)
-          if (this.currentTerritory.id) {
+          if (!data && this.currentTerritory.id) {
             this.$emit('currentTerritory', {
               id: null,
               name: null,
             })
           }
+        })
+        .catch((error) => {
+          console.log(error)
         })
     },
     updateKnowledgeLevelGeojson() {
@@ -896,32 +894,37 @@ export default {
             }
           )
           .then((data) => {
-            this.knowledgeLevelGeojson = data
-            // Pouvoir afficher le tableau de bord si c'est une maille qui est sélectionnée
-            if (this.searchedFeatureId) {
-              const clickedFeature = this.knowledgeLevelGeojson.features.filter(
-                (feature) => {
-                  return feature.id === this.searchedFeatureId.toString()
+            if (data) {
+              this.knowledgeLevelGeojson = data
+              // Pouvoir afficher le tableau de bord si c'est une maille qui est sélectionnée
+              if (this.searchedFeatureId) {
+                const clickedFeature =
+                  this.knowledgeLevelGeojson.features.filter((feature) => {
+                    return feature.id === this.searchedFeatureId.toString()
+                  })
+                if (clickedFeature.length > 0) {
+                  this.$emit('clickedFeature', clickedFeature[0])
+                  this.openMobileMapControl()
+                  this.searchedFeatureId = null
                 }
-              )
-              if (clickedFeature.length > 0) {
-                this.$emit('clickedFeature', clickedFeature[0])
-                this.openMobileMapControl()
-                this.searchedFeatureId = null
               }
-            }
-            if (this.searchedFeatureCode) {
-              const clickedFeature = this.knowledgeLevelGeojson.features.filter(
-                (feature) => {
-                  return (
-                    feature.properties.area_code === this.searchedFeatureCode
-                  )
+              if (this.searchedFeatureCode) {
+                const clickedFeature =
+                  this.knowledgeLevelGeojson.features.filter((feature) => {
+                    return (
+                      feature.properties.area_code === this.searchedFeatureCode
+                    )
+                  })
+                if (clickedFeature.length > 0) {
+                  this.$emit('clickedFeature', clickedFeature[0])
+                  this.openMobileMapControl()
+                  this.searchedFeatureCode = null
                 }
-              )
-              if (clickedFeature.length > 0) {
-                this.$emit('clickedFeature', clickedFeature[0])
-                this.openMobileMapControl()
-                this.searchedFeatureCode = null
+              }
+            } else {
+              this.knowledgeLevelGeojson = {
+                type: 'FeatureCollection',
+                features: [],
               }
             }
           })
@@ -973,8 +976,17 @@ export default {
             }
           )
           .then((data) => {
-            this.speciesDistributionGeojson = data
-            if (data.features.length === 0) {
+            if (data) {
+              this.speciesDistributionGeojson = data
+              // À SUPPRIMER LORSQUE L'API RENVERRA UN empty string
+              if (data.features.length === 0) {
+                this.noSpeciesData = true
+              }
+            } else {
+              this.speciesDistributionGeojson = {
+                type: 'FeatureCollection',
+                features: [],
+              }
               this.noSpeciesData = true
             }
           })
@@ -999,7 +1011,14 @@ export default {
       this.$axios
         .$get(`/api/v1/epoc/realized?envelope=${this.envelope}`)
         .then((data) => {
-          this.epocRealizedGeojson = data
+          if (data) {
+            this.epocRealizedGeojson = data
+          } else {
+            this.epocRealizedGeojson = {
+              type: 'FeatureCollection',
+              features: [],
+            }
+          }
         })
         .catch((error) => {
           console.log(error)
@@ -1009,7 +1028,11 @@ export default {
       this.$axios
         .$get(`/api/v1/epoc?envelope=${this.envelope}`)
         .then((data) => {
-          this.epocOdfGeojson = data
+          if (data) {
+            this.epocOdfGeojson = data
+          } else {
+            this.epocOdfGeojson = { type: 'FeatureCollection', features: [] }
+          }
         })
         .catch((error) => {
           console.log(error)
@@ -1017,27 +1040,34 @@ export default {
     },
     setFeatureColor(number) {
       const featuresColors = this.selectedSeason.featuresColors
-      if (this.selectedLayer === 'Indice de complétude') {
+      if (this.selectedLayer.value === 'knowledge-level') {
         return number >= this.knowledgeLevelClasses[4]
-          ? featuresColors[4]
+          ? featuresColors[5]
           : number >= this.knowledgeLevelClasses[3]
-          ? featuresColors[3]
-          : number >= this.knowledgeLevelClasses[2]
-          ? featuresColors[2]
-          : number >= this.knowledgeLevelClasses[1]
-          ? featuresColors[1]
-          : featuresColors[0]
-      }
-      if (this.selectedLayer === "Nombre d'espèces par maille") {
-        return number >= this.countTaxaClasses[this.selectedSeason.value][4].min
           ? featuresColors[4]
-          : number >= this.countTaxaClasses[this.selectedSeason.value][3].min
+          : number >= this.knowledgeLevelClasses[2]
           ? featuresColors[3]
-          : number >= this.countTaxaClasses[this.selectedSeason.value][2].min
+          : number >= this.knowledgeLevelClasses[1]
           ? featuresColors[2]
-          : number >= this.countTaxaClasses[this.selectedSeason.value][1].min
-          ? featuresColors[1]
-          : featuresColors[0]
+          : featuresColors[1]
+      }
+      if (this.selectedLayer.value === 'species-number') {
+        if (this.countTaxaClasses.all_period.length > 0) {
+          return number >=
+            this.countTaxaClasses[this.selectedSeason.value][4].min
+            ? featuresColors[5]
+            : number >= this.countTaxaClasses[this.selectedSeason.value][3].min
+            ? featuresColors[4]
+            : number >= this.countTaxaClasses[this.selectedSeason.value][2].min
+            ? featuresColors[3]
+            : number >= this.countTaxaClasses[this.selectedSeason.value][1].min
+            ? featuresColors[2]
+            : number > 0
+            ? featuresColors[1]
+            : featuresColors[0]
+        } else {
+          return featuresColors[0]
+        }
       }
     },
     highlightFeature(event) {
@@ -1050,8 +1080,11 @@ export default {
     resetFeatureStyle(event) {
       event.target.setStyle({
         weight: 0.8,
-        color:
-          this.selectedLayer === 'Indice de complétude' ? '#FFFFFF' : '#C4C4C4',
+        color: ['knowledge-level', 'species-number'].includes(
+          this.selectedLayer.value
+        )
+          ? '#FFFFFF'
+          : '#C4C4C4',
       })
     },
     geolocate() {

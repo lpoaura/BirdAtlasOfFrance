@@ -2,15 +2,13 @@
   <v-container fluid>
     <div v-if="mobileMapControlIsOpen" class="MobileMapControl">
       <knowledge-level-control
-        v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
+        v-show="selectedLayer.value === 'knowledge-level' && !clickedFeature"
         :current-territory="currentTerritory"
         :selected-season="selectedSeason"
         @mobileMapControl="openOrCloseMobileMapControl"
       />
       <count-taxa-control
-        v-show="
-          selectedLayer === 'Nombre d\'espèces par maille' && !clickedFeature
-        "
+        v-show="selectedLayer.value === 'species-number' && !clickedFeature"
         :current-territory="currentTerritory"
         :count-taxa-classes="countTaxaClasses"
         :selected-season="selectedSeason"
@@ -18,11 +16,9 @@
       />
       <feature-dashboard-control
         v-if="
-          [
-            'Indice de complétude',
-            'Nombre d\'espèces par maille',
-            'Points EPOC',
-          ].includes(selectedLayer) &&
+          ['knowledge-level', 'species-number', 'epoc'].includes(
+            selectedLayer.value
+          ) &&
           clickedFeature &&
           !clickedEpocPoint
         "
@@ -31,13 +27,13 @@
         @mobileMapControl="openOrCloseMobileMapControl"
       />
       <species-dashboard-control
-        v-if="selectedLayer === 'Répartition de l\'espèce' && selectedSpecies"
+        v-if="selectedLayer.value === 'species-distribution' && selectedSpecies"
         :selected-species="selectedSpecies"
         :selected-season="selectedSeason"
         @mobileMapControl="openOrCloseMobileMapControl"
       />
       <section
-        v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
+        v-if="selectedLayer.value === 'epoc' && clickedEpocPoint"
         class="MapControl"
       >
         <div
@@ -188,9 +184,10 @@ export default {
     selectedSpecies: null, // Espèce sélectionnée dans la barre de recherche
     selectedSeason: {
       // Saison sélectionnée
-      label: 'Toutes saisons',
       value: 'all_period',
+      label: 'Toutes saisons',
       featuresColors: [
+        '#bcbcbc',
         'rgba(51, 105, 80, 0.2)',
         'rgba(51, 105, 80, 0.4)',
         'rgba(51, 105, 80, 0.6)',
@@ -199,7 +196,13 @@ export default {
       ],
       speciesDistributionColors: ['#336950'],
     },
-    selectedLayer: 'Indice de complétude', // Couche sélectionnée
+    selectedLayer: {
+      // Couche sélectionnée
+      value: 'knowledge-level',
+      label: 'Indice de complétude',
+      subtitle: null,
+      permanent: true,
+    },
     selectedTerritory: {
       // Territoire cliqué (FrMet ou DOM-TOM)
       name: null,
@@ -268,19 +271,30 @@ export default {
   mounted() {
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
+    // window.addEventListener('deviceorientation', this.handleOrientationChange)
   },
   beforeDestroy() {
     document.documentElement.style.removeProperty('overflow')
     document.body.style.removeProperty('position')
   },
   methods: {
+    // handleOrientationChange() {
+    //   const orientation = window.screen.orientation.type
+    //   console.log(orientation)
+    //   console.log(window.innerHeight)
+    // },
     updateSelectedArea(data) {
       this.selectedArea = data
     },
     updateSelectedSpecies(species) {
       this.selectedSpecies = species
-      if (!species && this.selectedLayer === "Répartition de l'espèce") {
-        this.selectedLayer = 'Indice de complétude'
+      if (!species && this.selectedLayer.value === 'species-distribution') {
+        this.selectedLayer = {
+          value: 'knowledge-level',
+          label: 'Indice de complétude',
+          subtitle: null,
+          permanent: true,
+        }
       }
     },
     updateSelectedSeason(season) {
@@ -291,7 +305,15 @@ export default {
       this.selectedLayer = layer
     },
     updateSelectedTerritory(territory) {
-      this.selectedTerritory = territory
+      // Permet d'activer le watch de ProspectingMap et ainsi de recentrer la carte sur un territoire même si l'utilisateur se trouve déjà dessus
+      this.selectedTerritory = {
+        name: null,
+        icon: null,
+        isActive: null,
+      }
+      setTimeout(() => {
+        this.selectedTerritory = territory
+      }, 1)
       this.territoryIsOpen = false
     },
     updateCurrentTerritory(territory) {
@@ -299,25 +321,38 @@ export default {
       if (territory.id) {
         Promise.all([
           this.$axios.$get(
-            `api/v1/map/count_taxon_classes/${territory.id}?period=all_period`
+            `/api/v1/map/count_taxon_classes/${territory.id}?period=all_period`
           ),
           this.$axios.$get(
-            `api/v1/map/count_taxon_classes/${territory.id}?period=breeding`
+            `/api/v1/map/count_taxon_classes/${territory.id}?period=breeding`
           ),
           this.$axios.$get(
-            `api/v1/map/count_taxon_classes/${territory.id}?period=wintering`
+            `/api/v1/map/count_taxon_classes/${territory.id}?period=wintering`
           ),
         ])
           .then((responses) => {
-            const seasons = ['all_period', 'breeding', 'wintering']
-            responses.forEach((item, index) => {
-              this.countTaxaClasses[seasons[index]] = item
-              this.countTaxaClasses[seasons[index]].forEach((taxaClass, i) => {
-                if (i !== this.countTaxaClasses[seasons[index]].length - 1) {
-                  taxaClass.max -= 1
-                }
+            if (responses[0]) {
+              const seasons = ['all_period', 'breeding', 'wintering']
+              responses.forEach((item, index) => {
+                this.countTaxaClasses[seasons[index]] = item
+                this.countTaxaClasses[seasons[index]].forEach(
+                  (taxaClass, i) => {
+                    if (
+                      i !==
+                      this.countTaxaClasses[seasons[index]].length - 1
+                    ) {
+                      taxaClass.max -= 1
+                    }
+                  }
+                )
               })
-            })
+            } else {
+              this.countTaxaClasses = {
+                all_period: [],
+                breeding: [],
+                wintering: [],
+              }
+            }
           })
           .catch((errors) => {
             console.log(errors)

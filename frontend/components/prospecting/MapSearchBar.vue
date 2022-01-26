@@ -40,7 +40,7 @@
             v-for="(type, index) in typeList"
             :key="index"
             class="DropdownOption"
-            :class="type.label === selectedType.label ? 'selected' : ''"
+            :class="type.value === selectedType.value ? 'selected' : ''"
             @click="updateSelectedType(type)"
           >
             {{ type.label }}
@@ -60,13 +60,13 @@
         @click="updateSelectedData(data)"
       >
         {{
-          selectedType.label === 'Espèce'
+          selectedType.value === 'species'
             ? data[`common_name_${lang}`]
             : data.name.replace('10kmL93', '').replace('10kmUTM22', '')
         }}
-        <i v-if="selectedType.label === 'Espèce'">({{ data.sci_name }})</i>
+        <i v-if="selectedType.value === 'species'">({{ data.sci_name }})</i>
         {{
-          selectedType.label === 'Lieu' && data.type_code !== 'ATLAS_GRID'
+          selectedType.value === 'place' && data.type_code !== 'ATLAS_GRID'
             ? ' (' + data.code.slice(0, -3) + ')'
             : ''
         }}
@@ -98,17 +98,20 @@ export default {
     autocompleteIsOpen: false,
     typeList: [
       {
+        value: 'species',
         label: 'Espèce',
         api: '/api/v1/search_taxa?limit=10&search=',
         placeholder: 'Rechercher une espèce...',
       },
       {
+        value: 'place',
         label: 'Lieu',
         api: '/api/v1/search_areas?limit=10&search=',
         placeholder: 'Rechercher une commune, une maille...',
       },
     ],
     selectedType: {
+      value: 'place',
       label: 'Lieu',
       api: '/api/v1/search_areas?limit=10&search=',
       placeholder: 'Rechercher une commune, une maille...',
@@ -128,7 +131,7 @@ export default {
             this.$axios
               .$get(this.selectedType.api + `${newVal}`)
               .then((data) => {
-                if (data.length === 0 && this.selectedType.label === 'Lieu') {
+                if (data.length === 0 && this.selectedType.value === 'place') {
                   this.autocompleteIsOpen = false
                 } else {
                   this.autocompleteIsOpen = true
@@ -190,7 +193,7 @@ export default {
         this.$axios
           .$get(this.selectedType.api + `${newVal}`)
           .then((data) => {
-            if (data.length === 0 && this.selectedType.label === 'Lieu') {
+            if (data.length === 0 && this.selectedType.value === 'place') {
               this.autocompleteIsOpen = false
             } else {
               this.autocompleteIsOpen = true
@@ -203,7 +206,7 @@ export default {
       }
     },
     updateSelectedData(data) {
-      if (this.selectedType.label === 'Espèce') {
+      if (this.selectedType.value === 'species') {
         this.speciesIsSelected = true
         this.$emit('selectedSpecies', data)
         this.$router.push({

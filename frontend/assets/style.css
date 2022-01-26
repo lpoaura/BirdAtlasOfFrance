@@ -11,6 +11,10 @@ body {
   display: flex;
 }
 
+.flex-1 {
+  flex: 1;
+}
+
 /********** TYPOGRAPHY **********/
 
 .PlayfairDisplayTypo {
@@ -318,7 +322,7 @@ a.Vocabulary:hover::after {
 }
 
 .DropdownOptionsOverflow {
-  max-height: 166px;
+  max-height: 165px;
   padding-right: 6px;
   overflow-y: auto;
   scrollbar-width: thin;
