@@ -251,6 +251,10 @@ export default {
       .attr('fill', function (d) {
         return color(d.data.label)
       })
+    // Nécessaire pour la version mobile
+    if (this.currentTerritory.id) {
+      this.updateGlobalKnowledgeLevel()
+    }
   },
   methods: {
     updateGlobalKnowledgeLevel() {
