@@ -71,8 +71,6 @@ $$
 $$
 ;
 
-REFRESH MATERIALIZED VIEW atlas.mv_area_dashboard;
 
 grant select on all tables in SCHEMA atlas to odfapp,gnadm;
 
-select * from ref_geo.l_areas where id_area = 67811;
