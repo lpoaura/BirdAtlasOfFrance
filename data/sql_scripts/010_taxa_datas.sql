@@ -127,7 +127,6 @@ $$
     BEGIN
         SET WORK_MEM = '10GB';
 
-
         COMMIT;
     END
 $$
@@ -390,3 +389,17 @@ SELECT *
 --     FROM
 --         tmp.max_alti_by_territory;
 
+SELECT
+    species_json.id
+  , item ->> 'latin_name'  AS latin_name
+  , item ->> 'french_name' AS french_name
+    FROM
+        src_vn_json.species_json
+            LEFT JOIN taxonomie.cor_c_vn_taxref ON species_json.id = cor_c_vn_taxref.vn_id
+    WHERE
+          item ->> 'id_taxo_group' = '1'
+      AND cor_c_vn_taxref.taxref_id IS NULL
+;
+
+
+select * from src_historic_atlas.historic_atlas;
