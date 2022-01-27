@@ -744,7 +744,7 @@ export default {
       }
       if (this.$route.query.species) {
         this.$axios
-          .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
+          .$get(`/api/v1/search/taxa?cd_nom=${this.$route.query.species}`)
           .then((data) => {
             this.$emit('selectedSpecies', data[0])
           })

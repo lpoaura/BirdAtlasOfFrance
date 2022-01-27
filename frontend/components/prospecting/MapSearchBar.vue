@@ -100,20 +100,20 @@ export default {
       {
         value: 'species',
         label: 'Espèce',
-        api: '/api/v1/search_taxa?limit=10&search=',
+        api: '/api/v1/search/taxa?limit=10&search=',
         placeholder: 'Rechercher une espèce...',
       },
       {
         value: 'place',
         label: 'Lieu',
-        api: '/api/v1/search_areas?limit=10&search=',
+        api: '/api/v1/search/areas?limit=10&search=',
         placeholder: 'Rechercher une commune, une maille...',
       },
     ],
     selectedType: {
       value: 'place',
       label: 'Lieu',
-      api: '/api/v1/search_areas?limit=10&search=',
+      api: '/api/v1/search/areas?limit=10&search=',
       placeholder: 'Rechercher une commune, une maille...',
     },
     selectIsOpen: false,
@@ -163,7 +163,7 @@ export default {
   mounted() {
     if (this.$route.query.species) {
       this.$axios
-        .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
+        .$get(`/api/v1/search/taxa?cd_nom=${this.$route.query.species}`)
         .then((data) => {
           this.speciesIsSelected = true
           this.selectedType = this.typeList[0]
