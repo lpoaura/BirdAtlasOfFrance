@@ -133,7 +133,7 @@ export default {
     const xAxisMonths = d3
       .scaleBand()
       .range([0, barPlotWidth])
-      .padding(0.26)
+      .padding(0.3)
       .domain([
         'Jan',
         'Fév',
@@ -248,7 +248,7 @@ export default {
     const xAxisDecades = d3
       .scaleBand()
       .range([0, barPlotWidth])
-      .padding(0.8)
+      .padding(0.9)
       .domain(
         this.formattedData.phenology.data.map(function (d) {
           return d.label
