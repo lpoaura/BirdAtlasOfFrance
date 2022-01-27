@@ -970,10 +970,6 @@ export default {
           .then((data) => {
             if (data) {
               this.speciesDistributionGeojson = data
-              // À SUPPRIMER LORSQUE L'API RENVERRA UN empty string
-              if (data.features.length === 0) {
-                this.noSpeciesData = true
-              }
             } else {
               this.speciesDistributionGeojson = {
                 type: 'FeatureCollection',

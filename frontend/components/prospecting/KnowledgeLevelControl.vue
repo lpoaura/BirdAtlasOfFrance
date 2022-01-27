@@ -59,10 +59,7 @@
         </div>
       </div>
     </div>
-    <span
-      v-show="currentTerritory.id && noAvailableData"
-      class="fw-500"
-    >
+    <span v-show="currentTerritory.id && noAvailableData" class="fw-500">
       Les données de ce territoire ne sont pas encore disponibles.
     </span>
   </section>
@@ -270,53 +267,54 @@ export default {
         ),
       ])
         .then((responses) => {
-          // AJOUTER if(responses[0]) QUAND L'API NE RENVERRA PLUS D'ERREUR 500
-          this.noAvailableData = false
-          const seasons = ['all_period', 'breeding', 'wintering']
-          responses.forEach((item, index) => {
-            this.globalKnowledgeLevel[seasons[index]].average = this.$toPercent(
-              item.average
+          if (responses[0].average !== 0) {
+            this.noAvailableData = false
+            const seasons = ['all_period', 'breeding', 'wintering']
+            responses.forEach((item, index) => {
+              this.globalKnowledgeLevel[seasons[index]].average =
+                this.$toPercent(item.average)
+              const dataArray = Object.values(item)
+              dataArray.slice(1, dataArray.length).forEach((i, j) => {
+                this.globalKnowledgeLevel[seasons[index]].data[j].value = i
+              })
+            })
+            // Define pie chart colors
+            const color = d3.scaleOrdinal(
+              this.selectedSeason.featuresColors.slice(1)
             )
-            const dataArray = Object.values(item)
-            dataArray.slice(1, dataArray.length).forEach((i, j) => {
-              this.globalKnowledgeLevel[seasons[index]].data[j].value = i
-            })
-          })
-          // Define pie chart colors
-          const color = d3.scaleOrdinal(
-            this.selectedSeason.featuresColors.slice(1)
-          )
-          // Update data
-          const pieChartData = d3
-            .pie()
-            .value(function (d) {
-              return d.value
-            })
-            .sort(null)(
-            this.globalKnowledgeLevel[this.selectedSeason.value].data
-          )
-          // Create pie chart
-          const pieChartSvg = d3
-            .select(this.$el)
-            .select('.PieChartSvg')
-            .selectAll('path')
-            .data(pieChartData)
-          pieChartSvg.exit().remove()
-          pieChartSvg
-            .enter()
-            .append('path')
-            .merge(pieChartSvg)
-            .transition()
-            .duration(150)
-            .attr('class', 'arc')
-            .attr('d', this.arcPath)
-            .attr('fill', function (d) {
-              return color(d.data.label)
-            })
+            // Update data
+            const pieChartData = d3
+              .pie()
+              .value(function (d) {
+                return d.value
+              })
+              .sort(null)(
+              this.globalKnowledgeLevel[this.selectedSeason.value].data
+            )
+            // Create pie chart
+            const pieChartSvg = d3
+              .select(this.$el)
+              .select('.PieChartSvg')
+              .selectAll('path')
+              .data(pieChartData)
+            pieChartSvg.exit().remove()
+            pieChartSvg
+              .enter()
+              .append('path')
+              .merge(pieChartSvg)
+              .transition()
+              .duration(150)
+              .attr('class', 'arc')
+              .attr('d', this.arcPath)
+              .attr('fill', function (d) {
+                return color(d.data.label)
+              })
+          } else {
+            this.noAvailableData = true
+          }
         })
         .catch((errors) => {
           console.log(errors)
-          this.noAvailableData = true
         })
     },
     // MOBILE
