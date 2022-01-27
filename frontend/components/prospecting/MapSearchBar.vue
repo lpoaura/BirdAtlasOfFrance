@@ -2,7 +2,7 @@
   <div
     v-click-outside="closeSearchBar"
     class="AutocompleteWrapper map"
-    :class="autocompleteIsOpen ? 'open' : ''"
+    :class="search.length > 0 ? 'open' : ''"
   >
     <input
       v-model="search"
@@ -258,11 +258,6 @@ export default {
 <style scoped>
 .AutocompleteWrapper {
   z-index: 5;
-}
-
-.AutocompleteWrapper.open {
-  border: 1px solid #eece25;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
 .AutocompleteWrapper input.small {
