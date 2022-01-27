@@ -232,6 +232,7 @@ $$
             ORDER BY cd_nom, id_attribut
         ON CONFLICT (id_attribut, cd_ref) DO NOTHING;
 
+        DROP MATERIALIZED VIEW atlas.mv_grid_territories_matching;
         CREATE MATERIALIZED VIEW atlas.mv_grid_territories_matching AS
         SELECT
             territory.id_area AS id_area_territory
