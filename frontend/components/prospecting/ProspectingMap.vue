@@ -175,14 +175,10 @@
               selectedLayer.value === 'species-distribution')
           "
           class="InformationControl"
+          style="position: relative"
         >
-          <v-progress-circular
-            :size="20"
-            :width="3"
-            :indeterminate="indeterminate"
-            class="right-margin-8"
-          />
-          <h5 class="black02 fw-500">Chargement des données</h5>
+          <div class="Progress"></div>
+          <h5 class="black02 fw-500 left-margin-42">Chargement des données</h5>
         </div>
         <div
           v-show="selectedLayer.value === 'epoc' && currentZoom < 11"
@@ -267,14 +263,10 @@
               selectedLayer.value === 'species-distribution')
           "
           class="InformationControl"
+          style="position: relative"
         >
-          <v-progress-circular
-            :size="20"
-            :width="3"
-            :indeterminate="indeterminate"
-            class="right-margin-8"
-          />
-          <h5 class="black02 fw-500">Chargement des données</h5>
+          <div class="Progress"></div>
+          <h5 class="black02 fw-500 left-margin-42">Chargement des données</h5>
         </div>
         <div
           v-show="selectedLayer.value === 'epoc' && currentZoom < 11"
@@ -440,7 +432,7 @@ export default {
     knowledgeLevelClasses: [0, 0.25, 0.5, 0.75, 1],
     searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
     searchedFeatureCode: null, // Le zonage sélectionné est une maille (recherche depuis l'URL)
-    indeterminate: true, // Progress (loading)
+    // indeterminate: true, // Progress (loading)
     // MOBILE
     seasonIsOpen: false,
     layerIsOpen: false,
@@ -1193,5 +1185,19 @@ export default {
 #map-wrap {
   height: calc(100vh - 136px);
   height: calc(calc(var(--vh, 1vh) * 100) - 136px);
+}
+
+.Progress {
+  background: url('/prospecting/progress.gif') center / cover;
+  background-size: 240%;
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  top: 4px;
+  left: 12px;
+}
+
+.left-margin-42 {
+  margin-left: 42px;
 }
 </style>
