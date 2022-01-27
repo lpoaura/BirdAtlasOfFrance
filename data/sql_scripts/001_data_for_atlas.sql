@@ -69,8 +69,7 @@ $$
               AND synthese.id_nomenclature_observation_status !=
                   ref_nomenclatures.get_id_nomenclature('STATUT_OBS', 'No')
               AND date_min >= '2007-01-01')
-        WITH NO DATA
-        ;
+        WITH NO DATA;
         COMMENT ON MATERIALIZED VIEW atlas.mv_data_for_atlas IS 'All datas used for atlas';
         CREATE UNIQUE INDEX i_data_for_atlas_id_area_id_data ON atlas.mv_data_for_atlas (id_area, id_data);
         CREATE INDEX i_data_for_atlas_cdnom ON atlas.mv_data_for_atlas (cd_nom);
@@ -139,8 +138,7 @@ $$
                                      4326), areas.geom)
               AND cast(item ->> 'date_start' AS DATE) > '2018-12-31'
                 )
-        WITH NO DATA
-        ;
+        WITH NO DATA;
         RAISE INFO '-- % -- COMMENT AND INDEXES ON atlas.mv_forms_for_atlas', clock_timestamp();
         COMMENT ON MATERIALIZED VIEW atlas.mv_forms_for_atlas IS 'All forms realized during atlas period';
 --         CREATE UNIQUE INDEX i_unique_forms_for_atlas_idforms on atlas.mv_forms_for_atlas(id_form_universal);
@@ -233,6 +231,20 @@ $$
                 attributs
             ORDER BY cd_nom, id_attribut
         ON CONFLICT (id_attribut, cd_ref) DO NOTHING;
+
+        DROP MATERIALIZED VIEW atlas.mv_grid_territories_matching;
+        CREATE MATERIALIZED VIEW atlas.mv_grid_territories_matching AS
+        SELECT
+            territory.id_area AS id_area_territory
+          , grid.id_area      AS id_area_grid
+            FROM
+                ref_geo.l_areas grid
+                    JOIN ref_geo.l_areas territory ON st_intersects(grid.geom, territory.geom)
+            WHERE
+                  territory.id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
+              AND grid.id_type = ref_geo.get_id_area_type('ATLAS_GRID');
+
+        CREATE UNIQUE INDEX ON atlas.mv_grid_territories_matching (id_area_territory, id_area_grid);
         --
 --         WITH
 --             species AS (SELECT
