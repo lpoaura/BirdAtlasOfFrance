@@ -100,7 +100,7 @@ $$
                 result
                     JOIN names ON names.cd_nom = result.cd_nom)
         WITH NO DATA;
-        CREATE UNIQUE INDEX i_area_knowledge_list_taxa_id_area_cd_nom ON atlas.mv_area_knowledge_list_taxa (id_area,, cd_nom);
+        CREATE UNIQUE INDEX i_area_knowledge_list_taxa_id_area_cd_nom ON atlas.mv_area_knowledge_list_taxa (id_area, cd_nom);
         COMMIT;
     END
 $$
