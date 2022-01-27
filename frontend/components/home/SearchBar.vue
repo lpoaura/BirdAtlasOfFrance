@@ -74,18 +74,18 @@ export default {
     typeList: [
       {
         label: 'Espèce',
-        api: '/api/v1/search_taxa?limit=10&search=',
+        api: '/api/v1/search/taxa?limit=10&search=',
         route: '/prospecting',
       },
       {
         label: 'Lieu',
-        api: '/api/v1/search_areas?limit=10&type_code=COM&search=',
+        api: '/api/v1/search/areas?limit=10&type_code=COM&search=',
         route: '/prospecting',
       },
     ],
     selectedType: {
       label: 'Espèce',
-      api: '/api/v1/search_taxa?limit=10&search=',
+      api: '/api/v1/search/taxa?limit=10&search=',
       route: '/prospecting',
     },
     selectIsOpen: false,
