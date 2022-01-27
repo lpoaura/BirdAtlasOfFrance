@@ -87,7 +87,7 @@
                       : 0
                   }}%
                 </div>
-                <div class="right-margin-16">|</div>
+                <div class="black04 right-margin-16">|</div>
                 <div>
                   {{
                     keyData.prospecting_hours
