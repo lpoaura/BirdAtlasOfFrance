@@ -9,7 +9,7 @@
             :key="index"
             class="DisplayingType"
             :class="
-              type.label === selectedDisplayingType.label ? 'selected' : ''
+              type.value === selectedDisplayingType.value ? 'selected' : ''
             "
             @click="updateSelectedDisplayingType(type)"
           >
@@ -32,7 +32,7 @@
         </div>
       </div>
     </header>
-    <div v-if="selectedDisplayingType.label === 'grid'" class="TerritoriesGrid">
+    <div v-if="selectedDisplayingType.value === 'grid'" class="TerritoriesGrid">
       <div
         v-for="(territory, index) in filteredTerritories"
         :key="index"
@@ -92,10 +92,10 @@ export default {
   },
   data: () => ({
     displayingTypesList: [
-      { label: 'grid', icon: '/grid.svg' },
-      { label: 'list', icon: '/list.svg' },
+      { value: 'grid', icon: '/grid.svg' },
+      { value: 'list', icon: '/list.svg' },
     ],
-    selectedDisplayingType: { label: 'grid', icon: 'grid.svg' },
+    selectedDisplayingType: { value: 'grid', icon: 'grid.svg' },
     territoriesList: [
       {
         name: 'France métropolitaine',

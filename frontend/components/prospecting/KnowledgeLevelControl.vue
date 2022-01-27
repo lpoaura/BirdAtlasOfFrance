@@ -29,7 +29,7 @@
       />
     </header>
     <div
-      v-show="currentTerritory.id"
+      v-show="currentTerritory.id && !noAvailableData"
       class="KnowledgeLevelPieChartWrapper flex"
     >
       <div class="KnowledgeLevelPieChart">
@@ -48,7 +48,7 @@
           <span class="black02 fw-500">
             <i
               :style="{
-                background: selectedSeason.featuresColors[index],
+                background: selectedSeason.featuresColors[index + 1],
               }"
             ></i
             >{{ item.label }}
@@ -59,6 +59,12 @@
         </div>
       </div>
     </div>
+    <span
+      v-show="currentTerritory.id && noAvailableData"
+      class="fw-500"
+    >
+      Les données de ce territoire ne sont pas encore disponibles.
+    </span>
   </section>
 </template>
 
@@ -154,6 +160,7 @@ export default {
         ],
       },
     },
+    noAvailableData: false,
     arcPath: {},
   }),
   computed: {
@@ -176,7 +183,7 @@ export default {
     selectedSeason(newVal) {
       // Le watch permet de mettre à jour le graphe quand on change la saison sur la répartition de l'espèce
       // Define pie chart colors
-      const color = d3.scaleOrdinal(newVal.featuresColors)
+      const color = d3.scaleOrdinal(newVal.featuresColors.slice(1))
       // Define data
       const pieChartData = d3
         .pie()
@@ -216,7 +223,7 @@ export default {
       .attr('width', pieChartHeight)
       .attr('height', pieChartHeight)
     // Define pie chart colors
-    const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
+    const color = d3.scaleOrdinal(this.selectedSeason.featuresColors.slice(1))
     // Define pie chart shape
     this.arcPath = d3
       .arc()
@@ -244,6 +251,7 @@ export default {
       .attr('fill', function (d) {
         return color(d.data.label)
       })
+    // Nécessaire pour la version mobile
     if (this.currentTerritory.id) {
       this.updateGlobalKnowledgeLevel()
     }
@@ -262,6 +270,8 @@ export default {
         ),
       ])
         .then((responses) => {
+          // AJOUTER if(responses[0]) QUAND L'API NE RENVERRA PLUS D'ERREUR 500
+          this.noAvailableData = false
           const seasons = ['all_period', 'breeding', 'wintering']
           responses.forEach((item, index) => {
             this.globalKnowledgeLevel[seasons[index]].average = this.$toPercent(
@@ -273,7 +283,9 @@ export default {
             })
           })
           // Define pie chart colors
-          const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
+          const color = d3.scaleOrdinal(
+            this.selectedSeason.featuresColors.slice(1)
+          )
           // Update data
           const pieChartData = d3
             .pie()
@@ -304,6 +316,7 @@ export default {
         })
         .catch((errors) => {
           console.log(errors)
+          this.noAvailableData = true
         })
     },
     // MOBILE

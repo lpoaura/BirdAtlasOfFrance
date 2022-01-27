@@ -39,7 +39,7 @@ export default {
     },
   },
   data: () => ({
-    // RÉCUPÉRER LES PROTOCOLES DEPUIS LE DOSSIER content
+    // À FAIRE : RÉCUPÉRER LES PROTOCOLES DEPUIS LE DOSSIER content
     protocolsCards: [
       {
         icon: '/get-involved/EPOC-ODF-logo.svg',
@@ -47,7 +47,7 @@ export default {
         subtitle: "Estimation des Populations d'Oiseaux Communs ODF",
         route: '/get-involved/epoc-odf',
         season: 'Reproduction',
-        speciesGroup: ['Oiseaux communs'],
+        speciesGroup: ['#common-birds'],
       },
       {
         icon: '/get-involved/EPOC-logo.svg',
@@ -55,7 +55,7 @@ export default {
         subtitle: "Estimation des Populations d'Oiseaux Communs",
         route: '/get-involved/epoc',
         season: 'Reproduction',
-        speciesGroup: ['Oiseaux communs'],
+        speciesGroup: ['#common-birds'],
       },
       {
         icon: '/get-involved/STOC-logo.svg',
@@ -63,7 +63,7 @@ export default {
         subtitle: 'Suivi Temporel des Oiseaux Communs',
         route: '/get-involved/stoc',
         season: 'Reproduction',
-        speciesGroup: ['Oiseaux communs'],
+        speciesGroup: ['#common-birds'],
       },
       {
         icon: '/get-involved/SHOC-logo.svg',
@@ -71,7 +71,7 @@ export default {
         subtitle: 'Suivi Hivernal des Oiseaux Communs',
         route: '/get-involved/shoc',
         season: 'Hivernage',
-        speciesGroup: ['Oiseaux communs'],
+        speciesGroup: ['#common-birds'],
       },
       // {
       //   icon: '/get-involved/STOM-logo.svg',
@@ -79,7 +79,7 @@ export default {
       //   subtitle: 'Suivi Temporel des Oiseaux de Montagne',
       //   route: '/get-involved/stom',
       //   season: 'Reproduction',
-      //   speciesGroup: ['Oiseaux communs'],
+      //   speciesGroup: ['#common-birds'],
       // },
       {
         icon: '/get-involved/Observatoire-Rapaces-logo.svg',
@@ -87,7 +87,7 @@ export default {
         subtitle: '',
         route: '/get-involved/observatoire-rapaces',
         season: 'Reproduction',
-        speciesGroup: ['Rapaces'],
+        speciesGroup: ['#raptors'],
       },
       {
         icon: '/get-involved/LIMAT-logo.svg',
@@ -95,7 +95,7 @@ export default {
         subtitle: 'Limicoles et Anatidés Nicheurs',
         route: '/get-involved/limat',
         season: 'Reproduction',
-        speciesGroup: ["Oiseaux d'eau"],
+        speciesGroup: ["#water-birds"],
       },
       {
         icon: '/get-involved/Wetlands-logo.svg',
@@ -103,7 +103,7 @@ export default {
         subtitle: "Recensement des Oiseaux d'Eau",
         route: '/get-involved/wetlands',
         season: 'Hivernage',
-        speciesGroup: ["Oiseaux d'eau"],
+        speciesGroup: ["#water-birds"],
       },
       {
         icon: '/get-involved/complete-lists-logo.svg',
@@ -111,17 +111,17 @@ export default {
         subtitle: null,
         route: '/get-involved/complete-lists',
         season: null,
-        speciesGroup: ['Oiseaux communs', 'Rapaces', "Oiseaux d'eau"],
+        speciesGroup: ['#common-birds', '#raptors', "#water-birds"],
       },
     ],
   }),
   computed: {
     resultsCards() {
-      if (this.speciesGroupFilter.label === 'Tous les dispositifs') {
+      if (this.speciesGroupFilter.hash === '') {
         return this.protocolsCards
       } else {
         return this.protocolsCards.filter((card) => {
-          return card.speciesGroup.includes(this.speciesGroupFilter.label)
+          return card.speciesGroup.includes(this.speciesGroupFilter.hash)
         })
       }
     },
@@ -133,7 +133,7 @@ export default {
 .ProtocolsCardsGrid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 24px;
 }
 
@@ -141,7 +141,7 @@ export default {
 
 @media screen and (max-width: 680px) {
   .ProtocolsCardsGrid {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     grid-gap: 16px;
   }
 
