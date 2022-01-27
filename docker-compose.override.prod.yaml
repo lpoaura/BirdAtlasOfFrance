@@ -3,8 +3,6 @@ version: "3"
 services:
 
   frontend:
-      
-    
     labels:
       traefik.http.routers.frontend.rule: Host(`${APP_DOMAIN:-dev.odf.local}`)
       traefik.http.services.frontend.loadbalancer.server.port: 3000
