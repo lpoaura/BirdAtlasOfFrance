@@ -220,7 +220,10 @@
         ref="speciesOverflow"
         class="MapControlOverflow"
       >
-        <div class="AutocompleteWrapper map">
+        <div
+          class="AutocompleteWrapper map"
+          :class="search.length > 0 ? 'open' : ''"
+        >
           <input v-model="search" type="text" placeholder="Rechercher" />
           <div class="AutocompleteGadgets map">
             <img
