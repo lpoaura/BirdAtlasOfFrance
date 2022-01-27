@@ -9,11 +9,11 @@
         >{{ formattedData.phenology.label }}
       </h5>
       <h5 class="ChartLegendLabel">
-        <i :style="{ background: formattedData.prenuptial.color }"></i
+        <i :style="{ background: formattedData.prenuptial.colors.quantile }"></i
         >{{ formattedData.prenuptial.label }}
       </h5>
       <h5 class="ChartLegendLabel">
-        <i :style="{ background: formattedData.postnuptial.color }"></i
+        <i :style="{ background: formattedData.postnuptial.colors.quantile }"></i
         >{{ formattedData.postnuptial.label }}
       </h5>
     </div>
@@ -70,13 +70,13 @@ export default {
       },
       prenuptial: {
         label: 'Migration prénuptiale',
-        data: ['D10', 'D13', 'D16'],
-        color: 'rgba(57, 118, 90, 0.1)',
+        data: ['D9', 'D12', 'D15'],
+        colors: { quantile: 'rgba(57, 118, 90, 0.1)', median: '#39765A' },
       },
       postnuptial: {
         label: 'Migration postnuptiale',
-        data: ['D26', 'D29', 'D32'],
-        color: 'rgba(235, 106, 10, 0.1)',
+        data: ['D27', 'D30', 'D33'],
+        colors: { quantile: 'rgba(235, 106, 10, 0.1)', median: '#EB6A0A' },
       },
     },
   }),
@@ -102,7 +102,7 @@ export default {
     const xAxisMonths = d3
       .scaleBand()
       .range([0, barPlotWidth])
-      .padding(0.26)
+      .padding(0.3)
       .domain([
         'Jan',
         'Fév',
@@ -178,7 +178,7 @@ export default {
     const xAxisDecades = d3
       .scaleBand()
       .range([0, barPlotWidth])
-      .padding(0.8)
+      .padding(0.9)
       .domain(
         this.formattedData.phenology.data.map(function (d) {
           return d.label
@@ -199,7 +199,25 @@ export default {
           xAxisDecades(this.formattedData.prenuptial.data[0])
       )
       .attr('height', barPlotHeight)
-      .attr('fill', this.formattedData.prenuptial.color)
+      .attr('fill', this.formattedData.prenuptial.colors.quantile)
+    barPlotSvg
+      .append('line')
+      .attr('class', 'median')
+      .attr(
+        'x1',
+        xAxisDecades(this.formattedData.prenuptial.data[1]) +
+          xAxisDecades.bandwidth() / 2
+      )
+      .attr(
+        'x2',
+        xAxisDecades(this.formattedData.prenuptial.data[1]) +
+          xAxisDecades.bandwidth() / 2
+      )
+      .attr('y1', 0)
+      .attr('y2', barPlotHeight)
+      .attr('stroke-width', 4)
+      .style('stroke-dasharray', '7,7')
+      .style('stroke', '#39765A')
     barPlotSvg
       .append('text')
       .attr(
@@ -254,7 +272,25 @@ export default {
           xAxisDecades(this.formattedData.postnuptial.data[0])
       )
       .attr('height', barPlotHeight)
-      .attr('fill', this.formattedData.postnuptial.color)
+      .attr('fill', this.formattedData.postnuptial.colors.quantile)
+    barPlotSvg
+      .append('line')
+      .attr('class', 'median')
+      .attr(
+        'x1',
+        xAxisDecades(this.formattedData.postnuptial.data[1]) +
+          xAxisDecades.bandwidth() / 2
+      )
+      .attr(
+        'x2',
+        xAxisDecades(this.formattedData.postnuptial.data[1]) +
+          xAxisDecades.bandwidth() / 2
+      )
+      .attr('y1', 0)
+      .attr('y2', barPlotHeight)
+      .attr('stroke-width', 4)
+      .style('stroke-dasharray', '7,7')
+      .style('stroke', '#EB6A0A')
     barPlotSvg
       .append('text')
       .attr(
