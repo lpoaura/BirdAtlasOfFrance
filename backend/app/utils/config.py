@@ -33,7 +33,6 @@ class Settings(BaseSettings):
     APP_URL: str
     SENTRY_DSN: Optional[str] = None
     SENTRY_TRACES_SAMPLE_RATE: Optional[float] = 0.2
-
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)

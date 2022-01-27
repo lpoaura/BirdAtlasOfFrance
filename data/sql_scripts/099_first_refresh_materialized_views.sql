@@ -19,6 +19,10 @@ $$
         RAISE INFO '-- % -- INTERVAL FROM START SCRIPT', delta;
         RAISE INFO '-- % -- START REFRESH atlas.mv_data_for_atlas', clock_timestamp();
         REFRESH MATERIALIZED VIEW atlas.mv_data_for_atlas;
+        SELECT (clock_timestamp() - start_ts) INTO delta;
+        RAISE INFO '-- % -- INTERVAL FROM START SCRIPT', delta;
+        RAISE INFO '-- % -- START REFRESH atlas.mv_forms_for_atlas', clock_timestamp();
+        REFRESH MATERIALIZED VIEW atlas.mv_forms_for_atlas;
         RAISE INFO '-- % -- INTERVAL FROM START SCRIPT', delta;
         RAISE INFO '-- % -- START REFRESH atlas.mv_taxa_groups', clock_timestamp();
         REFRESH MATERIALIZED VIEW atlas.mv_taxa_groups;
@@ -44,9 +48,12 @@ $$
         REFRESH MATERIALIZED VIEW atlas.mv_general_stats;
         RAISE INFO '-- % -- INTERVAL FROM START SCRIPT', delta;
         RAISE INFO '-- % -- END SCRIPT', clock_timestamp();
---         REFRESH MATERIALIZED VIEW atlas.mv_taxon_count_classes_by_territory;
+        REFRESH MATERIALIZED VIEW atlas.mv_taxon_count_classes_by_territory;
         REFRESH MATERIALIZED VIEW atlas.mv_realized_epoc;
         COMMIT;
     END
 $$
+;
+
+GRANT SELECT ON ALL TABLES IN SCHEMA atlas TO odfapp, gnadm
 ;
