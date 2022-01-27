@@ -23,21 +23,23 @@ $$
         /* Materialized view to list all taxa in area */
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_area_dashboard;
         CREATE MATERIALIZED VIEW atlas.mv_area_dashboard AS
-        (WITH
+        (
+        WITH
             data_synth AS (
                 SELECT
                     mv_data_for_atlas.id_area
-                  , max(date_min)                                                              AS last_date
-                  , count(*)                                                                   AS data_count
-                  , count(DISTINCT mv_taxa_groups.cd_group) FILTER (WHERE new_data_all_period) AS taxa_count_all_period
-                  , count(DISTINCT mv_taxa_groups.cd_group) FILTER (WHERE new_data_wintering)  AS taxa_count_wintering
-                  , count(DISTINCT mv_taxa_groups.cd_group) FILTER (WHERE new_data_breeding)   AS taxa_count_breeding
+                  , max(date_min)                                                                AS last_date
+                  , count(DISTINCT mv_data_for_atlas.id_data) FILTER (WHERE new_data_all_period) AS data_count
+                  , count(DISTINCT mv_taxa_groups.cd_group)
+                    FILTER (WHERE new_data_all_period)                                           AS taxa_count_all_period
+                  , count(DISTINCT mv_taxa_groups.cd_group) FILTER (WHERE new_data_wintering)    AS taxa_count_wintering
+                  , count(DISTINCT mv_taxa_groups.cd_group) FILTER (WHERE new_data_breeding)     AS taxa_count_breeding
                     FROM
                         atlas.mv_data_for_atlas
                             JOIN atlas.mv_taxa_groups ON mv_data_for_atlas.cd_nom = mv_taxa_groups.cd_nom
                             JOIN atlas.t_taxa ON t_taxa.cd_nom = mv_taxa_groups.cd_group
-                    WHERE
-                        new_data_all_period
+--                     WHERE
+--                         new_data_all_period
                     GROUP BY
                         mv_data_for_atlas.id_area
             )
@@ -70,3 +72,8 @@ $$
     END
 $$
 ;
+
+
+GRANT SELECT ON ALL TABLES IN SCHEMA atlas TO odfapp,gnadm
+;
+

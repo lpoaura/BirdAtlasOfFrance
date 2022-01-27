@@ -99,58 +99,6 @@ $$
                                                                                                                    cast(item ->> 'lat' AS NUMERIC)),
                                                                                                            4326));
 
-        INSERT INTO
-            taxonomie.bib_attributs ( id_attribut
-                                    , nom_attribut
-                                    , label_attribut
-                                    , liste_valeur_attribut
-                                    , obligatoire
-                                    , desc_attribut
-                                    , type_attribut
-                                    , type_widget
-                                    , regne
-                                    , group2_inpn
-                                    , id_theme
-                                    , ordre)
-            VALUES
-                ( 202
-                , 'odf_common_name_fr'
-                , '[ODF] Nom vernaculaire français'
-                , '{}'
-                , FALSE
-                , 'Nom vernaculaire français à afficher dans ODF'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 4
-                , 1)
-              , ( 203
-                , 'odf_common_name_en'
-                , '[ODF] Nom vernaculaire anglais'
-                , '{}'
-                , FALSE
-                , 'Nom vernaculaire anglais à afficher dans ODF'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 4
-                , 2)
-              , ( 201
-                , 'odf_sci_name'
-                , '[ODF] Nom scientifique'
-                , '{}'
-                , FALSE
-                , 'Nom scientifique à afficher dans ODF'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 4
-                , 3)
-        ON CONFLICT
-            DO NOTHING;
 
         WITH
             datas AS (
@@ -185,6 +133,166 @@ $$
           , cd_nom
             FROM
                 datas;
+
+        INSERT INTO
+            taxonomie.bib_themes (id_theme, nom_theme, desc_theme, ordre, id_droit)
+            VALUES
+                (4, 'ODF Noms', 'Informations relatives à Oiseaux de France (commun)', 1, 3)
+              , (5, 'ODF Monographie', 'Informations relatives à Oiseaux de France (monographie espèce)', 2, 3)
+              , (6, 'ODF Traits', 'Informations relatives à Oiseaux de France (bdd traits)', 3, 3)
+        ON CONFLICT DO NOTHING;
+
+        DROP MATERIALIZED VIEW atlas.mv_search_taxa;
+        DROP MATERIALIZED VIEW atlas.mv_area_knowledge_list_taxa;
+
+        SELECT * FROM taxonomie.bib_attributs;
+        INSERT INTO
+            taxonomie.bib_attributs ( id_attribut
+                                    , nom_attribut
+                                    , label_attribut
+                                    , liste_valeur_attribut
+                                    , obligatoire
+                                    , desc_attribut
+                                    , type_attribut
+                                    , type_widget
+                                    , regne
+                                    , group2_inpn
+                                    , id_theme
+                                    , ordre)
+            VALUES
+                ( 202
+                , 'odf_common_name_fr'
+                , 'Nom vernaculaire français'
+                , '{}'
+                , FALSE
+                , 'Nom vernaculaire français à afficher dans ODF'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 4
+                , 1)
+              , ( 203
+                , 'odf_common_name_en'
+                , 'Nom vernaculaire anglais'
+                , '{}'
+                , FALSE
+                , 'Nom vernaculaire anglais à afficher dans ODF'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 4
+                , 2)
+              , ( 201
+                , 'odf_sci_name'
+                , 'Nom scientifique'
+                , '{}'
+                , FALSE
+                , 'Nom scientifique à afficher dans ODF'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 4
+                , 3)
+              , (204, 'description', 'Description', '{}', FALSE, 'Description', 'text', 'textarea', NULL, NULL, 5, 1)
+              , ( 205
+                , 'distribution'
+                , 'Répartition et déplacements'
+                , '{}'
+                , FALSE
+                , 'Répartition et déplacements'
+                , 'text'
+                , 'textarea'
+                , NULL
+                , NULL
+                , 5
+                , 2)
+              , (206, 'habitat', 'Habitat', '{}', FALSE, 'Habitat', 'text', 'textarea', NULL, NULL, 5, 3)
+              , (207, 'feeding', 'Alimentation', '{}', FALSE, 'Alimentation', 'text', 'textarea', NULL, NULL, 5, 3)
+              , (207, 'breeding', 'Reproduction', '{}', FALSE, 'Reproduction', 'text', 'textarea', NULL, NULL, 5, 4)
+              , (208, 'breeding', 'Reproduction', '{}', FALSE, 'Reproduction', 'text', 'textarea', NULL, NULL, 5, 4)
+              , ( 208
+                , 'trait_incubation_time'
+                , 'Durée d''incubation'
+                , '{}'
+                , FALSE
+                , 'Durée d''incubation'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 6
+                , 1)
+              , (209, 'trait_length', 'Longueur', '{}', FALSE, 'Longueur', 'text', 'text', NULL, NULL, 6, 2)
+              , (210, 'trait_specie_group', 'Groupe', '{}', FALSE, 'Groupe', 'text', 'text', NULL, NULL, 6, 3)
+              , ( 211
+                , 'trait_migratory_behaviour'
+                , 'Comportement migrateur'
+                , '{}'
+                , FALSE
+                , 'Comportement migrateur'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 6
+                , 4)
+              , ( 212
+                , 'trait_clutches_number'
+                , 'Nombre de pontes'
+                , '{}'
+                , FALSE
+                , 'Nombre de pontes'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 6
+                , 5)
+              , (212, 'trait_scope', 'Envergure', '{}', FALSE, 'Envergure', 'text', 'text', NULL, NULL, 6, 6)
+              , (213, 'trait_food', 'Nourriture', '{}', FALSE, 'Nourriture', 'text', 'text', NULL, NULL, 6, 7)
+              , (214, 'trait_max_age', 'Age maximal', '{}', FALSE, 'Age maximal', 'text', 'text', NULL, NULL, 6, 8)
+              , ( 215
+                , 'trait_eggs_number'
+                , 'Nombre d''oeufs'
+                , '{}'
+                , FALSE
+                , 'Nombre d''oeufs'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 6
+                , 9)
+              , (216, 'trait_weight', 'Poids', '{}', FALSE, 'Poids', 'text', 'text', NULL, NULL, 6, 10)
+              , (217, 'trait_habitat', 'Habitat', '{}', FALSE, 'Habitat', 'text', 'text', NULL, NULL, 6, 11)
+              , ( 218
+                , 'trait_nest_length_stay'
+                , 'Durée de séjour au nid jusqu''à l''envol'
+                , '{}'
+                , FALSE
+                , 'Durée de séjour au nid jusqu''à l''envol'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 6
+                , 12)
+              , ( 219
+                , 'trait_nesting_site'
+                , 'Site de nidification'
+                , '{}'
+                , FALSE
+                , 'Site de nidification'
+                , 'text'
+                , 'text'
+                , NULL
+                , NULL
+                , 6
+                , 13)
+        ON CONFLICT DO NOTHING;
 
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_groups CASCADE;
         CREATE MATERIALIZED VIEW atlas.mv_taxa_groups AS
@@ -299,6 +407,7 @@ $$
                   --              AND cast(item ->> 'id_taxo_group' as int) = 1
               AND taxref.classe LIKE 'Aves'
         ON CONFLICT (cd_nom) DO NOTHING;
+
 
 
         WITH
@@ -423,6 +532,76 @@ $$
                     cor_taxon_attribut.
                         cd_ref = attributs.cd_nom
               AND   cor_taxon_attribut.id_attribut = attributs.id_attribut;
+
+        CREATE TABLE atlas.t_decades AS
+        WITH
+            t1 AS (SELECT
+                       extract(MONTH FROM dd::DATE) AS m
+                     , extract(DAY FROM dd::DATE)      dom
+                     , CASE
+                           WHEN extract(DAY FROM dd::DATE) <= 10
+                               THEN 1
+                           WHEN extract(DAY FROM dd::DATE) <= 20
+                               THEN 2
+                           ELSE 3 END               AS dpos
+                       FROM
+                           generate_series
+                               ('2020-01-01'::DATE
+                               , '2020-12-31'::DATE
+                               , '1 day'::INTERVAL) dd)
+        SELECT
+            m
+          , dom
+          , rank() OVER ( PARTITION BY dpos) AS decade
+            FROM
+                t1
+            ORDER BY
+                m ASC
+              , dom ASC;
+
+
+        CREATE TABLE IF NOT EXISTS atlas.t_epoc
+        (
+            id_epoc   INTEGER PRIMARY KEY,
+            id_ff     VARCHAR,
+            status    VARCHAR,
+            rang_rsv  INT,
+            id_area   INT REFERENCES ref_geo.l_areas (id_area),
+            area_code VARCHAR,
+            geom      GEOMETRY(point, 4326),
+            geojson   JSONB GENERATED ALWAYS AS (st_asgeojson(geom)::JSONB ) STORED
+        );
+        -- ALTER TABLE atlas.t_epoc OWNER TO gnadm;
+        COMMENT ON COLUMN atlas.t_epoc.id_epoc IS 'EPOC unique ID';
+        COMMENT ON COLUMN atlas.t_epoc.id_ff IS 'EPOC Official name from Faune-France';
+        COMMENT ON COLUMN atlas.t_epoc.status IS 'EPOC status : Officiel vs Réserve';
+        COMMENT ON COLUMN atlas.t_epoc.rang_rsv IS 'EPOC rang ("Réserve" only)';
+        COMMENT ON COLUMN atlas.t_epoc.id_area IS 'Grid area id, foreign key to ref_geo.l_areas';
+        COMMENT ON COLUMN atlas.t_epoc.area_code IS 'Grid area code';
+        COMMENT ON COLUMN atlas.t_epoc.geom IS 'Geolocation (Point, 4326)';
+        COMMENT ON COLUMN atlas.t_epoc.geojson IS 'Geolocation as geojson (autogenerated from geom)';
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_epoc_id_epoc ON atlas.t_epoc (id_epoc);
+        CREATE INDEX IF NOT EXISTS gidx_epoc ON atlas.t_epoc USING gist (geom);
+        CREATE INDEX IF NOT EXISTS idx_epoc_id_area ON atlas.t_epoc (id_area);
+        CREATE INDEX IF NOT EXISTS idx_epoc_status ON atlas.t_epoc (status);
+
+--         INSERT INTO
+--             atlas.t_epoc (id_epoc, id_ff, status, rang_rsv, id_area, area_code, geom)
+--         SELECT
+--             epoc.id_epoc
+--           , epoc.id_ff
+--           , epoc.stt_ssu
+--           , epoc.rng_rsr
+--           , l_areas.id_area
+--           , replace(l_areas.area_code, '10kmL93', '')
+--           , st_transform(epoc.geom, 4326)
+--             FROM
+--                 tmp.epoc
+--                     JOIN ref_geo.l_areas ON st_intersects(st_transform(epoc.geom, 4326), l_areas.geom)
+--                     AND l_areas.id_type = ref_geo.get_id_area_type('ATLAS_GRID')
+--         ON CONFLICT (id_epoc) DO NOTHING;
+--         CLUSTER atlas.t_epoc
+--             USING gidx_epoc;
 
         /* Commit changes */
         COMMIT;

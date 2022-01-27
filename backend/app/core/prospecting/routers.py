@@ -187,9 +187,9 @@ def epoc_list(
     start_time = time.time()
     envelope = [float(c) for c in envelope.split(",")] if envelope else None
     q = epoc.get_epocs(db=db, envelope=envelope, status=status, id_area=id_area)
-    features = []
     if not q:
         return Response(status_code=HTTP_204_NO_CONTENT)
+    features = []
     logger.debug(f"step3: {(time.time() - start_time) * 1000}")
     for e in q:
         de = e._asdict()
