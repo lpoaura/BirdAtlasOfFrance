@@ -897,9 +897,15 @@ export default {
             "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
           )
         // Update Y axis
+        const formatter = d3.formatLocale({
+          decimal: '.',
+          thousands: ' ',
+          grouping: [3],
+          currency: ['', ''],
+        }).format(',.0f')
         d3.select(this.$el)
           .select('.yAxis')
-          .call(d3.axisLeft(yAxis))
+          .call(d3.axisLeft(yAxis).tickFormat(formatter))
           .selectAll('text')
           .attr(
             'style',
