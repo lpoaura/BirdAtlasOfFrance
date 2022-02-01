@@ -13,7 +13,9 @@
         >{{ formattedData.prenuptial.label }}
       </h5>
       <h5 class="ChartLegendLabel">
-        <i :style="{ background: formattedData.postnuptial.colors.quantile }"></i
+        <i
+          :style="{ background: formattedData.postnuptial.colors.quantile }"
+        ></i
         >{{ formattedData.postnuptial.label }}
       </h5>
     </div>
@@ -24,72 +26,25 @@
 const d3 = require('d3')
 
 export default {
-  data: () => ({
+  props: {
     formattedData: {
-      phenology: {
-        label: 'Nombre de données en migration active',
-        data: [
-          { label: 'D1', count_data: 0 },
-          { label: 'D2', count_data: 0 },
-          { label: 'D3', count_data: 0 },
-          { label: 'D4', count_data: 0 },
-          { label: 'D5', count_data: 0 },
-          { label: 'D6', count_data: 0 },
-          { label: 'D7', count_data: 5 },
-          { label: 'D8', count_data: 10 },
-          { label: 'D9', count_data: 15 },
-          { label: 'D10', count_data: 80 },
-          { label: 'D11', count_data: 110 },
-          { label: 'D12', count_data: 380 },
-          { label: 'D13', count_data: 560 },
-          { label: 'D14', count_data: 385 },
-          { label: 'D15', count_data: 270 },
-          { label: 'D16', count_data: 150 },
-          { label: 'D17', count_data: 55 },
-          { label: 'D18', count_data: 20 },
-          { label: 'D19', count_data: 0 },
-          { label: 'D20', count_data: 0 },
-          { label: 'D21', count_data: 0 },
-          { label: 'D22', count_data: 0 },
-          { label: 'D23', count_data: 0 },
-          { label: 'D24', count_data: 5 },
-          { label: 'D25', count_data: 80 },
-          { label: 'D26', count_data: 285 },
-          { label: 'D27', count_data: 410 },
-          { label: 'D28', count_data: 505 },
-          { label: 'D29', count_data: 560 },
-          { label: 'D30', count_data: 360 },
-          { label: 'D31', count_data: 250 },
-          { label: 'D32', count_data: 205 },
-          { label: 'D33', count_data: 40 },
-          { label: 'D34', count_data: 0 },
-          { label: 'D35', count_data: 0 },
-          { label: 'D36', count_data: 0 },
-        ],
-        color: '#435EF2',
-      },
-      prenuptial: {
-        label: 'Migration prénuptiale',
-        data: ['D9', 'D12', 'D15'],
-        colors: { quantile: 'rgba(57, 118, 90, 0.1)', median: '#39765A' },
-      },
-      postnuptial: {
-        label: 'Migration postnuptiale',
-        data: ['D27', 'D30', 'D33'],
-        colors: { quantile: 'rgba(235, 106, 10, 0.1)', median: '#EB6A0A' },
-      },
+      type: Object,
+      required: true,
     },
-  }),
+  },
   mounted() {
     // Get bar plot size
-    const margin = { top: 20, right: 0, bottom: 24, left: 60 }
+    const margin = { top: 20, right: 0, bottom: 24, left: 66 }
     const barPlotWidth = Math.max(
       parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
         margin.left -
         margin.right,
-      360
+      500
     )
-    const barPlotHeight = 320 - margin.top - margin.bottom
+    const barPlotHeight =
+      parseFloat(d3.select(this.$el).select('.Chart').style('height')) -
+      margin.top -
+      margin.bottom
     // Get bar plot svg and set size
     const barPlotSvg = d3
       .select(this.$el)
@@ -132,7 +87,7 @@ export default {
       )
       .call((g) => g.selectAll('line[y2]').style('opacity', 0))
     // Set Y axis and add it
-    const yAxisLeft = d3
+    const yAxis = d3
       .scaleLinear()
       .range([barPlotHeight, 0])
       .domain([
@@ -143,8 +98,8 @@ export default {
       ])
     barPlotSvg
       .append('g')
-      .attr('class', 'yAxisLeft')
-      .call(d3.axisLeft(yAxisLeft))
+      .attr('class', 'yAxis')
+      .call(d3.axisLeft(yAxis))
       .call((g) =>
         g
           .selectAll('.tick line')
@@ -216,7 +171,7 @@ export default {
       .attr('y1', 0)
       .attr('y2', barPlotHeight)
       .attr('stroke-width', 4)
-      .style('stroke-dasharray', '7,7')
+      .style('stroke-dasharray', '10,7')
       .style('stroke', '#39765A')
     barPlotSvg
       .append('text')
@@ -289,7 +244,7 @@ export default {
       .attr('y1', 0)
       .attr('y2', barPlotHeight)
       .attr('stroke-width', 4)
-      .style('stroke-dasharray', '7,7')
+      .style('stroke-dasharray', '10,7')
       .style('stroke', '#EB6A0A')
     barPlotSvg
       .append('text')
@@ -343,11 +298,11 @@ export default {
         return xAxisDecades(d.label)
       })
       .attr('y', function (d) {
-        return yAxisLeft(d.count_data)
+        return yAxis(d.count_data)
       })
       .attr('width', xAxisDecades.bandwidth())
       .attr('height', function (d) {
-        return barPlotHeight - yAxisLeft(d.count_data)
+        return barPlotHeight - yAxis(d.count_data)
       })
       .attr('fill', this.formattedData.phenology.color)
   },
