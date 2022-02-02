@@ -84,14 +84,11 @@
                 : 'hidden'
             "
           >
-            <div
-              ref="phenology-all-period"
-              class="ChartCard scrolling-item"
-            >
+            <div ref="phenology-all-period" class="ChartCard scrolling-item">
               <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
               <h5 class="black03 bottom-margin-40">
-                Nombre de données cumulées par décade sur la période
-                sélectionnée, à l’exception de l’année en cours.
+                Nombre de données cumulées par décade du 1<sup>er</sup> janvier
+                2019 au 31 décembre de l'année dernière.
               </h5>
               <phenology-all-period :formatted-data="dataPhenologyAllPeriod" />
             </div>
@@ -100,8 +97,8 @@
                 Phénologie de migration
               </h4>
               <h5 class="black03 bottom-margin-24">
-                Nombre de données cumulées par décade sur la période
-                sélectionnée, à l’exception de l’année en cours.
+                Nombre de données cumulées par décade du 1<sup>er</sup> janvier
+                2019 au 31 décembre de l'année dernière.
               </h5>
               <phenology-migration :formatted-data="dataPhenologyMigration" />
             </div>
@@ -109,7 +106,7 @@
               <h4 class="black02 fw-bold bottom-margin-8">
                 Répartition altitudinale des observations
               </h4>
-              <h5 class="black03 bottom-margin-24">
+              <h5 class="black03 bottom-margin-40">
                 Proportion des observations en fonction de l’altitude du
                 territoire.
               </h5>
@@ -126,7 +123,14 @@
                 : 'hidden'
             "
           >
-            Diagrammes Reproduction
+            <div ref="phenology-breeding" class="ChartCard scrolling-item">
+              <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
+              <h5 class="black03 bottom-margin-40">
+                Nombre de données cumulées par décade du 1<sup>er</sup> janvier
+                2019 au 31 décembre de l'année dernière.
+              </h5>
+              <phenology-breeding :formatted-data="dataPhenologyBreeding" />
+            </div>
           </div>
           <div
             ref="diagrams wintering"
@@ -156,12 +160,14 @@
 <script>
 import PhenologyAllPeriod from '~/components/species-card/PhenologyAllPeriod.vue'
 import PhenologyMigration from '~/components/species-card/PhenologyMigration.vue'
+import PhenologyBreeding from '~/components/species-card/PhenologyBreeding.vue'
 import Altitude from '~/components/species-card/Altitude.vue'
 
 export default {
   components: {
     'phenology-all-period': PhenologyAllPeriod,
     'phenology-migration': PhenologyMigration,
+    'phenology-breeding': PhenologyBreeding,
     altitude: Altitude,
   },
   data: () => ({
@@ -431,9 +437,52 @@ export default {
       },
       postnuptial: {
         label: 'Migration postnuptiale',
-        data: ['D27', 'D30', 'D33'],
+        data: ['D26', 'D29', 'D32'],
         colors: { quantile: 'rgba(235, 106, 10, 0.1)', median: '#EB6A0A' },
       },
+    },
+    dataPhenologyBreeding: {
+      label: 'Nombre de données',
+      atlasCodes: ['Mâle chanteur', 'Jeunes'],
+      data: [
+        { label: 'D1', firstAtlasCode: 0, secondAtlasCode: 0 },
+        { label: 'D2', firstAtlasCode: 0, secondAtlasCode: 0 },
+        { label: 'D3', firstAtlasCode: 0, secondAtlasCode: 0 },
+        { label: 'D4', firstAtlasCode: 0, secondAtlasCode: 0 },
+        { label: 'D5', firstAtlasCode: 0, secondAtlasCode: 0 },
+        { label: 'D6', firstAtlasCode: 0, secondAtlasCode: 0 },
+        { label: 'D7', firstAtlasCode: 0, secondAtlasCode: 0 },
+        { label: 'D8', firstAtlasCode: 10, secondAtlasCode: 0 },
+        { label: 'D9', firstAtlasCode: 20, secondAtlasCode: 0 },
+        { label: 'D10', firstAtlasCode: 30, secondAtlasCode: 0 },
+        { label: 'D11', firstAtlasCode: 40, secondAtlasCode: 0 },
+        { label: 'D12', firstAtlasCode: 50, secondAtlasCode: 0 },
+        { label: 'D13', firstAtlasCode: 60, secondAtlasCode: 0 },
+        { label: 'D14', firstAtlasCode: 70, secondAtlasCode: 0 },
+        { label: 'D15', firstAtlasCode: 90, secondAtlasCode: 0 },
+        { label: 'D16', firstAtlasCode: 120, secondAtlasCode: 10 },
+        { label: 'D17', firstAtlasCode: 250, secondAtlasCode: 20 },
+        { label: 'D18', firstAtlasCode: 370, secondAtlasCode: 40 },
+        { label: 'D19', firstAtlasCode: 550, secondAtlasCode: 50 },
+        { label: 'D20', firstAtlasCode: 360, secondAtlasCode: 70 },
+        { label: 'D21', firstAtlasCode: 290, secondAtlasCode: 90 },
+        { label: 'D22', firstAtlasCode: 270, secondAtlasCode: 95 },
+        { label: 'D23', firstAtlasCode: 200, secondAtlasCode: 140 },
+        { label: 'D24', firstAtlasCode: 150, secondAtlasCode: 170 },
+        { label: 'D25', firstAtlasCode: 90, secondAtlasCode: 150 },
+        { label: 'D26', firstAtlasCode: 55, secondAtlasCode: 130 },
+        { label: 'D27', firstAtlasCode: 40, secondAtlasCode: 100 },
+        { label: 'D28', firstAtlasCode: 15, secondAtlasCode: 90 },
+        { label: 'D29', firstAtlasCode: 0, secondAtlasCode: 80 },
+        { label: 'D30', firstAtlasCode: 0, secondAtlasCode: 70 },
+        { label: 'D31', firstAtlasCode: 0, secondAtlasCode: 50 },
+        { label: 'D32', firstAtlasCode: 0, secondAtlasCode: 20 },
+        { label: 'D33', firstAtlasCode: 0, secondAtlasCode: 10 },
+        { label: 'D34', firstAtlasCode: 0, secondAtlasCode: 0 },
+        { label: 'D35', firstAtlasCode: 0, secondAtlasCode: 0 },
+        { label: 'D36', firstAtlasCode: 0, secondAtlasCode: 0 },
+      ],
+      colors: ['#435EF2', '#E56B6F'],
     },
     dataAltitude: {
       altitude: {

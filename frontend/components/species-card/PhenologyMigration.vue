@@ -171,7 +171,7 @@ export default {
       .attr('y1', 0)
       .attr('y2', barPlotHeight)
       .attr('stroke-width', 4)
-      .style('stroke-dasharray', '10,7')
+      .style('stroke-dasharray', '4,5')
       .style('stroke', '#39765A')
     barPlotSvg
       .append('text')
@@ -244,7 +244,7 @@ export default {
       .attr('y1', 0)
       .attr('y2', barPlotHeight)
       .attr('stroke-width', 4)
-      .style('stroke-dasharray', '10,7')
+      .style('stroke-dasharray', '4,5')
       .style('stroke', '#EB6A0A')
     barPlotSvg
       .append('text')
