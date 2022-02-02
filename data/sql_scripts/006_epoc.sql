@@ -53,7 +53,3 @@ $$
 $$
 ;
 
-REFRESH MATERIALIZED VIEW atlas.mv_realized_epoc;
-
-GRANT SELECT ON ALL TABLES IN SCHEMA atlas TO odfapp, gnadm, odfro;
-;
