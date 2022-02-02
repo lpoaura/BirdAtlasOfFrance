@@ -131,7 +131,7 @@ export default {
       .domain([
         0,
         d3.max(this.formattedData.frequency.data, function (d) {
-          return d.frequency
+          return d.percentage
         }),
       ])
     const ticksNumber = Math.round(
@@ -213,7 +213,7 @@ export default {
             return xAxisDecades(d.label)
           })
           .y(function (d) {
-            return yAxisRight(d.frequency)
+            return yAxisRight(d.percentage)
           })
       )
     barPlotSvg
@@ -227,7 +227,7 @@ export default {
         return xAxisDecades(d.label)
       })
       .attr('cy', function (d) {
-        return yAxisRight(d.frequency)
+        return yAxisRight(d.percentage)
       })
       .attr('r', 4)
       .attr('fill', this.formattedData.frequency.color)

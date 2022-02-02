@@ -54,7 +54,7 @@ export default {
       .domain([
         0,
         d3.max(this.formattedData.altitude.data, function (d) {
-          return d.altitude
+          return d.percentage
         }),
       ])
     barPlotSvg
@@ -142,11 +142,11 @@ export default {
         return yAxis(d.label)
       })
       .attr('width', function (d) {
-        return xAxis(d.altitude)
+        return xAxis(d.percentage)
       })
       .attr('height', 2)
       .attr('fill', this.formattedData.altitude.color)
-    // Lines
+    // Area
     barPlotSvg
       .append('path')
       .attr('class', 'area')
@@ -159,7 +159,7 @@ export default {
           .area()
           .x0(xAxis(0))
           .x1(function (d) {
-            return xAxis(d.altitude)
+            return xAxis(d.percentage)
           })
           .y(function (d) {
             return yAxis(d.label)
