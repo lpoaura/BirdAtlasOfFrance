@@ -1,16 +1,12 @@
 <template>
   <div class="ChartWrapper">
     <div class="Chart">
-      <svg class="BoxPlotSvg"></svg>
+      <svg class="BarPlotSvg"></svg>
     </div>
     <div class="ChartLegend">
-      <h5 v-if="formattedData.data[0].median" class="ChartLegendLabel">
-        <i :style="{ background: formattedData.colors[1] }"></i
-        >{{ formattedData.keys[1] }}
-      </h5>
       <h5 class="ChartLegendLabel">
-        <i :style="{ background: formattedData.colors[0] }"></i
-        >{{ formattedData.keys[0] }}
+        <i :style="{ background: formattedData.color }"></i
+        >{{ formattedData.label }}
       </h5>
     </div>
   </div>
@@ -29,42 +25,55 @@ export default {
   mounted() {
     // Get bar plot size
     const margin = { top: 10, right: 0, bottom: 24, left: 66 }
-    const minWidth =
-      this.formattedData.data.length * 70 + margin.left + margin.right
-    const boxPlotWidth = Math.max(
+    const minWidth = 16 * 30 + margin.left + margin.right
+    const barPlotWidth = Math.max(
       parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
         margin.left -
         margin.right,
       minWidth
     )
-    const boxPlotHeight =
+    const barPlotHeight =
       parseFloat(d3.select(this.$el).select('.Chart').style('height')) -
       margin.top -
       margin.bottom
     // Get bar plot svg and set size
-    const boxPlotSvg = d3
+    const barPlotSvg = d3
       .select(this.$el)
-      .select('.BoxPlotSvg')
-      .attr('width', boxPlotWidth + margin.left + margin.right)
-      .attr('height', boxPlotHeight + margin.top + margin.bottom)
+      .select('.BarPlotSvg')
+      .attr('width', barPlotWidth + margin.left + margin.right)
+      .attr('height', barPlotHeight + margin.top + margin.bottom)
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
     // Set X axis and add it
+    const bandWidth = barPlotWidth / this.formattedData.data.length - 4
     const xAxis = d3
-      .scaleBand()
-      .range([0, boxPlotWidth])
-      .paddingInner(1)
-      .paddingOuter(0.5)
-      .domain(
-        this.formattedData.data.map(function (d) {
+      .scaleLinear()
+      .range([bandWidth / 2 + 8, barPlotWidth - bandWidth / 2])
+      .domain([
+        d3.min(this.formattedData.data, function (d) {
           return d.label
-        })
-      )
-    boxPlotSvg
+        }),
+        d3.max(this.formattedData.data, function (d) {
+          return d.label
+        }),
+      ])
+    const formatter = d3
+      .formatLocale({
+        decimal: '.',
+        thousands: '',
+        grouping: [3],
+        currency: ['', ''],
+      })
+      .format(',.0f')
+    barPlotSvg
       .append('g')
       .attr('class', 'xAxis')
-      .attr('transform', `translate(0, ${boxPlotHeight})`)
-      .call(d3.axisBottom(xAxis))
+      .attr('transform', `translate(0, ${barPlotHeight})`)
+      .call(
+        d3
+          .axisBottom(xAxis)
+          .tickFormat(formatter)
+      )
       .call((g) =>
         g
           .selectAll('text')
@@ -77,14 +86,14 @@ export default {
     // Set Y axis and add it
     const yAxis = d3
       .scaleLinear()
-      .range([boxPlotHeight, 0])
+      .range([barPlotHeight, 0])
       .domain([
         0,
         d3.max(this.formattedData.data, function (d) {
-          return d.max
+          return d.count_data
         }),
       ])
-    boxPlotSvg
+    barPlotSvg
       .append('g')
       .attr('class', 'yAxis')
       .call(d3.axisLeft(yAxis))
@@ -92,7 +101,7 @@ export default {
         g
           .selectAll('.tick line')
           .clone()
-          .attr('x2', boxPlotWidth)
+          .attr('x2', barPlotWidth)
           .attr('stroke-opacity', 0.1)
       )
       .call((g) =>
@@ -100,15 +109,15 @@ export default {
           .selectAll('text')
           .attr(
             'style',
-            "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 400; font-size: 12px; line-height: 13px; color: #000;"
+            "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
           )
       )
       .call((g) => g.selectAll('line[x2="-6"]').style('opacity', 0))
     // Set Y axis label
-    boxPlotSvg
+    barPlotSvg
       .append('text')
       .attr('transform', 'rotate(-90)')
-      .attr('x', -(boxPlotHeight / 2))
+      .attr('x', -(barPlotHeight / 2))
       .attr('y', -margin.left + 10)
       .attr(
         'style',
@@ -116,55 +125,27 @@ export default {
       )
       .text(this.formattedData.label)
     // Delete axis lines
-    boxPlotSvg.selectAll('path').style('opacity', 0)
-    // Rectangles
-    const boxWidth = 26
-    boxPlotSvg
+    barPlotSvg.selectAll('path').style('opacity', 0)
+    // Bars
+    barPlotSvg
       .append('g')
-      .attr('class', 'boxes')
+      .attr('class', 'bars')
       .selectAll('rect')
       .data(this.formattedData.data)
       .enter()
       .append('rect')
-      .attr('class', 'box')
+      .attr('class', 'bar')
       .attr('x', function (d) {
-        return xAxis(d.label) - boxWidth / 2
+        return xAxis(d.label) - bandWidth / 2
       })
       .attr('y', function (d) {
-        return yAxis(d.max)
+        return yAxis(d.count_data)
       })
+      .attr('width', bandWidth)
       .attr('height', function (d) {
-        return yAxis(d.min) - yAxis(d.max)
+        return barPlotHeight - yAxis(d.count_data)
       })
-      .attr('width', boxWidth)
-      .attr('stroke', this.formattedData.colors[0])
-      .style('fill', this.formattedData.colors[0])
-    // Median
-    if (this.formattedData.data[0].median) {
-      const medianWidth = 40
-      boxPlotSvg
-        .append('g')
-        .attr('class', 'medians')
-        .selectAll('median')
-        .data(this.formattedData.data)
-        .enter()
-        .append('line')
-        .attr('class', 'median')
-        .attr('x1', function (d) {
-          return xAxis(d.label) - medianWidth / 2
-        })
-        .attr('x2', function (d) {
-          return xAxis(d.label) + medianWidth / 2
-        })
-        .attr('y1', function (d) {
-          return yAxis(d.median)
-        })
-        .attr('y2', function (d) {
-          return yAxis(d.median)
-        })
-        .attr('stroke', this.formattedData.colors[1])
-        .attr('stroke-width', 6)
-    }
+      .attr('fill', this.formattedData.color)
   },
 }
 </script>
