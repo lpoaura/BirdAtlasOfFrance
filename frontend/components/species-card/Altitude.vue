@@ -33,7 +33,7 @@ export default {
       parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
         margin.left -
         margin.right,
-      400
+      420
     )
     const barPlotHeight =
       parseFloat(d3.select(this.$el).select('.Chart').style('height')) -
@@ -50,7 +50,7 @@ export default {
     // Set X axis and add it
     const xAxis = d3
       .scaleLinear()
-      .range([0, barPlotWidth])
+      .range([0, barPlotWidth - 20])
       .domain([
         0,
         d3.max(this.formattedData.altitude.data, function (d) {

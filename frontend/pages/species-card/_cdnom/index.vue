@@ -140,6 +140,17 @@
               </h5>
               <trend :formatted-data="dataTrend" />
             </div>
+            <div ref="populations-size-breeding" class="ChartCard scrolling-item">
+              <h4 class="black02 fw-bold bottom-margin-8">
+                Tailles de populations
+              </h4>
+              <h5 class="black03 bottom-margin-40">
+                Estimation des effectifs nicheurs au cours du temps.
+              </h5>
+              <populations-median-ic
+                :formatted-data="dataPopulationsBreeding"
+              />
+            </div>
             <div ref="altitude-breeding" class="ChartCard scrolling-item">
               <h4 class="black02 fw-bold bottom-margin-8">
                 Répartition altitudinale des observations
@@ -161,7 +172,17 @@
                 : 'hidden'
             "
           >
-            Diagrammes Hivernage
+            <div ref="populations-size-wintering" class="ChartCard scrolling-item">
+              <h4 class="black02 fw-bold bottom-margin-8">
+                Tailles de populations
+              </h4>
+              <h5 class="black03 bottom-margin-40">
+                Estimation des effectifs nicheurs au cours du temps.
+              </h5>
+              <populations-median-ic
+                :formatted-data="dataPopulationsWintering"
+              />
+            </div>
           </div>
           <div
             ref="maps"
@@ -182,6 +203,7 @@ import PhenologyMigration from '~/components/species-card/PhenologyMigration.vue
 import PhenologyBreeding from '~/components/species-card/PhenologyBreeding.vue'
 import Altitude from '~/components/species-card/Altitude.vue'
 import Trend from '~/components/species-card/Trend.vue'
+import PopulationsMedianIc from '~/components/species-card/PopulationsMedianIc.vue'
 
 export default {
   components: {
@@ -190,6 +212,7 @@ export default {
     'phenology-breeding': PhenologyBreeding,
     altitude: Altitude,
     trend: Trend,
+    'populations-median-ic': PopulationsMedianIc,
   },
   data: () => ({
     species: {},
@@ -606,6 +629,32 @@ export default {
         color: 'rgba(67, 94, 242, 0.1)',
       },
     },
+    dataPopulationsBreeding: {
+      label: "Nombre d'individus",
+      keys: ['Intervalle de confiance (90%)', 'Effectif médian'],
+      data: [
+        { label: '2001 - 2005', min: 95, median: 205, max: 315 },
+        { label: '2005 - 2007', min: 210, median: 320, max: 430 },
+        { label: '2007 - 2011', min: 300, median: 410, max: 520 },
+        { label: '2011 - 2015', min: 280, median: 390, max: 500 },
+        { label: '2015 - 2019', min: 170, median: 280, max: 390 },
+        { label: '2019 - 2023', min: 230, median: 340, max: 450 },
+      ],
+      colors: ['rgba(67, 94, 242, 0.1)', '#435EF2'],
+    },
+    dataPopulationsWintering: {
+      label: "Nombre d'individus",
+      keys: ["Fourchette d'effectifs (minimum et maximum)"],
+      data: [
+        { label: '2001 - 2005', min: 95, max: 315 },
+        { label: '2005 - 2007', min: 210, max: 430 },
+        { label: '2007 - 2011', min: 300, max: 520 },
+        { label: '2011 - 2015', min: 280, max: 500 },
+        { label: '2015 - 2019', min: 170, max: 390 },
+        { label: '2019 - 2023', min: 230, max: 450 },
+      ],
+      colors: ['rgba(57, 118, 90, 0.2)'],
+    },
   }),
   head: {
     title: 'Fiche espèce',
@@ -908,6 +957,12 @@ nav.NavDrawer {
 
   .SpeciesCardTab {
     padding: 24px 5%;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .ChartCard {
+    padding: 24px;
   }
 }
 
