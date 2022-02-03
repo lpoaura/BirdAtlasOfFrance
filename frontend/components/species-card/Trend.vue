@@ -29,11 +29,13 @@ export default {
   mounted() {
     // Get bar plot size
     const margin = { top: 10, right: 0, bottom: 24, left: 66 }
+    const minWidth =
+      this.formattedData.trend.data.length * 32 + margin.left + margin.right
     const linePlotWidth = Math.max(
       parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
         margin.left -
         margin.right,
-      530
+      minWidth
     )
     const linePlotHeight =
       parseFloat(d3.select(this.$el).select('.Chart').style('height')) -
