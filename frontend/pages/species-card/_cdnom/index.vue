@@ -112,6 +112,16 @@
               </h5>
               <altitude :formatted-data="dataAltitude" />
             </div>
+            <div class="ChartCard scrolling-item">
+              <h4 class="black02 fw-bold bottom-margin-8">
+                Tailles de populations (CECI EST UN TEST QUI N'A RIEN À FAIRE
+                ICI)
+              </h4>
+              <h5 class="black03 bottom-margin-40">
+                Nombre d’individus comptabilisés au cours des années.
+              </h5>
+              <populations-count :formatted-data="dataPopulationsTest" />
+            </div>
           </div>
           <div
             ref="diagrams breeding"
@@ -140,7 +150,10 @@
               </h5>
               <trend :formatted-data="dataTrend" />
             </div>
-            <div ref="populations-size-breeding" class="ChartCard scrolling-item">
+            <div
+              ref="populations-size-breeding"
+              class="ChartCard scrolling-item"
+            >
               <h4 class="black02 fw-bold bottom-margin-8">
                 Tailles de populations
               </h4>
@@ -172,7 +185,19 @@
                 : 'hidden'
             "
           >
-            <div ref="populations-size-wintering" class="ChartCard scrolling-item">
+            <div ref="trend-wintering" class="ChartCard scrolling-item">
+              <h4 class="black02 fw-bold bottom-margin-8">
+                Tendance d'évolution
+              </h4>
+              <h5 class="black03 bottom-margin-40">
+                Évolution de l’indice d’abondance en fonction des années.
+              </h5>
+              <trend :formatted-data="dataTrend" />
+            </div>
+            <div
+              ref="populations-size-wintering"
+              class="ChartCard scrolling-item"
+            >
               <h4 class="black02 fw-bold bottom-margin-8">
                 Tailles de populations
               </h4>
@@ -182,6 +207,16 @@
               <populations-median-ic
                 :formatted-data="dataPopulationsWintering"
               />
+            </div>
+            <div ref="altitude-wintering" class="ChartCard scrolling-item">
+              <h4 class="black02 fw-bold bottom-margin-8">
+                Répartition altitudinale des observations
+              </h4>
+              <h5 class="black03 bottom-margin-40">
+                Proportion des observations en fonction de l’altitude du
+                territoire.
+              </h5>
+              <altitude :formatted-data="dataAltitude" />
             </div>
           </div>
           <div
@@ -204,6 +239,7 @@ import PhenologyBreeding from '~/components/species-card/PhenologyBreeding.vue'
 import Altitude from '~/components/species-card/Altitude.vue'
 import Trend from '~/components/species-card/Trend.vue'
 import PopulationsMedianIc from '~/components/species-card/PopulationsMedianIc.vue'
+import PopulationsCount from '~/components/species-card/PopulationsCount.vue'
 
 export default {
   components: {
@@ -213,6 +249,7 @@ export default {
     altitude: Altitude,
     trend: Trend,
     'populations-median-ic': PopulationsMedianIc,
+    'populations-count': PopulationsCount,
   },
   data: () => ({
     species: {},
@@ -654,6 +691,58 @@ export default {
         { label: '2019 - 2023', min: 230, max: 450 },
       ],
       colors: ['rgba(57, 118, 90, 0.2)'],
+    },
+    dataPopulationsTest: {
+      label: "Nombre d'individus",
+      data: [
+        { label: 1976, count_data: 15 },
+        { label: 1977, count_data: 30 },
+        { label: 1978, count_data: 60 },
+        { label: 1979, count_data: 100 },
+        { label: 1980, count_data: 120 },
+        { label: 1981, count_data: 185 },
+        { label: 1982, count_data: 205 },
+        { label: 1983, count_data: 210 },
+        { label: 1984, count_data: 240 },
+        { label: 1985, count_data: 250 },
+        { label: 1986, count_data: 270 },
+        { label: 1987, count_data: 250 },
+        { label: 1988, count_data: 240 },
+        { label: 1989, count_data: 230 },
+        { label: 1990, count_data: 240 },
+        { label: 1991, count_data: 250 },
+        { label: 1992, count_data: 290 },
+        { label: 1993, count_data: 300 },
+        { label: 1994, count_data: 303 },
+        { label: 1995, count_data: 310 },
+        { label: 1996, count_data: 315 },
+        { label: 1997, count_data: 318 },
+        { label: 1998, count_data: 326 },
+        { label: 1999, count_data: 340 },
+        { label: 2000, count_data: 355 },
+        { label: 2001, count_data: 390 },
+        { label: 2002, count_data: 425 },
+        { label: 2003, count_data: 460 },
+        { label: 2004, count_data: 430 },
+        { label: 2005, count_data: 390 },
+        { label: 2006, count_data: 350 },
+        { label: 2007, count_data: 315 },
+        { label: 2008, count_data: 290 },
+        { label: 2009, count_data: 210 },
+        { label: 2010, count_data: 155 },
+        { label: 2011, count_data: 97 },
+        { label: 2012, count_data: 120 },
+        { label: 2013, count_data: 135 },
+        { label: 2014, count_data: 155 },
+        { label: 2015, count_data: 200 },
+        { label: 2016, count_data: 180 },
+        { label: 2017, count_data: 150 },
+        { label: 2018, count_data: 115 },
+        { label: 2019, count_data: 100 },
+        { label: 2020, count_data: 70 },
+        { label: 2021, count_data: 45 },
+      ],
+      color: '#435EF2',
     },
   }),
   head: {
