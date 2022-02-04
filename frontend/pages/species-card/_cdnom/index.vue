@@ -68,14 +68,12 @@
             />
           </div>
           <div
-            ref="species-card"
             class="SpeciesCardContent"
             :class="selectedTab.value === 'species-card' ? '' : 'hidden'"
           >
             Fiche espèce
           </div>
           <div
-            ref="diagrams all_period"
             class="SpeciesCardContent"
             :class="
               selectedTab.value === 'diagrams' &&
@@ -84,7 +82,7 @@
                 : 'hidden'
             "
           >
-            <div ref="phenology-all-period" class="ChartCard scrolling-item">
+            <div id="phenology-all-period" class="ChartCard">
               <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
               <h5 class="black03 bottom-margin-40">
                 Nombre de données cumulées par décade du 1<sup>er</sup> janvier
@@ -92,7 +90,7 @@
               </h5>
               <phenology-all-period :formatted-data="dataPhenologyAllPeriod" />
             </div>
-            <div ref="phenology-migration" class="ChartCard scrolling-item">
+            <div id="phenology-migration" class="ChartCard">
               <h4 class="black02 fw-bold bottom-margin-8">
                 Phénologie de migration
               </h4>
@@ -102,7 +100,7 @@
               </h5>
               <phenology-migration :formatted-data="dataPhenologyMigration" />
             </div>
-            <div ref="altitude-all-period" class="ChartCard scrolling-item">
+            <div id="altitude-all-period" class="ChartCard">
               <h4 class="black02 fw-bold bottom-margin-8">
                 Répartition altitudinale des observations
               </h4>
@@ -112,7 +110,7 @@
               </h5>
               <altitude :formatted-data="dataAltitude" />
             </div>
-            <div class="ChartCard scrolling-item">
+            <div class="ChartCard">
               <h4 class="black02 fw-bold bottom-margin-8">
                 Tailles de populations (CECI EST UN TEST QUI N'A RIEN À FAIRE
                 ICI)
@@ -124,7 +122,6 @@
             </div>
           </div>
           <div
-            ref="diagrams breeding"
             class="SpeciesCardContent"
             :class="
               selectedTab.value === 'diagrams' &&
@@ -133,7 +130,7 @@
                 : 'hidden'
             "
           >
-            <div ref="phenology-breeding" class="ChartCard scrolling-item">
+            <div id="phenology-breeding" class="ChartCard">
               <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
               <h5 class="black03 bottom-margin-40">
                 Nombre de données cumulées par décade du 1<sup>er</sup> janvier
@@ -141,7 +138,7 @@
               </h5>
               <phenology-breeding :formatted-data="dataPhenologyBreeding" />
             </div>
-            <div ref="trend-breeding" class="ChartCard scrolling-item">
+            <div id="trend-breeding" class="ChartCard">
               <h4 class="black02 fw-bold bottom-margin-8">
                 Tendance d'évolution
               </h4>
@@ -150,10 +147,7 @@
               </h5>
               <trend :formatted-data="dataTrend" />
             </div>
-            <div
-              ref="populations-size-breeding"
-              class="ChartCard scrolling-item"
-            >
+            <div id="populations-size-breeding" class="ChartCard">
               <h4 class="black02 fw-bold bottom-margin-8">
                 Tailles de populations
               </h4>
@@ -164,7 +158,7 @@
                 :formatted-data="dataPopulationsBreeding"
               />
             </div>
-            <div ref="altitude-breeding" class="ChartCard scrolling-item">
+            <div id="altitude-breeding" class="ChartCard">
               <h4 class="black02 fw-bold bottom-margin-8">
                 Répartition altitudinale des observations
               </h4>
@@ -176,7 +170,6 @@
             </div>
           </div>
           <div
-            ref="diagrams wintering"
             class="SpeciesCardContent"
             :class="
               selectedTab.value === 'diagrams' &&
@@ -185,7 +178,7 @@
                 : 'hidden'
             "
           >
-            <div ref="trend-wintering" class="ChartCard scrolling-item">
+            <div id="trend-wintering" class="ChartCard">
               <h4 class="black02 fw-bold bottom-margin-8">
                 Tendance d'évolution
               </h4>
@@ -194,10 +187,7 @@
               </h5>
               <trend :formatted-data="dataTrend" />
             </div>
-            <div
-              ref="populations-size-wintering"
-              class="ChartCard scrolling-item"
-            >
+            <div id="populations-size-wintering" class="ChartCard">
               <h4 class="black02 fw-bold bottom-margin-8">
                 Tailles de populations
               </h4>
@@ -208,7 +198,7 @@
                 :formatted-data="dataPopulationsWintering"
               />
             </div>
-            <div ref="altitude-wintering" class="ChartCard scrolling-item">
+            <div id="altitude-wintering" class="ChartCard">
               <h4 class="black02 fw-bold bottom-margin-8">
                 Répartition altitudinale des observations
               </h4>
@@ -220,7 +210,6 @@
             </div>
           </div>
           <div
-            ref="maps"
             class="SpeciesCardContent"
             :class="selectedTab.value === 'maps' ? '' : 'hidden'"
           >
@@ -381,7 +370,9 @@ export default {
       label: 'France métropolitaine',
       icon: '/prospecting/France-metropolitaine.svg',
     },
-    currentScrollingItems: {},
+    domCurrentScrollingItems: {},
+    scrollListener: true,
+    scrollDuration: 600,
     dataPhenologyAllPeriod: {
       phenology: {
         label: 'Nombre de données',
@@ -772,27 +763,18 @@ export default {
     $route(newVal) {
       /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
       this.defineSelectedTab()
-      const id = this.selectedTab.subjects[this.selectedSeason.value]
-        ? `${this.selectedTab.value} ${this.selectedSeason.value}`
-        : this.selectedTab.value
-      this.currentScrollingItems = [
-        ...this.$refs[id].getElementsByClassName('scrolling-item'),
-      ]
     },
     selectedSeason(newVal) {
       this.defineSelectedSubject()
-      const id = this.selectedTab.subjects[this.selectedSeason.value]
-        ? `${this.selectedTab.value} ${this.selectedSeason.value}`
-        : this.selectedTab.value
-      this.currentScrollingItems = [
-        ...this.$refs[id].getElementsByClassName('scrolling-item'),
-      ]
+      this.defineDomCurrentScrollingItems()
     },
   },
   mounted() {
+    // QUAND ON RÉCUPÈRE LES DONNÉES AVEC AXIOS, SUPPRIMER DE tabs LES subjects POUR LESQUELLES IL N'Y A PAS DE DONNÉES
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
-    // this.$refs.scrollingContainer.addEventListener('scroll', this.listener)
+    this.$refs.scrollingContainer.addEventListener('scroll', this.listener)
+    this.defineSelectedTab()
     this.$axios
       .$get(`/api/v1/search_taxa?limit=1&cd_nom=${this.cdnom}`)
       .then((data) => {
@@ -802,12 +784,11 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-    this.defineSelectedTab()
   },
   beforeDestroy() {
     document.documentElement.style.removeProperty('overflow')
     document.body.style.removeProperty('position')
-    // this.$refs.scrollingContainer.removeEventListener('scroll', this.listener)
+    this.$refs.scrollingContainer.removeEventListener('scroll', this.listener)
   },
   methods: {
     defineSelectedTab() {
@@ -815,48 +796,55 @@ export default {
         return item.hash === this.$route.hash
       })[0]
       this.defineSelectedSubject()
+      this.defineDomCurrentScrollingItems()
     },
     defineSelectedSubject() {
-      this.selectedSubject = this.selectedTab.subjects[
-        this.selectedSeason.value
-      ]
-        ? this.selectedTab.subjects[this.selectedSeason.value][0]
-        : this.selectedTab.subjects[0]
+      this.selectedSubject = this.subjectsList[0]
+    },
+    defineDomCurrentScrollingItems() {
+      this.domCurrentScrollingItems = this.subjectsList.map((item) => {
+        return document.getElementById(item.slug)
+      })
     },
     updateSelectedTab(item) {
       this.$router.push(`${item.hash}`)
     },
     updateSelectedSubject(item) {
-      this.selectedSubject = item
-      if (this.$refs[item.slug]) {
-        // this.$refs.scrollingContainer.removeEventListener(
-        //   'scroll',
-        //   this.listener
-        // )
-        this.$refs[item.slug].scrollIntoView({ behavior: 'smooth' })
-        // this.$refs.scrollingContainer.addEventListener('scroll', this.listener)
+      if (document.getElementById(item.slug) && this.selectedSubject !== item) {
+        this.scrollListener = false
+        this.selectedSubject = item
+        this.$animateScrollTo(
+          this.$refs.scrollingContainer,
+          document.getElementById(item.slug).offsetTop,
+          this.scrollDuration
+        )
+        setTimeout(() => {
+          this.scrollListener = true
+        }, this.scrollDuration + 10)
       }
     },
     listener() {
       this.$debounce(this.handleScroll())
     },
     handleScroll() {
-      const scroll = this.$refs.scrollingContainer.scrollTop
-      const currentScrolledItem = this.currentScrollingItems.filter((item) => {
-        return (
-          item.offsetTop - 40 <= scroll &&
-          item.offsetTop + item.offsetHeight > scroll
+      if (this.scrollListener) {
+        const currentScroll = this.$refs.scrollingContainer.scrollTop
+        const domCurrentScrolledItem = this.domCurrentScrollingItems.filter(
+          (item) => {
+            return (
+              item.offsetTop - 40 <= currentScroll &&
+              item.offsetTop + item.offsetHeight > currentScroll
+            )
+          }
         )
-      })
-      if (currentScrolledItem.length > 0) {
-        const currentSubjects = this.selectedTab.subjects[
-          this.selectedSeason.value
-        ]
-          ? this.selectedTab.subjects[this.selectedSeason.value]
-          : this.selectedTab.subjects
-        this.selectedSubject = currentSubjects.filter((subject) => {
-          return subject.slug === currentScrolledItem[0].id
-        })[0]
+        if (domCurrentScrolledItem.length > 0) {
+          const currentScrolledSubject = this.subjectsList.filter((subject) => {
+            return subject.slug === domCurrentScrolledItem[0].id
+          })[0]
+          if (currentScrolledSubject) {
+            this.selectedSubject = currentScrolledSubject
+          }
+        }
       }
     },
   },

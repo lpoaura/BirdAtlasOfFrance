@@ -98,6 +98,7 @@ export default {
     '~/plugins/generateCaptcha.js',
     '~/plugins/getPageTitle.js',
     '~/plugins/departmentsList.js',
+    '~/plugins/animateScrollTo.js',
     '~/plugins/debounce.js',
     // { src: '~/plugins/vueLeaflet.js', ssr: false },
   ],
