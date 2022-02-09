@@ -66,7 +66,7 @@
         v-if="
           selectedLayer.value === 'knowledge-level' ||
           selectedLayer.value === 'species-number' ||
-          (selectedLayer.value === 'epoc' && currentZoom >= 11)
+          (selectedLayer.value === 'epoc' && currentZoom >= 9)
         "
         :geojson="knowledgeLevelGeojson"
         :options="knowledgeLevelGeojsonOptions"
@@ -82,9 +82,7 @@
         :options="epocRealizedGeojsonOptions"
       />
       <l-geo-json
-        v-if="
-          selectedLayer.value === 'epoc' && epocOdfIsOn && currentZoom >= 11
-        "
+        v-if="selectedLayer.value === 'epoc' && epocOdfIsOn && currentZoom >= 9"
         :geojson="epocOdfGeojson"
         :options="epocOdfGeojsonOptions"
       />
@@ -178,10 +176,25 @@
           style="position: relative"
         >
           <div class="Progress"></div>
-          <h5 class="black02 fw-500 left-margin-42">Chargement des données</h5>
+          <h5 class="black02 fw-500 bottom-margin-38">
+            Chargement des données
+          </h5>
         </div>
         <div
-          v-show="selectedLayer.value === 'epoc' && currentZoom < 11"
+          v-show="
+            selectedLayer.value === 'epoc' &&
+            currentZoom < 11 &&
+            currentZoom >= 9
+          "
+          class="InformationControl"
+        >
+          <h5 class="black02 fw-500">
+            Trop de points EPOC réalisés, zoomez à l’échelle d’une maille pour
+            visualiser ces points.
+          </h5>
+        </div>
+        <div
+          v-show="selectedLayer.value === 'epoc' && currentZoom < 9"
           class="InformationControl"
         >
           <h5 class="black02 fw-500">
@@ -258,7 +271,9 @@
         <div
           v-show="
             (knowledgeLevelIsLoading &&
-              selectedLayer.value === 'knowledge-level') ||
+              ['knowledge-level', 'species-number'].includes(
+                selectedLayer.value
+              )) ||
             (speciesDistributionIsLoading &&
               selectedLayer.value === 'species-distribution')
           "
@@ -266,10 +281,25 @@
           style="position: relative"
         >
           <div class="Progress"></div>
-          <h5 class="black02 fw-500 left-margin-42">Chargement des données</h5>
+          <h5 class="black02 fw-500 bottom-margin-38">
+            Chargement des données
+          </h5>
         </div>
         <div
-          v-show="selectedLayer.value === 'epoc' && currentZoom < 11"
+          v-show="
+            selectedLayer.value === 'epoc' &&
+            currentZoom < 11 &&
+            currentZoom >= 9
+          "
+          class="InformationControl"
+        >
+          <h5 class="black02 fw-500">
+            Trop de points EPOC réalisés, zoomez à l’échelle d’une maille pour
+            visualiser ces points.
+          </h5>
+        </div>
+        <div
+          v-show="selectedLayer.value === 'epoc' && currentZoom < 9"
           class="InformationControl"
         >
           <h5 class="black02 fw-500">
@@ -432,7 +462,6 @@ export default {
     knowledgeLevelClasses: [0, 0.25, 0.5, 0.75, 1],
     searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
     searchedFeatureCode: null, // Le zonage sélectionné est une maille (recherche depuis l'URL)
-    // indeterminate: true, // Progress (loading)
     // MOBILE
     seasonIsOpen: false,
     layerIsOpen: false,
@@ -812,6 +841,8 @@ export default {
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
         this.updateEpocRealizedGeojson()
+      }
+      if (this.currentZoom >= 9) {
         this.updateEpocOdfGeojson()
       }
     },
@@ -822,6 +853,8 @@ export default {
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
         this.updateEpocRealizedGeojson()
+      }
+      if (this.currentZoom >= 9) {
         this.updateEpocOdfGeojson()
       }
       if (this.selectedSpecies) {
@@ -970,10 +1003,6 @@ export default {
           .then((data) => {
             if (data) {
               this.speciesDistributionGeojson = data
-              // À SUPPRIMER LORSQUE L'API RENVERRA UN empty string
-              if (data.features.length === 0) {
-                this.noSpeciesData = true
-              }
             } else {
               this.speciesDistributionGeojson = {
                 type: 'FeatureCollection',
@@ -1193,11 +1222,13 @@ export default {
   width: 34px;
   height: 34px;
   position: absolute;
-  top: 4px;
-  left: 12px;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
-.left-margin-42 {
-  margin-left: 42px;
+.bottom-margin-38 {
+  margin-bottom: 38px;
 }
 </style>
