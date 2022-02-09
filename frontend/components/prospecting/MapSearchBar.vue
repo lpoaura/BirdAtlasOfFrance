@@ -72,7 +72,7 @@
         }}
       </li>
       <h5
-        v-if="dataList.length === 0"
+        v-if="!dataList.length"
         class="black03 italic AutocompleteNoResults"
       >
         Aucun résultat trouvé, vous recherchez peut-être une
@@ -131,7 +131,7 @@ export default {
             this.$axios
               .$get(this.selectedType.api + `${newVal}`)
               .then((data) => {
-                if (data.length === 0 && this.selectedType.value === 'place') {
+                if (!data.length && this.selectedType.value === 'place') {
                   this.autocompleteIsOpen = false
                 } else {
                   this.autocompleteIsOpen = true
@@ -193,7 +193,7 @@ export default {
         this.$axios
           .$get(this.selectedType.api + `${newVal}`)
           .then((data) => {
-            if (data.length === 0 && this.selectedType.value === 'place') {
+            if (!data.length && this.selectedType.value === 'place') {
               this.autocompleteIsOpen = false
             } else {
               this.autocompleteIsOpen = true

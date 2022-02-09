@@ -114,8 +114,8 @@ export default {
 <style scoped>
 .TopSection {
   position: relative;
-  min-height: 580px;
-  height: 94vh;
+  min-height: 540px;
+  height: 86vh;
   max-height: 784px;
   align-items: flex-start;
 }
@@ -160,7 +160,7 @@ export default {
   min-width: 820px;
   max-width: 1020px;
   height: 48%;
-  min-height: 272px;
+  min-height: 250px;
   max-height: 282px;
 }
 
@@ -275,6 +275,12 @@ export default {
 @media screen and (max-width: 340px) {
   .TopSectionContent {
     min-height: 240px;
+  }
+}
+
+@media screen and (max-height: 730px) {
+  h1.PlayfairDisplayTypo {
+    line-height: 70px;
   }
 }
 

@@ -102,7 +102,10 @@
             @click="openOrCloseTerritoriesBox"
           >
             <img class="MapSelectorIcon" src="/location.svg" />
-            <h5 class="fw-600 right-margin-12">Territoires</h5>
+            <h5 v-if="currentTerritory.id" class="fw-600 right-margin-12">
+              {{ currentTerritory.name }}
+            </h5>
+            <h5 v-else class="fw-600 right-margin-12">Territoires</h5>
             <img
               class="MapSelectorChevron"
               :src="territoryIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"

@@ -156,7 +156,7 @@ export default {
         isActive: false,
       },
       {
-        name: 'Terres Australes et Antarctiques Françaises',
+        name: 'TAAF',
         icon: '/prospecting/TAAF.svg',
         isActive: false,
       },
