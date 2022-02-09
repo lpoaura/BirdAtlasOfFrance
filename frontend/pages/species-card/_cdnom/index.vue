@@ -2,12 +2,21 @@
   <v-container fluid>
     <header>
       <div class="Heading">
-        <div class="SpeciesPicture"></div>
+        <div
+          class="SpeciesPicture"
+          :style="{
+            background: species.medias.Photo_principale
+              ? `url('${species.medias.Photo_principale.url}') center / cover`
+              : 'darkgrey',
+          }"
+        ></div>
         <div class="Title">
-          <h3 class="fw-600">{{ species.common_name_fr }}</h3>
+          <h3 class="fw-600">
+            {{ species.attributes.odf_common_name_fr }}
+          </h3>
           <h5>
-            <i>{{ species.sci_name }}</i> &nbsp;|&nbsp;
-            {{ species.common_name_en }}
+            <i>{{ species.attributes.odf_sci_name }}</i> &nbsp;|&nbsp;
+            {{ species.attributes.odf_common_name_en }}
             <font class="not-on-mobile">
               &nbsp;|&nbsp;Synonymes :
               <font style="color: red">blablabla, blablablablabla</font>
@@ -67,12 +76,10 @@
               icon="/location-green.svg"
             />
           </div>
-          <div
-            class="SpeciesCardContent"
-            :class="selectedTab.value === 'species-card' ? '' : 'hidden'"
-          >
-            Fiche espèce
-          </div>
+          <species-tab
+            :status="selectedTab.value === 'species' ? '' : 'hidden'"
+            :species="species"
+          />
           <div
             class="SpeciesCardContent"
             :class="
@@ -222,6 +229,7 @@
 </template>
 
 <script>
+import SpeciesTab from '~/components/species-card/SpeciesTab.vue'
 import PhenologyAllPeriod from '~/components/species-card/PhenologyAllPeriod.vue'
 import PhenologyMigration from '~/components/species-card/PhenologyMigration.vue'
 import PhenologyBreeding from '~/components/species-card/PhenologyBreeding.vue'
@@ -232,6 +240,7 @@ import PopulationsCount from '~/components/species-card/PopulationsCount.vue'
 
 export default {
   components: {
+    'species-tab': SpeciesTab,
     'phenology-all-period': PhenologyAllPeriod,
     'phenology-migration': PhenologyMigration,
     'phenology-breeding': PhenologyBreeding,
@@ -241,10 +250,10 @@ export default {
     'populations-count': PopulationsCount,
   },
   data: () => ({
-    species: {},
+    species: { attributes: {}, medias: {} },
     tabs: [
       {
-        value: 'species-card',
+        value: 'species',
         hash: '',
         label: 'Fiche espèce',
         subjects: [
@@ -358,7 +367,7 @@ export default {
         icon: '/prospecting/Saint-Pierre-et-Miquelon.svg',
       },
       {
-        label: 'Terres Australes et Antarctiques Françaises',
+        label: 'TAAF',
         icon: '/prospecting/TAAF.svg',
       },
       {
@@ -736,8 +745,10 @@ export default {
       color: '#435EF2',
     },
   }),
-  head: {
-    title: 'Fiche espèce',
+  head() {
+    return {
+      title: this.species.attributes.odf_common_name_fr,
+    }
   },
   computed: {
     cdnom() {
@@ -776,10 +787,48 @@ export default {
     this.$refs.scrollingContainer.addEventListener('scroll', this.listener)
     this.defineSelectedTab()
     this.$axios
-      .$get(`/api/v1/search_taxa?limit=1&cd_nom=${this.cdnom}`)
+      .$get(
+        `https://geonature.alx.host/taxhub/api/bibnoms/taxoninfo/${this.cdnom}`
+      )
       .then((data) => {
-        this.species = data[0]
-        // console.log(this.species)
+        if (data) {
+          const species = { attributes: {}, medias: { Photos: [] } }
+          data.attributs.forEach((attribut) => {
+            species.attributes[attribut.nom_attribut] = attribut.valeur_attribut
+          })
+          data.medias.forEach((media) => {
+            if (media.nom_type_media === 'Photo') {
+              species.medias.Photos.push({
+                title: media.titre,
+                url: media.url,
+                author: media.auteur,
+                description: media.desc_media,
+              })
+            } else if (media.nom_type_media === 'Photo_principale') {
+              species.medias.Photos.splice(0, 0, {
+                title: media.titre,
+                url: media.url,
+                author: media.auteur,
+                description: media.desc_media,
+              })
+              species.medias[media.nom_type_media] = {
+                title: media.titre,
+                url: media.url,
+                author: media.auteur,
+                description: media.desc_media,
+              }
+            } else {
+              species.medias[media.nom_type_media] = {
+                title: media.titre,
+                url: media.url,
+                author: media.auteur,
+                description: media.desc_media,
+              }
+            }
+          })
+          this.species = species
+          // console.log(this.species)
+        }
       })
       .catch((error) => {
         console.log(error)
@@ -877,8 +926,6 @@ header {
 }
 
 .SpeciesPicture {
-  /* Background à remplacer avec l'url de l'image */
-  background: darkgrey;
   min-width: 50px;
   max-width: 50px;
   min-height: 50px;
@@ -1043,8 +1090,7 @@ nav.NavDrawer {
   }
 }
 
-/* POTENTIELLEMENT AJUSTER LE max-width */
-@media screen and (max-width: 610px) {
+@media screen and (max-width: 500px) {
   .Selectors {
     flex-direction: column;
   }
