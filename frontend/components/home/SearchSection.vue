@@ -16,7 +16,7 @@
           <h1 class="PlayfairDisplayTypo">
             Explorer l'Atlas<br />des Oiseaux de France
           </h1>
-          <h4 class="white01 fw-600">
+          <h4 class="white01 fw-600 bottom-margin-8">
             (Re)découvrez les oiseaux présents sur le territoire français, leurs
             répartitions, tendances et effectifs
           </h4>
@@ -204,7 +204,7 @@ export default {
   }
 
   .TopSectionContent {
-    width: 86%;
+    width: 90%;
     min-width: 0;
   }
 
@@ -278,9 +278,12 @@ export default {
   }
 }
 
-@media screen and (max-height: 730px) {
-  h1.PlayfairDisplayTypo {
-    line-height: 70px;
+/* Taille d'écran quasi jamais atteinte */
+@media screen and (max-width: 904px) and (max-height: 710px) {
+  h4.fw-600 {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: normal;
   }
 }
 
