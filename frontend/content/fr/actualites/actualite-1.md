@@ -1,6 +1,6 @@
 ---
 title: Newsletter ODF
-picture: actualite-1.jpg
+picture: actualite-1.webp
 credit: Pieter Verheij
 centering: center
 author: Oiseaux de France

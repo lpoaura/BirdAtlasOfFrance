@@ -1,6 +1,6 @@
 ---
 title: Mise à jour des données d'ODF en cours
-picture: actualite-5.jpg
+picture: actualite-5.webp
 credit:
 centering: center
 author: Oiseaux de France
