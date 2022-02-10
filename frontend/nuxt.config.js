@@ -42,7 +42,7 @@ export default {
       {
         hid: 'og:image',
         property: 'og:image',
-        content: '/home/home-picture.jpg',
+        content: '/home/home-picture-0.webp',
       },
       {
         hid: 'twitter:card',
@@ -68,7 +68,7 @@ export default {
       {
         hid: 'twitter:image',
         property: 'twitter:image',
-        content: '/home/home-picture.jpg',
+        content: '/home/home-picture-0.webp',
       },
     ],
     link: [
@@ -76,10 +76,12 @@ export default {
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css?family=Playfair+Display:900&display=swap',
+        defer: true,
       },
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap',
+        defer: true,
       },
     ],
   },
