@@ -1,6 +1,6 @@
 ---
 title: 'Le protocole EPOC-ODF évolue : un passage supplémentaire en hiver'
-picture: actualite-6.jpg
+picture: actualite-6.webp
 credit: Gérard Meyer
 centering: center
 author: Oiseaux de France

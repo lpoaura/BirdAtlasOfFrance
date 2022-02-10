@@ -75,7 +75,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Playfair+Display:300,400,500,600,700,800,900&display=swap',
+        href: 'https://fonts.googleapis.com/css?family=Playfair+Display:900&display=swap',
       },
       {
         rel: 'stylesheet',
@@ -272,6 +272,7 @@ export default {
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    defaultAssets: false,
     theme: {
       options: {
         customProperties: true,

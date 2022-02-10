@@ -89,9 +89,9 @@ export default {
   //   this.randomInt = Math.floor(Math.random() * 5)
   //   console.log(this.randomInt)
   //   // this.randomInt = 5
-  //   this.homePicture.largeUrl = `url('/home/home-picture-${this.randomInt}.jpg')`
-  //   this.homePicture.mobileUrl = `url('/home/home-picture-${this.randomInt}-mobile.jpg')`
-  //   ExifReader.load(`/home/home-picture-${this.randomInt.toString()}.jpg`).then(
+  //   this.homePicture.largeUrl = `url('/home/home-picture-${this.randomInt}.webp')`
+  //   this.homePicture.mobileUrl = `url('/home/home-picture-${this.randomInt}-mobile.webp')`
+  //   ExifReader.load(`/home/home-picture-${this.randomInt.toString()}.webp`).then(
   //     (tags) => {
   //       this.homePicture.title = tags.title.description
   //       this.homePicture.author = tags.creator.description.replace(
@@ -127,7 +127,7 @@ export default {
       #3957a4 0%,
       rgba(57, 87, 164, 0) 69.37%
     ),
-    url('/home/home-picture-0.jpg') center / cover, #3957a4;
+    url('/home/home-picture-0.webp') center / cover, #3957a4;
 
   /* var(--largeUrl) center / cover, #3957a4; */
   width: 100%;
@@ -197,7 +197,7 @@ export default {
         #3957a4 0%,
         rgba(57, 87, 164, 0) 69.37%
       ),
-      url('/home/home-picture-0.jpg') 66% / cover, #3957a4;
+      url('/home/home-picture-0.webp') 66% / cover, #3957a4;
 
     /* var(--largeUrl) var(--largeFocus) / cover, #3957a4;
     var(--largeUrl) 100% / cover, #3957a4; */
@@ -238,7 +238,7 @@ export default {
         #3957a4 0%,
         rgba(57, 87, 164, 0) 69.37%
       ),
-      url('/home/home-picture-0-mobile.jpg') 70% / cover, #3957a4;
+      url('/home/home-picture-0-mobile.webp') 70% / cover, #3957a4;
 
     /* var(--mobileUrl) var(--mobileFocus) / cover, #3957a4;
     var(--mobileUrl) 100% / cover, #3957a4; */
