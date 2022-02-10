@@ -954,7 +954,7 @@ a.Vocabulary:hover::after {
 .ProtocolsDocumentsGrid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   grid-gap: 20px;
 }
 
