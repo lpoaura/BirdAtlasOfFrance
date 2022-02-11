@@ -199,8 +199,7 @@ export default {
       ),
       url('/home/home-picture-0.webp') 66% / cover, #3957a4;
 
-    /* var(--largeUrl) var(--largeFocus) / cover, #3957a4;
-    var(--largeUrl) 100% / cover, #3957a4; */
+    /* var(--largeUrl) var(--largeFocus) / cover, #3957a4; */
   }
 
   .TopSectionContent {
@@ -240,8 +239,7 @@ export default {
       ),
       url('/home/home-picture-0-mobile.webp') 70% / cover, #3957a4;
 
-    /* var(--mobileUrl) var(--mobileFocus) / cover, #3957a4;
-    var(--mobileUrl) 100% / cover, #3957a4; */
+    /* var(--mobileUrl) var(--mobileFocus) / cover, #3957a4; */
   }
 
   .PictureGradient {
