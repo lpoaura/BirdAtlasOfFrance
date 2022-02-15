@@ -11,7 +11,7 @@ active: true
 
 **Vous n’êtes pas sans savoir que la France a vu affluer cet hiver, aux quatre coins du territoire, de joyeuses bandes de Pinsons du Nord. Pour la période « EPOC-ODF en Hiver » (du 1<sup>er</sup> décembre au 31 janvier), il vous reste donc encore quelques jours pour les noter dans les mailles où l’espèce n’est pas encore mentionnée !**
 
-<h2>Comment procéder ?</h2>
+## Comment procéder ?
 
 C’est tout simple ! Dans un premier temps, consultez la carte de répartition de l’espèce.
 
@@ -23,7 +23,7 @@ C’est tout simple ! Dans un premier temps, consultez la carte de répartition 
 
 <img class="InformativePagePicture" style="width: 100%" src="/news/actualite-7-1.webp" />
 
-**Objectif : combler les vides !**
+## Objectif : combler les vides !
 
 Vous voyez ces zones claires sur la carte ? L’objectif, c’est de les combler dans la mesure du possible !
 
