@@ -723,12 +723,12 @@ export default {
     },
   },
   beforeMount() {
-    if (this.detectMobile()) {
+    if (this.$detectMobile()) {
       // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-      // console.log(window.innerHeight)
       const vh = window.innerHeight * 0.01
       // Then we set the value in the --vh custom property to the root of the document
       document.documentElement.style.setProperty('--vh', `${vh}px`)
+      window.addEventListener('resize', this.listener)
     }
   },
   mounted() {
@@ -800,6 +800,9 @@ export default {
       .catch((error) => {
         console.log(error)
       })
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.listener)
   },
   methods: {
     setGeolocation(position) {
@@ -1192,19 +1195,12 @@ export default {
       this.$emit('selectedTerritory', territory)
       this.territoryIsOpen = false
     },
-    detectMobile() {
-      const toMatch = [
-        /Android/i,
-        /webOS/i,
-        /iPhone/i,
-        /iPad/i,
-        /iPod/i,
-        /BlackBerry/i,
-        /Windows Phone/i,
-      ]
-      return toMatch.some((item) => {
-        return navigator.userAgent.match(item)
-      })
+    listener() {
+      this.$debounce(this.detectResize())
+    },
+    detectResize() {
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
     },
   },
 }

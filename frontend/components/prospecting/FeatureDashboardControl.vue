@@ -824,7 +824,7 @@ export default {
     },
     createBarPlot(formattedData, hook) {
       // Get bar plot size
-      const margin = { top: 10, right: 0, bottom: 24, left: 40 }
+      const margin = { top: 10, right: 0, bottom: 24, left: 48 }
       const barPlotWidth = Math.max(
         parseFloat(
           d3.select(this.$el).select('.TimeDistributionBarPlot').style('width')
