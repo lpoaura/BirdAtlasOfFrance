@@ -1,6 +1,6 @@
 ---
 title: 'Pinson du Nord : plus que quelques jours pour le noter dans les mailles !'
-picture: actualite-7.jpg
+picture: actualite-7.webp
 credit: Olliswildlife - Pixabay
 centering: center
 author: Oiseaux de France
@@ -21,7 +21,7 @@ C’est tout simple ! Dans un premier temps, consultez la carte de répartition 
 4. Puis tapez « Pinson du Nord »
 5. La carte de présence hivernale du Pinson du Nord s’affiche (la présence par maille est indiquée par des cercles bleus).
 
-<img class="InformativePagePicture" style="width: 100%" src="/news/actualite-7-1.jpg" />
+<img class="InformativePagePicture" style="width: 100%" src="/news/actualite-7-1.webp" />
 
 **Objectif : combler les vides !**
 

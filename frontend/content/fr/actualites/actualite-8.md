@@ -1,6 +1,6 @@
 ---
 title: "La version mobile d'ODF enfin disponible !"
-picture: actualite-8.jpg
+picture: actualite-8.webp
 credit: Philippe Rouzet
 centering: center
 author: Oiseaux de France
