@@ -97,6 +97,7 @@ export default {
     '~/plugins/thousandDelimiter.js',
     '~/plugins/generateCaptcha.js',
     '~/plugins/getPageTitle.js',
+    '~/plugins/detectMobile.js',
     '~/plugins/departmentsList.js',
     '~/plugins/debounce.js',
     // { src: '~/plugins/vueLeaflet.js', ssr: false },
