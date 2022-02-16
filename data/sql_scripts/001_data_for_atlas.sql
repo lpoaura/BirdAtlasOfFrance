@@ -69,8 +69,7 @@ $$
               AND synthese.id_nomenclature_observation_status !=
                   ref_nomenclatures.get_id_nomenclature('STATUT_OBS', 'No')
               AND date_min >= '2007-01-01')
-        WITH NO DATA
-        ;
+        WITH NO DATA;
         COMMENT ON MATERIALIZED VIEW atlas.mv_data_for_atlas IS 'All datas used for atlas';
         CREATE UNIQUE INDEX i_data_for_atlas_id_area_id_data ON atlas.mv_data_for_atlas (id_area, id_data);
         CREATE INDEX i_data_for_atlas_cdnom ON atlas.mv_data_for_atlas (cd_nom);
@@ -139,14 +138,175 @@ $$
                                      4326), areas.geom)
               AND cast(item ->> 'date_start' AS DATE) > '2018-12-31'
                 )
-        WITH NO DATA
-        ;
+        WITH NO DATA;
         RAISE INFO '-- % -- COMMENT AND INDEXES ON atlas.mv_forms_for_atlas', clock_timestamp();
         COMMENT ON MATERIALIZED VIEW atlas.mv_forms_for_atlas IS 'All forms realized during atlas period';
 --         CREATE UNIQUE INDEX i_unique_forms_for_atlas_idforms on atlas.mv_forms_for_atlas(id_form_universal);
         CREATE INDEX i_forms_for_atlas_geom ON atlas.mv_forms_for_atlas USING gist (geom);
         CREATE INDEX i_forms_for_atlas_id_form_universal ON atlas.mv_forms_for_atlas (id_form_universal);
         CREATE INDEX i_forms_for_atlas_id_area ON atlas.mv_forms_for_atlas (id_area);
+
+        UPDATE taxonomie.cor_c_vn_taxref
+        SET
+            taxref_id = cd_ref
+            FROM
+                taxonomie.taxref
+            WHERE
+                  cd_nom = taxref_id
+              AND taxref.cd_nom != taxref.cd_ref;
+
+        INSERT INTO taxonomie.bib_noms (cd_nom, cd_ref, nom_francais, comments)
+        SELECT
+            taxref.cd_nom
+          , taxref.cd_ref
+          , item ->> 'french_name' AS french_name
+          , 'généré pour ODF'
+            FROM
+                src_vn_json.species_json
+                    JOIN taxonomie.cor_c_vn_taxref ON vn_id = species_json.id
+                    JOIN taxonomie.taxref ON cor_c_vn_taxref.taxref_id = taxref.cd_nom
+                    JOIN atlas.t_taxa ON taxref.cd_nom = t_taxa.cd_nom
+            WHERE
+                  site = (SELECT DISTINCT site FROM src_vn_json.species_json LIMIT 1)
+              AND taxref.classe LIKE 'Aves'
+        ON CONFLICT (cd_nom) DO NOTHING;
+
+
+        WITH
+            species AS (SELECT
+                            taxref.cd_nom
+                          , taxref.lb_nom                                                              AS latin_name
+                          , coalesce(item ->> 'french_name', split_part(taxref.nom_vern, ',', 1))      AS french_name
+                          , coalesce(item ->> 'english_name', split_part(taxref.nom_vern_eng, ',', 1)) AS english_name
+                            FROM
+                                src_vn_json.species_json
+                                    JOIN taxonomie.cor_c_vn_taxref ON vn_id = species_json.id
+                                    JOIN taxonomie.taxref ON cor_c_vn_taxref.taxref_id = taxref.cd_nom
+                            WHERE
+                                  site = (SELECT DISTINCT site FROM src_vn_json.species_json LIMIT 1)
+                                  --              AND cast(item ->> 'id_taxo_group' as int) = 1
+                              AND taxref.classe LIKE 'Aves'
+            )
+          , attributs AS (
+            SELECT
+                (SELECT
+                     id_attribut
+                     FROM
+                         taxonomie.bib_attributs
+                     WHERE
+                         bib_attributs.nom_attribut LIKE 'odf_sci_name') AS id_attribut
+              , coalesce(species.latin_name, '-')                        AS valeur_attribut
+              , species.cd_nom
+                FROM
+                    species
+            UNION
+            SELECT
+                (SELECT
+                     id_attribut
+                     FROM
+                         taxonomie.bib_attributs
+                     WHERE
+                         bib_attributs.nom_attribut LIKE 'odf_common_name_fr') AS id_attribut
+              , coalesce(species.french_name, '-')                             AS valeur_attribut
+              , species.cd_nom
+                FROM
+                    species
+            UNION
+            SELECT
+                (SELECT
+                     id_attribut
+                     FROM
+                         taxonomie.bib_attributs
+                     WHERE
+                         bib_attributs.nom_attribut LIKE 'odf_common_name_en') AS id_attribut
+              , coalesce(species.english_name, '-')                            AS valeur_attribut
+              , species.cd_nom
+                FROM
+                    species)
+        INSERT
+            INTO
+                taxonomie.cor_taxon_attribut(id_attribut, valeur_attribut, cd_ref)
+        SELECT *
+            FROM
+                attributs
+            ORDER BY cd_nom, id_attribut
+        ON CONFLICT (id_attribut, cd_ref) DO NOTHING;
+
+        DROP MATERIALIZED VIEW atlas.mv_grid_territories_matching;
+        CREATE MATERIALIZED VIEW atlas.mv_grid_territories_matching AS
+        SELECT
+            territory.id_area AS id_area_territory
+          , grid.id_area      AS id_area_grid
+            FROM
+                ref_geo.l_areas grid
+                    JOIN ref_geo.l_areas territory ON st_intersects(grid.geom, territory.geom)
+            WHERE
+                  territory.id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
+              AND grid.id_type = ref_geo.get_id_area_type('ATLAS_GRID');
+
+        CREATE UNIQUE INDEX ON atlas.mv_grid_territories_matching (id_area_territory, id_area_grid);
+        --
+--         WITH
+--             species AS (SELECT
+--                             taxref.cd_nom
+--                           , taxref.lb_nom           AS latin_name
+--                           , item ->> 'french_name'  AS french_name
+--                           , item ->> 'english_name' AS english_name
+--                             FROM
+--                                 src_vn_json.species_json
+--                                     JOIN taxonomie.cor_c_vn_taxref ON vn_id = species_json.id
+--                                     JOIN taxonomie.taxref ON cor_c_vn_taxref.taxref_id = taxref.cd_nom
+--                             WHERE
+--                                   site = (SELECT DISTINCT site FROM src_vn_json.species_json LIMIT 1)
+--                                   --              AND cast(item ->> 'id_taxo_group' as int) = 1
+--                               AND taxref.classe LIKE 'Aves'
+--             )
+--           , attributs AS (
+--             SELECT
+--                 (SELECT
+--                      id_attribut
+--                      FROM
+--                          taxonomie.bib_attributs
+--                      WHERE
+--                          bib_attributs.nom_attribut LIKE 'odf_sci_name') AS id_attribut
+--               , species.latin_name                                       AS valeur_attribut
+--               , species.cd_nom
+--                 FROM
+--                     species
+--             UNION
+--             SELECT
+--                 (SELECT
+--                      id_attribut
+--                      FROM
+--                          taxonomie.bib_attributs
+--                      WHERE
+--                          bib_attributs.nom_attribut LIKE 'odf_common_name_fr') AS id_attribut
+--               , species.french_name                                            AS valeur_attribut
+--               , species.cd_nom
+--                 FROM
+--                     species
+--             UNION
+--             SELECT
+--                 (SELECT
+--                      id_attribut
+--                      FROM
+--                          taxonomie.bib_attributs
+--                      WHERE
+--                          bib_attributs.nom_attribut LIKE 'odf_common_name_en') AS id_attribut
+--               , species.english_name                                           AS valeur_attribut
+--               , species.cd_nom
+--                 FROM
+--                     species)
+--         UPDATE
+--             taxonomie.cor_taxon_attribut
+--         SET
+--             valeur_attribut = attributs.valeur_attribut
+--             FROM
+--                 attributs
+--             WHERE
+--                     cor_taxon_attribut.
+--                         cd_ref = attributs.cd_nom
+--               AND   cor_taxon_attribut.id_attribut = attributs.id_attribut;
 
         COMMIT;
     END

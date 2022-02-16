@@ -20,6 +20,8 @@ BEGIN
     RAISE INFO '-- % -- START REFRESH atlas.mv_data_for_atlas', clock_timestamp();
     REFRESH MATERIALIZED VIEW CONCURRENTLY atlas.mv_data_for_atlas;
     RAISE INFO '-- % -- INTERVAL FROM START SCRIPT', delta;
+    RAISE INFO '-- % -- START REFRESH atlas.mv_forms_for_atlas', clock_timestamp();
+    REFRESH MATERIALIZED VIEW CONCURRENTLY atlas.mv_forms_for_atlas;
     RAISE INFO '-- % -- START REFRESH atlas.mv_taxa_groups', clock_timestamp();
     REFRESH MATERIALIZED VIEW CONCURRENTLY atlas.mv_taxa_groups;
     RAISE INFO '-- % -- START SCRIPT', start_ts;
@@ -50,5 +52,5 @@ END
 $$ LANGUAGE plpgsql
 ;
 
-
+grant select on all TABLES IN SCHEMA atlas to gnadm, odfapp;
 

@@ -3,31 +3,14 @@ version: "3"
 services:
 
   backend:
-    build: backend/
-    env_file:
-      - ./backend/.env
+    command: /start-reload.sh
     volumes:
       - ./backend/:/app
-    ports:
-      - ${API_PORT:-8888}:80
-    # environment: 
-      # DEBUG: "true"
-      # LOG_LEVEL: DEBUG
 
   frontend:
-    image: odffront
-    # env_file:
-    #   - ./frontend/.env
-    # volumes:
-    #   - ./frontend/:/app
-    ports:
-      - ${FRONT_PORT:-3000}:3000
-    environment: 
-      # DEBUG: "false"
-      # LOG_LEVEL: DEBUG
-      API_URL: http://www.oiseauxdefrance.org/
-
-  # nginx:
-  #   image: nginx
+    command: dev
+    volumes:
+       - ./frontend/:/app
+    
 
 

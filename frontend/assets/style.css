@@ -967,7 +967,7 @@ a.Vocabulary:hover::after {
 .ProtocolsDocumentsGrid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   grid-gap: 20px;
 }
 
@@ -1099,6 +1099,11 @@ a.Vocabulary:hover::after {
   background: linear-gradient(rgba(38, 38, 38, 0.03), rgba(38, 38, 38, 0.03)),
     white;
   border-radius: 8px;
+}
+
+.AutocompleteWrapper.map.open {
+  border: 1px solid #eece25;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
 .AutocompleteWrapper.map input {
@@ -1464,6 +1469,7 @@ input.ContactFormInput {
 
 input.ContactFormInput:focus {
   border: 1px solid #eece25;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
 textarea.ContactFormTextarea {
@@ -1483,6 +1489,7 @@ textarea.ContactFormTextarea {
 
 textarea.ContactFormTextarea:focus {
   border: 1px solid #eece25;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
 /********** VUETIFY OVERLAY **********/
@@ -1594,8 +1601,8 @@ button.v-pagination__navigation .theme--light.v-icon {
   /********** TYPOGRAPHY **********/
 
   .PlayfairDisplayTypo {
-    font-size: 28px;
-    line-height: 37px;
+    font-size: 40px;
+    line-height: 53px;
   }
 
   h1 {

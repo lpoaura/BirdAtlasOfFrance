@@ -8,7 +8,7 @@
         </h5>
         <h5 v-else class="fw-500">
           Placez le centre de la carte sur un territoire français pour
-          visualiser l'indice de complétude.
+          visualiser le nombre d'espèces par maille.
         </h5>
       </div>
       <img
@@ -17,7 +17,18 @@
         @click="closeMobileMapControl"
       />
     </header>
-    <div v-show="currentTerritory.id" class="Legend">
+    <div
+      v-show="currentTerritory.id && countTaxaClasses.all_period.length > 0"
+      class="Legend"
+    >
+      <span class="LegendItem black02 fw-500">
+        <i
+          :style="{
+            background: selectedSeason.featuresColors[0],
+          }"
+        ></i>
+        0
+      </span>
       <span
         v-for="(item, index) in countTaxaClasses[selectedSeason.value]"
         :key="index"
@@ -25,7 +36,7 @@
       >
         <i
           :style="{
-            background: selectedSeason.featuresColors[index],
+            background: selectedSeason.featuresColors[index + 1],
           }"
         ></i>
         {{
@@ -35,6 +46,12 @@
         }}
       </span>
     </div>
+    <span
+      v-show="currentTerritory.id && !(countTaxaClasses.all_period.length > 0)"
+      class="fw-500"
+    >
+      Les données de ce territoire ne sont pas encore disponibles.
+    </span>
   </section>
 </template>
 
@@ -52,17 +69,6 @@ export default {
     selectedSeason: {
       type: Object,
       required: true,
-    },
-  },
-  computed: {
-    totalAreaCount() {
-      let totalCount = 0
-      this.globalKnowledgeLevel[this.selectedSeason.value].data.forEach(
-        (item) => {
-          totalCount += item.value
-        }
-      )
-      return totalCount
     },
   },
   methods: {

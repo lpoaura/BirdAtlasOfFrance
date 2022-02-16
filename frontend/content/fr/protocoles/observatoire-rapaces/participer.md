@@ -32,6 +32,8 @@ Retrouvez [ici](https://www.faune-france.org/index.php?m_id=1164&a=1980#FN1980) 
 
 <div class="InformativePageParagraph">
 
-Retrouvez les [conseils pour les observateurs](http://files.biolovision.net/observatoire-rapaces.lpo.fr/pdffiles/news/Support_Protocole-Observateurs_Coordinateurs-5136.pdf) et le [tirage des mailles 2021 et 2022](http://observatoire-rapaces.lpo.fr/index.php?m_id=1164&a=N70#FN70).
+Retrouvez le <a href="/get-involved/Fiche-instructions-Observatoire-Rapaces.pdf" target="_blank">rappel du protocole</a>, les [conseils pour les observateurs](http://files.biolovision.net/observatoire-rapaces.lpo.fr/pdffiles/news/Support_Protocole-Observateurs_Coordinateurs-5136.pdf) et le tirage des mailles [2022](http://observatoire-rapaces.lpo.fr/index.php?m_id=1164&a=N70#FN70) et [2023](http://observatoire-rapaces.lpo.fr/index.php?m_id=1164&a=N73#FN73).
+
+Retrouvez aussi le <a href="/get-involved/Flyer-Observatoire-Rapaces.pdf" target="_blank">flyer de présentation du dispositif Observatoire Rapaces</a>.
 
 </div>

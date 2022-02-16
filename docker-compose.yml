@@ -4,17 +4,29 @@ services:
 
   backend:
     image: lpoaura/odf-backend:latest
+    build: backend/
     container_name: odf_backend
     env_file:
       - .env
     ports:
-      - 8888:80
+      - ${API_PORT:-8888}:80
+    networks:
+      - backend
 
   frontend:
     image: lpoaura/odf-frontend:latest
+    build: frontend/
     container_name: odf_frontend
     env_file:
       - .env
+    environment: 
+      API_URL: ${API_URL:-http://backend/}
     ports:
-      - 3000:3000
+      - ${FRONT_PORT:-3000}:3000
+    networks:
+      - frontend
+      - backend
 
+networks:
+  frontend:
+  backend:
