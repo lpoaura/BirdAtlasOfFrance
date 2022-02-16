@@ -6,6 +6,7 @@ Require to be executed on installed GeoNature DB
 DO
 $$
     BEGIN
+        TRUNCATE atlas.cor_specie_territory_profile RESTART IDENTITY;
         WITH
             t1 AS (SELECT DISTINCT
                        cd_nom
@@ -31,12 +32,12 @@ $$
         SELECT *
             FROM
                 t1
-        ON CONFLICT (cd_nom, period_profile, breeding_codes, id_area) DO NOTHING;
-
-        
-
+        ON CONFLICT (cd_nom, period_profile, id_area) DO NOTHING;
 
         COMMIT;
     END
 $$
 ;
+
+
+select * from atlas.cor_specie_territory_profile;
