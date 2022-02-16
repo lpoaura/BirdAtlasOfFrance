@@ -99,6 +99,7 @@ export default {
     '~/plugins/thousandDelimiter.js',
     '~/plugins/generateCaptcha.js',
     '~/plugins/getPageTitle.js',
+    '~/plugins/detectMobile.js',
     '~/plugins/departmentsList.js',
     '~/plugins/animateScrollTo.js',
     '~/plugins/debounce.js',

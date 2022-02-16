@@ -6,7 +6,11 @@
         <div class="KeyDataColumn-1">
           <img class="Column-1-Icon" src="/home/species-number.svg" />
           <h2 class="black02 fw-bold">
-            {{ $thousandDelimiter(keyData.count_taxa.all_period) }}
+            {{
+              keyData.count_taxa
+                ? $thousandDelimiter(keyData.count_taxa.all_period)
+                : 0
+            }}
           </h2>
           <span class="black02 text-center">
             espèces recensées<br />sur la période 2019 - 2024
@@ -20,7 +24,11 @@
             />
             <div class="Column-2-LabelWrapper">
               <h3 class="black02 fw-bold">
-                {{ $thousandDelimiter(keyData.count_taxa.breeding) }}
+                {{
+                  keyData.count_taxa
+                    ? $thousandDelimiter(keyData.count_taxa.breeding)
+                    : 0
+                }}
               </h3>
               <span class="black02">espèces nicheuses</span>
             </div>
@@ -29,7 +37,11 @@
             <img class="Column-2-Icon" src="/home/winter-species-number.svg" />
             <div class="Column-2-LabelWrapper">
               <h3 class="black02 fw-bold">
-                {{ $thousandDelimiter(keyData.count_taxa.wintering) }}
+                {{
+                  keyData.count_taxa
+                    ? $thousandDelimiter(keyData.count_taxa.wintering)
+                    : 0
+                }}
               </h3>
               <span class="black02">espèces hivernantes</span>
             </div>
@@ -40,86 +52,47 @@
         <div class="KeyDataColumn-1">
           <div class="Column-1-Icon"><svg class="PieChartSvg"></svg></div>
           <h2 class="black02 fw-bold">
-            {{ $thousandDelimiter(totalProspectingHours) }}
+            {{
+              keyData.prospecting_hours
+                ? $thousandDelimiter(totalProspectingHours)
+                : 0
+            }}
           </h2>
           <span class="black02 text-center">
             heures de prospection<br />sur la période 2019 - 2024
           </span>
         </div>
         <div class="KeyDataColumn-2">
-          <div class="Column-2-Subcard">
+          <div
+            v-for="(season, index) in ['breeding', 'wintering', 'other_period']"
+            :key="index"
+            class="Column-2-Subcard"
+          >
             <div
               class="Column-2-Dot"
-              :style="{ background: pieChartColors.breeding }"
+              :style="{ background: pieChartColors[season] }"
             ></div>
             <div class="Column-2-LabelWrapper">
               <span class="black02 fw-500">
-                {{ pieChartLabels.breeding }}
+                {{ pieChartLabels[season] }}
               </span>
               <span class="black02 flex">
                 <div class="right-margin-16">
                   {{
-                    $toPercent(
-                      keyData.prospecting_hours.breeding / totalProspectingHours
-                    ) || 0
+                    keyData.prospecting_hours
+                      ? $toPercent(
+                          keyData.prospecting_hours[season] /
+                            totalProspectingHours
+                        )
+                      : 0
                   }}%
                 </div>
-                <div class="right-margin-16">|</div>
-                <div>
-                  {{ $thousandDelimiter(keyData.prospecting_hours.breeding) }}
-                  heures
-                </div>
-              </span>
-            </div>
-          </div>
-          <div class="Column-2-Subcard">
-            <div
-              class="Column-2-Dot"
-              :style="{ background: pieChartColors.wintering }"
-            ></div>
-            <div class="Column-2-LabelWrapper">
-              <span class="black02 fw-500">
-                {{ pieChartLabels.wintering }}
-              </span>
-              <span class="black02 flex">
-                <div class="right-margin-16">
-                  {{
-                    $toPercent(
-                      keyData.prospecting_hours.wintering /
-                        totalProspectingHours
-                    ) || 0
-                  }}%
-                </div>
-                <div class="right-margin-16">|</div>
-                <div>
-                  {{ $thousandDelimiter(keyData.prospecting_hours.wintering) }}
-                  heures
-                </div>
-              </span>
-            </div>
-          </div>
-          <div class="Column-2-Subcard">
-            <div
-              class="Column-2-Dot"
-              :style="{ background: pieChartColors.other_period }"
-            ></div>
-            <div class="Column-2-LabelWrapper">
-              <span class="black02 fw-500">
-                {{ pieChartLabels.other_period }}
-              </span>
-              <span class="black02 flex">
-                <div class="right-margin-16">
-                  {{
-                    $toPercent(
-                      keyData.prospecting_hours.other_period /
-                        totalProspectingHours
-                    ) || 0
-                  }}%
-                </div>
-                <div class="right-margin-16">|</div>
+                <div class="black04 right-margin-16">|</div>
                 <div>
                   {{
-                    $thousandDelimiter(keyData.prospecting_hours.other_period)
+                    keyData.prospecting_hours
+                      ? $thousandDelimiter(keyData.prospecting_hours[season])
+                      : 0
                   }}
                   heures
                 </div>
@@ -137,18 +110,7 @@ const d3 = require('d3')
 
 export default {
   data: () => ({
-    keyData: {
-      prospecting_hours: {
-        other_period: 0,
-        breeding: 0,
-        wintering: 0,
-      },
-      count_taxa: {
-        all_period: 0,
-        breeding: 0,
-        wintering: 0,
-      },
-    },
+    keyData: {},
     pieChartLabels: {
       breeding: 'Période de reproduction',
       wintering: "Période d'hivernage",

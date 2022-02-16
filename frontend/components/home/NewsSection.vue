@@ -277,7 +277,7 @@ h5.Subtitle {
 
 @media screen and (max-width: 680px) {
   .Section {
-    padding: 24px 0 16px;
+    padding: 46px 0 16px;
   }
 
   .CarouselNav {

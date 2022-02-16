@@ -3,8 +3,9 @@ import logging
 import time
 from typing import Any, List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
+from starlette.status import HTTP_204_NO_CONTENT
 
 from app.utils.db import get_db, settings
 
@@ -67,14 +68,14 @@ def area_list_knowledge_level(
     if envelope:
         envelope = [float(c) for c in envelope.split(",")]
     logger.debug(f"step2: {(time.time() - start_time) * 1000}")
-    areas = area_knowledge_level.get_feature_list(
+    q = area_knowledge_level.get_feature_list(
         db=db, type_code=type_code, limit=limit, envelope=envelope
     )
     features = []
-    if len(areas) == 0:
-        HTTPException(status_code=404, detail="Data not found")
+    if not q:
+        return Response(status_code=HTTP_204_NO_CONTENT)
     logger.debug(f"step3: {(time.time() - start_time) * 1000}")
-    for a in areas:
+    for a in q:
         f = AreaKnowledgeLevelFeatureSchema(
             properties=(AreaKnowledgeLevelPropertiesSchema(**a.properties)),
             geometry=json.loads(a.geometry),
@@ -94,11 +95,11 @@ def area_list_knowledge_level(
 def area_taxa_list(
     id_area: int, db: Session = Depends(get_db), limit: Optional[int] = None
 ) -> Any:
-    taxa_list = area_knowledge_taxa_list.get_area_taxa_list(db=db, id_area=id_area)
-    logger.debug(taxa_list)
-    if len(taxa_list) == 0:
-        raise HTTPException(status_code=404, detail="Data not found")
-    return taxa_list
+    q = area_knowledge_taxa_list.get_area_taxa_list(db=db, id_area=id_area)
+    logger.debug(q)
+    if not q:
+        return Response(status_code=HTTP_204_NO_CONTENT)
+    return q
 
 
 @router.get(
@@ -111,7 +112,7 @@ def area_general_stats(id_area: int, db: Session = Depends(get_db)) -> Any:
     q = area_dashboard.get_area_stats(db=db, id_area=id_area)
     logger.debug(f"<area_general_stats> query {q}")
     if not q:
-        raise HTTPException(status_code=404, detail="Data not found")
+        return Response(status_code=HTTP_204_NO_CONTENT)
     return q
 
 
@@ -140,7 +141,7 @@ def area_contrib_time_distrib(
     q = area_dashboard.get_time_distribution(db=db, id_area=id_area, time_unit=time_unit)
     logger.debug(f"<area_contrib_time_distrib> query {q}")
     if not q:
-        raise HTTPException(status_code=404, detail="Data not found")
+        return Response(status_code=HTTP_204_NO_CONTENT)
     return q
 
 
@@ -159,26 +160,8 @@ def area_list_intersected_areas(
     q = area_dashboard.get_intersected_areas(db=db, id_area=id_area, type_code=type_code)
     logger.debug(q)
     if not q:
-        raise HTTPException(status_code=404, detail="Data not found")
+        return Response(status_code=HTTP_204_NO_CONTENT)
     return q
-
-
-# @router.get(
-#     "/area/list_epocs/{id_area}",
-#     response_model=List[EpocFeaturePropertiesSchema],
-#     tags=["prospecting"],
-#     summary="...",
-#     description="""cqfd""",
-# )
-# def area_list_epocs(
-#     id_area: int,
-#     db: Session = Depends(get_db),
-# ) -> Any:
-#     q = area_dashboard.get_area_epocs(db=db, id_area=id_area)
-#     logger.debug(q)
-#     if not q:
-#         raise HTTPException(status_code=404, detail="Data not found")
-#     return q
 
 
 @router.get(
@@ -203,13 +186,12 @@ def epoc_list(
 ) -> Any:
     start_time = time.time()
     envelope = [float(c) for c in envelope.split(",")] if envelope else None
-    logger.debug(f"STATUS {status}")
-    epocs = epoc.get_epocs(db=db, envelope=envelope, status=status, id_area=id_area)
+    q = epoc.get_epocs(db=db, envelope=envelope, status=status, id_area=id_area)
+    if not q:
+        return Response(status_code=HTTP_204_NO_CONTENT)
     features = []
-    if len(epocs) == 0:
-        HTTPException(status_code=404, detail="Data not found")
     logger.debug(f"step3: {(time.time() - start_time) * 1000}")
-    for e in epocs:
+    for e in q:
         de = e._asdict()
         geojson = de.pop("geometry", None)
         f = EpocFeatureSchema(
@@ -245,17 +227,16 @@ def realized_epoc_list(
 ) -> Any:
     start_time = time.time()
     envelope = [float(c) for c in envelope.split(",")] if envelope else None
-    epocs = realized_epoc.get_realized_epocs(
+    q = realized_epoc.get_realized_epocs(
         db=db, envelope=envelope, project_code=project_code, id_area=id_area
     )
     features = []
-    if len(epocs) == 0:
-        HTTPException(status_code=404, detail="Data not found")
+    if not q:
+        return Response(status_code=HTTP_204_NO_CONTENT)
     logger.debug(f"step3: {(time.time() - start_time) * 1000}")
-    for e in epocs:
+    for e in q:
         de = e._asdict()
         geojson = de.pop("geometry", None)
-        logger.debug(f"GeoJSON {type(geojson)} {geojson}")
         f = RealizedEpocFeatureSchema(
             properties=(RealizedEpocFeaturePropertiesSchema(**de)),
             geometry=json.loads(geojson),
@@ -263,7 +244,6 @@ def realized_epoc_list(
         )
         features.append(f)
     logger.debug(f"step4: {(time.time() - start_time) * 1000}")
-    logger.debug(f"RealizedEpocSchema type {type(RealizedEpocSchema(features=features))}")
     return RealizedEpocSchema(features=features)
 
 
@@ -281,6 +261,6 @@ def count_taxon_classes(
     id_area: int, db: Session = Depends(get_db), period: Optional[str] = "all_period"
 ) -> Any:
     q = taxon_count_classes_by_territory.get_classes(db=db, id_area=id_area, period=period)
-    if len(q) == 0:
-        HTTPException(status_code=404, detail="Data not found")
+    if not q:
+        return Response(status_code=HTTP_204_NO_CONTENT)
     return q

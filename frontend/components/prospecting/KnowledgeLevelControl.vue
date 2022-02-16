@@ -29,7 +29,7 @@
       />
     </header>
     <div
-      v-show="currentTerritory.id"
+      v-show="currentTerritory.id && !noAvailableData"
       class="KnowledgeLevelPieChartWrapper flex"
     >
       <div class="KnowledgeLevelPieChart">
@@ -48,7 +48,7 @@
           <span class="black02 fw-500">
             <i
               :style="{
-                background: selectedSeason.featuresColors[index],
+                background: selectedSeason.featuresColors[index + 1],
               }"
             ></i
             >{{ item.label }}
@@ -59,6 +59,9 @@
         </div>
       </div>
     </div>
+    <span v-show="currentTerritory.id && noAvailableData" class="fw-500">
+      Les données de ce territoire ne sont pas encore disponibles.
+    </span>
   </section>
 </template>
 
@@ -154,6 +157,7 @@ export default {
         ],
       },
     },
+    noAvailableData: false,
     arcPath: {},
   }),
   computed: {
@@ -176,7 +180,7 @@ export default {
     selectedSeason(newVal) {
       // Le watch permet de mettre à jour le graphe quand on change la saison sur la répartition de l'espèce
       // Define pie chart colors
-      const color = d3.scaleOrdinal(newVal.featuresColors)
+      const color = d3.scaleOrdinal(newVal.featuresColors.slice(1))
       // Define data
       const pieChartData = d3
         .pie()
@@ -216,7 +220,7 @@ export default {
       .attr('width', pieChartHeight)
       .attr('height', pieChartHeight)
     // Define pie chart colors
-    const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
+    const color = d3.scaleOrdinal(this.selectedSeason.featuresColors.slice(1))
     // Define pie chart shape
     this.arcPath = d3
       .arc()
@@ -244,6 +248,7 @@ export default {
       .attr('fill', function (d) {
         return color(d.data.label)
       })
+    // Nécessaire pour la version mobile
     if (this.currentTerritory.id) {
       this.updateGlobalKnowledgeLevel()
     }
@@ -262,45 +267,51 @@ export default {
         ),
       ])
         .then((responses) => {
-          const seasons = ['all_period', 'breeding', 'wintering']
-          responses.forEach((item, index) => {
-            this.globalKnowledgeLevel[seasons[index]].average = this.$toPercent(
-              item.average
+          if (responses[0].average !== 0) {
+            this.noAvailableData = false
+            const seasons = ['all_period', 'breeding', 'wintering']
+            responses.forEach((item, index) => {
+              this.globalKnowledgeLevel[seasons[index]].average =
+                this.$toPercent(item.average)
+              const dataArray = Object.values(item)
+              dataArray.slice(1, dataArray.length).forEach((i, j) => {
+                this.globalKnowledgeLevel[seasons[index]].data[j].value = i
+              })
+            })
+            // Define pie chart colors
+            const color = d3.scaleOrdinal(
+              this.selectedSeason.featuresColors.slice(1)
             )
-            const dataArray = Object.values(item)
-            dataArray.slice(1, dataArray.length).forEach((i, j) => {
-              this.globalKnowledgeLevel[seasons[index]].data[j].value = i
-            })
-          })
-          // Define pie chart colors
-          const color = d3.scaleOrdinal(this.selectedSeason.featuresColors)
-          // Update data
-          const pieChartData = d3
-            .pie()
-            .value(function (d) {
-              return d.value
-            })
-            .sort(null)(
-            this.globalKnowledgeLevel[this.selectedSeason.value].data
-          )
-          // Create pie chart
-          const pieChartSvg = d3
-            .select(this.$el)
-            .select('.PieChartSvg')
-            .selectAll('path')
-            .data(pieChartData)
-          pieChartSvg.exit().remove()
-          pieChartSvg
-            .enter()
-            .append('path')
-            .merge(pieChartSvg)
-            .transition()
-            .duration(150)
-            .attr('class', 'arc')
-            .attr('d', this.arcPath)
-            .attr('fill', function (d) {
-              return color(d.data.label)
-            })
+            // Update data
+            const pieChartData = d3
+              .pie()
+              .value(function (d) {
+                return d.value
+              })
+              .sort(null)(
+              this.globalKnowledgeLevel[this.selectedSeason.value].data
+            )
+            // Create pie chart
+            const pieChartSvg = d3
+              .select(this.$el)
+              .select('.PieChartSvg')
+              .selectAll('path')
+              .data(pieChartData)
+            pieChartSvg.exit().remove()
+            pieChartSvg
+              .enter()
+              .append('path')
+              .merge(pieChartSvg)
+              .transition()
+              .duration(150)
+              .attr('class', 'arc')
+              .attr('d', this.arcPath)
+              .attr('fill', function (d) {
+                return color(d.data.label)
+              })
+          } else {
+            this.noAvailableData = true
+          }
         })
         .catch((errors) => {
           console.log(errors)

@@ -75,11 +75,30 @@ export default {
       required: true,
     },
   },
+  beforeMount() {
+    if (this.$detectMobile()) {
+      // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+      const vh = window.innerHeight * 0.01
+      // Then we set the value in the --vh custom property to the root of the document
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+      window.addEventListener('resize', this.listener)
+    }
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.listener)
+  },
   methods: {
     hideMobileMenu(timeout) {
       setTimeout(() => {
         this.$emit('hideMobileMenu')
       }, timeout)
+    },
+    listener() {
+      this.$debounce(this.detectResize())
+    },
+    detectResize() {
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
     },
   },
 }
@@ -92,12 +111,11 @@ export default {
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   background: linear-gradient(rgba(57, 118, 90, 0.1), rgba(57, 118, 90, 0.1)),
     white;
   display: flex;
   flex-direction: column;
-
-  /* transition: 0.4s; */
 }
 
 header {
@@ -111,19 +129,18 @@ header {
 }
 
 nav {
+  flex: 1;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
 
 .NavBarItemWrapper {
   height: 28px;
+  min-height: 28px;
   margin-bottom: 24px;
   display: flex;
   justify-content: center;
-}
-
-.NavBarItemWrapper:last-child {
-  margin-bottom: 0;
 }
 
 .NavBarItem {
