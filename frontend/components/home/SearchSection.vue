@@ -16,7 +16,7 @@
           <h1 class="PlayfairDisplayTypo">
             Explorer l'Atlas<br />des Oiseaux de France
           </h1>
-          <h4 class="white01 fw-600">
+          <h4 class="white01 fw-600 bottom-margin-8">
             (Re)découvrez les oiseaux présents sur le territoire français, leurs
             répartitions, tendances et effectifs
           </h4>
@@ -114,8 +114,8 @@ export default {
 <style scoped>
 .TopSection {
   position: relative;
-  min-height: 580px;
-  height: 94vh;
+  min-height: 540px;
+  height: 86vh;
   max-height: 784px;
   align-items: flex-start;
 }
@@ -151,7 +151,7 @@ export default {
 .TopSectionContent {
   position: absolute;
   z-index: 5;
-  top: 0;
+  top: -8%; /* responsive */
   bottom: 0;
   left: 0;
   right: 0;
@@ -159,8 +159,8 @@ export default {
   width: 64%;
   min-width: 820px;
   max-width: 1020px;
-  height: 48%;
-  min-height: 272px;
+  height: 50%;
+  min-height: 250px;
   max-height: 282px;
 }
 
@@ -199,13 +199,12 @@ export default {
       ),
       url('/home/home-picture-0.jpg') 66% / cover, #3957a4;
 
-    /* var(--largeUrl) var(--largeFocus) / cover, #3957a4;
-    var(--largeUrl) 100% / cover, #3957a4; */
+    /* var(--largeUrl) var(--largeFocus) / cover, #3957a4; */
   }
 
   .TopSectionContent {
-    width: 86%;
-    min-width: 0;
+    width: 90%;
+    min-width: auto;
   }
 
   .SearchBar {
@@ -228,7 +227,7 @@ export default {
 @media screen and (max-width: 680px) {
   .TopSection {
     height: 380px;
-    min-height: 0;
+    min-height: auto;
   }
 
   .TopSectionPicture /* Modifier l'image d'accueil sur mobile */ {
@@ -240,8 +239,7 @@ export default {
       ),
       url('/home/home-picture-0-mobile.jpg') 70% / cover, #3957a4;
 
-    /* var(--mobileUrl) var(--mobileFocus) / cover, #3957a4;
-    var(--mobileUrl) 100% / cover, #3957a4; */
+    /* var(--mobileUrl) var(--mobileFocus) / cover, #3957a4; */
   }
 
   .PictureGradient {
@@ -249,11 +247,17 @@ export default {
   }
 
   .TopSectionContent {
-    height: 56%;
-    min-height: 202px;
+    top: 110px;
+    bottom: -23px;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    margin: 0 auto;
   }
 
   h4.fw-600 {
+    font-size: 16px;
+    line-height: 24px;
     font-weight: normal;
   }
 
@@ -263,7 +267,7 @@ export default {
 
   .TopSectionPictureCredit {
     left: 7%;
-    bottom: 8px;
+    bottom: 35px;
     width: 86%;
   }
 
@@ -272,14 +276,24 @@ export default {
   }
 }
 
-@media screen and (max-width: 340px) {
+@media screen and (max-width: 464px) {
   .TopSectionContent {
-    min-height: 240px;
+    top: 120px;
+  } 
+
+  .PlayfairDisplayTypo {
+    font-size: 35px;
+    line-height: 46px;
   }
 }
 
-@media screen and (max-height: 650px) {
-  h4.CardTitle {
+@media screen and (max-width: 406px) {
+  .PlayfairDisplayTypo {
+    font-size: 28px;
+    line-height: 37px;
+  }
+
+  h4.fw-600 {
     font-size: 14px;
     line-height: 21px;
   }
