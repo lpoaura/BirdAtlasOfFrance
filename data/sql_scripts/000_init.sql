@@ -77,7 +77,6 @@ $$
         ON CONFLICT (cd_nom)
             DO NOTHING;
 
-
 /* Set has_subsp value where taxa has sub-specie(s) */
         UPDATE
             atlas.t_taxa
@@ -134,165 +133,15 @@ $$
             FROM
                 datas;
 
-        INSERT INTO
-            taxonomie.bib_themes (id_theme, nom_theme, desc_theme, ordre, id_droit)
-            VALUES
-                (4, 'ODF Noms', 'Informations relatives à Oiseaux de France (commun)', 1, 3)
-              , (5, 'ODF Monographie', 'Informations relatives à Oiseaux de France (monographie espèce)', 2, 3)
-              , (6, 'ODF Traits', 'Informations relatives à Oiseaux de France (bdd traits)', 3, 3)
-        ON CONFLICT DO NOTHING;
+
 
         DROP MATERIALIZED VIEW atlas.mv_search_taxa;
         DROP MATERIALIZED VIEW atlas.mv_area_knowledge_list_taxa;
 
         SELECT * FROM taxonomie.bib_attributs;
-        INSERT INTO
-            taxonomie.bib_attributs ( id_attribut
-                                    , nom_attribut
-                                    , label_attribut
-                                    , liste_valeur_attribut
-                                    , obligatoire
-                                    , desc_attribut
-                                    , type_attribut
-                                    , type_widget
-                                    , regne
-                                    , group2_inpn
-                                    , id_theme
-                                    , ordre)
-            VALUES
-                ( 202
-                , 'odf_common_name_fr'
-                , 'Nom vernaculaire français'
-                , '{}'
-                , FALSE
-                , 'Nom vernaculaire français à afficher dans ODF'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 4
-                , 1)
-              , ( 203
-                , 'odf_common_name_en'
-                , 'Nom vernaculaire anglais'
-                , '{}'
-                , FALSE
-                , 'Nom vernaculaire anglais à afficher dans ODF'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 4
-                , 2)
-              , ( 201
-                , 'odf_sci_name'
-                , 'Nom scientifique'
-                , '{}'
-                , FALSE
-                , 'Nom scientifique à afficher dans ODF'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 4
-                , 3)
-              , (204, 'description', 'Description', '{}', FALSE, 'Description', 'text', 'textarea', NULL, NULL, 5, 1)
-              , ( 205
-                , 'distribution'
-                , 'Répartition et déplacements'
-                , '{}'
-                , FALSE
-                , 'Répartition et déplacements'
-                , 'text'
-                , 'textarea'
-                , NULL
-                , NULL
-                , 5
-                , 2)
-              , (206, 'habitat', 'Habitat', '{}', FALSE, 'Habitat', 'text', 'textarea', NULL, NULL, 5, 3)
-              , (207, 'feeding', 'Alimentation', '{}', FALSE, 'Alimentation', 'text', 'textarea', NULL, NULL, 5, 3)
-              , (207, 'breeding', 'Reproduction', '{}', FALSE, 'Reproduction', 'text', 'textarea', NULL, NULL, 5, 4)
-              , (208, 'breeding', 'Reproduction', '{}', FALSE, 'Reproduction', 'text', 'textarea', NULL, NULL, 5, 4)
-              , ( 208
-                , 'trait_incubation_time'
-                , 'Durée d''incubation'
-                , '{}'
-                , FALSE
-                , 'Durée d''incubation'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 1)
-              , (209, 'trait_length', 'Longueur', '{}', FALSE, 'Longueur', 'text', 'text', NULL, NULL, 6, 2)
-              , (210, 'trait_specie_group', 'Groupe', '{}', FALSE, 'Groupe', 'text', 'text', NULL, NULL, 6, 3)
-              , ( 211
-                , 'trait_migratory_behaviour'
-                , 'Comportement migrateur'
-                , '{}'
-                , FALSE
-                , 'Comportement migrateur'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 4)
-              , ( 212
-                , 'trait_clutches_number'
-                , 'Nombre de pontes'
-                , '{}'
-                , FALSE
-                , 'Nombre de pontes'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 5)
-              , (212, 'trait_scope', 'Envergure', '{}', FALSE, 'Envergure', 'text', 'text', NULL, NULL, 6, 6)
-              , (213, 'trait_food', 'Nourriture', '{}', FALSE, 'Nourriture', 'text', 'text', NULL, NULL, 6, 7)
-              , (214, 'trait_max_age', 'Age maximal', '{}', FALSE, 'Age maximal', 'text', 'text', NULL, NULL, 6, 8)
-              , ( 215
-                , 'trait_eggs_number'
-                , 'Nombre d''oeufs'
-                , '{}'
-                , FALSE
-                , 'Nombre d''oeufs'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 9)
-              , (216, 'trait_weight', 'Poids', '{}', FALSE, 'Poids', 'text', 'text', NULL, NULL, 6, 10)
-              , (217, 'trait_habitat', 'Habitat', '{}', FALSE, 'Habitat', 'text', 'text', NULL, NULL, 6, 11)
-              , ( 218
-                , 'trait_nest_length_stay'
-                , 'Durée de séjour au nid jusqu''à l''envol'
-                , '{}'
-                , FALSE
-                , 'Durée de séjour au nid jusqu''à l''envol'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 12)
-              , ( 219
-                , 'trait_nesting_site'
-                , 'Site de nidification'
-                , '{}'
-                , FALSE
-                , 'Site de nidification'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 13)
-        ON CONFLICT DO NOTHING;
+
+
+
 
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_groups CASCADE;
         CREATE MATERIALIZED VIEW atlas.mv_taxa_groups AS
@@ -434,8 +283,14 @@ $$
             cd_nom         INT REFERENCES taxonomie.taxref (cd_nom),
             period_profile INT REFERENCES atlas.dict_period_profiles (id),
             breeding_codes INT REFERENCES atlas.dict_breeding_code_profiles (id),
-            id_area        INT REFERENCES ref_geo.l_areas (id_area)
+            id_area        INT REFERENCES ref_geo.l_areas (id_area),
+            UNIQUE (cd_nom, period_profile, id_area)
         );
+        CREATE INDEX ON atlas.cor_specie_territory_profile (cd_nom);
+        CREATE INDEX ON atlas.cor_specie_territory_profile (period_profile);
+        CREATE INDEX ON atlas.cor_specie_territory_profile (breeding_codes);
+        CREATE INDEX ON atlas.cor_specie_territory_profile (id_area);
+
 
         UPDATE taxonomie.cor_c_vn_taxref
         SET
