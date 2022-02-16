@@ -42,7 +42,7 @@ export default {
       {
         hid: 'og:image',
         property: 'og:image',
-        content: '/home/home-picture.jpg',
+        content: '/home/home-picture-0.jpg',
       },
       {
         hid: 'twitter:card',
@@ -68,7 +68,7 @@ export default {
       {
         hid: 'twitter:image',
         property: 'twitter:image',
-        content: '/home/home-picture.jpg',
+        content: '/home/home-picture-0.jpg',
       },
     ],
     link: [
@@ -97,6 +97,7 @@ export default {
     '~/plugins/thousandDelimiter.js',
     '~/plugins/generateCaptcha.js',
     '~/plugins/getPageTitle.js',
+    '~/plugins/detectMobile.js',
     '~/plugins/departmentsList.js',
     '~/plugins/debounce.js',
     // { src: '~/plugins/vueLeaflet.js', ssr: false },

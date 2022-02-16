@@ -66,7 +66,7 @@
         v-if="
           selectedLayer.value === 'knowledge-level' ||
           selectedLayer.value === 'species-number' ||
-          (selectedLayer.value === 'epoc' && currentZoom >= 11)
+          (selectedLayer.value === 'epoc' && currentZoom >= 9)
         "
         :geojson="knowledgeLevelGeojson"
         :options="knowledgeLevelGeojsonOptions"
@@ -82,9 +82,7 @@
         :options="epocRealizedGeojsonOptions"
       />
       <l-geo-json
-        v-if="
-          selectedLayer.value === 'epoc' && epocOdfIsOn && currentZoom >= 11
-        "
+        v-if="selectedLayer.value === 'epoc' && epocOdfIsOn && currentZoom >= 9"
         :geojson="epocOdfGeojson"
         :options="epocOdfGeojsonOptions"
       />
@@ -178,10 +176,25 @@
           style="position: relative"
         >
           <div class="Progress"></div>
-          <h5 class="black02 fw-500 left-margin-42">Chargement des données</h5>
+          <h5 class="black02 fw-500 bottom-margin-38">
+            Chargement des données
+          </h5>
         </div>
         <div
-          v-show="selectedLayer.value === 'epoc' && currentZoom < 11"
+          v-show="
+            selectedLayer.value === 'epoc' &&
+            currentZoom < 11 &&
+            currentZoom >= 9
+          "
+          class="InformationControl"
+        >
+          <h5 class="black02 fw-500">
+            Trop de points EPOC réalisés, zoomez à l’échelle d’une maille pour
+            visualiser ces points.
+          </h5>
+        </div>
+        <div
+          v-show="selectedLayer.value === 'epoc' && currentZoom < 9"
           class="InformationControl"
         >
           <h5 class="black02 fw-500">
@@ -258,7 +271,9 @@
         <div
           v-show="
             (knowledgeLevelIsLoading &&
-              selectedLayer.value === 'knowledge-level') ||
+              ['knowledge-level', 'species-number'].includes(
+                selectedLayer.value
+              )) ||
             (speciesDistributionIsLoading &&
               selectedLayer.value === 'species-distribution')
           "
@@ -266,10 +281,25 @@
           style="position: relative"
         >
           <div class="Progress"></div>
-          <h5 class="black02 fw-500 left-margin-42">Chargement des données</h5>
+          <h5 class="black02 fw-500 bottom-margin-38">
+            Chargement des données
+          </h5>
         </div>
         <div
-          v-show="selectedLayer.value === 'epoc' && currentZoom < 11"
+          v-show="
+            selectedLayer.value === 'epoc' &&
+            currentZoom < 11 &&
+            currentZoom >= 9
+          "
+          class="InformationControl"
+        >
+          <h5 class="black02 fw-500">
+            Trop de points EPOC réalisés, zoomez à l’échelle d’une maille pour
+            visualiser ces points.
+          </h5>
+        </div>
+        <div
+          v-show="selectedLayer.value === 'epoc' && currentZoom < 9"
           class="InformationControl"
         >
           <h5 class="black02 fw-500">
@@ -432,7 +462,6 @@ export default {
     knowledgeLevelClasses: [0, 0.25, 0.5, 0.75, 1],
     searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
     searchedFeatureCode: null, // Le zonage sélectionné est une maille (recherche depuis l'URL)
-    // indeterminate: true, // Progress (loading)
     // MOBILE
     seasonIsOpen: false,
     layerIsOpen: false,
@@ -694,12 +723,12 @@ export default {
     },
   },
   beforeMount() {
-    if (this.detectMobile()) {
+    if (this.$detectMobile()) {
       // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
-      // console.log(window.innerHeight)
       const vh = window.innerHeight * 0.01
       // Then we set the value in the --vh custom property to the root of the document
       document.documentElement.style.setProperty('--vh', `${vh}px`)
+      window.addEventListener('resize', this.listener)
     }
   },
   mounted() {
@@ -772,6 +801,9 @@ export default {
         console.log(error)
       })
   },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.listener)
+  },
   methods: {
     setGeolocation(position) {
       this.isProgramaticZoom = true
@@ -812,6 +844,8 @@ export default {
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
         this.updateEpocRealizedGeojson()
+      }
+      if (this.currentZoom >= 9) {
         this.updateEpocOdfGeojson()
       }
     },
@@ -822,6 +856,8 @@ export default {
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
         this.updateEpocRealizedGeojson()
+      }
+      if (this.currentZoom >= 9) {
         this.updateEpocOdfGeojson()
       }
       if (this.selectedSpecies) {
@@ -970,10 +1006,6 @@ export default {
           .then((data) => {
             if (data) {
               this.speciesDistributionGeojson = data
-              // À SUPPRIMER LORSQUE L'API RENVERRA UN empty string
-              if (data.features.length === 0) {
-                this.noSpeciesData = true
-              }
             } else {
               this.speciesDistributionGeojson = {
                 type: 'FeatureCollection',
@@ -1163,19 +1195,12 @@ export default {
       this.$emit('selectedTerritory', territory)
       this.territoryIsOpen = false
     },
-    detectMobile() {
-      const toMatch = [
-        /Android/i,
-        /webOS/i,
-        /iPhone/i,
-        /iPad/i,
-        /iPod/i,
-        /BlackBerry/i,
-        /Windows Phone/i,
-      ]
-      return toMatch.some((item) => {
-        return navigator.userAgent.match(item)
-      })
+    listener() {
+      this.$debounce(this.detectResize())
+    },
+    detectResize() {
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
     },
   },
 }
@@ -1193,11 +1218,13 @@ export default {
   width: 34px;
   height: 34px;
   position: absolute;
-  top: 4px;
-  left: 12px;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
-.left-margin-42 {
-  margin-left: 42px;
+.bottom-margin-38 {
+  margin-bottom: 38px;
 }
 </style>

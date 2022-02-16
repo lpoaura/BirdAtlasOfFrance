@@ -220,7 +220,10 @@
         ref="speciesOverflow"
         class="MapControlOverflow"
       >
-        <div class="AutocompleteWrapper map">
+        <div
+          class="AutocompleteWrapper map"
+          :class="search.length > 0 ? 'open' : ''"
+        >
           <input v-model="search" type="text" placeholder="Rechercher" />
           <div class="AutocompleteGadgets map">
             <img
@@ -373,7 +376,7 @@
           {{ epoc.properties.id_ff.replace('-', ' ').replace(/_/g, ' ') }}
         </li>
         <li
-          v-if="featureEpocOdfList.length === 0"
+          v-if="!featureEpocOdfList.length"
           class="MapControlDataOption bottom-margin-24"
         >
           Aucun point EPOC ODF à afficher dans cette maille.
@@ -397,7 +400,7 @@
           }}
         </li>
         <li
-          v-if="featureEpocOdfRealizedList.length === 0"
+          v-if="!featureEpocOdfRealizedList.length"
           class="MapControlDataOption bottom-margin-24"
         >
           Aucun point EPOC ODF réalisé dans cette maille.
@@ -481,7 +484,7 @@
         </div>
         <div class="PhenologyWrapper">
           <div
-            v-for="(item, index) in clickedSpecies.phenology"
+            v-for="(item, index) in clickedSpeciesPhenology"
             :key="index"
             class="PhenologyItem"
             :class="item.is_present ? 'colored' : ''"
@@ -607,6 +610,30 @@ export default {
           old_count: 0,
           new_count: 0,
         }
+      }
+    },
+    clickedSpeciesPhenology() {
+      const months = this.months.map((item) => {
+        return item.charAt(0)
+      })
+      if (!this.clickedSpecies.phenology.length) {
+        const phenology = months.map((item) => {
+          return {
+            label: item,
+            is_present: false,
+          }
+        })
+        return phenology
+      } else {
+        const phenology = months.map((item, index) => {
+          return {
+            label: item,
+            is_present:
+              this.clickedSpecies.phenology.find((d) => d === index + 1) !==
+              undefined,
+          }
+        })
+        return phenology
       }
     },
     prospectingHours() {
@@ -797,7 +824,7 @@ export default {
     },
     createBarPlot(formattedData, hook) {
       // Get bar plot size
-      const margin = { top: 10, right: 0, bottom: 24, left: 40 }
+      const margin = { top: 10, right: 0, bottom: 24, left: 48 }
       const barPlotWidth = Math.max(
         parseFloat(
           d3.select(this.$el).select('.TimeDistributionBarPlot').style('width')
@@ -894,9 +921,15 @@ export default {
             "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
           )
         // Update Y axis
+        const formatter = d3.formatLocale({
+            decimal: '.',
+            thousands: ' ',
+            grouping: [3],
+            currency: ['', ''],
+          }).format(',.0f')
         d3.select(this.$el)
           .select('.yAxis')
-          .call(d3.axisLeft(yAxis))
+          .call(d3.axisLeft(yAxis).tickFormat(formatter))
           .selectAll('text')
           .attr(
             'style',
@@ -946,28 +979,6 @@ export default {
       this.seeMoreMunicipalitiesIsClicked = false
     },
     updateClickedSpecies(taxon) {
-      const months = this.months.map((item) => {
-        return item.charAt(0)
-      })
-      if (!taxon.phenology[0]) {
-        const phenology = months.map((item) => {
-          return {
-            label: item,
-            is_present: false,
-          }
-        })
-        taxon.phenology = phenology
-      }
-      if (!taxon.phenology[0].label) {
-        const phenology = months.map((item, index) => {
-          return {
-            label: item,
-            is_present:
-              taxon.phenology.find((d) => d === index + 1) !== undefined,
-          }
-        })
-        taxon.phenology = phenology
-      }
       this.clickedSpecies = taxon
     },
     deleteClickedSpecies() {
