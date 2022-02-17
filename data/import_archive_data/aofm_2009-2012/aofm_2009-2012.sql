@@ -106,7 +106,7 @@ $$
                     JOIN ref_geo.l_areas ON
                     replace(area_code, '10kmL93', '') = code_maille;
 
---         DELETE
+        --         DELETE
 --             FROM
 --                 gn_synthese.cor_area_synthese
 --             WHERE

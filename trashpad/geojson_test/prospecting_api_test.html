@@ -10,7 +10,7 @@
   <div id="map" style="height: 100vh"></div>
 </body>
 <script>
-  let map = L.map("map").setView([45, 5], 8);
+  let map = L.map("map").setView([45, 5], 2);
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
       map.panTo(L.latLng(position.coords.latitude, position.coords.longitude));
@@ -85,7 +85,7 @@
   const updateEpoc = () => {
     const mapEnvelop = envelop();
     axios
-      .get("http://localhost:8888/api/v1/epoc&envelope=" + mapEnvelop)
+      .get("http://localhost:8888/api/v1/historic/atlas/4532/6?envelope=" + mapEnvelop)
       .then((response) => {
         console.log(response.data);
         var ml = L.geoJSON(response.data, {
