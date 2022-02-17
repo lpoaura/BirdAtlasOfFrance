@@ -9,7 +9,7 @@ from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
 from app.core.ref_geo.models import LAreas
 
-from .models import THistoricAtlasesData
+from .models import THistoricAtlasesData, THistoricAtlasesInfo
 
 # from .models import MvTaxaAltitudeDistribution
 
@@ -146,6 +146,19 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
             )
 
         logger.debug(f"<taxa_distribution> q {q}")
+        return q.all()
+
+    def list_historic_atlases(self, db: Session) -> List:
+        q = db.query(
+            THistoricAtlasesInfo.id,
+            THistoricAtlasesInfo.atlas_period,
+            THistoricAtlasesInfo.atlas_period,
+            THistoricAtlasesInfo.date_start,
+            THistoricAtlasesInfo.date_end,
+            THistoricAtlasesInfo.season_period,
+            THistoricAtlasesInfo.description,
+            # THistoricAtlasesInfo.is_active,
+        ).filter(THistoricAtlasesInfo.is_active)
         return q.all()
 
 
