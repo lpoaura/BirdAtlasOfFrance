@@ -515,7 +515,8 @@ $$
             date_start    DATE,
             date_end      DATE,
             season_period PHENOLOGY_PERIOD                             NOT NULL,
-            description   VARCHAR
+            description   VARCHAR,
+            is_active     BOOLEAN                                      NOT NULL DEFAULT TRUE
         );
         COMMENT ON TABLE atlas.t_historic_atlases_info IS 'List of historic atlases and relative informations';
 --         DROP TABLE atlas.t_historic_atlases_data CASCADE;
@@ -525,7 +526,7 @@ $$
             id_historic_atlas_info INTEGER NOT NULL REFERENCES atlas.t_historic_atlases_info (id),
             id_area                INTEGER NOT NULL REFERENCES ref_geo.l_areas (id_area) NOT NULL,
             cd_nom                 INTEGER NOT NULL REFERENCES atlas.t_taxa (cd_nom),
-            status        VARCHAR
+            status                 VARCHAR
         );
         CREATE INDEX idx_id_historic_atlas_info ON atlas.t_historic_atlases_data (id_historic_atlas_info);
         CREATE INDEX idx_id_area ON atlas.t_historic_atlases_data (id_area);
