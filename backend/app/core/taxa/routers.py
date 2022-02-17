@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any, Optional, Union
+from typing import Any, List, Optional, Union
 
 from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
@@ -10,6 +10,7 @@ from app.utils.db import get_db
 
 from .actions import historic_atlas_distrib, taxa_distrib
 from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection,
+    HistoricAtlasInfosSchema,
     TaxaDistributionFeature,
     TaxaDistributionFeaturesCollection,
 )
@@ -131,3 +132,21 @@ def historic_atlases(
         for a in q
     ]
     return TaxaDistributionFeaturesCollection(features=features)
+
+
+@router.get(
+    "/historic/atlas/",
+    response_model=List[HistoricAtlasInfosSchema],
+    tags=["taxa"],
+    summary="List historic atlases",
+    description="""# List historic atlases
+
+    get historic atlases list
+
+""",
+)
+def list_historic_atlases(db: Session = Depends(get_db)) -> Any:
+    q = historic_atlas_distrib.list_historic_atlases(db=db)
+    if not q:
+        return Response(status_code=HTTP_204_NO_CONTENT)
+    return q

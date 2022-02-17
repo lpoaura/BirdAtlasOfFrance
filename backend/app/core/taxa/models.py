@@ -2,8 +2,9 @@
 """Search sqlalchemy models module"""
 
 import logging
+from xmlrpc.client import Boolean
 
-from sqlalchemy import Column, Date, DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import INT4RANGE, JSON
 
 from app.core.ref_geo.models import LAreas
@@ -38,6 +39,7 @@ class THistoricAtlasesInfo(Base):
     date_end = Column(Date)
     season_period = Column(String)
     description = Column(String)
+    is_active = Column(Boolean)
 
 
 class THistoricAtlasesData(Base):
