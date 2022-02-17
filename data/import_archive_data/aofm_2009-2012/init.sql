@@ -7,7 +7,7 @@ Previous atlas datas table
 DO
 $$
     BEGIN
-        CREATE TABLE tmp.aofm_2009_2012
+        CREATE TABLE src_historic_atlas.aofm_2009_2012
         (
             code_maille           VARCHAR,
             id_espece_visionature INTEGER,

@@ -16,7 +16,7 @@ BEGIN
         upper(
         LEFT (aofm_2009_2012.statut_nidif, 1)) || substr(aofm_2009_2012.statut_nidif, 2, length(aofm_2009_2012.statut_nidif))
     FROM
-        tmp.aofm_2009_2012
+        src_historic_atlas.aofm_2009_2012
         JOIN ref_geo.l_areas ON id_maille = replace(l_areas.area_code, '10kmL93', '')
         JOIN taxonomie.cor_c_vn_taxref ON vn_id = id_espece
         JOIN gn_synthese.synthese ON (synthese.id_area_attachment,
