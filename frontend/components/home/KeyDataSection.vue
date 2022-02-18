@@ -1,6 +1,7 @@
 <template>
   <section class="Section">
-    <h2 class="fw-bold bottom-margin-40">L'Atlas en quelques chiffres</h2>
+    <h2 class="fw-bold">L'Atlas en quelques chiffres</h2>
+    <span class="black03 bottom-margin-24">France Métropolitaine, Guyane</span>
     <div class="KeyDataContent">
       <div class="KeyDataCard">
         <div class="KeyDataColumn-1">
@@ -76,7 +77,7 @@
               <span class="black02 fw-500">
                 {{ pieChartLabels[season] }}
               </span>
-              <span class="black02 flex">
+              <span class="black02 display-flex">
                 <div class="right-margin-16">
                   {{
                     keyData.prospecting_hours

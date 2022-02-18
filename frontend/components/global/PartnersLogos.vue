@@ -3,7 +3,7 @@
     <div
       v-for="(partner, index) in partnersToShow.list"
       :key="index"
-      class="PartnerLogoItem flex"
+      class="PartnerLogoItem display-flex"
     >
       <img
         class="PartnerLogo"

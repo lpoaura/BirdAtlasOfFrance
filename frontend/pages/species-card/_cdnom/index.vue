@@ -18,8 +18,7 @@
             <i>{{ species.attributes.odf_sci_name }}</i> &nbsp;|&nbsp;
             {{ species.attributes.odf_common_name_en }}
             <font class="not-on-mobile">
-              &nbsp;|&nbsp;Synonymes :
-              <font style="color: red">blablabla, blablablablabla</font>
+              &nbsp;|&nbsp;Synonymes : {{ species.attributes.common_synonyms }}
             </font>
           </h5>
         </div>
@@ -258,10 +257,10 @@ export default {
         label: 'Fiche espèce',
         subjects: [
           { label: 'Description', slug: 'description' },
-          { label: 'Taxonomie', slug: 'taxonomy' },
-          { label: 'Statuts', slug: 'status' },
-          { label: 'Caractéristiques', slug: 'characteristic' },
-          { label: 'Téléchargements', slug: 'downloads' },
+          // { label: 'Taxonomie', slug: 'taxonomy' },
+          // { label: 'Statuts', slug: 'status' },
+          { label: 'Caractéristiques', slug: 'traits' },
+          // { label: 'Téléchargements', slug: 'downloads' },
           { label: 'Liens', slug: 'links' },
         ],
       },
@@ -780,11 +779,20 @@ export default {
       this.defineDomCurrentScrollingItems()
     },
   },
+  beforeMount() {
+    if (this.$detectMobile()) {
+      // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+      const vh = window.innerHeight * 0.01
+      // Then we set the value in the --vh custom property to the root of the document
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+      window.addEventListener('resize', this.listenerResize)
+    }
+  },
   mounted() {
     // QUAND ON RÉCUPÈRE LES DONNÉES AVEC AXIOS, SUPPRIMER DE tabs LES subjects POUR LESQUELLES IL N'Y A PAS DE DONNÉES
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
-    this.$refs.scrollingContainer.addEventListener('scroll', this.listener)
+    this.$refs.scrollingContainer.addEventListener('scroll', this.listenerScroll)
     this.defineSelectedTab()
     this.$axios
       .$get(
@@ -792,7 +800,11 @@ export default {
       )
       .then((data) => {
         if (data) {
-          const species = { attributes: {}, medias: { Photos: [] } }
+          const species = {
+            cdnom: this.cdnom,
+            attributes: {},
+            medias: { Photos: [] },
+          }
           data.attributs.forEach((attribut) => {
             species.attributes[attribut.nom_attribut] = attribut.valeur_attribut
           })
@@ -826,8 +838,15 @@ export default {
               }
             }
           })
+          if (!species.medias.Photos.length) {
+            delete species.medias.Photos
+          }
           this.species = species
           // console.log(this.species)
+          setTimeout(() => {
+            // Le timeout permet d'être assuré que les contenus sont bien integrés à la page
+            this.defineDomCurrentScrollingItems() // Certaines sections ne sont affichées qu'une fois les données récupérées
+          }, 50)
         }
       })
       .catch((error) => {
@@ -837,7 +856,8 @@ export default {
   beforeDestroy() {
     document.documentElement.style.removeProperty('overflow')
     document.body.style.removeProperty('position')
-    this.$refs.scrollingContainer.removeEventListener('scroll', this.listener)
+    window.removeEventListener('resize', this.listenerResize)
+    this.$refs.scrollingContainer.removeEventListener('scroll', this.listenerScroll)
   },
   methods: {
     defineSelectedTab() {
@@ -872,7 +892,7 @@ export default {
         }, this.scrollDuration + 10)
       }
     },
-    listener() {
+    listenerScroll() {
       this.$debounce(this.handleScroll())
     },
     handleScroll() {
@@ -896,6 +916,13 @@ export default {
         }
       }
     },
+    listenerResize() {
+      this.$debounce(this.detectResize())
+    },
+    detectResize() {
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+    },
   },
 }
 </script>
@@ -903,7 +930,9 @@ export default {
 <style scoped>
 div.container.container--fluid {
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   max-height: 100vh;
+  max-height: calc(var(--vh, 1vh) * 100);
   padding-top: 68px;
   display: flex;
   flex-direction: column;
@@ -1064,7 +1093,7 @@ nav.NavDrawer {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 920px) {
+@media screen and (max-width: 1050px) {
   nav.NavDrawer {
     display: none;
   }
@@ -1085,6 +1114,11 @@ nav.NavDrawer {
 }
 
 @media screen and (max-width: 680px) {
+  .SpeciesCardContent >>> h4.fw-bold {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
   .ChartCard {
     padding: 24px;
   }

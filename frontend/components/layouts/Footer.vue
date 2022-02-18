@@ -11,7 +11,7 @@
         </a>
       </div>
       <div class="Split"></div>
-      <div class="flex">
+      <div class="display-flex">
         <a
           v-for="(item, index) in socialNetworksItems"
           :key="index"
