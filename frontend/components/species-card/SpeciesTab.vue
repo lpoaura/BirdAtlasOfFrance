@@ -1,30 +1,128 @@
 <template>
   <div class="SpeciesCardContent" :class="status">
-    <div class="Row">
-      <div class="Column">
-        <h4 id="description" class="black02 fw-bold bottom-margin-8">
-          Description
-        </h4>
-        <span v-if="species.attributes.description" class="black02">
-          {{ species.attributes.description }}
-        </span>
-        <span v-else class="black02">
-          Pas de description disponible actuellement pour cette espèce.
-        </span>
+    <div
+      v-if="species.attributes.description || species.medias.Photos"
+      id="description"
+      class="Row"
+      :style="{ height: readMore || !species.medias.Photos ? 'auto' : '367px' }"
+    >
+      <div class="Column read-more-wrapper">
+        <div class="read-more">
+          <h4 class="black02 fw-bold bottom-margin-16">Description</h4>
+          <span
+            v-if="species.attributes.description"
+            ref="description"
+            class="black02"
+          >
+            {{ species.attributes.description }}
+          </span>
+          <span v-else class="black02">
+            Pas de description disponible actuellement pour cette espèce.
+          </span>
+          <div
+            v-if="descriptionHeight > 327 && !readMore"
+            class="Blurring"
+          ></div>
+        </div>
+        <div v-if="descriptionHeight > 327 && !readMore" class="display-flex">
+          <span
+            class="green01 fw-600 pointer ReadMore"
+            @click="readMore = !readMore"
+          >
+            Lire plus
+          </span>
+        </div>
+        <div v-if="descriptionHeight > 327 && readMore" class="display-flex">
+          <span
+            class="green01 fw-600 pointer ReadMore"
+            @click="readMore = !readMore"
+          >
+            Lire moins
+          </span>
+        </div>
       </div>
       <pictures-carousel
         v-if="species.medias.Photos"
         :pictures="species.medias.Photos"
       />
     </div>
-    <!-- <div class="Row">
-      <div class="Column">
-        Taxonomie
+    <div
+      v-if="filteredTraits || filteredFurtherInfo"
+      id="traits"
+      class="Column"
+    >
+      <div v-if="filteredTraits" class="Column">
+        <h4 id="traits" class="black02 fw-bold bottom-margin-16">
+          Caractéristiques
+        </h4>
+        <div class="TraitsCardsGrid">
+          <div
+            v-for="(trait, index) in filteredTraits"
+            :key="index"
+            class="TraitCard"
+          >
+            <span class="black02 fw-600 bottom-margin-8">
+              {{ trait.label }}
+            </span>
+            <span class="black02">
+              {{ species.attributes[trait.key] }}
+            </span>
+          </div>
+        </div>
       </div>
-      <div class="Column">
-        Statuts
+      <div v-if="filteredFurtherInfo" class="FurtherInfoGrid">
+        <div
+          v-for="(info, index) in filteredFurtherInfo"
+          :key="index"
+          class="Column"
+        >
+          <h4 class="black02 fw-bold bottom-margin-16">
+            {{ info.label }}
+          </h4>
+          <span class="black02">
+            {{ species.attributes[info.key] }}
+          </span>
+        </div>
       </div>
-    </div> -->
+    </div>
+    <div id="links" class="Column">
+      <h4 class="black02 fw-bold bottom-margin-16">Liens</h4>
+      <div class="LinksWrapper">
+        <div class="LinksGrid">
+          <li class="LinkOption">
+            <img src="/eye-green.svg" class="LinkOptionIcon" />
+            <span class="fw-500">
+              <a
+                :href="`https://inpn.mnhn.fr/espece/cd_nom/${species.cdnom}`"
+                target="_blank"
+              >
+                Visualiser la fiche INPN de l'espèce
+              </a>
+            </span>
+          </li>
+          <li class="LinkOption">
+            <img src="/song-green.svg" class="LinkOptionIcon" />
+            <span class="fw-500">
+              <a href="https://www.faune-france.org/" target="_blank">
+                Saisir mes données sur Faune France
+              </a>
+            </span>
+          </li>
+          <li
+            v-for="(link, index) in filteredLinks"
+            :key="index"
+            class="LinkOption"
+          >
+            <img :src="link.icon" class="LinkOptionIcon" />
+            <span class="fw-500">
+              <a :href="species.medias[link.key].url" target="_blank">
+                {{ link.label }}
+              </a>
+            </span>
+          </li>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -45,27 +143,240 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    descriptionHeight: 0,
+    readMore: false,
+    traitsList: [
+      { label: 'Groupe', key: 'trait_specie_group' },
+      { label: 'Longueur', key: 'trait_length' },
+      { label: 'Envergure', key: 'trait_scope' },
+      { label: 'Poids', key: 'trait_weight' },
+      { label: "Durée d'incubation", key: 'trait_incubation_time' },
+      { label: 'Nombre de pontes', key: 'trait_clutches_number' },
+      { label: "Nombre d'œufs", key: 'trait_eggs_number' },
+      {
+        label: "Durée de séjour au nid jusqu'à l'envol",
+        key: 'trait_nest_length_stay',
+      },
+      { label: 'Âge maximal Euring', key: 'trait_max_age_euring' },
+      { label: 'Âge maximal FR', key: 'trait_max_age_fr' },
+      { label: 'Habitat', key: 'trait_habitat' },
+      { label: 'Nourriture', key: 'trait_food' },
+      { label: 'Site de nidification', key: 'trait_nesting_site' },
+      { label: 'Comportement migrateur', key: 'trait_migratory_behaviour' },
+    ],
+    furtherInfoList: [
+      { label: 'Répartition et déplacements', key: 'distribution' },
+      { label: 'Habitats', key: 'habitat' },
+      { label: 'Alimentation', key: 'feeding' },
+      { label: 'Reproduction', key: 'breeding' },
+    ],
+    linksList: [
+      {
+        label: 'Écouter le chant sur Xeno-Canto',
+        key: 'xeno-canto',
+        icon: '/song-green.svg',
+      },
+      {
+        label: "Visualiser l'espèce sur EuroBirdPortal",
+        key: 'euro-bird-portal',
+        icon: '/pencil-green.svg',
+      },
+    ],
+  }),
+  computed: {
+    filteredTraits() {
+      if (this.species.attributes.odf_common_name_fr) {
+        // Si les données sont arrivées
+        const filteredTraits = this.traitsList.filter((trait) => {
+          return this.species.attributes[trait.key]
+        })
+        return filteredTraits.length > 0 ? filteredTraits : null
+      } else {
+        return null
+      }
+    },
+    filteredFurtherInfo() {
+      if (this.species.attributes.odf_common_name_fr) {
+        // Si les données sont arrivées
+        const filteredFurtherInfo = this.furtherInfoList.filter((info) => {
+          return this.species.attributes[info.key]
+        })
+        return filteredFurtherInfo.length > 0 ? filteredFurtherInfo : null
+      } else {
+        return null
+      }
+    },
+    filteredLinks() {
+      if (this.species.attributes.odf_common_name_fr) {
+        // Si les données sont arrivées
+        return this.linksList.filter((link) => {
+          return this.species.medias[link.key]
+        })
+      } else {
+        return []
+      }
+    },
+  },
+  watch: {
+    species(newVal) {
+      setTimeout(() => {
+        // Le timeout permet d'être assuré que le texte est bien integré à l'élément
+        if (this.$refs.description) {
+          this.descriptionHeight = this.$refs.description.offsetHeight
+        }
+      }, 50)
+    },
+  },
+  beforeMount() {
+    window.addEventListener('resize', this.listener)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.listener)
+  },
+  methods: {
+    listener() {
+      this.$debounce(this.detectResize())
+    },
+    detectResize() {
+      this.descriptionHeight = this.$refs.description.offsetHeight
+    },
+  },
 }
 </script>
 
 <style scoped>
 .Row {
-  margin-bottom: 40px;
+  margin-top: 40px;
   display: flex;
 }
 
-.Row:last-child {
-  margin-bottom: 0;
+.Row:first-child {
+  margin-top: 0;
 }
 
-.Row .Column {
-  flex: 1;
-  margin-right: 24px;
+.Column {
   display: flex;
   flex-direction: column;
 }
 
+.Row .Column {
+  flex: 1;
+  margin-top: 0;
+  margin-right: 24px;
+}
+
+.SpeciesCardContent > .Column {
+  margin-top: 40px;
+}
+
 .Row .Column:last-child {
   margin-right: 0;
+}
+
+.SpeciesCardContent > .Column:first-child {
+  margin-top: 0;
+}
+
+.read-more-wrapper {
+  justify-content: space-between;
+}
+
+.read-more {
+  position: relative;
+  flex: 1;
+  overflow-y: hidden;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Blurring {
+  background: linear-gradient(
+    0deg,
+    rgba(252, 252, 252, 1) 0%,
+    rgba(252, 252, 252, 0) 100%
+  );
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+}
+
+.TraitsCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-auto-rows: 1fr;
+  grid-gap: 16px;
+}
+
+.TraitCard {
+  background: rgba(57, 118, 90, 0.05);
+  border-radius: 16px;
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.FurtherInfoGrid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(288px, 45%), 2fr));
+  grid-gap: 40px;
+}
+
+.LinksWrapper {
+  padding: 36px;
+  border: 1px solid rgba(51, 105, 80, 0.2);
+  box-sizing: border-box;
+  border-radius: 16px;
+}
+
+.LinksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(250px, 45%), 2fr));
+  row-gap: 24px;
+  column-gap: 40px;
+}
+
+.LinkOption {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  white-space: normal;
+}
+
+.LinkOptionIcon {
+  width: 14px;
+  margin-right: 14px;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 740px) {
+  .Row {
+    height: auto !important;
+    flex-direction: column;
+  }
+
+  .Row .Column {
+    margin-right: 0;
+    margin-bottom: 24px;
+  }
+
+  .ReadMore,
+  .Blurring {
+    display: none;
+  }
+
+  .LinksWrapper {
+    padding: 20px;
+    border: 1px solid rgba(51, 105, 80, 0.2);
+    box-sizing: border-box;
+    border-radius: 16px;
+  }
 }
 </style>

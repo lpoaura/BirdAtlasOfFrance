@@ -30,7 +30,7 @@
     </header>
     <div
       v-show="currentTerritory.id && !noAvailableData"
-      class="KnowledgeLevelPieChartWrapper flex"
+      class="KnowledgeLevelPieChartWrapper display-flex"
     >
       <div class="KnowledgeLevelPieChart">
         <svg class="PieChartSvg"></svg>

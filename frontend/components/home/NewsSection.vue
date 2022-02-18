@@ -41,10 +41,8 @@
             <h4 class="CardTitle fw-bold bottom-margin-16">
               {{ news.title }}
             </h4>
-            <div class="CardOverflow CardSubtitle">
-              <nuxt-content :document="news" />
-              <div class="CardSubtitleBlurring"></div>
-            </div>
+            <nuxt-content :document="news" />
+            <div class="CardBlurring"></div>
           </div>
           <div class="CardFooter">
             <div class="TagMenu">
@@ -232,15 +230,17 @@ h5.Subtitle {
   margin-right: 0;
 }
 
+.CardHeader {
+  position: relative;
+}
+
 .CardHeader,
-.CardFooter,
-.CardOverflow {
+.CardFooter {
   display: flex;
   flex-direction: column;
 }
 
 .CardHeader,
-.CardOverflow,
 .nuxt-content-container {
   flex: 1;
   overflow-y: hidden;
@@ -255,11 +255,7 @@ h5.Subtitle {
   overflow-y: hidden;
 }
 
-.CardSubtitle {
-  position: relative;
-}
-
-.CardSubtitleBlurring {
+.CardBlurring {
   background: linear-gradient(
     0deg,
     rgba(252, 252, 252, 1) 0%,

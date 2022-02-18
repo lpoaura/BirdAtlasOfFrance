@@ -266,7 +266,7 @@
                 <h5>({{ filteredSpecies.old_count }} esp.)</h5>
               </span>
               <span class="TableColumn small black02 fw-500">
-                <div class="flex">
+                <div class="display-flex">
                   <font style="font-family: sans-serif">&lt;</font>&nbsp;2019
                 </div>
                 <h5>({{ filteredSpecies.old_count }} esp.)</h5>
@@ -276,7 +276,7 @@
                 <h5>({{ filteredSpecies.new_count }} esp.)</h5>
               </span>
               <span class="TableColumn small black02 fw-500">
-                <div class="flex">
+                <div class="display-flex">
                   <font style="font-family: sans-serif">&ge;</font>&nbsp;2019
                 </div>
                 <h5>({{ filteredSpecies.new_count }} esp.)</h5>
@@ -457,31 +457,31 @@
       </header>
       <div class="MapControlSplit right-margin-16 no-bottom-margin"></div>
       <div class="MapControlOverflow">
-        <div class="MapControlDataOption top-margin-24">
+        <li class="MapControlDataOption top-margin-24">
           <img
             class="MapControlDataOptionIcon"
             src="/nav-bar/burger-black.svg"
           />
           {{ clickedSpecies.all_period.new_count }} donnée(s) sur la période
           Atlas 2019-2024
-        </div>
-        <div class="MapControlDataOption">
+        </li>
+        <li class="MapControlDataOption">
           <img class="MapControlDataOptionIcon" src="/prospecting.svg" />
           Espèce observée pour la dernière fois en
           {{ clickedSpecies.all_period.last_obs }}
-        </div>
-        <div class="MapControlDataOption">
+        </li>
+        <li class="MapControlDataOption">
           <img class="MapControlDataOptionIcon" src="/book.svg" />
           {{
             clickedSpecies.all_period.old_count > 0
               ? 'Espèce observée avant 2019'
               : 'Espèce non observée avant 2019'
           }}
-        </div>
-        <div class="MapControlDataOption">
+        </li>
+        <li class="MapControlDataOption">
           <img class="MapControlDataOptionIcon" src="/calendar.svg" />
           Calendrier d'observation sur la période Atlas 2019-2024 :
-        </div>
+        </li>
         <div class="PhenologyWrapper">
           <div
             v-for="(item, index) in clickedSpeciesPhenology"
@@ -1040,10 +1040,6 @@ export default {
 
 .AutocompleteWrapper {
   margin: 24px 0;
-}
-
-.pointer {
-  cursor: pointer;
 }
 
 .align-end {

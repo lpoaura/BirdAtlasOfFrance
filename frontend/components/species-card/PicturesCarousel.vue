@@ -137,7 +137,7 @@ export default {
 
 <style scoped>
 .PicturesCarousel {
-  --carouselwidth: 384px;
+  --carouselwidth: min(384px, 90vw);
   --thumbnailsnumber: 0;
 
   width: var(--carouselwidth);
@@ -152,12 +152,12 @@ export default {
   width: 100%;
   height: 256px;
   display: flex;
-  justify-content: center;
 }
 
 .ActivePicture img {
   max-width: 100%;
   max-height: 100%;
+  margin: auto;
 }
 
 .CarouselNavWrapper {
@@ -234,5 +234,13 @@ export default {
 .Thumbnail.active {
   border: 2px solid #eece25;
   box-sizing: border-box;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 740px) {
+  .PicturesCarousel {
+    align-self: center;
+  }
 }
 </style>

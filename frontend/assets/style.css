@@ -7,7 +7,7 @@ body {
   width: 100%;
 }
 
-.flex {
+.display-flex {
   display: flex;
 }
 
@@ -166,6 +166,10 @@ h6 {
 
 .nowrap {
   white-space: nowrap;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 /********** GLOBAL COMPONENTS **********/
