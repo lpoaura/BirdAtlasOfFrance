@@ -18,7 +18,7 @@
             <i>{{ species.attributes.odf_sci_name }}</i> &nbsp;|&nbsp;
             {{ species.attributes.odf_common_name_en }}
             <font class="not-on-mobile">
-              &nbsp;|&nbsp;Synonymes : {{ species.attributes.common_synonyms }}
+              &nbsp;|&nbsp; Synonymes : {{ species.attributes.common_synonyms }}
             </font>
           </h5>
         </div>
@@ -76,7 +76,7 @@
             />
           </div>
           <species-tab
-            :status="selectedTab.value === 'species' ? '' : 'hidden'"
+            :tab-status="selectedTab.value === 'species' ? '' : 'hidden'"
             :species="species"
           />
           <div
@@ -249,7 +249,12 @@ export default {
     'populations-count': PopulationsCount,
   },
   data: () => ({
-    species: { attributes: {}, medias: {} },
+    species: {
+      attributes: {},
+      medias: {},
+      redLists: null,
+      protectionStatus: null,
+    },
     tabs: [
       {
         value: 'species',
@@ -258,7 +263,7 @@ export default {
         subjects: [
           { label: 'Description', slug: 'description' },
           // { label: 'Taxonomie', slug: 'taxonomy' },
-          // { label: 'Statuts', slug: 'status' },
+          { label: 'Statuts', slug: 'status' },
           { label: 'Caractéristiques', slug: 'traits' },
           // { label: 'Téléchargements', slug: 'downloads' },
           { label: 'Liens', slug: 'links' },
@@ -792,7 +797,10 @@ export default {
     // QUAND ON RÉCUPÈRE LES DONNÉES AVEC AXIOS, SUPPRIMER DE tabs LES subjects POUR LESQUELLES IL N'Y A PAS DE DONNÉES
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
-    this.$refs.scrollingContainer.addEventListener('scroll', this.listenerScroll)
+    this.$refs.scrollingContainer.addEventListener(
+      'scroll',
+      this.listenerScroll
+    )
     this.defineSelectedTab()
     this.$axios
       .$get(
@@ -841,23 +849,65 @@ export default {
           if (!species.medias.Photos.length) {
             delete species.medias.Photos
           }
-          this.species = species
-          // console.log(this.species)
-          setTimeout(() => {
-            // Le timeout permet d'être assuré que les contenus sont bien integrés à la page
-            this.defineDomCurrentScrollingItems() // Certaines sections ne sont affichées qu'une fois les données récupérées
-          }, 50)
+          this.$axios
+            .$get(
+              `https://demo.geonature.fr/taxhub/api/bdc_statuts/list/${this.cdnom}`
+            )
+            .then((data) => {
+              if (data) {
+                // UPDATE NEEDED : récupérer les noms des territoires pour les LR (et pas seulement leur cd_sig)
+                const redListWorld = data.filter((item) => {
+                  return item.cd_type_statut === 'LRM'
+                })
+                const redListsNational = data.filter((item) => {
+                  return item.cd_type_statut === 'LRN'
+                })
+                if (redListWorld.length || redListsNational.length) {
+                  species.redLists = { national: [] }
+                  if (redListWorld.length) {
+                    species.redLists.world = redListWorld[0].code_statut
+                  }
+                  if (redListsNational.length) {
+                    redListsNational.forEach((item) => {
+                      species.redLists.national.push({
+                        territory: item.cd_sig,
+                        statut: item.code_statut,
+                      })
+                    })
+                  }
+                }
+                // END UPDATE NEEDED
+                // UPDATE NEEDED : récupérer les statuts de protection
+                species.protectionStatus = {}
+                species.protectionStatus.national = 'Chassable'
+                species.protectionStatus.birdDirective = 'Protégée'
+                // END UPDATE NEEDED
+                this.species = species
+              }
+            })
+            .catch((error) => {
+              console.log(error)
+            })
         }
       })
       .catch((error) => {
         console.log(error)
+      })
+      .finally(() => {
+        setTimeout(() => {
+          // Le timeout permet d'être assuré que les contenus sont bien integrés à la page
+          this.defineDomCurrentScrollingItems() // Certaines sections ne sont affichées qu'une fois les données récupérées
+        }, 500)
       })
   },
   beforeDestroy() {
     document.documentElement.style.removeProperty('overflow')
     document.body.style.removeProperty('position')
     window.removeEventListener('resize', this.listenerResize)
-    this.$refs.scrollingContainer.removeEventListener('scroll', this.listenerScroll)
+    this.$refs.scrollingContainer.removeEventListener(
+      'scroll',
+      this.listenerScroll
+    )
   },
   methods: {
     defineSelectedTab() {
@@ -897,6 +947,7 @@ export default {
     },
     handleScroll() {
       if (this.scrollListener) {
+        // console.log(this.domCurrentScrollingItems)
         const currentScroll = this.$refs.scrollingContainer.scrollTop
         const domCurrentScrolledItem = this.domCurrentScrollingItems.filter(
           (item) => {
