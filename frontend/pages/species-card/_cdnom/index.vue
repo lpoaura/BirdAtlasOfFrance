@@ -78,6 +78,8 @@
           <species-tab
             :tab-status="selectedTab.value === 'species' ? '' : 'hidden'"
             :species="species"
+            :filtered-traits="filteredTraits"
+            :filtered-further-info="filteredFurtherInfo"
           />
           <div
             class="SpeciesCardContent"
@@ -386,6 +388,31 @@ export default {
     domCurrentScrollingItems: {},
     scrollListener: true,
     scrollDuration: 600,
+    traitsList: [
+      { label: 'Groupe', key: 'trait_specie_group' },
+      { label: 'Longueur', key: 'trait_length' },
+      { label: 'Envergure', key: 'trait_scope' },
+      { label: 'Poids', key: 'trait_weight' },
+      { label: "Durée d'incubation", key: 'trait_incubation_time' },
+      { label: 'Nombre de pontes', key: 'trait_clutches_number' },
+      { label: "Nombre d'œufs", key: 'trait_eggs_number' },
+      {
+        label: "Durée de séjour au nid jusqu'à l'envol",
+        key: 'trait_nest_length_stay',
+      },
+      { label: 'Âge maximal Euring', key: 'trait_max_age_euring' },
+      { label: 'Âge maximal FR', key: 'trait_max_age_fr' },
+      { label: 'Habitat', key: 'trait_habitat' },
+      { label: 'Nourriture', key: 'trait_food' },
+      { label: 'Site de nidification', key: 'trait_nesting_site' },
+      { label: 'Comportement migrateur', key: 'trait_migratory_behaviour' },
+    ],
+    furtherInfoList: [
+      { label: 'Répartition et déplacements', key: 'distribution' },
+      { label: 'Habitats', key: 'habitat' },
+      { label: 'Alimentation', key: 'feeding' },
+      { label: 'Reproduction', key: 'breeding' },
+    ],
     dataPhenologyAllPeriod: {
       phenology: {
         label: 'Nombre de données',
@@ -767,11 +794,58 @@ export default {
         this.$router.push(`${value.hash}`)
       },
     },
+    filteredTabs() {
+      if (this.species.attributes.odf_common_name_fr) {
+        const tabs = Object.assign({}, this.tabs)
+        // Onglet "Fiche espèce"
+        const speciesTabSubjects = ['links']
+        if (
+          this.species.attributes.description ||
+          this.species.medias.Photos
+        ) {
+          speciesTabSubjects.push('description')
+        }
+        if (this.species.redLists || this.species.protectionStatus) {
+          speciesTabSubjects.push('status')
+        }
+        if (this.filteredTraits || this.filteredFurtherInfo) {
+          speciesTabSubjects.push('traits')
+        }
+        tabs[0].subjects = tabs[0].subjects.filter((subject) => {
+          return speciesTabSubjects.includes(subject.slug)
+        })
+        return tabs
+      } else {
+        return this.tabs
+      }
+    },
     subjectsList() {
       return (
         this.selectedTab.subjects[this.selectedSeason.value] ??
         this.selectedTab.subjects
       )
+    },
+    filteredTraits() {
+      if (this.species.attributes.odf_common_name_fr) {
+        // Si les données sont arrivées
+        const filteredTraits = this.traitsList.filter((trait) => {
+          return this.species.attributes[trait.key]
+        })
+        return filteredTraits.length > 0 ? filteredTraits : null
+      } else {
+        return null
+      }
+    },
+    filteredFurtherInfo() {
+      if (this.species.attributes.odf_common_name_fr) {
+        // Si les données sont arrivées
+        const filteredFurtherInfo = this.furtherInfoList.filter((info) => {
+          return this.species.attributes[info.key]
+        })
+        return filteredFurtherInfo.length > 0 ? filteredFurtherInfo : null
+      } else {
+        return null
+      }
     },
   },
   watch: {
@@ -782,6 +856,11 @@ export default {
     selectedSeason(newVal) {
       this.defineSelectedSubject()
       this.defineDomCurrentScrollingItems()
+    },
+    filteredTabs(newVal) {
+      // console.log('filteredTabs')
+      // console.log(newVal)
+      this.defineSelectedSubject()
     },
   },
   beforeMount() {
@@ -794,7 +873,6 @@ export default {
     }
   },
   mounted() {
-    // QUAND ON RÉCUPÈRE LES DONNÉES AVEC AXIOS, SUPPRIMER DE tabs LES subjects POUR LESQUELLES IL N'Y A PAS DE DONNÉES
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
     this.$refs.scrollingContainer.addEventListener(
@@ -883,6 +961,7 @@ export default {
                 species.protectionStatus.birdDirective = 'Protégée'
                 // END UPDATE NEEDED
                 this.species = species
+                // console.log(species)
               }
             })
             .catch((error) => {
@@ -911,7 +990,7 @@ export default {
   },
   methods: {
     defineSelectedTab() {
-      this.selectedTab = this.tabs.filter((item) => {
+      this.selectedTab = this.filteredTabs.filter((item) => {
         return item.hash === this.$route.hash
       })[0]
       this.defineSelectedSubject()

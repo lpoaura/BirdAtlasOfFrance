@@ -229,35 +229,20 @@ export default {
       type: Object,
       required: true,
     },
+    filteredTraits: {
+      type: Array,
+      required: false,
+      default: null,
+    },
+    filteredFurtherInfo: {
+      type: Array,
+      required: false,
+      default: null,
+    },
   },
   data: () => ({
     descriptionHeight: 0,
     readMore: false,
-    traitsList: [
-      { label: 'Groupe', key: 'trait_specie_group' },
-      { label: 'Longueur', key: 'trait_length' },
-      { label: 'Envergure', key: 'trait_scope' },
-      { label: 'Poids', key: 'trait_weight' },
-      { label: "Durée d'incubation", key: 'trait_incubation_time' },
-      { label: 'Nombre de pontes', key: 'trait_clutches_number' },
-      { label: "Nombre d'œufs", key: 'trait_eggs_number' },
-      {
-        label: "Durée de séjour au nid jusqu'à l'envol",
-        key: 'trait_nest_length_stay',
-      },
-      { label: 'Âge maximal Euring', key: 'trait_max_age_euring' },
-      { label: 'Âge maximal FR', key: 'trait_max_age_fr' },
-      { label: 'Habitat', key: 'trait_habitat' },
-      { label: 'Nourriture', key: 'trait_food' },
-      { label: 'Site de nidification', key: 'trait_nesting_site' },
-      { label: 'Comportement migrateur', key: 'trait_migratory_behaviour' },
-    ],
-    furtherInfoList: [
-      { label: 'Répartition et déplacements', key: 'distribution' },
-      { label: 'Habitats', key: 'habitat' },
-      { label: 'Alimentation', key: 'feeding' },
-      { label: 'Reproduction', key: 'breeding' },
-    ],
     linksList: [
       {
         label: 'Écouter le chant sur Xeno-Canto',
@@ -272,28 +257,6 @@ export default {
     ],
   }),
   computed: {
-    filteredTraits() {
-      if (this.species.attributes.odf_common_name_fr) {
-        // Si les données sont arrivées
-        const filteredTraits = this.traitsList.filter((trait) => {
-          return this.species.attributes[trait.key]
-        })
-        return filteredTraits.length > 0 ? filteredTraits : null
-      } else {
-        return null
-      }
-    },
-    filteredFurtherInfo() {
-      if (this.species.attributes.odf_common_name_fr) {
-        // Si les données sont arrivées
-        const filteredFurtherInfo = this.furtherInfoList.filter((info) => {
-          return this.species.attributes[info.key]
-        })
-        return filteredFurtherInfo.length > 0 ? filteredFurtherInfo : null
-      } else {
-        return null
-      }
-    },
     filteredLinks() {
       if (this.species.attributes.odf_common_name_fr) {
         // Si les données sont arrivées
@@ -476,8 +439,8 @@ export default {
 }
 
 .LinkOptionIcon {
-  width: 14px;
-  margin-right: 14px;
+  width: 16px;
+  margin-right: 12px;
 }
 
 /********** RESPONSIVE **********/
