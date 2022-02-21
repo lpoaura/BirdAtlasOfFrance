@@ -1,5 +1,5 @@
 <template>
-  <div class="SpeciesCardContent" :class="status">
+  <div class="SpeciesCardContent" :class="tabStatus">
     <div
       v-if="species.attributes.description || species.medias.Photos"
       id="description"
@@ -47,14 +47,101 @@
       />
     </div>
     <div
+      v-if="species.redLists || species.protectionStatus"
+      id="status"
+      class="Column"
+    >
+      <div class="StatusGrid">
+        <div v-if="species.redLists" class="Column">
+          <h4 class="black02 fw-bold bottom-margin-16">
+            Statuts de conservation
+          </h4>
+          <div class="StatusWrapper">
+            <span class="black02 fw-bold bottom-margin-8">Listes rouges</span>
+            <li
+              v-if="species.redLists.world"
+              class="StatusOption bottom-margin-8"
+            >
+              <span class="black02 flex-1 right-margin-8">Monde</span>
+              <div class="black02 StatusValue">
+                <div
+                  class="RedListSticker"
+                  :style="{
+                    background: $redLists()[species.redLists.world].bgColor,
+                  }"
+                >
+                  <h5
+                    class="fw-600"
+                    :style="{
+                      color: $redLists()[species.redLists.world].fontColor,
+                    }"
+                  >
+                    {{ species.redLists.world }}
+                  </h5>
+                </div>
+              </div>
+            </li>
+            <li
+              v-for="(item, index) in species.redLists.national"
+              :key="index"
+              class="StatusOption bottom-margin-8"
+            >
+              <span class="black02 flex-1 right-margin-8">
+                {{ item.territory }}
+              </span>
+              <div class="black02 StatusValue">
+                <div
+                  class="RedListSticker"
+                  :style="{ background: $redLists()[item.statut].bgColor }"
+                >
+                  <h5
+                    class="fw-600"
+                    :style="{ color: $redLists()[item.statut].fontColor }"
+                  >
+                    {{ item.statut }}
+                  </h5>
+                </div>
+              </div>
+            </li>
+          </div>
+        </div>
+        <div v-if="species.protectionStatus" class="Column">
+          <h4 class="black02 fw-bold bottom-margin-16">
+            Statuts de protection
+          </h4>
+          <div v-if="species.protectionStatus.national" class="StatusWrapper">
+            <li class="StatusOption">
+              <span class="black02 fw-bold flex-1 right-margin-8">
+                Protection nationale
+              </span>
+              <span class="black02 StatusValue">
+                {{ species.protectionStatus.national }}
+              </span>
+            </li>
+          </div>
+          <div
+            v-if="species.protectionStatus.birdDirective"
+            class="StatusWrapper"
+          >
+            <li class="StatusOption">
+              <span class="black02 fw-bold flex-1 right-margin-8">
+                Directive oiseau
+              </span>
+              <span class="black02 StatusValue">
+                {{ species.protectionStatus.birdDirective }}
+              </span>
+            </li>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
       v-if="filteredTraits || filteredFurtherInfo"
       id="traits"
       class="Column"
     >
       <div v-if="filteredTraits" class="Column">
-        <h4 id="traits" class="black02 fw-bold bottom-margin-16">
-          Caractéristiques
-        </h4>
+        <h4 class="black02 fw-bold bottom-margin-16">Caractéristiques</h4>
         <div class="TraitsCardsGrid">
           <div
             v-for="(trait, index) in filteredTraits"
@@ -101,7 +188,7 @@
             </span>
           </li>
           <li class="LinkOption">
-            <img src="/song-green.svg" class="LinkOptionIcon" />
+            <img src="/pencil-green.svg" class="LinkOptionIcon" />
             <span class="fw-500">
               <a href="https://www.faune-france.org/" target="_blank">
                 Saisir mes données sur Faune France
@@ -134,7 +221,7 @@ export default {
     'pictures-carousel': PicturesCarousel,
   },
   props: {
-    status: {
+    tabStatus: {
       type: String,
       required: true,
     },
@@ -180,7 +267,7 @@ export default {
       {
         label: "Visualiser l'espèce sur EuroBirdPortal",
         key: 'euro-bird-portal',
-        icon: '/pencil-green.svg',
+        icon: '/eye-green.svg',
       },
     ],
   }),
@@ -239,7 +326,9 @@ export default {
       this.$debounce(this.detectResize())
     },
     detectResize() {
-      this.descriptionHeight = this.$refs.description.offsetHeight
+      if (this.$refs.description) {
+        this.descriptionHeight = this.$refs.description.offsetHeight
+      }
     },
   },
 }
@@ -260,9 +349,8 @@ export default {
   flex-direction: column;
 }
 
-.Row .Column {
+.Row > .Column {
   flex: 1;
-  margin-top: 0;
   margin-right: 24px;
 }
 
@@ -270,7 +358,7 @@ export default {
   margin-top: 40px;
 }
 
-.Row .Column:last-child {
+.Row > .Column:last-child {
   margin-right: 0;
 }
 
@@ -305,6 +393,58 @@ export default {
   height: 50px;
 }
 
+.StatusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(max(288px, 45%), 2fr));
+  grid-gap: 40px;
+}
+
+.StatusWrapper,
+.LinksWrapper {
+  padding: 24px 32px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(51, 105, 80, 0.2);
+  box-sizing: border-box;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.StatusWrapper:last-child,
+.LinksWrapper:last-child {
+  margin-bottom: 0;
+}
+
+.StatusOption,
+.LinkOption {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.StatusOption:last-child {
+  margin-bottom: 0 !important;
+}
+
+.StatusValue {
+  flex: 0.7;
+  display: flex;
+  align-items: center;
+}
+
+.RedListSticker {
+  min-width: 25px;
+  max-width: 25px;
+  min-height: 25px;
+  max-height: 25px;
+  border-radius: 6px;
+  display: flex;
+}
+
+.RedListSticker > h5 {
+  margin: auto;
+}
+
 .TraitsCardsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -328,25 +468,11 @@ export default {
   grid-gap: 40px;
 }
 
-.LinksWrapper {
-  padding: 36px;
-  border: 1px solid rgba(51, 105, 80, 0.2);
-  box-sizing: border-box;
-  border-radius: 16px;
-}
-
 .LinksGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(max(250px, 45%), 2fr));
   row-gap: 24px;
   column-gap: 40px;
-}
-
-.LinkOption {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  white-space: normal;
 }
 
 .LinkOptionIcon {
@@ -372,11 +498,9 @@ export default {
     display: none;
   }
 
+  .StatusWrapper,
   .LinksWrapper {
-    padding: 20px;
-    border: 1px solid rgba(51, 105, 80, 0.2);
-    box-sizing: border-box;
-    border-radius: 16px;
+    padding: 16px 24px;
   }
 }
 </style>

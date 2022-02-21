@@ -101,6 +101,7 @@ export default {
     '~/plugins/getPageTitle.js',
     '~/plugins/detectMobile.js',
     '~/plugins/departmentsList.js',
+    '~/plugins/redLists.js',
     '~/plugins/animateScrollTo.js',
     '~/plugins/debounce.js',
     // { src: '~/plugins/vueLeaflet.js', ssr: false },
