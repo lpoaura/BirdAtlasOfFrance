@@ -1,0 +1,80 @@
+<template>
+  <div class="SpeciesCardContent" :class="tabStatus">
+    <div id="phenology-all-period" class="ChartCard">
+      <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
+      <h5 class="black03 bottom-margin-40">
+        Nombre de données cumulées par décade du 1<sup>er</sup> janvier 2019 au
+        31 décembre de l'année dernière.
+      </h5>
+      <phenology-all-period :formatted-data="dataPhenologyAllPeriod" />
+    </div>
+    <div id="phenology-migration" class="ChartCard">
+      <h4 class="black02 fw-bold bottom-margin-8">Phénologie de migration</h4>
+      <h5 class="black03 bottom-margin-24">
+        Nombre de données cumulées par décade du 1<sup>er</sup> janvier 2019 au
+        31 décembre de l'année dernière.
+      </h5>
+      <phenology-migration :formatted-data="dataPhenologyMigration" />
+    </div>
+    <div id="altitude-all-period" class="ChartCard">
+      <h4 class="black02 fw-bold bottom-margin-8">
+        Répartition altitudinale des observations
+      </h4>
+      <h5 class="black03 bottom-margin-40">
+        Proportion des observations en fonction de l’altitude du territoire.
+      </h5>
+      <altitude :formatted-data="dataAltitude" />
+    </div>
+    <div class="ChartCard">
+      <h4 class="black02 fw-bold bottom-margin-8">
+        Tailles de populations (CECI EST UN TEST QUI N'A RIEN À FAIRE ICI)
+      </h4>
+      <h5 class="black03 bottom-margin-40">
+        Nombre d’individus comptabilisés au cours des années.
+      </h5>
+      <populations-count :formatted-data="dataPopulationsTest" />
+    </div>
+  </div>
+</template>
+
+<script>
+import PhenologyAllPeriod from '~/components/species-card/PhenologyAllPeriod.vue'
+import PhenologyMigration from '~/components/species-card/PhenologyMigration.vue'
+import Altitude from '~/components/species-card/Altitude.vue'
+import PopulationsCount from '~/components/species-card/PopulationsCount.vue'
+
+export default {
+  components: {
+    'phenology-all-period': PhenologyAllPeriod,
+    'phenology-migration': PhenologyMigration,
+    altitude: Altitude,
+    'populations-count': PopulationsCount,
+  },
+  props: {
+    tabStatus: {
+      type: String,
+      required: true,
+    },
+    dataPhenologyAllPeriod: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    dataPhenologyMigration: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    dataAltitude: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    dataPopulationsTest: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+  },
+}
+</script>

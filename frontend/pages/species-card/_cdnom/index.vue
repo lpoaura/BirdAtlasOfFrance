@@ -59,7 +59,7 @@
       <div ref="scrollingContainer" class="SpeciesCardTab">
         <div class="SpeciesCardTabRelative">
           <div
-            v-show="['diagrams', 'maps'].includes(selectedTab.value)"
+            v-show="['charts', 'maps'].includes(selectedTab.value)"
             class="Selectors"
           >
             <dropdown-list
@@ -81,142 +81,41 @@
             :filtered-traits="filteredTraits"
             :filtered-further-info="filteredFurtherInfo"
           />
-          <div
-            class="SpeciesCardContent"
-            :class="
-              selectedTab.value === 'diagrams' &&
+          <charts-tab-all-period
+            :tab-status="
+              selectedTab.value === 'charts' &&
               selectedSeason.value === 'all_period'
                 ? ''
                 : 'hidden'
             "
-          >
-            <div id="phenology-all-period" class="ChartCard">
-              <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
-              <h5 class="black03 bottom-margin-40">
-                Nombre de données cumulées par décade du 1<sup>er</sup> janvier
-                2019 au 31 décembre de l'année dernière.
-              </h5>
-              <phenology-all-period :formatted-data="dataPhenologyAllPeriod" />
-            </div>
-            <div id="phenology-migration" class="ChartCard">
-              <h4 class="black02 fw-bold bottom-margin-8">
-                Phénologie de migration
-              </h4>
-              <h5 class="black03 bottom-margin-24">
-                Nombre de données cumulées par décade du 1<sup>er</sup> janvier
-                2019 au 31 décembre de l'année dernière.
-              </h5>
-              <phenology-migration :formatted-data="dataPhenologyMigration" />
-            </div>
-            <div id="altitude-all-period" class="ChartCard">
-              <h4 class="black02 fw-bold bottom-margin-8">
-                Répartition altitudinale des observations
-              </h4>
-              <h5 class="black03 bottom-margin-40">
-                Proportion des observations en fonction de l’altitude du
-                territoire.
-              </h5>
-              <altitude :formatted-data="dataAltitude" />
-            </div>
-            <div class="ChartCard">
-              <h4 class="black02 fw-bold bottom-margin-8">
-                Tailles de populations (CECI EST UN TEST QUI N'A RIEN À FAIRE
-                ICI)
-              </h4>
-              <h5 class="black03 bottom-margin-40">
-                Nombre d’individus comptabilisés au cours des années.
-              </h5>
-              <populations-count :formatted-data="dataPopulationsTest" />
-            </div>
-          </div>
-          <div
-            class="SpeciesCardContent"
-            :class="
-              selectedTab.value === 'diagrams' &&
+            :data-phenology-all-period="dataPhenologyAllPeriod"
+            :data-phenology-migration="dataPhenologyMigration"
+            :data-altitude="dataAltitude"
+            :data-populations-test="dataPopulationsTest"
+          />
+          <charts-tab-breeding
+            :tab-status="
+              selectedTab.value === 'charts' &&
               selectedSeason.value === 'breeding'
                 ? ''
                 : 'hidden'
             "
-          >
-            <div id="phenology-breeding" class="ChartCard">
-              <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
-              <h5 class="black03 bottom-margin-40">
-                Nombre de données cumulées par décade du 1<sup>er</sup> janvier
-                2019 au 31 décembre de l'année dernière.
-              </h5>
-              <phenology-breeding :formatted-data="dataPhenologyBreeding" />
-            </div>
-            <div id="trend-breeding" class="ChartCard">
-              <h4 class="black02 fw-bold bottom-margin-8">
-                Tendance d'évolution
-              </h4>
-              <h5 class="black03 bottom-margin-40">
-                Évolution de l’indice d’abondance en fonction des années.
-              </h5>
-              <trend :formatted-data="dataTrend" />
-            </div>
-            <div id="populations-size-breeding" class="ChartCard">
-              <h4 class="black02 fw-bold bottom-margin-8">
-                Tailles de populations
-              </h4>
-              <h5 class="black03 bottom-margin-40">
-                Estimation des effectifs nicheurs au cours du temps.
-              </h5>
-              <populations-median-ic
-                :formatted-data="dataPopulationsBreeding"
-              />
-            </div>
-            <div id="altitude-breeding" class="ChartCard">
-              <h4 class="black02 fw-bold bottom-margin-8">
-                Répartition altitudinale des observations
-              </h4>
-              <h5 class="black03 bottom-margin-40">
-                Proportion des observations en fonction de l’altitude du
-                territoire.
-              </h5>
-              <altitude :formatted-data="dataAltitude" />
-            </div>
-          </div>
-          <div
-            class="SpeciesCardContent"
-            :class="
-              selectedTab.value === 'diagrams' &&
+            :data-phenology-breeding="dataPhenologyBreeding"
+            :data-trend="dataTrend"
+            :data-populations-breeding="dataPopulationsBreeding"
+            :data-altitude="dataAltitude"
+          />
+          <charts-tab-wintering
+            :tab-status="
+              selectedTab.value === 'charts' &&
               selectedSeason.value === 'wintering'
                 ? ''
                 : 'hidden'
             "
-          >
-            <div id="trend-wintering" class="ChartCard">
-              <h4 class="black02 fw-bold bottom-margin-8">
-                Tendance d'évolution
-              </h4>
-              <h5 class="black03 bottom-margin-40">
-                Évolution de l’indice d’abondance en fonction des années.
-              </h5>
-              <trend :formatted-data="dataTrend" />
-            </div>
-            <div id="populations-size-wintering" class="ChartCard">
-              <h4 class="black02 fw-bold bottom-margin-8">
-                Tailles de populations
-              </h4>
-              <h5 class="black03 bottom-margin-40">
-                Estimation des effectifs nicheurs au cours du temps.
-              </h5>
-              <populations-median-ic
-                :formatted-data="dataPopulationsWintering"
-              />
-            </div>
-            <div id="altitude-wintering" class="ChartCard">
-              <h4 class="black02 fw-bold bottom-margin-8">
-                Répartition altitudinale des observations
-              </h4>
-              <h5 class="black03 bottom-margin-40">
-                Proportion des observations en fonction de l’altitude du
-                territoire.
-              </h5>
-              <altitude :formatted-data="dataAltitude" />
-            </div>
-          </div>
+            :data-trend="dataTrend"
+            :data-populations-wintering="dataPopulationsWintering"
+            :data-altitude="dataAltitude"
+          />
           <div
             class="SpeciesCardContent"
             :class="selectedTab.value === 'maps' ? '' : 'hidden'"
@@ -231,24 +130,16 @@
 
 <script>
 import SpeciesTab from '~/components/species-card/SpeciesTab.vue'
-import PhenologyAllPeriod from '~/components/species-card/PhenologyAllPeriod.vue'
-import PhenologyMigration from '~/components/species-card/PhenologyMigration.vue'
-import PhenologyBreeding from '~/components/species-card/PhenologyBreeding.vue'
-import Altitude from '~/components/species-card/Altitude.vue'
-import Trend from '~/components/species-card/Trend.vue'
-import PopulationsMedianIc from '~/components/species-card/PopulationsMedianIc.vue'
-import PopulationsCount from '~/components/species-card/PopulationsCount.vue'
+import ChartsTabAllPeriod from '~/components/species-card/ChartsTabAllPeriod.vue'
+import ChartsTabBreeding from '~/components/species-card/ChartsTabBreeding.vue'
+import ChartsTabWintering from '~/components/species-card/ChartsTabWintering.vue'
 
 export default {
   components: {
     'species-tab': SpeciesTab,
-    'phenology-all-period': PhenologyAllPeriod,
-    'phenology-migration': PhenologyMigration,
-    'phenology-breeding': PhenologyBreeding,
-    altitude: Altitude,
-    trend: Trend,
-    'populations-median-ic': PopulationsMedianIc,
-    'populations-count': PopulationsCount,
+    'charts-tab-all-period': ChartsTabAllPeriod,
+    'charts-tab-breeding': ChartsTabBreeding,
+    'charts-tab-wintering': ChartsTabWintering,
   },
   data: () => ({
     species: {
@@ -272,8 +163,8 @@ export default {
         ],
       },
       {
-        value: 'diagrams',
-        hash: '#diagrams',
+        value: 'charts',
+        hash: '#charts',
         label: 'Diagrammes',
         subjects: {
           all_period: [
@@ -796,13 +687,10 @@ export default {
     },
     filteredTabs() {
       if (this.species.attributes.odf_common_name_fr) {
-        const tabs = Object.assign({}, this.tabs)
-        // Onglet "Fiche espèce"
+        const tabs = [...this.tabs]
+        // SpeciesTab
         const speciesTabSubjects = ['links']
-        if (
-          this.species.attributes.description ||
-          this.species.medias.Photos
-        ) {
+        if (this.species.attributes.description || this.species.medias.Photos) {
           speciesTabSubjects.push('description')
         }
         if (this.species.redLists || this.species.protectionStatus) {
@@ -1166,7 +1054,7 @@ nav.NavDrawer {
   left: -9999px !important;
 }
 
-.ChartCard {
+.SpeciesCardTabRelative >>> .ChartCard {
   width: 100%;
   max-width: 1050px;
   padding: 24px 32px;
@@ -1180,11 +1068,11 @@ nav.NavDrawer {
   flex-direction: column;
 }
 
-.ChartCard:last-child {
+.SpeciesCardTabRelative >>> .ChartCard:last-child {
   margin-bottom: 0;
 }
 
-.ChartWrapper >>> .Chart {
+.SpeciesCardTabRelative >>> .Chart {
   height: 300px;
   overflow-y: hidden;
   overflow-x: auto;
@@ -1192,23 +1080,23 @@ nav.NavDrawer {
   -webkit-overflow-scrolling: touch; /* iOS */
 }
 
-.ChartWrapper >>> .ChartLegend {
+.SpeciesCardTabRelative >>> .ChartLegend {
   margin-top: 40px;
   display: flex;
   justify-content: center;
 }
 
-.ChartWrapper >>> .ChartLegendLabel {
+.SpeciesCardTabRelative >>> .ChartLegendLabel {
   margin-right: 20px;
   display: flex;
   align-items: center;
 }
 
-.ChartWrapper >>> .ChartLegendLabel:last-child {
+.SpeciesCardTabRelative >>> .ChartLegendLabel:last-child {
   margin-right: 0;
 }
 
-.ChartWrapper >>> .ChartLegendLabel i {
+.SpeciesCardTabRelative >>> .ChartLegendLabel i {
   width: 16px;
   min-width: 16px;
   height: 16px;
@@ -1217,7 +1105,7 @@ nav.NavDrawer {
   margin-right: 12px;
 }
 
-.ChartWrapper >>> .ChartLegendLabel i.round {
+.SpeciesCardTabRelative >>> .ChartLegendLabel i.round {
   border-radius: 50%;
 }
 
