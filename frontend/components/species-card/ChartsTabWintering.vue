@@ -1,20 +1,24 @@
 <template>
   <div class="SpeciesCardContent" :class="tabStatus">
-    <div id="trend-wintering" class="ChartCard">
+    <div v-if="dataTrend" id="trend-wintering" class="ChartCard">
       <h4 class="black02 fw-bold bottom-margin-8">Tendance d'évolution</h4>
       <h5 class="black03 bottom-margin-40">
         Évolution de l’indice d’abondance en fonction des années.
       </h5>
       <trend :formatted-data="dataTrend" />
     </div>
-    <div id="populations-size-wintering" class="ChartCard">
+    <div
+      v-if="dataPopulationsWintering"
+      id="populations-sizes-wintering"
+      class="ChartCard"
+    >
       <h4 class="black02 fw-bold bottom-margin-8">Tailles de populations</h4>
       <h5 class="black03 bottom-margin-40">
         Estimation des effectifs nicheurs au cours du temps.
       </h5>
       <populations-sizes :formatted-data="dataPopulationsWintering" />
     </div>
-    <div id="altitude-wintering" class="ChartCard">
+    <div v-if="dataAltitude" id="altitude-wintering" class="ChartCard">
       <h4 class="black02 fw-bold bottom-margin-8">
         Répartition altitudinale des observations
       </h4>
@@ -23,6 +27,12 @@
       </h5>
       <altitude :formatted-data="dataAltitude" />
     </div>
+    <span
+      v-if="!dataTrend && !dataPopulationsWintering && !dataAltitude"
+      class="black02 fw-600 UnavailableData"
+    >
+      Aucun diagramme disponible pour le territoire et la période sélectionnés.
+    </span>
   </div>
 </template>
 

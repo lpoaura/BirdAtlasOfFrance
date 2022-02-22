@@ -287,7 +287,7 @@ export const dataTrend = {
   },
 }
 
-export const dataPopulationsBreeding = {
+export const dataPopulationsBreeding = { // BOXPLOT AVEC MÉDIANE ET INTERVALLE DE CONFIANCE
   label: "Nombre d'individus",
   keys: ['Intervalle de confiance (90%)', 'Effectif médian'],
   data: [
@@ -301,7 +301,7 @@ export const dataPopulationsBreeding = {
   colors: ['rgba(67, 94, 242, 0.1)', '#435EF2'],
 }
 
-export const dataPopulationsWintering = {
+export const dataPopulationsWintering = { // BOXPLOT AVEC INTERVALLE DE CONFIANCE SEULEMENT
   label: "Nombre d'individus",
   keys: ["Fourchette d'effectifs (minimum et maximum)"],
   data: [
@@ -315,7 +315,7 @@ export const dataPopulationsWintering = {
   colors: ['rgba(57, 118, 90, 0.2)'],
 }
 
-export const dataPopulationsFake = {
+export const dataPopulationsFake = { // BARPLOT par année
   label: "Nombre d'individus",
   data: [
     { label: 1976, count_data: 15 },

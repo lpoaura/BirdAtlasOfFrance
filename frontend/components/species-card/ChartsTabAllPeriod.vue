@@ -1,6 +1,10 @@
 <template>
   <div class="SpeciesCardContent" :class="tabStatus">
-    <div id="phenology-all-period" class="ChartCard">
+    <div
+      v-if="dataPhenologyAllPeriod"
+      id="phenology-all-period"
+      class="ChartCard"
+    >
       <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
       <h5 class="black03 bottom-margin-40">
         Nombre de données cumulées par décade du 1<sup>er</sup> janvier 2019 au
@@ -8,7 +12,11 @@
       </h5>
       <phenology-all-period :formatted-data="dataPhenologyAllPeriod" />
     </div>
-    <div id="phenology-migration" class="ChartCard">
+    <div
+      v-if="dataPhenologyMigration"
+      id="phenology-migration"
+      class="ChartCard"
+    >
       <h4 class="black02 fw-bold bottom-margin-8">Phénologie de migration</h4>
       <h5 class="black03 bottom-margin-24">
         Nombre de données cumulées par décade du 1<sup>er</sup> janvier 2019 au
@@ -16,7 +24,7 @@
       </h5>
       <phenology-migration :formatted-data="dataPhenologyMigration" />
     </div>
-    <div id="altitude-all-period" class="ChartCard">
+    <div v-if="dataAltitude" id="altitude-all-period" class="ChartCard">
       <h4 class="black02 fw-bold bottom-margin-8">
         Répartition altitudinale des observations
       </h4>
@@ -25,7 +33,7 @@
       </h5>
       <altitude :formatted-data="dataAltitude" />
     </div>
-    <div class="ChartCard">
+    <div v-if="dataPopulationsTest" class="ChartCard">
       <h4 class="black02 fw-bold bottom-margin-8">
         Tailles de populations (CECI EST UN TEST QUI N'A RIEN À FAIRE ICI)
       </h4>
@@ -34,6 +42,12 @@
       </h5>
       <populations-sizes :formatted-data="dataPopulationsTest" />
     </div>
+    <span
+      v-if="!dataPhenologyAllPeriod && !dataPhenologyMigration && !dataAltitude"
+      class="black02 fw-600 UnavailableData"
+    >
+      Aucun diagramme disponible pour le territoire et la période sélectionnés.
+    </span>
   </div>
 </template>
 
