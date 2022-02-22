@@ -32,7 +32,7 @@
       <h5 class="black03 bottom-margin-40">
         Nombre d’individus comptabilisés au cours des années.
       </h5>
-      <populations-count :formatted-data="dataPopulationsTest" />
+      <populations-sizes :formatted-data="dataPopulationsTest" />
     </div>
   </div>
 </template>
@@ -41,14 +41,14 @@
 import PhenologyAllPeriod from '~/components/species-card/PhenologyAllPeriod.vue'
 import PhenologyMigration from '~/components/species-card/PhenologyMigration.vue'
 import Altitude from '~/components/species-card/Altitude.vue'
-import PopulationsCount from '~/components/species-card/PopulationsCount.vue'
+import PopulationsSizes from '~/components/species-card/PopulationsSizes.vue'
 
 export default {
   components: {
     'phenology-all-period': PhenologyAllPeriod,
     'phenology-migration': PhenologyMigration,
     altitude: Altitude,
-    'populations-count': PopulationsCount,
+    'populations-sizes': PopulationsSizes,
   },
   props: {
     tabStatus: {

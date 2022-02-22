@@ -20,7 +20,7 @@
       <h5 class="black03 bottom-margin-40">
         Estimation des effectifs nicheurs au cours du temps.
       </h5>
-      <populations-median-ic :formatted-data="dataPopulationsBreeding" />
+      <populations-sizes :formatted-data="dataPopulationsBreeding" />
     </div>
     <div id="altitude-breeding" class="ChartCard">
       <h4 class="black02 fw-bold bottom-margin-8">
@@ -37,14 +37,14 @@
 <script>
 import PhenologyBreeding from '~/components/species-card/PhenologyBreeding.vue'
 import Trend from '~/components/species-card/Trend.vue'
-import PopulationsMedianIc from '~/components/species-card/PopulationsMedianIc.vue'
+import PopulationsSizes from '~/components/species-card/PopulationsSizes.vue'
 import Altitude from '~/components/species-card/Altitude.vue'
 
 export default {
   components: {
     'phenology-breeding': PhenologyBreeding,
     trend: Trend,
-    'populations-median-ic': PopulationsMedianIc,
+    'populations-sizes': PopulationsSizes,
     altitude: Altitude,
   },
   props: {

@@ -133,6 +133,7 @@ import SpeciesTab from '~/components/species-card/SpeciesTab.vue'
 import ChartsTabAllPeriod from '~/components/species-card/ChartsTabAllPeriod.vue'
 import ChartsTabBreeding from '~/components/species-card/ChartsTabBreeding.vue'
 import ChartsTabWintering from '~/components/species-card/ChartsTabWintering.vue'
+// import { fakeData, fakeDataTwo } from '~/test/fakeData'
 
 export default {
   components: {
@@ -864,7 +865,7 @@ export default {
         setTimeout(() => {
           // Le timeout permet d'être assuré que les contenus sont bien integrés à la page
           this.defineDomCurrentScrollingItems() // Certaines sections ne sont affichées qu'une fois les données récupérées
-        }, 500)
+        }, 1000)
       })
   },
   beforeDestroy() {
