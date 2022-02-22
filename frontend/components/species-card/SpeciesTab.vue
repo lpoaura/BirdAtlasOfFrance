@@ -275,7 +275,7 @@ export default {
         if (this.$refs.description) {
           this.descriptionHeight = this.$refs.description.offsetHeight
         }
-      }, 50)
+      }, 100)
     },
   },
   beforeMount() {
