@@ -90,7 +90,7 @@
       <!-- Top left -->
       <l-control
         position="topleft"
-        :disable-scroll-propagation="disableScrollPropagation"
+        :disable-scroll-propagation="true"
       >
         <knowledge-level-control
           v-show="selectedLayer.value === 'knowledge-level' && !clickedFeature"
@@ -161,7 +161,7 @@
       <!-- Top right -->
       <l-control
         position="topright"
-        :disable-scroll-propagation="disableScrollPropagation"
+        :disable-scroll-propagation="true"
       >
         <div
           v-show="
@@ -457,7 +457,6 @@ export default {
     epocRealizedGeojson: null,
     epocOdfGeojson: null,
     // CONFIGURATION DES MAPCONTROLS
-    disableScrollPropagation: true,
     noSpeciesData: false,
     knowledgeLevelClasses: [0, 0.25, 0.5, 0.75, 1],
     searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
