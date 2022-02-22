@@ -60,20 +60,56 @@
         <div class="SpeciesCardTabRelative">
           <div
             v-show="['charts', 'maps'].includes(selectedTab.value)"
-            class="Selectors"
+            class="MapSelectors"
           >
-            <dropdown-list
-              v-model="selectedSeason"
-              :z-index="2"
-              :items-list="seasonsList"
-              icon="/calendar-green.svg"
-            />
-            <dropdown-list
-              v-model="selectedTerritory"
-              :z-index="1"
-              :items-list="territoriesList"
-              icon="/location-green.svg"
-            />
+            <div
+              v-click-outside="closeSeasonsBox"
+              class="MapSelectorWrapper seasons"
+            >
+              <div
+                class="MapSelectorSelectedOption"
+                @click="openOrCloseSeasonsBox"
+              >
+                <img class="MapSelectorIcon" src="/calendar.svg" />
+                <h5 class="fw-600 right-margin-12">
+                  {{ selectedSeason.label }}
+                </h5>
+                <img
+                  class="MapSelectorChevron"
+                  :src="seasonIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
+                />
+              </div>
+              <seasons-selector
+                :select-is-open="seasonIsOpen"
+                :selected-season="selectedSeason"
+                @selectedSeason="updateSelectedSeason"
+              />
+            </div>
+            <div
+              v-click-outside="closeTerritoriesBox"
+              class="MapSelectorWrapper territories"
+            >
+              <div
+                class="MapSelectorSelectedOption"
+                @click="openOrCloseTerritoriesBox"
+              >
+                <img class="MapSelectorIcon" src="/location.svg" />
+                <h5 class="fw-600 right-margin-12">
+                  {{ selectedTerritory.name }}
+                </h5>
+                <img
+                  class="MapSelectorChevron"
+                  :src="
+                    territoryIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'
+                  "
+                />
+              </div>
+              <territories-selector
+                :select-is-open="territoryIsOpen"
+                :selected-territory="selectedTerritory"
+                @selectedTerritory="updateSelectedTerritory"
+              />
+            </div>
           </div>
           <species-tab
             :tab-status="selectedTab.value === 'species' ? '' : 'hidden'"
@@ -129,6 +165,8 @@
 </template>
 
 <script>
+import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
+import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
 import SpeciesTab from '~/components/species-card/SpeciesTab.vue'
 import ChartsTabAllPeriod from '~/components/species-card/ChartsTabAllPeriod.vue'
 import ChartsTabBreeding from '~/components/species-card/ChartsTabBreeding.vue'
@@ -148,6 +186,8 @@ import {
 
 export default {
   components: {
+    'seasons-selector': SeasonsSelector,
+    'territories-selector': TerritoriesSelector,
     'species-tab': SpeciesTab,
     'charts-tab-all-period': ChartsTabAllPeriod,
     'charts-tab-breeding': ChartsTabBreeding,
@@ -226,6 +266,7 @@ export default {
         value: 'wintering',
       },
     ],
+    seasonIsOpen: false,
     selectedSeason: {
       label: 'Toutes saisons',
       value: 'all_period',
@@ -284,11 +325,14 @@ export default {
         icon: '/prospecting/Wallis-et-Futuna.svg',
       },
     ],
+    territoryIsOpen: false,
     selectedTerritory: {
-      label: 'France métropolitaine',
+      name: 'France métropolitaine',
       icon: '/prospecting/France-metropolitaine.svg',
+      isActive: true,
     },
     domCurrentScrollingItems: {},
+    detectMobile: false,
     scrollListener: true,
     scrollDuration: 600,
     traitsList: [
@@ -397,15 +441,21 @@ export default {
         if (this.dataAltitudeWintering) {
           chartsTabWinteringSubjects.push('altitude-wintering')
         }
-        tabs[1].subjects.all_period = tabs[1].subjects.all_period.filter((subject) => {
-          return chartsTabAllPeriodSubjects.includes(subject.slug)
-        })
-        tabs[1].subjects.breeding = tabs[1].subjects.breeding.filter((subject) => {
-          return chartsTabBreedingSubjects.includes(subject.slug)
-        })
-        tabs[1].subjects.wintering = tabs[1].subjects.wintering.filter((subject) => {
-          return chartsTabWinteringSubjects.includes(subject.slug)
-        })
+        tabs[1].subjects.all_period = tabs[1].subjects.all_period.filter(
+          (subject) => {
+            return chartsTabAllPeriodSubjects.includes(subject.slug)
+          }
+        )
+        tabs[1].subjects.breeding = tabs[1].subjects.breeding.filter(
+          (subject) => {
+            return chartsTabBreedingSubjects.includes(subject.slug)
+          }
+        )
+        tabs[1].subjects.wintering = tabs[1].subjects.wintering.filter(
+          (subject) => {
+            return chartsTabWinteringSubjects.includes(subject.slug)
+          }
+        )
         // MapsTab
         // End
         return tabs
@@ -447,13 +497,6 @@ export default {
       /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
       this.defineSelectedTab()
     },
-    selectedSeason(newVal) {
-      this.defineSelectedSubject()
-      this.defineDomCurrentScrollingItems()
-    },
-    // selectedTerritory(newVal) {
-    //   // UPDATE NEEDED : mettre à jour les données des graphes lorsqu'on change de territoire
-    // },
     filteredTabs(newVal) {
       // console.log('filteredTabs')
       // console.log(newVal)
@@ -461,12 +504,13 @@ export default {
     },
   },
   beforeMount() {
+    window.addEventListener('resize', this.listenerResize)
     if (this.$detectMobile()) {
+      this.detectMobile = true
       // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
       const vh = window.innerHeight * 0.01
       // Then we set the value in the --vh custom property to the root of the document
       document.documentElement.style.setProperty('--vh', `${vh}px`)
-      window.addEventListener('resize', this.listenerResize)
     }
   },
   mounted() {
@@ -573,6 +617,12 @@ export default {
         setTimeout(() => {
           // Le timeout permet d'être assuré que les contenus sont bien integrés à la page
           this.defineDomCurrentScrollingItems() // Certaines sections ne sont affichées qu'une fois les données récupérées
+          const scrollingContainerHeight =
+            this.$refs.scrollingContainer.offsetHeight
+          document.documentElement.style.setProperty(
+            '--scrollingContainerHeight',
+            `${scrollingContainerHeight}px`
+          )
         }, 1000)
       })
     // UPDATE NEEDED : récupérer les données des graphes via axios + API (selon la période et le territoire)
@@ -631,6 +681,29 @@ export default {
         }, this.scrollDuration + 10)
       }
     },
+    updateSelectedSeason(season) {
+      this.selectedSeason = season
+      this.seasonIsOpen = false
+      this.defineSelectedSubject()
+      this.defineDomCurrentScrollingItems()
+    },
+    updateSelectedTerritory(territory) {
+      this.selectedTerritory = territory
+      this.territoryIsOpen = false
+      // UPDATE NEEDED : mettre à jour les données des graphes lorsqu'on change de territoire
+    },
+    openOrCloseSeasonsBox() {
+      this.seasonIsOpen = !this.seasonIsOpen
+    },
+    openOrCloseTerritoriesBox() {
+      this.territoryIsOpen = !this.territoryIsOpen
+    },
+    closeSeasonsBox() {
+      this.seasonIsOpen = false
+    },
+    closeTerritoriesBox() {
+      this.territoryIsOpen = false
+    },
     listenerScroll() {
       this.$debounce(this.handleScroll())
     },
@@ -660,8 +733,16 @@ export default {
       this.$debounce(this.detectResize())
     },
     detectResize() {
-      const vh = window.innerHeight * 0.01
-      document.documentElement.style.setProperty('--vh', `${vh}px`)
+      const scrollingContainerHeight =
+        this.$refs.scrollingContainer.offsetHeight
+      document.documentElement.style.setProperty(
+        '--scrollingContainerHeight',
+        `${scrollingContainerHeight}px`
+      )
+      if (this.detectMobile) {
+        const vh = window.innerHeight * 0.01
+        document.documentElement.style.setProperty('--vh', `${vh}px`)
+      }
     },
   },
 }
@@ -752,19 +833,13 @@ nav.NavDrawer {
   flex-direction: column;
 }
 
-.Selectors {
-  display: flex;
-  justify-content: flex-end;
+.MapSelectors {
+  margin-bottom: 40px;
 }
 
-.Selectors .DropdownListWrapper {
-  width: fit-content;
-  max-width: 300px;
-  margin-right: 8px;
-}
-
-.Selectors .DropdownListWrapper:last-child {
-  margin-right: 0;
+.SpeciesCardTabRelative >>> .MapSelectorBox {
+  max-height: calc(50vh - 64px);
+  max-height: calc(var(--scrollingContainerHeight, 50vh) - 64px);
 }
 
 .SpeciesCardContent {
@@ -872,19 +947,42 @@ nav.NavDrawer {
   }
 }
 
-@media screen and (max-width: 500px) {
-  .Selectors {
+@media screen and (max-width: 552px) {
+  .SpeciesCardTabRelative >>> .MapSelectors {
     flex-direction: column;
   }
 
-  .Selectors .DropdownListWrapper {
+  .SpeciesCardTabRelative >>> .MapSelectorWrapper {
     width: 100%;
-    max-width: none;
-    margin-right: 0;
+    height: 42px;
   }
 
-  .Selectors .DropdownListWrapper:first-child {
+  .SpeciesCardTabRelative >>> .MapSelectorWrapper:first-child {
     margin-bottom: 8px;
+  }
+
+  .SpeciesCardTabRelative >>> .MapSelectorSelectedOption {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    border: 2px solid rgba(38, 38, 38, 0.8);
+    box-sizing: border-box;
+    border-radius: 8px;
+  }
+
+  .SpeciesCardTabRelative >>> .MapSelectorBox {
+    width: 100%;
+    top: 47px;
+  }
+
+  .MapSelectorWrapper.seasons >>> .MapSelectorBox {
+    max-height: calc(50vh - 81px);
+    max-height: calc(var(--scrollingContainerHeight, 50vh) - 81px);
+  }
+
+  .MapSelectorWrapper.territories >>> .MapSelectorBox {
+    max-height: calc(50vh - 131px);
+    max-height: calc(var(--scrollingContainerHeight, 50vh) - 131px);
   }
 }
 

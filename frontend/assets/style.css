@@ -1026,6 +1026,7 @@ a.Vocabulary:hover::after {
 .MapSelectorSelectedOption {
   cursor: pointer;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
@@ -1537,7 +1538,7 @@ button.v-pagination__navigation .theme--light.v-icon {
 
 @media screen and (max-width: 950px) {
   /********** MAP **********/
-  .MapSelectors {
+  header > .MapSelectors {
     display: none;
   }
   .leaflet-control .MapControl {
