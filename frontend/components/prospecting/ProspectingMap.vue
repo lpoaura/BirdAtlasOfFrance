@@ -88,10 +88,7 @@
       />
       <!-- MAP CONTROLS -->
       <!-- Top left -->
-      <l-control
-        position="topleft"
-        :disable-scroll-propagation="true"
-      >
+      <l-control position="topleft" :disable-scroll-propagation="true">
         <knowledge-level-control
           v-show="selectedLayer.value === 'knowledge-level' && !clickedFeature"
           :current-territory="currentTerritory"
@@ -159,10 +156,7 @@
         </div>
       </l-control>
       <!-- Top right -->
-      <l-control
-        position="topright"
-        :disable-scroll-propagation="true"
-      >
+      <l-control position="topright" :disable-scroll-propagation="true">
         <div
           v-show="
             (knowledgeLevelIsLoading &&
@@ -710,10 +704,10 @@ export default {
       this.$emit('clickedEpocPoint', null)
     },
     selectedTerritory(newVal) {
-      if (newVal.name) {
+      if (newVal.area_name) {
         const territory = this.$L.geoJSON(
           this.territoriesEnvelopes.features.filter((item) => {
-            return item.properties.area_name === newVal.name
+            return item.properties.area_name === newVal.area_name
           })
         )
         this.isProgramaticZoom = true
@@ -878,16 +872,21 @@ export default {
           `/api/v1/lareas/position?coordinates=${newCenter.lng},${newCenter.lat}&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true`
         )
         .then((data) => {
-          if (data && data.id !== this.currentTerritory.id) {
+          if (
+            data &&
+            data.properties.area_code !== this.currentTerritory.area_code
+          ) {
             this.$emit('currentTerritory', {
               id: data.id,
-              name: data.properties.area_name,
+              area_code: data.properties.area_code,
+              area_name: data.properties.area_name,
             })
           }
-          if (!data && this.currentTerritory.id) {
+          if (!data && this.currentTerritory.area_code) {
             this.$emit('currentTerritory', {
               id: null,
-              name: null,
+              area_code: null,
+              area_name: null,
             })
           }
         })

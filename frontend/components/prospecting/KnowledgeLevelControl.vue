@@ -14,8 +14,8 @@
             </h5>
           </div>
         </div>
-        <h5 v-if="currentTerritory.id" class="fw-500 bottom-margin-24">
-          {{ currentTerritory.name }}
+        <h5 v-if="currentTerritory.area_code" class="fw-500 bottom-margin-24">
+          {{ currentTerritory.area_name }}
         </h5>
         <h5 v-else class="fw-500">
           Placez le centre de la carte sur un territoire français pour
@@ -29,7 +29,7 @@
       />
     </header>
     <div
-      v-show="currentTerritory.id && !noAvailableData"
+      v-show="currentTerritory.area_code && !noAvailableData"
       class="KnowledgeLevelPieChartWrapper display-flex"
     >
       <div class="KnowledgeLevelPieChart">
@@ -59,7 +59,7 @@
         </div>
       </div>
     </div>
-    <span v-show="currentTerritory.id && noAvailableData" class="fw-500">
+    <span v-show="currentTerritory.area_code && noAvailableData" class="fw-500">
       Les données de ce territoire ne sont pas encore disponibles.
     </span>
   </section>
@@ -173,7 +173,7 @@ export default {
   },
   watch: {
     currentTerritory(newVal) {
-      if (newVal.id) {
+      if (newVal.area_code) {
         this.updateGlobalKnowledgeLevel()
       }
     },
@@ -249,7 +249,7 @@ export default {
         return color(d.data.label)
       })
     // Nécessaire pour la version mobile
-    if (this.currentTerritory.id) {
+    if (this.currentTerritory.area_code) {
       this.updateGlobalKnowledgeLevel()
     }
   },

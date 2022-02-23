@@ -3,8 +3,8 @@
     <header class="MapControlInfo">
       <div class="MapControlInfoTitles">
         <h4 class="fw-bold">Nombre d'espèces par maille</h4>
-        <h5 v-if="currentTerritory.id" class="fw-500 bottom-margin-24">
-          {{ currentTerritory.name }}
+        <h5 v-if="currentTerritory.area_code" class="fw-500 bottom-margin-24">
+          {{ currentTerritory.area_name }}
         </h5>
         <h5 v-else class="fw-500">
           Placez le centre de la carte sur un territoire français pour
@@ -18,7 +18,9 @@
       />
     </header>
     <div
-      v-show="currentTerritory.id && countTaxaClasses.all_period.length > 0"
+      v-show="
+        currentTerritory.area_code && countTaxaClasses.all_period.length > 0
+      "
       class="Legend"
     >
       <span class="LegendItem black02 fw-500">
@@ -47,7 +49,9 @@
       </span>
     </div>
     <span
-      v-show="currentTerritory.id && !(countTaxaClasses.all_period.length > 0)"
+      v-show="
+        currentTerritory.area_code && !(countTaxaClasses.all_period.length > 0)
+      "
       class="fw-500"
     >
       Les données de ce territoire ne sont pas encore disponibles.
