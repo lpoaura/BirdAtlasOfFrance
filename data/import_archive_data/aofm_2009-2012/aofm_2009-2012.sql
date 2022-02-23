@@ -23,6 +23,12 @@ $$
 --             FROM
 --                 tmp.aofm_2009_2012
 --         ON CONFLICT DO NOTHING;
+        DELETE
+            FROM
+                gn_synthese.synthese
+            WHERE
+                    geonature.gn_synthese.synthese.id_dataset IN
+                    (SELECT id_dataset FROM src_historic_atlas.aofm_2009_2012)
         RAISE NOTICE 'set session replication role to replica';
         SET SESSION_REPLICATION_ROLE TO REPLICA;
         RAISE NOTICE 'SET CONSTRAINTS ALL DEFERRED';
@@ -99,7 +105,7 @@ $$
           , now()
           , now()
             FROM
-                tmp.aofm_2009_2012
+                src_historic_atlas.aofm_2009_2012
                     JOIN taxonomie.cor_c_vn_taxref ON vn_id = id_espece_visionature
                     JOIN taxonomie.taxref
                          ON taxref_id = cd_nom
