@@ -26,8 +26,8 @@
       <div class="Metadata">
         <menu class="TabMenu no-bottom-margin">
           <div
-            v-for="(item, index) in tabs"
-            :key="'tab' + index"
+            v-for="item in tabs"
+            :key="item.value"
             class="TabItem"
             :class="item.hash === selectedTab.hash ? 'selected' : ''"
             @click="updateSelectedTab(item)"
@@ -44,11 +44,44 @@
     </header>
     <section class="SpeciesCardSection">
       <nav class="NavDrawer">
-        <menu class="TabMenu vertical no-bottom-margin">
+        <menu
+          v-if="['species', 'charts'].includes(selectedTab.value)"
+          class="TabMenu vertical no-bottom-margin"
+        >
           <div
-            v-for="(item, index) in subjectsList"
-            :key="'subject' + index"
+            v-for="item in subjectsList"
+            :key="item.slug"
             class="TabItem vertical"
+            :class="item.slug === selectedSubject.slug ? 'selected' : ''"
+            @click="updateSelectedSubject(item)"
+          >
+            {{ item.label }}
+          </div>
+        </menu>
+        <menu v-if="selectedTab.value === 'maps'">
+          <div class="SeeMoreWrapper" @click="updateAtlasStatus">
+            <span class="black02 fw-600 bottom-margin-">Atlas</span>
+            <img
+              class="SeeMoreChevron"
+              :src="atlasIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
+            />
+          </div>
+          <div v-show="atlasIsOpen">
+            <div
+              v-for="item in tabs[2].subjects.atlas"
+              :key="item.slug"
+              class="TabItem vertical atlas"
+              :class="item.slug === selectedSubject.slug ? 'selected' : ''"
+              :title="item.name"
+              @click="updateSelectedSubject(item)"
+            >
+              {{ item.label }}
+            </div>
+          </div>
+          <div
+            v-for="item in tabs[2].subjects.others"
+            :key="item.slug"
+            class="TabItem vertical fw-600"
             :class="item.slug === selectedSubject.slug ? 'selected' : ''"
             @click="updateSelectedSubject(item)"
           >
@@ -95,7 +128,7 @@
               >
                 <img class="MapSelectorIcon" src="/location.svg" />
                 <h5 class="fw-600 right-margin-12">
-                  {{ selectedTerritory.name }}
+                  {{ selectedTerritory.area_name }}
                 </h5>
                 <img
                   class="MapSelectorChevron"
@@ -124,10 +157,16 @@
                 ? ''
                 : 'hidden'
             "
-            :data-phenology-all-period="dataPhenologyAllPeriod"
-            :data-phenology-migration="dataPhenologyMigration"
-            :data-altitude="dataAltitudeAllPeriod"
-            :data-populations-test="dataPopulationsFake"
+            :data-phenology-all-period="
+              dataPhenologyAllPeriod[selectedTerritory.area_code]
+            "
+            :data-phenology-migration="
+              dataPhenologyMigration[selectedTerritory.area_code]
+            "
+            :data-altitude="dataAltitudeAllPeriod[selectedTerritory.area_code]"
+            :data-populations-test="
+              dataPopulationsFake[selectedTerritory.area_code]
+            "
           />
           <charts-tab-breeding
             :tab-status="
@@ -136,10 +175,14 @@
                 ? ''
                 : 'hidden'
             "
-            :data-phenology-breeding="dataPhenologyBreeding"
-            :data-trend="dataTrendBreeding"
-            :data-populations-breeding="dataPopulationsBreeding"
-            :data-altitude="dataAltitudeBreeding"
+            :data-phenology-breeding="
+              dataPhenologyBreeding[selectedTerritory.area_code]
+            "
+            :data-trend="dataTrendBreeding[selectedTerritory.area_code]"
+            :data-populations-breeding="
+              dataPopulationsBreeding[selectedTerritory.area_code]
+            "
+            :data-altitude="dataAltitudeBreeding[selectedTerritory.area_code]"
           />
           <charts-tab-wintering
             :tab-status="
@@ -148,9 +191,11 @@
                 ? ''
                 : 'hidden'
             "
-            :data-trend="dataTrendWintering"
-            :data-populations-wintering="dataPopulationsWintering"
-            :data-altitude="dataAltitudeWintering"
+            :data-trend="dataTrendWintering[selectedTerritory.area_code]"
+            :data-populations-wintering="
+              dataPopulationsWintering[selectedTerritory.area_code]
+            "
+            :data-altitude="dataAltitudeWintering[selectedTerritory.area_code]"
           />
           <div
             class="SpeciesCardContent"
@@ -194,12 +239,6 @@ export default {
     'charts-tab-wintering': ChartsTabWintering,
   },
   data: () => ({
-    species: {
-      attributes: {},
-      medias: {},
-      redLists: null,
-      protectionStatus: null,
-    },
     tabs: [
       {
         value: 'species',
@@ -247,94 +286,84 @@ export default {
         value: 'maps',
         hash: '#maps',
         label: 'Cartes',
-        subjects: [{ label: 'À définir...', slug: 'none' }],
+        subjects: {
+          atlas: [
+            {
+              label: '2019 - 2024',
+              name: 'Oiseaux De France',
+              slug: 'odf',
+              seasons: ['all_period', 'breeding', 'wintering'],
+            },
+            {
+              label: '2009 - 2012',
+              name: 'Atlas des Oiseaux de France Métropolitaine',
+              slug: 'aofm',
+              seasons: ['breeding', 'wintering'],
+            },
+            {
+              label: '1985 - 1989',
+              name: 'Nouvel Atlas des Oiseaux Nicheurs de France',
+              slug: 'naonf',
+              seasons: ['breeding'],
+            },
+            {
+              label: '1977 - 1981',
+              name: 'Atlas des Oiseaux de France en Hiver',
+              slug: 'aofh',
+              seasons: ['wintering'],
+            },
+            {
+              label: '1970 - 1975',
+              name: 'Atlas des Oiseaux Nicheurs de France',
+              slug: 'aonf',
+              seasons: ['breeding'],
+            },
+          ],
+          others: [
+            {
+              label: 'Comparaison AOFM/ODF',
+              slug: 'compare-aofm-odf',
+              seasons: ['breeding', 'wintering'],
+            },
+            {
+              label: 'Densité',
+              slug: 'density',
+              seasons: ['breeding', 'wintering'],
+            },
+            {
+              label: 'Carte additionnelle',
+              slug: 'extra-map',
+              seasons: ['breeding', 'wintering'],
+            },
+          ],
+        },
       },
     ],
-    selectedTab: { hash: '', label: '', subjects: [] },
+    selectedTab: { value: '', hash: '', label: '', subjects: [] },
     selectedSubject: { label: '', slug: '' },
-    seasonsList: [
-      {
-        label: 'Toutes saisons',
-        value: 'all_period',
-      },
-      {
-        label: 'Période de reproduction',
-        value: 'breeding',
-      },
-      {
-        label: "Période d'hivernage",
-        value: 'wintering',
-      },
-    ],
-    seasonIsOpen: false,
+    detectMobile: false,
+    atlasIsOpen: true,
+    domCurrentScrollingItems: {},
+    scrollListener: true,
+    scrollDuration: 600,
     selectedSeason: {
       label: 'Toutes saisons',
       value: 'all_period',
     },
-    territoriesList: [
-      {
-        label: 'France métropolitaine',
-        icon: '/prospecting/France-metropolitaine.svg',
-      },
-      {
-        label: 'Guadeloupe',
-        icon: '/prospecting/Guadeloupe.svg',
-      },
-      {
-        label: 'Guyane',
-        icon: '/prospecting/Guyane.svg',
-      },
-      {
-        label: 'Martinique',
-        icon: '/prospecting/Martinique.svg',
-      },
-      {
-        label: 'Mayotte',
-        icon: '/prospecting/Mayotte.svg',
-      },
-      {
-        label: 'Nouvelle Calédonie',
-        icon: '/prospecting/Nouvelle-Caledonie.svg',
-      },
-      {
-        label: 'Polynésie Française',
-        icon: '/prospecting/Polynesie.svg',
-      },
-      {
-        label: 'La Réunion',
-        icon: '/prospecting/Reunion.svg',
-      },
-      {
-        label: 'Saint Barthélémy',
-        icon: '/prospecting/Saint-Barthelemy.svg',
-      },
-      {
-        label: 'Saint Martin',
-        icon: '/prospecting/Saint-Martin.svg',
-      },
-      {
-        label: 'Saint Pierre et Miquelon',
-        icon: '/prospecting/Saint-Pierre-et-Miquelon.svg',
-      },
-      {
-        label: 'TAAF',
-        icon: '/prospecting/TAAF.svg',
-      },
-      {
-        label: 'Wallis et Futuna',
-        icon: '/prospecting/Wallis-et-Futuna.svg',
-      },
-    ],
-    territoryIsOpen: false,
     selectedTerritory: {
-      name: 'France métropolitaine',
+      area_code: 'FRMET',
+      area_name: 'France métropolitaine',
       icon: '/prospecting/France-metropolitaine.svg',
       isActive: true,
     },
-    domCurrentScrollingItems: {},
-    detectMobile: false,
-    scrollListener: true,
-    scrollDuration: 600,
+    seasonIsOpen: false,
+    territoryIsOpen: false,
+    species: {
+      attributes: {},
+      medias: {},
+      redLists: null,
+      protectionStatus: null,
+    },
     traitsList: [
       { label: 'Groupe', key: 'trait_specie_group' },
       { label: 'Longueur', key: 'trait_length' },
@@ -360,17 +389,18 @@ export default {
       { label: 'Alimentation', key: 'feeding' },
       { label: 'Reproduction', key: 'breeding' },
     ],
-    dataPhenologyAllPeriod: null,
-    dataPhenologyMigration: null,
-    dataAltitudeAllPeriod: null,
-    dataPhenologyBreeding: null,
-    dataTrendBreeding: null,
-    dataPopulationsBreeding: null,
-    dataAltitudeBreeding: null,
-    dataTrendWintering: null,
-    dataPopulationsWintering: null,
-    dataAltitudeWintering: null,
-    dataPopulationsFake: null,
+    chartsDataAlreadyDownloaded: [],
+    dataPhenologyAllPeriod: {},
+    dataPhenologyMigration: {},
+    dataAltitudeAllPeriod: {},
+    dataPhenologyBreeding: {},
+    dataTrendBreeding: {},
+    dataPopulationsBreeding: {},
+    dataAltitudeBreeding: {},
+    dataTrendWintering: {},
+    dataPopulationsWintering: {},
+    dataAltitudeWintering: {},
+    dataPopulationsFake: {},
   }),
   head() {
     return {
@@ -391,8 +421,10 @@ export default {
       },
     },
     filteredTabs() {
+      // Si les données sont arrivées
       if (this.species.attributes.odf_common_name_fr) {
-        const tabs = [...this.tabs]
+        // Deep copy
+        const tabs = JSON.parse(JSON.stringify(this.tabs))
         // SpeciesTab
         const speciesTabSubjects = ['links']
         if (this.species.attributes.description || this.species.medias.Photos) {
@@ -404,59 +436,58 @@ export default {
         if (this.filteredTraits || this.filteredFurtherInfo) {
           speciesTabSubjects.push('traits')
         }
-        tabs[0].subjects = tabs[0].subjects.filter((subject) => {
+        tabs[0].subjects = this.tabs[0].subjects.filter((subject) => {
           return speciesTabSubjects.includes(subject.slug)
         })
         // ChartsTabs
         const chartsTabAllPeriodSubjects = []
         const chartsTabBreedingSubjects = []
         const chartsTabWinteringSubjects = []
-        if (this.dataPhenologyAllPeriod) {
+        if (this.dataPhenologyAllPeriod[this.selectedTerritory.area_code]) {
           chartsTabAllPeriodSubjects.push('phenology-all-period')
         }
-        if (this.dataPhenologyMigration) {
+        if (this.dataPhenologyMigration[this.selectedTerritory.area_code]) {
           chartsTabAllPeriodSubjects.push('phenology-migration')
         }
-        if (this.dataAltitudeAllPeriod) {
+        if (this.dataAltitudeAllPeriod[this.selectedTerritory.area_code]) {
           chartsTabAllPeriodSubjects.push('altitude-all-period')
         }
-        if (this.dataPhenologyBreeding) {
+        if (this.dataPhenologyBreeding[this.selectedTerritory.area_code]) {
           chartsTabBreedingSubjects.push('phenology-breeding')
         }
-        if (this.dataTrendBreeding) {
+        if (this.dataTrendBreeding[this.selectedTerritory.area_code]) {
           chartsTabBreedingSubjects.push('trend-breeding')
         }
-        if (this.dataPopulationsBreeding) {
+        if (this.dataPopulationsBreeding[this.selectedTerritory.area_code]) {
           chartsTabBreedingSubjects.push('populations-sizes-breeding')
         }
-        if (this.dataAltitudeBreeding) {
+        if (this.dataAltitudeBreeding[this.selectedTerritory.area_code]) {
           chartsTabBreedingSubjects.push('altitude-breeding')
         }
-        if (this.dataTrendWintering) {
+        if (this.dataTrendWintering[this.selectedTerritory.area_code]) {
           chartsTabWinteringSubjects.push('trend-wintering')
         }
-        if (this.dataPopulationsWintering) {
+        if (this.dataPopulationsWintering[this.selectedTerritory.area_code]) {
           chartsTabWinteringSubjects.push('populations-sizes-wintering')
         }
-        if (this.dataAltitudeWintering) {
+        if (this.dataAltitudeWintering[this.selectedTerritory.area_code]) {
           chartsTabWinteringSubjects.push('altitude-wintering')
         }
-        tabs[1].subjects.all_period = tabs[1].subjects.all_period.filter(
+        tabs[1].subjects.all_period = this.tabs[1].subjects.all_period.filter(
           (subject) => {
             return chartsTabAllPeriodSubjects.includes(subject.slug)
           }
         )
-        tabs[1].subjects.breeding = tabs[1].subjects.breeding.filter(
+        tabs[1].subjects.breeding = this.tabs[1].subjects.breeding.filter(
           (subject) => {
             return chartsTabBreedingSubjects.includes(subject.slug)
           }
         )
-        tabs[1].subjects.wintering = tabs[1].subjects.wintering.filter(
+        tabs[1].subjects.wintering = this.tabs[1].subjects.wintering.filter(
           (subject) => {
             return chartsTabWinteringSubjects.includes(subject.slug)
           }
         )
-        // MapsTab
         // End
         return tabs
       } else {
@@ -464,10 +495,14 @@ export default {
       }
     },
     subjectsList() {
-      return (
-        this.selectedTab.subjects[this.selectedSeason.value] ??
-        this.selectedTab.subjects
-      )
+      if (['species', 'charts'].includes(this.selectedTab.value)) {
+        return (
+          this.selectedTab.subjects[this.selectedSeason.value] ??
+          this.selectedTab.subjects
+        )
+      } else {
+        return []
+      }
     },
     filteredTraits() {
       if (this.species.attributes.odf_common_name_fr) {
@@ -500,7 +535,14 @@ export default {
     filteredTabs(newVal) {
       // console.log('filteredTabs')
       // console.log(newVal)
+      this.selectedTab = this.filteredTabs.filter((item) => {
+        return item.hash === this.$route.hash
+      })[0]
       this.defineSelectedSubject()
+      setTimeout(() => {
+        // Le timeout permet d'être assuré que les graphes associés au nouveau territoire sont bien integrés à la page
+        this.defineDomCurrentScrollingItems()
+      }, 500)
     },
   },
   beforeMount() {
@@ -520,7 +562,7 @@ export default {
       'scroll',
       this.listenerScroll
     )
-    this.defineSelectedTab()
+    // this.defineSelectedTab()
     this.$axios
       .$get(
         `https://geonature.alx.host/taxhub/api/bibnoms/taxoninfo/${this.cdnom}`
@@ -625,18 +667,24 @@ export default {
           )
         }, 1000)
       })
-    // UPDATE NEEDED : récupérer les données des graphes via axios + API (selon la période et le territoire)
-    this.dataPhenologyAllPeriod = dataPhenologyAllPeriod
-    this.dataPhenologyMigration = dataPhenologyMigration
-    this.dataAltitudeAllPeriod = dataAltitude
-    this.dataPhenologyBreeding = dataPhenologyBreeding
-    this.dataTrendBreeding = dataTrend
-    this.dataPopulationsBreeding = dataPopulationsBreeding
-    this.dataAltitudeBreeding = dataAltitude
-    this.dataTrendWintering = dataTrend
-    this.dataPopulationsWintering = dataPopulationsWintering
-    this.dataAltitudeWintering = dataAltitude
+    // UPDATE NEEDED : récupérer les données des graphes via axios + API (selon le territoire sélectionné)
+    this.dataPhenologyAllPeriod[this.selectedTerritory.area_code] =
+      dataPhenologyAllPeriod
+    this.dataPhenologyMigration[this.selectedTerritory.area_code] =
+      dataPhenologyMigration
+    this.dataAltitudeAllPeriod[this.selectedTerritory.area_code] = dataAltitude
+    this.dataPhenologyBreeding[this.selectedTerritory.area_code] =
+      dataPhenologyBreeding
+    this.dataTrendBreeding[this.selectedTerritory.area_code] = dataTrend
+    this.dataPopulationsBreeding[this.selectedTerritory.area_code] =
+      dataPopulationsBreeding
+    this.dataAltitudeBreeding[this.selectedTerritory.area_code] = dataAltitude
+    this.dataTrendWintering[this.selectedTerritory.area_code] = dataTrend
+    this.dataPopulationsWintering[this.selectedTerritory.area_code] =
+      dataPopulationsWintering
+    this.dataAltitudeWintering[this.selectedTerritory.area_code] = dataAltitude
     // this.dataPopulationsFake = dataPopulationsFake
+    this.chartsDataAlreadyDownloaded.push(this.selectedTerritory.area_code)
     // END UPDATE NEEDED
   },
   beforeDestroy() {
@@ -657,7 +705,11 @@ export default {
       this.defineDomCurrentScrollingItems()
     },
     defineSelectedSubject() {
-      this.selectedSubject = this.subjectsList[0]
+      if (['species', 'charts'].includes(this.selectedTab.value)) {
+        this.selectedSubject = this.subjectsList[0]
+      } else {
+        this.selectedSubject = this.tabs[2].subjects.atlas[0]
+      }
     },
     defineDomCurrentScrollingItems() {
       this.domCurrentScrollingItems = this.subjectsList.map((item) => {
@@ -680,6 +732,12 @@ export default {
           this.scrollListener = true
         }, this.scrollDuration + 10)
       }
+      if (this.selectedTab.value === 'maps') {
+        this.selectedSubject = item
+      }
+    },
+    updateAtlasStatus() {
+      this.atlasIsOpen = !this.atlasIsOpen
     },
     updateSelectedSeason(season) {
       this.selectedSeason = season
@@ -690,7 +748,13 @@ export default {
     updateSelectedTerritory(territory) {
       this.selectedTerritory = territory
       this.territoryIsOpen = false
-      // UPDATE NEEDED : mettre à jour les données des graphes lorsqu'on change de territoire
+      // UPDATE NEEDED : mettre à jour les données des graphes lorsqu'on sélectionne un "nouveau territoire"
+      if (!this.chartsDataAlreadyDownloaded.includes(territory.area_code)) {
+        console.log(
+          'Il faut télécharger les données de ce nouveau territoire !'
+        )
+      }
+      // END UPDATE NEEDED
     },
     openOrCloseSeasonsBox() {
       this.seasonIsOpen = !this.seasonIsOpen
@@ -708,7 +772,10 @@ export default {
       this.$debounce(this.handleScroll())
     },
     handleScroll() {
-      if (this.scrollListener) {
+      if (
+        this.scrollListener &&
+        ['species', 'charts'].includes(this.selectedTab.value)
+      ) {
         // console.log(this.domCurrentScrollingItems)
         const currentScroll = this.$refs.scrollingContainer.scrollTop
         const domCurrentScrolledItem = this.domCurrentScrollingItems.filter(
@@ -812,6 +879,18 @@ nav.NavDrawer {
   padding: 24px 40px;
   display: flex;
   flex-direction: column;
+}
+
+.SeeMoreWrapper {
+  margin: 0 0 18px 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.SeeMoreChevron {
+  width: 11px;
 }
 
 .SpeciesCardTab {

@@ -447,7 +447,6 @@ a.Vocabulary:hover::after {
   white-space: nowrap;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
-  font-weight: normal;
   font-size: 14px;
   line-height: 21px;
   color: #000;
@@ -456,6 +455,11 @@ a.Vocabulary:hover::after {
 .TabItem.vertical {
   margin-right: 0;
   margin-bottom: 6px;
+}
+
+.TabItem.vertical.atlas {
+  margin-bottom: 6px !important;
+  margin-left: 24px;
 }
 
 .TabItem.selected {

@@ -102,8 +102,8 @@
             @click="openOrCloseTerritoriesBox"
           >
             <img class="MapSelectorIcon" src="/location.svg" />
-            <h5 v-if="currentTerritory.id" class="fw-600 right-margin-12">
-              {{ currentTerritory.name }}
+            <h5 v-if="currentTerritory.area_code" class="fw-600 right-margin-12">
+              {{ currentTerritory.area_name }}
             </h5>
             <h5 v-else class="fw-600 right-margin-12">Territoires</h5>
             <img
@@ -208,14 +208,9 @@ export default {
     },
     selectedTerritory: {
       // Territoire cliqué (FrMet ou DOM-TOM)
-      name: null,
-      icon: null,
-      isActive: null,
     },
     currentTerritory: {
       // Territoire sur lequel est centrée la carte (peut être non défini)
-      id: null,
-      name: null,
     },
     countTaxaClasses: {
       // Classes pour la couche "Nb d'espèces par maille"
@@ -303,11 +298,7 @@ export default {
     },
     updateSelectedTerritory(territory) {
       // Permet d'activer le watch de ProspectingMap et ainsi de recentrer la carte sur un territoire même si l'utilisateur se trouve déjà dessus
-      this.selectedTerritory = {
-        name: null,
-        icon: null,
-        isActive: null,
-      }
+      this.selectedTerritory = {}
       setTimeout(() => {
         this.selectedTerritory = territory
       }, 1)
@@ -315,7 +306,7 @@ export default {
     },
     updateCurrentTerritory(territory) {
       this.currentTerritory = territory
-      if (territory.id) {
+      if (territory.area_code) {
         Promise.all([
           this.$axios.$get(
             `/api/v1/map/count_taxon_classes/${territory.id}?period=all_period`
@@ -356,14 +347,10 @@ export default {
           })
       }
       if (
-        this.selectedTerritory.name &&
-        this.currentTerritory.name !== this.selectedTerritory.name
+        this.selectedTerritory.area_code &&
+        this.currentTerritory.area_code !== this.selectedTerritory.area_code
       ) {
-        this.selectedTerritory = {
-          name: null,
-          icon: null,
-          isActive: null,
-        }
+        this.selectedTerritory = {}
       }
     },
     updateClickedFeature(feature) {
