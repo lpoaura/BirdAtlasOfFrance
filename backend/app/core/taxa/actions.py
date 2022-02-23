@@ -3,12 +3,13 @@ from typing import List, Optional
 
 from geoalchemy2 import functions as geofunc
 from sqlalchemy import func
-from sqlalchemy.orm import Query, Session
+from sqlalchemy.orm import Session
 
 from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
 from app.core.ref_geo.models import LAreas
-from app.utils.db import Base
+
+from .models import THistoricAtlasesData, THistoricAtlasesInfo
 
 # from .models import MvTaxaAltitudeDistribution
 
@@ -109,5 +110,58 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
 #         return q.all()
 
 
+class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
+    """Get Historu"""
+
+    def historic_atlases_distribution(
+        self,
+        db: Session,
+        id_historic_atlas: str,
+        cd_nom: int,
+        envelope: Optional[List] = None,
+    ) -> List:
+        q = (
+            db.query(
+                THistoricAtlasesData.id_area.label("id"),
+                THistoricAtlasesData.status,
+                func.json_build_object("status", THistoricAtlasesData.status).label("properties"),
+                LAreas.geojson_4326.label("geometry"),
+            )
+            .join(LAreas, LAreas.id_area == THistoricAtlasesData.id_area)
+            .filter(THistoricAtlasesData.cd_nom == cd_nom)
+            .filter(THistoricAtlasesData.id_historic_atlas_info == id_historic_atlas)
+        )
+
+        if envelope:
+            q = q.filter(
+                geofunc.ST_Intersects(
+                    LAreas.geom,
+                    geofunc.ST_Transform(
+                        geofunc.ST_MakeEnvelope(
+                            envelope[0], envelope[1], envelope[2], envelope[3], 4326
+                        ),
+                        4326,
+                    ),
+                )
+            )
+
+        logger.debug(f"<taxa_distribution> q {q}")
+        return q.all()
+
+    def list_historic_atlases(self, db: Session) -> List:
+        q = db.query(
+            THistoricAtlasesInfo.id,
+            THistoricAtlasesInfo.atlas_period,
+            THistoricAtlasesInfo.atlas_period,
+            THistoricAtlasesInfo.date_start,
+            THistoricAtlasesInfo.date_end,
+            THistoricAtlasesInfo.season_period,
+            THistoricAtlasesInfo.description,
+            # THistoricAtlasesInfo.is_active,
+        ).filter(THistoricAtlasesInfo.is_active)
+        return q.all()
+
+
 taxa_distrib = TaxaDistributionActions(AreaKnowledgeTaxaList)
+historic_atlas_distrib = HistoricAtlasesActions(THistoricAtlasesData)
 # altitude_distrib = TaxaAltitudeDistributionActions(MvTaxaAltitudeDistribution)

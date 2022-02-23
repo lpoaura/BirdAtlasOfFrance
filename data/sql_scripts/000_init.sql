@@ -77,7 +77,6 @@ $$
         ON CONFLICT (cd_nom)
             DO NOTHING;
 
-
 /* Set has_subsp value where taxa has sub-specie(s) */
         UPDATE
             atlas.t_taxa
@@ -134,165 +133,6 @@ $$
             FROM
                 datas;
 
-        INSERT INTO
-            taxonomie.bib_themes (id_theme, nom_theme, desc_theme, ordre, id_droit)
-            VALUES
-                (4, 'ODF Noms', 'Informations relatives à Oiseaux de France (commun)', 1, 3)
-              , (5, 'ODF Monographie', 'Informations relatives à Oiseaux de France (monographie espèce)', 2, 3)
-              , (6, 'ODF Traits', 'Informations relatives à Oiseaux de France (bdd traits)', 3, 3)
-        ON CONFLICT DO NOTHING;
-
-        DROP MATERIALIZED VIEW atlas.mv_search_taxa;
-        DROP MATERIALIZED VIEW atlas.mv_area_knowledge_list_taxa;
-
-        SELECT * FROM taxonomie.bib_attributs;
-        INSERT INTO
-            taxonomie.bib_attributs ( id_attribut
-                                    , nom_attribut
-                                    , label_attribut
-                                    , liste_valeur_attribut
-                                    , obligatoire
-                                    , desc_attribut
-                                    , type_attribut
-                                    , type_widget
-                                    , regne
-                                    , group2_inpn
-                                    , id_theme
-                                    , ordre)
-            VALUES
-                ( 202
-                , 'odf_common_name_fr'
-                , 'Nom vernaculaire français'
-                , '{}'
-                , FALSE
-                , 'Nom vernaculaire français à afficher dans ODF'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 4
-                , 1)
-              , ( 203
-                , 'odf_common_name_en'
-                , 'Nom vernaculaire anglais'
-                , '{}'
-                , FALSE
-                , 'Nom vernaculaire anglais à afficher dans ODF'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 4
-                , 2)
-              , ( 201
-                , 'odf_sci_name'
-                , 'Nom scientifique'
-                , '{}'
-                , FALSE
-                , 'Nom scientifique à afficher dans ODF'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 4
-                , 3)
-              , (204, 'description', 'Description', '{}', FALSE, 'Description', 'text', 'textarea', NULL, NULL, 5, 1)
-              , ( 205
-                , 'distribution'
-                , 'Répartition et déplacements'
-                , '{}'
-                , FALSE
-                , 'Répartition et déplacements'
-                , 'text'
-                , 'textarea'
-                , NULL
-                , NULL
-                , 5
-                , 2)
-              , (206, 'habitat', 'Habitat', '{}', FALSE, 'Habitat', 'text', 'textarea', NULL, NULL, 5, 3)
-              , (207, 'feeding', 'Alimentation', '{}', FALSE, 'Alimentation', 'text', 'textarea', NULL, NULL, 5, 3)
-              , (207, 'breeding', 'Reproduction', '{}', FALSE, 'Reproduction', 'text', 'textarea', NULL, NULL, 5, 4)
-              , (208, 'breeding', 'Reproduction', '{}', FALSE, 'Reproduction', 'text', 'textarea', NULL, NULL, 5, 4)
-              , ( 208
-                , 'trait_incubation_time'
-                , 'Durée d''incubation'
-                , '{}'
-                , FALSE
-                , 'Durée d''incubation'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 1)
-              , (209, 'trait_length', 'Longueur', '{}', FALSE, 'Longueur', 'text', 'text', NULL, NULL, 6, 2)
-              , (210, 'trait_specie_group', 'Groupe', '{}', FALSE, 'Groupe', 'text', 'text', NULL, NULL, 6, 3)
-              , ( 211
-                , 'trait_migratory_behaviour'
-                , 'Comportement migrateur'
-                , '{}'
-                , FALSE
-                , 'Comportement migrateur'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 4)
-              , ( 212
-                , 'trait_clutches_number'
-                , 'Nombre de pontes'
-                , '{}'
-                , FALSE
-                , 'Nombre de pontes'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 5)
-              , (212, 'trait_scope', 'Envergure', '{}', FALSE, 'Envergure', 'text', 'text', NULL, NULL, 6, 6)
-              , (213, 'trait_food', 'Nourriture', '{}', FALSE, 'Nourriture', 'text', 'text', NULL, NULL, 6, 7)
-              , (214, 'trait_max_age', 'Age maximal', '{}', FALSE, 'Age maximal', 'text', 'text', NULL, NULL, 6, 8)
-              , ( 215
-                , 'trait_eggs_number'
-                , 'Nombre d''oeufs'
-                , '{}'
-                , FALSE
-                , 'Nombre d''oeufs'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 9)
-              , (216, 'trait_weight', 'Poids', '{}', FALSE, 'Poids', 'text', 'text', NULL, NULL, 6, 10)
-              , (217, 'trait_habitat', 'Habitat', '{}', FALSE, 'Habitat', 'text', 'text', NULL, NULL, 6, 11)
-              , ( 218
-                , 'trait_nest_length_stay'
-                , 'Durée de séjour au nid jusqu''à l''envol'
-                , '{}'
-                , FALSE
-                , 'Durée de séjour au nid jusqu''à l''envol'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 12)
-              , ( 219
-                , 'trait_nesting_site'
-                , 'Site de nidification'
-                , '{}'
-                , FALSE
-                , 'Site de nidification'
-                , 'text'
-                , 'text'
-                , NULL
-                , NULL
-                , 6
-                , 13)
-        ON CONFLICT DO NOTHING;
 
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_groups CASCADE;
         CREATE MATERIALIZED VIEW atlas.mv_taxa_groups AS
@@ -342,11 +182,13 @@ $$
 
         CREATE UNIQUE INDEX id_unique_cor_taxa_group_cd_group_cd_nom ON atlas.mv_taxa_groups (cd_group, cd_nom);
 
-        CREATE TYPE PHENOLOGY_PERIOD AS ENUM ('wintering','breeding','migration','all_period');
---         DROP TABLE  IF EXISTS atlas.dict_specie_profile CASCADE ;
-        CREATE TABLE atlas.dict_specie_profile
+        DROP TYPE PHENOLOGY_PERIOD CASCADE;
+        CREATE TYPE PHENOLOGY_PERIOD AS ENUM ('wintering','breeding','migration','migration_prenuptial','migration_postnuptial','all_period');
+        DROP TABLE IF EXISTS atlas.dict_period_profiles CASCADE;
+        CREATE TABLE atlas.dict_period_profiles
         (
             id                 INTEGER PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
+            code               VARCHAR(50)      NOT NULL,
             label              VARCHAR          NOT NULL,
             type_period        PHENOLOGY_PERIOD NOT NULL,
             start_month        INT              NOT NULL,
@@ -355,32 +197,91 @@ $$
             end_day_of_month   INT              NOT NULL,
             strict             BOOLEAN          NOT NULL
         );
-        CREATE UNIQUE INDEX ON atlas.dict_specie_profile (type_period, start_month, start_day_of_month, end_month,
-                                                          end_day_of_month);
-        CREATE UNIQUE INDEX ON atlas.dict_specie_profile (id);
-        TRUNCATE atlas.dict_specie_profile RESTART IDENTITY CASCADE;
+        CREATE UNIQUE INDEX ON atlas.dict_period_profiles (type_period, start_month, start_day_of_month,
+                                                           end_month,
+                                                           end_day_of_month);
+        CREATE UNIQUE INDEX ON atlas.dict_period_profiles (id);
+
+
+        TRUNCATE atlas.dict_period_profiles RESTART IDENTITY CASCADE;
         INSERT INTO
-            atlas.dict_specie_profile( type_period
-                                     , label
-                                     , start_month
-                                     , start_day_of_month
-                                     , end_month
-                                     , end_day_of_month
-                                     , strict)
+            atlas.dict_period_profiles( type_period
+                                      , code
+                                      , label
+                                      , start_month
+                                      , start_day_of_month
+                                      , end_month
+                                      , end_day_of_month
+                                      , strict)
             VALUES
-                ('wintering', 'Metropolitan France Wintering all species', 12, 1, 1, 31, TRUE)
-              , ('wintering', 'Equatorial wintering northern species', 12, 1, 2, 15, TRUE)
-              , ('wintering', 'Equatorial wintering southern species', 6, 15, 8, 15, TRUE)
+                ( 'wintering'
+                , 'FRMET_WINTERING_DEFAULT'
+                , 'Metropolitan France wintering all species'
+                , 12
+                , 1
+                , 1
+                , 31
+                , TRUE)
+              , ('wintering', 'EQUA_WINTERING_NORTHERN', 'Equatorial wintering northern species', 12, 1, 2, 15, TRUE)
+              , ('wintering', 'EQUA_WINTERING_SOUTHERN', 'Equatorial wintering southern species', 6, 15, 8, 15, TRUE)
+              , ( 'breeding'
+                , 'FRMET_BREEDING_DEFAULT'
+                , 'Metropolitan France breeding all species (common profile)'
+                , 1
+                , 1
+                , 1
+                , 31
+                , TRUE)
+              , ( 'migration_prenuptial'
+                , 'FRMET_MIG_PRE_DEFAULT'
+                , 'Metropolitan France migration all species'
+                , 1
+                , 1
+                , 6
+                , 15
+                , TRUE)
+              , ( 'migration_postnuptial'
+                , 'FRMET_MIG_PRE_DEFAULT'
+                , 'Metropolitan France migration all species'
+                , 6
+                , 16
+                , 12
+                , 31
+                , TRUE)
         ON CONFLICT(type_period, start_month, start_day_of_month, end_month,
             end_day_of_month) DO NOTHING;
 
+        DROP TABLE IF EXISTS atlas.dict_breeding_code_profiles CASCADE;
+        CREATE TABLE atlas.dict_breeding_code_profiles
+        (
+            id                   INTEGER PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
+            code                 VARCHAR(50) NOT NULL,
+            label                VARCHAR     NOT NULL,
+            breeding_codes_start INT[]       NOT NULL,
+            breeding_code_end    INT[]       NOT NULL
+        );
+
+        INSERT INTO
+            atlas.dict_breeding_code_profiles (code, label, breeding_codes_start, breeding_code_end)
+            VALUES
+                ('DEFAULT', 'default breeding codes', ARRAY [3], ARRAY [13,20]);
+
+
+        DROP TABLE IF EXISTS atlas.cor_specie_territory_profile;
         CREATE TABLE atlas.cor_specie_territory_profile
         (
-            id      INTEGER PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
-            cd_nom  INT REFERENCES taxonomie.taxref (cd_nom),
-            profile INT REFERENCES atlas.dict_specie_profile (id),
-            id_area INT REFERENCES ref_geo.l_areas (id_area)
+            id             INTEGER PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
+            cd_nom         INT REFERENCES taxonomie.taxref (cd_nom),
+            period_profile INT REFERENCES atlas.dict_period_profiles (id),
+            breeding_codes INT REFERENCES atlas.dict_breeding_code_profiles (id),
+            id_area        INT REFERENCES ref_geo.l_areas (id_area),
+            UNIQUE (cd_nom, period_profile, id_area)
         );
+        CREATE INDEX ON atlas.cor_specie_territory_profile (cd_nom);
+        CREATE INDEX ON atlas.cor_specie_territory_profile (period_profile);
+        CREATE INDEX ON atlas.cor_specie_territory_profile (breeding_codes);
+        CREATE INDEX ON atlas.cor_specie_territory_profile (id_area);
+
 
         UPDATE taxonomie.cor_c_vn_taxref
         SET
@@ -390,6 +291,8 @@ $$
             WHERE
                   cd_nom = taxref_id
               AND taxref.cd_nom != taxref.cd_ref;
+
+        CREATE UNIQUE INDEX ON atlas.cor_specie_territory_profile (cd_nom, period_profile, breeding_codes, id_area);
 
         INSERT INTO taxonomie.bib_noms (cd_nom, cd_ref, nom_francais, comments)
         SELECT
@@ -407,7 +310,6 @@ $$
                   --              AND cast(item ->> 'id_taxo_group' as int) = 1
               AND taxref.classe LIKE 'Aves'
         ON CONFLICT (cd_nom) DO NOTHING;
-
 
 
         WITH
@@ -585,7 +487,7 @@ $$
         CREATE INDEX IF NOT EXISTS idx_epoc_id_area ON atlas.t_epoc (id_area);
         CREATE INDEX IF NOT EXISTS idx_epoc_status ON atlas.t_epoc (status);
 
---         INSERT INTO
+        --         INSERT INTO
 --             atlas.t_epoc (id_epoc, id_ff, status, rang_rsv, id_area, area_code, geom)
 --         SELECT
 --             epoc.id_epoc
@@ -604,6 +506,35 @@ $$
 --             USING gidx_epoc;
 
         /* Commit changes */
+--         DROP TABLE atlas.t_historic_atlases_info CASCADE;
+        CREATE TABLE atlas.t_historic_atlases_info
+        (
+            id            INTEGER PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
+            id_territory  INTEGER REFERENCES ref_geo.l_areas (id_area) NOT NULL,
+            atlas_period  VARCHAR,
+            date_start    DATE,
+            date_end      DATE,
+            season_period PHENOLOGY_PERIOD                             NOT NULL,
+            description   VARCHAR,
+            is_active     BOOLEAN                                      NOT NULL DEFAULT TRUE
+        );
+        COMMENT ON TABLE atlas.t_historic_atlases_info IS 'List of historic atlases and relative informations';
+--         DROP TABLE atlas.t_historic_atlases_data CASCADE;
+        CREATE TABLE atlas.t_historic_atlases_data
+        (
+            id                     INTEGER PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
+            id_historic_atlas_info INTEGER NOT NULL REFERENCES atlas.t_historic_atlases_info (id),
+            id_area                INTEGER NOT NULL REFERENCES ref_geo.l_areas (id_area) NOT NULL,
+            cd_nom                 INTEGER NOT NULL REFERENCES atlas.t_taxa (cd_nom),
+            status                 VARCHAR
+        );
+        CREATE INDEX idx_id_historic_atlas_info ON atlas.t_historic_atlases_data (id_historic_atlas_info);
+        CREATE INDEX idx_id_area ON atlas.t_historic_atlases_data (id_area);
+        CREATE INDEX idx_cd_nom ON atlas.t_historic_atlases_data (cd_nom);
+        CREATE INDEX idx_breeding_status ON atlas.t_historic_atlases_data (breeding_status);
+
+        COMMENT ON TABLE atlas.t_historic_atlases_data IS 'Historic atlases data (one data is on specie on one area (grid) with one status from one source';
+
         COMMIT;
 
     END
