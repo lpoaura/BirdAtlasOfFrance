@@ -284,8 +284,4 @@ export default {
   height: 48px;
   margin-bottom: 12px;
 }
-
-.RadioOption.inactive {
-  cursor: auto;
-}
 </style>

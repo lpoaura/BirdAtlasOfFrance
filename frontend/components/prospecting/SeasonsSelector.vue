@@ -10,8 +10,19 @@
         v-for="(season, index) in seasonsList"
         :key="index"
         class="RadioOption"
-        :class="season.value === selectedSeason.value ? 'selected' : ''"
-        @click="updateSelectedSeason(season)"
+        :class="[
+          season.value === selectedSeason.value ? 'selected' : '',
+          !filteredSeasons ||
+          (filteredSeasons && filteredSeasons.includes(season.value))
+            ? ''
+            : 'inactive',
+        ]"
+        @click="
+          !filteredSeasons ||
+          (filteredSeasons && filteredSeasons.includes(season.value))
+            ? $emit('selectedSeason', season)
+            : null
+        "
       >
         <div class="RadioLabel">
           <div class="RadioButton">
@@ -37,6 +48,11 @@ export default {
     selectedSeason: {
       type: Object,
       required: true,
+    },
+    filteredSeasons: {
+      type: Array,
+      required: false,
+      default: null,
     },
   },
   data: () => ({
@@ -86,9 +102,27 @@ export default {
       },
     ],
   }),
+  watch: {
+    filteredSeasons(newVal) {
+      this.updateSelectedSeason()
+    },
+  },
+  mounted() {
+    this.updateSelectedSeason()
+  },
   methods: {
-    updateSelectedSeason(season) {
-      this.$emit('selectedSeason', season)
+    updateSelectedSeason() {
+      if (
+        this.filteredSeasons &&
+        !this.filteredSeasons.includes(this.selectedSeason.value)
+      ) {
+        const filteredSeasons = this.seasonsList.filter((season) => {
+          return this.filteredSeasons.includes(season.value)
+        })
+        if (filteredSeasons.length) {
+          this.$emit('selectedSeason', filteredSeasons[0])
+        }
+      }
     },
   },
 }

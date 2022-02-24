@@ -115,6 +115,9 @@
               <seasons-selector
                 :select-is-open="seasonIsOpen"
                 :selected-season="selectedSeason"
+                :filtered-seasons="
+                  selectedTab.value === 'maps' ? selectedSubject.seasons : null
+                "
                 @selectedSeason="updateSelectedSeason"
               />
             </div>
@@ -533,16 +536,13 @@ export default {
       this.defineSelectedTab()
     },
     filteredTabs(newVal) {
+      // Change si le territoire sélectionné change
       // console.log('filteredTabs')
       // console.log(newVal)
-      this.selectedTab = this.filteredTabs.filter((item) => {
-        return item.hash === this.$route.hash
-      })[0]
-      this.defineSelectedSubject()
-      setTimeout(() => {
-        // Le timeout permet d'être assuré que les graphes associés au nouveau territoire sont bien integrés à la page
-        this.defineDomCurrentScrollingItems()
-      }, 500)
+      if (this.selectedTab.value !== 'maps') {
+        // Mettre à jour le menu de gauche
+        this.defineSelectedTab()
+      }
     },
   },
   beforeMount() {
@@ -702,7 +702,10 @@ export default {
         return item.hash === this.$route.hash
       })[0]
       this.defineSelectedSubject()
-      this.defineDomCurrentScrollingItems()
+      setTimeout(() => {
+        // Le timeout permet d'être assuré que les contenus sont bien integrés à la page
+        this.defineDomCurrentScrollingItems()
+      }, 500)
     },
     defineSelectedSubject() {
       if (['species', 'charts'].includes(this.selectedTab.value)) {
@@ -742,8 +745,10 @@ export default {
     updateSelectedSeason(season) {
       this.selectedSeason = season
       this.seasonIsOpen = false
-      this.defineSelectedSubject()
-      this.defineDomCurrentScrollingItems()
+      if (this.selectedTab.value !== 'maps') {
+        this.defineSelectedSubject()
+        this.defineDomCurrentScrollingItems()
+      }
     },
     updateSelectedTerritory(territory) {
       this.selectedTerritory = territory
