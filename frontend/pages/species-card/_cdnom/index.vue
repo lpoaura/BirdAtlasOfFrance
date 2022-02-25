@@ -221,15 +221,10 @@
             "
             :data-altitude="dataAltitudeWintering[selectedTerritory.area_code]"
           />
-          <div
-            class="SpeciesCardContent"
-            :class="selectedTab.value === 'maps' ? '' : 'hidden'"
-          >
-            Cartes
-          </div>
-          <!-- <maps-tab
+          <maps-tab
             :tab-status="selectedTab.value === 'maps' ? '' : 'hidden'"
-          /> -->
+            :selected-territory="selectedTerritory"
+          />
         </div>
       </div>
     </section>
@@ -243,7 +238,7 @@ import SpeciesTab from '~/components/species-card/SpeciesTab.vue'
 import ChartsTabAllPeriod from '~/components/species-card/ChartsTabAllPeriod.vue'
 import ChartsTabBreeding from '~/components/species-card/ChartsTabBreeding.vue'
 import ChartsTabWintering from '~/components/species-card/ChartsTabWintering.vue'
-// import MapsTab from '~/components/species-card/MapsTab.vue'
+import MapsTab from '~/components/species-card/MapsTab.vue'
 // UPDATE NEEDED : supprimer cet import
 import {
   dataPhenologyAllPeriod,
@@ -265,7 +260,7 @@ export default {
     'charts-tab-all-period': ChartsTabAllPeriod,
     'charts-tab-breeding': ChartsTabBreeding,
     'charts-tab-wintering': ChartsTabWintering,
-    // 'maps-tab': MapsTab,
+    'maps-tab': MapsTab,
   },
   data: () => ({
     tabs: [

@@ -431,7 +431,6 @@ export default {
     osmUrl:
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     envelope: null,
-    initTerritory: null,
     // CONFIGURATION DES GEOJSON
     // Limites des territoires
     territoriesGeojson: null,
@@ -704,10 +703,10 @@ export default {
       this.$emit('clickedEpocPoint', null)
     },
     selectedTerritory(newVal) {
-      if (newVal.area_name) {
+      if (newVal.area_code) {
         const territory = this.$L.geoJSON(
           this.territoriesEnvelopes.features.filter((item) => {
-            return item.properties.area_name === newVal.area_name
+            return item.properties.area_code === newVal.area_code
           })
         )
         this.isProgramaticZoom = true
