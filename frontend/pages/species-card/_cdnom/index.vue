@@ -94,57 +94,78 @@
           <div
             v-show="['charts', 'maps'].includes(selectedTab.value)"
             class="MapSelectors"
+            :class="selectedTab.value === 'maps' ? 'map' : ''"
           >
-            <div
-              v-click-outside="closeSeasonsBox"
-              class="MapSelectorWrapper seasons"
-            >
-              <div
-                class="MapSelectorSelectedOption"
-                @click="openOrCloseSeasonsBox"
-              >
-                <img class="MapSelectorIcon" src="/calendar.svg" />
-                <h5 class="fw-600 right-margin-12">
-                  {{ selectedSeason.label }}
-                </h5>
-                <img
-                  class="MapSelectorChevron"
-                  :src="seasonIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
-                />
-              </div>
-              <seasons-selector
-                :select-is-open="seasonIsOpen"
-                :selected-season="selectedSeason"
-                :filtered-seasons="
-                  selectedTab.value === 'maps' ? selectedSubject.seasons : null
+            <div v-show="selectedTab.value === 'maps'" class="MapTitle">
+              <h4 class="black02 fw-bold">
+                {{ selectedSubject.name }}
+              </h4>
+              <h5
+                v-show="
+                  selectedTab.value === 'maps' &&
+                  selectedSubject.label !== selectedSubject.name
                 "
-                @selectedSeason="updateSelectedSeason"
-              />
-            </div>
-            <div
-              v-click-outside="closeTerritoriesBox"
-              class="MapSelectorWrapper territories"
-            >
-              <div
-                class="MapSelectorSelectedOption"
-                @click="openOrCloseTerritoriesBox"
+                class="black03"
               >
-                <img class="MapSelectorIcon" src="/location.svg" />
-                <h5 class="fw-600 right-margin-12">
-                  {{ selectedTerritory.area_name }}
-                </h5>
-                <img
-                  class="MapSelectorChevron"
-                  :src="
-                    territoryIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'
+                {{ selectedSubject.label }}
+              </h5>
+            </div>
+            <div class="MapSelectorsWrapper">
+              <div
+                v-click-outside="closeSeasonsBox"
+                class="MapSelectorWrapper seasons"
+              >
+                <div
+                  class="MapSelectorSelectedOption"
+                  @click="openOrCloseSeasonsBox"
+                >
+                  <img class="MapSelectorIcon" src="/calendar.svg" />
+                  <h5 class="fw-600 right-margin-12">
+                    {{ selectedSeason.label }}
+                  </h5>
+                  <img
+                    class="MapSelectorChevron"
+                    :src="
+                      seasonIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'
+                    "
+                  />
+                </div>
+                <seasons-selector
+                  :select-is-open="seasonIsOpen"
+                  :selected-season="selectedSeason"
+                  :filtered-seasons="
+                    selectedTab.value === 'maps'
+                      ? selectedSubject.seasons
+                      : null
                   "
+                  @selectedSeason="updateSelectedSeason"
                 />
               </div>
-              <territories-selector
-                :select-is-open="territoryIsOpen"
-                :selected-territory="selectedTerritory"
-                @selectedTerritory="updateSelectedTerritory"
-              />
+              <div
+                v-click-outside="closeTerritoriesBox"
+                class="MapSelectorWrapper territories"
+              >
+                <div
+                  class="MapSelectorSelectedOption"
+                  @click="openOrCloseTerritoriesBox"
+                >
+                  <img class="MapSelectorIcon" src="/location.svg" />
+                  <h5 class="fw-600 right-margin-12">
+                    {{ selectedTerritory.area_name }}
+                  </h5>
+                  <img
+                    class="MapSelectorChevron"
+                    :src="
+                      territoryIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'
+                    "
+                  />
+                </div>
+                <territories-selector
+                  :select-is-open="territoryIsOpen"
+                  :selected-territory="selectedTerritory"
+                  @selectedTerritory="updateSelectedTerritory"
+                />
+              </div>
             </div>
           </div>
           <species-tab
@@ -206,6 +227,9 @@
           >
             Cartes
           </div>
+          <!-- <maps-tab
+            :tab-status="selectedTab.value === 'maps' ? '' : 'hidden'"
+          /> -->
         </div>
       </div>
     </section>
@@ -219,6 +243,7 @@ import SpeciesTab from '~/components/species-card/SpeciesTab.vue'
 import ChartsTabAllPeriod from '~/components/species-card/ChartsTabAllPeriod.vue'
 import ChartsTabBreeding from '~/components/species-card/ChartsTabBreeding.vue'
 import ChartsTabWintering from '~/components/species-card/ChartsTabWintering.vue'
+// import MapsTab from '~/components/species-card/MapsTab.vue'
 // UPDATE NEEDED : supprimer cet import
 import {
   dataPhenologyAllPeriod,
@@ -240,6 +265,7 @@ export default {
     'charts-tab-all-period': ChartsTabAllPeriod,
     'charts-tab-breeding': ChartsTabBreeding,
     'charts-tab-wintering': ChartsTabWintering,
+    // 'maps-tab': MapsTab,
   },
   data: () => ({
     tabs: [
@@ -325,16 +351,19 @@ export default {
           others: [
             {
               label: 'Comparaison AOFM/ODF',
+              name: 'Comparaison AOFM/ODF',
               slug: 'compare-aofm-odf',
               seasons: ['breeding', 'wintering'],
             },
             {
               label: 'Densité',
+              name: 'Densité',
               slug: 'density',
               seasons: ['breeding', 'wintering'],
             },
             {
               label: 'Carte additionnelle',
+              name: 'Carte additionnelle',
               slug: 'extra-map',
               seasons: ['breeding', 'wintering'],
             },
@@ -534,6 +563,7 @@ export default {
     $route(newVal) {
       /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
       this.defineSelectedTab()
+      this.$refs.scrollingContainer.scrollTop = 0
     },
     filteredTabs(newVal) {
       // Change si le territoire sélectionné change
@@ -708,7 +738,10 @@ export default {
       }, 500)
     },
     defineSelectedSubject() {
-      if (['species', 'charts'].includes(this.selectedTab.value)) {
+      if (
+        ['species', 'charts'].includes(this.selectedTab.value) &&
+        this.subjectsList.length
+      ) {
         this.selectedSubject = this.subjectsList[0]
       } else {
         this.selectedSubject = this.tabs[2].subjects.atlas[0]
@@ -729,6 +762,7 @@ export default {
         this.$animateScrollTo(
           this.$refs.scrollingContainer,
           document.getElementById(item.slug).offsetTop,
+          12,
           this.scrollDuration
         )
         setTimeout(() => {
@@ -904,7 +938,6 @@ nav.NavDrawer {
   left: 300px;
   right: 0;
   bottom: 0;
-  padding: 24px 40px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -918,19 +951,47 @@ nav.NavDrawer {
 }
 
 .MapSelectors {
-  margin-bottom: 40px;
+  padding: 24px 40px;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 40px;
+  row-gap: 16px;
+  flex-wrap: wrap;
+}
+
+.MapSelectors.map {
+  border-bottom: 1px solid rgba(57, 118, 90, 0.1);
+}
+
+.MapTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.MapSelectorsWrapper {
+  flex: 1 1 414px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .SpeciesCardTabRelative >>> .MapSelectorBox {
-  max-height: calc(50vh - 64px);
-  max-height: calc(var(--scrollingContainerHeight, 50vh) - 64px);
+  max-height: 70vh - 110px;
+  max-height: calc(var(--scrollingContainerHeight, 70vh) - 122px);
 }
 
 .SpeciesCardContent {
   width: 100%;
+  padding: 24px 40px;
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+.SpeciesCardContent.map {
+  padding: 0 !important;
+  flex-direction: row;
 }
 
 .SpeciesCardContent.hidden {
@@ -1015,7 +1076,8 @@ nav.NavDrawer {
     padding: 16px 5%;
   }
 
-  .SpeciesCardTab {
+  .SpeciesCardContent,
+  .MapSelectors {
     padding: 24px 5%;
   }
 }
@@ -1032,17 +1094,19 @@ nav.NavDrawer {
 }
 
 @media screen and (max-width: 552px) {
-  .SpeciesCardTabRelative >>> .MapSelectors {
+  .SpeciesCardTabRelative >>> .MapSelectorsWrapper {
     flex-direction: column;
   }
 
   .SpeciesCardTabRelative >>> .MapSelectorWrapper {
     width: 100%;
     height: 42px;
+    margin-right: 0;
+    margin-bottom: 8px;
   }
 
-  .SpeciesCardTabRelative >>> .MapSelectorWrapper:first-child {
-    margin-bottom: 8px;
+  .SpeciesCardTabRelative >>> .MapSelectorWrapper:last-child {
+    margin-bottom: 0;
   }
 
   .SpeciesCardTabRelative >>> .MapSelectorSelectedOption {
@@ -1060,13 +1124,13 @@ nav.NavDrawer {
   }
 
   .MapSelectorWrapper.seasons >>> .MapSelectorBox {
-    max-height: calc(50vh - 81px);
-    max-height: calc(var(--scrollingContainerHeight, 50vh) - 81px);
+    max-height: calc(70vh - 139px);
+    max-height: calc(var(--scrollingContainerHeight, 70vh) - 139px);
   }
 
   .MapSelectorWrapper.territories >>> .MapSelectorBox {
-    max-height: calc(50vh - 131px);
-    max-height: calc(var(--scrollingContainerHeight, 50vh) - 131px);
+    max-height: calc(70vh - 189px);
+    max-height: calc(var(--scrollingContainerHeight, 70vh) - 189px);
   }
 }
 

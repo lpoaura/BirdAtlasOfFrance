@@ -44,7 +44,7 @@
     </div>
     <span
       v-if="!dataPhenologyAllPeriod && !dataPhenologyMigration && !dataAltitude"
-      class="black02 fw-600 UnavailableData"
+      class="black02 fw-600 text-center UnavailableData"
     >
       Aucun diagramme disponible pour le territoire et la période sélectionnés.
     </span>
