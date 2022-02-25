@@ -1,7 +1,7 @@
 export default ({ app }, inject) => {
-  const animateScrollTo = (scrollingElement, target, duration) => {
+  const animateScrollTo = (scrollingElement, target, marginTop, duration) => {
     const start = scrollingElement.scrollTop
-    const change = target - start
+    const change = target - marginTop - start
     const startDate = +new Date()
     const easeInOutQuad = (t, b, c, d) => {
       // t => current time
@@ -24,7 +24,7 @@ export default ({ app }, inject) => {
       if (currentTime < duration) {
         requestAnimationFrame(animateScroll)
       } else {
-        scrollingElement.scrollTop = target
+        scrollingElement.scrollTop = target - marginTop
       }
     }
     animateScroll()
