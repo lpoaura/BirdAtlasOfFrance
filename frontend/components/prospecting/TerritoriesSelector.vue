@@ -9,7 +9,7 @@
             :key="index"
             class="DisplayingType"
             :class="
-              type.label === selectedDisplayingType.label ? 'selected' : ''
+              type.value === selectedDisplayingType.value ? 'selected' : ''
             "
             @click="updateSelectedDisplayingType(type)"
           >
@@ -17,7 +17,10 @@
           </div>
         </div>
       </div>
-      <div class="AutocompleteWrapper map">
+      <div
+        class="AutocompleteWrapper map"
+        :class="search.length > 0 ? 'open' : ''"
+      >
         <input v-model="search" type="text" placeholder="Rechercher" />
         <div class="AutocompleteGadgets map">
           <img
@@ -32,19 +35,19 @@
         </div>
       </div>
     </header>
-    <div v-if="selectedDisplayingType.label === 'grid'" class="TerritoriesGrid">
+    <div v-if="selectedDisplayingType.value === 'grid'" class="TerritoriesGrid">
       <div
         v-for="(territory, index) in filteredTerritories"
         :key="index"
         class="TerritoriesCard"
         :class="[
-          territory.name === selectedTerritory.name ? 'selected' : '',
+          territory.area_code === selectedTerritory.area_code ? 'selected' : '',
           territory.isActive ? '' : 'inactive',
         ]"
         @click="territory.isActive ? updateSelectedTerritory(territory) : null"
       >
         <img class="TerritoriesCardsIcon" :src="territory.icon" />
-        <h6 class="text-center">{{ territory.name }}</h6>
+        <h6 class="text-center">{{ territory.area_name }}</h6>
         <h5
           v-show="!territory.isActive"
           class="UnavailableData fw-600 text-center"
@@ -59,7 +62,7 @@
         :key="index"
         class="RadioOption"
         :class="[
-          territory.name === selectedTerritory.name ? 'selected' : '',
+          territory.area_code === selectedTerritory.area_code ? 'selected' : '',
           territory.isActive ? '' : 'inactive',
         ]"
         @click="territory.isActive ? updateSelectedTerritory(territory) : null"
@@ -67,11 +70,11 @@
         <div class="RadioLabel">
           <div class="RadioButton">
             <div
-              v-show="territory.name === selectedTerritory.name"
+              v-show="territory.area_code === selectedTerritory.area_code"
               class="RadioButtonSelected"
             ></div>
           </div>
-          {{ territory.name }}
+          {{ territory.area_name }}
         </div>
       </li>
     </div>
@@ -92,83 +95,99 @@ export default {
   },
   data: () => ({
     displayingTypesList: [
-      { label: 'grid', icon: '/grid.svg' },
-      { label: 'list', icon: '/list.svg' },
+      { value: 'grid', icon: '/grid.svg' },
+      { value: 'list', icon: '/list.svg' },
     ],
-    selectedDisplayingType: { label: 'grid', icon: 'grid.svg' },
+    selectedDisplayingType: { value: 'grid', icon: 'grid.svg' },
+    // UPDATE NEEDED : récupérer la liste des territoires via l'API '/api/v1/lareas/type/ATLAS_TERRITORY?bbox=true&only_enable=true'
+    // => Depuis la BDD, rajouter dans feature.properties les propriétés icon et isActive
     territoriesList: [
-      {
-        name: 'France métropolitaine',
+      { 
+        area_code: 'FRMET',
+        area_name: 'France métropolitaine',
         icon: '/prospecting/France-metropolitaine.svg',
         isActive: true,
       },
       {
-        name: 'Guadeloupe',
+        area_code: '01',
+        area_name: 'Guadeloupe',
         icon: '/prospecting/Guadeloupe.svg',
         isActive: false,
       },
       {
-        name: 'Guyane',
+        area_code: '03',
+        area_name: 'Guyane',
         icon: '/prospecting/Guyane.svg',
         isActive: true,
       },
       {
-        name: 'Martinique',
+        area_code: '02',
+        area_name: 'Martinique',
         icon: '/prospecting/Martinique.svg',
         isActive: false,
       },
       {
-        name: 'Mayotte',
+        area_code: '06',
+        area_name: 'Mayotte',
         icon: '/prospecting/Mayotte.svg',
         isActive: false,
       },
       {
-        name: 'Nouvelle Calédonie',
+        area_code: null,
+        area_name: 'Nouvelle Calédonie',
         icon: '/prospecting/Nouvelle-Caledonie.svg',
         isActive: false,
       },
       {
-        name: 'Polynésie Française',
+        area_code: null,
+        area_name: 'Polynésie Française',
         icon: '/prospecting/Polynesie.svg',
         isActive: false,
       },
       {
-        name: 'La Réunion',
+        area_code: '04',
+        area_name: 'La Réunion',
         icon: '/prospecting/Reunion.svg',
         isActive: false,
       },
       {
-        name: 'Saint Barthélémy',
+        area_code: null,
+        area_name: 'Saint Barthélémy',
         icon: '/prospecting/Saint-Barthelemy.svg',
         isActive: false,
       },
       {
-        name: 'Saint Martin',
+        area_code: null,
+        area_name: 'Saint Martin',
         icon: '/prospecting/Saint-Martin.svg',
         isActive: false,
       },
       {
-        name: 'Saint Pierre et Miquelon',
+        area_code: null,
+        area_name: 'Saint Pierre et Miquelon',
         icon: '/prospecting/Saint-Pierre-et-Miquelon.svg',
         isActive: false,
       },
       {
-        name: 'Terres Australes et Antarctiques Françaises',
+        area_code: null,
+        area_name: 'TAAF',
         icon: '/prospecting/TAAF.svg',
         isActive: false,
       },
       {
-        name: 'Wallis et Futuna',
+        area_code: null,
+        area_name: 'Wallis et Futuna',
         icon: '/prospecting/Wallis-et-Futuna.svg',
         isActive: false,
       },
     ],
+    // END UPDATE NEEDED
     search: '',
   }),
   computed: {
     filteredTerritories() {
       return this.territoriesList.filter((territory) =>
-        territory.name
+        territory.area_name
           .toLowerCase()
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '')
@@ -264,9 +283,5 @@ export default {
 .TerritoriesCardsIcon {
   height: 48px;
   margin-bottom: 12px;
-}
-
-.RadioOption.inactive {
-  cursor: auto;
 }
 </style>

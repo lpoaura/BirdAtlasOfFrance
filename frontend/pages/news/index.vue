@@ -35,6 +35,11 @@ export default {
     currentPage: 1,
     newsNumberPerPage: 5,
   }),
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
+  },
   computed: {
     resultsNewsItems() {
       if (this.pagesNumber <= 1) {
@@ -80,17 +85,12 @@ export default {
             Math.floor(selectedNewsIndex / this.newsNumberPerPage) + 1
           // Temps de latence nécessaire pour que les actualités de la page s'affichent
           setTimeout(() => {
-            document
-              .getElementById(this.$route.hash.substring(1))
-              .scrollIntoView()
+            this.$refs[this.$route.hash.substring(1)].scrollIntoView({
+              behavior: 'smooth',
+            })
           }, 10)
         }
       })
-  },
-  head() {
-    return {
-      title: this.$getPageTitle(this.$route.path),
-    }
   },
 }
 </script>

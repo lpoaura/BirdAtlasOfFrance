@@ -42,7 +42,7 @@ export default {
       {
         hid: 'og:image',
         property: 'og:image',
-        content: '/home/home-picture.jpg',
+        content: '/home/home-picture-0.webp',
       },
       {
         hid: 'twitter:card',
@@ -68,20 +68,20 @@ export default {
       {
         hid: 'twitter:image',
         property: 'twitter:image',
-        content: '/home/home-picture.jpg',
+        content: '/home/home-picture-0.webp',
       },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       {
         rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=Playfair+Display:300,400,500,600,700,800,900&display=swap',
+        href: 'https://fonts.googleapis.com/css?family=Playfair+Display:900&display=swap',
+        defer: true,
       },
       {
         rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap',
+        href: 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap',
+        defer: true,
       },
     ],
   },
@@ -99,8 +99,12 @@ export default {
     '~/plugins/thousandDelimiter.js',
     '~/plugins/generateCaptcha.js',
     '~/plugins/getPageTitle.js',
+    '~/plugins/detectMobile.js',
     '~/plugins/departmentsList.js',
+    '~/plugins/redLists.js',
+    '~/plugins/animateScrollTo.js',
     '~/plugins/debounce.js',
+    // { src: '~/plugins/vueLeaflet.js', ssr: false },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -115,18 +119,16 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+    // '@nuxtjs/pwa',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    // '@nuxtjs/i18n',
     'nuxt-leaflet',
     '@nuxt/content',
-    // 'nuxt-i18n',
     'nuxt-mail',
     'nuxt-clipboard',
     [
@@ -274,6 +276,7 @@ export default {
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    defaultAssets: false,
     theme: {
       options: {
         customProperties: true,

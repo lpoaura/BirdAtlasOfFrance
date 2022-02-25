@@ -32,8 +32,10 @@ class Settings(BaseSettings):
     API_PREFIX: Optional[str] = "/api/v1"
     APP_URL: str
     SENTRY_DSN: Optional[str] = None
-
+    SENTRY_TRACES_SAMPLE_RATE: Optional[float] = 0.2
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
+    SQLALCHEMY_POOL_SIZE: Optional[int] = 5
+    SQLALCHEMY_MAX_OVERFLOW: Optional[int] = 10
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:

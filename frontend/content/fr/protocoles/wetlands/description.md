@@ -47,7 +47,7 @@ Chaque année, le réseau français de zones humides se complète. Depuis 2002, 
 
 </div>
 
-<img class="InformativePagePicture" style="width: 80%" src="/get-involved/Wetlands-areas-2018.jpg" />
+<img class="InformativePagePicture" style="width: 80%" src="/get-involved/Wetlands-areas-2018.webp" />
 
 ## À quoi servent les données ?
 
@@ -57,4 +57,4 @@ Ces données servent à produire des informations régulières sur les statuts, 
 
 </div>
 
-<img class="InformativePagePicture" style="width: 80%" src="/get-involved/Wetlands-species-card.jpg" />
+<img class="InformativePagePicture" style="width: 80%" src="/get-involved/Wetlands-species-card.webp" />

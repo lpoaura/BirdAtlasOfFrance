@@ -15,7 +15,7 @@
     <section class="Section">
       <menu class="TabMenu">
         <div
-          v-for="(item, index) in menuItems"
+          v-for="(item, index) in speciesGroups"
           :key="index"
           class="TabItem"
           :class="item.hash === selectedSpeciesGroup.hash ? 'selected' : ''"
@@ -27,7 +27,7 @@
       <dropdown-list
         v-model="selectedSpeciesGroupModel"
         :z-index="1"
-        :items-list="menuItems"
+        :items-list="speciesGroups"
       />
       <protocols-cards :species-group-filter="selectedSpeciesGroup" />
     </section>
@@ -42,7 +42,7 @@ export default {
     'protocols-cards': ProtocolsCards,
   },
   data: () => ({
-    menuItems: [
+    speciesGroups: [
       { hash: '', label: 'Tous les dispositifs' },
       { hash: '#common-birds', label: 'Oiseaux communs' },
       { hash: '#raptors', label: 'Rapaces' },
@@ -51,6 +51,11 @@ export default {
     ],
     selectedSpeciesGroup: { hash: '', label: 'Tous les dispositifs' },
   }),
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
+  },
   computed: {
     // Permet de mettre à jour selectedSpeciesGroup seulement après le $router.push
     selectedSpeciesGroupModel: {
@@ -65,13 +70,13 @@ export default {
   watch: {
     $route(newVal) {
       /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
-      this.selectedSpeciesGroup = this.menuItems.filter((item) => {
+      this.selectedSpeciesGroup = this.speciesGroups.filter((item) => {
         return item.hash === newVal.hash
       })[0]
     },
   },
   mounted() {
-    this.selectedSpeciesGroup = this.menuItems.filter((item) => {
+    this.selectedSpeciesGroup = this.speciesGroups.filter((item) => {
       return item.hash === this.$route.hash
     })[0]
   },
@@ -79,11 +84,6 @@ export default {
     updateSelectedSpeciesGroup(item) {
       this.$router.push(`${item.hash}`)
     },
-  },
-  head() {
-    return {
-      title: this.$getPageTitle(this.$route.path),
-    }
   },
 }
 </script>
@@ -98,7 +98,7 @@ export default {
       rgba(37, 39, 69, 0.76) 76.76%,
       rgba(37, 39, 69, 0) 98.47%
     ),
-    url('/get-involved/get-involved-picture.jpg') center / cover,
+    url('/get-involved/get-involved-picture.webp') center / cover,
     rgba(47, 92, 105, 1);
 }
 
@@ -108,7 +108,7 @@ export default {
 }
 
 .Section {
-  padding: 32px 5% 40px 5%;
+  padding: 32px 5% 40px;
   align-items: center;
 }
 

@@ -15,7 +15,10 @@ engine = create_engine(
     pool_pre_ping=True,
     echo=False,
     connect_args={"application_name": settings.APP_SYSNAME},
+    pool_size=settings.SQLALCHEMY_POOL_SIZE,
+    max_overflow=settings.SQLALCHEMY_MAX_OVERFLOW,
 )
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 metadata = MetaData()

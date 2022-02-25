@@ -1,15 +1,15 @@
 <template>
   <div class="CaptchaContent">
     <span class="black02 fw-500 bottom-margin-8">Test de sécurité</span>
-    <div class="CaptchaInputWrapper">
-      <span class="CaptchaInstruction"
-        >Veuillez recopier le code <b>{{ captchaRef }}</b> ci-après :</span
-      >
-      <input
-        v-model="captchaUser"
-        class="ContactFormInput CaptchaInput no-bottom-margin"
-        type="text"
-      />
+    <div class="CaptchaInputWrapper bottom-margin-24">
+      <span>
+        Veuillez recopier le code <b>{{ captchaRef }}</b> ci-après :&nbsp;
+        <input
+          v-model="captchaUser"
+          class="ContactFormInput CaptchaInput no-bottom-margin"
+          type="text"
+        />
+      </span>
     </div>
   </div>
 </template>
@@ -37,16 +37,6 @@ export default {
 .CaptchaContent {
   display: flex;
   flex-direction: column;
-}
-
-.CaptchaInputWrapper {
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-}
-
-.CaptchaInstruction {
-  margin-right: 10px;
 }
 
 .CaptchaInput {

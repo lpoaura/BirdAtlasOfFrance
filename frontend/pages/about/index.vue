@@ -1,5 +1,9 @@
 <template>
   <v-container fluid>
+    <!-- <img
+      class="Test"
+      src="/about/about-picture.webp"
+    /> -->
     <main class="TopSection">
       <header>
         <h1 class="white02 fw-bold text-center">À propos</h1>
@@ -104,20 +108,27 @@ export default {
     ],
     selectedQuestion: null,
   }),
-  methods: {
-    updateQuestionStatus(index) {
-      this.questions[index].isOpen = !this.questions[index].isOpen
-    },
-  },
   head() {
     return {
       title: this.$getPageTitle(this.$route.path),
     }
   },
+  methods: {
+    updateQuestionStatus(index) {
+      this.questions[index].isOpen = !this.questions[index].isOpen
+    },
+  },
 }
 </script>
 
 <style scoped>
+/* img.Test {
+  width: 100%;
+  height: 580px;
+  object-fit: cover;
+  object-position: center;
+} */
+
 .TopSection {
   position: relative;
   height: 410px;
@@ -126,7 +137,7 @@ export default {
       rgba(85, 75, 57, 0.6) 0%,
       rgba(85, 75, 57, 0) 100%
     ),
-    url('/about/about-picture.jpg') center / cover, rgba(85, 75, 57, 1);
+    url('/about/about-picture.webp') center / cover, rgba(85, 75, 57, 1);
 }
 
 .TopSectionPictureCredit {
