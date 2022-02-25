@@ -4,14 +4,14 @@
     <section class="LinksSection">
       <div class="InternalLinksContent">
         <nuxt-link v-for="(link, index) in links" :key="index" :to="link.route">
-          <h4>{{ link.label }}</h4>
+          <h4 class="nowrap">{{ link.label }}</h4>
         </nuxt-link>
         <a href="http://eepurl.com/hi6NPj" target="_blank">
-          <h4>Newsletter</h4>
+          <h4 class="nowrap">Newsletter</h4>
         </a>
       </div>
       <div class="Split"></div>
-      <div class="flex">
+      <div class="display-flex">
         <a
           v-for="(item, index) in socialNetworksItems"
           :key="index"
@@ -61,8 +61,11 @@ footer {
   width: 100%;
   padding: 40px 5%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  column-gap: 20px;
+  row-gap: 20px;
   align-items: flex-end;
+  flex-wrap: wrap;
 }
 
 .ODFLogo {
@@ -72,7 +75,6 @@ footer {
 .LinksSection {
   flex: 1;
   max-width: 60%;
-  margin: 0 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,6 +84,7 @@ footer {
   width: 100%;
   display: flex;
   justify-content: space-around;
+  column-gap: 12px;
 }
 
 .Split {
@@ -120,6 +123,26 @@ footer {
 
 .LPOLogo {
   height: 80px;
-  margin-left: 10px;
+}
+
+/********** RESPONSIVE **********/
+
+@media screen and (max-width: 1050px) {
+  .LinksSection {
+    max-width: none;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  footer {
+    padding: 14px 5%;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  h4 {
+    font-size: 12px;
+    line-height: 18px;
+  }
 }
 </style>

@@ -10,13 +10,24 @@
         v-for="(season, index) in seasonsList"
         :key="index"
         class="RadioOption"
-        :class="season.label === selectedSeason.label ? 'selected' : ''"
-        @click="updateSelectedSeason(season)"
+        :class="[
+          season.value === selectedSeason.value ? 'selected' : '',
+          !filteredSeasons ||
+          (filteredSeasons && filteredSeasons.includes(season.value))
+            ? ''
+            : 'inactive',
+        ]"
+        @click="
+          !filteredSeasons ||
+          (filteredSeasons && filteredSeasons.includes(season.value))
+            ? $emit('selectedSeason', season)
+            : null
+        "
       >
         <div class="RadioLabel">
           <div class="RadioButton">
             <div
-              v-show="season.label === selectedSeason.label"
+              v-show="season.value === selectedSeason.value"
               class="RadioButtonSelected"
             ></div>
           </div>
@@ -38,13 +49,19 @@ export default {
       type: Object,
       required: true,
     },
+    filteredSeasons: {
+      type: Array,
+      required: false,
+      default: null,
+    },
   },
   data: () => ({
     seasonsList: [
       {
-        label: 'Toutes saisons',
         value: 'all_period',
+        label: 'Toutes saisons',
         featuresColors: [
+          '#bcbcbc',
           'rgba(51, 105, 80, 0.2)',
           'rgba(51, 105, 80, 0.4)',
           'rgba(51, 105, 80, 0.6)',
@@ -54,9 +71,10 @@ export default {
         speciesDistributionColors: ['#336950'],
       },
       {
-        label: 'Période de reproduction',
         value: 'breeding',
+        label: 'Période de reproduction',
         featuresColors: [
+          '#bcbcbc',
           'rgba(230, 87, 132, 0.2)',
           'rgba(230, 87, 132, 0.4)',
           'rgba(230, 87, 132, 0.6)',
@@ -70,9 +88,10 @@ export default {
         ],
       },
       {
-        label: "Période d'hivernage",
         value: 'wintering',
+        label: "Période d'hivernage",
         featuresColors: [
+          '#bcbcbc',
           'rgba(76, 97, 244, 0.2)',
           'rgba(76, 97, 244, 0.4)',
           'rgba(76, 97, 244, 0.6)',
@@ -83,9 +102,27 @@ export default {
       },
     ],
   }),
+  watch: {
+    filteredSeasons(newVal) {
+      this.updateSelectedSeason()
+    },
+  },
+  mounted() {
+    this.updateSelectedSeason()
+  },
   methods: {
-    updateSelectedSeason(season) {
-      this.$emit('selectedSeason', season)
+    updateSelectedSeason() {
+      if (
+        this.filteredSeasons &&
+        !this.filteredSeasons.includes(this.selectedSeason.value)
+      ) {
+        const filteredSeasons = this.seasonsList.filter((season) => {
+          return this.filteredSeasons.includes(season.value)
+        })
+        if (filteredSeasons.length) {
+          this.$emit('selectedSeason', filteredSeasons[0])
+        }
+      }
     },
   },
 }

@@ -18,4 +18,4 @@ S'engager dans des suivis plus standardisés exige plus de temps et une solide c
 
 </div>
 
-<img class="InformativePagePicture" style="width: 64%" src="/what-is-ODF-project/protocols-outline.jpg" />
+<img class="InformativePagePicture" style="width: 64%" src="/what-is-ODF-project/protocols-outline.webp" />

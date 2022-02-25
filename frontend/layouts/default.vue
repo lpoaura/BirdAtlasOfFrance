@@ -40,7 +40,8 @@
     <app-footer
       v-show="
         !$route.path.includes('/prospecting') &&
-        !$route.path.includes('/mobile')
+        !$route.path.includes('/mobile') && 
+        !$route.path.includes('/species-card')
       "
     />
   </v-app>
@@ -97,17 +98,11 @@ export default {
   },
   beforeMount() {
     window.addEventListener('scroll', this.listener)
-    if (this.detectMobile()) {
-      this.$router.push('/mobile')
-    }
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.listener)
   },
   methods: {
-    detectMobile() {
-      return window.innerWidth < 915
-    },
     showMobileMenu() {
       this.currentScroll = window.scrollY
       this.currentPath = this.$route.path
@@ -156,6 +151,7 @@ export default {
 .navBar-leave-active {
   transition: opacity 0.3s;
 }
+
 .navBar-enter,
 .navBar-leave-to {
   opacity: 0;

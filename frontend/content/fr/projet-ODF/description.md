@@ -15,7 +15,7 @@ Oiseaux de France (ODF) est le plus ambitieux projet de **science participative*
 
 </div>
 
-<img class="InformativePagePicture" style="width: 80%" src="/what-is-ODF-project/Manakin.jpg" />
+<img class="InformativePagePicture" style="width: 80%" src="/what-is-ODF-project/Manakin.webp" />
 
 <span class="InformativePagePictureLegend">
 
@@ -47,7 +47,7 @@ L'évaluation de la tendance des espèces se basera sur les dispositifs de surve
 
 </div>
 
-<img class="InformativePagePicture" style="width: 70%" src="/what-is-ODF-project/trends-chart.jpg" />
+<img class="InformativePagePicture" style="width: 70%" src="/what-is-ODF-project/trends-chart.webp" />
 
 <span class="InformativePagePictureLegend no-bottom-margin">
 

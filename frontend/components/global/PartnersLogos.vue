@@ -3,7 +3,7 @@
     <div
       v-for="(partner, index) in partnersToShow.list"
       :key="index"
-      class="PartnerLogoItem flex"
+      class="PartnerLogoItem display-flex"
     >
       <img
         class="PartnerLogo"
@@ -26,51 +26,51 @@ export default {
     partnersList: [
       {
         type: 'financial',
-        list: ['Ministere-Transition-Ecologique.jpg', 'RTE.jpg'],
+        list: ['Ministere-Transition-Ecologique.webp', 'RTE.webp'],
       },
       {
         type: 'scientific',
-        list: ['MNHN.jpg', 'OFB.jpg'],
+        list: ['MNHN.webp', 'OFB.webp'],
       },
       {
         type: 'technical',
         list: [
-          'ALEPE.jpg',
-          'ANA.jpg',
-          'Bretagne-Vivante.jpg',
-          'C.O.Gard.jpg',
-          'Charente-Nature.jpg',
-          'Cistude-Nature.jpg',
-          'Eure-et-Loir-Nature.jpg',
-          'GEPOG.jpg',
-          'GEPOMAY.jpg',
-          'GNLA.jpg',
-          'GODS.jpg',
-          'GOG.jpg',
-          'GON.jpg',
-          'GONm.jpg',
-          'GOR.jpg',
-          'Indre-Nature.jpg',
-          'Loiret-Nature-Environnement.jpg',
-          'LPO-France.jpg',
-          'LPO-AuRA.jpg',
-          'LPO-Bourgogne-Franche-Comte.jpg',
-          'LPO-Bretagne.jpg',
-          'LPO-Grand-Est.jpg',
-          'LPO-Nord.jpg',
-          'LPO-Normandie.jpg',
-          'LPO-Occitanie.jpg',
-          'LPO-PACA.jpg',
-          'LPO-Pays-de-la-Loire.jpg',
-          'LPO-Touraine.jpg',
-          'Mayenne-Nature-Environnement.jpg',
-          'Nature-18.jpg',
-          'Nature-Environnement-17.jpg',
-          'ODONAT.jpg',
-          'Picardie-Nature.jpg',
-          'SEOF.jpg',
+          'ALEPE.webp',
+          'ANA.webp',
+          'Bretagne-Vivante.webp',
+          'C.O.Gard.webp',
+          'Charente-Nature.webp',
+          'Cistude-Nature.webp',
+          'Eure-et-Loir-Nature.webp',
+          'GEPOG.webp',
+          'GEPOMAY.webp',
+          'GNLA.webp',
+          'GODS.webp',
+          'GOG.webp',
+          'GON.webp',
+          'GONm.webp',
+          'GOR.webp',
+          'Indre-Nature.webp',
+          'Loiret-Nature-Environnement.webp',
+          'LPO-France.webp',
+          'LPO-AuRA.webp',
+          'LPO-Bourgogne-Franche-Comte.webp',
+          'LPO-Bretagne.webp',
+          'LPO-Grand-Est.webp',
+          'LPO-Nord.webp',
+          'LPO-Normandie.webp',
+          'LPO-Occitanie.webp',
+          'LPO-PACA.webp',
+          'LPO-Pays-de-la-Loire.webp',
+          'LPO-Touraine.webp',
+          'Mayenne-Nature-Environnement.webp',
+          'Nature-18.webp',
+          'Nature-Environnement-17.webp',
+          'ODONAT.webp',
+          'Picardie-Nature.webp',
+          'SEOF.webp',
           'SEOR.gif',
-          'SSNTG82.jpg',
+          'SSNTG82.webp',
         ],
       },
     ],
@@ -97,7 +97,8 @@ export default {
   margin-bottom: 30px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  grid-gap: 60px;
+  row-gap: 36px;
+  column-gap: 60px;
 }
 
 .PartnerLogo {

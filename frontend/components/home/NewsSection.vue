@@ -41,10 +41,8 @@
             <h4 class="CardTitle fw-bold bottom-margin-16">
               {{ news.title }}
             </h4>
-            <div class="CardOverflow CardSubtitle">
-              <nuxt-content :document="news" />
-              <div class="CardSubtitleBlurring"></div>
-            </div>
+            <nuxt-content :document="news" />
+            <div class="CardBlurring"></div>
           </div>
           <div class="CardFooter">
             <div class="TagMenu">
@@ -141,11 +139,10 @@ export default {
       }
     },
     calculateMaxOffset() {
-      const totalCardsWidth = document.getElementsByClassName('Carousel')[0]
-        .offsetWidth
-      const carouselWrapperWidth = document.getElementsByClassName(
-        'CarouselWrapper'
-      )[0].offsetWidth
+      const totalCardsWidth =
+        document.getElementsByClassName('Carousel')[0].offsetWidth
+      const carouselWrapperWidth =
+        document.getElementsByClassName('CarouselWrapper')[0].offsetWidth
       if (totalCardsWidth > carouselWrapperWidth) {
         return -(totalCardsWidth - carouselWrapperWidth)
       } else {
@@ -153,8 +150,8 @@ export default {
       }
     },
     calculateCardWidth() {
-      const cardWidth = document.getElementsByClassName('NewsCard')[0]
-        .offsetWidth
+      const cardWidth =
+        document.getElementsByClassName('NewsCard')[0].offsetWidth
       const cardMarginRight = parseFloat(
         window.getComputedStyle(document.getElementsByClassName('NewsCard')[0])
           .marginRight
@@ -167,7 +164,7 @@ export default {
 
 <style scoped>
 .Section {
-  padding: 40px 0 32px 0;
+  padding: 40px 0 32px;
   background: rgba(57, 118, 90, 0.1);
 }
 
@@ -233,15 +230,17 @@ h5.Subtitle {
   margin-right: 0;
 }
 
+.CardHeader {
+  position: relative;
+}
+
 .CardHeader,
-.CardFooter,
-.CardOverflow {
+.CardFooter {
   display: flex;
   flex-direction: column;
 }
 
 .CardHeader,
-.CardOverflow,
 .nuxt-content-container {
   flex: 1;
   overflow-y: hidden;
@@ -256,11 +255,7 @@ h5.Subtitle {
   overflow-y: hidden;
 }
 
-.CardSubtitle {
-  position: relative;
-}
-
-.CardSubtitleBlurring {
+.CardBlurring {
   background: linear-gradient(
     0deg,
     rgba(252, 252, 252, 1) 0%,
@@ -278,7 +273,7 @@ h5.Subtitle {
 
 @media screen and (max-width: 680px) {
   .Section {
-    padding: 24px 0 16px 0;
+    padding: 46px 0 16px;
   }
 
   .CarouselNav {
