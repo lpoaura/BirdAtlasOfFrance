@@ -28,8 +28,8 @@ Ces espèces peuvent aussi être ciblées dans le cadre de la participation au j
 
 ## Plus d’information
 
-* Faire des listes complètes
-* Saisir des listes complètes sur Faune France
-* Saisir une liste en temps réel sur NaturaList
-* Faire des points EPOC
-* Participer au jeu concours ODF List
+* [Faire des listes complètes](https://www.oiseauxdefrance.org/get-involved/complete-lists)
+* [Saisir des listes complètes sur Faune France](https://www.faune-france.org/index.php?m_id=20043)
+* [Saisir une liste en temps réel sur NaturaList](https://www.faune-france.org/index.php?m_id=20047)
+* [Faire des points EPOC](https://www.oiseauxdefrance.org/get-involved/epoc)
+* [Participer au jeu concours ODF List](https://www.cocheurs.fr/reglement/odf-list.php)
