@@ -1,5 +1,5 @@
 ## Build
-FROM node:14-bullseye as builder
+FROM node:lts-bullseye as builder
 WORKDIR /app
 COPY  ["package.json", "package-lock.json","./"]
 RUN npm install
