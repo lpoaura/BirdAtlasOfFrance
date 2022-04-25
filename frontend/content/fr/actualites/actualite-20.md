@@ -15,13 +15,13 @@ Ouvrage en 2 volumes, l’atlas des Oiseaux migrateurs de France est le résulta
 
 L’atlas paraîtra officiellement le 15 septembre 2022, mais vous pouvez d’ores-et-déjà **le réserver à un tarif préférentiel** auprès de la Boutique LPO.
 
-<p class="text-center"><a href="https://boutique.lpo.fr/catalogue/edition/ornithologie/observations-ornithologiques/atlas-des-oiseaux-migrateurs-de-france" target="_blank" class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default success my-2 text-decoration-none"><span data-v-f58a9f50="" class="v-btn__content">
-Réservez-vite votre atlas !
-</span></a></p>
+<p class="text-center">
+<a style="text-transform: uppercase; font-size: 1.2em;" href="https://boutique.lpo.fr/catalogue/edition/ornithologie/observations-ornithologiques/atlas-des-oiseaux-migrateurs-de-france" target="_blank">Réservez-vite votre atlas !</a>
+</p>
+
 
 Envie d’en savoir un peu plus sur ce travail colossal de synthèse ?
 
-
-<p class="text-center"><a href="/news/AtlasOiseauxMigrateur_Flyer_A5_V10.pdf" target="_blank" class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default info my-2 text-decoration-none" data-v-f58a9f50=""><span class="v-btn__content">
-Consultez le flyer de promotion de l’atlas
-</span></a></p>
+<p class="text-center">
+<a style="text-transform: uppercase; font-size: 1.2em;"   href="/news/AtlasOiseauxMigrateur_Flyer_A5_V10.pdf" target="_blank" >Consultez le flyer de promotion de l’atlas</a>
+</p>

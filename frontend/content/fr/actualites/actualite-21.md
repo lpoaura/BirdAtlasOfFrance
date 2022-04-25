@@ -15,6 +15,10 @@ active: true
 
 A la clef, un Atlas des Oiseaux Migrateurs de France (à paraître le 15 septembre 2022) pour la première place du classement et pour toutes et tous, la satisfaction d'avoir contribué à l'élaboration de l'atlas des Oiseaux de France 2019-2024 et à une meilleure connaissance de la répartition des espèces d’oiseaux communs nicheurs. Alors, prêt(e)s à relever le défi "**ODF List**" ? 
 
-<v-btn class="my-2 text-decoration-none" color="success" href="https://cocheurs.fr/reglement/odf-list.php" target="_blank">C’est par ici&nbsp;!</v-btn>
+<p class="text-center">
+<a style="text-transform: uppercase; font-size: 1.2em;" href="https://cocheurs.fr/reglement/odf-list.php" target="_blank">C’est par ici&nbsp;!</a>
+</p>
+
+
 
 
