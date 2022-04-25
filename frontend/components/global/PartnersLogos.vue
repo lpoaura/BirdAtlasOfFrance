@@ -26,7 +26,7 @@ export default {
     partnersList: [
       {
         type: 'financial',
-        list: ['Ministere-Transition-Ecologique.jpg', 'RTE.jpg'],
+        list: ['Ministere-Transition-Ecologique.jpg', 'RTE.jpg','EDF.jpg'],
       },
       {
         type: 'scientific',
