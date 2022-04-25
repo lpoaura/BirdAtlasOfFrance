@@ -8,7 +8,7 @@ RUN npm run build
 
 
 ## Prod
-FROM node:alpine
+FROM node:lts-bullseye
 RUN apk update && apk upgrade && \
   apk add --no-cache git
 WORKDIR /app
