@@ -9,8 +9,7 @@ RUN npm run build
 
 ## Prod
 FROM node:lts-bullseye
-RUN apk update && apk upgrade && \
-  apk add --no-cache git
+RUN apt update && apt upgrade -y && apt install -y git
 WORKDIR /app
 COPY  ["package.json", "package-lock.json","./"]
 RUN npm install --production
