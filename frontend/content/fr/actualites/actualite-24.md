@@ -20,9 +20,9 @@ Il existe trois niveaux d’indices de production, de la nidification possible �
 Les valeurs et leur signification sont détaillées dans le tableau ci-après :
 
 <img class="InformativePagePicture" style="width: 100%" src="/news/actualite-24-atlas_code.webp" />
-<span class="InformativePagePictureLegend">Valeurs et significations codes atlas (source: Faune France)</span>
+<span class="InformativePagePictureLegend">Valeurs et significations codes atlas (source: <a href="https://www.faune-france.org/index.php?m_id=41" target="_blank">Faune-France</a>)</span>
 
-## 2. Les codes atlas sont nécessaires dès le mois de mars pour les nicheurs précoces
+## 2. Les codes atlas sont nécessaires dès le mois de mars pour les nicheurs précoces
 
 Les codes atlas sont nécessaires dès qu’un observateur suspecte un comportement reproducteur chez un individu, pourvu qu’il se trouve dans la période favorable à la reproduction de l’espèce en question.
 
