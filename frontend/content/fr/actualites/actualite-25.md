@@ -71,6 +71,6 @@ Comme pour les rapaces nocturnes, vous pouvez effectuer des points [EPOC](/get-i
 
 Voir aussi : [Les rapaces nocturnes donnent de la voix, c’est le moment d’en profiter !](/news/actualite-18)
 
-L’idéal est d’intégrer votre prospection « engoulevent » à la fin d’une prospection ODF, c’est-à-dire une visite complète d’une maille avec des points EPOC répartis dans les différents habitats qu’elle contient. C’est le type de prospection conseillé dans le cadre d’une participation à l’atlas des oiseaux de France 
+L’idéal est d’intégrer votre prospection « engoulevent » à la fin d’une prospection ODF, c’est-à-dire une visite complète d’une maille avec des points EPOC répartis dans les différents habitats qu’elle contient. C’est le type de prospection conseillé dans le cadre d’une participation à l’atlas des oiseaux de France.
 
 L’équipe ODF compte sur votre aide et vous remercie pour toutes vos contributions !
