@@ -1,7 +1,7 @@
 ---
 title: 'La montagne, ça vous gagne !'
 picture: actualite-26.webp
-credit: image_credit
+credit: Pipit spioncelle © Gaétan Mineau
 centering: center
 author: Oiseaux de France
 date: '2022-06-07'
@@ -34,11 +34,11 @@ Le **Pipit spioncelle** est inféodé aux prairies et pelouses alpines parsemé
 
 ### Chant vs cris
 
-<v-container class="grey lighten-5">
+<v-container class="grey lighten-5 full-width">
   <v-card
             class="my-2"
             outlined
-          >
+    >
     <v-card-title>Pipit spioncelle</v-card-title>
     <v-card-text>
       <v-row>
