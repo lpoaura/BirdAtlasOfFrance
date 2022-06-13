@@ -17,7 +17,7 @@ La Newsletter ODF contient toutes les actualités, parues ces deux derniers mois
 
 C'est LA lettre d’information des ornithologues français, amateurs ou professionnels, participant aux suivis de l'avifaune, mais pas seulement ! Elle s’adresse à toute personne intéressée par les oiseaux, leur répartition, ainsi que leur dynamique et taille de population.
 
-Consulter la newsletter de Mai-Juin >> (lien à venir)
+[Consulter la newsletter de Mai-Juin](https://mailchi.mp/af01ded8a2c6/info-odf-juin-2022)
 
 ## Archives 2021
 
