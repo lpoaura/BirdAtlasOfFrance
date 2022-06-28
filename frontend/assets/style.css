@@ -129,7 +129,7 @@ h6 {
 }
 
 .red01 {
-  color: #EF2E2E;
+  color: #ef2e2e;
 }
 
 .fw-300 {
@@ -968,6 +968,7 @@ a.Vocabulary:hover::after {
 .InformativePagePictureLegend {
   /* Le margin-bottom existe car il s'agit d'une balise <nuxt-content><p></p></nuxt-content> */
   margin-top: -4px;
+  padding-bottom: 20px;
   font-family: 'Poppins', sans-serif;
   font-style: italic;
   font-weight: normal;
@@ -1457,7 +1458,7 @@ a.Vocabulary:hover::after {
 
 .ContactFormAlert {
   margin: -12px 0 24px 0;
-  color: #EF2E2E;
+  color: #ef2e2e;
 }
 
 .ContactFormAlertCloseIcon {

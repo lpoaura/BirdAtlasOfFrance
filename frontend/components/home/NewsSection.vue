@@ -94,7 +94,7 @@ export default {
   },
   mounted() {
     this.$content(`fr/actualites`)
-      .where({ active: true })
+      .where({ active: true, date: { $lte: new Date() },})
       .sortBy('date', 'desc')
       .fetch()
       .then((news) => {
