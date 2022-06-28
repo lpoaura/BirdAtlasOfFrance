@@ -245,7 +245,7 @@ $$
               AND grid.id_type = ref_geo.get_id_area_type('ATLAS_GRID');
 
         CREATE UNIQUE INDEX ON atlas.mv_grid_territories_matching (id_area_territory, id_area_grid);
-        --
+--
 --         WITH
 --             species AS (SELECT
 --                             taxref.cd_nom
@@ -307,7 +307,6 @@ $$
 --                     cor_taxon_attribut.
 --                         cd_ref = attributs.cd_nom
 --               AND   cor_taxon_attribut.id_attribut = attributs.id_attribut;
-
         COMMIT;
     END
 $$
