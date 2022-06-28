@@ -18,19 +18,19 @@ export default {
   props: {
     partnersType: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   data: () => ({
     // Lien vers les sites des partenaires
     partnersList: [
       {
         type: 'financial',
-        list: ['Ministere-Transition-Ecologique.webp', 'RTE.webp'],
+        list: ['Ministere-Transition-Ecologique.jpg', 'RTE.jpg', 'EDF.jpg']
       },
       {
         type: 'scientific',
-        list: ['MNHN.webp', 'OFB.webp'],
+        list: ['MNHN.webp', 'OFB.webp']
       },
       {
         type: 'technical',
@@ -70,10 +70,10 @@ export default {
           'Picardie-Nature.webp',
           'SEOF.webp',
           'SEOR.gif',
-          'SSNTG82.webp',
-        ],
-      },
-    ],
+          'SSNTG82.webp'
+        ]
+      }
+    ]
   }),
   computed: {
     partnersToShow() {
@@ -81,8 +81,8 @@ export default {
         return partners.type === this.partnersType
       })
       return partners[0]
-    },
-  },
+    }
+  }
 }
 </script>
 

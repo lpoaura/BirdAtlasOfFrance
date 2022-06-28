@@ -16,25 +16,22 @@ $$
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_territory_altitude_ranges;
         CREATE MATERIALIZED VIEW atlas.mv_territory_altitude_ranges AS
         WITH
-            maxalti AS (
-                SELECT
-                    cor_area_synthese.id_area
-                  , (max(mv_data_for_atlas.altitude) + (19 - mod(max(mv_data_for_atlas.altitude), 19))) AS alti
-                    FROM
-                        atlas.mv_data_for_atlas
-                            JOIN gn_synthese.cor_area_synthese
-                                 ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
-                    WHERE
-                            cor_area_synthese.id_area IN (
-                            SELECT
-                                id_area
-                                FROM
-                                    ref_geo.l_areas
-                                WHERE
-                                      id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
-                                  AND enable)
-                    GROUP BY cor_area_synthese.id_area
-            )
+            maxalti AS (SELECT
+                            cor_area_synthese.id_area
+                          , (max(mv_data_for_atlas.altitude) + (19 - mod(max(mv_data_for_atlas.altitude), 19))) AS alti
+                            FROM
+                                atlas.mv_data_for_atlas
+                                    JOIN gn_synthese.cor_area_synthese
+                                         ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
+                            WHERE
+                                    cor_area_synthese.id_area IN (SELECT
+                                                                      id_area
+                                                                      FROM
+                                                                          ref_geo.l_areas
+                                                                      WHERE
+                                                                            id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
+                                                                        AND enable)
+                            GROUP BY cor_area_synthese.id_area)
         SELECT
             row_number() OVER ()                                       AS id
           , id_area
@@ -93,7 +90,7 @@ $$
           , cd_group                                                 AS cd_nom
           , t.decade                                                 AS decade
           , count(data.*) FILTER (WHERE bird_breed_code = 3)         AS breeding_start
-          , count(data.*) FILTER (WHERE bird_breed_code IN (13, 20)) AS breeding_end
+          , count(data.*) FILTER (WHERE bird_breed_code = 13) AS breeding_end
             FROM
                 generate_series(1, 36, 1) AS t(decade)
                     LEFT JOIN atlas.mv_data_for_atlas data ON trunc(extract(DOY FROM date_min) / 10) = t.decade
@@ -402,4 +399,7 @@ SELECT
 ;
 
 
-select * from src_historic_atlas.historic_atlas;
+SELECT *
+    FROM
+        src_historic_atlas.historic_atlas
+;

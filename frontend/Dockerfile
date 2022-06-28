@@ -1,5 +1,5 @@
 ## Build
-FROM node:14-bullseye as builder
+FROM node:lts-bullseye as builder
 WORKDIR /app
 COPY  ["package.json", "package-lock.json","./"]
 RUN npm install
@@ -8,9 +8,8 @@ RUN npm run build
 
 
 ## Prod
-FROM node:alpine
-RUN apk update && apk upgrade && \
-  apk add --no-cache git
+FROM node:lts-bullseye
+RUN apt update && apt upgrade -y && apt install -y git
 WORKDIR /app
 COPY  ["package.json", "package-lock.json","./"]
 RUN npm install --production
