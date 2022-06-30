@@ -1,5 +1,5 @@
 ---
-title: "L’engoulevent d’Europe est de retour !"
+title: 'L’engoulevent d’Europe est de retour !'
 picture: actualite-25.webp
 credit: Engoulevent d’Europe © G. Mineau de FlickR
 centering: center
@@ -13,16 +13,15 @@ active: true
 
 **Dès la mi-mai, l’Engoulevent d’Europe revient d’Afrique pour se reproduire dans certaines forêts européennes. Nichant au sol, il est essentiellement repérable à une sorte de ronronnement interminable et caractéristique qu’il émet dès le crépuscule. Nocturne et discrète, l’espèce est moins souvent notée que d’autres espèces plus communes. Collecter des données au moyen de points EPOC permettra d’alimenter la fiche espèce de l’Engoulevent d’Europe dans le futur atlas des Oiseaux de France 2019-2024.**
 
-
 ## Repérer l’Engoulevent d’Europe
 
 Pour celles et ceux qui n’auraient jamais observé cette espèce, deux conseils pour une prospection efficace :
 
-* Favoriser les habitats de type friches, les zones de coupe et les bois clairsemés (feuillus ou conifères)
+- Favoriser les habitats de type friches, les zones de coupe et les bois clairsemés (feuillus ou conifères)
 
 Les couples nichent au sol et souvent sur le même site d’une année sur l’autre.
 
-* Être à l’affût du moindre indice sonore
+- Être à l’affût du moindre indice sonore
 
 Le [chant de l’engoulevent](https://xeno-canto.org/700272) est une sorte de **long ronronnement** sonore émit pendant plusieurs minutes et **audible à 1 km**. On dit qu’il évoque le bruit que fait une mobylette. Lors de la parade, si l’oiseau est proche, il arrive d’entendre comme des petits [claquements de fouet](https://xeno-canto.org/664444) pendant le chant. Privilégier la période du **crépuscule jusqu’à 2 heures après le coucher de soleil** pour repérer son chant caractéristique.
 
@@ -71,6 +70,6 @@ Comme pour les rapaces nocturnes, vous pouvez effectuer des points [EPOC](/get-i
 
 Voir aussi : [Les rapaces nocturnes donnent de la voix, c’est le moment d’en profiter !](/news/actualite-18)
 
-L’idéal est d’intégrer votre prospection « engoulevent » à la fin d’une prospection ODF, c’est-à-dire une visite complète d’une maille avec des points EPOC répartis dans les différents habitats qu’elle contient. C’est le type de prospection conseillé dans le cadre d’une participation à l’atlas des oiseaux de France 
+L’idéal est d’intégrer votre prospection « engoulevent » à la fin d’une prospection ODF, c’est-à-dire une visite complète d’une maille avec des points EPOC répartis dans les différents habitats qu’elle contient. C’est le type de prospection conseillé dans le cadre d’une participation à l’atlas des oiseaux de France.
 
 L’équipe ODF compte sur votre aide et vous remercie pour toutes vos contributions !

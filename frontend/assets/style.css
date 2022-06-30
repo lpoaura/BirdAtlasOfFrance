@@ -937,7 +937,19 @@ a.Vocabulary:hover::after {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 1.2rem;
+  line-height: 24px;
+  color: #000;
+}
+
+.InformativePageTitle,
+.nuxt-content h3 {
+  width: 100%;
+  margin: 20px 0;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.1rem;
   line-height: 24px;
   color: #000;
 }
