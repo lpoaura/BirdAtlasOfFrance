@@ -26,7 +26,7 @@ Mais aussi :
 DÉCOUVREZ LA VIDÉO DE PROMOTION DE L’ATLAS !
 
 <iframe id="player" type="text/html" width="100%" height="360"
-  src="http://www.youtube.com/embed/XdM7RnO2eKk?enablejsapi=1&origin=http://example.com"
+  src="https://www.youtube.com/embed/XdM7RnO2eKk?enablejsapi=1"
   frameborder="0"></iframe>
 
 Pour compléter la vidéo, le flyer de promotion vous apporte quelques informations supplémentaires sur ce travail de synthèse colossal.
