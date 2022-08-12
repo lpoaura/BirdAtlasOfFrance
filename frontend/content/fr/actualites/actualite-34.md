@@ -13,14 +13,14 @@ active: true
 
 Le jeu concours ODF a pris fin le 31 juillet. L’objectif était de noter le plus grand nombre de « nouvelles espèces »[^*] dans les mailles atlas. Après 5 mois de concours, le temps est venu de désigner celui ou celle qui va remporter l’atlas des oiseaux migrateurs (à paraitre le 15 septembre 2022).
 
-[^*]:
-    espèces absentes de la liste d’espèce post 2019 mais présentes avant 2019 dans les mailles atlas
-    57 participants
+[^*]: espèces absentes de la liste d’espèce post 2019 mais présentes avant 2019 dans les mailles atlas
 
-Au total 57 personnes ont participé au jeu-concours. Et le gagnant est….
+## 47 participants
+
+Au total 47 personnes ont participé au jeu-concours. Et le gagnant est….
 
 **Hugues Royer**
 
-Avec 269 nouvelles espèces notées dans les mailles atlas, Hugues se place en première position du classement. Il est suivi par Camille Vacher qui a trouvé 136 espèces. Thomas Armand se classe en 3ème position avec 71 nouvelles espèces.
+Avec 276 nouvelles espèces notées dans les mailles atlas, Hugues se place en première position du classement. Il est suivi par Camille Vacher qui a trouvé 174 nouvelles espèces. Thomas Armand se classe en 3ème position avec 71 nouvelles espèces.
 
 <div style="align-center"><a href="https://www.cocheurs.fr/classements/classement_odf.php" target="_blank">>> VOIR LE CLASSEMENT <<</a></br></div>
