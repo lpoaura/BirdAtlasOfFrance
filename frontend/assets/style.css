@@ -11,6 +11,10 @@ body {
   display: flex;
 }
 
+.flex-1 {
+  flex: 1;
+}
+
 /********** TYPOGRAPHY **********/
 
 .PlayfairDisplayTypo {
@@ -124,6 +128,10 @@ h6 {
   color: #39765a;
 }
 
+.red01 {
+  color: #ef2e2e;
+}
+
 .fw-300 {
   font-weight: 300;
 }
@@ -142,6 +150,10 @@ h6 {
 
 .italic {
   font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
 }
 
 .text-shadow {
@@ -181,6 +193,10 @@ div.container.container--fluid {
 
 .bottom-margin-24 {
   margin-bottom: 24px !important;
+}
+
+.bottom-margin-32 {
+  margin-bottom: 32px !important;
 }
 
 .bottom-margin-40 {
@@ -306,7 +322,7 @@ a.Vocabulary:hover::after {
 }
 
 .DropdownOptionsOverflow {
-  max-height: 166px;
+  max-height: 165px;
   padding-right: 6px;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -400,6 +416,11 @@ a.Vocabulary:hover::after {
   display: flex;
 }
 
+.SelectorMenu {
+  margin: -6px 0 18px 0;
+  flex-wrap: wrap;
+}
+
 .TagMenu {
   overflow-x: scroll;
   touch-action: pan-x;
@@ -431,7 +452,7 @@ a.Vocabulary:hover::after {
 }
 
 .SelectorItem {
-  margin-right: 16px;
+  margin: 6px 16px 6px 0;
   padding: 12px 24px;
   border: 1px solid rgba(38, 38, 38, 0.1);
   box-sizing: border-box;
@@ -476,7 +497,8 @@ a.Vocabulary:hover::after {
 
 /* Cards */
 .MenuCard,
-.ProtocolCard {
+.ProtocolCard,
+.ContactCard {
   background: #efefef;
   padding: 12px 24px;
   text-decoration: none;
@@ -492,13 +514,28 @@ a.Vocabulary:hover::after {
   margin-bottom: 16px;
 }
 
-.MenuCard {
-  flex: 1;
-  margin: 12px;
+.MenuCard,
+.ContactCard {
   border-radius: 16px;
 }
 
-.MenuCard:hover {
+.MenuCard {
+  flex: 1;
+  margin: 12px;
+}
+
+.ContactCard {
+  height: 155px;
+  cursor: pointer;
+}
+
+.ContactCard.selected {
+  background: rgba(238, 206, 37, 0.2);
+  border: 3px solid #eece25;
+}
+
+.MenuCard:hover,
+.ContactCard:hover {
   background: rgba(238, 206, 37, 0.2);
 }
 
@@ -874,7 +911,19 @@ a.Vocabulary:hover::after {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 1.2rem;
+  line-height: 24px;
+  color: #000;
+}
+
+.InformativePageTitle,
+.nuxt-content h3 {
+  width: 100%;
+  margin: 20px 0;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.1rem;
   line-height: 24px;
   color: #000;
 }
@@ -905,6 +954,7 @@ a.Vocabulary:hover::after {
 .InformativePagePictureLegend {
   /* Le margin-bottom existe car il s'agit d'une balise <nuxt-content><p></p></nuxt-content> */
   margin-top: -4px;
+  padding-bottom: 20px;
   font-family: 'Poppins', sans-serif;
   font-style: italic;
   font-weight: normal;
@@ -1051,6 +1101,11 @@ a.Vocabulary:hover::after {
   border-radius: 8px;
 }
 
+.AutocompleteWrapper.map.open {
+  border: 1px solid #eece25;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+}
+
 .AutocompleteWrapper.map input {
   height: 42px;
   border-radius: 8px;
@@ -1062,7 +1117,7 @@ a.Vocabulary:hover::after {
 
 .AutocompleteGadgets.map {
   background: linear-gradient(rgba(38, 38, 38, 0.03), rgba(38, 38, 38, 0.03)),
-  white;
+    white;
   height: 42px;
   border-radius: 8px;
   padding: 0 5px;
@@ -1196,6 +1251,10 @@ a.Vocabulary:hover::after {
   margin-bottom: 0;
 }
 
+.MapControlDataOption.top-margin:first-child {
+  margin-top: 24px;
+}
+
 .MapControlDataOptionIcon {
   width: 24px;
   margin-right: 24px;
@@ -1242,7 +1301,7 @@ a.Vocabulary:hover::after {
   display: flex;
 }
 .MobileMapControlCloseIcon,
-.MobileMapControl header.MapControlHeader .MapControlDownloadButton,
+.MobileMapControl .MapControlInfo .MapControlDownloadButton,
 .MobileMapControl menu.TabMenu,
 .MobileMapControlMenuWrapper,
 .MobileMapControl .ChipMenu,
@@ -1259,6 +1318,7 @@ a.Vocabulary:hover::after {
 .MobileMapControl .MobileMapControlCloseIcon {
   display: flex;
   width: 24px;
+  margin-left: 12px;
   cursor: pointer;
   align-self: flex-start;
 }
@@ -1298,7 +1358,7 @@ a.Vocabulary:hover::after {
 }
 
 .MiniMapControl.selected {
-  background: #EECE25;
+  background: #eece25;
 }
 
 .MiniMapControl .Icon {
@@ -1373,42 +1433,17 @@ a.Vocabulary:hover::after {
 
 /********** CONTACT FORMS **********/
 
-.ContactFormHeader {
-  width: 100%;
-  padding: 24px 16% 60px 16%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Création d'une section ET d'un contenu : formulaire à largeur fixe et centré */
-.ContactFormSection,
-.ConfirmationSection {
-  padding-bottom: 2%;
-  display: flex;
-}
-
 .ContactFormContent {
+  width: 600px;
+  max-width: 90vw;
   margin: auto;
   display: flex;
   flex-direction: column;
 }
 
 .ContactFormAlert {
-  width: 626px;
-  height: 32px;
-  margin-bottom: 24px;
-  padding: 0 12px;
-  border: 1px solid #f44336;
-  box-sizing: border-box;
-  border-radius: 8px;
-  color: #f44336;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ContactFormAlertMessage {
-  color: #f44336;
+  margin: -12px 0 24px 0;
+  color: #ef2e2e;
 }
 
 .ContactFormAlertCloseIcon {
@@ -1416,7 +1451,7 @@ a.Vocabulary:hover::after {
 }
 
 input.ContactFormInput {
-  width: 626px;
+  width: 100%;
   height: 32px;
   margin-bottom: 24px;
   padding: 0 12px;
@@ -1434,6 +1469,7 @@ input.ContactFormInput {
 
 input.ContactFormInput:focus {
   border: 1px solid #eece25;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
 textarea.ContactFormTextarea {
@@ -1453,6 +1489,7 @@ textarea.ContactFormTextarea {
 
 textarea.ContactFormTextarea:focus {
   border: 1px solid #eece25;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
 /********** VUETIFY OVERLAY **********/
@@ -1532,7 +1569,7 @@ button.v-pagination__navigation .theme--light.v-icon {
 
   .leaflet-bottom.leaflet-left .InformationControl {
     display: flex;
-    max-width: calc(100vw - 72px)
+    max-width: calc(100vw - 72px);
   }
 }
 
@@ -1564,8 +1601,8 @@ button.v-pagination__navigation .theme--light.v-icon {
   /********** TYPOGRAPHY **********/
 
   .PlayfairDisplayTypo {
-    font-size: 28px;
-    line-height: 37px;
+    font-size: 40px;
+    line-height: 53px;
   }
 
   h1 {

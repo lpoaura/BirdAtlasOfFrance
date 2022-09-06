@@ -1,18 +1,17 @@
 ## Build
-FROM node:latest as builder
+FROM node:lts-bullseye as builder
 WORKDIR /app
-COPY package.json ./
-RUN yarn
+COPY  ["package.json", "package-lock.json","./"]
+RUN npm install
 COPY . ./
-RUN yarn build
+RUN npm run build
+
 
 ## Prod
-FROM node:alpine
-RUN apk update && apk upgrade && \
-  apk add --no-cache git
+FROM node:lts-bullseye
+RUN apt update && apt upgrade -y && apt install -y git
 WORKDIR /app
-COPY package.json ./
-# ENV NODE_ENV=production
+COPY  ["package.json", "package-lock.json","./"]
 RUN npm install --production
 COPY nuxt.config.js ./
 COPY --from=builder /app/.nuxt ./.nuxt/

@@ -7,16 +7,16 @@
     </header>
     <div class="MapSelectorOverflow">
       <li
-        v-for="(layer, index) in layersList"
+        v-for="(layer, index) in resultsLayers"
         :key="index"
         class="RadioOption"
-        :class="layer.label === selectedLayer ? 'selected' : ''"
-        @click="updateSelectedLayer(layer.label)"
+        :class="layer.value === selectedLayer.value ? 'selected' : ''"
+        @click="updateSelectedLayer(layer)"
       >
         <div class="RadioLabel">
           <div class="RadioButton">
             <div
-              v-show="layer.label === selectedLayer"
+              v-show="layer.value === selectedLayer.value"
               class="RadioButtonSelected"
             ></div>
           </div>
@@ -26,40 +26,19 @@
           {{ layer.subtitle }}
         </h5>
       </li>
-      <div v-show="selectedLayer === 'Points EPOC'">
-        <!-- Ajouter les points EPOC classiques -->
+      <div v-show="selectedLayer.value === 'epoc'">
         <div class="RadioOption epoc">
           <div class="RadioLabel">
-            <switch-button v-model="epocOdfOfficialIsOn" />
-            EPOC ODF
+            <switch-button v-model="epocRealizedIsOn" />
+            EPOC réalisés
           </div>
         </div>
         <div class="RadioOption epoc">
           <div class="RadioLabel">
-            <switch-button v-model="epocOdfReserveIsOn" />
-            EPOC ODF de réserve
+            <switch-button v-model="epocOdfIsOn" />
+            EPOC ODF {{ new Date().getFullYear() }}
           </div>
         </div>
-      </div>
-      <div
-        v-if="selectedSpecies"
-        class="RadioOption"
-        :class="speciesDistributionLayer === selectedLayer ? 'selected' : ''"
-        @click="updateSelectedLayer(speciesDistributionLayer)"
-      >
-        <div class="RadioLabel">
-          <div class="RadioButton">
-            <div
-              v-show="speciesDistributionLayer === selectedLayer"
-              class="RadioButtonSelected"
-            ></div>
-          </div>
-          {{ speciesDistributionLayer }}
-        </div>
-        <!-- <h5 class="RadioSubtitle black04">
-            Non compatible avec les fonds carthographiques Plan et
-            Orthophotographies
-          </h5> -->
       </div>
       <!-- v-show="['Aucune', 'Points EPOC'].includes(selectedLayer)" -->
       <div class="BackgroundMapsWrapper">
@@ -122,7 +101,7 @@ export default {
       required: true,
     },
     selectedLayer: {
-      type: String,
+      type: Object,
       required: true,
     },
     selectedSpecies: {
@@ -133,37 +112,53 @@ export default {
   },
   data: () => ({
     layersList: [
-      { label: 'Aucune', subtitle: null },
+      { value: 'none', label: 'Aucune', subtitle: null, permanent: true },
       {
+        value: 'knowledge-level',
         label: 'Indice de complétude',
         subtitle: null,
-        // subtitle:
-        //   'Non compatible avec les fonds carthographiques Plan et Orthophotographies',
+        // subtitle: 'Non compatible avec les fonds carthographiques Plan et Orthophotographies',
+        permanent: true,
       },
-      { label: 'Points EPOC', subtitle: null },
+      {
+        value: 'species-number',
+        label: "Nombre d'espèces par maille",
+        subtitle: null,
+        permanent: true,
+      },
+      {
+        value: 'species-distribution',
+        label: "Répartition de l'espèce",
+        subtitle: null,
+        // subtitle: 'Non compatible avec les fonds carthographiques Plan et Orthophotographies',
+        permanent: false,
+      },
+      { value: 'epoc', label: 'Points EPOC', subtitle: null, permanent: true },
     ],
-    speciesDistributionLayer: "Répartition de l'espèce",
-    epocPointsIsOn: true,
-    epocOdfOfficialIsOn: true,
-    epocOdfReserveIsOn: true,
+    epocRealizedIsOn: true,
+    epocOdfIsOn: true,
     planIsOn: false,
     planOpacity: '50',
     orthophotoIsOn: false,
     orthophotoOpacity: '50',
   }),
   computed: {
-    filteredTerritories() {
-      return this.territoriesList.filter((territory) =>
-        territory.name.toLowerCase().includes(this.search.toLowerCase())
-      )
+    resultsLayers() {
+      if (this.selectedSpecies) {
+        return this.layersList
+      } else {
+        return this.layersList.filter((layer) => {
+          return layer.permanent
+        })
+      }
     },
   },
   watch: {
-    epocOdfOfficialIsOn(newVal) {
-      this.$emit('epocOdfOfficialIsOn', newVal)
+    epocRealizedIsOn(newVal) {
+      this.$emit('epocRealizedIsOn', newVal)
     },
-    epocOdfReserveIsOn(newVal) {
-      this.$emit('epocOdfReserveIsOn', newVal)
+    epocOdfIsOn(newVal) {
+      this.$emit('epocOdfIsOn', newVal)
     },
     planIsOn(newVal) {
       this.$emit('planIsOn', newVal)
@@ -179,7 +174,10 @@ export default {
     },
     selectedSpecies(newVal) {
       if (newVal) {
-        this.$emit('selectedLayer', this.speciesDistributionLayer)
+        const speciesDistributionLayer = this.layersList.filter((layer) => {
+          return layer.value === 'species-distribution'
+        })[0]
+        this.$emit('selectedLayer', speciesDistributionLayer)
       }
     },
   },
@@ -196,7 +194,7 @@ export default {
   width: 100%;
   height: 1px;
   min-height: 1px;
-  margin: 10px 0 16px 0;
+  margin: 10px 0 16px;
   background: rgba(57, 118, 90, 0.1);
 }
 
@@ -252,13 +250,13 @@ export default {
 
 /* Mozilla Firefox */
 input[type='number'] {
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 /* Chrome */
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 

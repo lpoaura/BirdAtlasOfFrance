@@ -51,6 +51,11 @@ export default {
     ],
     selectedSpeciesGroup: { hash: '', label: 'Tous les dispositifs' },
   }),
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
+  },
   computed: {
     // Permet de mettre à jour selectedSpeciesGroup seulement après le $router.push
     selectedSpeciesGroupModel: {
@@ -80,11 +85,6 @@ export default {
       this.$router.push(`${item.hash}`)
     },
   },
-  head() {
-    return {
-      title: this.$getPageTitle(this.$route.path),
-    }
-  },
 }
 </script>
 
@@ -108,7 +108,7 @@ export default {
 }
 
 .Section {
-  padding: 32px 5% 40px 5%;
+  padding: 32px 5% 40px;
   align-items: center;
 }
 

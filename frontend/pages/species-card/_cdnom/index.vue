@@ -6,13 +6,13 @@
 
 <script>
 export default {
+  head: {
+    title: 'Fiche espèce',
+  },
   computed: {
     cdnom() {
       return this.$route.params.cdnom
     },
-  },
-  head: {
-    title: 'Fiche espèce',
   },
 }
 </script>

@@ -62,7 +62,7 @@ export default {
 
 <style scoped>
 input[type='range'] {
-  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
   height: 4px;
   margin-top: 10px;
@@ -74,7 +74,7 @@ input[type='range'] {
 
 /* Chrome */
 input[type='range']::-webkit-slider-thumb {
-  -webkit-appearance: none;
+  appearance: none;
   width: 12px;
   height: 12px;
   background: #fcfcfc;
@@ -87,7 +87,7 @@ input[type='range']::-webkit-slider-thumb {
 
 /* Mozilla Firefox */
 input[type='range']::-moz-range-thumb {
-  -webkit-appearance: none;
+  appearance: none;
   width: 12px;
   height: 12px;
   background: #fcfcfc;
@@ -99,7 +99,7 @@ input[type='range']::-moz-range-thumb {
 
 /* IE */
 input[type='range']::-ms-thumb {
-  -webkit-appearance: none;
+  appearance: none;
   width: 12px;
   height: 12px;
   background: #fcfcfc;
