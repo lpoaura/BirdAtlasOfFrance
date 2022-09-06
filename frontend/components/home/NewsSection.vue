@@ -96,7 +96,7 @@ export default {
   },
   mounted() {
     this.$content(`fr/actualites`)
-      .where({ active: true })
+      .where({ active: true, date: { $lte: new Date() },})
       .sortBy('date', 'desc')
       .fetch()
       .then((news) => {
@@ -141,11 +141,10 @@ export default {
       }
     },
     calculateMaxOffset() {
-      const totalCardsWidth = document.getElementsByClassName('Carousel')[0]
-        .offsetWidth
-      const carouselWrapperWidth = document.getElementsByClassName(
-        'CarouselWrapper'
-      )[0].offsetWidth
+      const totalCardsWidth =
+        document.getElementsByClassName('Carousel')[0].offsetWidth
+      const carouselWrapperWidth =
+        document.getElementsByClassName('CarouselWrapper')[0].offsetWidth
       if (totalCardsWidth > carouselWrapperWidth) {
         return -(totalCardsWidth - carouselWrapperWidth)
       } else {
@@ -153,8 +152,8 @@ export default {
       }
     },
     calculateCardWidth() {
-      const cardWidth = document.getElementsByClassName('NewsCard')[0]
-        .offsetWidth
+      const cardWidth =
+        document.getElementsByClassName('NewsCard')[0].offsetWidth
       const cardMarginRight = parseFloat(
         window.getComputedStyle(document.getElementsByClassName('NewsCard')[0])
           .marginRight
@@ -167,7 +166,7 @@ export default {
 
 <style scoped>
 .Section {
-  padding: 40px 0 32px 0;
+  padding: 40px 0 32px;
   background: rgba(57, 118, 90, 0.1);
 }
 
@@ -278,7 +277,7 @@ h5.Subtitle {
 
 @media screen and (max-width: 680px) {
   .Section {
-    padding: 24px 0 16px 0;
+    padding: 46px 0 16px;
   }
 
   .CarouselNav {

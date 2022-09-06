@@ -49,9 +49,7 @@ class FormsForAtlas(Base):
 
 class AreaKnowledgeTaxaList(Base):
     __tablename__ = "mv_area_knowledge_list_taxa"
-    __table_args__ = {
-        "schema": "atlas",
-    }
+    __table_args__ = {"schema": "atlas"}
     id_area = Column(Integer, primary_key=True)
     cd_nom = Column(Integer, primary_key=True)
     sci_name = Column(String)

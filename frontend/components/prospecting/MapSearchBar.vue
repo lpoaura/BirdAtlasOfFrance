@@ -2,7 +2,7 @@
   <div
     v-click-outside="closeSearchBar"
     class="AutocompleteWrapper map"
-    :class="autocompleteIsOpen ? 'open' : ''"
+    :class="search.length > 0 ? 'open' : ''"
   >
     <input
       v-model="search"
@@ -40,7 +40,7 @@
             v-for="(type, index) in typeList"
             :key="index"
             class="DropdownOption"
-            :class="type.label === selectedType.label ? 'selected' : ''"
+            :class="type.value === selectedType.value ? 'selected' : ''"
             @click="updateSelectedType(type)"
           >
             {{ type.label }}
@@ -60,19 +60,19 @@
         @click="updateSelectedData(data)"
       >
         {{
-          selectedType.label === 'Espèce'
+          selectedType.value === 'species'
             ? data[`common_name_${lang}`]
-            : data.name.replace('10kmL93', '')
+            : data.name.replace('10kmL93', '').replace('10kmUTM22', '')
         }}
-        <i v-if="selectedType.label === 'Espèce'">({{ data.sci_name }})</i>
+        <i v-if="selectedType.value === 'species'">({{ data.sci_name }})</i>
         {{
-          selectedType.label === 'Lieu' && data.type_code !== 'ATLAS_GRID'
+          selectedType.value === 'place' && data.type_code !== 'ATLAS_GRID'
             ? ' (' + data.code.slice(0, -3) + ')'
             : ''
         }}
       </li>
       <h5
-        v-if="dataList.length === 0"
+        v-if="!dataList.length"
         class="black03 italic AutocompleteNoResults"
       >
         Aucun résultat trouvé, vous recherchez peut-être une
@@ -98,19 +98,22 @@ export default {
     autocompleteIsOpen: false,
     typeList: [
       {
+        value: 'species',
         label: 'Espèce',
-        api: '/api/v1/search_taxa?limit=10&search=',
+        api: '/api/v1/search/taxa?limit=10&search=',
         placeholder: 'Rechercher une espèce...',
       },
       {
+        value: 'place',
         label: 'Lieu',
-        api: '/api/v1/search_areas?limit=10&search=',
+        api: '/api/v1/search/areas?limit=10&search=',
         placeholder: 'Rechercher une commune, une maille...',
       },
     ],
     selectedType: {
+      value: 'place',
       label: 'Lieu',
-      api: '/api/v1/search_areas?limit=10&search=',
+      api: '/api/v1/search/areas?limit=10&search=',
       placeholder: 'Rechercher une commune, une maille...',
     },
     selectIsOpen: false,
@@ -128,7 +131,7 @@ export default {
             this.$axios
               .$get(this.selectedType.api + `${newVal}`)
               .then((data) => {
-                if (data.length === 0 && this.selectedType.label === 'Lieu') {
+                if (!data.length && this.selectedType.value === 'place') {
                   this.autocompleteIsOpen = false
                 } else {
                   this.autocompleteIsOpen = true
@@ -160,7 +163,7 @@ export default {
   mounted() {
     if (this.$route.query.species) {
       this.$axios
-        .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
+        .$get(`/api/v1/search/taxa?cd_nom=${this.$route.query.species}`)
         .then((data) => {
           this.speciesIsSelected = true
           this.selectedType = this.typeList[0]
@@ -190,7 +193,7 @@ export default {
         this.$axios
           .$get(this.selectedType.api + `${newVal}`)
           .then((data) => {
-            if (data.length === 0 && this.selectedType.label === 'Lieu') {
+            if (!data.length && this.selectedType.value === 'place') {
               this.autocompleteIsOpen = false
             } else {
               this.autocompleteIsOpen = true
@@ -203,7 +206,7 @@ export default {
       }
     },
     updateSelectedData(data) {
-      if (this.selectedType.label === 'Espèce') {
+      if (this.selectedType.value === 'species') {
         this.speciesIsSelected = true
         this.$emit('selectedSpecies', data)
         this.$router.push({
@@ -220,9 +223,14 @@ export default {
           path: '/prospecting',
           query: { area: `${data.code}`, type: `${data.type_code}` },
         })
-        if (this.search !== data.name.replace('10kmL93', '')) {
+        if (
+          this.search !==
+          data.name.replace('10kmL93', '').replace('10kmUTM22', '')
+        ) {
           this.searchIsProgramatic = true
-          this.search = data.name.replace('10kmL93', '')
+          this.search = data.name
+            .replace('10kmL93', '')
+            .replace('10kmUTM22', '')
         }
       }
       this.autocompleteIsOpen = false
@@ -250,11 +258,6 @@ export default {
 <style scoped>
 .AutocompleteWrapper {
   z-index: 5;
-}
-
-.AutocompleteWrapper.open {
-  border: 1px solid #eece25;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
 }
 
 .AutocompleteWrapper input.small {
@@ -314,6 +317,7 @@ export default {
   .AutocompleteWrapper input.large {
     display: none;
   }
+
   .AutocompleteWrapper input.small {
     display: flex;
   }
