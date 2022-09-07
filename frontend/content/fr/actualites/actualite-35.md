@@ -1,7 +1,7 @@
 ---
 title: 'LIMAT : pensez aux prospections œdicnème !'
 picture: actualite-35-oedicneme.webp
-credit: Bernard Scherler
+credit: Œdicnème criard © Bernard Scherler
 centering: center
 author: Oiseaux de France
 date: '2022-09-07'
