@@ -10,6 +10,7 @@ active: true
 ---
 
 **Vous ne savez pas quoi faire durant vos weekends de septembre ? Partez à la recherche de l’œdicnème !**
+
 **Dans le cadre de l’enquête LIMAT 2021-2022, des prospections Œdicnème criard sont prévues tout au long des mois de septembre et d’octobre. Le but est de repérer de nouveaux lieux de rassemblement de l’espèce afin qu’ils puissent être dénombrés lors des comptages du 1er et du 15 octobre. L’estimation globale de l’effectif nicheur n’en sera que plus précise !**
 
 L’objectif de l’enquête LIMAT est de collecter des données qui permettront de générer des estimations d’effectifs de populations pour 45 espèces de limicoles et d’anatidés nicheurs en France. Le suivi des œdicnèmes fait partie de l’enquête mais ne suit pas le même protocole que les autres espèces en raison de la forte discrétion de l’espèce sur les sites de nidification.
