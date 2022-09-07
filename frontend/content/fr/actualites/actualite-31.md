@@ -1,5 +1,5 @@
 ---
-title: 'Juillet at août : les mois idéaux pour prouver la reproduction de certaines espèces.'
+title: 'Juillet et août : les mois idéaux pour prouver la reproduction de certaines espèces.'
 picture: actualite-31.webp
 credit: Poussin d’échasse blanche se nourrissant – Daniel Tournay – FlickR
 centering: center
