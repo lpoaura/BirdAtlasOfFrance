@@ -13,10 +13,15 @@ active: true
 
 La Sterne caspienne est une espèce nordique que l’on peut rencontrer en période de migration sur notre territoire. 
 
-## La France : zone stratégique de halte migratoire
+## Les côtes et les abords des fleuves français, zones de halte migratoire pour la Sterne caspienne
+
 Les individus, en provenance de la Scandinavie et des pays Baltes, transitent par l’Europe occidentale pour rejoindre leurs sites d’hivernage d’Afrique de l’Ouest. Cette grande sterne effectue une partie de sa migration au-dessus des terres profitant de la trajectoire et des ressources offertes par les cours d’eau de l’Europe continentale. 
 
 À son arrivée en France, on la retrouve donc au bord des fleuves (Rhône, Loire, Seine) mais aussi sur certains sites côtiers (Pertuis Charentais, Camargue, Bassin d’Arcachon) dans lesquels les individus se concentrent à l’occasion d’une halte migratoire.
+
+<img class="InformativePagePicture" style="width: 100%" src="/news/actualite-36-carte_presence_sterne_caspienne.webp" />
+<span class="InformativePagePictureLegend">Carte de présence de la Sterne caspienne en France depuis 2019 (source : ODF)</span>
+
 
 ## Voyage en famille
 
