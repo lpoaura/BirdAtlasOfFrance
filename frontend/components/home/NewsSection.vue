@@ -31,7 +31,7 @@
               class="CardPicture"
               :src="news.picture"
               :style="{
-                background: `url(/news/${news.picture}) center / cover`,
+                background: `url(/news/${news.picture}) center / cover`
               }"
             ></div>
             <span class="black03 bottom-margin-8">
@@ -74,7 +74,7 @@ export default {
     currentOffset: 0,
     maxOffset: 0,
     resizeId: 0,
-    isTouchDevice: false,
+    isTouchDevice: false
   }),
   computed: {
     atEndOfList() {
@@ -82,7 +82,7 @@ export default {
     },
     atHeadOfList() {
       return this.currentOffset === 0
-    },
+    }
   },
   beforeMount() {
     this.isTouchDevice =
@@ -96,7 +96,8 @@ export default {
   },
   mounted() {
     this.$content(`fr/actualites`)
-      .where({ active: true, date: { $lte: new Date() },})
+      .where({ active: true, date: { $lte: new Date() } })
+      // .where({ active: true,})
       .sortBy('date', 'desc')
       .fetch()
       .then((news) => {
@@ -159,8 +160,8 @@ export default {
           .marginRight
       )
       return cardWidth + cardMarginRight
-    },
-  },
+    }
+  }
 }
 </script>
 
