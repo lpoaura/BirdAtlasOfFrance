@@ -11,7 +11,7 @@ active: true
 
 **A cette occasion, la LPO organise un webinaire de découverte du Wetlands. Inscrivez-vous !**
 
-**A l’occasion de l’actualisation du rapport sur l’état des populations d’oiseaux d’eau hivernants, la LPO organise un webinaire de découverte du comptage Wetlands le mardi 26 octobre 2022 de 18h à 20h via la plateforme Zoom.**
+**A l’occasion de l’actualisation du rapport sur l’état des populations d’oiseaux d’eau hivernants, la LPO organise un webinaire de découverte du comptage Wetlands le mercredi 26 octobre 2022 de 18h à 20h via la plateforme Zoom. Inscrivez-vous !**
 
 ## Découvrez le bilan Wetlands 2022
 
@@ -31,7 +31,7 @@ Au menu de cette édition 2022 :
 
 ## Inscrivez-vous au webinaire du 26 octobre 2022 !
 
-A l’occasion de la publication de ce rapport, la LPO organise un webinaire le mercredi 26 octobre 2022 de 18h à 20h via la plateforme Zoom.
+A l’occasion de la publication de ce rapport, la LPO organise un webinaire le **mercredi 26 octobre 2022 de 18h à 20h via la plateforme Zoom**.
 Le webinaire Wetlands offrira à toutes et à tous la possibilité de découvrir ce suivi historique de l’avifaune (protocole, organisation), d’interpréter les différents résultats présentés dans le bilan et de comprendre l’utilité de ce dispositif pour la recherche et la conservation des espèces d’oiseaux d’eau hivernants à différentes échelles.
 
 <div style="align-center"><a href="https://www.lpo.fr/la-lpo-en-actions/connaissance-des-especes-sauvages/suivis-ornithologiques/oiseaux-d-eau/wetlands-international/telechargez-les-bilans-wetlands"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success">Je m'inscris !</a></div>
