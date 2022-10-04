@@ -17,7 +17,7 @@ active: true
 
 C'est grâce à l'implication pluriannuelle des bénévoles sur le terrain lors du comptage Wetlands que la mise à jour de l'état des populations d'oiseaux d'eau hivernants en France est possible. L'édition 2022 du bilan Wetlands et ses annexes - le recueil 90 fiches espèces et le bilan à l’échelle du réseau de sites pour l’étude des limicoles côtiers établi avec l’OFB - sont disponibles.
 
-<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-40.webp"/>
+<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-40-bilan_wetlands_2022.webp"/>
 <span class="InformativePagePictureLegend">Couverture du bilan Wetlands 2022</span>
 
 Au menu de cette édition 2022 :
