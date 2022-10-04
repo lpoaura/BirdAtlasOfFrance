@@ -1,7 +1,7 @@
 ---
 title: "L’état des populations d’oiseaux d’eau hivernants actualisé !"
 picture: actualite-40.webp
-credit: Bernache cravant à ventre sombre © Réserve Naturelle de la Baie de Saint Brieuc - FlickR
+credit: Plongeon imbrin juvénile (Gavia immer) © Bernard Liégois
 centering: center
 author: Oiseaux de France
 date: '2022-10-06'
@@ -19,7 +19,7 @@ C'est grâce à l'implication pluriannuelle des bénévoles sur le terrain lors 
 
 <center> <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-40.webp"/>
 <br />
-<span> <i> <class="InformativePagePictureLegend">Plongeon imbrin juvénile (Gavia immer) © Bernard Liégois (Source : FlickR) </center> </i> </span>
+<span> <i> <class="InformativePagePictureLegend">Couverture du bilan Wetlands 2022</center> </i> </span>
 
 <br />
 Au menu de cette édition 2022 :
