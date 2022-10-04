@@ -34,7 +34,7 @@ Au menu de cette édition 2022 :
 A l’occasion de la publication de ce rapport, la LPO organise un webinaire le **mercredi 26 octobre 2022 de 18h à 20h via la plateforme Zoom**.
 Cet évènement offrira à toutes et à tous la possibilité de découvrir le comptage Wetlands, un suivi historique de l'avifaune, mais aussi d’interpréter les différents résultats présentés dans le bilan et de comprendre l’utilité de ce dispositif pour la recherche et la conservation des espèces d’oiseaux d’eau hivernants à différentes échelles.
 
-<div style="align-center"><a href="https://www.lpo.fr/la-lpo-en-actions/connaissance-des-especes-sauvages/suivis-ornithologiques/oiseaux-d-eau/wetlands-international/telechargez-les-bilans-wetlands"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success">Je m'inscris !</a></div>
+<div style="align-center"><a href="https://landings.sbc30.net/61d5874f4b4b811a82e72b33/vbJyk0ktQdumTIYgsf2H3A/landing.html"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success">Je m'inscris !</a></div>
 
 ## A vos jumelles !
 
