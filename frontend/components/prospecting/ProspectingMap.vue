@@ -13,7 +13,7 @@
       @update:center="updateCenter"
     >
       <!-- LAYERS -->
-      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && plan.isOn" -->
+      <!-- v-if="['none', 'epoc'].includes(selectedLayer.value) && plan.isOn" -->
       <l-tile-layer
         v-if="plan.isOn"
         :url="plan.url"
@@ -21,7 +21,7 @@
         :z-index="plan.zIndex"
         :attribution="plan.attribution"
       />
-      <!-- v-if="['Aucune', 'Points EPOC'].includes(selectedLayer) && orthophoto.isOn" -->
+      <!-- v-if="['none', 'epoc'].includes(selectedLayer.value) && orthophoto.isOn" -->
       <l-tile-layer
         v-if="orthophoto.isOn"
         :url="orthophoto.url"
@@ -40,7 +40,7 @@
         layer-type="base"
       >
       </l-wms-tile-layer> -->
-      <!-- v-if="!['Aucune', 'Points EPOC'].includes(selectedLayer) || (['Aucune', 'Points EPOC'].includes(selectedLayer) && !plan.isOn && !orthophoto.isOn)" -->
+      <!-- v-if="!['none', 'epoc'].includes(selectedLayer.value) || (['none', 'epoc'].includes(selectedLayer.value) && !plan.isOn && !orthophoto.isOn)" -->
       <l-tile-layer
         v-if="!plan.isOn && !orthophoto.isOn"
         :url="osmUrl"
@@ -49,13 +49,13 @@
       <!-- GEOJSON -->
       <l-geo-json
         v-if="currentZoom <= 8"
-        :geojson="regionsGeojson"
-        :options-style="regionsGeojsonStyle"
+        :geojson="territoriesGeojson"
+        :options-style="territoriesGeojsonStyle"
       />
       <l-geo-json
         v-if="
           selectedSpecies &&
-          selectedLayer === 'Répartition de l\'espèce' &&
+          selectedLayer.value === 'species-distribution' &&
           speciesDistributionGeojson
         "
         :geojson="speciesDistributionGeojson"
@@ -64,8 +64,9 @@
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Indice de complétude' ||
-          (selectedLayer === 'Points EPOC' && currentZoom >= 11)
+          selectedLayer.value === 'knowledge-level' ||
+          selectedLayer.value === 'species-number' ||
+          (selectedLayer.value === 'epoc' && currentZoom >= 9)
         "
         :geojson="knowledgeLevelGeojson"
         :options="knowledgeLevelGeojsonOptions"
@@ -73,21 +74,17 @@
       />
       <l-geo-json
         v-if="
-          selectedLayer === 'Points EPOC' &&
-          epocOdfOfficialIsOn &&
+          selectedLayer.value === 'epoc' &&
+          epocRealizedIsOn &&
           currentZoom >= 11
         "
-        :geojson="epocOdfOfficialGeojson"
-        :options="epocOdfOfficialGeojsonOptions"
+        :geojson="epocRealizedGeojson"
+        :options="epocRealizedGeojsonOptions"
       />
       <l-geo-json
-        v-if="
-          selectedLayer === 'Points EPOC' &&
-          epocOdfReserveIsOn &&
-          currentZoom >= 11
-        "
-        :geojson="epocOdfReserveGeojson"
-        :options="epocOdfReserveGeojsonOptions"
+        v-if="selectedLayer.value === 'epoc' && epocOdfIsOn && currentZoom >= 9"
+        :geojson="epocOdfGeojson"
+        :options="epocOdfGeojsonOptions"
       />
       <!-- MAP CONTROLS -->
       <!-- Top left -->
@@ -96,13 +93,21 @@
         :disable-scroll-propagation="disableScrollPropagation"
       >
         <knowledge-level-control
-          v-show="selectedLayer === 'Indice de complétude' && !clickedFeature"
+          v-show="selectedLayer.value === 'knowledge-level' && !clickedFeature"
           :current-territory="currentTerritory"
+          :selected-season="selectedSeason"
+        />
+        <count-taxa-control
+          v-show="selectedLayer.value === 'species-number' && !clickedFeature"
+          :current-territory="currentTerritory"
+          :count-taxa-classes="countTaxaClasses"
           :selected-season="selectedSeason"
         />
         <feature-dashboard-control
           v-if="
-            ['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+            ['knowledge-level', 'species-number', 'epoc'].includes(
+              selectedLayer.value
+            ) &&
             clickedFeature &&
             !clickedEpocPoint
           "
@@ -110,13 +115,15 @@
           :selected-season="selectedSeason"
         />
         <species-dashboard-control
-          v-if="selectedLayer === 'Répartition de l\'espèce' && selectedSpecies"
+          v-if="
+            selectedLayer.value === 'species-distribution' && selectedSpecies
+          "
           :selected-species="selectedSpecies"
           :selected-season="selectedSeason"
           @selectedSpecies="deleteSelectedSpecies"
         />
         <section
-          v-if="selectedLayer === 'Points EPOC' && clickedEpocPoint"
+          v-if="selectedLayer.value === 'epoc' && clickedEpocPoint"
           class="MapControl"
         >
           <div
@@ -134,12 +141,16 @@
         <!-- Apparaît si au moins une des conditions précédentes est remplie -->
         <div
           v-show="
-            (selectedLayer === 'Indice de complétude' && !clickedFeature) ||
-            (['Indice de complétude', 'Points EPOC'].includes(selectedLayer) &&
+            (selectedLayer.value === 'knowledge-level' && !clickedFeature) ||
+            (selectedLayer.value === 'species-number' && !clickedFeature) ||
+            (['knowledge-level', 'species-number', 'epoc'].includes(
+              selectedLayer.value
+            ) &&
               clickedFeature &&
               !clickedEpocPoint) ||
-            (selectedLayer === 'Répartition de l\'espèce' && selectedSpecies) ||
-            (selectedLayer === 'Points EPOC' && clickedEpocPoint)
+            (selectedLayer.value === 'species-distribution' &&
+              selectedSpecies) ||
+            (selectedLayer.value === 'epoc' && clickedEpocPoint)
           "
           class="MiniMapControl mobile"
           @click="openMobileMapControl"
@@ -155,22 +166,35 @@
         <div
           v-show="
             (knowledgeLevelIsLoading &&
-              selectedLayer === 'Indice de complétude') ||
+              ['knowledge-level', 'species-number'].includes(
+                selectedLayer.value
+              )) ||
             (speciesDistributionIsLoading &&
-              selectedLayer === 'Répartition de l\'espèce')
+              selectedLayer.value === 'species-distribution')
+          "
+          class="InformationControl"
+          style="position: relative"
+        >
+          <div class="Progress"></div>
+          <h5 class="black02 fw-500 bottom-margin-38">
+            Chargement des données
+          </h5>
+        </div>
+        <div
+          v-show="
+            selectedLayer.value === 'epoc' &&
+            currentZoom < 11 &&
+            currentZoom >= 9
           "
           class="InformationControl"
         >
-          <v-progress-circular
-            :size="20"
-            :width="3"
-            :indeterminate="indeterminate"
-            class="right-margin-8"
-          />
-          <h5 class="black02 fw-500">Chargement des données</h5>
+          <h5 class="black02 fw-500">
+            Trop de points EPOC réalisés, zoomez à l’échelle d’une maille pour
+            visualiser ces points.
+          </h5>
         </div>
         <div
-          v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
+          v-show="selectedLayer.value === 'epoc' && currentZoom < 9"
           class="InformationControl"
         >
           <h5 class="black02 fw-500">
@@ -182,7 +206,7 @@
           v-show="
             !speciesDistributionIsLoading &&
             noSpeciesData &&
-            selectedLayer === 'Répartition de l\'espèce'
+            selectedLayer.value === 'species-distribution'
           "
           class="InformationControl"
         >
@@ -218,8 +242,8 @@
               :selected-layer="selectedLayer"
               :selected-species="selectedSpecies"
               @selectedLayer="updateSelectedLayer"
-              @epocOdfOfficialIsOn="updateEpocOdfOfficial"
-              @epocOdfReserveIsOn="updateEpocOdfReserve"
+              @epocRealizedIsOn="updateEpocRealized"
+              @epocOdfIsOn="updateEpocOdf"
               @planIsOn="updatePlan"
               @planOpacity="updatePlanOpacity"
               @orthophotoIsOn="updateOrthophoto"
@@ -247,22 +271,35 @@
         <div
           v-show="
             (knowledgeLevelIsLoading &&
-              selectedLayer === 'Indice de complétude') ||
+              ['knowledge-level', 'species-number'].includes(
+                selectedLayer.value
+              )) ||
             (speciesDistributionIsLoading &&
-              selectedLayer === 'Répartition de l\'espèce')
+              selectedLayer.value === 'species-distribution')
+          "
+          class="InformationControl"
+          style="position: relative"
+        >
+          <div class="Progress"></div>
+          <h5 class="black02 fw-500 bottom-margin-38">
+            Chargement des données
+          </h5>
+        </div>
+        <div
+          v-show="
+            selectedLayer.value === 'epoc' &&
+            currentZoom < 11 &&
+            currentZoom >= 9
           "
           class="InformationControl"
         >
-          <v-progress-circular
-            :size="20"
-            :width="3"
-            :indeterminate="indeterminate"
-            class="right-margin-8"
-          />
-          <h5 class="black02 fw-500">Chargement des données</h5>
+          <h5 class="black02 fw-500">
+            Trop de points EPOC réalisés, zoomez à l’échelle d’une maille pour
+            visualiser ces points.
+          </h5>
         </div>
         <div
-          v-show="selectedLayer === 'Points EPOC' && currentZoom < 11"
+          v-show="selectedLayer.value === 'epoc' && currentZoom < 9"
           class="InformationControl"
         >
           <h5 class="black02 fw-500">
@@ -274,7 +311,7 @@
           v-show="
             !speciesDistributionIsLoading &&
             noSpeciesData &&
-            selectedLayer === 'Répartition de l\'espèce'
+            selectedLayer.value === 'species-distribution'
           "
           class="InformationControl"
         >
@@ -295,16 +332,8 @@
 </template>
 
 <script>
-import L from 'leaflet'
-import {
-  LMap,
-  LGeoJson,
-  LControl,
-  LTileLayer,
-  // LWMSTileLayer,
-} from 'vue2-leaflet'
-// import 'leaflet/dist/leaflet.css'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
+import CountTaxaControl from '~/components/prospecting/CountTaxaControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
 import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
 import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
@@ -314,12 +343,8 @@ import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vu
 
 export default {
   components: {
-    LMap,
-    LGeoJson,
-    LControl,
-    'l-tile-layer': LTileLayer,
-    // 'l-wms-tile-layer': LWMSTileLayer,
     'knowledge-level-control': KnowledgeLevelControl,
+    'count-taxa-control': CountTaxaControl,
     'feature-dashboard-control': FeatureDashboardControl,
     'epoc-dashboard-control': EpocDashboardControl,
     'species-dashboard-control': SpeciesDashboardControl,
@@ -347,7 +372,7 @@ export default {
     },
     selectedLayer: {
       // Couche sélectionnée
-      type: String,
+      type: Object,
       required: true,
     },
     selectedTerritory: {
@@ -357,6 +382,11 @@ export default {
     },
     currentTerritory: {
       // Territoire sur lequel est centrée la carte (peut être non défini)
+      type: Object,
+      required: true,
+    },
+    countTaxaClasses: {
+      // Classes pour la couche "Nb d'espèces par maille"
       type: Object,
       required: true,
     },
@@ -372,11 +402,11 @@ export default {
       required: false,
       default: null,
     },
-    epocOdfOfficialIsOn: {
+    epocRealizedIsOn: {
       type: Boolean,
       required: true,
     },
-    epocOdfReserveIsOn: {
+    epocOdfIsOn: {
       type: Boolean,
       required: true,
     },
@@ -409,8 +439,8 @@ export default {
     envelope: null,
     initTerritory: null,
     // CONFIGURATION DES GEOJSON
-    // Limites des régions
-    regionsGeojson: null,
+    // Limites des territoires
+    territoriesGeojson: null,
     // Emprises des territoires
     territoriesEnvelopes: null,
     // Indice de complétude
@@ -424,22 +454,21 @@ export default {
     axiosErrorSpeciesDistribution: null,
     speciesDistributionIsLoading: false,
     // Points EPOC
-    epocOdfOfficialGeojson: null,
-    epocOdfReserveGeojson: null,
+    epocRealizedGeojson: null,
+    epocOdfGeojson: null,
     // CONFIGURATION DES MAPCONTROLS
     disableScrollPropagation: true,
     noSpeciesData: false,
-    featuresClasses: [0.25, 0.5, 0.75, 1],
+    knowledgeLevelClasses: [0, 0.25, 0.5, 0.75, 1],
     searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
     searchedFeatureCode: null, // Le zonage sélectionné est une maille (recherche depuis l'URL)
-    indeterminate: true, // Progress (loading)
     // MOBILE
     seasonIsOpen: false,
     layerIsOpen: false,
     territoryIsOpen: false,
   }),
   computed: {
-    regionsGeojsonStyle() {
+    territoriesGeojsonStyle() {
       return {
         weight: 2,
         color: '#262626',
@@ -476,7 +505,7 @@ export default {
       let season = this.selectedSeason.value // Nécessaire pour déclencher le changement de style
       return (feature, layer) => {
         selectedLayer = this.selectedLayer
-        if (selectedLayer === 'Indice de complétude') {
+        if (selectedLayer.value === 'knowledge-level') {
           season = this.selectedSeason.value // À améliorer
           return {
             weight: 0.8,
@@ -484,6 +513,18 @@ export default {
             opacity: 1,
             fillColor: this.setFeatureColor(
               feature.properties[season].percent_knowledge
+            ),
+            fillOpacity: 0.6,
+          }
+        }
+        if (selectedLayer.value === 'species-number') {
+          season = this.selectedSeason.value // À améliorer
+          return {
+            weight: 0.8,
+            color: '#FFFFFF',
+            opacity: 1,
+            fillColor: this.setFeatureColor(
+              feature.properties[season].new_count
             ),
             fillOpacity: 0.6,
           }
@@ -505,7 +546,7 @@ export default {
     },
     speciesDistributionPointToLayer() {
       return (geojsonPoint, latlng) => {
-        return L.circle(latlng, { radius: 4800 })
+        return this.$L.circle(latlng, { radius: 4800 })
       }
     },
     speciesDistributionOnEachFeature() {
@@ -553,33 +594,39 @@ export default {
         }
       }
     },
-    epocOdfOfficialGeojsonOptions() {
+    epocRealizedGeojsonOptions() {
       return {
-        pointToLayer: this.epocOdfOfficialPointToLayer,
-        onEachFeature: this.epocOdfOfficialOnEachFeature,
+        pointToLayer: this.epocRealizedPointToLayer,
+        onEachFeature: this.epocRealizedOnEachFeature,
       }
     },
-    epocOdfOfficialPointToLayer() {
+    epocRealizedPointToLayer() {
       return (geojsonPoint, latlng) => {
-        const epocOdfOfficialIcon = new L.Icon({
-          iconUrl: '/prospecting/epoc-ODF-Official.svg',
+        const epocRealizedIcon = new this.$L.Icon({
+          iconUrl:
+            geojsonPoint.properties.project_code === 'EPOC'
+              ? '/prospecting/epoc-realized.svg'
+              : '/prospecting/epoc-ODF-realized.svg',
           iconSize: [32, 39],
           iconAnchor: [16, 35.5],
         })
-        return L.marker(latlng, {
-          icon: epocOdfOfficialIcon,
+        return this.$L.marker(latlng, {
+          icon: epocRealizedIcon,
         })
       }
     },
-    epocOdfOfficialOnEachFeature() {
+    epocRealizedOnEachFeature() {
       return (feature, layer) => {
-        layer.bindTooltip('EPOC ODF', {
-          direction: 'right',
-          offset: [14, -18],
-          permanent: false,
-          opacity: 1,
-          className: 'LeafletTooltip',
-        })
+        layer.bindTooltip(
+          `${feature.properties.project_code.replace('-', ' ')} réalisé`,
+          {
+            direction: 'right',
+            offset: [14, -18],
+            permanent: false,
+            opacity: 1,
+            className: 'LeafletTooltip',
+          }
+        )
         layer.on({
           click: (event) => {
             this.$emit('clickedEpocPoint', feature)
@@ -588,33 +635,41 @@ export default {
         })
       }
     },
-    epocOdfReserveGeojsonOptions() {
+    epocOdfGeojsonOptions() {
       return {
-        pointToLayer: this.epocOdfReservePointToLayer,
-        onEachFeature: this.epocOdfReserveOnEachFeature,
+        pointToLayer: this.epocOdfPointToLayer,
+        onEachFeature: this.epocOdfOnEachFeature,
       }
     },
-    epocOdfReservePointToLayer() {
+    epocOdfPointToLayer() {
       return (geojsonPoint, latlng) => {
-        const epocOdfReserveIcon = new L.Icon({
-          iconUrl: '/prospecting/epoc-ODF-Reserve.svg',
+        const epocOdfIcon = new this.$L.Icon({
+          iconUrl:
+            geojsonPoint.properties.status === 'Officiel'
+              ? '/prospecting/epoc-ODF-Official.svg'
+              : '/prospecting/epoc-ODF-Reserve.svg',
           iconSize: [32, 39],
           iconAnchor: [16, 35.5],
         })
-        return L.marker(latlng, {
-          icon: epocOdfReserveIcon,
+        return this.$L.marker(latlng, {
+          icon: epocOdfIcon,
         })
       }
     },
-    epocOdfReserveOnEachFeature() {
+    epocOdfOnEachFeature() {
       return (feature, layer) => {
-        layer.bindTooltip('EPOC ODF de réserve', {
-          direction: 'right',
-          offset: [14, -18],
-          permanent: false,
-          opacity: 1,
-          className: 'LeafletTooltip',
-        })
+        layer.bindTooltip(
+          `EPOC ODF ${
+            feature.properties.status === 'Officiel' ? 'officiel' : 'de réserve'
+          }`,
+          {
+            direction: 'right',
+            offset: [14, -18],
+            permanent: false,
+            opacity: 1,
+            className: 'LeafletTooltip',
+          }
+        )
         layer.on({
           click: (event) => {
             this.$emit('clickedEpocPoint', feature)
@@ -650,14 +705,14 @@ export default {
       }
     },
     selectedLayer(newVal) {
-      if (newVal === 'Aucune') {
+      if (newVal.value === 'none') {
         this.$emit('clickedFeature', null)
       }
       this.$emit('clickedEpocPoint', null)
     },
     selectedTerritory(newVal) {
       if (newVal.name) {
-        const territory = L.geoJSON(
+        const territory = this.$L.geoJSON(
           this.territoriesEnvelopes.features.filter((item) => {
             return item.properties.area_name === newVal.name
           })
@@ -668,11 +723,12 @@ export default {
     },
   },
   beforeMount() {
-    if (this.detectMobile()) {
+    if (this.$detectMobile()) {
       // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
       const vh = window.innerHeight * 0.01
       // Then we set the value in the --vh custom property to the root of the document
       document.documentElement.style.setProperty('--vh', `${vh}px`)
+      window.addEventListener('resize', this.listener)
     }
   },
   mounted() {
@@ -686,7 +742,7 @@ export default {
           if (this.$route.query.type === 'ATLAS_GRID') {
             this.searchedFeatureCode = this.$route.query.area
           }
-          const area = L.geoJSON(data)
+          const area = this.$L.geoJSON(data)
           this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
@@ -704,10 +760,10 @@ export default {
         // La géolocalisation N'EST PAS supportée par le navigateur
         this.$axios
           .$get(
-            'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
+            '/api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
           )
           .then((data) => {
-            const territory = L.geoJSON(data)
+            const territory = this.$L.geoJSON(data)
             this.isProgramaticZoom = true
             this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
           })
@@ -717,7 +773,7 @@ export default {
       }
       if (this.$route.query.species) {
         this.$axios
-          .$get(`/api/v1/search_taxa?cd_nom=${this.$route.query.species}`)
+          .$get(`/api/v1/search/taxa?cd_nom=${this.$route.query.species}`)
           .then((data) => {
             this.$emit('selectedSpecies', data[0])
           })
@@ -728,10 +784,10 @@ export default {
     }
     this.$axios
       .$get(
-        '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true&envelope=-17.962646484375004,42.081916678306335,10.107421875000002,51.2206474303833'
+        '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true'
       )
       .then((data) => {
-        this.regionsGeojson = data
+        this.territoriesGeojson = data
       })
       .catch((error) => {
         console.log(error)
@@ -745,6 +801,9 @@ export default {
         console.log(error)
       })
   },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.listener)
+  },
   methods: {
     setGeolocation(position) {
       this.isProgramaticZoom = true
@@ -754,10 +813,10 @@ export default {
       // Si l'utilisateur a désactivé la géolocalisation (ou tout autre problème), alors on centre sur la France métropolitaine
       this.$axios
         .$get(
-          'api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
+          '/api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
         )
         .then((data) => {
-          const territory = L.geoJSON(data)
+          const territory = this.$L.geoJSON(data)
           this.isProgramaticZoom = true
           this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
         })
@@ -781,10 +840,13 @@ export default {
       const initBounds = this.$refs.myMap.mapObject.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
+      this.updateCenter({ lat: this.center[0], lng: this.center[1] })
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
-        this.updateEpocOdfOfficialGeojson()
-        this.updateEpocOdfReserveGeojson()
+        this.updateEpocRealizedGeojson()
+      }
+      if (this.currentZoom >= 9) {
+        this.updateEpocOdfGeojson()
       }
     },
     updateEnvelope(newBounds) {
@@ -793,8 +855,10 @@ export default {
       this.envelope = this.defineEnvelope(newBounds)
       this.updateKnowledgeLevelGeojson()
       if (this.currentZoom >= 11) {
-        this.updateEpocOdfOfficialGeojson()
-        this.updateEpocOdfReserveGeojson()
+        this.updateEpocRealizedGeojson()
+      }
+      if (this.currentZoom >= 9) {
+        this.updateEpocOdfGeojson()
       }
       if (this.selectedSpecies) {
         this.updateSpeciesDistributionGeojson(this.selectedSpecies)
@@ -812,24 +876,24 @@ export default {
     updateCenter(newCenter) {
       this.$axios
         .$get(
-          `api/v1/lareas/position?coordinates=${newCenter.lng},${newCenter.lat}&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true`
+          `/api/v1/lareas/position?coordinates=${newCenter.lng},${newCenter.lat}&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true`
         )
         .then((data) => {
-          if (data.id !== this.currentTerritory.id) {
+          if (data && data.id !== this.currentTerritory.id) {
             this.$emit('currentTerritory', {
               id: data.id,
               name: data.properties.area_name,
             })
           }
-        })
-        .catch((error) => {
-          console.log(error)
-          if (this.currentTerritory.id) {
+          if (!data && this.currentTerritory.id) {
             this.$emit('currentTerritory', {
               id: null,
               name: null,
             })
           }
+        })
+        .catch((error) => {
+          console.log(error)
         })
     },
     updateKnowledgeLevelGeojson() {
@@ -858,32 +922,37 @@ export default {
             }
           )
           .then((data) => {
-            this.knowledgeLevelGeojson = data
-            // Pouvoir afficher le tableau de bord si c'est une maille qui est sélectionnée
-            if (this.searchedFeatureId) {
-              const clickedFeature = this.knowledgeLevelGeojson.features.filter(
-                (feature) => {
-                  return feature.id === this.searchedFeatureId.toString()
+            if (data) {
+              this.knowledgeLevelGeojson = data
+              // Pouvoir afficher le tableau de bord si c'est une maille qui est sélectionnée
+              if (this.searchedFeatureId) {
+                const clickedFeature =
+                  this.knowledgeLevelGeojson.features.filter((feature) => {
+                    return feature.id === this.searchedFeatureId.toString()
+                  })
+                if (clickedFeature.length > 0) {
+                  this.$emit('clickedFeature', clickedFeature[0])
+                  this.openMobileMapControl()
+                  this.searchedFeatureId = null
                 }
-              )
-              if (clickedFeature.length > 0) {
-                this.$emit('clickedFeature', clickedFeature[0])
-                this.openMobileMapControl()
-                this.searchedFeatureId = null
               }
-            }
-            if (this.searchedFeatureCode) {
-              const clickedFeature = this.knowledgeLevelGeojson.features.filter(
-                (feature) => {
-                  return (
-                    feature.properties.area_code === this.searchedFeatureCode
-                  )
+              if (this.searchedFeatureCode) {
+                const clickedFeature =
+                  this.knowledgeLevelGeojson.features.filter((feature) => {
+                    return (
+                      feature.properties.area_code === this.searchedFeatureCode
+                    )
+                  })
+                if (clickedFeature.length > 0) {
+                  this.$emit('clickedFeature', clickedFeature[0])
+                  this.openMobileMapControl()
+                  this.searchedFeatureCode = null
                 }
-              )
-              if (clickedFeature.length > 0) {
-                this.$emit('clickedFeature', clickedFeature[0])
-                this.openMobileMapControl()
-                this.searchedFeatureCode = null
+              }
+            } else {
+              this.knowledgeLevelGeojson = {
+                type: 'FeatureCollection',
+                features: [],
               }
             }
           })
@@ -935,8 +1004,13 @@ export default {
             }
           )
           .then((data) => {
-            this.speciesDistributionGeojson = data
-            if (data.features.length === 0) {
+            if (data) {
+              this.speciesDistributionGeojson = data
+            } else {
+              this.speciesDistributionGeojson = {
+                type: 'FeatureCollection',
+                features: [],
+              }
               this.noSpeciesData = true
             }
           })
@@ -957,37 +1031,68 @@ export default {
       this.oldZoomSpeciesDistribution = this.currentZoom
       this.isProgramaticZoom = false
     },
-    updateEpocOdfOfficialGeojson() {
+    updateEpocRealizedGeojson() {
       this.$axios
-        .$get(`/api/v1/epoc?status=Officiel&envelope=${this.envelope}`)
+        .$get(`/api/v1/epoc/realized?envelope=${this.envelope}`)
         .then((data) => {
-          this.epocOdfOfficialGeojson = data
+          if (data) {
+            this.epocRealizedGeojson = data
+          } else {
+            this.epocRealizedGeojson = {
+              type: 'FeatureCollection',
+              features: [],
+            }
+          }
         })
         .catch((error) => {
           console.log(error)
         })
     },
-    updateEpocOdfReserveGeojson() {
+    updateEpocOdfGeojson() {
       this.$axios
-        .$get(`/api/v1/epoc?status=Reserve&envelope=${this.envelope}`)
+        .$get(`/api/v1/epoc?envelope=${this.envelope}`)
         .then((data) => {
-          this.epocOdfReserveGeojson = data
+          if (data) {
+            this.epocOdfGeojson = data
+          } else {
+            this.epocOdfGeojson = { type: 'FeatureCollection', features: [] }
+          }
         })
         .catch((error) => {
           console.log(error)
         })
     },
-    setFeatureColor(percent) {
+    setFeatureColor(number) {
       const featuresColors = this.selectedSeason.featuresColors
-      return percent >= this.featuresClasses[3]
-        ? featuresColors[4]
-        : percent > this.featuresClasses[2]
-        ? featuresColors[3]
-        : percent > this.featuresClasses[1]
-        ? featuresColors[2]
-        : percent > this.featuresClasses[0]
-        ? featuresColors[1]
-        : featuresColors[0]
+      if (this.selectedLayer.value === 'knowledge-level') {
+        return number >= this.knowledgeLevelClasses[4]
+          ? featuresColors[5]
+          : number >= this.knowledgeLevelClasses[3]
+          ? featuresColors[4]
+          : number >= this.knowledgeLevelClasses[2]
+          ? featuresColors[3]
+          : number >= this.knowledgeLevelClasses[1]
+          ? featuresColors[2]
+          : featuresColors[1]
+      }
+      if (this.selectedLayer.value === 'species-number') {
+        if (this.countTaxaClasses.all_period.length > 0) {
+          return number >=
+            this.countTaxaClasses[this.selectedSeason.value][4].min
+            ? featuresColors[5]
+            : number >= this.countTaxaClasses[this.selectedSeason.value][3].min
+            ? featuresColors[4]
+            : number >= this.countTaxaClasses[this.selectedSeason.value][2].min
+            ? featuresColors[3]
+            : number >= this.countTaxaClasses[this.selectedSeason.value][1].min
+            ? featuresColors[2]
+            : number > 0
+            ? featuresColors[1]
+            : featuresColors[0]
+        } else {
+          return featuresColors[0]
+        }
+      }
     },
     highlightFeature(event) {
       event.target.setStyle({
@@ -999,14 +1104,17 @@ export default {
     resetFeatureStyle(event) {
       event.target.setStyle({
         weight: 0.8,
-        color:
-          this.selectedLayer === 'Indice de complétude' ? '#FFFFFF' : '#C4C4C4',
+        color: ['knowledge-level', 'species-number'].includes(
+          this.selectedLayer.value
+        )
+          ? '#FFFFFF'
+          : '#C4C4C4',
       })
     },
     geolocate() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          const center = L.latLng(
+          const center = this.$L.latLng(
             position.coords.latitude,
             position.coords.longitude
           )
@@ -1059,11 +1167,11 @@ export default {
     updateSelectedLayer(layer) {
       this.$emit('selectedLayer', layer)
     },
-    updateEpocOdfOfficial(value) {
-      this.$emit('epocOdfOfficialIsOn', value)
+    updateEpocRealized(value) {
+      this.$emit('epocRealizedIsOn', value)
     },
-    updateEpocOdfReserve(value) {
-      this.$emit('epocOdfReserveIsOn', value)
+    updateEpocOdf(value) {
+      this.$emit('epocOdfIsOn', value)
     },
     updatePlan(value) {
       this.$emit('planIsOn', value)
@@ -1087,19 +1195,12 @@ export default {
       this.$emit('selectedTerritory', territory)
       this.territoryIsOpen = false
     },
-    detectMobile() {
-      const toMatch = [
-        /Android/i,
-        /webOS/i,
-        /iPhone/i,
-        /iPad/i,
-        /iPod/i,
-        /BlackBerry/i,
-        /Windows Phone/i,
-      ]
-      return toMatch.some((item) => {
-        return navigator.userAgent.match(item)
-      })
+    listener() {
+      this.$debounce(this.detectResize())
+    },
+    detectResize() {
+      const vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
     },
   },
 }
@@ -1109,5 +1210,21 @@ export default {
 #map-wrap {
   height: calc(100vh - 136px);
   height: calc(calc(var(--vh, 1vh) * 100) - 136px);
+}
+
+.Progress {
+  background: url('/prospecting/progress.gif') center / cover;
+  background-size: 240%;
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.bottom-margin-38 {
+  margin-bottom: 38px;
 }
 </style>

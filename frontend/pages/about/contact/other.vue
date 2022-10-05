@@ -1,10 +1,12 @@
 <template>
   <v-container fluid>
-    <header class="ContactFormHeader">
-      <breadcrumb class="bottom-margin-40" />
-      <h3 v-show="!validForm" class="fw-600 text-center">Autre demande</h3>
-    </header>
-    <section v-show="!validForm" class="ContactFormSection">
+    <main class="TopSection breadcrumb">
+      <breadcrumb />
+      <header>
+        <h3 v-show="!validForm" class="fw-600 text-center">Autre demande</h3>
+      </header>
+    </main>
+    <section v-show="!validForm" class="Section">
       <div class="ContactFormContent">
         <span class="black02 fw-500 bottom-margin-8">Nom</span>
         <input
@@ -13,6 +15,13 @@
           placeholder="Henri Martin"
           class="ContactFormInput"
         />
+        <span v-show="alerts.noUserName" class="ContactFormAlert">
+          Veuillez renseigner votre nom
+          <i
+            class="v-icon mdi mdi-close-circle ContactFormAlertCloseIcon"
+            @click="deleteAlert"
+          ></i>
+        </span>
         <span class="black02 fw-500 bottom-margin-8">Adresse email</span>
         <input
           v-model="userMail"
@@ -20,6 +29,20 @@
           placeholder="henri.martin@monmail.fr"
           class="ContactFormInput"
         />
+        <span v-show="alerts.noUserMail" class="ContactFormAlert">
+          Veuillez renseigner votre adresse email
+          <i
+            class="v-icon mdi mdi-close-circle ContactFormAlertCloseIcon"
+            @click="deleteAlert"
+          ></i>
+        </span>
+        <span v-show="alerts.wrongUserMail" class="ContactFormAlert">
+          Veuillez renseigner une adresse email valide
+          <i
+            class="v-icon mdi mdi-close-circle ContactFormAlertCloseIcon"
+            @click="deleteAlert"
+          ></i>
+        </span>
         <span class="black02 fw-500 bottom-margin-8">Département</span>
         <contact-form-dropdown-list
           :z-index="4"
@@ -27,25 +50,44 @@
           :items-list="$departmentsList"
           @selectedItem="updateSelectedDepartment"
         />
+        <span v-show="alerts.noSelectedDepartment" class="ContactFormAlert">
+          Veuillez sélectionner un département
+          <i
+            class="v-icon mdi mdi-close-circle ContactFormAlertCloseIcon"
+            @click="deleteAlert"
+          ></i>
+        </span>
         <span class="black02 fw-500 bottom-margin-8">Message</span>
         <textarea
           v-model="userMessage"
           placeholder="Bonjour..."
           class="ContactFormTextarea"
         />
+        <span v-show="alerts.noUserMessage" class="ContactFormAlert">
+          Veuillez écrire un message
+          <i
+            class="v-icon mdi mdi-close-circle ContactFormAlertCloseIcon"
+            @click="deleteAlert"
+          ></i>
+        </span>
         <captcha-form
           :captcha-ref="captchaRef"
           @captchaUser="updateCaptchaUser"
         />
-        <div v-if="alertMessage" class="ContactFormAlert">
-          <span class="ContactFormAlertMessage">
-            {{ alertMessage }}
-          </span>
+        <span v-show="alerts.wrongCaptchaUser" class="ContactFormAlert">
+          Le code de sécurité que vous avez renseigné n'est pas bon
           <i
             class="v-icon mdi mdi-close-circle ContactFormAlertCloseIcon"
-            @click="deleteAlertMessage"
+            @click="deleteAlert"
           ></i>
-        </div>
+        </span>
+        <span v-show="alerts.sendingFail" class="ContactFormAlert">
+          L'envoi du mail a échoué...
+          <i
+            class="v-icon mdi mdi-close-circle ContactFormAlertCloseIcon"
+            @click="deleteAlert"
+          ></i>
+        </span>
         <button
           :disabled="disabledButton"
           class="PrimaryButton"
@@ -79,10 +121,23 @@ export default {
     userMessage: '',
     captchaRef: '',
     captchaUser: '',
-    alertMessage: null,
+    alerts: {
+      noUserName: false,
+      noUserMail: false,
+      wrongUserMail: false,
+      noSelectedDepartment: false,
+      noUserMessage: false,
+      wrongCaptchaUser: false,
+      sendingFail: false,
+    },
     validForm: false,
     disabledButton: false,
   }),
+  head() {
+    return {
+      title: this.$getPageTitle(this.$route.path),
+    }
+  },
   mounted() {
     this.captchaRef = this.$generateCaptcha()
   },
@@ -95,35 +150,24 @@ export default {
       this.captchaUser = captcha
     },
     validateForm() {
-      if (this.captchaUser !== this.captchaRef) {
-        this.alertMessage =
-          "Le code de sécurité que vous avez renseigné n'est pas bon"
-      }
-      if (!this.userMessage) {
-        this.alertMessage = 'Veuillez écrire un message'
-      }
-      if (!this.selectedDepartment) {
-        this.alertMessage = 'Veuillez sélectionner un département'
-      }
-      if (!this.$checkEmail(this.userMail)) {
-        this.alertMessage = 'Veuillez renseigner une adresse email valide'
-      }
-      if (!this.userMail) {
-        this.alertMessage = 'Veuillez renseigner votre adresse email'
+      for (const i in this.alerts) {
+        this.alerts[i] = false
       }
       if (!this.userName) {
-        this.alertMessage = 'Veuillez renseigner votre nom'
-      }
-      if (
-        this.userName &&
-        this.$checkEmail(this.userMail) &&
-        this.selectedDepartment &&
-        this.userMessage &&
-        this.captchaUser === this.captchaRef
-      ) {
+        this.alerts.noUserName = true
+      } else if (!this.userMail) {
+        this.alerts.noUserMail = true
+      } else if (!this.$checkEmail(this.userMail)) {
+        this.alerts.wrongUserMail = true
+      } else if (!this.selectedDepartment) {
+        this.alerts.noSelectedDepartment = true
+      } else if (!this.userMessage) {
+        this.alerts.noUserMessage = true
+      } else if (this.captchaUser !== this.captchaRef) {
+        this.alerts.wrongCaptchaUser = true
+      } else {
         // this.validForm = true
         this.disabledButton = true
-        this.alertMessage = null
         const messageIntroduction = `Nom : ${this.userName} \nEmail : ${this.userMail} \nDépartement : ${this.selectedDepartment} \n\nMessage : \n`
         this.$mail
           .send({
@@ -136,7 +180,7 @@ export default {
             this.validForm = true
           })
           .catch((error) => {
-            this.alertMessage = "L'envoi du mail a échoué..."
+            this.alerts.sendingFail = true
             this.disabledButton = false
             if (error.response) {
               console.log(error.response.data)
@@ -144,14 +188,11 @@ export default {
           })
       }
     },
-    deleteAlertMessage() {
-      this.alertMessage = null
+    deleteAlert() {
+      for (const i in this.alerts) {
+        this.alerts[i] = false
+      }
     },
-  },
-  head() {
-    return {
-      title: this.$getPageTitle(this.$route.path),
-    }
   },
 }
 </script>
@@ -159,5 +200,9 @@ export default {
 <style scoped>
 div.container.container--fluid {
   padding-top: 68px;
+}
+
+.TopSection {
+  padding: 16px 5% 0;
 }
 </style>

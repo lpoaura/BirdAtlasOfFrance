@@ -62,7 +62,7 @@ class KnowledgeLevelGeneralStatsActions(BaseReadOnlyActions[AreaKnowledgeLevel])
         }
         q = (
             db.query(
-                func.avg(percent_knowledge_fields[period]).label("average"),
+                func.coalesce(func.avg(percent_knowledge_fields[period]), 0).label("average"),
                 func.count(AreaKnowledgeLevel.id_area)
                 .filter(
                     and_(

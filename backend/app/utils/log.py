@@ -36,7 +36,7 @@ class LoggingSettings(BaseSettings):
 
     """
 
-    level: LoggingLevel = settings.LOG_LEVEL
+    level: LoggingLevel = settings.LOG_LEVEL.upper()
     format: str = (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
         "<level>{level: <8}</level> | "
@@ -157,7 +157,7 @@ def setup_logger_from_settings(settings: Optional[LoggingSettings] = None) -> Lo
     )
 
 
-if settings.LOG_LEVEL == "DEBUG":
+if settings.LOG_LEVEL.upper() == "DEBUG":
 
     @event.listens_for(Engine, "before_cursor_execute")
     def before_cursor_execute(conn, cursor, statement, parameters, context, executemany):
@@ -169,5 +169,5 @@ if settings.LOG_LEVEL == "DEBUG":
     def after_cursor_execute(conn, cursor, statement, parameters, context, executemany):
         total = time.time() - conn.info["query_start_time"].pop(-1)
         q = statement % parameters
-        logger.debug(f"Query Complete!")
+        logger.debug("Query Complete!")
         logger.debug(f"Total Time: {total}")

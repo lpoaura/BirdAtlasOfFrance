@@ -35,24 +35,27 @@ $$
             /* Filtrage des données et association au zonage */
         SELECT DISTINCT
             cor_area_synthese.id_area
-          , id_form                                 AS id_form_universal
-          , synthese.id_synthese                    AS id_data
+          , id_form                                   AS id_form_universal
+          , project_code
+          , synthese.id_synthese                      AS id_data
           , synthese.cd_nom
-          , synthese.altitude_min                   AS altitude
+          , synthese.altitude_min                     AS altitude
           , synthese.date_min::DATE
+          , trunc((extract(DOY FROM date_min) / 10))  AS day_decade
           , (synthese.date_min > '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min >= '2019-01-01')) AS new_data_all_period
+            AND synthese.date_min >= '2019-01-01'))   AS new_data_all_period
           , (synthese.date_min <= '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min < '2019-01-01'))  AS old_data_all_period
+            AND synthese.date_min < '2019-01-01'))    AS old_data_all_period
           , (extract(MONTH FROM synthese.date_min) IN (12, 1)
-            AND synthese.date_min <= '2019-01-31')  AS old_data_wintering
+            AND synthese.date_min <= '2019-01-31')    AS old_data_wintering
           , (extract(MONTH FROM synthese.date_min) IN (12, 1)
-            AND synthese.date_min > '2019-11-30')   AS new_data_wintering
+            AND synthese.date_min > '2019-11-30')     AS new_data_wintering
           , (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min < '2019-01-01')   AS old_data_breeding
+            AND synthese.date_min < '2019-01-01')     AS old_data_breeding
           , (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min >= '2019-01-01')  AS new_data_breeding
+            AND synthese.date_min >= '2019-01-01')    AS new_data_breeding
           , tcse.bird_breed_code
+          , 'Migration active' = ANY (tcse.behaviour) AS active_migration
             FROM
                 gn_synthese.synthese
                     JOIN cor_area_synthese ON cor_area_synthese.id_synthese = synthese.id_synthese
@@ -72,6 +75,7 @@ $$
         CREATE INDEX i_data_for_atlas_cdnom ON atlas.mv_data_for_atlas (cd_nom);
         CREATE INDEX i_data_for_atlas_idarea ON atlas.mv_data_for_atlas (id_area);
         CREATE INDEX i_data_for_atlas_bird_breeding_code ON atlas.mv_data_for_atlas (bird_breed_code);
+        CREATE INDEX i_data_for_atlas_id_form_universal ON atlas.mv_data_for_atlas (id_form_universal);
         /* INFO: Forms, attached to areas */
         RAISE INFO '-- % -- DROP CASCADE MV atlas.mv_forms_for_atlas', clock_timestamp();
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_forms_for_atlas CASCADE;
@@ -90,6 +94,15 @@ $$
                           enable IS TRUE
                       AND id_type = ref_geo.get_id_area_type('ATLAS_GRID')
             )
+          , epoc AS (
+            SELECT DISTINCT
+                id_form
+              , project_code
+                FROM
+                    src_lpodatas.t_c_synthese_extended
+                WHERE
+                    project_code IN ('EPOC', 'EPOC-ODF')
+        )
         SELECT
             areas.id_area
           , site                                                                      AS site
@@ -106,9 +119,10 @@ $$
                 END                                                                   AS timelength_secs
           , extract(MONTH FROM cast(item ->> 'date_start' AS DATE)) IN (1, 12)        AS is_wintering
           , extract(MONTH FROM cast(item ->> 'date_start' AS DATE)) BETWEEN 3 AND 7   AS is_breeding
-          , CASE
-                WHEN item ? 'comment' THEN (item ->> 'comment' ILIKE '%EPOC%')
-                ELSE FALSE END                                                        AS is_epoc
+--           , CASE
+--                 WHEN item ? 'comment' THEN (item ->> 'comment' ILIKE '%EPOC%')
+--                 ELSE FALSE END                                                        AS is_epoc
+          , epoc.project_code IN ('EPOC', 'EPOC-ODF')                                 AS is_epoc
           , cast(item ->> 'full_form' AS BOOLEAN)                                     AS full_form
           , st_setsrid(st_makepoint(cast(item ->> 'lon' AS NUMERIC), cast(item ->> 'lat' AS NUMERIC)),
                        4326)                                                          AS geom
@@ -116,6 +130,7 @@ $$
           , item #>> '{protocol,protocol_name}'                                       AS protocol
             FROM
                 src_vn_json.forms_json
+                    LEFT JOIN epoc ON epoc.id_form = forms_json.item ->> 'id_form_universal'
               , areas
             WHERE
                   st_intersects(
@@ -123,7 +138,6 @@ $$
                                      4326), areas.geom)
               AND cast(item ->> 'date_start' AS DATE) > '2018-12-31'
                 )
-
         WITH NO DATA;
         RAISE INFO '-- % -- COMMENT AND INDEXES ON atlas.mv_forms_for_atlas', clock_timestamp();
         COMMENT ON MATERIALIZED VIEW atlas.mv_forms_for_atlas IS 'All forms realized during atlas period';
@@ -154,7 +168,6 @@ $$
                     JOIN atlas.t_taxa ON taxref.cd_nom = t_taxa.cd_nom
             WHERE
                   site = (SELECT DISTINCT site FROM src_vn_json.species_json LIMIT 1)
-                  --              AND cast(item ->> 'id_taxo_group' as int) = 1
               AND taxref.classe LIKE 'Aves'
         ON CONFLICT (cd_nom) DO NOTHING;
 
@@ -162,9 +175,9 @@ $$
         WITH
             species AS (SELECT
                             taxref.cd_nom
-                          , taxref.lb_nom           AS latin_name
-                          , item ->> 'french_name'  AS french_name
-                          , item ->> 'english_name' AS english_name
+                          , taxref.lb_nom                                                              AS latin_name
+                          , coalesce(item ->> 'french_name', split_part(taxref.nom_vern, ',', 1))      AS french_name
+                          , coalesce(item ->> 'english_name', split_part(taxref.nom_vern_eng, ',', 1)) AS english_name
                             FROM
                                 src_vn_json.species_json
                                     JOIN taxonomie.cor_c_vn_taxref ON vn_id = species_json.id
@@ -182,7 +195,7 @@ $$
                          taxonomie.bib_attributs
                      WHERE
                          bib_attributs.nom_attribut LIKE 'odf_sci_name') AS id_attribut
-              , species.latin_name                                       AS valeur_attribut
+              , coalesce(species.latin_name, '-')                        AS valeur_attribut
               , species.cd_nom
                 FROM
                     species
@@ -194,7 +207,7 @@ $$
                          taxonomie.bib_attributs
                      WHERE
                          bib_attributs.nom_attribut LIKE 'odf_common_name_fr') AS id_attribut
-              , species.french_name                                            AS valeur_attribut
+              , coalesce(species.french_name, '-')                             AS valeur_attribut
               , species.cd_nom
                 FROM
                     species
@@ -206,7 +219,7 @@ $$
                          taxonomie.bib_attributs
                      WHERE
                          bib_attributs.nom_attribut LIKE 'odf_common_name_en') AS id_attribut
-              , species.english_name                                           AS valeur_attribut
+              , coalesce(species.english_name, '-')                            AS valeur_attribut
               , species.cd_nom
                 FROM
                     species)
@@ -219,70 +232,87 @@ $$
             ORDER BY cd_nom, id_attribut
         ON CONFLICT (id_attribut, cd_ref) DO NOTHING;
 
-        WITH
-            species AS (SELECT
-                            taxref.cd_nom
-                          , taxref.lb_nom           AS latin_name
-                          , item ->> 'french_name'  AS french_name
-                          , item ->> 'english_name' AS english_name
-                            FROM
-                                src_vn_json.species_json
-                                    JOIN taxonomie.cor_c_vn_taxref ON vn_id = species_json.id
-                                    JOIN taxonomie.taxref ON cor_c_vn_taxref.taxref_id = taxref.cd_nom
-                            WHERE
-                                  site = (SELECT DISTINCT site FROM src_vn_json.species_json LIMIT 1)
-                                  --              AND cast(item ->> 'id_taxo_group' as int) = 1
-                              AND taxref.classe LIKE 'Aves'
-            )
-          , attributs AS (
-            SELECT
-                (SELECT
-                     id_attribut
-                     FROM
-                         taxonomie.bib_attributs
-                     WHERE
-                         bib_attributs.nom_attribut LIKE 'odf_sci_name') AS id_attribut
-              , species.latin_name                                       AS valeur_attribut
-              , species.cd_nom
-                FROM
-                    species
-            UNION
-            SELECT
-                (SELECT
-                     id_attribut
-                     FROM
-                         taxonomie.bib_attributs
-                     WHERE
-                         bib_attributs.nom_attribut LIKE 'odf_common_name_fr') AS id_attribut
-              , species.french_name                                            AS valeur_attribut
-              , species.cd_nom
-                FROM
-                    species
-            UNION
-            SELECT
-                (SELECT
-                     id_attribut
-                     FROM
-                         taxonomie.bib_attributs
-                     WHERE
-                         bib_attributs.nom_attribut LIKE 'odf_common_name_en') AS id_attribut
-              , species.english_name                                           AS valeur_attribut
-              , species.cd_nom
-                FROM
-                    species)
-        UPDATE
-            taxonomie.cor_taxon_attribut
-        SET
-            valeur_attribut = attributs.valeur_attribut
+        DROP MATERIALIZED VIEW atlas.mv_grid_territories_matching;
+        CREATE MATERIALIZED VIEW atlas.mv_grid_territories_matching AS
+        SELECT
+            territory.id_area AS id_area_territory
+          , grid.id_area      AS id_area_grid
             FROM
-                attributs
+                ref_geo.l_areas grid
+                    JOIN ref_geo.l_areas territory ON st_intersects(grid.geom, territory.geom)
             WHERE
-                    cor_taxon_attribut.
-                        cd_ref = attributs.cd_nom
-              AND   cor_taxon_attribut.id_attribut = attributs.id_attribut;
+                  territory.id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
+              AND grid.id_type = ref_geo.get_id_area_type('ATLAS_GRID');
 
+        CREATE UNIQUE INDEX ON atlas.mv_grid_territories_matching (id_area_territory, id_area_grid);
+--
+--         WITH
+--             species AS (SELECT
+--                             taxref.cd_nom
+--                           , taxref.lb_nom           AS latin_name
+--                           , item ->> 'french_name'  AS french_name
+--                           , item ->> 'english_name' AS english_name
+--                             FROM
+--                                 src_vn_json.species_json
+--                                     JOIN taxonomie.cor_c_vn_taxref ON vn_id = species_json.id
+--                                     JOIN taxonomie.taxref ON cor_c_vn_taxref.taxref_id = taxref.cd_nom
+--                             WHERE
+--                                   site = (SELECT DISTINCT site FROM src_vn_json.species_json LIMIT 1)
+--                                   --              AND cast(item ->> 'id_taxo_group' as int) = 1
+--                               AND taxref.classe LIKE 'Aves'
+--             )
+--           , attributs AS (
+--             SELECT
+--                 (SELECT
+--                      id_attribut
+--                      FROM
+--                          taxonomie.bib_attributs
+--                      WHERE
+--                          bib_attributs.nom_attribut LIKE 'odf_sci_name') AS id_attribut
+--               , species.latin_name                                       AS valeur_attribut
+--               , species.cd_nom
+--                 FROM
+--                     species
+--             UNION
+--             SELECT
+--                 (SELECT
+--                      id_attribut
+--                      FROM
+--                          taxonomie.bib_attributs
+--                      WHERE
+--                          bib_attributs.nom_attribut LIKE 'odf_common_name_fr') AS id_attribut
+--               , species.french_name                                            AS valeur_attribut
+--               , species.cd_nom
+--                 FROM
+--                     species
+--             UNION
+--             SELECT
+--                 (SELECT
+--                      id_attribut
+--                      FROM
+--                          taxonomie.bib_attributs
+--                      WHERE
+--                          bib_attributs.nom_attribut LIKE 'odf_common_name_en') AS id_attribut
+--               , species.english_name                                           AS valeur_attribut
+--               , species.cd_nom
+--                 FROM
+--                     species)
+--         UPDATE
+--             taxonomie.cor_taxon_attribut
+--         SET
+--             valeur_attribut = attributs.valeur_attribut
+--             FROM
+--                 attributs
+--             WHERE
+--                     cor_taxon_attribut.
+--                         cd_ref = attributs.cd_nom
+--               AND   cor_taxon_attribut.id_attribut = attributs.id_attribut;
         COMMIT;
     END
 $$
+;
+
+
+GRANT SELECT ON ALL TABLES IN SCHEMA atlas TO odfapp
 ;
 
