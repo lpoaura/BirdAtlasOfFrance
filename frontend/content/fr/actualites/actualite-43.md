@@ -1,6 +1,6 @@
 ---
 title: "Atlas des oiseaux migrateurs de France : l’ouvrage est officiellement disponible !"
-picture: actualite-43.webp
+picture: actualite-33.webp
 credit: image_credit
 centering: center
 author: Oiseaux de France
