@@ -31,7 +31,7 @@
               class="CardPicture"
               :src="news.picture"
               :style="{
-                background: `url(/news/${news.picture}) center / cover`,
+                background: `url(/news/${news.picture}) center / cover`
               }"
             ></div>
             <span class="black03 bottom-margin-8">
@@ -74,7 +74,7 @@ export default {
     currentOffset: 0,
     maxOffset: 0,
     resizeId: 0,
-    isTouchDevice: false,
+    isTouchDevice: false
   }),
   computed: {
     atEndOfList() {
@@ -82,7 +82,7 @@ export default {
     },
     atHeadOfList() {
       return this.currentOffset === 0
-    },
+    }
   },
   beforeMount() {
     this.isTouchDevice =
@@ -96,7 +96,8 @@ export default {
   },
   mounted() {
     this.$content(`fr/actualites`)
-      .where({ active: true })
+      .where({ active: true, date: { $lte: new Date() } })
+      // .where({ active: true,})
       .sortBy('date', 'desc')
       .fetch()
       .then((news) => {
@@ -141,11 +142,10 @@ export default {
       }
     },
     calculateMaxOffset() {
-      const totalCardsWidth = document.getElementsByClassName('Carousel')[0]
-        .offsetWidth
-      const carouselWrapperWidth = document.getElementsByClassName(
-        'CarouselWrapper'
-      )[0].offsetWidth
+      const totalCardsWidth =
+        document.getElementsByClassName('Carousel')[0].offsetWidth
+      const carouselWrapperWidth =
+        document.getElementsByClassName('CarouselWrapper')[0].offsetWidth
       if (totalCardsWidth > carouselWrapperWidth) {
         return -(totalCardsWidth - carouselWrapperWidth)
       } else {
@@ -153,21 +153,21 @@ export default {
       }
     },
     calculateCardWidth() {
-      const cardWidth = document.getElementsByClassName('NewsCard')[0]
-        .offsetWidth
+      const cardWidth =
+        document.getElementsByClassName('NewsCard')[0].offsetWidth
       const cardMarginRight = parseFloat(
         window.getComputedStyle(document.getElementsByClassName('NewsCard')[0])
           .marginRight
       )
       return cardWidth + cardMarginRight
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style scoped>
 .Section {
-  padding: 40px 0 32px 0;
+  padding: 40px 0 32px;
   background: rgba(57, 118, 90, 0.1);
 }
 
@@ -278,7 +278,7 @@ h5.Subtitle {
 
 @media screen and (max-width: 680px) {
   .Section {
-    padding: 24px 0 16px 0;
+    padding: 46px 0 16px;
   }
 
   .CarouselNav {

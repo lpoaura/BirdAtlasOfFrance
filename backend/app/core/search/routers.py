@@ -18,7 +18,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/search_areas",
+    "/search/areas",
     response_model=List[MvSearchAreasSchema],
     tags=["core"],
     summary="Area search API by type code",
@@ -33,14 +33,12 @@ def search_areas(
     search: Optional[str] = None,
     type_code: Optional[str] = None,
 ) -> Any:
-    rsearch = mv_search_areas.get_search_list(
-        db=db, limit=limit, search=search, type_code=type_code
-    )
-    return rsearch
+    q = mv_search_areas.get_search_list(db=db, limit=limit, search=search, type_code=type_code)
+    return q
 
 
 @router.get(
-    "/search_taxa",
+    "/search/taxa",
     response_model=List[MvSearchTaxaSchema],
     tags=["core"],
     summary="Taxa search API",
@@ -55,5 +53,5 @@ def search_taxa(
     search: Optional[str] = None,
     cd_nom: Optional[int] = None,
 ) -> Any:
-    rsearch = mv_search_taxa.get_search_list(db=db, limit=limit, search=search, cd_nom=cd_nom)
-    return rsearch
+    q = mv_search_taxa.get_search_list(db=db, limit=limit, search=search, cd_nom=cd_nom)
+    return q
