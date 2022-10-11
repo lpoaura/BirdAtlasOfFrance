@@ -9,10 +9,11 @@ tags: ['migration','PGS']
 active: true
 ---
 
-**L’automne 2022 s’annonce propice à l’observation de ce pouillot sibérien. Pour le moment la majorité des donnés 2022 sont littorales, de la pointe bretonne à la Gironde(1).**
+**L’automne 2022 s’annonce propice à l’observation de ce pouillot sibérien. Pour le moment la majorité des donnés 2022 sont littorales, de la pointe bretonne à la Gironde(1). Si vous ne l'avez pas encore observé, c'est le moment idéal pour partir à sa recherche !**
+
 Migrateur strict, le Pouillot à grands sourcils hiverne habituellement en Asie du Sud-Est et niche dans la Taïga sibérienne(2). Occasionnel en France, il est toutefois le pouillot sibérien le plus « fréquemment » rencontré sur le territoire. 
 
-[<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-41-EtatOiseau20222couverture.webp"/>](https://www.faune-france.org/index.php?m_id=30160)
+[<img class="InformativePagePicture" style="width: 70%" src="/news/actualite-44-cartePGS-FF.webp"/>](https://www.faune-france.org/index.php?m_id=30160)
 <span class="InformativePagePictureLegend">Carte du 11-10-2022 des observations de Pouillot à grands sourcils (Source : Faune France) </span>
 
 ## Pourquoi l’automne 2022 promet d’être riche en observation de PGS ? 
