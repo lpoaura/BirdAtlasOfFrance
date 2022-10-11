@@ -6,7 +6,7 @@
         <nuxt-link v-for="(link, index) in links" :key="index" :to="link.route">
           <h4 class="nowrap">{{ link.label }}</h4>
         </nuxt-link>
-        <a href="http://eepurl.com/hi6NPj" target="_blank">
+        <a v-if="newsletterUrl" :href="newsletterUrl" target="_blank">
           <h4 class="nowrap">Newsletter</h4>
         </a>
       </div>
@@ -33,26 +33,27 @@
 <script>
 export default {
   data: () => ({
+    newsletterUrl: process.env.NEWSLETTER_URL,
     links: [
       { label: 'À propos', route: '/about' },
       { label: 'Contact', route: '/about/contact' },
-      { label: 'Mentions légales', route: '/about/legal-notices' },
+      { label: 'Mentions légales', route: '/about/legal-notices' }
     ],
     socialNetworksItems: [
       {
         icon: '/mail-filled.svg',
-        link: 'mailto:oiseauxdefrance@lpo.fr',
+        link: 'mailto:oiseauxdefrance@lpo.fr'
       },
       {
         icon: '/youtube.svg',
-        link: 'https://www.youtube.com/channel/UCI13cz60YLX3DHEeOEBxdMg',
+        link: 'https://www.youtube.com/channel/UCI13cz60YLX3DHEeOEBxdMg'
       },
       {
         icon: '/github.svg',
-        link: 'https://github.com/lpoaura/BirdAtlasOfFrance',
-      },
-    ],
-  }),
+        link: 'https://github.com/lpoaura/BirdAtlasOfFrance'
+      }
+    ]
+  })
 }
 </script>
 
