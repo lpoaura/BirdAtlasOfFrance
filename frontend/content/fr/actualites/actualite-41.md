@@ -1,7 +1,7 @@
 ---
 title: "Une espèce d'oiseau sur 8 menacée d'extinction dans le monde"
 picture: actualite-41.webp
-credit: 
+credit: Monarque de Fatu Hiva © Benjamin Ignace
 centering: center
 author: Oiseaux de France
 date: '2022-10-11'
