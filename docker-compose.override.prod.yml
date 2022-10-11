@@ -4,7 +4,7 @@ services:
 
   frontend:
     labels:
-      traefik.http.routers.frontend.rule: Host(`${APP_DOMAIN:-dev.odf.local}`)
+      traefik.http.routers.frontend.rule: Host(`${APP_URL:-dev.odf.local}`)
       traefik.http.services.frontend.loadbalancer.server.port: 3000
 
 
@@ -21,4 +21,4 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      - frontend
+      - proxy
