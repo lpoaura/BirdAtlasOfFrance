@@ -9,7 +9,7 @@ tags: ['atlas', 'migration',]
 active: true
 ---
 
-**« Cet atlas constituera un référentiel pour tous les ornithologues en Europe dans les années à venir pour étudier l’évolution de l’avifaune migratrice. »**
+**« Cet atlas constituera un référentiel sur l’évolution de l’avifaune migratrice. »**
 
 Issu d’une coédition Biotope-LPO-MNHN, l’Atlas des oiseaux migrateurs de France est paru le 24 octobre 2022. Cet ouvrage en 2 volumes est le fruit de 4 années de travail, coordonné par la LPO, auquel près de 200 rédacteurs et relecteurs ont contribué. Avec autant d’informations - le plus souvent inédites - sur pas moins de 320 espèces, la migration des oiseaux n’aura (presque) plus de secret pour vous ! 
 
