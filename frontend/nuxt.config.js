@@ -6,6 +6,7 @@ export default {
   //   host: '0', // default: localhost
   // },
   // Global page headers (https://go.nuxtjs.dev/config-head)
+  target: 'static',
   head: {
     titleTemplate: '%s | Atlas des Oiseaux de France',
     title: '',
