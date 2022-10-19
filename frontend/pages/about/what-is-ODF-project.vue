@@ -5,33 +5,33 @@
 <script>
 export default {
   data: () => ({
-    nuxtContent: 'fr/projet-ODF',
+    nuxtContent: 'fr/projet-ODF'
   }),
   head() {
     return {
-      title: this.$getPageTitle(this.$route.path),
+      title: this.$getPageTitle(this.$route.path)
     }
-  },
+  }
 }
 </script>
 
 <style scoped>
-div.container.container--fluid >>> .Logo {
+div.container.container--fluid :deep(.Logo) {
   width: 110px;
 }
 
-div.container.container--fluid >>> .InformativePageLogo {
+div.container.container--fluid :deep(.InformativePageLogo) {
   height: 60px;
 }
 
 /********** RESPONSIVE **********/
 
 @media screen and (max-width: 1300px) {
-  div.container.container--fluid >>> .TabMenu {
+  div.container.container--fluid :deep(.TabMenu) {
     display: none;
   }
 
-  div.container.container--fluid >>> .DropdownListWrapper {
+  div.container.container--fluid :deep(.DropdownListWrapper) {
     display: block;
     margin-top: 16px;
     margin-bottom: 0;
@@ -39,7 +39,7 @@ div.container.container--fluid >>> .InformativePageLogo {
 }
 
 @media screen and (max-width: 680px) {
-  div.container.container--fluid >>> .Logo {
+  div.container.container--fluid :deep(.Logo) {
     width: 80px;
   }
 }
