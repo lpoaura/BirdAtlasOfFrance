@@ -3,10 +3,10 @@
     <div
       class="TopSectionPicture"
       :style="{
-        '--largeUrl': homePicture.largeUrl,
-        '--mobileUrl': homePicture.mobileUrl,
-        '--largeFocus': `${homePicture.largeFocus}%`,
-        '--mobileFocus': `${homePicture.mobileFocus}%`,
+        '--large-url': homePicture.largeUrl,
+        '--mobile-url': homePicture.mobileUrl,
+        '--large-focus': `${homePicture.largeFocus}%`,
+        '--mobile-focus': `${homePicture.mobileFocus}%`
       }"
     >
       <div class="PictureGradient"></div>
@@ -48,7 +48,7 @@ const ExifReader = require('exifreader')
 
 export default {
   components: {
-    'search-bar': SearchBar,
+    'search-bar': SearchBar
   },
   data: () => ({
     randomInt: 0,
@@ -58,7 +58,7 @@ export default {
       largeUrl: '',
       mobileUrl: '',
       largeFocus: 0,
-      mobileFocus: 0,
+      mobileFocus: 0
     },
     cards: [
       // {
@@ -69,19 +69,19 @@ export default {
       {
         icon: '/prospecting.svg',
         title: 'Voir la carte<br />de prospection',
-        route: '/prospecting',
+        route: '/prospecting'
       },
       {
         icon: '/protocol.svg',
         title: 'Découvrir<br />les dispositifs',
-        route: '/get-involved',
+        route: '/get-involved'
       },
       {
         icon: '/ODF.svg',
         title: 'Le projet Oiseaux<br />de France',
-        route: '/about/what-is-ODF-project',
-      },
-    ],
+        route: '/about/what-is-ODF-project'
+      }
+    ]
   }),
   created() {
     this.randomInt = Math.floor(Math.random() * 5)
@@ -104,7 +104,7 @@ export default {
       this.homePicture.largeFocus = focusing.large
       this.homePicture.mobileFocus = focusing.mobile
     })
-  },
+  }
 }
 </script>
 
@@ -124,7 +124,7 @@ export default {
       #3957a4 0%,
       rgba(57, 87, 164, 0) 69.37%
     ),
-    var(--largeUrl) center / cover, #3957a4;
+    var(--large-url) center / cover, #3957a4;
   width: 100%;
   height: 86%;
   display: flex;
@@ -192,7 +192,7 @@ export default {
         #3957a4 0%,
         rgba(57, 87, 164, 0) 69.37%
       ),
-      var(--largeUrl) var(--largeFocus) / cover, #3957a4;
+      var(--large-url) var(--large-focus) / cover, #3957a4;
   }
 
   .TopSectionContent {
@@ -230,7 +230,7 @@ export default {
         #3957a4 0%,
         rgba(57, 87, 164, 0) 69.37%
       ),
-      var(--mobileUrl) var(--mobileFocus) / cover, #3957a4;
+      var(--mobile-url) var(--mobile-focus) / cover, #3957a4;
   }
 
   .PictureGradient {
