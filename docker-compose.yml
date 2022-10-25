@@ -11,7 +11,7 @@ services:
     ports:
       - ${API_PORT:-8888}:80
     networks:
-      - backend
+      - odf_internal
 
   frontend:
     image: lpoaura/odf-frontend:latest
@@ -24,9 +24,10 @@ services:
     ports:
       - ${FRONT_PORT:-3000}:3000
     networks:
-      - frontend
-      - backend
+      - proxy
+      - odf_internal
 
 networks:
-  frontend:
-  backend:
+  proxy:
+    external: true
+  odf_internal:

@@ -4,7 +4,7 @@
       class="CardPicture"
       :src="news.picture"
       :style="{
-        background: `url(/news/${news.picture}) ${news.centering} / cover`,
+        background: `url(/news/${news.picture}) ${news.centering} / cover`
       }"
     >
       <h5 v-if="news.credit" class="white02 PictureCredit">
@@ -65,12 +65,16 @@
 </template>
 
 <script>
+// import Vue from 'vue' // needed to use Vue.component() function
+// import { VBtn } from 'vuetify/lib' // component which I need to work in markdown
+// Vue.component('VBtn', VBtn) // adding component globally
+
 export default {
   props: {
     news: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   data: () => ({
     sharingIsOpen: false,
@@ -78,24 +82,24 @@ export default {
       {
         label: 'Twitter',
         logo: '/news/twitter.svg',
-        url: 'https://twitter.com/intent/tweet?url=',
+        url: 'https://twitter.com/intent/tweet?url='
       },
       {
         label: 'Facebook',
         logo: '/news/facebook.svg',
-        url: 'https://www.facebook.com/share.php?u=',
+        url: 'https://www.facebook.com/share.php?u='
       },
       {
         label: 'LinkedIn',
         logo: '/news/linkedin.svg',
-        url: 'https://www.linkedin.com/sharing/share-offsite/?url=',
+        url: 'https://www.linkedin.com/sharing/share-offsite/?url='
       },
       {
         label: 'WhatsApp',
         logo: '/news/whatsapp.svg',
-        url: 'https://api.whatsapp.com/send?text=',
-      },
-    ],
+        url: 'https://api.whatsapp.com/send?text='
+      }
+    ]
   }),
   methods: {
     openOrCloseSharing() {
@@ -103,8 +107,8 @@ export default {
     },
     closeSharing() {
       this.sharingIsOpen = false
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -201,5 +205,36 @@ export default {
   .CardPicture {
     background-position: center center !important;
   }
+}
+
+/*
+.nuxt-content .btn {
+  align-items: center;
+  border-radius: 4px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  justify-content: center;
+  outline: 0;
+  position: relative;
+  text-decoration: none;
+  text-indent: 0.09em;
+  text-transform: uppercase;
+  transition-duration: 0.28s;
+  transition-property: box-shadow, transform, opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+} */
+
+a .btn {
+  color: red;
+}
+
+.nuxt-content .test {
+  background-color: red;
+  border: 1px solid red;
 }
 </style>

@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+
+  backend:
+    command: /start-reload.sh
+    volumes:
+      - ./backend/:/app
+
+  frontend:
+    command: dev
+    volumes:
+       - ./frontend/:/app
+    
+
+
