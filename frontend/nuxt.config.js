@@ -1,7 +1,6 @@
 // import colors from 'vuetify/es5/util/colors'
 
 export default {
-  target: 'static',
   head: {
     titleTemplate: '%s | Atlas des Oiseaux de France',
     title: '',
