@@ -17,6 +17,8 @@ class MvTerritoryAltitudeRanges(Base):
     __tablename__ = "mv_territory_altitude_ranges"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
+    id_area = Column(Integer)
+    range = Column(INT4RANGE)
 
 
 class MvAltitudeDistribution(Base):
@@ -25,7 +27,7 @@ class MvAltitudeDistribution(Base):
     id = Column(Integer, primary_key=True)
     id_area = Column(Integer)
     cd_nom = Column(Integer)
-    range = Column(INT4RANGE)
+    id_range = Column(Integer)
     count = Column(String)
 
 

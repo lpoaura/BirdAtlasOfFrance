@@ -4,6 +4,13 @@ TAXA DATAS
 Taxa relative data (generally by atlas territories)
 * Altitude distribution:
     TODO: Altitude distribution, actually returns 21 classes...
+    TODO: Phenology distribution (count by decade, frequency in lists by decade)
+        - Generate a materialized view with columns:
+            - cd_nom
+            - decade
+            - count data
+            - count list
+        - Generate materialized view with list count by decade for frequency comparision
 * ...
  */
 
@@ -14,6 +21,7 @@ $$
         SET WORK_MEM = '10GB';
         /* Vue matérialisée finale */
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_territory_altitude_ranges;
+
         CREATE MATERIALIZED VIEW atlas.mv_territory_altitude_ranges AS
         WITH
             maxalti AS (SELECT
@@ -43,7 +51,8 @@ $$
 
 
         CREATE UNIQUE INDEX ON atlas.mv_territory_altitude_ranges (id);
-
+        CREATE INDEX ON atlas.mv_territory_altitude_ranges (id_area);
+        CREATE INDEX ON atlas.mv_data_for_atlas (altitude) WHERE new_data_all_period;
 
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_alti_distribution;
         CREATE MATERIALIZED VIEW atlas.mv_alti_distribution AS
@@ -85,11 +94,11 @@ $$
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_breeding_phenology;
         CREATE MATERIALIZED VIEW atlas.mv_taxa_breeding_phenology AS
         SELECT
-            row_number() OVER ()                                     AS id
-          , id_area_territory                                        AS id_area
-          , cd_group                                                 AS cd_nom
-          , t.decade                                                 AS decade
-          , count(data.*) FILTER (WHERE bird_breed_code = 3)         AS breeding_start
+            row_number() OVER ()                              AS id
+          , id_area_territory                                 AS id_area
+          , cd_group                                          AS cd_nom
+          , t.decade                                          AS decade
+          , count(data.*) FILTER (WHERE bird_breed_code = 3)  AS breeding_start
           , count(data.*) FILTER (WHERE bird_breed_code = 13) AS breeding_end
             FROM
                 generate_series(1, 36, 1) AS t(decade)
