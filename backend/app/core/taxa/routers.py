@@ -8,11 +8,12 @@ from starlette.status import HTTP_204_NO_CONTENT
 
 from app.utils.db import get_db
 
-from .actions import historic_atlas_distrib, taxa_distrib
+from .actions import historic_atlas_distrib, taxa_distrib, altitude_distrib
 from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection,
     HistoricAtlasInfosSchema,
     TaxaDistributionFeature,
     TaxaDistributionFeaturesCollection,
+    TaxaAltitudinalDistribution,
 )
 
 logger = logging.getLogger(__name__)
@@ -147,6 +148,26 @@ def historic_atlases(
 )
 def list_historic_atlases(db: Session = Depends(get_db)) -> Any:
     q = historic_atlas_distrib.list_historic_atlases(db=db)
+    if not q:
+        return Response(status_code=HTTP_204_NO_CONTENT)
+    return q
+
+
+@router.get(
+    "/altitude/{id_area}/{cd_nom}",
+    response_model=List[TaxaAltitudinalDistribution],
+    tags=["taxa"],
+    summary="Altitudinal distribution",
+    description="""# coming soon
+
+    get historic atlases list
+
+""",
+)
+def altitudinal_distribution(
+    id_area: str, cd_nom: int, db: Session = Depends(get_db)
+) -> Any:
+    q = altitude_distrib.get(db=db, id_area=id_area, cd_nom=cd_nom)
     if not q:
         return Response(status_code=HTTP_204_NO_CONTENT)
     return q

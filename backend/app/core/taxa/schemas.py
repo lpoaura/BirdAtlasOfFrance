@@ -3,9 +3,10 @@ from datetime import date
 from tokenize import String
 from typing import List, Optional
 
-from geojson_pydantic.features import Feature, FeatureCollection, Geometry
+from geojson_pydantic.features import Feature, FeatureCollection
 from pydantic import BaseModel
 from sqlalchemy import Integer
+from sqlalchemy.dialects.postgresql import INT4RANGE
 
 
 class TaxaDistributionProperties(BaseModel):
@@ -21,6 +22,14 @@ class TaxaDistributionFeaturesCollection(FeatureCollection):
 
     class Config:
         orm_mode = True
+
+
+class TaxaAltitudinalDistribution(BaseModel):
+    range: int
+    count: int
+
+    class Config:
+        orl_mode = True
 
 
 # class TaxaAltitudeDistributionSchema(BaseModel):
