@@ -9,7 +9,13 @@ from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
 from app.core.ref_geo.models import LAreas
 
-from .models import THistoricAtlasesData, THistoricAtlasesInfo
+
+from .models import (
+    THistoricAtlasesData,
+    THistoricAtlasesInfo,
+    MvAltitudeDistribution,
+    MvTerritoryAltitudeRanges,
+)
 
 # from .models import MvTaxaAltitudeDistribution
 
@@ -30,7 +36,9 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
         geom = (
             LAreas.geojson_4326
             if grid
-            else geofunc.ST_AsGeoJSON(geofunc.ST_Transform(geofunc.ST_Centroid(LAreas.geom), 4326))
+            else geofunc.ST_AsGeoJSON(
+                geofunc.ST_Transform(geofunc.ST_Centroid(LAreas.geom), 4326)
+            )
         )
         status_field = {
             "breeding_old": {
@@ -88,26 +96,24 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
         return q.all()
 
 
-# class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvTaxaAltitudeDistribution]):
-#     """[summary]
+class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution]):
+    """[summary]
 
-#     Args:
-#         BaseReadOnlyActions ([type]): [description]
-#     """
+    Args:
+        BaseReadOnlyActions ([type]): [description]
+    """
 
-#     def taxa_alti_distribution(self, db: Session, id_area: int, cd_nom: int = None):
+    def get(self, db: Session, id_area: int, cd_nom: int = None):
 
-#         q = (
-#             db.query(
-#                 MvTaxaAltitudeDistribution.range,
-#                 func.sum(MvTaxaAltitudeDistribution.count).label("count"),
-#             )
-#             .filter(MvTaxaAltitudeDistribution.id_area == id_area)
-#             .group_by(MvTaxaAltitudeDistribution.range)
-#             .order_by(MvTaxaAltitudeDistribution.range)
-#         )
-#         q = q.filter(MvTaxaAltitudeDistribution.cd_nom == cd_nom) if cd_nom is not None else q
-#         return q.all()
+        q = (
+            db.query(
+                func.lower(MvAltitudeDistribution.range), MvAltitudeDistribution.count
+            )
+            .filter(MvAltitudeDistribution.id_area == id_area)
+            .filter(MvAltitudeDistribution.cd_nom == cd_nom)
+            .order_by(MvAltitudeDistribution.range)
+        )
+        return q.all()
 
 
 class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
@@ -124,7 +130,9 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
             db.query(
                 THistoricAtlasesData.id_area.label("id"),
                 THistoricAtlasesData.status,
-                func.json_build_object("status", THistoricAtlasesData.status).label("properties"),
+                func.json_build_object("status", THistoricAtlasesData.status).label(
+                    "properties"
+                ),
                 LAreas.geojson_4326.label("geometry"),
             )
             .join(LAreas, LAreas.id_area == THistoricAtlasesData.id_area)
@@ -164,4 +172,4 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
 
 taxa_distrib = TaxaDistributionActions(AreaKnowledgeTaxaList)
 historic_atlas_distrib = HistoricAtlasesActions(THistoricAtlasesData)
-# altitude_distrib = TaxaAltitudeDistributionActions(MvTaxaAltitudeDistribution)
+altitude_distrib = TaxaAltitudeDistributionActions(MvAltitudeDistribution)

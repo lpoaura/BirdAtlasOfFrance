@@ -56,27 +56,46 @@ $$
 
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_alti_distribution;
         CREATE MATERIALIZED VIEW atlas.mv_alti_distribution AS
-        (
+        WITH
+            t1 AS
+                (SELECT
+                     row_number() OVER () AS id
+                   , id_area_territory    AS id_area
+                   , ranges.id            AS id_range
+                   , cd_group             AS cd_nom
+                   , count(data.altitude) AS count
+                     FROM
+                         atlas.mv_territory_altitude_ranges AS ranges
+                             LEFT JOIN atlas.mv_data_for_atlas data
+                                       ON data.altitude <@ ranges.range AND new_data_all_period
+                             JOIN atlas.mv_grid_territories_matching
+                                  ON data.id_area = mv_grid_territories_matching.id_area_grid AND
+                                     ranges.id_area = mv_grid_territories_matching.id_area_territory
+                             JOIN atlas.mv_taxa_groups ON data.cd_nom = mv_taxa_groups.cd_nom
+                             JOIN atlas.t_taxa
+                                  ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND (t_taxa.available AND t_taxa.enabled)
+                     GROUP BY
+                         id_area_territory, mv_taxa_groups.cd_group, ranges.id
+                     ORDER BY
+                         id_area_territory, mv_taxa_groups.cd_group, ranges.id)
+
         SELECT
-            row_number() OVER () AS id
-          , id_area_territory    AS id_area
-          , ranges.id            AS id_range
-          , cd_group             AS cd_nom
-          , count(data.altitude) AS count
+            row_number() OVER ()  AS id
+          , mv_territory_altitude_ranges.id_area
+          , t_taxa.cd_nom
+          , mv_territory_altitude_ranges.range
+          , coalesce(t1.count, 0) AS count
             FROM
-                atlas.mv_territory_altitude_ranges AS ranges
-                    LEFT JOIN atlas.mv_data_for_atlas data
-                              ON data.altitude <@ ranges.range AND new_data_all_period
-                    JOIN atlas.mv_grid_territories_matching
-                         ON data.id_area = mv_grid_territories_matching.id_area_grid AND
-                            ranges.id_area = mv_grid_territories_matching.id_area_territory
-                    JOIN atlas.mv_taxa_groups ON data.cd_nom = mv_taxa_groups.cd_nom
-                    JOIN atlas.t_taxa
-                         ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND (t_taxa.available AND t_taxa.enabled)
-            GROUP BY
-                id_area_territory, mv_taxa_groups.cd_group, ranges.id
+                atlas.mv_territory_altitude_ranges
+                    CROSS JOIN atlas.t_taxa
+                    LEFT JOIN t1 ON (t1.cd_nom = t_taxa.cd_nom
+                    AND mv_territory_altitude_ranges.id = t1.id_range AND
+                                     mv_territory_altitude_ranges.id_area =
+                                     t1.id_area)
             ORDER BY
-                id_area_territory, mv_taxa_groups.cd_group, ranges.id);
+                mv_territory_altitude_ranges.id_area
+              , t_taxa.cd_nom, range;
+        ;
         CREATE UNIQUE INDEX ON atlas.mv_alti_distribution (id);
         CREATE INDEX ON atlas.mv_alti_distribution (cd_nom);
         CREATE INDEX ON atlas.mv_alti_distribution (id_area);
@@ -86,6 +105,123 @@ $$
 $$
 ;
 
+SELECT *
+    FROM
+        atlas.mv_alti_distribution
+    WHERE
+        cd_nom = 2497
+;
+
+
+SELECT
+    lower(atlas.mv_alti_distribution.range)        AS atlas_mv_alti_distribution_range
+  , atlas.mv_alti_distribution.count AS lower_1
+    FROM
+        atlas.mv_alti_distribution
+    WHERE
+          atlas.mv_alti_distribution.id_area = 87145
+      AND atlas.mv_alti_distribution.cd_nom = 2497
+    ORDER BY
+        atlas.mv_alti_distribution.range
+--
+
+SELECT
+    mv_territory_altitude_ranges.id_area
+  , t_taxa.cd_nom
+  , mv_territory_altitude_ranges.range
+  , coalesce(mv_alti_distribution.count, 0) AS count
+    FROM
+        atlas.mv_territory_altitude_ranges
+            CROSS JOIN atlas.t_taxa
+            LEFT JOIN atlas.mv_alti_distribution ON (mv_alti_distribution.cd_nom = t_taxa.cd_nom
+            AND mv_territory_altitude_ranges.id = mv_alti_distribution.id_range AND
+                                                     mv_territory_altitude_ranges.id_area =
+                                                     mv_alti_distribution.id_area)
+--             LEFT JOIN taxonomie.taxref ON t_taxa.cd_nom = taxref.cd_nom
+--             LEFT JOIN ref_geo.l_areas ON mv_territory_altitude_ranges.id_area = l_areas.id_area
+    ORDER BY
+        mv_territory_altitude_ranges.id_area
+      , t_taxa.cd_nom, range
+;
+
+DO
+$$
+    BEGIN
+        /* Vue matérialisée finale */
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_global_phenology;
+
+        CREATE MATERIALIZED VIEW atlas.mv_taxa_global_phenology AS
+        WITH
+            matrix AS (SELECT DISTINCT
+                           decade
+                         , mv_taxa_groups.cd_group
+                         , mv_taxa_groups.cd_nom
+                         , mv_grid_territories_matching.id_area_grid
+                           FROM
+                               generate_series(1, 36) AS t(decade)
+                                   CROSS JOIN atlas.mv_taxa_groups
+                                   JOIN atlas.t_taxa
+                                        ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND
+                                           (t_taxa.available AND t_taxa.enabled)
+                             , atlas.mv_grid_territories_matching)
+        SELECT
+            row_number() OVER ()                   AS id
+          , id_area_territory                      AS id_area
+          , t2.cd_group                            AS cd_nom
+          , t2.decade                              AS decade
+          , count(data.*)                          AS count_data
+          , count(DISTINCT data.id_form_universal) AS count_list
+            FROM
+                (SELECT
+                     decade
+                   , cd_group
+                     FROM
+                         generate_series(1, 36) AS t(decade)
+                             CROSS JOIN atlas.mv_taxa_groups) AS t2
+
+                    --                         and
+--                     JOIN atlas.mv_taxa_groups ON data.cd_nom = mv_taxa_groups.cd_nom
+                    JOIN atlas.t_taxa
+                         ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND (t_taxa.available AND t_taxa.enabled)
+                    JOIN atlas.mv_grid_territories_matching ON id_area_grid = data.id_area
+            WHERE
+                new_data_all_period
+            GROUP BY
+                id_area_territory, t2.cd_group, t2.decade
+            ORDER BY
+                id_area_territory, t2.cd_group, t2.decade;
+
+        CREATE INDEX ON atlas.mv_taxa_global_phenology (cd_nom);
+        CREATE INDEX ON atlas.mv_taxa_global_phenology (id_area);
+        CREATE UNIQUE INDEX ON atlas.mv_taxa_global_phenology (id);
+        COMMIT;
+    END
+$$
+;
+
+SELECT
+    t.decade
+  , cd_nom
+    FROM
+        generate_series(1, 36) AS t(decade)
+            CROSS JOIN taxonomie.taxref
+    WHERE
+        cd_nom = 60577
+;
+
+
+SELECT
+    mv_taxa_global_phenology.*
+  , l_areas.area_name
+  , taxref.lb_nom
+    FROM
+        generate_series(1, 36) AS t(decade)
+            LEFT JOIN atlas.mv_taxa_global_phenology
+            JOIN taxonomie.taxref ON mv_taxa_global_phenology.cd_nom = taxref.cd_nom
+            JOIN ref_geo.l_areas ON mv_taxa_global_phenology.id_area = l_areas.id_area
+    WHERE
+        lb_nom LIKE 'Ficedula hypoleuca'
+;
 
 DO
 $$
@@ -101,7 +237,7 @@ $$
           , count(data.*) FILTER (WHERE bird_breed_code = 3)  AS breeding_start
           , count(data.*) FILTER (WHERE bird_breed_code = 13) AS breeding_end
             FROM
-                generate_series(1, 36, 1) AS t(decade)
+                generate_series(1, 36) AS t(decade)
                     LEFT JOIN atlas.mv_data_for_atlas data ON trunc(extract(DOY FROM date_min) / 10) = t.decade
                     JOIN atlas.mv_taxa_groups ON data.cd_nom = mv_taxa_groups.cd_nom
                     JOIN atlas.t_taxa
