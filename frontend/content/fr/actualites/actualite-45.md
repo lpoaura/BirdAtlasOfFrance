@@ -13,7 +13,7 @@ active: true
 
 Près de 200 personnes ont assisté à cet évènement sur le comptage des Oiseaux d'eau à la mi-janvier. Avec ses 55 années d’existence, le « Wetlands », comme on l’appelle dans le jargon ornithologique, est l’un des plus vieux dispositifs de suivi de l’avifaune ; il mobilise annuellement plus de 150 000 bénévoles à travers le monde dont 2 000 dans le réseau français.  
 
-## Un évènement pour permettre la découverte du dispositif de dénombrement des oiseaux d’eau de la mi-janvier
+## Un évènement pour permettre à toutes et tous la découverte du dispositif de dénombrement des oiseaux d’eau de la mi-janvier
 
 Le webinaire Wetlands a offert au grand public la possibilité de découvrir ce suivi historique de l’avifaune (protocole, organisation), de comprendre les différents résultats présentés dans le bilan mais aussi, et surtout, l’utilité de ce dispositif pour la conservation des espèces d’oiseaux d’eau hivernants à différentes échelles.  
 
