@@ -1,7 +1,7 @@
 ---
 title: "Avez-vous vu le Pouillot à grands sourcils ?"
 picture: actualite-40.webp
-credit: Frank Vassen - FlickR
+credit: Plongeon imbrin (juvénile) © Bernard Liégeois
 centering: center
 author: Oiseaux de France
 date: '2022-11-08'
