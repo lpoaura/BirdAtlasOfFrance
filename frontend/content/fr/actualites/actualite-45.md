@@ -5,7 +5,7 @@ credit: Frank Vassen - FlickR
 centering: center
 author: Oiseaux de France
 date: '2022-11-01'
-tags: ['migration','PGS']
+tags: ['wetlands2022','webinaire','rétrospectives']
 active: true
 ---
 
