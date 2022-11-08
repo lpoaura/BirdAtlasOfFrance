@@ -1,5 +1,5 @@
 ---
-title: "Avez-vous vu le Pouillot à grands sourcils ?"
+title: "A voir ou à revoir : les enregistrements du webinaire Wetlands (26 octobre) "
 picture: actualite-40.webp
 credit: Plongeon imbrin (juvénile) © Bernard Liégeois
 centering: center
