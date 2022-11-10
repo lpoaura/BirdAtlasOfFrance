@@ -45,28 +45,39 @@ export default {
   components: {
     trend: Trend,
     'populations-sizes': PopulationsSizes,
-    altitude: Altitude,
+    altitude: Altitude
   },
   props: {
     tabStatus: {
       type: String,
-      required: true,
+      required: true
     },
     dataTrend: {
       type: Object,
       required: false,
-      default: null,
+      default: null
     },
     dataPopulationsWintering: {
       type: Object,
       required: false,
-      default: null,
+      default: null
     },
     dataAltitude: {
       type: Object,
       required: false,
-      default: null,
-    },
+      default: null
+    }
   },
+  watch: {
+    dataAltitude: {
+      handler(newValue, oldValue) {
+        console.log('test', newValue)
+        // Note: `newValue` will be equal to `oldValue` here
+        // on nested mutations as long as the object itself
+        // hasn't been replaced.
+      },
+      deep: true
+    }
+  }
 }
 </script>

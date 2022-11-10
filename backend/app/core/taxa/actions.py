@@ -103,16 +103,33 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
         BaseReadOnlyActions ([type]): [description]
     """
 
-    def get(self, db: Session, id_area: int, cd_nom: int = None):
+    def get(
+        self, db: Session, id_area: int, cd_nom: int = None, period: str = "all_period"
+    ):
+        count_column = {
+            "all_period": MvAltitudeDistribution.count_all_period,
+            "breeding": MvAltitudeDistribution.count_breeding,
+            "wintering": MvAltitudeDistribution.count_wintering,
+        }
+        q1 = (
+            db.query(
+                func.Sum(count_column[period]).label("count"),
+            )
+            .filter(MvAltitudeDistribution.id_area == id_area)
+            .filter(MvAltitudeDistribution.cd_nom == cd_nom)
+            .one()
+        )
 
         q = (
             db.query(
-                func.lower(MvAltitudeDistribution.range), MvAltitudeDistribution.count
+                func.lower(MvAltitudeDistribution.range).label("label"),
+                (count_column[period] / float(q1.count) * 100).label("percentage"),
             )
             .filter(MvAltitudeDistribution.id_area == id_area)
             .filter(MvAltitudeDistribution.cd_nom == cd_nom)
             .order_by(MvAltitudeDistribution.range)
         )
+        logger.debug(q)
         return q.all()
 
 

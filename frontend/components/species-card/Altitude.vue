@@ -1,7 +1,7 @@
 <template>
   <div class="ChartWrapper">
     <div class="Chart">
-      <svg class="BarPlotSvg"></svg>
+      <svg id="AltitudeChart" class="BarPlotSvg"></svg>
     </div>
     <div class="ChartLegend">
       <h5 class="ChartLegendLabel">
@@ -23,101 +23,95 @@ export default {
   props: {
     formattedData: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
+  },
+  watch: {
+    formattedData: {
+      deep: true,
+      handler() {
+        this.renderChart()
+      }
+    }
   },
   mounted() {
-    // Get bar plot size
+    // this.renderChart()
+
     const margin = { top: 10, right: 0, bottom: 24, left: 70 }
-    const barPlotWidth = Math.max(
+    this.width = Math.max(
       parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
         margin.left -
         margin.right,
       420
     )
-    const barPlotHeight =
+    console.log('width', this.width)
+    this.height =
       parseFloat(d3.select(this.$el).select('.Chart').style('height')) -
       margin.top -
       margin.bottom
-    // Get bar plot svg and set size
-    const barPlotSvg = d3
+
+    console.log('height', this.height)
+
+    this.chart = d3
       .select(this.$el)
       .select('.BarPlotSvg')
-      .attr('width', barPlotWidth + margin.left + margin.right)
-      .attr('height', barPlotHeight + margin.top + margin.bottom)
       .append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
-    // Set X axis and add it
-    const xAxis = d3
-      .scaleLinear()
-      .range([0, barPlotWidth - 20])
-      .domain([
-        0,
-        d3.max(this.formattedData.altitude.data, function (d) {
-          return d.percentage
-        }),
-      ])
-    barPlotSvg
+      .attr('width', this.width + margin.left + margin.right)
+      .attr('height', this.height + margin.top + margin.bottom)
+
+    this.x = d3.scaleLinear().range([0, this.width - 20])
+    this.y = d3.scaleLinear().range([this.height, 0])
+
+    console.log('this.x', this.x(0))
+
+    this.xAxis = this.chart
       .append('g')
       .attr('class', 'xAxis')
-      .attr('transform', `translate(0, ${barPlotHeight})`)
-      .call(
-        d3.axisBottom(xAxis).tickFormat(function (d) {
-          return `${d}%`
-        })
-      )
-      .call((g) =>
-        g
-          .selectAll('text')
-          .attr(
-            'style',
-            "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
-          )
-      )
-      .call((g) => g.selectAll('line[y2]').style('opacity', 0))
-    // Set Y axis and add it
-    const yAxis = d3
-      .scaleLinear()
-      .range([barPlotHeight, 0])
-      .domain([
-        0,
-        d3.max(this.formattedData.altitude.data, function (d) {
-          return d.label
-        }),
-      ])
-    const formatter = d3
-      .formatLocale({
-        decimal: '.',
-        thousands: ' ',
-        grouping: [3],
-        currency: ['', ''],
-      })
-      .format(',.0f')
-    barPlotSvg
-      .append('g')
-      .attr('class', 'yAxis')
-      .call(d3.axisLeft(yAxis).tickFormat(formatter))
-      .call((g) =>
-        g
-          .selectAll('.tick line')
-          .clone()
-          .attr('x2', barPlotWidth)
-          .attr('stroke-opacity', 0.1)
-      )
-      .call((g) =>
-        g
-          .selectAll('text')
-          .attr(
-            'style',
-            "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 400; font-size: 12px; line-height: 13px; color: #000;"
-          )
-      )
-      .call((g) => g.selectAll('line[x2="-6"]').style('opacity', 0))
-    // Set Y axis label
-    barPlotSvg
+      .attr('transform', `translate(0, ${this.height})`)
+    console.log('this.xAxis', this.xAxis)
+    this.yAxis = this.chart.append('g').attr('class', 'yAxis')
+
+    // .call(
+    //   d3.axisBottom(this.xAxis).tickFormat(function (d) {
+    //     return `${d}%`
+    //   })
+    // )
+    // .call((g) =>
+    //   g
+    //     .selectAll('text')
+    //     .attr(
+    //       'style',
+    //       "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
+    //     )
+    // )
+    // .call((g) => g.selectAll('line[y2]').style('opacity', 0))
+
+    // this.chart
+    //   .append('g')
+    //   .attr('class', 'yAxis')
+    //   .call(d3.axisLeft(this.yAxis).tickFormat(formatter))
+    //   .call((g) =>
+    //     g
+    //       .selectAll('.tick line')
+    //       .clone()
+    //       .attr('x2', width)
+    //       .attr('stroke-opacity', 0.1)
+    //   )
+    //   .call((g) =>
+    //     g
+    //       .selectAll('text')
+    //       .attr(
+    //         'style',
+    //         "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 400; font-size: 12px; line-height: 13px; color: #000;"
+    //       )
+    //   )
+    //   .call((g) => g.selectAll('line[x2="-6"]').style('opacity', 0))
+    console.log('x,y', -(this.height / 2), -margin.left + 10)
+    this.chart
       .append('text')
       .attr('transform', 'rotate(-90)')
-      .attr('x', -(barPlotHeight / 2))
+      .attr('x', -(this.height / 2))
       .attr('y', -margin.left + 10)
       .attr(
         'style',
@@ -125,47 +119,114 @@ export default {
       )
       .text('Altitude (mètres)')
     // Delete axis lines
-    barPlotSvg.selectAll('path').style('opacity', 0)
-    // Bars
-    barPlotSvg
-      .append('g')
-      .attr('class', 'bars')
-      .selectAll('rect')
-      .data(this.formattedData.altitude.data)
-      .enter()
-      .append('rect')
-      .attr('class', 'bar')
-      .attr('x', function (d) {
-        return xAxis(0)
-      })
-      .attr('y', function (d) {
-        return yAxis(d.label)
-      })
-      .attr('width', function (d) {
-        return xAxis(d.percentage)
-      })
-      .attr('height', 2)
-      .attr('fill', this.formattedData.altitude.color)
-    // Area
-    barPlotSvg
-      .append('path')
-      .attr('class', 'area')
-      .datum(this.formattedData.globalAltitude.data)
-      .attr('fill', this.formattedData.globalAltitude.color)
-      .attr('stroke-width', 0)
-      .attr(
-        'd',
-        d3
-          .area()
-          .x0(xAxis(0))
-          .x1(function (d) {
-            return xAxis(d.percentage)
-          })
-          .y(function (d) {
-            return yAxis(d.label)
-          })
-      )
+    this.chart.selectAll('path').style('opacity', 0)
+    this.renderChart()
   },
+  methods: {
+    renderChart() {
+      const formatter = d3
+        .formatLocale({
+          decimal: '.',
+          thousands: ' ',
+          grouping: [3],
+          currency: ['', '']
+        })
+        .format(',.0f')
+      this.x.domain([
+        0,
+        d3.max(this.formattedData.altitude.data, function (d) {
+          return d.percentage
+        })
+      ])
+      console.log('this.x4', this.x)
+      this.y.domain([
+        0,
+        d3.max(this.formattedData.altitude.data, function (d) {
+          return d.label
+        })
+      ])
+
+      this.xAxis.call(d3.axisBottom(this.x))
+
+      this.yAxis
+        .call(d3.axisLeft(this.y).tickFormat(formatter))
+        .call((g) =>
+          g
+            .selectAll('.tick line')
+            .clone()
+            .attr('x2', this.width)
+            .attr('stroke-opacity', 0.1)
+        )
+        .call((g) =>
+          g
+            .selectAll('text')
+            .attr(
+              'style',
+              "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 400; font-size: 12px; line-height: 13px; color: #000;"
+            )
+        )
+        .call((g) => g.selectAll('line[x2="-6"]').style('opacity', 0))
+      const x = this.x
+      const y = this.y
+      this.chart
+        .append('g')
+        .attr('class', 'bars')
+        .selectAll('rect')
+        .data(this.formattedData.altitude.data)
+        .enter()
+        .append('rect')
+        .attr('class', 'bar')
+        .attr('x', function (d) {
+          return x(0)
+        })
+        .attr('y', function (d) {
+          return y(d.label)
+        })
+        .attr('width', function (d) {
+          return x(d.percentage)
+        })
+        .attr('height', 5)
+        .attr('fill', this.formattedData.altitude.color)
+      // Area
+      this.chart
+        .append('path')
+        .attr('class', 'area')
+        .datum(this.formattedData.globalAltitude.data)
+        .attr('fill', this.formattedData.globalAltitude.color)
+        .attr('stroke-width', 0)
+        .attr(
+          'd',
+          d3
+            .area()
+            .x0(x(0))
+            .x1(function (d) {
+              return x(d.percentage)
+            })
+            .y(function (d) {
+              return y(d.label)
+            })
+        )
+
+      // Get bar plot size
+      // const margin = { top: 10, right: 0, bottom: 24, left: 70 }
+      // const width = Math.max(
+      //   parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
+      //     margin.left -
+      //     margin.right,
+      //   420
+      // )
+      // const height =
+      //   parseFloat(d3.select(this.$el).select('.Chart').style('height')) -
+      //   margin.top -
+      //   margin.bottom
+      // Get bar plot svg and set size
+      // d3.select(this.$el).selectAll('svg').remove()
+      // Set X axis and add it
+      // Set Y axis and add it
+      // Set Y axis label
+      // Bars
+    }
+  }
 }
 </script>
 

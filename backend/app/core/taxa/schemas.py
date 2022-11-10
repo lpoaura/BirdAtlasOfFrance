@@ -25,11 +25,11 @@ class TaxaDistributionFeaturesCollection(FeatureCollection):
 
 
 class TaxaAltitudinalDistribution(BaseModel):
-    range: int
-    count: int
+    label: int
+    percentage: int
 
-    class Config:
-        orl_mode = True
+    # class Config:
+    #     orm_mode = True
 
 
 # class TaxaAltitudeDistributionSchema(BaseModel):

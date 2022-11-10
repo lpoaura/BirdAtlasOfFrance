@@ -187,7 +187,7 @@
             :data-phenology-migration="
               dataPhenologyMigration[selectedTerritory.area_code]
             "
-            :data-altitude="dataAltitudeAllPeriod[selectedTerritory.area_code]"
+            :data-altitude="dataAltitude"
             :data-populations-test="
               dataPopulationsFake[selectedTerritory.area_code]
             "
@@ -206,7 +206,7 @@
             :data-populations-breeding="
               dataPopulationsBreeding[selectedTerritory.area_code]
             "
-            :data-altitude="dataAltitudeBreeding[selectedTerritory.area_code]"
+            :data-altitude="dataAltitude"
           />
           <charts-tab-wintering
             :tab-status="
@@ -219,7 +219,7 @@
             :data-populations-wintering="
               dataPopulationsWintering[selectedTerritory.area_code]
             "
-            :data-altitude="dataAltitudeWintering[selectedTerritory.area_code]"
+            :data-altitude="dataAltitude"
           />
           <maps-tab
             :tab-status="selectedTab.value === 'maps' ? '' : 'hidden'"
@@ -244,7 +244,7 @@ import {
   dataPhenologyAllPeriod,
   dataPhenologyMigration,
   dataPhenologyBreeding,
-  dataAltitude,
+  // dataAltitude,
   dataTrend,
   dataPopulationsBreeding,
   dataPopulationsWintering
@@ -427,7 +427,26 @@ export default {
     dataTrendWintering: {},
     dataPopulationsWintering: {},
     dataAltitudeWintering: {},
-    dataPopulationsFake: {}
+    dataPopulationsFake: {},
+    dataAltitude: {
+      altitude: {
+        label: 'Répartition des observations',
+        color: '#435EF2',
+        data: []
+      },
+      globalAltitude: {
+        label: "Répartition de l'altitude du territoire",
+        data: [
+          { label: 0, percentage: 60 },
+          { label: 100, percentage: 30 },
+          { label: 500, percentage: 45 },
+          { label: 600, percentage: 15 },
+          { label: 1700, percentage: 5 },
+          { label: 3500, percentage: 0 }
+        ],
+        color: 'rgba(67, 94, 242, 0.1)'
+      }
+    }
   }),
   head() {
     return {
@@ -470,6 +489,7 @@ export default {
         const chartsTabAllPeriodSubjects = []
         const chartsTabBreedingSubjects = []
         const chartsTabWinteringSubjects = []
+        console.log('this.selectedTerritory', this.selectedTerritory)
         if (this.dataPhenologyAllPeriod[this.selectedTerritory.area_code]) {
           chartsTabAllPeriodSubjects.push('phenology-all-period')
         }
@@ -568,6 +588,15 @@ export default {
         // Mettre à jour le menu de gauche
         this.defineSelectedTab()
       }
+    },
+    selectedSeason: {
+      handler(newVal, oldVal) {
+        console.log('check', newVal.value !== oldVal.value)
+        if (newVal.value !== oldVal.value) {
+          this.loadChartsData()
+        }
+      },
+      deep: true
     }
   },
   beforeMount() {
@@ -581,6 +610,7 @@ export default {
     }
   },
   mounted() {
+    this.loadChartsData()
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
     this.$refs.scrollingContainer.addEventListener(
@@ -697,17 +727,20 @@ export default {
       dataPhenologyAllPeriod
     this.dataPhenologyMigration[this.selectedTerritory.area_code] =
       dataPhenologyMigration
-    this.dataAltitudeAllPeriod[this.selectedTerritory.area_code] = dataAltitude
+    // this.dataAltitudeAllPeriod[this.selectedTerritory.area_code] =
+    //   this.dataAltitude
     this.dataPhenologyBreeding[this.selectedTerritory.area_code] =
       dataPhenologyBreeding
     this.dataTrendBreeding[this.selectedTerritory.area_code] = dataTrend
     this.dataPopulationsBreeding[this.selectedTerritory.area_code] =
       dataPopulationsBreeding
-    this.dataAltitudeBreeding[this.selectedTerritory.area_code] = dataAltitude
+    // this.dataAltitudeBreeding[this.selectedTerritory.area_code] =
+    //   this.dataAltitude
     this.dataTrendWintering[this.selectedTerritory.area_code] = dataTrend
     this.dataPopulationsWintering[this.selectedTerritory.area_code] =
       dataPopulationsWintering
-    this.dataAltitudeWintering[this.selectedTerritory.area_code] = dataAltitude
+    // this.dataAltitudeWintering[this.selectedTerritory.area_code] =
+    //   this.dataAltitude
     // this.dataPopulationsFake = dataPopulationsFake
     this.chartsDataAlreadyDownloaded.push(this.selectedTerritory.area_code)
     // END UPDATE NEEDED
@@ -722,6 +755,24 @@ export default {
     )
   },
   methods: {
+    loadChartsData() {
+      this.getAltitudeDistribution()
+    },
+    getAltitudeDistribution() {
+      const idarea = 87145
+      this.$axios
+        .$get(
+          `/api/v1/altitude/${idarea}/${this.cdnom}?period=${this.selectedSeason.value}`
+        )
+        .then((data) => {
+          if (data.length > 0) {
+            this.dataAltitude.altitude.data = data
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
     defineSelectedTab() {
       this.selectedTab = this.filteredTabs.filter((item) => {
         return item.hash === this.$route.hash
