@@ -26,7 +26,7 @@
       </h5>
       <populations-sizes :formatted-data="dataPopulationsBreeding" />
     </div>
-    <div v-if="dataAltitude" id="altitude-breeding" class="ChartCard">
+    <div v-if="dataAltitude && dataAltitude.altitude.data.length > 0"  id="altitude-breeding" class="ChartCard">
       <h4 class="black02 fw-bold bottom-margin-8">
         Répartition altitudinale des observations
       </h4>

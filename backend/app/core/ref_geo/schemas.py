@@ -43,6 +43,11 @@ class LAreasBase(BaseModel):
     class Config:
         orm_mode = True
 
+class LAreasIdArea(LAreasBase):
+    id_area: str
+
+    class Config:
+        orm_mode = True
 
 class LAreasBaseInDBase(LAreasBase):
     id_area: int
@@ -53,8 +58,7 @@ class LAreasBaseInDBase(LAreasBase):
         orm_mode = True
 
 
-class LAreasSchema(LAreasBaseInDBase):
-    pass
+
 
 
 class LAreasFeatureProperties(Feature):

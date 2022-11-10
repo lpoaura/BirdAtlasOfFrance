@@ -56,28 +56,39 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
         )
 
     def get_by_area_type_and_code(
-        self, db: Session, area_code: str, type_code: str, bbox: bool
+        self, db: Session, area_code: str, type_code: str, geom: bool, bbox: bool
     ) -> Query:
         id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
-        geom = (
-            geofunc.ST_AsGeoJSON(geofunc.ST_Envelope(geofunc.ST_Transform(LAreas.geom, 4326)))
-            if bbox
-            else LAreas.geojson_4326
-        )
-        return (
-            db.query(
-                LAreas.id_area.label("id"),
-                geom.label("geometry"),
-                func.json_build_object(
-                    "area_code",
-                    LAreas.area_code,
-                    "area_name",
-                    LAreas.area_name,
-                ).label("properties"),
+        if geom:
+            geometry = (
+                geofunc.ST_AsGeoJSON(geofunc.ST_Envelope(geofunc.ST_Transform(LAreas.geom, 4326)))
+                if bbox
+                else LAreas.geojson_4326
             )
-            .filter(and_(LAreas.area_code == area_code, LAreas.id_type == id_type))
-            .first()
-        )
+            return (
+                db.query(
+                    LAreas.id_area.label("id"),
+                    geometry.label("geometry"),
+                    func.json_build_object(
+                        "area_code",
+                        LAreas.area_code,
+                        "area_name",
+                        LAreas.area_name,
+                    ).label("properties"),
+                )
+                .filter(and_(LAreas.area_code == area_code, LAreas.id_type == id_type))
+                .first()
+            )
+        else:
+            return (
+                db.query(
+                    LAreas.id_area,
+                    LAreas.area_code,
+                    LAreas.area_name,
+                )
+                .filter(and_(LAreas.area_code == area_code, LAreas.id_type == id_type))
+                .first()
+            )
 
     def get_feature_list(
         self,

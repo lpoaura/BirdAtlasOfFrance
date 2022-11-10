@@ -10,7 +10,7 @@ from starlette.status import HTTP_204_NO_CONTENT
 from app.utils.db import get_db
 
 from .actions import bib_areas_types, l_areas
-from .schemas import BibAreasTypesSchema, LAreasFeatureProperties
+from .schemas import BibAreasTypesSchema, LAreasFeatureProperties, LAreasIdArea
 
 logger = logging.getLogger(__name__)
 
@@ -135,7 +135,7 @@ def get_area_by_coordinates(
 
 @router.get(
     "/lareas/{type_code}/{area_code}",
-    response_model=LAreasFeatureProperties,
+    response_model=Union[LAreasFeatureProperties,LAreasIdArea],
     tags=["ref_geo"],
 )
 def get_area_geom_by_type_and_code(
@@ -143,16 +143,20 @@ def get_area_geom_by_type_and_code(
     db: Session = Depends(get_db),
     area_code: str,
     type_code: str,
-    bbox: Optional[Union[bool, str]] = False,
+    geom: Optional[bool] = True,
+    bbox: Optional[bool] = False
 ) -> Any:
     if isinstance(bbox, str):
         bbox: bool = True
     q = l_areas.get_by_area_type_and_code(
-        db=db, area_code=area_code, type_code=type_code, bbox=bbox
+        db=db, area_code=area_code, type_code=type_code, geom=geom, bbox=bbox
     )
     if not q:
         return Response(status_code=HTTP_204_NO_CONTENT)
-    feature = LAreasFeatureProperties(
-        id=q.id, properties=q.properties, geometry=json.loads(q.geometry)
-    )
-    return feature
+    if geom:
+        feature = LAreasFeatureProperties(
+            id=q.id, properties=q.properties, geometry=json.loads(q.geometry)
+        )
+        return feature
+    else:
+        return q

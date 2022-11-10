@@ -24,7 +24,7 @@
       </h5>
       <phenology-migration :formatted-data="dataPhenologyMigration" />
     </div>
-    <div v-if="dataAltitude" id="altitude-all-period" class="ChartCard">
+    <div v-if="dataAltitude && dataAltitude.altitude.data.length > 0"  id="altitude-all-period" class="ChartCard">
       <h4 class="black02 fw-bold bottom-margin-8">
         Répartition altitudinale des observations
       </h4>
