@@ -171,6 +171,4 @@ def altitudinal_distribution(
     period: Optional[str] = "all_period",
 ) -> Any:
     q = altitude_distrib.get(db=db, id_area=id_area, cd_nom=cd_nom, period=period)
-    if not q:
-        return Response(status_code=HTTP_204_NO_CONTENT)
-    return q
+    return q if q else Response(status_code=HTTP_204_NO_CONTENT)

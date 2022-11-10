@@ -119,18 +119,20 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             .filter(MvAltitudeDistribution.cd_nom == cd_nom)
             .one()
         )
-
-        q = (
-            db.query(
-                func.lower(MvAltitudeDistribution.range).label("label"),
-                (count_column[period] / float(q1.count) * 100).label("percentage"),
+        if q1.count > 0:
+            q = (
+                db.query(
+                    func.lower(MvAltitudeDistribution.range).label("label"),
+                    (count_column[period] / float(q1.count) * 100).label("percentage"),
+                )
+                .filter(MvAltitudeDistribution.id_area == id_area)
+                .filter(MvAltitudeDistribution.cd_nom == cd_nom)
+                .order_by(MvAltitudeDistribution.range)
             )
-            .filter(MvAltitudeDistribution.id_area == id_area)
-            .filter(MvAltitudeDistribution.cd_nom == cd_nom)
-            .order_by(MvAltitudeDistribution.range)
-        )
-        logger.debug(q)
-        return q.all()
+            logger.debug(q)
+            return q.all()
+        else:
+            return None
 
 
 class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
