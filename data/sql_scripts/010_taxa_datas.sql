@@ -59,11 +59,13 @@ $$
         WITH
             t1 AS
                 (SELECT
-                     row_number() OVER () AS id
-                   , id_area_territory    AS id_area
-                   , ranges.id            AS id_range
-                   , cd_group             AS cd_nom
-                   , count(data.altitude) AS count
+                     row_number() OVER ()                                    AS id
+                   , id_area_territory                                       AS id_area
+                   , ranges.id                                               AS id_range
+                   , cd_group                                                AS cd_nom
+                   , count(data.altitude) FILTER (WHERE new_data_all_period) AS count_all_period
+                   , count(data.altitude) FILTER (WHERE new_data_breeding)   AS count_breeding
+                   , count(data.altitude) FILTER (WHERE new_data_wintering)  AS count_wintering
                      FROM
                          atlas.mv_territory_altitude_ranges AS ranges
                              LEFT JOIN atlas.mv_data_for_atlas data
@@ -80,11 +82,13 @@ $$
                          id_area_territory, mv_taxa_groups.cd_group, ranges.id)
 
         SELECT
-            row_number() OVER ()  AS id
+            row_number() OVER ()             AS id
           , mv_territory_altitude_ranges.id_area
           , t_taxa.cd_nom
           , mv_territory_altitude_ranges.range
-          , coalesce(t1.count, 0) AS count
+          , coalesce(t1.count_all_period, 0) AS count_all_period
+          , coalesce(t1.count_breeding, 0)   AS count_breeding
+          , coalesce(t1.count_wintering, 0)  AS count_wintering
             FROM
                 atlas.mv_territory_altitude_ranges
                     CROSS JOIN atlas.t_taxa
@@ -99,7 +103,6 @@ $$
         CREATE UNIQUE INDEX ON atlas.mv_alti_distribution (id);
         CREATE INDEX ON atlas.mv_alti_distribution (cd_nom);
         CREATE INDEX ON atlas.mv_alti_distribution (id_area);
-        CREATE INDEX ON atlas.mv_alti_distribution (id_range);
         COMMIT;
     END
 $$
@@ -114,8 +117,8 @@ SELECT *
 
 
 SELECT
-    lower(atlas.mv_alti_distribution.range)        AS atlas_mv_alti_distribution_range
-  , atlas.mv_alti_distribution.count AS lower_1
+    lower(atlas.mv_alti_distribution.range) AS atlas_mv_alti_distribution_range
+  , atlas.mv_alti_distribution.count        AS lower_1
     FROM
         atlas.mv_alti_distribution
     WHERE
@@ -548,3 +551,24 @@ SELECT *
     FROM
         src_historic_atlas.historic_atlas
 ;
+
+SELECT *
+    FROM
+        atlas.mv_alti_distribution
+    WHERE
+        cd_nom = 4488
+;
+
+
+SELECT
+    lower(atlas.mv_alti_distribution.range)                        AS label
+  , round((atlas.mv_alti_distribution.count / 20969::FLOAT) * 100) AS data
+    FROM
+        atlas.mv_alti_distribution
+    WHERE
+          atlas.mv_alti_distribution.id_area = 87145
+      AND atlas.mv_alti_distribution.cd_nom = 4488
+    ORDER BY
+        atlas.mv_alti_distribution.range
+;
+grant select on all tables in SCHEMA atlas to odfapp;

@@ -165,9 +165,12 @@ def list_historic_atlases(db: Session = Depends(get_db)) -> Any:
 """,
 )
 def altitudinal_distribution(
-    id_area: str, cd_nom: int, db: Session = Depends(get_db)
+    id_area: str,
+    cd_nom: int,
+    db: Session = Depends(get_db),
+    period: Optional[str] = "all_period",
 ) -> Any:
-    q = altitude_distrib.get(db=db, id_area=id_area, cd_nom=cd_nom)
+    q = altitude_distrib.get(db=db, id_area=id_area, cd_nom=cd_nom, period=period)
     if not q:
         return Response(status_code=HTTP_204_NO_CONTENT)
     return q

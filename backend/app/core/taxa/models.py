@@ -28,7 +28,9 @@ class MvAltitudeDistribution(Base):
     id_area = Column(Integer)
     cd_nom = Column(Integer)
     range = Column(INT4RANGE)
-    count = Column(Integer)
+    count_all_period = Column(Integer)
+    count_breeding = Column(Integer)
+    count_wintering = Column(Integer)
 
 
 class THistoricAtlasesInfo(Base):
