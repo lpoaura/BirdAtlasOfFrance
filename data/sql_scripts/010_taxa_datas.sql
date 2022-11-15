@@ -108,48 +108,11 @@ $$
 $$
 ;
 
-SELECT *
-    FROM
-        atlas.mv_alti_distribution
-    WHERE
-        cd_nom = 2497
-;
-
-
-SELECT
-    lower(atlas.mv_alti_distribution.range) AS atlas_mv_alti_distribution_range
-  , atlas.mv_alti_distribution.count        AS lower_1
-    FROM
-        atlas.mv_alti_distribution
-    WHERE
-          atlas.mv_alti_distribution.id_area = 87145
-      AND atlas.mv_alti_distribution.cd_nom = 2497
-    ORDER BY
-        atlas.mv_alti_distribution.range
---
-
-SELECT
-    mv_territory_altitude_ranges.id_area
-  , t_taxa.cd_nom
-  , mv_territory_altitude_ranges.range
-  , coalesce(mv_alti_distribution.count, 0) AS count
-    FROM
-        atlas.mv_territory_altitude_ranges
-            CROSS JOIN atlas.t_taxa
-            LEFT JOIN atlas.mv_alti_distribution ON (mv_alti_distribution.cd_nom = t_taxa.cd_nom
-            AND mv_territory_altitude_ranges.id = mv_alti_distribution.id_range AND
-                                                     mv_territory_altitude_ranges.id_area =
-                                                     mv_alti_distribution.id_area)
---             LEFT JOIN taxonomie.taxref ON t_taxa.cd_nom = taxref.cd_nom
---             LEFT JOIN ref_geo.l_areas ON mv_territory_altitude_ranges.id_area = l_areas.id_area
-    ORDER BY
-        mv_territory_altitude_ranges.id_area
-      , t_taxa.cd_nom, range
-;
-
 DO
 $$
     BEGIN
+        /* Phenology des obs */
+
         /* Vue matérialisée finale */
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_global_phenology;
 
@@ -181,14 +144,16 @@ $$
                      FROM
                          generate_series(1, 36) AS t(decade)
                              CROSS JOIN atlas.mv_taxa_groups) AS t2
-
-                    --                         and
---                     JOIN atlas.mv_taxa_groups ON data.cd_nom = mv_taxa_groups.cd_nom
+                    LEFT JOIN atlas.mv_taxa_groups ON t2.cd_group = mv_taxa_groups.cd_group
                     JOIN atlas.t_taxa
-                         ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND (t_taxa.available AND t_taxa.enabled)
-                    JOIN atlas.mv_grid_territories_matching ON id_area_grid = data.id_area
-            WHERE
-                new_data_all_period
+                         ON t_taxa.
+                                cd_nom = mv_taxa_groups.cd_group AND
+                            (t_taxa.available AND t_taxa.enabled)
+                    JOIN (SELECT *, trunc(extract(DOY FROM date_min) / 10) as decade FROM atlas.mv_data_for_atlas WHERE new_data_all_period) AS data
+                         ON data.cd_nom = t_taxa.cd_nom and t2.decade = data.decade
+                    JOIN atlas.mv_grid_territories_matching ON
+                    id_area_grid = data.id_area
+
             GROUP BY
                 id_area_territory, t2.cd_group, t2.decade
             ORDER BY
@@ -571,4 +536,6 @@ SELECT
     ORDER BY
         atlas.mv_alti_distribution.range
 ;
-grant select on all tables in SCHEMA atlas to odfapp;
+
+GRANT SELECT ON ALL TABLES IN SCHEMA atlas TO odfapp
+;
