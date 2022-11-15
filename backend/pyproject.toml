@@ -21,6 +21,7 @@ geojson-pydantic = "^0.4.3"
 sentry-sdk = "^1.10.1"
 sqlalchemy = "^1.4.43"
 geoalchemy2 = "^0.12.5"
+websockets = "^10.4"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^0.990"
