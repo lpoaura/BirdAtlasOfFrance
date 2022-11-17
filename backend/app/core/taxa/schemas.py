@@ -32,6 +32,17 @@ class TaxaAltitudinalDistribution(BaseModel):
     #     orm_mode = True
 
 
+class TaxaAltitudinalDistributionBlock(BaseModel):
+    label: str
+    data: List[TaxaAltitudinalDistribution]
+    color: str
+
+
+class TaxaAltitudinalApiData(BaseModel):
+    altitude: TaxaAltitudinalDistributionBlock
+    globalAltitude: TaxaAltitudinalDistributionBlock
+
+
 # class TaxaAltitudeDistributionSchema(BaseModel):
 #     range: List
 #     count: int

@@ -14,6 +14,8 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     TaxaDistributionFeature,
     TaxaDistributionFeaturesCollection,
     TaxaAltitudinalDistribution,
+    TaxaAltitudinalApiData,
+    TaxaAltitudinalDistributionBlock
 )
 
 logger = logging.getLogger(__name__)
@@ -155,7 +157,7 @@ def list_historic_atlases(db: Session = Depends(get_db)) -> Any:
 
 @router.get(
     "/altitude/{id_area}/{cd_nom}",
-    response_model=List[TaxaAltitudinalDistribution],
+    response_model=TaxaAltitudinalApiData,
     tags=["taxa"],
     summary="Altitudinal distribution",
     description="""# coming soon
@@ -171,4 +173,5 @@ def altitudinal_distribution(
     period: Optional[str] = "all_period",
 ) -> Any:
     q = altitude_distrib.get(db=db, id_area=id_area, cd_nom=cd_nom, period=period)
-    return q if q else Response(status_code=HTTP_204_NO_CONTENT)
+    
+    return TaxaDistributionFeature(altitude=TaxaAltitudinalDistributionBlock(label='Lable1', data=q,color='red'), globalAltitude=altitude=TaxaAltitudinalDistributionBlock(label='Lable1', data=q,color='red')) if q else Response(status_code=HTTP_204_NO_CONTENT)
