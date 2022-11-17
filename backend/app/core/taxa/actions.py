@@ -15,6 +15,7 @@ from .models import (
     THistoricAtlasesInfo,
     MvAltitudeDistribution,
     MvTerritoryAltitudeRanges,
+    MvAltitudeTerritory,
 )
 
 # from .models import MvTaxaAltitudeDistribution
@@ -103,7 +104,7 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
         BaseReadOnlyActions ([type]): [description]
     """
 
-    def get(
+    def get_specie_distribution(
         self, db: Session, id_area: int, cd_nom: int = None, period: str = "all_period"
     ):
         count_column = {
@@ -133,6 +134,19 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             return q.all()
         else:
             return None
+
+    def get_territory_distribution(self, db: Session, id_area: int):
+
+        q = (
+            db.query(
+                func.lower(MvAltitudeTerritory.range).label("label"),
+                MvAltitudeTerritory.percentage,
+            )
+            .filter(MvAltitudeTerritory.id_area == id_area)
+            .order_by(MvAltitudeTerritory.range)
+        )
+        logger.debug(q)
+        return q.all()
 
 
 class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
