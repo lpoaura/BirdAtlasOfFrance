@@ -15,7 +15,7 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     TaxaDistributionFeaturesCollection,
     TaxaAltitudinalDistribution,
     TaxaAltitudinalApiData,
-    TaxaAltitudinalDistributionBlock
+    TaxaAltitudinalDistributionBlock,
 )
 
 logger = logging.getLogger(__name__)
@@ -172,6 +172,21 @@ def altitudinal_distribution(
     db: Session = Depends(get_db),
     period: Optional[str] = "all_period",
 ) -> Any:
-    q = altitude_distrib.get(db=db, id_area=id_area, cd_nom=cd_nom, period=period)
-    
-    return TaxaDistributionFeature(altitude=TaxaAltitudinalDistributionBlock(label='Lable1', data=q,color='red'), globalAltitude=altitude=TaxaAltitudinalDistributionBlock(label='Lable1', data=q,color='red')) if q else Response(status_code=HTTP_204_NO_CONTENT)
+    q = altitude_distrib.get_specie_distribution(
+        db=db, id_area=id_area, cd_nom=cd_nom, period=period
+    )
+    altitude = TaxaAltitudinalDistributionBlock(
+        label="Répartition des observations",
+        data=q,
+        color="#435EF2",
+    )
+    global_altitude = TaxaAltitudinalDistributionBlock(
+        label="Répartition des observations",
+        data=altitude_distrib.get_territory_distribution(db=db, id_area=id_area),
+        color="rgba(67, 94, 242, 0.1)",
+    )
+    return (
+        TaxaAltitudinalApiData(altitude=altitude, globalAltitude=global_altitude)
+        if q
+        else Response(status_code=HTTP_204_NO_CONTENT)
+    )

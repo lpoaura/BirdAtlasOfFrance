@@ -7,7 +7,7 @@
           :style="{
             background: species.medias.Photo_principale
               ? `url('${species.medias.Photo_principale.url}') center / cover`
-              : 'darkgrey',
+              : 'darkgrey'
           }"
         ></div>
         <div class="Title">
@@ -247,7 +247,7 @@ import {
   // dataAltitude,
   dataTrend,
   dataPopulationsBreeding,
-  dataPopulationsWintering,
+  dataPopulationsWintering
   // dataPopulationsFake,
 } from '~/test/fakeData'
 // END UPDATE NEEDED
@@ -260,7 +260,7 @@ export default {
     'charts-tab-all-period': ChartsTabAllPeriod,
     'charts-tab-breeding': ChartsTabBreeding,
     'charts-tab-wintering': ChartsTabWintering,
-    'maps-tab': MapsTab,
+    'maps-tab': MapsTab
   },
   data: () => ({
     tabs: [
@@ -274,8 +274,8 @@ export default {
           { label: 'Statuts', slug: 'status' },
           { label: 'Caractéristiques', slug: 'traits' },
           // { label: 'Téléchargements', slug: 'downloads' },
-          { label: 'Liens', slug: 'links' },
-        ],
+          { label: 'Liens', slug: 'links' }
+        ]
       },
       {
         value: 'charts',
@@ -285,26 +285,26 @@ export default {
           all_period: [
             { label: 'Phénologie', slug: 'phenology-all-period' },
             { label: 'Phénologie de migration', slug: 'phenology-migration' },
-            { label: 'Répartition altitudinale', slug: 'altitude-all-period' },
+            { label: 'Répartition altitudinale', slug: 'altitude-all-period' }
           ],
           breeding: [
             { label: 'Phénologie', slug: 'phenology-breeding' },
             { label: "Tendance d'évolution", slug: 'trend-breeding' },
             {
               label: 'Taille de populations',
-              slug: 'populations-sizes-breeding',
+              slug: 'populations-sizes-breeding'
             },
-            { label: 'Répartition altitudinale', slug: 'altitude-breeding' },
+            { label: 'Répartition altitudinale', slug: 'altitude-breeding' }
           ],
           wintering: [
             { label: "Tendance d'évolution", slug: 'trend-wintering' },
             {
               label: 'Taille de populations',
-              slug: 'populations-sizes-wintering',
+              slug: 'populations-sizes-wintering'
             },
-            { label: 'Répartition altitudinale', slug: 'altitude-wintering' },
-          ],
-        },
+            { label: 'Répartition altitudinale', slug: 'altitude-wintering' }
+          ]
+        }
       },
       {
         value: 'maps',
@@ -316,55 +316,55 @@ export default {
               label: '2019 - 2024',
               name: 'Oiseaux De France',
               slug: 'odf',
-              seasons: ['all_period', 'breeding', 'wintering'],
+              seasons: ['all_period', 'breeding', 'wintering']
             },
             {
               label: '2009 - 2012',
               name: 'Atlas des Oiseaux de France Métropolitaine',
               slug: 'aofm',
-              seasons: ['breeding', 'wintering'],
+              seasons: ['breeding', 'wintering']
             },
             {
               label: '1985 - 1989',
               name: 'Nouvel Atlas des Oiseaux Nicheurs de France',
               slug: 'naonf',
-              seasons: ['breeding'],
+              seasons: ['breeding']
             },
             {
               label: '1977 - 1981',
               name: 'Atlas des Oiseaux de France en Hiver',
               slug: 'aofh',
-              seasons: ['wintering'],
+              seasons: ['wintering']
             },
             {
               label: '1970 - 1975',
               name: 'Atlas des Oiseaux Nicheurs de France',
               slug: 'aonf',
-              seasons: ['breeding'],
-            },
+              seasons: ['breeding']
+            }
           ],
           others: [
             {
               label: 'Comparaison AOFM/ODF',
               name: 'Comparaison AOFM/ODF',
               slug: 'compare-aofm-odf',
-              seasons: ['breeding', 'wintering'],
+              seasons: ['breeding', 'wintering']
             },
             {
               label: 'Densité',
               name: 'Densité',
               slug: 'density',
-              seasons: ['breeding', 'wintering'],
+              seasons: ['breeding', 'wintering']
             },
             {
               label: 'Carte additionnelle',
               name: 'Carte additionnelle',
               slug: 'extra-map',
-              seasons: ['breeding', 'wintering'],
-            },
-          ],
-        },
-      },
+              seasons: ['breeding', 'wintering']
+            }
+          ]
+        }
+      }
     ],
     selectedTab: { value: '', hash: '', label: '', subjects: [] },
     selectedSubject: { label: '', slug: '' },
@@ -375,13 +375,13 @@ export default {
     scrollDuration: 600,
     selectedSeason: {
       label: 'Toutes saisons',
-      value: 'all_period',
+      value: 'all_period'
     },
     selectedTerritory: {
       area_code: 'FRMET',
       area_name: 'France métropolitaine',
       icon: '/prospecting/France-metropolitaine.svg',
-      isActive: true,
+      isActive: true
     },
     seasonIsOpen: false,
     territoryIsOpen: false,
@@ -389,7 +389,7 @@ export default {
       attributes: {},
       medias: {},
       redLists: null,
-      protectionStatus: null,
+      protectionStatus: null
     },
     traitsList: [
       { label: 'Groupe', key: 'trait_specie_group' },
@@ -401,20 +401,20 @@ export default {
       { label: "Nombre d'œufs", key: 'trait_eggs_number' },
       {
         label: "Durée de séjour au nid jusqu'à l'envol",
-        key: 'trait_nest_length_stay',
+        key: 'trait_nest_length_stay'
       },
       { label: 'Âge maximal Euring', key: 'trait_max_age_euring' },
       { label: 'Âge maximal FR', key: 'trait_max_age_fr' },
       { label: 'Habitat', key: 'trait_habitat' },
       { label: 'Nourriture', key: 'trait_food' },
       { label: 'Site de nidification', key: 'trait_nesting_site' },
-      { label: 'Comportement migrateur', key: 'trait_migratory_behaviour' },
+      { label: 'Comportement migrateur', key: 'trait_migratory_behaviour' }
     ],
     furtherInfoList: [
       { label: 'Répartition et déplacements', key: 'distribution' },
       { label: 'Habitats', key: 'habitat' },
       { label: 'Alimentation', key: 'feeding' },
-      { label: 'Reproduction', key: 'breeding' },
+      { label: 'Reproduction', key: 'breeding' }
     ],
     chartsDataAlreadyDownloaded: [],
     dataPhenologyAllPeriod: {},
@@ -432,7 +432,7 @@ export default {
       altitude: {
         label: 'Répartition des observations',
         color: '#435EF2',
-        data: [],
+        data: []
       },
       globalAltitude: {
         label: "Répartition de l'altitude du territoire",
@@ -442,16 +442,16 @@ export default {
           { label: 500, percentage: 45 },
           { label: 600, percentage: 15 },
           { label: 1700, percentage: 5 },
-          { label: 3500, percentage: 0 },
+          { label: 3500, percentage: 0 }
         ],
-        color: 'rgba(67, 94, 242, 0.1)',
-      },
+        color: 'rgba(67, 94, 242, 0.1)'
+      }
     },
-    idarea: null,
+    idarea: null
   }),
   head() {
     return {
-      title: this.species.attributes.odf_common_name_fr,
+      title: this.species.attributes.odf_common_name_fr
     }
   },
   computed: {
@@ -465,7 +465,7 @@ export default {
       },
       set(value) {
         this.$router.push(`${value.hash}`)
-      },
+      }
     },
     filteredTabs() {
       // Si les données sont arrivées
@@ -573,7 +573,7 @@ export default {
       } else {
         return null
       }
-    },
+    }
   },
   watch: {
     $route(newVal) {
@@ -597,7 +597,7 @@ export default {
           this.loadChartsData()
         }
       },
-      deep: true,
+      deep: true
     },
     selectedTerritory: {
       handler(newVal, oldVal) {
@@ -605,8 +605,8 @@ export default {
           this.loadChartsData()
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   beforeMount() {
     window.addEventListener('resize', this.listenerResize)
@@ -636,7 +636,7 @@ export default {
           const species = {
             cdnom: this.cdnom,
             attributes: {},
-            medias: { Photos: [] },
+            medias: { Photos: [] }
           }
           data.attributs.forEach((attribut) => {
             species.attributes[attribut.nom_attribut] = attribut.valeur_attribut
@@ -647,27 +647,27 @@ export default {
                 title: media.titre,
                 url: media.url,
                 author: media.auteur,
-                description: media.desc_media,
+                description: media.desc_media
               })
             } else if (media.nom_type_media === 'Photo_principale') {
               species.medias.Photos.splice(0, 0, {
                 title: media.titre,
                 url: media.url,
                 author: media.auteur,
-                description: media.desc_media,
+                description: media.desc_media
               })
               species.medias[media.nom_type_media] = {
                 title: media.titre,
                 url: media.url,
                 author: media.auteur,
-                description: media.desc_media,
+                description: media.desc_media
               }
             } else {
               species.medias[media.nom_type_media] = {
                 title: media.titre,
                 url: media.url,
                 author: media.auteur,
-                description: media.desc_media,
+                description: media.desc_media
               }
             }
           })
@@ -696,7 +696,7 @@ export default {
                     redListsNational.forEach((item) => {
                       species.redLists.national.push({
                         territory: item.cd_sig,
-                        statut: item.code_statut,
+                        statut: item.code_statut
                       })
                     })
                   }
@@ -773,7 +773,7 @@ export default {
     },
     loadChartsData() {
       this.getIdArea().then(() => {
-        console.log('test2id',this.idarea)
+        console.log('test2id', this.idarea)
         this.getAltitudeDistribution()
       })
     },
@@ -784,11 +784,7 @@ export default {
           `/api/v1/altitude/${this.idarea}/${this.cdnom}?period=${this.selectedSeason.value}`
         )
         .then((data) => {
-          if (data.length > 0) {
-            this.dataAltitude.altitude.data = data
-          } else {
-            this.dataAltitude.altitude.data = []
-          }
+          this.dataAltitude = data
         })
         .catch((error) => {
           console.log(error)
@@ -916,8 +912,8 @@ export default {
         const vh = window.innerHeight * 0.01
         document.documentElement.style.setProperty('--vh', `${vh}px`)
       }
-    },
-  },
+    }
+  }
 }
 </script>
 

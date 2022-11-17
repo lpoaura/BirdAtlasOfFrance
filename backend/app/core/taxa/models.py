@@ -33,6 +33,15 @@ class MvAltitudeDistribution(Base):
     count_wintering = Column(Integer)
 
 
+class MvAltitudeTerritory(Base):
+    __tablename__ = "mv_alti_territory"
+    __table_args__ = {"schema": "atlas"}
+    id = Column(Integer, primary_key=True)
+    id_area = Column(Integer)
+    percentage = Column(Integer)
+    range = Column(INT4RANGE)
+
+
 class THistoricAtlasesInfo(Base):
     __tablename__ = "t_historic_atlases_info"
     __table_args__ = {"schema": "atlas"}

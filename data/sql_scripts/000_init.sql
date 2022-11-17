@@ -83,13 +83,12 @@ $$
         SET
             has_subsp = FALSE
             FROM
-                (
-                    SELECT
-                        cd_sp
-                        FROM
-                            atlas.t_taxa
-                        WHERE
-                            cd_sp != cd_nom) AS t
+                (SELECT
+                     cd_sp
+                     FROM
+                         atlas.t_taxa
+                     WHERE
+                         cd_sp != cd_nom) AS t
             WHERE
                 t.cd_sp = t_taxa.cd_nom;
 
@@ -100,33 +99,32 @@ $$
 
 
         WITH
-            datas AS (
-                SELECT
-                    CASE
-                        WHEN taxref.id_rang LIKE 'SSES' THEN
-                            cd_sup
-                        ELSE
-                            taxref.cd_nom
-                        END AS cd_group
-                  , taxref.cd_nom
-                    FROM
-                        gn_synthese.synthese
-                            JOIN taxonomie.taxref ON synthese.cd_nom = taxref.cd_nom
-                    WHERE
-                          taxref.classe LIKE 'Aves'
-                      AND taxref.cd_nom = taxref.cd_ref
-                      AND taxref.id_rang IN ('ES', 'SSES')
-                UNION
-                SELECT
-                    taxref.cd_nom AS cd_group
-                  , taxref.cd_nom
-                    FROM
-                        gn_synthese.synthese
-                            JOIN taxonomie.taxref ON synthese.cd_nom = taxref.cd_nom
-                    WHERE
-                          taxref.classe LIKE 'Aves'
-                      AND taxref.cd_nom = taxref.cd_ref
-                      AND taxref.id_rang IN ('ES', 'SSES'))
+            datas AS (SELECT
+                          CASE
+                              WHEN taxref.id_rang LIKE 'SSES' THEN
+                                  cd_sup
+                              ELSE
+                                  taxref.cd_nom
+                              END AS cd_group
+                        , taxref.cd_nom
+                          FROM
+                              gn_synthese.synthese
+                                  JOIN taxonomie.taxref ON synthese.cd_nom = taxref.cd_nom
+                          WHERE
+                                taxref.classe LIKE 'Aves'
+                            AND taxref.cd_nom = taxref.cd_ref
+                            AND taxref.id_rang IN ('ES', 'SSES')
+                      UNION
+                      SELECT
+                          taxref.cd_nom AS cd_group
+                        , taxref.cd_nom
+                          FROM
+                              gn_synthese.synthese
+                                  JOIN taxonomie.taxref ON synthese.cd_nom = taxref.cd_nom
+                          WHERE
+                                taxref.classe LIKE 'Aves'
+                            AND taxref.cd_nom = taxref.cd_ref
+                            AND taxref.id_rang IN ('ES', 'SSES'))
         SELECT DISTINCT
             cd_group
           , cd_nom
@@ -138,36 +136,35 @@ $$
         CREATE MATERIALIZED VIEW atlas.mv_taxa_groups AS
         (
         WITH
-            datas AS (
-                SELECT
-                    CASE
-                        WHEN t_taxa.rank LIKE 'SSES' THEN
-                            cd_sup
-                        ELSE
-                            t_taxa.cd_nom
-                        END AS cd_group
-                  , t_taxa.cd_nom
-                    FROM
-                        gn_synthese.synthese
-                            JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
-                            JOIN taxonomie.taxref ON t_taxa.cd_nom = taxref.cd_nom
-                    WHERE
-                          t_taxa.cd_nom = taxref.cd_ref
-                      AND t_taxa.rank IN (
-                                          'ES', 'SSES')
-                UNION
-                SELECT
-                    taxref.cd_nom AS cd_group
-                  , t_taxa.cd_nom
-                    FROM
-                        gn_synthese.synthese
-                            JOIN atlas.t_taxa
-                                 ON synthese.cd_nom = t_taxa.cd_nom
-                            JOIN taxonomie.taxref ON t_taxa.cd_nom = taxref.cd_nom
-                    WHERE
-                          t_taxa.cd_nom = taxref.cd_ref
-                      AND t_taxa.rank IN (
-                                          'ES', 'SSES'))
+            datas AS (SELECT
+                          CASE
+                              WHEN t_taxa.rank LIKE 'SSES' THEN
+                                  cd_sup
+                              ELSE
+                                  t_taxa.cd_nom
+                              END AS cd_group
+                        , t_taxa.cd_nom
+                          FROM
+                              gn_synthese.synthese
+                                  JOIN atlas.t_taxa ON synthese.cd_nom = t_taxa.cd_nom
+                                  JOIN taxonomie.taxref ON t_taxa.cd_nom = taxref.cd_nom
+                          WHERE
+                                t_taxa.cd_nom = taxref.cd_ref
+                            AND t_taxa.rank IN (
+                                                'ES', 'SSES')
+                      UNION
+                      SELECT
+                          taxref.cd_nom AS cd_group
+                        , t_taxa.cd_nom
+                          FROM
+                              gn_synthese.synthese
+                                  JOIN atlas.t_taxa
+                                       ON synthese.cd_nom = t_taxa.cd_nom
+                                  JOIN taxonomie.taxref ON t_taxa.cd_nom = taxref.cd_nom
+                          WHERE
+                                t_taxa.cd_nom = taxref.cd_ref
+                            AND t_taxa.rank IN (
+                                                'ES', 'SSES'))
         SELECT DISTINCT
             cd_group
           , cd_nom
@@ -325,44 +322,42 @@ $$
                             WHERE
                                   site = 'ff'
                                   --              AND cast(item ->> 'id_taxo_group' as int) = 1
-                              AND taxref.classe LIKE 'Aves'
-            )
-          , attributs AS (
-            SELECT
-                (SELECT
-                     id_attribut
-                     FROM
-                         taxonomie.bib_attributs
-                     WHERE
-                         bib_attributs.nom_attribut LIKE 'odf_sci_name') AS id_attribut
-              , species.latin_name                                       AS valeur_attribut
-              , species.cd_nom
-                FROM
-                    species
-            UNION
-            SELECT
-                (SELECT
-                     id_attribut
-                     FROM
-                         taxonomie.bib_attributs
-                     WHERE
-                         bib_attributs.nom_attribut LIKE 'odf_common_name_fr') AS id_attribut
-              , species.french_name                                            AS valeur_attribut
-              , species.cd_nom
-                FROM
-                    species
-            UNION
-            SELECT
-                (SELECT
-                     id_attribut
-                     FROM
-                         taxonomie.bib_attributs
-                     WHERE
-                         bib_attributs.nom_attribut LIKE 'odf_common_name_en') AS id_attribut
-              , species.english_name                                           AS valeur_attribut
-              , species.cd_nom
-                FROM
-                    species)
+                              AND taxref.classe LIKE 'Aves')
+          , attributs AS (SELECT
+                              (SELECT
+                                   id_attribut
+                                   FROM
+                                       taxonomie.bib_attributs
+                                   WHERE
+                                       bib_attributs.nom_attribut LIKE 'odf_sci_name') AS id_attribut
+                            , species.latin_name                                       AS valeur_attribut
+                            , species.cd_nom
+                              FROM
+                                  species
+                          UNION
+                          SELECT
+                              (SELECT
+                                   id_attribut
+                                   FROM
+                                       taxonomie.bib_attributs
+                                   WHERE
+                                       bib_attributs.nom_attribut LIKE 'odf_common_name_fr') AS id_attribut
+                            , species.french_name                                            AS valeur_attribut
+                            , species.cd_nom
+                              FROM
+                                  species
+                          UNION
+                          SELECT
+                              (SELECT
+                                   id_attribut
+                                   FROM
+                                       taxonomie.bib_attributs
+                                   WHERE
+                                       bib_attributs.nom_attribut LIKE 'odf_common_name_en') AS id_attribut
+                            , species.english_name                                           AS valeur_attribut
+                            , species.cd_nom
+                              FROM
+                                  species)
         INSERT
             INTO
                 taxonomie.cor_taxon_attribut(id_attribut, valeur_attribut, cd_ref)
@@ -386,44 +381,42 @@ $$
 --                                   site = (SELECT DISTINCT site FROM src_vn_json.species_json LIMIT 1)
                                 site = 'ff'
                               --              AND cast(item ->> 'id_taxo_group' as int) = 1
-                              AND taxref.classe LIKE 'Aves'
-            )
-          , attributs AS (
-            SELECT
-                (SELECT
-                     id_attribut
-                     FROM
-                         taxonomie.bib_attributs
-                     WHERE
-                         bib_attributs.nom_attribut LIKE 'odf_sci_name') AS id_attribut
-              , species.latin_name                                       AS valeur_attribut
-              , species.cd_nom
-                FROM
-                    species
-            UNION
-            SELECT
-                (SELECT
-                     id_attribut
-                     FROM
-                         taxonomie.bib_attributs
-                     WHERE
-                         bib_attributs.nom_attribut LIKE 'odf_common_name_fr') AS id_attribut
-              , species.french_name                                            AS valeur_attribut
-              , species.cd_nom
-                FROM
-                    species
-            UNION
-            SELECT
-                (SELECT
-                     id_attribut
-                     FROM
-                         taxonomie.bib_attributs
-                     WHERE
-                         bib_attributs.nom_attribut LIKE 'odf_common_name_en') AS id_attribut
-              , species.english_name                                           AS valeur_attribut
-              , species.cd_nom
-                FROM
-                    species)
+                              AND taxref.classe LIKE 'Aves')
+          , attributs AS (SELECT
+                              (SELECT
+                                   id_attribut
+                                   FROM
+                                       taxonomie.bib_attributs
+                                   WHERE
+                                       bib_attributs.nom_attribut LIKE 'odf_sci_name') AS id_attribut
+                            , species.latin_name                                       AS valeur_attribut
+                            , species.cd_nom
+                              FROM
+                                  species
+                          UNION
+                          SELECT
+                              (SELECT
+                                   id_attribut
+                                   FROM
+                                       taxonomie.bib_attributs
+                                   WHERE
+                                       bib_attributs.nom_attribut LIKE 'odf_common_name_fr') AS id_attribut
+                            , species.french_name                                            AS valeur_attribut
+                            , species.cd_nom
+                              FROM
+                                  species
+                          UNION
+                          SELECT
+                              (SELECT
+                                   id_attribut
+                                   FROM
+                                       taxonomie.bib_attributs
+                                   WHERE
+                                       bib_attributs.nom_attribut LIKE 'odf_common_name_en') AS id_attribut
+                            , species.english_name                                           AS valeur_attribut
+                            , species.cd_nom
+                              FROM
+                                  species)
         UPDATE
             taxonomie.cor_taxon_attribut
         SET
@@ -487,6 +480,7 @@ $$
         CREATE INDEX IF NOT EXISTS idx_epoc_id_area ON atlas.t_epoc (id_area);
         CREATE INDEX IF NOT EXISTS idx_epoc_status ON atlas.t_epoc (status);
 
+
         --         INSERT INTO
 --             atlas.t_epoc (id_epoc, id_ff, status, rang_rsv, id_area, area_code, geom)
 --         SELECT
@@ -534,6 +528,22 @@ $$
         CREATE INDEX idx_breeding_status ON atlas.t_historic_atlases_data (breeding_status);
 
         COMMENT ON TABLE atlas.t_historic_atlases_data IS 'Historic atlases data (one data is on specie on one area (grid) with one status from one source';
+
+        CREATE TABLE atlas.t_territory_altitude
+        (
+            id          INTEGER PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY,
+            altitude    INTEGER NOT NULL,
+            pixel_count INTEGER NOT NULL,
+            id_area     INTEGER REFERENCES ref_geo.l_areas (id_area)
+        );
+
+        CREATE INDEX ON atlas.t_territory_altitude (id_area);
+
+        COMMENT ON TABLE atlas.t_territory_altitude IS 'Table source pour le calcul des altitudes d''un territoire';
+        COMMENT ON COLUMN atlas.t_territory_altitude.pixel_count IS 'Nombre de pixels (pour calcul de proportion relative)'
+        COMMENT ON COLUMN atlas.t_territory_altitude.altitude IS 'Altitude (en m)';
+        COMMENT ON COLUMN atlas.t_territory_altitude.id_area IS 'Territoire d''atlas associé (type ATLAS_TERRITORY and enable=True)';
+
 
         COMMIT;
 
