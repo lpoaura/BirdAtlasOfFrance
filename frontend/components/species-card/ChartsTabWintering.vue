@@ -18,14 +18,18 @@
       </h5>
       <populations-sizes :formatted-data="dataPopulationsWintering" />
     </div>
-    <div v-if="dataAltitude && dataAltitude.altitude.data.length > 0" id="altitude-wintering" class="ChartCard">
+    <div
+      v-if="dataAltitude && dataAltitude.altitude.data.length > 0"
+      id="altitude-wintering"
+      class="ChartCard"
+    >
       <h4 class="black02 fw-bold bottom-margin-8">
         Répartition altitudinale des observations
       </h4>
       <h5 class="black03 bottom-margin-40">
         Proportion des observations en fonction de l’altitude du territoire.
       </h5>
-      <altitude :formatted-data="dataAltitude" />
+      <altitude v-if="dataAltitude" :formatted-data="dataAltitude" />
     </div>
     <span
       v-if="!dataTrend && !dataPopulationsWintering && !dataAltitude"

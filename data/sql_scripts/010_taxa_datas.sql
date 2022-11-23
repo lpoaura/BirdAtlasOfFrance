@@ -64,33 +64,34 @@ $$
                             FROM
                                 atlas.t_territory_altitude
                             GROUP BY id_area)
-          , t2 AS (SELECT
-                       id_area
-                     , int4range(i::INT, (i + (SELECT round(alti, -2) / 10))::INT, '[)'::TEXT) AS range
-                       FROM
-                           maxalti
-                               CROSS JOIN generate_series(0, alti,
-                                                          (SELECT round(alti, -2) / 10)::INT) t(i)
-                       LIMIT 10)
-          , t3 AS (SELECT
-                       id_area
-                     , sum(pixel_count) AS total_pixel_count
-                       FROM
-                           atlas.t_territory_altitude
-                       GROUP BY id_area)
+          , ranges AS (SELECT
+                           id_area
+                         , int4range(i::INT, (i + (SELECT round(alti, -2) / 10))::INT, '[)'::TEXT) AS range
+                           FROM
+                               maxalti
+                                   CROSS JOIN generate_series(0, alti,
+                                                              (SELECT round(alti, -2) / 10)::INT) t(i))
+          , pixel_count_by_territory AS (SELECT
+                                             id_area
+                                           , sum(pixel_count) AS total_pixel_count
+                                             FROM
+                                                 atlas.t_territory_altitude
+                                             GROUP BY id_area)
         SELECT
-            row_number() OVER ()                                       AS id
-          , t2.id_area
-          , range                                                      AS range
-          , ((sum(pixel_count) / total_pixel_count::FLOAT) * 100)::INT AS percentage
+            row_number() OVER ()                                                     AS id
+          , ranges.id_area
+          , ranges.range                                                             AS range
+          , round(((sum(pixel_count) / total_pixel_count::FLOAT) * 100)::NUMERIC, 1) AS percentage
+          , total_pixel_count::FLOAT
             FROM
-                t2
+                ranges
                     LEFT JOIN atlas.t_territory_altitude
-                              ON t_territory_altitude.altitude <@ t2.range
-                    JOIN t3 ON t_territory_altitude.
-                                   id_area = t3.id_area
-            GROUP BY t2.id_area, range, total_pixel_count;
-        SELECT;
+                              ON (t_territory_altitude.altitude <@ ranges.range AND
+                                  t_territory_altitude.id_area = ranges.id_area)
+                    JOIN pixel_count_by_territory ON t_territory_altitude.
+                                                         id_area = pixel_count_by_territory.id_area
+            GROUP BY ranges.id_area, range, total_pixel_count;
+
 
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_alti_distribution;
         CREATE MATERIALIZED VIEW atlas.mv_alti_distribution AS
@@ -146,6 +147,7 @@ $$
 $$
 ;
 
+
 DO
 $$
     BEGIN
@@ -158,53 +160,194 @@ $$
         WITH
             matrix AS (SELECT DISTINCT
                            decade
-                         , mv_taxa_groups.cd_group
-                         , mv_taxa_groups.cd_nom
-                         , mv_grid_territories_matching.id_area_grid
-                         , mv_grid_territories_matching.id_area_territory
+                         , l_areas.id_area         AS id_area
+                         , mv_taxa_groups.cd_group AS cd_nom
+                         , periods.period
                            FROM
                                generate_series(1, 36) AS t(decade)
-                                   CROSS JOIN atlas.mv_taxa_groups
+                                   CROSS JOIN (atlas.mv_taxa_groups
                                    JOIN atlas.t_taxa
-                                        ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND
-                                           (t_taxa.available AND t_taxa.enabled)
-                             , atlas.mv_grid_territories_matching
-                                   JOIN ref_geo.l_areas
-                                        ON l_areas.id_area = mv_grid_territories_matching.id_area_territory
+                                               ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND
+                                                  (t_taxa.available AND t_taxa.enabled))
+                             , ref_geo.l_areas
+                             , (SELECT
+                                    unnest(ARRAY ['all_period', 'wintering','breeding']) AS period) AS periods
+
                            WHERE
-                               l_areas.enable)
+                                 l_areas.id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
+                             AND l_areas.enable
+                           ORDER BY
+                               id_area, cd_nom, period, decade)
+          , data_period AS (SELECT
+                                id_data
+                              , 'all_period' AS period
+                                FROM
+                                    atlas.mv_data_for_atlas
+                                WHERE
+                                    new_data_all_period
+                            UNION
+                            SELECT
+                                id_data
+                              , 'wintering' AS period
+                                FROM
+                                    atlas.mv_data_for_atlas
+                                WHERE
+                                    new_data_wintering
+                            UNION
+                            SELECT
+                                id_data
+                              , 'wintering' AS period
+                                FROM
+                                    atlas.mv_data_for_atlas
+                                WHERE
+                                    new_data_breeding)
+          , data AS (SELECT
+                         mv_grid_territories_matching.id_area_territory      AS id_area
+                       , mv_taxa_groups.cd_group                             AS cd_nom
+                       , trunc(extract(DOY FROM date_min) / 10)              AS decade
+                       , count(mv_data_for_atlas.id_data)                    AS count_data
+                       , data_period.period                                  AS period
+                       , count(DISTINCT mv_data_for_atlas.id_form_universal) AS count_list
+                         FROM
+                             atlas.mv_data_for_atlas
+                                 JOIN data_period ON data_period.id_data = mv_data_for_atlas.id_data
+                                 JOIN atlas.mv_grid_territories_matching
+                                      ON mv_data_for_atlas.id_area = mv_grid_territories_matching.id_area_grid
+                                 JOIN ref_geo.l_areas
+                                      ON mv_grid_territories_matching.id_area_territory = l_areas.id_area
+                                 JOIN atlas.t_taxa ON mv_data_for_atlas.cd_nom = t_taxa.cd_nom
+                                 JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
+                         WHERE
+                               new_data_all_period
+                           AND (t_taxa.available AND t_taxa.enabled)
+                           AND l_areas.enable
+                         GROUP BY
+                             mv_grid_territories_matching.id_area_territory
+                           , mv_taxa_groups.cd_group
+                           , trunc(extract(DOY FROM date_min) / 10)
+                           , data_period.period
+                         ORDER BY
+                             mv_grid_territories_matching.id_area_territory
+                           , mv_taxa_groups.cd_group
+                           , trunc(extract(DOY FROM date_min) / 10)
+                           , data_period.period)
         SELECT
-            row_number() OVER ()                   AS id
-          , id_area_territory                      AS id_area
-          , matrix.cd_group                        AS cd_nom
-          , matrix.decade                          AS decade
-          , count(data.*)                          AS count_data
-          , new_data_breeding
-          , new_data_wintering
-          , new_data_all_period
-          , count(DISTINCT data.id_form_universal) AS count_list
+            row_number() OVER ()         AS id
+          , matrix.id_area
+          , matrix.cd_nom
+          , matrix.period
+          , matrix.decade
+          , coalesce(data.count_data, 0) AS count_data
+          , coalesce(data.count_list, 0) AS count_list
             FROM
                 matrix
-                    LEFT JOIN atlas.mv_taxa_groups ON matrix.cd_group = mv_taxa_groups.cd_group
-                    JOIN (SELECT *
-                               , trunc(extract(DOY FROM date_min) / 10) AS decade
-                              FROM
-                                  atlas.mv_data_for_atlas
-                              WHERE
-                                  new_data_all_period) AS data
-                         ON data.cd_nom = matrix.cd_nom AND matrix.decade = data.decade
-
---                  JOIN atlas.mv_grid_territories_matching ON
---             id_area_grid = data.id_area
-
-            GROUP BY
-                id_area_territory, matrix.cd_group, matrix.decade, new_data_breeding
-                                 , new_data_wintering
-                                 , new_data_all_period
-            ORDER BY id_area_territory, matrix.cd_group, matrix.decade;
+                    LEFT JOIN data ON (matrix.cd_nom, matrix.id_area, matrix.decade, matrix.period) =
+                                      (data.cd_nom, data.id_area, data.decade, data.period)
+            ORDER BY matrix.id_area, matrix.cd_nom, matrix.period, matrix.decade;
 
         CREATE INDEX ON atlas.mv_taxa_global_phenology (cd_nom);
         CREATE INDEX ON atlas.mv_taxa_global_phenology (id_area);
+        CREATE INDEX ON atlas.mv_taxa_global_phenology (period);
+        CREATE UNIQUE INDEX ON atlas.mv_taxa_global_phenology (id);
+        COMMIT;
+    END
+$$
+;
+
+
+DO
+$$
+    BEGIN
+        /* Phenology des obs */
+
+        /* Vue matérialisée finale */
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_breeding_phenology;
+
+        CREATE MATERIALIZED VIEW atlas.mv_taxa_breeding_phenology AS
+        WITH
+            matrix AS (SELECT DISTINCT
+                           decade
+                         , l_areas.id_area         AS id_area
+                         , mv_taxa_groups.cd_group AS cd_nom
+                           FROM
+                               generate_series(1, 36) AS t(decade)
+                                   CROSS JOIN (atlas.mv_taxa_groups
+                                   JOIN atlas.t_taxa
+                                               ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND
+                                                  (t_taxa.available AND t_taxa.enabled))
+                             , ref_geo.l_areas
+                           WHERE
+                                 l_areas.id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
+                             AND l_areas.enable
+                           ORDER BY
+                               id_area, cd_nom, decade)
+          , data AS (SELECT
+                         mv_grid_territories_matching.id_area_territory        AS id_area
+                       , mv_taxa_groups.cd_group                               AS cd_nom
+                       , trunc(extract(DOY FROM date_min) / 10)                AS decade
+                       , count(mv_data_for_atlas.id_data)                      AS count_data
+                       , CASE
+                             WHEN mv_data_for_atlas.bird_breed_code = 3 THEN 'breeding_start'
+                             WHEN mv_data_for_atlas.bird_breed_code = 13
+                                 THEN 'breeding_end' END                       AS status
+                       , count(
+                         mv_data_for_atlas.*)
+                         FILTER (
+                             WHERE mv_data_for_atlas.bird_breed_code = 13)     AS breeding_end
+                       , count(
+                                 DISTINCT mv_data_for_atlas.id_form_universal) AS count_list
+                         FROM
+                             atlas.mv_data_for_atlas
+                                 JOIN atlas.mv_grid_territories_matching
+                                      ON mv_data_for_atlas.id_area = mv_grid_territories_matching.id_area_grid
+                                 JOIN ref_geo.l_areas
+                                      ON mv_grid_territories_matching.id_area_territory = l_areas.id_area
+                                 JOIN atlas.t_taxa ON mv_data_for_atlas.cd_nom = t_taxa.cd_nom
+                                 JOIN atlas.mv_taxa_groups ON t_taxa.cd_nom = mv_taxa_groups.cd_nom
+                         WHERE
+                               new_data_breeding
+                           AND (
+                                       t_taxa.available
+                                       AND t_taxa.enabled)
+                           AND l_areas.enable
+                           AND mv_data_for_atlas.bird_breed_code IN (3, 13)
+                         GROUP BY
+                             mv_grid_territories_matching.id_area_territory
+                           , mv_taxa_groups.cd_group
+                           , trunc(
+                                         extract(
+                                                 DOY FROM date_min) / 10)
+                           , CASE
+                                 WHEN mv_data_for_atlas.bird_breed_code = 3 THEN 'breeding_start'
+                                 WHEN mv_data_for_atlas.bird_breed_code = 13
+                                     THEN 'breeding_end' END
+                         ORDER BY
+                             mv_grid_territories_matching.id_area_territory
+                           , mv_taxa_groups.cd_group
+                           , trunc(
+                                         extract(
+                                                 DOY FROM date_min) / 10)
+                           , CASE
+                                 WHEN mv_data_for_atlas.bird_breed_code = 3 THEN 'breeding_start'
+                                 WHEN mv_data_for_atlas.bird_breed_code = 13
+                                     THEN 'breeding_end' END)
+        SELECT
+            row_number() OVER ()         AS id
+          , matrix.id_area
+          , matrix.cd_nom
+          , data.status
+          , matrix.decade
+          , coalesce(data.count_data, 0) AS count_data
+          , coalesce(data.count_list, 0) AS count_list
+            FROM
+                matrix
+                    LEFT JOIN data ON (matrix.cd_nom, matrix.id_area, matrix.decade, matrix.period) =
+                                      (data.cd_nom, data.id_area, data.decade, data.period)
+            ORDER BY matrix.id_area, matrix.cd_nom, data.status, matrix.decade;
+
+        CREATE INDEX ON atlas.mv_taxa_global_phenology (cd_nom);
+        CREATE INDEX ON atlas.mv_taxa_global_phenology (id_area);
+        CREATE INDEX ON atlas.mv_taxa_global_phenology (period);
         CREATE UNIQUE INDEX ON atlas.mv_taxa_global_phenology (id);
         COMMIT;
     END
@@ -242,16 +385,7 @@ $$
 --     END
 -- $$
 -- ;
-SELECT DISTINCT
-    type_code
-  , type_name
-  , area_name
-  , area_code
-    FROM
-        atlas.mv_grid_territories_matching
-            JOIN ref_geo.l_areas ON id_area_territory = l_areas.id_area
-            JOIN ref_geo.bib_areas_types ON l_areas.id_type = bib_areas_types.id_type AND enable
-;
+
 
 DO
 $$
@@ -298,4 +432,5 @@ SELECT *
         atlas.mv_alti_territory
 ;
 
-grant select on all tables in SCHEMA atlas to odfapp;
+GRANT SELECT ON ALL TABLES IN SCHEMA atlas TO odfapp
+;

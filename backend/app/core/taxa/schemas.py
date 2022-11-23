@@ -24,23 +24,28 @@ class TaxaDistributionFeaturesCollection(FeatureCollection):
         orm_mode = True
 
 
-class TaxaAltitudinalDistribution(BaseModel):
+class CommonDataStructure(BaseModel):
     label: int
-    percentage: int
+    value: int
 
     # class Config:
     #     orm_mode = True
 
 
-class TaxaAltitudinalDistributionBlock(BaseModel):
+class CommonBlockStructure(BaseModel):
     label: str
-    data: List[TaxaAltitudinalDistribution]
+    data: List[CommonDataStructure]
     color: str
 
 
 class TaxaAltitudinalApiData(BaseModel):
-    altitude: TaxaAltitudinalDistributionBlock
-    globalAltitude: TaxaAltitudinalDistributionBlock
+    altitude: CommonBlockStructure
+    globalAltitude: CommonBlockStructure
+
+
+class TaxaPhenologyApiData(BaseModel):
+    phenology: CommonBlockStructure
+    frequency: CommonBlockStructure
 
 
 # class TaxaAltitudeDistributionSchema(BaseModel):
