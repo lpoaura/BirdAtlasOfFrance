@@ -181,9 +181,7 @@
                 ? ''
                 : 'hidden'
             "
-            :data-phenology-all-period="
-              dataPhenologyAllPeriod[selectedTerritory.area_code]
-            "
+            :data-phenology="dataPhenologyAllPeriod"
             :data-phenology-migration="
               dataPhenologyMigration[selectedTerritory.area_code]
             "
@@ -241,13 +239,11 @@ import ChartsTabWintering from '~/components/species-card/ChartsTabWintering.vue
 import MapsTab from '~/components/species-card/MapsTab.vue'
 // UPDATE NEEDED : supprimer cet import
 import {
-  dataPhenologyAllPeriod,
-  dataPhenologyMigration,
-  dataPhenologyBreeding,
   // dataAltitude,
   dataTrend,
   dataPopulationsBreeding,
-  dataPopulationsWintering
+  dataPopulationsWintering,
+  dataPhenologyMigration
   // dataPopulationsFake,
 } from '~/test/fakeData'
 // END UPDATE NEEDED
@@ -417,7 +413,7 @@ export default {
       { label: 'Reproduction', key: 'breeding' }
     ],
     chartsDataAlreadyDownloaded: [],
-    dataPhenologyAllPeriod: {},
+    dataPhenologyAllPeriod: null,
     dataPhenologyMigration: {},
     dataAltitudeAllPeriod: {},
     dataPhenologyBreeding: {},
@@ -428,25 +424,26 @@ export default {
     dataPopulationsWintering: {},
     dataAltitudeWintering: {},
     dataPopulationsFake: {},
-    dataAltitude: {
-      altitude: {
-        label: 'Répartition des observations',
-        color: '#435EF2',
-        data: []
-      },
-      globalAltitude: {
-        label: "Répartition de l'altitude du territoire",
-        data: [
-          { label: 0, percentage: 60 },
-          { label: 100, percentage: 30 },
-          { label: 500, percentage: 45 },
-          { label: 600, percentage: 15 },
-          { label: 1700, percentage: 5 },
-          { label: 3500, percentage: 0 }
-        ],
-        color: 'rgba(67, 94, 242, 0.1)'
-      }
-    },
+    dataAltitude: null,
+    // dataAltitude: {
+    //   altitude: {
+    //     label: 'Répartition des observations',
+    //     color: '#435EF2',
+    //     data: []
+    //   },
+    //   globalAltitude: {
+    //     label: "Répartition de l'altitude du territoire",
+    //     data: [
+    //       { label: 0, percentage: 60 },
+    //       { label: 100, percentage: 30 },
+    //       { label: 500, percentage: 45 },
+    //       { label: 600, percentage: 15 },
+    //       { label: 1700, percentage: 5 },
+    //       { label: 3500, percentage: 0 }
+    //     ],
+    //     color: 'rgba(67, 94, 242, 0.1)'
+    //   }
+    // },
     idarea: null
   }),
   head() {
@@ -490,8 +487,8 @@ export default {
         const chartsTabAllPeriodSubjects = []
         const chartsTabBreedingSubjects = []
         const chartsTabWinteringSubjects = []
-        console.log('this.selectedTerritory', this.selectedTerritory)
-        if (this.dataPhenologyAllPeriod[this.selectedTerritory.area_code]) {
+        console.debug('selectedTerritory', this.selectedTerritory)
+        if (this.dataPhenologyAllPeriod) {
           chartsTabAllPeriodSubjects.push('phenology-all-period')
         }
         if (this.dataPhenologyMigration[this.selectedTerritory.area_code]) {
@@ -583,8 +580,6 @@ export default {
     },
     filteredTabs(newVal) {
       // Change si le territoire sélectionné change
-      // console.log('filteredTabs')
-      // console.log(newVal)
       if (this.selectedTab.value !== 'maps') {
         // Mettre à jour le menu de gauche
         this.defineSelectedTab()
@@ -732,25 +727,16 @@ export default {
         }, 1000)
       })
     // UPDATE NEEDED : récupérer les données des graphes via axios + API (selon le territoire sélectionné)
-    this.dataPhenologyAllPeriod[this.selectedTerritory.area_code] =
-      dataPhenologyAllPeriod
     this.dataPhenologyMigration[this.selectedTerritory.area_code] =
       dataPhenologyMigration
-    // this.dataAltitudeAllPeriod[this.selectedTerritory.area_code] =
-    //   this.dataAltitude
-    this.dataPhenologyBreeding[this.selectedTerritory.area_code] =
-      dataPhenologyBreeding
+    // this.dataPhenologyBreeding[this.selectedTerritory.area_code] =
+    //   dataPhenologyBreeding
     this.dataTrendBreeding[this.selectedTerritory.area_code] = dataTrend
     this.dataPopulationsBreeding[this.selectedTerritory.area_code] =
       dataPopulationsBreeding
-    // this.dataAltitudeBreeding[this.selectedTerritory.area_code] =
-    //   this.dataAltitude
     this.dataTrendWintering[this.selectedTerritory.area_code] = dataTrend
     this.dataPopulationsWintering[this.selectedTerritory.area_code] =
       dataPopulationsWintering
-    // this.dataAltitudeWintering[this.selectedTerritory.area_code] =
-    //   this.dataAltitude
-    // this.dataPopulationsFake = dataPopulationsFake
     this.chartsDataAlreadyDownloaded.push(this.selectedTerritory.area_code)
     // END UPDATE NEEDED
   },
@@ -769,25 +755,43 @@ export default {
         `/api/v1/lareas/ATLAS_TERRITORY/${this.selectedTerritory.area_code}?geom=false&bbox=false`
       )
       this.idarea = resp.id_area
-      console.log('idArea test', this.idarea)
     },
     loadChartsData() {
       this.getIdArea().then(() => {
-        console.log('test2id', this.idarea)
         this.getAltitudeDistribution()
+        this.getGlobalPhenologyDistribution()
       })
     },
     getAltitudeDistribution() {
-      console.log('IDAREA', this.idarea)
       this.$axios
         .$get(
-          `/api/v1/altitude/${this.idarea}/${this.cdnom}?period=${this.selectedSeason.value}`
+          `/api/v1/altitude/${this.idarea}/${this.cdnom}${
+            this.selectedSeason.value
+              ? '?period=' + this.selectedSeason.value
+              : ''
+          }`
         )
         .then((data) => {
           this.dataAltitude = data
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
+        })
+    },
+    getGlobalPhenologyDistribution() {
+      this.$axios
+        .$get(
+          `/api/v1/global_phenology/${this.idarea}/${this.cdnom}${
+            this.selectedSeason.value
+              ? '?period=' + this.selectedSeason.value
+              : ''
+          }`
+        )
+        .then((data) => {
+          this.dataPhenologyAllPeriod = data
+        })
+        .catch((error) => {
+          console.error(error)
         })
     },
     defineSelectedTab() {

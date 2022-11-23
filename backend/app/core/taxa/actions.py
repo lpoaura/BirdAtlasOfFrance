@@ -14,8 +14,8 @@ from .models import (
     THistoricAtlasesData,
     THistoricAtlasesInfo,
     MvAltitudeDistribution,
-    MvTerritoryAltitudeRanges,
     MvAltitudeTerritory,
+    MvTaxaGlobalPhenology,
 )
 
 # from .models import MvTaxaAltitudeDistribution
@@ -124,7 +124,7 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             q = (
                 db.query(
                     func.lower(MvAltitudeDistribution.range).label("label"),
-                    (count_column[period] / float(q1.count) * 100).label("percentage"),
+                    (count_column[period] / float(q1.count) * 100).label("value"),
                 )
                 .filter(MvAltitudeDistribution.id_area == id_area)
                 .filter(MvAltitudeDistribution.cd_nom == cd_nom)
@@ -140,12 +140,60 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
         q = (
             db.query(
                 func.lower(MvAltitudeTerritory.range).label("label"),
-                MvAltitudeTerritory.percentage,
+                (MvAltitudeTerritory.percentage).label("value"),
             )
             .filter(MvAltitudeTerritory.id_area == id_area)
             .order_by(MvAltitudeTerritory.range)
         )
         logger.debug(q)
+        return q.all()
+
+
+class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaGlobalPhenology]):
+    """[summary]
+
+    Args:
+        BaseReadOnlyActions ([type]): [description]
+    """
+
+    def get_specie_phenology_count_data(
+        self, db: Session, id_area: int, cd_nom: int = None, period: str = "all_period"
+    ):
+        q = (
+            db.query(
+                MvTaxaGlobalPhenology.decade.label("label"),
+                MvTaxaGlobalPhenology.count_data.label("value"),
+            )
+            .filter(MvTaxaGlobalPhenology.id_area == id_area)
+            .filter(MvTaxaGlobalPhenology.cd_nom == cd_nom)
+            .filter(MvTaxaGlobalPhenology.period == period)
+            .order_by(MvTaxaGlobalPhenology.decade)
+        )
+        return q.all()
+
+    def get_specie_phenology_percentage_list(
+        self, db: Session, id_area: int, cd_nom: int = None, period: str = "all_period"
+    ):
+        total = (
+            db.query(
+                func.sum(MvTaxaGlobalPhenology.count_list).label("total"),
+            )
+            .filter(MvTaxaGlobalPhenology.id_area == id_area)
+            .filter(MvTaxaGlobalPhenology.cd_nom == cd_nom)
+            .filter(MvTaxaGlobalPhenology.period == period)
+        ).one()
+        q = (
+            db.query(
+                MvTaxaGlobalPhenology.decade.label("label"),
+                (MvTaxaGlobalPhenology.count_list / float(total.total) * 100).label(
+                    "value"
+                ),
+            )
+            .filter(MvTaxaGlobalPhenology.id_area == id_area)
+            .filter(MvTaxaGlobalPhenology.cd_nom == cd_nom)
+            .filter(MvTaxaGlobalPhenology.period == period)
+            .order_by(MvTaxaGlobalPhenology.decade)
+        )
         return q.all()
 
 
@@ -206,3 +254,4 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
 taxa_distrib = TaxaDistributionActions(AreaKnowledgeTaxaList)
 historic_atlas_distrib = HistoricAtlasesActions(THistoricAtlasesData)
 altitude_distrib = TaxaAltitudeDistributionActions(MvAltitudeDistribution)
+phenology_distrib = TaxaGlobalPhenologyActions(MvTaxaGlobalPhenology)

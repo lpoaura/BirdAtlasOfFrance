@@ -1,16 +1,15 @@
 <template>
   <div class="SpeciesCardContent" :class="tabStatus">
-    <div
-      v-if="dataPhenologyAllPeriod"
-      id="phenology-all-period"
-      class="ChartCard"
-    >
+    <div v-if="dataPhenology" id="phenology-all-period" class="ChartCard">
       <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
       <h5 class="black03 bottom-margin-40">
         Nombre de données cumulées par décade du 1<sup>er</sup> janvier 2019 au
         31 décembre de l'année dernière.
       </h5>
-      <phenology-all-period :formatted-data="dataPhenologyAllPeriod" />
+      <phenology-all-period
+        v-if="dataPhenology"
+        :formatted-data="dataPhenology"
+      />
     </div>
     <div
       v-if="dataPhenologyMigration"
@@ -24,14 +23,18 @@
       </h5>
       <phenology-migration :formatted-data="dataPhenologyMigration" />
     </div>
-    <div v-if="dataAltitude && dataAltitude.altitude.data.length > 0"  id="altitude-all-period" class="ChartCard">
+    <div
+      v-if="dataAltitude && dataAltitude.altitude.data.length > 0"
+      id="altitude-all-period"
+      class="ChartCard"
+    >
       <h4 class="black02 fw-bold bottom-margin-8">
         Répartition altitudinale des observations
       </h4>
       <h5 class="black03 bottom-margin-40">
         Proportion des observations en fonction de l’altitude du territoire.
       </h5>
-      <altitude :formatted-data="dataAltitude" />
+      <altitude v-if="dataAltitude" :formatted-data="dataAltitude" />
     </div>
     <div v-if="dataPopulationsTest" class="ChartCard">
       <h4 class="black02 fw-bold bottom-margin-8">
@@ -43,7 +46,7 @@
       <populations-sizes :formatted-data="dataPopulationsTest" />
     </div>
     <span
-      v-if="!dataPhenologyAllPeriod && !dataPhenologyMigration && !dataAltitude"
+      v-if="!dataPhenology && !dataPhenologyMigration && !dataAltitude"
       class="black02 fw-600 text-center UnavailableData"
     >
       Aucun diagramme disponible pour le territoire et la période sélectionnés.
@@ -62,33 +65,36 @@ export default {
     'phenology-all-period': PhenologyAllPeriod,
     'phenology-migration': PhenologyMigration,
     altitude: Altitude,
-    'populations-sizes': PopulationsSizes,
+    'populations-sizes': PopulationsSizes
   },
   props: {
     tabStatus: {
       type: String,
-      required: true,
+      required: true
     },
-    dataPhenologyAllPeriod: {
+    dataPhenology: {
       type: Object,
       required: false,
-      default: null,
+      default: null
     },
     dataPhenologyMigration: {
       type: Object,
       required: false,
-      default: null,
+      default: null
     },
     dataAltitude: {
       type: Object,
       required: false,
-      default: null,
+      default: null
     },
     dataPopulationsTest: {
       type: Object,
       required: false,
-      default: null,
-    },
+      default: null
+    }
   },
+  mounted() {
+    console.log('ChartsPhenoAllPeriod', this.dataPhenology)
+  }
 }
 </script>

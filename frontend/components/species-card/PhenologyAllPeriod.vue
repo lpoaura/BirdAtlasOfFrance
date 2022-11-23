@@ -26,10 +26,11 @@ export default {
   props: {
     formattedData: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   mounted() {
+    console.log('ChartPhenoAllPeriod', this.formattedData)
     // Get bar plot size
     const margin = { top: 10, right: 60, bottom: 24, left: 66 }
     const barPlotWidth = Math.max(
@@ -67,8 +68,9 @@ export default {
         'Sept',
         'Oct',
         'Nov',
-        'Déc',
+        'Déc'
       ])
+
     barPlotSvg
       .append('g')
       .attr('class', 'xAxis')
@@ -90,8 +92,8 @@ export default {
       .domain([
         0,
         d3.max(this.formattedData.phenology.data, function (d) {
-          return d.count_data
-        }),
+          return d.value
+        })
       ])
     barPlotSvg
       .append('g')
@@ -131,8 +133,8 @@ export default {
       .domain([
         0,
         d3.max(this.formattedData.frequency.data, function (d) {
-          return d.percentage
-        }),
+          return d.value
+        })
       ])
     const ticksNumber = Math.round(
       d3.selectAll('.yAxisLeft .tick')._groups[0].length / 2
@@ -187,11 +189,12 @@ export default {
         return xAxisDecades(d.label)
       })
       .attr('y', function (d) {
-        return yAxisLeft(d.count_data)
+        console.log(d.value, yAxisLeft(d.value))
+        return yAxisLeft(d.value)
       })
       .attr('width', xAxisDecades.bandwidth())
       .attr('height', function (d) {
-        return barPlotHeight - yAxisLeft(d.count_data)
+        return barPlotHeight - yAxisLeft(d.value)
       })
       .attr('fill', this.formattedData.phenology.color)
     // Lines and points
@@ -208,12 +211,13 @@ export default {
         'd',
         d3
           .line()
-          // .curve(d3.curveLinear)
+          .curve(d3.curveBumpX)
+          // .curve(d3.curveNatural)
           .x(function (d) {
             return xAxisDecades(d.label)
           })
           .y(function (d) {
-            return yAxisRight(d.percentage)
+            return yAxisRight(d.value)
           })
       )
     barPlotSvg
@@ -227,10 +231,10 @@ export default {
         return xAxisDecades(d.label)
       })
       .attr('cy', function (d) {
-        return yAxisRight(d.percentage)
+        return yAxisRight(d.value)
       })
       .attr('r', 4)
       .attr('fill', this.formattedData.frequency.color)
-  },
+  }
 }
 </script>

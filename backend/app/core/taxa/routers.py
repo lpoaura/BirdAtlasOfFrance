@@ -8,14 +8,19 @@ from starlette.status import HTTP_204_NO_CONTENT
 
 from app.utils.db import get_db
 
-from .actions import historic_atlas_distrib, taxa_distrib, altitude_distrib
+from .actions import (
+    historic_atlas_distrib,
+    taxa_distrib,
+    altitude_distrib,
+    phenology_distrib,
+)
 from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection,
     HistoricAtlasInfosSchema,
     TaxaDistributionFeature,
     TaxaDistributionFeaturesCollection,
-    TaxaAltitudinalDistribution,
+    CommonBlockStructure,
     TaxaAltitudinalApiData,
-    TaxaAltitudinalDistributionBlock,
+    TaxaPhenologyApiData,
 )
 
 logger = logging.getLogger(__name__)
@@ -175,18 +180,55 @@ def altitudinal_distribution(
     q = altitude_distrib.get_specie_distribution(
         db=db, id_area=id_area, cd_nom=cd_nom, period=period
     )
-    altitude = TaxaAltitudinalDistributionBlock(
-        label="Répartition des observations",
-        data=q,
-        color="#435EF2",
+    if q:
+        altitude = CommonBlockStructure(
+            label="Répartition des observations",
+            data=q,
+            color="#435EF2",
+        )
+        global_altitude = CommonBlockStructure(
+            label="Répartition de l'altitude du territoire",
+            data=altitude_distrib.get_territory_distribution(db=db, id_area=id_area),
+            color="rgba(67, 94, 242, 0.3)",
+        )
+        return TaxaAltitudinalApiData(altitude=altitude, globalAltitude=global_altitude)
+    else:
+        return Response(status_code=HTTP_204_NO_CONTENT)
+
+
+@router.get(
+    "/global_phenology/{id_area}/{cd_nom}",
+    response_model=TaxaPhenologyApiData,
+    tags=["taxa"],
+    summary="Altitudinal distribution",
+    description="""# coming soon
+
+    get historic atlases list
+
+""",
+)
+def global_phenology_distribution(
+    id_area: str,
+    cd_nom: int,
+    db: Session = Depends(get_db),
+    period: Optional[str] = "all_period",
+) -> Any:
+    q = phenology_distrib.get_specie_phenology_count_data(
+        db=db, id_area=id_area, cd_nom=cd_nom, period=period
     )
-    global_altitude = TaxaAltitudinalDistributionBlock(
-        label="Répartition des observations",
-        data=altitude_distrib.get_territory_distribution(db=db, id_area=id_area),
-        color="rgba(67, 94, 242, 0.1)",
-    )
-    return (
-        TaxaAltitudinalApiData(altitude=altitude, globalAltitude=global_altitude)
-        if q
-        else Response(status_code=HTTP_204_NO_CONTENT)
-    )
+    if q:
+        phenology = CommonBlockStructure(
+            label="Nombre de données",
+            data=q,
+            color="#435EF2",
+        )
+        frequency = CommonBlockStructure(
+            label="Fréquence dans les listes complètes",
+            data=phenology_distrib.get_specie_phenology_percentage_list(
+                db=db, id_area=id_area, cd_nom=cd_nom, period=period
+            ),
+            color="#8CCB6E",
+        )
+        return TaxaPhenologyApiData(frequency=frequency, phenology=phenology)
+    else:
+        return Response(status_code=HTTP_204_NO_CONTENT)

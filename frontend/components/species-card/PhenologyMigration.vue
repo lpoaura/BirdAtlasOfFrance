@@ -29,10 +29,11 @@ export default {
   props: {
     formattedData: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   mounted() {
+    console.log('CHECK')
     // Get bar plot size
     const margin = { top: 20, right: 0, bottom: 24, left: 66 }
     const barPlotWidth = Math.max(
@@ -70,7 +71,7 @@ export default {
         'Sept',
         'Oct',
         'Nov',
-        'Déc',
+        'Déc'
       ])
     barPlotSvg
       .append('g')
@@ -94,7 +95,7 @@ export default {
         0,
         d3.max(this.formattedData.phenology.data, function (d) {
           return d.count_data
-        }),
+        })
       ])
     barPlotSvg
       .append('g')
@@ -305,7 +306,7 @@ export default {
         return barPlotHeight - yAxis(d.count_data)
       })
       .attr('fill', this.formattedData.phenology.color)
-  },
+  }
 }
 </script>
 
