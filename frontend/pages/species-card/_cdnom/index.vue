@@ -69,9 +69,9 @@
           <div v-show="atlasIsOpen">
             <div
               v-for="item in tabs[2].subjects.atlas"
-              :key="item.slug"
+              :key="item.label"
               class="TabItem vertical atlas"
-              :class="item.slug === selectedSubject.slug ? 'selected' : ''"
+              :class="item.label === selectedSubject.label ? 'selected' : ''"
               :title="item.name"
               @click="updateSelectedSubject(item)"
             >
@@ -98,7 +98,7 @@
           >
             <div v-show="selectedTab.value === 'maps'" class="MapTitle">
               <h4 class="black02 fw-bold">
-                {{ selectedSubject.name }}
+                {{ selectedSubject.items }}
               </h4>
               <h5
                 v-show="
@@ -233,10 +233,10 @@
 import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
 import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
 import SpeciesTab from '~/components/species-card/SpeciesTab.vue'
-import ChartsTabAllPeriod from '~/components/species-card/ChartsTabAllPeriod.vue'
-import ChartsTabBreeding from '~/components/species-card/ChartsTabBreeding.vue'
-import ChartsTabWintering from '~/components/species-card/ChartsTabWintering.vue'
-import MapsTab from '~/components/species-card/MapsTab.vue'
+import ChartsTabAllPeriod from '~/components/species-card/charts/ChartsTabAllPeriod.vue'
+import ChartsTabBreeding from '~/components/species-card/charts/ChartsTabBreeding.vue'
+import ChartsTabWintering from '~/components/species-card/charts/ChartsTabWintering.vue'
+import MapsTab from '~/components/species-card/maps/MapsTab.vue'
 // UPDATE NEEDED : supprimer cet import
 import {
   // dataAltitude,
@@ -308,36 +308,36 @@ export default {
         label: 'Cartes',
         subjects: {
           atlas: [
-            {
-              label: '2019 - 2024',
-              name: 'Oiseaux De France',
-              slug: 'odf',
-              seasons: ['all_period', 'breeding', 'wintering']
-            },
-            {
-              label: '2009 - 2012',
-              name: 'Atlas des Oiseaux de France Métropolitaine',
-              slug: 'aofm',
-              seasons: ['breeding', 'wintering']
-            },
-            {
-              label: '1985 - 1989',
-              name: 'Nouvel Atlas des Oiseaux Nicheurs de France',
-              slug: 'naonf',
-              seasons: ['breeding']
-            },
-            {
-              label: '1977 - 1981',
-              name: 'Atlas des Oiseaux de France en Hiver',
-              slug: 'aofh',
-              seasons: ['wintering']
-            },
-            {
-              label: '1970 - 1975',
-              name: 'Atlas des Oiseaux Nicheurs de France',
-              slug: 'aonf',
-              seasons: ['breeding']
-            }
+            //   {
+            //     label: '2019 - 2024',
+            //     name: 'Oiseaux De France',
+            //     slug: 'odf',
+            //     seasons: ['all_period', 'breeding', 'wintering']
+            //   },
+            //   {
+            //     label: '2009 - 2012',
+            //     name: 'Atlas des Oiseaux de France Métropolitaine',
+            //     slug: 'aofm',
+            //     seasons: ['breeding', 'wintering']
+            //   },
+            //   {
+            //     label: '1985 - 1989',
+            //     name: 'Nouvel Atlas des Oiseaux Nicheurs de France',
+            //     slug: 'naonf',
+            //     seasons: ['breeding']
+            //   },
+            //   {
+            //     label: '1977 - 1981',
+            //     name: 'Atlas des Oiseaux de France en Hiver',
+            //     slug: 'aofh',
+            //     seasons: ['wintering']
+            //   },
+            //   {
+            //     label: '1970 - 1975',
+            //     name: 'Atlas des Oiseaux Nicheurs de France',
+            //     slug: 'aonf',
+            //     seasons: ['breeding']
+            //   }
           ],
           others: [
             {
@@ -425,6 +425,7 @@ export default {
     dataAltitudeWintering: {},
     dataPopulationsFake: {},
     dataAltitude: null,
+    historicAtlasMaps: [],
     // dataAltitude: {
     //   altitude: {
     //     label: 'Répartition des observations',
@@ -590,6 +591,20 @@ export default {
         console.log('check', newVal.value !== oldVal.value)
         if (newVal.value !== oldVal.value) {
           this.loadChartsData()
+          this.tabs[2].subjects.atlas = this.historicAtlasMaps.map((e) => {
+            console.log(
+              'item',
+              e.items,
+              Object.prototype.hasOwnProperty.call(
+                e.items,
+                this.selectedSeason.value
+              )
+            )
+            return Object.prototype.hasOwnProperty.call(
+              e.items,
+              this.selectedSeason.value
+            )
+          })
         }
       },
       deep: true
@@ -615,6 +630,7 @@ export default {
   },
   mounted() {
     this.loadChartsData()
+    this.loadHistoricAtlasList()
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
     this.$refs.scrollingContainer.addEventListener(
@@ -759,6 +775,31 @@ export default {
         `/api/v1/lareas/ATLAS_TERRITORY/${this.selectedTerritory.area_code}?geom=false&bbox=false`
       )
       this.idarea = resp.id_area
+    },
+    loadHistoricAtlasList() {
+      this.$axios
+        .$get(`/api/v1/taxa/historic/atlas/`)
+        .then((data) => {
+          this.historicAtlasMaps = data
+          this.tabs[2].subjects.atlas = this.historicAtlasMaps.map((e) => {
+            console.log(
+              'item',
+              this.selectedSeason.value,
+              e.items,
+              Object.prototype.hasOwnProperty.call(
+                e.items,
+                this.selectedSeason.value
+              )
+            )
+            return Object.prototype.hasOwnProperty.call(
+              e.items,
+              this.selectedSeason.value
+            )
+          })
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     },
     loadChartsData() {
       this.getIdArea().then(() => {
