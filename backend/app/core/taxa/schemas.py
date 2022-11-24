@@ -70,6 +70,8 @@ class TaxaPhenologyApiData(BaseModel):
 #     class Config:
 #         orm_mode = True
 
+class HistoricAtlasItems(BaseModel):
+    
 
 class HistoricAtlasInfosSchema(BaseModel):
     id: int

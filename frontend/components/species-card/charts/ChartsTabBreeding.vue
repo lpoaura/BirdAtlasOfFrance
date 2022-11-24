@@ -54,10 +54,10 @@
 </template>
 
 <script>
-import PhenologyBreeding from '~/components/species-card/PhenologyBreeding.vue'
-import Trend from '~/components/species-card/Trend.vue'
-import PopulationsSizes from '~/components/species-card/PopulationsSizes.vue'
-import Altitude from '~/components/species-card/Altitude.vue'
+import PhenologyBreeding from '~/components/species-card/charts/PhenologyBreeding.vue'
+import Trend from '~/components/species-card/charts/Trend.vue'
+import PopulationsSizes from '~/components/species-card/charts/PopulationsSizes.vue'
+import Altitude from '~/components/species-card/charts/Altitude.vue'
 
 export default {
   components: {

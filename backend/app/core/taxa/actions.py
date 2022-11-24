@@ -231,13 +231,17 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
 
     def list_historic_atlases(self, db: Session) -> List:
         q = db.query(
-            THistoricAtlasesInfo.id,
-            THistoricAtlasesInfo.atlas_period,
-            THistoricAtlasesInfo.atlas_period,
+            THistoricAtlasesInfo.atlas_period.label('label'),
             THistoricAtlasesInfo.date_start,
             THistoricAtlasesInfo.date_end,
-            THistoricAtlasesInfo.season_period,
-            THistoricAtlasesInfo.description,
+            func.array_agg(
+                [
+                    THistoricAtlasesInfo.season_period,
+                    THistoricAtlasesInfo.id
+                ]
+            )
+                .label('items')
+            THistoricAtlasesInfo.description.label('desc'),
             # THistoricAtlasesInfo.is_active,
         ).filter(THistoricAtlasesInfo.is_active)
         return q.all()
