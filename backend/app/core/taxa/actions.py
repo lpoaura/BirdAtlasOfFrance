@@ -229,8 +229,7 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
         logger.debug(f"<taxa_distribution> q {q}")
         return q.all()
 
-    def list_historic_atlases(self, db: Session) -> List:
-        from sqlalchemy.dialects import postgresql
+    def list_historic_atlases(self, db: Session, cd_nom: int=None) -> List:
         q = db.query(
             THistoricAtlasesInfo.atlas_period.label('label'),
             THistoricAtlasesInfo.date_start,
@@ -242,13 +241,20 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
                         'id',THistoricAtlasesInfo.id, 
                         'desc',THistoricAtlasesInfo.description
                         )
-                    )
+                    ).distinct()
                 ).label('items')
-        ).filter(THistoricAtlasesInfo.is_active).group_by(
+        ).filter(
+            THistoricAtlasesInfo.is_active
+        ).group_by(
             THistoricAtlasesInfo.atlas_period,
             THistoricAtlasesInfo.date_start,
             THistoricAtlasesInfo.date_end
-            )
+        ).distinct()
+        if cd_nom:
+            q = q.join(
+                THistoricAtlasesData,  
+                THistoricAtlasesInfo.id == THistoricAtlasesData.id_historic_atlas_info
+            ).filter(THistoricAtlasesData.cd_nom == cd_nom)
         return q.all()
 
 
