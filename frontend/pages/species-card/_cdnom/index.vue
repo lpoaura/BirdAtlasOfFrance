@@ -765,7 +765,7 @@ export default {
     getAltitudeDistribution() {
       this.$axios
         .$get(
-          `/api/v1/altitude/${this.idarea}/${this.cdnom}${
+          `/api/v1/taxa/altitude/${this.idarea}/${this.cdnom}${
             this.selectedSeason.value
               ? '?period=' + this.selectedSeason.value
               : ''
@@ -780,13 +780,7 @@ export default {
     },
     getGlobalPhenologyDistribution() {
       this.$axios
-        .$get(
-          `/api/v1/global_phenology/${this.idarea}/${this.cdnom}${
-            this.selectedSeason.value
-              ? '?period=' + this.selectedSeason.value
-              : ''
-          }`
-        )
+        .$get(`/api/v1/taxa/phenology/allperiod/${this.idarea}/${this.cdnom}`)
         .then((data) => {
           this.dataPhenologyAllPeriod = data
         })

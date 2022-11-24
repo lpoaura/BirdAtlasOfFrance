@@ -134,7 +134,11 @@ export default {
         0,
         d3.max(this.formattedData.frequency.data, function (d) {
           return d.value
-        })
+        }) > 0
+          ? d3.max(this.formattedData.frequency.data, function (d) {
+              return d.value
+            })
+          : 1
       ])
     const ticksNumber = Math.round(
       d3.selectAll('.yAxisLeft .tick')._groups[0].length / 2
@@ -211,8 +215,8 @@ export default {
         'd',
         d3
           .line()
-          .curve(d3.curveBumpX)
-          // .curve(d3.curveNatural)
+          // .curve(d3.curveBumpX)
+          .curve(d3.curveNatural)
           .x(function (d) {
             return xAxisDecades(d.label)
           })

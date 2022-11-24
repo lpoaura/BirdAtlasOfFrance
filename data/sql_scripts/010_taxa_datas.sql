@@ -154,15 +154,14 @@ $$
         /* Phenology des obs */
 
         /* Vue matérialisée finale */
-        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_global_phenology;
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_allperiod_phenology;
 
-        CREATE MATERIALIZED VIEW atlas.mv_taxa_global_phenology AS
+        CREATE MATERIALIZED VIEW atlas.mv_taxa_allperiod_phenology AS
         WITH
             matrix AS (SELECT DISTINCT
                            decade
                          , l_areas.id_area         AS id_area
                          , mv_taxa_groups.cd_group AS cd_nom
-                         , periods.period
                            FROM
                                generate_series(1, 36) AS t(decade)
                                    CROSS JOIN (atlas.mv_taxa_groups
@@ -170,47 +169,19 @@ $$
                                                ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND
                                                   (t_taxa.available AND t_taxa.enabled))
                              , ref_geo.l_areas
-                             , (SELECT
-                                    unnest(ARRAY ['all_period', 'wintering','breeding']) AS period) AS periods
-
                            WHERE
                                  l_areas.id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
                              AND l_areas.enable
                            ORDER BY
-                               id_area, cd_nom, period, decade)
-          , data_period AS (SELECT
-                                id_data
-                              , 'all_period' AS period
-                                FROM
-                                    atlas.mv_data_for_atlas
-                                WHERE
-                                    new_data_all_period
-                            UNION
-                            SELECT
-                                id_data
-                              , 'wintering' AS period
-                                FROM
-                                    atlas.mv_data_for_atlas
-                                WHERE
-                                    new_data_wintering
-                            UNION
-                            SELECT
-                                id_data
-                              , 'wintering' AS period
-                                FROM
-                                    atlas.mv_data_for_atlas
-                                WHERE
-                                    new_data_breeding)
+                               id_area, cd_nom, decade)
           , data AS (SELECT
                          mv_grid_territories_matching.id_area_territory      AS id_area
                        , mv_taxa_groups.cd_group                             AS cd_nom
                        , trunc(extract(DOY FROM date_min) / 10)              AS decade
                        , count(mv_data_for_atlas.id_data)                    AS count_data
-                       , data_period.period                                  AS period
                        , count(DISTINCT mv_data_for_atlas.id_form_universal) AS count_list
                          FROM
                              atlas.mv_data_for_atlas
-                                 JOIN data_period ON data_period.id_data = mv_data_for_atlas.id_data
                                  JOIN atlas.mv_grid_territories_matching
                                       ON mv_data_for_atlas.id_area = mv_grid_territories_matching.id_area_grid
                                  JOIN ref_geo.l_areas
@@ -225,35 +196,31 @@ $$
                              mv_grid_territories_matching.id_area_territory
                            , mv_taxa_groups.cd_group
                            , trunc(extract(DOY FROM date_min) / 10)
-                           , data_period.period
                          ORDER BY
                              mv_grid_territories_matching.id_area_territory
                            , mv_taxa_groups.cd_group
-                           , trunc(extract(DOY FROM date_min) / 10)
-                           , data_period.period)
+                           , trunc(extract(DOY FROM date_min) / 10))
         SELECT
             row_number() OVER ()         AS id
           , matrix.id_area
           , matrix.cd_nom
-          , matrix.period
           , matrix.decade
           , coalesce(data.count_data, 0) AS count_data
           , coalesce(data.count_list, 0) AS count_list
             FROM
                 matrix
-                    LEFT JOIN data ON (matrix.cd_nom, matrix.id_area, matrix.decade, matrix.period) =
-                                      (data.cd_nom, data.id_area, data.decade, data.period)
-            ORDER BY matrix.id_area, matrix.cd_nom, matrix.period, matrix.decade;
+                    LEFT JOIN data ON (matrix.cd_nom, matrix.id_area, matrix.decade) =
+                                      (data.cd_nom, data.id_area, data.decade)
+            ORDER BY
+                matrix.id_area, matrix.cd_nom, matrix.decade;
 
-        CREATE INDEX ON atlas.mv_taxa_global_phenology (cd_nom);
-        CREATE INDEX ON atlas.mv_taxa_global_phenology (id_area);
-        CREATE INDEX ON atlas.mv_taxa_global_phenology (period);
-        CREATE UNIQUE INDEX ON atlas.mv_taxa_global_phenology (id);
+        CREATE INDEX ON atlas.mv_taxa_allperiod_phenology (cd_nom);
+        CREATE INDEX ON atlas.mv_taxa_allperiod_phenology (id_area);
+        CREATE UNIQUE INDEX ON atlas.mv_taxa_allperiod_phenology (id);
         COMMIT;
     END
 $$
 ;
-
 
 DO
 $$

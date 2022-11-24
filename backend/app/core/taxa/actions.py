@@ -1,8 +1,9 @@
 import logging
 from typing import List, Optional
 
+
 from geoalchemy2 import functions as geofunc
-from sqlalchemy import func
+from sqlalchemy import func, case
 from sqlalchemy.orm import Session
 
 from app.core.actions.crud import BaseReadOnlyActions
@@ -15,7 +16,7 @@ from .models import (
     THistoricAtlasesInfo,
     MvAltitudeDistribution,
     MvAltitudeTerritory,
-    MvTaxaGlobalPhenology,
+    MvTaxaAllPeriodPhenology,
 )
 
 # from .models import MvTaxaAltitudeDistribution
@@ -149,50 +150,41 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
         return q.all()
 
 
-class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaGlobalPhenology]):
+class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
     """[summary]
 
     Args:
         BaseReadOnlyActions ([type]): [description]
     """
 
-    def get_specie_phenology_count_data(
-        self, db: Session, id_area: int, cd_nom: int = None, period: str = "all_period"
-    ):
+    def get_data_occurrence(self, db: Session, id_area: int, cd_nom: int = None):
         q = (
             db.query(
-                MvTaxaGlobalPhenology.decade.label("label"),
-                MvTaxaGlobalPhenology.count_data.label("value"),
+                MvTaxaAllPeriodPhenology.decade.label("label"),
+                MvTaxaAllPeriodPhenology.count_data.label("value"),
             )
-            .filter(MvTaxaGlobalPhenology.id_area == id_area)
-            .filter(MvTaxaGlobalPhenology.cd_nom == cd_nom)
-            .filter(MvTaxaGlobalPhenology.period == period)
-            .order_by(MvTaxaGlobalPhenology.decade)
+            .filter(MvTaxaAllPeriodPhenology.id_area == id_area)
+            .filter(MvTaxaAllPeriodPhenology.cd_nom == cd_nom)
+            .order_by(MvTaxaAllPeriodPhenology.decade)
         )
         return q.all()
 
-    def get_specie_phenology_percentage_list(
-        self, db: Session, id_area: int, cd_nom: int = None, period: str = "all_period"
-    ):
+    def get_list_occurrence(self, db: Session, id_area: int, cd_nom: int = None):
         total = (
             db.query(
-                func.sum(MvTaxaGlobalPhenology.count_list).label("total"),
+                func.sum(MvTaxaAllPeriodPhenology.count_list).label("total"),
             )
-            .filter(MvTaxaGlobalPhenology.id_area == id_area)
-            .filter(MvTaxaGlobalPhenology.cd_nom == cd_nom)
-            .filter(MvTaxaGlobalPhenology.period == period)
+            .filter(MvTaxaAllPeriodPhenology.id_area == id_area)
+            .filter(MvTaxaAllPeriodPhenology.cd_nom == cd_nom)
         ).one()
         q = (
             db.query(
-                MvTaxaGlobalPhenology.decade.label("label"),
-                (MvTaxaGlobalPhenology.count_list / float(total.total) * 100).label(
-                    "value"
-                ),
+                MvTaxaAllPeriodPhenology.decade.label("label"),
+                case((total.total > 0, (MvTaxaAllPeriodPhenology.count_list / float(total.total) * 100)),else_=0).label("value"),
             )
-            .filter(MvTaxaGlobalPhenology.id_area == id_area)
-            .filter(MvTaxaGlobalPhenology.cd_nom == cd_nom)
-            .filter(MvTaxaGlobalPhenology.period == period)
-            .order_by(MvTaxaGlobalPhenology.decade)
+            .filter(MvTaxaAllPeriodPhenology.id_area == id_area)
+            .filter(MvTaxaAllPeriodPhenology.cd_nom == cd_nom)
+            .order_by(MvTaxaAllPeriodPhenology.decade)
         )
         return q.all()
 
@@ -254,4 +246,4 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
 taxa_distrib = TaxaDistributionActions(AreaKnowledgeTaxaList)
 historic_atlas_distrib = HistoricAtlasesActions(THistoricAtlasesData)
 altitude_distrib = TaxaAltitudeDistributionActions(MvAltitudeDistribution)
-phenology_distrib = TaxaGlobalPhenologyActions(MvTaxaGlobalPhenology)
+phenology_distrib = TaxaGlobalPhenologyActions(MvTaxaAllPeriodPhenology)

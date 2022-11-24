@@ -42,8 +42,8 @@ class MvAltitudeTerritory(Base):
     range = Column(INT4RANGE)
 
 
-class MvTaxaGlobalPhenology(Base):
-    __tablename__ = "mv_taxa_global_phenology"
+class MvTaxaAllPeriodPhenology(Base):
+    __tablename__ = "mv_taxa_allperiod_phenology"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
     id_area = Column(Integer)
