@@ -148,7 +148,7 @@ export default {
   // },
   proxy: {
     '/api': process.env.API_URL || 'http://localhost:8888',
-    '/taxhub': process.env.TAXHUB_URL || 'https://geonature.alx.host',
+    '/taxhub': process.env.GEONATURE_URL || 'https://geonature.alx.host',
   },
 
   // PWA module configuration
