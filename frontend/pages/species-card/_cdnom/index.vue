@@ -623,9 +623,13 @@ export default {
     )
     // this.defineSelectedTab()
     this.$axios
-      .$get(
-        `https://geonature.alx.host/taxhub/api/bibnoms/taxoninfo/${this.cdnom}`
-      )
+      .$get(`/taxhub/api/bibnoms/taxoninfo/${this.cdnom}`, {
+        headers: {
+          'Access-Control-Allow-Origin': 'localhost:3000',
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          'Access-Control-Allow-Credentials': true
+        }
+      })
       .then((data) => {
         if (data) {
           const species = {
@@ -671,7 +675,7 @@ export default {
           }
           this.$axios
             .$get(
-              `https://demo.geonature.fr/taxhub/api/bdc_statuts/list/${this.cdnom}`
+              `https://geonature.lpo-aura.org/taxhub/api/bdc_statuts/list/${this.cdnom}`
             )
             .then((data) => {
               if (data) {
