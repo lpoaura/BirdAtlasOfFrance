@@ -26,7 +26,7 @@ class TaxaDistributionFeaturesCollection(FeatureCollection):
 
 class CommonDataStructure(BaseModel):
     label: int
-    value: int
+    value: float
 
     # class Config:
     #     orm_mode = True

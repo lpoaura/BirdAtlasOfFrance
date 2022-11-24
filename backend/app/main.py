@@ -156,7 +156,9 @@ app.include_router(ref_geo_router, prefix=settings.API_PREFIX)
 app.include_router(main_router, prefix=settings.API_PREFIX)
 app.include_router(search_router, prefix=settings.API_PREFIX)
 app.include_router(prospecting_router, prefix=settings.API_PREFIX)
-app.include_router(taxa_router, prefix=settings.API_PREFIX)
+logger.debug(f"{settings.API_PREFIX}/taxa")
+logger.debug(settings.API_PREFIX)
+app.include_router(taxa_router, prefix=f"{settings.API_PREFIX}/taxa")
 
 
 def main():

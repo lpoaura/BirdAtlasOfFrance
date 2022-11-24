@@ -197,7 +197,7 @@ def altitudinal_distribution(
 
 
 @router.get(
-    "/global_phenology/{id_area}/{cd_nom}",
+    "/phenology/allperiod/{id_area}/{cd_nom}",
     response_model=TaxaPhenologyApiData,
     tags=["taxa"],
     summary="Altitudinal distribution",
@@ -207,15 +207,10 @@ def altitudinal_distribution(
 
 """,
 )
-def global_phenology_distribution(
-    id_area: str,
-    cd_nom: int,
-    db: Session = Depends(get_db),
-    period: Optional[str] = "all_period",
+def all_period_phenology_distribution(
+    id_area: str, cd_nom: int, db: Session = Depends(get_db)
 ) -> Any:
-    q = phenology_distrib.get_specie_phenology_count_data(
-        db=db, id_area=id_area, cd_nom=cd_nom, period=period
-    )
+    q = phenology_distrib.get_data_occurrence(db=db, id_area=id_area, cd_nom=cd_nom)
     if q:
         phenology = CommonBlockStructure(
             label="Nombre de données",
@@ -224,8 +219,8 @@ def global_phenology_distribution(
         )
         frequency = CommonBlockStructure(
             label="Fréquence dans les listes complètes",
-            data=phenology_distrib.get_specie_phenology_percentage_list(
-                db=db, id_area=id_area, cd_nom=cd_nom, period=period
+            data=phenology_distrib.get_list_occurrence(
+                db=db, id_area=id_area, cd_nom=cd_nom
             ),
             color="#8CCB6E",
         )
