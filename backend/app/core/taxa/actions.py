@@ -230,20 +230,25 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
         return q.all()
 
     def list_historic_atlases(self, db: Session) -> List:
+        from sqlalchemy.dialects import postgresql
         q = db.query(
             THistoricAtlasesInfo.atlas_period.label('label'),
             THistoricAtlasesInfo.date_start,
             THistoricAtlasesInfo.date_end,
             func.array_agg(
-                [
+                func.jsonb_build_object(
                     THistoricAtlasesInfo.season_period,
-                    THistoricAtlasesInfo.id
-                ]
+                    func.jsonb_build_object(
+                        'id',THistoricAtlasesInfo.id, 
+                        'desc',THistoricAtlasesInfo.description
+                        )
+                    )
+                ).label('items')
+        ).filter(THistoricAtlasesInfo.is_active).group_by(
+            THistoricAtlasesInfo.atlas_period,
+            THistoricAtlasesInfo.date_start,
+            THistoricAtlasesInfo.date_end
             )
-                .label('items')
-            THistoricAtlasesInfo.description.label('desc'),
-            # THistoricAtlasesInfo.is_active,
-        ).filter(THistoricAtlasesInfo.is_active)
         return q.all()
 
 
