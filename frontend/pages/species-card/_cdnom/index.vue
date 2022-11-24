@@ -591,18 +591,20 @@ export default {
         console.log('check', newVal.value !== oldVal.value)
         if (newVal.value !== oldVal.value) {
           this.loadChartsData()
-          this.tabs[2].subjects.atlas = this.historicAtlasMaps.map((e) => {
+          this.tabs[2].subjects.atlas = this.historicAtlasMaps.filter((e) => {
             console.log(
               'item',
+              newVal.value,
               e.items,
-              Object.prototype.hasOwnProperty.call(
-                e.items,
-                this.selectedSeason.value
+              e.items.some((i) =>
+                Object.prototype.hasOwnProperty.call(
+                  i,
+                  this.selectedSeason.value
+                )
               )
             )
-            return Object.prototype.hasOwnProperty.call(
-              e.items,
-              this.selectedSeason.value
+            return e.items.some((i) =>
+              Object.prototype.hasOwnProperty.call(i, this.selectedSeason.value)
             )
           })
         }
@@ -778,7 +780,7 @@ export default {
     },
     loadHistoricAtlasList() {
       this.$axios
-        .$get(`/api/v1/taxa/historic/atlas/`)
+        .$get(`/api/v1/taxa/historic/atlas?&cd_nom=${this.cdnom}`)
         .then((data) => {
           this.historicAtlasMaps = data
           this.tabs[2].subjects.atlas = this.historicAtlasMaps.map((e) => {

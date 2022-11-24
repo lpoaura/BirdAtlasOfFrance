@@ -143,7 +143,7 @@ def historic_atlases(
 
 
 @router.get(
-    "/historic/atlas/",
+    "/historic/atlas",
     response_model=List[HistoricAtlasInfosSchema],
     tags=["taxa"],
     summary="List historic atlases",
@@ -153,8 +153,8 @@ def historic_atlases(
 
 """,
 )
-def list_historic_atlases(db: Session = Depends(get_db)) -> Any:
-    q = historic_atlas_distrib.list_historic_atlases(db=db)
+def list_historic_atlases(db: Session = Depends(get_db), cd_nom: int=None) -> Any:
+    q = historic_atlas_distrib.list_historic_atlases(db=db, cd_nom=cd_nom)
     if not q:
         return Response(status_code=HTTP_204_NO_CONTENT)
     return q
