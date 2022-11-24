@@ -70,15 +70,11 @@ class TaxaPhenologyApiData(BaseModel):
 #     class Config:
 #         orm_mode = True
 
-class HistoricAtlasItems(BaseModel):
-    
 
 class HistoricAtlasInfosSchema(BaseModel):
-    id: int
-    atlas_period: str
-    atlas_period: str
+    label: str
     date_start: date
     date_end: date
-    season_period: str
-    description: Optional[str]
+    items: list
+    desc: Optional[str]
     # is_active: bool
