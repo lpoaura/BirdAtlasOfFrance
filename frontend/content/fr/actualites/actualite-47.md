@@ -4,7 +4,7 @@ picture: actualite-47.webp
 credit: Grosbec casse-noyaux © Gérard Meyer
 centering: center
 author: Oiseaux de France
-date: '2022-11-30'
+date: '2022-11-29'
 tags: ['grosbec','ODF','hiver']
 active: true
 ---
