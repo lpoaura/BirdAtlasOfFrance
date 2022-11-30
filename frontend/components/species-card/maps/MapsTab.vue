@@ -1,7 +1,11 @@
 <template>
   <div class="SpeciesCardContent map" :class="tabStatus">
     <client-only>
-      <lazy-species-map :selected-territory="selectedTerritory" />
+      <lazy-species-map
+        :selected-territory="selectedTerritory"
+        :selected-subject="selectedSubject"
+        :selected-season="selectedSeason"
+      />
     </client-only>
     <div class="MapLegend"></div>
   </div>
@@ -12,21 +16,31 @@ export default {
   components: {
     'lazy-species-map': () => {
       if (process.client) {
-        return import('~/components/species-card/SpeciesMap.vue')
+        return import('~/components/species-card/maps/SpeciesMap.vue')
       }
-    },
+    }
   },
   props: {
     tabStatus: {
       type: String,
-      required: true,
+      required: true
     },
     selectedTerritory: {
       // Territoire cliqué (FrMet ou DOM-TOM)
       type: Object,
-      required: true,
+      required: true
     },
-  },
+    selectedSubject: {
+      // Territoire cliqué (FrMet ou DOM-TOM)
+      type: Object,
+      required: true
+    },
+    selectedSeason: {
+      // Territoire cliqué (FrMet ou DOM-TOM)
+      type: Object,
+      required: true
+    }
+  }
 }
 </script>
 

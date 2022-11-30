@@ -64,6 +64,7 @@ class THistoricAtlasesInfo(Base):
     date_end = Column(Date)
     season_period = Column(String)
     description = Column(String)
+    code = Column(String)
     is_active = Column(Boolean)
 
 

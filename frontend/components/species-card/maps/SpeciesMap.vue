@@ -1,5 +1,9 @@
 <template>
   <div id="map-wrap">
+    <div>selectedTerritory {{ selectedTerritory }}</div>
+    <div>selectedSubject {{ selectedSubject }}</div>
+    <div>selectedSeason {{ selectedSeason }}</div>
+    <!-- <div>{{ selectedSubject.seasons.includes(selectedSeason.value) }}</div> -->
     <!-- MAP -->
     <l-map
       ref="myMap"
@@ -15,6 +19,13 @@
         :url="osmUrl"
         :attribution="'© les contributeurs d’OpenStreetMap'"
       />
+
+      <!-- MAP DATA -->
+      <!-- <l-geo-json
+        :geojson="speciesDistributionGeojson"
+        :options="speciesDistributionGeojsonOptions"
+        :options-style="speciesDistributionGeojsonStyle"
+      /> -->
     </l-map>
   </div>
 </template>
@@ -25,8 +36,18 @@ export default {
     selectedTerritory: {
       // Territoire cliqué (FrMet ou DOM-TOM)
       type: Object,
-      required: true,
+      required: true
     },
+    selectedSubject: {
+      // Territoire cliqué (FrMet ou DOM-TOM)
+      type: Object,
+      required: true
+    },
+    selectedSeason: {
+      // Territoire cliqué (FrMet ou DOM-TOM)
+      type: Object,
+      required: true
+    }
   },
   data: () => ({
     // CONFIGURATION DE LA CARTE
@@ -39,7 +60,7 @@ export default {
     envelope: null,
     // CONFIGURATION DES GEOJSON
     // Emprises des territoires
-    territoriesEnvelopes: null,
+    territoriesEnvelopes: null
   }),
   watch: {
     selectedTerritory(newVal) {
@@ -52,7 +73,7 @@ export default {
         this.isProgramaticZoom = true
         this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
       }
-    },
+    }
   },
   mounted() {
     this.$axios
@@ -82,7 +103,7 @@ export default {
         Math.min.apply(Math, x),
         Math.min.apply(Math, y),
         Math.max.apply(Math, x),
-        Math.max.apply(Math, y),
+        Math.max.apply(Math, y)
       ]
       return envelope
     },
@@ -96,8 +117,8 @@ export default {
       // console.log('[updateEnvelope]')
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -73,8 +73,6 @@ class TaxaPhenologyApiData(BaseModel):
 
 class HistoricAtlasInfosSchema(BaseModel):
     label: str
-    date_start: date
-    date_end: date
-    items: list
-    desc: Optional[str]
-    # is_active: bool
+    name: str
+    slug: Optional[str]
+    seasons: List[str]

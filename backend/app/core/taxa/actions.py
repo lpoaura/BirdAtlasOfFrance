@@ -3,7 +3,7 @@ from typing import List, Optional
 
 
 from geoalchemy2 import functions as geofunc
-from sqlalchemy import func, case
+from sqlalchemy import func, case, distinct
 from sqlalchemy.orm import Session
 
 from app.core.actions.crud import BaseReadOnlyActions
@@ -180,7 +180,17 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
         q = (
             db.query(
                 MvTaxaAllPeriodPhenology.decade.label("label"),
-                case((total.total > 0, (MvTaxaAllPeriodPhenology.count_list / float(total.total) * 100)),else_=0).label("value"),
+                case(
+                    (
+                        total.total > 0,
+                        (
+                            MvTaxaAllPeriodPhenology.count_list
+                            / float(total.total)
+                            * 100
+                        ),
+                    ),
+                    else_=0,
+                ).label("value"),
             )
             .filter(MvTaxaAllPeriodPhenology.id_area == id_area)
             .filter(MvTaxaAllPeriodPhenology.cd_nom == cd_nom)
@@ -192,13 +202,23 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
 class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
     """Get Historu"""
 
-    def historic_atlases_distribution(
+    def historic_atlas_data(
         self,
         db: Session,
+        atlas_period: str,
         id_historic_atlas: str,
         cd_nom: int,
+        period: str = "all_period",
         envelope: Optional[List] = None,
     ) -> List:
+        id_historic_atlas = (
+            id_historic_atlas
+            if id_historic_atlas
+            else db.query(THistoricAtlasesInfo.id)
+            .filter(THistoricAtlasesInfo.atlas_period == atlas_period)
+            .filter(THistoricAtlasesInfo.season_period == period)
+        )
+
         q = (
             db.query(
                 THistoricAtlasesData.id_area.label("id"),
@@ -229,32 +249,38 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
         logger.debug(f"<taxa_distribution> q {q}")
         return q.all()
 
-    def list_historic_atlases(self, db: Session, cd_nom: int=None) -> List:
-        q = db.query(
-            THistoricAtlasesInfo.atlas_period.label('label'),
-            THistoricAtlasesInfo.date_start,
-            THistoricAtlasesInfo.date_end,
-            func.array_agg(
-                func.jsonb_build_object(
-                    THistoricAtlasesInfo.season_period,
-                    func.jsonb_build_object(
-                        'id',THistoricAtlasesInfo.id, 
-                        'desc',THistoricAtlasesInfo.description
-                        )
-                    ).distinct()
-                ).label('items')
-        ).filter(
-            THistoricAtlasesInfo.is_active
-        ).group_by(
-            THistoricAtlasesInfo.atlas_period,
-            THistoricAtlasesInfo.date_start,
-            THistoricAtlasesInfo.date_end
-        ).distinct()
+    def list_historic_atlas(self, db: Session, cd_nom: int = None) -> List:
+        from sqlalchemy.dialects.postgresql import ARRAY, array_agg
+        from sqlalchemy import VARCHAR, String, cast
+
+        seasons_agg = cast(
+            func.array_agg(distinct(THistoricAtlasesInfo.season_period), type_=VARCHAR),
+            ARRAY(String),
+        ).label("seasons")
+        # func.array_agg(distinct((THistoricAtlasesInfo.season_period)), _type=ARRAY(String)).label('seasons')
+        q = (
+            db.query(
+                THistoricAtlasesInfo.atlas_period.label("label"),
+                THistoricAtlasesInfo.description.label("name"),
+                THistoricAtlasesInfo.code.label("slug"),
+                seasons_agg,
+            )
+            .filter(THistoricAtlasesInfo.is_active)
+            .group_by(
+                THistoricAtlasesInfo.atlas_period,
+                THistoricAtlasesInfo.description,
+                THistoricAtlasesInfo.code,
+            )
+            .order_by(THistoricAtlasesInfo.atlas_period.desc())
+            .distinct()
+        )
         if cd_nom:
             q = q.join(
-                THistoricAtlasesData,  
-                THistoricAtlasesInfo.id == THistoricAtlasesData.id_historic_atlas_info
+                THistoricAtlasesData,
+                THistoricAtlasesInfo.id == THistoricAtlasesData.id_historic_atlas_info,
             ).filter(THistoricAtlasesData.cd_nom == cd_nom)
+        print("jlkjlk")
+        print(q.all()[0])
         return q.all()
 
 
