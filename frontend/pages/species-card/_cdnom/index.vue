@@ -98,7 +98,7 @@
           >
             <div v-show="selectedTab.value === 'maps'" class="MapTitle">
               <h4 class="black02 fw-bold">
-                {{ selectedSubject.items }}
+                {{ selectedSubject.name }} - {{ selectedSeason.label }}
               </h4>
               <h5
                 v-show="
@@ -222,6 +222,8 @@
           <maps-tab
             :tab-status="selectedTab.value === 'maps' ? '' : 'hidden'"
             :selected-territory="selectedTerritory"
+            :selected-subject="selectedSubject"
+            :selected-season="selectedSeason"
           />
         </div>
       </div>
@@ -308,12 +310,12 @@ export default {
         label: 'Cartes',
         subjects: {
           atlas: [
-            //   {
-            //     label: '2019 - 2024',
-            //     name: 'Oiseaux De France',
-            //     slug: 'odf',
-            //     seasons: ['all_period', 'breeding', 'wintering']
-            //   },
+            {
+              label: '2019 - 2024',
+              name: 'Oiseaux De France',
+              slug: 'odf',
+              seasons: ['all_period', 'breeding', 'wintering']
+            }
             //   {
             //     label: '2009 - 2012',
             //     name: 'Atlas des Oiseaux de France Métropolitaine',
@@ -591,20 +593,6 @@ export default {
         console.log('check', newVal.value !== oldVal.value)
         if (newVal.value !== oldVal.value) {
           this.loadChartsData()
-          this.tabs[2].subjects.atlas = this.historicAtlasMaps.map((e) => {
-            console.log(
-              'item',
-              e.items,
-              Object.prototype.hasOwnProperty.call(
-                e.items,
-                this.selectedSeason.value
-              )
-            )
-            return Object.prototype.hasOwnProperty.call(
-              e.items,
-              this.selectedSeason.value
-            )
-          })
         }
       },
       deep: true
@@ -778,24 +766,12 @@ export default {
     },
     loadHistoricAtlasList() {
       this.$axios
-        .$get(`/api/v1/taxa/historic/atlas/`)
+        .$get(`/api/v1/taxa/historic/atlas/list?cd_nom=${this.cdnom}`)
         .then((data) => {
-          this.historicAtlasMaps = data
-          this.tabs[2].subjects.atlas = this.historicAtlasMaps.map((e) => {
-            console.log(
-              'item',
-              this.selectedSeason.value,
-              e.items,
-              Object.prototype.hasOwnProperty.call(
-                e.items,
-                this.selectedSeason.value
-              )
-            )
-            return Object.prototype.hasOwnProperty.call(
-              e.items,
-              this.selectedSeason.value
-            )
-          })
+          this.tabs[2].subjects.atlas = [
+            ...this.tabs[2].subjects.atlas,
+            ...data
+          ]
         })
         .catch((error) => {
           console.error(error)
