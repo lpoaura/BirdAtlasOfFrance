@@ -11,7 +11,7 @@ active: true
 
 **Oiseau forestier, le gros-bec se laisse plus facilement observer en hiver...**
 
-**C’est donc le moment idéal pour le repérer et noter par la même occasion d’autres espèces fréquentant les mêmes types d’habitats. Plusieurs programmes permettent de collecter des données sur cette espèce : le SHOC, l’EPOC hivernal ou même Oiseaux des Jardins.…**
+**C’est donc le moment idéal pour le repérer et noter par la même occasion d’autres espèces fréquentant les mêmes types d’habitats. Plusieurs programmes permettent de collecter des données sur cette espèce : le SHOC, l’EPOC hivernal ou même Oiseaux des Jardins…**
 
 Le Gros-bec casse-noyaux est observable toute l’année en France, mais il l’est plus facilement en hiver pour plusieurs raisons :  
 - l’absence de feuillage dans les arbres 
