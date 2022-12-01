@@ -4,7 +4,7 @@ picture: actualite-40.webp
 credit: image_credit
 centering: center
 author: Oiseaux de France
-date: '2022-09-09'
+date: ''
 tags: []
 active: true
 ---
