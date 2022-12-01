@@ -32,6 +32,9 @@
         :options="speciesDistributionGeojsonOptions"
         :options-style="speciesDistributionGeojsonStyle"
       />
+      <l-control position="topright" :disable-scroll-propagation="true">
+        <generic-map-loading-control :loading="speciesDistributionIsLoading" />
+      </l-control>
     </l-map>
   </div>
 </template>
@@ -61,9 +64,9 @@ export default {
   },
   data: () => ({
     // CONFIGURATION DE LA CARTE
-    zoom: 11,
+    zoom: 6,
     // currentZoom: 11,
-    center: [48.85341, 2.3488],
+    center: [46.4, 2.2],
     bounds: null,
     osmUrl:
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
@@ -72,9 +75,13 @@ export default {
     // Emprises des territoires
     territoriesEnvelopes: null,
     speciesDistributionGeojson: null,
-    apiRequestController: new AbortController()
+    apiRequestController: null,
+    speciesDistributionIsLoading: false
   }),
   watch: {
+    envelope() {
+      this.getSpecieData()
+    },
     selectedTerritory(newVal) {
       if (newVal.area_code) {
         // const territory = this.$L.geoJSON(
@@ -97,7 +104,6 @@ export default {
     },
     selectedSubject: {
       handler(newVal, oldVal) {
-        this.apiRequestController.abort()
         if (newVal.slug !== oldVal.slug) {
           this.getSpecieData()
         }
@@ -106,6 +112,7 @@ export default {
     }
   },
   mounted() {
+    this.apiRequestController = this.$axios.CancelToken.source()
     this.getTerritory().then(() => this.setBounds())
     this.getSpecieData()
   },
@@ -121,6 +128,7 @@ export default {
       this.$refs.myMap.mapObject.invalidateSize()
       this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
       this.$refs.myMap.mapObject.setMaxBounds(territory.getBounds())
+      console.log(this.$refs.myMap.mapObject.getZoom())
     },
     defineEnvelope(bounds) {
       const x = [bounds.getWest(), bounds.getEast()]
@@ -202,10 +210,12 @@ export default {
       )
     },
     async getSpecieData() {
-      if (this.apiRequestController) this.apiRequestController.abort()
-      // Reinstantiate another instance of AbortController()
-      this.apiRequestController = new AbortController()
-      const signal = this.apiRequestController.signal
+      if (this.apiRequestController) {
+        this.apiRequestController.cancel('Operation canceled')
+      }
+      this.apiRequestController = this.$axios.CancelToken.source()
+      this.speciesDistributionIsLoading = true
+      // Url Source selection
       let url = `/api/v1/taxa/distribution?cd_nom=${this.cdnom}&period=${this.selectedSeason.value}_new&grid=true`
       if (this.selectedSubject && this.selectedSubject.slug === 'odf') {
         console.debug('ODF data')
@@ -220,23 +230,14 @@ export default {
         console.log('else')
       }
       url = this.envelope ? `${url}&envelope=${this.envelope}` : url
-      console.log('speciesDistributionGeojson url', url)
-      this.speciesDistributionGeojson = (
-        await this.$axios.get(url, signal)
-      ).data
-      // .then((data) => (this.speciesDistributionGeojson = data))
-      // .then(() => {
-      //   console.log('apiRequestController 2', this.apiRequestController)
-      //   console.debug(
-      //     'speciesDistributionGeojson data',
-      //     this.speciesDistributionGeojson
-      //   )
-      // })
-      // .catch((error) => {
-      //   console.error(error)
-      // })
+
+      this.speciesDistributionGeojson = await this.$axios.$get(url, {
+        cancelToken: this.apiRequestController.token
+      })
+      this.speciesDistributionIsLoading = false
+
       setTimeout(() => {
-        this.apiRequestController.abort()
+        this.apiRequestController.cancel('Abort test')
       }, 200)
     }
   }
