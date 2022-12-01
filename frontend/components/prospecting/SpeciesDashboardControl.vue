@@ -31,7 +31,7 @@
         >
           <i
             :style="{
-              background: item,
+              background: item
             }"
           ></i>
           {{ featuresLabels[selectedSeason.value][index] }}
@@ -39,7 +39,7 @@
       </div>
       <div class="Buttons">
         <nuxt-link
-          :to="`/species-card/${selectedSpecies.code}`"
+          :to="`/species/${selectedSpecies.code}`"
           class="PrimaryButton flex-1"
         >
           Voir la fiche espèce
@@ -60,34 +60,34 @@ export default {
   props: {
     selectedSpecies: {
       type: Object,
-      required: true,
+      required: true
     },
     selectedSeason: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   data: () => ({
     featuresLabels: {
       all_period: ['Présence'],
       breeding: ['Nicheur possible', 'Nicheur probable', 'Nicheur certain'],
-      wintering: ['Présence'],
+      wintering: ['Présence']
     },
-    lang: 'fr',
+    lang: 'fr'
   }),
   methods: {
     deleteSelectedSpecies() {
       this.$emit('selectedSpecies', null)
       this.$router.push({
         path: '/prospecting',
-        query: { species: undefined },
+        query: { species: undefined }
       })
     },
     // MOBILE
     closeMobileMapControl() {
       this.$emit('mobileMapControl', false)
-    },
-  },
+    }
+  }
 }
 </script>
 
