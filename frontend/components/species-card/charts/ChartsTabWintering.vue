@@ -73,15 +73,14 @@ export default {
     }
   },
   watch: {
-    dataAltitude: {
-      handler(newValue, oldValue) {
-        console.log('test', newValue)
-        // Note: `newValue` will be equal to `oldValue` here
-        // on nested mutations as long as the object itself
-        // hasn't been replaced.
-      },
-      deep: true
-    }
+    // dataAltitude: {
+    //   handler(newValue, oldValue) {
+    //     // Note: `newValue` will be equal to `oldValue` here
+    //     // on nested mutations as long as the object itself
+    //     // hasn't been replaced.
+    //   },
+    //   deep: true
+    // }
   }
 }
 </script>
