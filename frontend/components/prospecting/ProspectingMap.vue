@@ -157,8 +157,8 @@
       </l-control>
       <!-- Top right -->
       <l-control position="topright" :disable-scroll-propagation="true">
-        <div
-          v-show="
+        <generic-map-loading-control
+          :loading="
             (knowledgeLevelIsLoading &&
               ['knowledge-level', 'species-number'].includes(
                 selectedLayer.value
@@ -166,14 +166,8 @@
             (speciesDistributionIsLoading &&
               selectedLayer.value === 'species-distribution')
           "
-          class="InformationControl"
-          style="position: relative"
-        >
-          <div class="Progress"></div>
-          <h5 class="black02 fw-500 bottom-margin-38">
-            Chargement des données
-          </h5>
-        </div>
+        />
+
         <div
           v-show="
             selectedLayer.value === 'epoc' &&
@@ -344,79 +338,79 @@ export default {
     'species-dashboard-control': SpeciesDashboardControl,
     'seasons-selector': SeasonsSelector,
     'layers-selector': LayersSelector,
-    'territories-selector': TerritoriesSelector,
+    'territories-selector': TerritoriesSelector
   },
   props: {
     selectedArea: {
       // Zonage sélectionné dans la barre de recherche
       type: Object,
       required: false,
-      default: null,
+      default: null
     },
     selectedSpecies: {
       // Espèce sélectionnée dans la barre de recherche
       type: Object,
       required: false,
-      default: null,
+      default: null
     },
     selectedSeason: {
       // Saison sélectionnée
       type: Object,
-      required: true,
+      required: true
     },
     selectedLayer: {
       // Couche sélectionnée
       type: Object,
-      required: true,
+      required: true
     },
     selectedTerritory: {
       // Territoire cliqué (FrMet ou DOM-TOM)
       type: Object,
-      required: true,
+      required: true
     },
     currentTerritory: {
       // Territoire sur lequel est centrée la carte (peut être non défini)
       type: Object,
-      required: true,
+      required: true
     },
     countTaxaClasses: {
       // Classes pour la couche "Nb d'espèces par maille"
       type: Object,
-      required: true,
+      required: true
     },
     clickedFeature: {
       // On clique sur une maille
       type: Object,
       required: false,
-      default: null,
+      default: null
     },
     clickedEpocPoint: {
       // On clique sur un point EPOC
       type: Object,
       required: false,
-      default: null,
+      default: null
     },
     epocRealizedIsOn: {
       type: Boolean,
-      required: true,
+      required: true
     },
     epocOdfIsOn: {
       type: Boolean,
-      required: true,
+      required: true
     },
     plan: {
       type: Object,
-      required: true,
+      required: true
     },
     orthophoto: {
       type: Object,
-      required: true,
+      required: true
     },
     // MOBILE
     mobileMapControlIsOpen: {
       type: Boolean,
-      required: true,
-    },
+      required: true
+    }
   },
   data: () => ({
     // CONFIGURATION DE LA CARTE
@@ -457,7 +451,7 @@ export default {
     // MOBILE
     seasonIsOpen: false,
     layerIsOpen: false,
-    territoryIsOpen: false,
+    territoryIsOpen: false
   }),
   computed: {
     territoriesGeojsonStyle() {
@@ -466,12 +460,12 @@ export default {
         color: '#262626',
         opacity: 1,
         fillOpacity: 0,
-        interactive: false,
+        interactive: false
       }
     },
     knowledgeLevelGeojsonOptions() {
       return {
-        onEachFeature: this.knowledgeLevelOnEachFeature,
+        onEachFeature: this.knowledgeLevelOnEachFeature
       }
     },
     knowledgeLevelOnEachFeature() {
@@ -488,7 +482,7 @@ export default {
             this.$emit('clickedFeature', JSON.parse(JSON.stringify(feature)))
             this.zoomToFeature(event)
             this.openMobileMapControl()
-          },
+          }
         })
       }
     },
@@ -506,7 +500,7 @@ export default {
             fillColor: this.setFeatureColor(
               feature.properties[season].percent_knowledge
             ),
-            fillOpacity: 0.6,
+            fillOpacity: 0.6
           }
         }
         if (selectedLayer.value === 'species-number') {
@@ -518,14 +512,14 @@ export default {
             fillColor: this.setFeatureColor(
               feature.properties[season].new_count
             ),
-            fillOpacity: 0.6,
+            fillOpacity: 0.6
           }
         } else {
           return {
             weight: 0.8,
             color: '#C4C4C4',
             opacity: 1,
-            fillColor: 'rgba(0,0,0,0)',
+            fillColor: 'rgba(0,0,0,0)'
           }
         }
       }
@@ -533,7 +527,7 @@ export default {
     speciesDistributionGeojsonOptions() {
       return {
         pointToLayer: this.speciesDistributionPointToLayer,
-        onEachFeature: this.speciesDistributionOnEachFeature,
+        onEachFeature: this.speciesDistributionOnEachFeature
       }
     },
     speciesDistributionPointToLayer() {
@@ -553,7 +547,7 @@ export default {
           click: (event) => {
             this.zoomToFeature(event)
             this.updateSpeciesDistributionGeojson(this.selectedSpecies)
-          },
+          }
         })
       }
     },
@@ -574,14 +568,14 @@ export default {
                 : feature.properties.status === 'Nicheur probable'
                 ? this.selectedSeason.speciesDistributionColors[1]
                 : this.selectedSeason.speciesDistributionColors[2],
-            fillOpacity: 0.7,
+            fillOpacity: 0.7
           }
         } else {
           return {
             weight: 1.4,
             color: this.selectedSeason.speciesDistributionColors[0],
             fillColor: this.selectedSeason.speciesDistributionColors[0],
-            fillOpacity: 0.7,
+            fillOpacity: 0.7
           }
         }
       }
@@ -589,7 +583,7 @@ export default {
     epocRealizedGeojsonOptions() {
       return {
         pointToLayer: this.epocRealizedPointToLayer,
-        onEachFeature: this.epocRealizedOnEachFeature,
+        onEachFeature: this.epocRealizedOnEachFeature
       }
     },
     epocRealizedPointToLayer() {
@@ -600,10 +594,10 @@ export default {
               ? '/prospecting/epoc-realized.svg'
               : '/prospecting/epoc-ODF-realized.svg',
           iconSize: [32, 39],
-          iconAnchor: [16, 35.5],
+          iconAnchor: [16, 35.5]
         })
         return this.$L.marker(latlng, {
-          icon: epocRealizedIcon,
+          icon: epocRealizedIcon
         })
       }
     },
@@ -616,21 +610,21 @@ export default {
             offset: [14, -18],
             permanent: false,
             opacity: 1,
-            className: 'LeafletTooltip',
+            className: 'LeafletTooltip'
           }
         )
         layer.on({
           click: (event) => {
             this.$emit('clickedEpocPoint', feature)
             this.openMobileMapControl()
-          },
+          }
         })
       }
     },
     epocOdfGeojsonOptions() {
       return {
         pointToLayer: this.epocOdfPointToLayer,
-        onEachFeature: this.epocOdfOnEachFeature,
+        onEachFeature: this.epocOdfOnEachFeature
       }
     },
     epocOdfPointToLayer() {
@@ -641,10 +635,10 @@ export default {
               ? '/prospecting/epoc-ODF-Official.svg'
               : '/prospecting/epoc-ODF-Reserve.svg',
           iconSize: [32, 39],
-          iconAnchor: [16, 35.5],
+          iconAnchor: [16, 35.5]
         })
         return this.$L.marker(latlng, {
-          icon: epocOdfIcon,
+          icon: epocOdfIcon
         })
       }
     },
@@ -659,17 +653,17 @@ export default {
             offset: [14, -18],
             permanent: false,
             opacity: 1,
-            className: 'LeafletTooltip',
+            className: 'LeafletTooltip'
           }
         )
         layer.on({
           click: (event) => {
             this.$emit('clickedEpocPoint', feature)
             this.openMobileMapControl()
-          },
+          }
         })
       }
-    },
+    }
   },
   watch: {
     selectedArea(newVal) {
@@ -712,7 +706,7 @@ export default {
         this.isProgramaticZoom = true
         this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
       }
-    },
+    }
   },
   beforeMount() {
     if (this.$detectMobile()) {
@@ -823,7 +817,7 @@ export default {
         Math.min.apply(Math, x),
         Math.min.apply(Math, y),
         Math.max.apply(Math, x),
-        Math.max.apply(Math, y),
+        Math.max.apply(Math, y)
       ]
       return envelope
     },
@@ -878,14 +872,14 @@ export default {
             this.$emit('currentTerritory', {
               id: data.id,
               area_code: data.properties.area_code,
-              area_name: data.properties.area_name,
+              area_name: data.properties.area_name
             })
           }
           if (!data && this.currentTerritory.area_code) {
             this.$emit('currentTerritory', {
               id: null,
               area_code: null,
-              area_name: null,
+              area_name: null
             })
           }
         })
@@ -915,7 +909,7 @@ export default {
           .$get(
             `/api/v1/area/knowledge_level/ATLAS_GRID?envelope=${this.envelope}`,
             {
-              cancelToken: this.axiosSourceKnowledgeLevel.token,
+              cancelToken: this.axiosSourceKnowledgeLevel.token
             }
           )
           .then((data) => {
@@ -949,7 +943,7 @@ export default {
             } else {
               this.knowledgeLevelGeojson = {
                 type: 'FeatureCollection',
-                features: [],
+                features: []
               }
             }
           })
@@ -995,9 +989,9 @@ export default {
         const grid = this.currentZoom >= 11
         this.$axios
           .$get(
-            `/api/v1/taxa/${species.code}?period=${this.selectedSeason.value}_new&grid=${grid}&envelope=${this.envelope}`,
+            `/api/v1/taxa/distribution?cd_nom=${species.code}&period=${this.selectedSeason.value}_new&grid=${grid}&envelope=${this.envelope}`,
             {
-              cancelToken: this.axiosSourceSpeciesDistribution.token,
+              cancelToken: this.axiosSourceSpeciesDistribution.token
             }
           )
           .then((data) => {
@@ -1006,7 +1000,7 @@ export default {
             } else {
               this.speciesDistributionGeojson = {
                 type: 'FeatureCollection',
-                features: [],
+                features: []
               }
               this.noSpeciesData = true
             }
@@ -1037,7 +1031,7 @@ export default {
           } else {
             this.epocRealizedGeojson = {
               type: 'FeatureCollection',
-              features: [],
+              features: []
             }
           }
         })
@@ -1094,7 +1088,7 @@ export default {
     highlightFeature(event) {
       event.target.setStyle({
         weight: 3,
-        color: '#262626',
+        color: '#262626'
       })
       event.target.bringToFront()
     },
@@ -1105,7 +1099,7 @@ export default {
           this.selectedLayer.value
         )
           ? '#FFFFFF'
-          : '#C4C4C4',
+          : '#C4C4C4'
       })
     },
     geolocate() {
@@ -1121,7 +1115,7 @@ export default {
         if (this.$route.query.area && this.$route.query.type) {
           this.$router.push({
             path: '/prospecting',
-            query: { area: undefined, type: undefined },
+            query: { area: undefined, type: undefined }
           })
           this.$emit('clickedFeature', null)
         }
@@ -1198,8 +1192,8 @@ export default {
     detectResize() {
       const vh = window.innerHeight * 0.01
       document.documentElement.style.setProperty('--vh', `${vh}px`)
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -1207,21 +1201,5 @@ export default {
 #map-wrap {
   height: calc(100vh - 136px);
   height: calc(calc(var(--vh, 1vh) * 100) - 136px);
-}
-
-.Progress {
-  background: url('/prospecting/progress.gif') center / cover;
-  background-size: 240%;
-  width: 34px;
-  height: 34px;
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-.bottom-margin-38 {
-  margin-bottom: 38px;
 }
 </style>
