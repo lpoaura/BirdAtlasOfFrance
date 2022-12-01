@@ -17,7 +17,7 @@ export default {
   components: {
     'lazy-species-map': () => {
       if (process.client) {
-        return import('~/components/species-card/maps/SpeciesMap.vue')
+        return import('~/components/species/maps/SpeciesMap.vue')
       }
     }
   },

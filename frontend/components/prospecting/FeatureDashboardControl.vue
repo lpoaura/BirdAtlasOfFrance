@@ -64,9 +64,7 @@
         </div>
         <div
           class="MapControlSplit main right-margin-16"
-          :class="
-            scrolled && selectedTab.label === 'Espèces' ? 'fixed' : ''
-          "
+          :class="scrolled && selectedTab.label === 'Espèces' ? 'fixed' : ''"
         ></div>
       </header>
       <!-- Onglet "Tableau de bord" -->
@@ -493,7 +491,7 @@
           </div>
         </div>
         <nuxt-link
-          :to="`/species-card/${clickedSpecies.cd_nom}`"
+          :to="`/species/${clickedSpecies.cd_nom}`"
           class="PrimaryButton flex-1"
         >
           Voir la fiche espèce
@@ -521,17 +519,17 @@ const d3 = require('d3')
 
 export default {
   components: {
-    'epoc-dashboard-control': EpocDashboardControl,
+    'epoc-dashboard-control': EpocDashboardControl
   },
   props: {
     clickedFeature: {
       type: Object,
-      required: true,
+      required: true
     },
     selectedSeason: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   data: () => ({
     featureID: '',
@@ -560,21 +558,21 @@ export default {
       'Sept',
       'Oct',
       'Nov',
-      'Déc',
+      'Déc'
     ],
     tabs: [
       { label: 'Tableau de bord' },
       { label: 'Espèces' },
-      { label: 'Prospection' },
+      { label: 'Prospection' }
     ],
     selectedTab: { label: 'Tableau de bord' },
     speciesStatusList: [
       { label: 'Toutes', value: 'all_period' },
       { label: 'Espèces nicheuses', value: 'breeding' },
-      { label: 'Espèces hivernantes', value: 'wintering' },
+      { label: 'Espèces hivernantes', value: 'wintering' }
     ],
     selectedSpeciesStatus: { label: 'Toutes', value: 'all_period' },
-    scrolled: false,
+    scrolled: false
   }),
   computed: {
     filteredSpecies() {
@@ -608,13 +606,13 @@ export default {
         return {
           list: filteredSpecies,
           old_count: speciesOldCount,
-          new_count: speciesNewCount,
+          new_count: speciesNewCount
         }
       } else {
         return {
           list: [],
           old_count: 0,
-          new_count: 0,
+          new_count: 0
         }
       }
     },
@@ -626,7 +624,7 @@ export default {
         const phenology = months.map((item) => {
           return {
             label: item,
-            is_present: false,
+            is_present: false
           }
         })
         return phenology
@@ -636,7 +634,7 @@ export default {
             label: item,
             is_present:
               this.clickedSpecies.phenology.find((d) => d === index + 1) !==
-              undefined,
+              undefined
           }
         })
         return phenology
@@ -665,7 +663,7 @@ export default {
       } else {
         return 0
       }
-    },
+    }
   },
   watch: {
     clickedFeature(newVal) {
@@ -674,14 +672,14 @@ export default {
       this.seeMoreMunicipalitiesIsClicked = false
       this.selectedTab = { label: 'Tableau de bord' }
       this.initiateFeatureData(newVal)
-    },
+    }
   },
   mounted() {
     this.$refs.speciesOverflow.addEventListener('scroll', this.listener)
     const formattedData = this.months.map((item, index) => {
       return {
         label: item,
-        count_data: 0,
+        count_data: 0
       }
     })
     this.createBarPlot(formattedData, 'mounted')
@@ -702,8 +700,8 @@ export default {
         path: '/prospecting',
         query: {
           area: `${this.featureProperties.area_code}`,
-          type: 'ATLAS_GRID',
-        },
+          type: 'ATLAS_GRID'
+        }
       })
       this.$axios
         .$get(`/api/v1/area/general_stats/${this.featureID}`)
@@ -812,7 +810,7 @@ export default {
                 return {
                   label: item,
                   count_data:
-                    data.find((d) => d.label === index + 1)?.count_data || 0,
+                    data.find((d) => d.label === index + 1)?.count_data || 0
                 }
               })
               this.createBarPlot(formattedData, 'watch')
@@ -871,7 +869,7 @@ export default {
           0,
           d3.max(formattedData, function (d) {
             return d.count_data
-          }),
+          })
         ])
       if (hook === 'mounted') {
         // Add X axis
@@ -927,12 +925,14 @@ export default {
             "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
           )
         // Update Y axis
-        const formatter = d3.formatLocale({
+        const formatter = d3
+          .formatLocale({
             decimal: '.',
             thousands: ' ',
             grouping: [3],
-            currency: ['', ''],
-          }).format(',.0f')
+            currency: ['', '']
+          })
+          .format(',.0f')
         d3.select(this.$el)
           .select('.yAxis')
           .call(d3.axisLeft(yAxis).tickFormat(formatter))
@@ -1011,8 +1011,8 @@ export default {
     // MOBILE
     closeMobileMapControl() {
       this.$emit('mobileMapControl', false)
-    },
-  },
+    }
+  }
 }
 </script>
 

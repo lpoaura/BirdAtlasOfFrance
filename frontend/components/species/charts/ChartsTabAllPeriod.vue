@@ -55,10 +55,10 @@
 </template>
 
 <script>
-import PhenologyAllPeriod from '~/components/species-card/charts/PhenologyAllPeriod.vue'
-import PhenologyMigration from '~/components/species-card/charts/PhenologyMigration.vue'
-import Altitude from '~/components/species-card/charts/Altitude.vue'
-import PopulationsSizes from '~/components/species-card/charts/PopulationsSizes.vue'
+import PhenologyAllPeriod from '~/components/species/charts/PhenologyAllPeriod.vue'
+import PhenologyMigration from '~/components/species/charts/PhenologyMigration.vue'
+import Altitude from '~/components/species/charts/Altitude.vue'
+import PopulationsSizes from '~/components/species/charts/PopulationsSizes.vue'
 
 export default {
   components: {

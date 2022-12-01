@@ -67,13 +67,13 @@
                 <div
                   class="RedListSticker"
                   :style="{
-                    background: $redLists()[species.redLists.world].bgColor,
+                    background: $redLists()[species.redLists.world].bgColor
                   }"
                 >
                   <h5
                     class="fw-600"
                     :style="{
-                      color: $redLists()[species.redLists.world].fontColor,
+                      color: $redLists()[species.redLists.world].fontColor
                     }"
                   >
                     {{ species.redLists.world }}
@@ -214,31 +214,31 @@
 </template>
 
 <script>
-import PicturesCarousel from '~/components/species-card/PicturesCarousel.vue'
+import PicturesCarousel from '~/components/species/PicturesCarousel.vue'
 
 export default {
   components: {
-    'pictures-carousel': PicturesCarousel,
+    'pictures-carousel': PicturesCarousel
   },
   props: {
     tabStatus: {
       type: String,
-      required: true,
+      required: true
     },
     species: {
       type: Object,
-      required: true,
+      required: true
     },
     filteredTraits: {
       type: Array,
       required: false,
-      default: null,
+      default: null
     },
     filteredFurtherInfo: {
       type: Array,
       required: false,
-      default: null,
-    },
+      default: null
+    }
   },
   data: () => ({
     descriptionHeight: 0,
@@ -247,14 +247,14 @@ export default {
       {
         label: 'Écouter le chant sur Xeno-Canto',
         key: 'xeno-canto',
-        icon: '/song-green.svg',
+        icon: '/song-green.svg'
       },
       {
         label: "Visualiser l'espèce sur EuroBirdPortal",
         key: 'euro-bird-portal',
-        icon: '/eye-green.svg',
-      },
-    ],
+        icon: '/eye-green.svg'
+      }
+    ]
   }),
   computed: {
     filteredLinks() {
@@ -266,7 +266,7 @@ export default {
       } else {
         return []
       }
-    },
+    }
   },
   watch: {
     species(newVal) {
@@ -276,7 +276,7 @@ export default {
           this.descriptionHeight = this.$refs.description.offsetHeight
         }
       }, 100)
-    },
+    }
   },
   beforeMount() {
     window.addEventListener('resize', this.listener)
@@ -292,8 +292,8 @@ export default {
       if (this.$refs.description) {
         this.descriptionHeight = this.$refs.description.offsetHeight
       }
-    },
-  },
+    }
+  }
 }
 </script>
 

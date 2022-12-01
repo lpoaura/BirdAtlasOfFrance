@@ -9,7 +9,7 @@
             '/get-involved',
             '/en/get-involved',
             '/about',
-            '/en/about',
+            '/en/about'
           ].includes(
             $route.path.endsWith('/') && $route.path.length > 1
               ? $route.path.slice(0, -1)
@@ -40,8 +40,8 @@
     <app-footer
       v-show="
         !$route.path.includes('/prospecting') &&
-        !$route.path.includes('/mobile') && 
-        !$route.path.includes('/species-card')
+        !$route.path.includes('/mobile') &&
+        !$route.path.includes('/species')
       "
     />
   </v-app>
@@ -58,13 +58,13 @@ export default {
     'transparent-nav-bar': TransparentNavBar,
     'standard-nav-bar': StandardNavBar,
     'mobile-menu': MobileMenu,
-    'app-footer': Footer,
+    'app-footer': Footer
   },
   data: () => ({
     scrolled: false,
     displayMobileMenu: false,
     currentScroll: 0,
-    currentPath: '',
+    currentPath: ''
   }),
   computed: {
     navItems() {
@@ -72,7 +72,7 @@ export default {
         {
           // label: this.$t('home'),
           label: 'Accueil',
-          route: '/',
+          route: '/'
         },
         // {
         //   label: 'Espèces',
@@ -81,20 +81,20 @@ export default {
         {
           // label: this.$t('map'),
           label: 'Carte',
-          route: '/prospecting',
+          route: '/prospecting'
         },
         {
           // label: this.$t('get-involved'),
           label: 'Participer',
-          route: '/get-involved',
+          route: '/get-involved'
         },
         {
           // label: this.$t('about'),
           label: 'À propos',
-          route: '/about',
-        },
+          route: '/about'
+        }
       ]
-    },
+    }
   },
   beforeMount() {
     window.addEventListener('scroll', this.listener)
@@ -133,8 +133,8 @@ export default {
     },
     handleScroll() {
       this.scrolled = window.scrollY > 0
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -236,11 +236,11 @@
 <script>
 import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
 import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
-import SpeciesTab from '~/components/species-card/SpeciesTab.vue'
-import ChartsTabAllPeriod from '~/components/species-card/charts/ChartsTabAllPeriod.vue'
-import ChartsTabBreeding from '~/components/species-card/charts/ChartsTabBreeding.vue'
-import ChartsTabWintering from '~/components/species-card/charts/ChartsTabWintering.vue'
-import MapsTab from '~/components/species-card/maps/MapsTab.vue'
+import SpeciesTab from '~/components/species/SpeciesTab.vue'
+import ChartsTabAllPeriod from '~/components/species/charts/ChartsTabAllPeriod.vue'
+import ChartsTabBreeding from '~/components/species/charts/ChartsTabBreeding.vue'
+import ChartsTabWintering from '~/components/species/charts/ChartsTabWintering.vue'
+import MapsTab from '~/components/species/maps/MapsTab.vue'
 // UPDATE NEEDED : supprimer cet import
 import {
   // dataAltitude,
