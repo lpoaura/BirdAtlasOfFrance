@@ -5,6 +5,7 @@
         :selected-territory="selectedTerritory"
         :selected-subject="selectedSubject"
         :selected-season="selectedSeason"
+        :cdnom="cdnom"
       />
     </client-only>
     <div class="MapLegend"></div>
@@ -38,6 +39,10 @@ export default {
     selectedSeason: {
       // Territoire cliqué (FrMet ou DOM-TOM)
       type: Object,
+      required: true
+    },
+    cdnom: {
+      type: String,
       required: true
     }
   }

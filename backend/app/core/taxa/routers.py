@@ -29,7 +29,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/taxa/{cd_nom}",
+    "/distribution",
     response_model=TaxaDistributionFeaturesCollection,
     tags=["taxa"],
     summary="taxon geographic distribution",
@@ -119,17 +119,22 @@ def list_lareas(
 def historic_atlases(
     cd_nom: int,
     atlas_period: str,
-    period: str = 'all_period',
+    period: str = "all_period",
     db: Session = Depends(get_db),
     envelope: Optional[str] = None,
-    id_historic_atlas: Optional[int]=None,
+    id_historic_atlas: Optional[int] = None,
 ) -> Any:
     if envelope:
         logger.debug(f"envelop qs: {envelope}")
         envelope = [float(c) for c in envelope.split(",")]
     logger.debug(f"envelop {envelope} {type(envelope)}")
     q = historic_atlas_distrib.historic_atlas_data(
-        db=db, cd_nom=cd_nom, atlas_period=atlas_period, period=period, id_historic_atlas=id_historic_atlas, envelope=envelope
+        db=db,
+        cd_nom=cd_nom,
+        atlas_period=atlas_period,
+        period=period,
+        id_historic_atlas=id_historic_atlas,
+        envelope=envelope,
     )
     if not q:
         return Response(status_code=HTTP_204_NO_CONTENT)
@@ -155,7 +160,7 @@ def historic_atlases(
 
 """,
 )
-def list_historic_atlases(db: Session = Depends(get_db), cd_nom: int=None) -> Any:
+def list_historic_atlases(db: Session = Depends(get_db), cd_nom: int = None) -> Any:
     q = historic_atlas_distrib.list_historic_atlas(db=db, cd_nom=cd_nom)
     if not q:
         return Response(status_code=HTTP_204_NO_CONTENT)

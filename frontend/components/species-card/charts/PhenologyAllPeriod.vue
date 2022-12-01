@@ -30,7 +30,7 @@ export default {
     }
   },
   mounted() {
-    console.log('ChartPhenoAllPeriod', this.formattedData)
+    // console.log('ChartPhenoAllPeriod', this.formattedData)
     // Get bar plot size
     const margin = { top: 10, right: 60, bottom: 24, left: 66 }
     const barPlotWidth = Math.max(
@@ -193,7 +193,7 @@ export default {
         return xAxisDecades(d.label)
       })
       .attr('y', function (d) {
-        console.log(d.value, yAxisLeft(d.value))
+        // console.log(d.value, yAxisLeft(d.value))
         return yAxisLeft(d.value)
       })
       .attr('width', xAxisDecades.bandwidth())

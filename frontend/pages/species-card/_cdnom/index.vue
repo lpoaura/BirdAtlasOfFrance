@@ -220,10 +220,12 @@
             :data-altitude="dataAltitude"
           />
           <maps-tab
+            v-if="selectedTab.value === 'maps'"
             :tab-status="selectedTab.value === 'maps' ? '' : 'hidden'"
             :selected-territory="selectedTerritory"
             :selected-subject="selectedSubject"
             :selected-season="selectedSeason"
+            :cdnom="cdnom"
           />
         </div>
       </div>
@@ -1073,7 +1075,6 @@ nav.NavDrawer {
 
 .SpeciesCardContent.map {
   padding: 0 !important;
-  flex-direction: row;
 }
 
 .SpeciesCardContent.hidden {
