@@ -1,7 +1,7 @@
 ---
 title: "Avez-vous vu le Pouillot à grands sourcils ?"
 picture: actualite-44.webp
-credit: image_credit
+credit: Frank Vassen - FlickR
 centering: center
 author: Oiseaux de France
 date: '2022-11-01'
