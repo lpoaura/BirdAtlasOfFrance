@@ -16,7 +16,7 @@ Lancé en 2017, le protocole EPOC est un dispositif de sciences participatives q
 Dans le cadre du programme Oiseaux de France, un nouveau type d’EPOC a été déployé. Très proches des EPOC, les **EPOC-ODF** en diffèrent sur plusieurs points :
 
 - Ils sont positionnés précisément sur la base d’une stratégie d’échantillonnage
-- 3 passages sur chaque EPOC-ODF par printemps
+- 3 passages sur chaque EPOC-ODF par printemps et 1 passage hivernal
 - Un passage sur un EPOC-ODF, c’est 3 EPOC de 5 minutes successifs et indépendants (on recommence à 0 entre chaque EPOC), soit 15 minutes sur site
 - Un nouveau tirage tous les ans jusqu’en 2023
 
@@ -44,7 +44,7 @@ Chaque EPOC-ODF doit être suivi **3 fois dans le printemps** :
 
 Chaque passage doit être espacé d’**au moins 30 jours** en respectant les périodes.
 
-En zone montagneuse, le premier passage n’est pas obligatoire, et les périodes des passages 2 et 3 sont modulables selon les conditions d’enneigement et l’accessibilité aux EPOC-ODF.
+En zone montagneuse, le premier passage n’est pas obligatoire, et les périodes des passages 2 et 3 sont modulables selon les conditions d’enneigement et l’accessibilité aux EPOC-ODF. 
 
 </div>
 
@@ -55,5 +55,13 @@ En zone montagneuse, le premier passage n’est pas obligatoire, et les période
 A l’instar des EPOC, un EPOC-ODF est un point d’écoute et d’observation durant lequel l’observateur note **tous les individus de toutes les espèces détectées**. Pour chaque observation, l’observateur évalue la distance qui le sépare de l’individu détecté et/ou si l’individu est en transit. La détection des espèces s’effectue à l’oreille mais les jumelles peuvent être utilisées pour identifier un oiseau détecté visuellement (par exemple un rapace).
 
 A la différence d’un EPOC qui ne dure que 5 minutes, un passage sur un EPOC-ODF se compose de **3 EPOC de 5 minutes successifs et indépendants** : on recommence à 0 entre chaque EPOC.
+
+</div>
+
+## EPOC-ODF, c'est aussi en hiver !
+
+<div class="InformativePageParagraph">
+
+Entre le 1er décembre de l'année N et le 31 janvier de l'année N+1, un passage sur les **3 points EPOC-ODF issus du tirage de l'année N** est à faire. Il servira à faire un état des lieux sur le statut des espèces d'oiseaux communs en hiver. 
 
 </div>
