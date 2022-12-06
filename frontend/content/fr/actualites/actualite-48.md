@@ -1,5 +1,5 @@
 ---
-title: "Répartition hivernale des oiseaux : la moindre donnée compte !"
+title: "Répartition hivernale des oiseaux : la moindre donnée compte"
 picture: actualite-48.webp
 credit: Pinson du Nord © Gérard Meyer
 centering: center
