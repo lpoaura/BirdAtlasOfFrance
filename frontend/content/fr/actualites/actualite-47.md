@@ -1,5 +1,5 @@
 ---
-title: "A la recherche du Gros-bec casse-noyaux et d’autres espèces hivernantes"
+title: "A la recherche du Grosbec casse-noyaux et d’autres espèces hivernantes"
 picture: actualite-47.webp
 credit: Grosbec casse-noyaux © Gérard Meyer
 centering: center
@@ -9,7 +9,7 @@ tags: ['grosbec','ODF','hiver']
 active: true
 ---
 
-**Oiseau forestier, le gros-bec se laisse plus facilement observer en hiver...**
+**Oiseau forestier, le grosbec se laisse plus facilement observer en hiver...**
 
 **C’est donc le moment idéal pour le repérer et noter par la même occasion d’autres espèces fréquentant les mêmes types d’habitats. Plusieurs programmes permettent de collecter des données sur cette espèce : le SHOC, l’EPOC hivernal ou même Oiseaux des Jardins…**
 
@@ -28,7 +28,7 @@ La population française est considérée comme sédentaire et occupe les habita
 <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-47-cartegrosbec.webp"/>
 <span class="InformativePagePictureLegend">Carte de la répartition des observations hivernale de grosbec depuis 2019 © ODF</span>
 
-## Cibler le gros-bec : un bon moyen de collecter de la donnée sur d’autres espèces hivernantes 
+## Cibler le grosbec : un bon moyen de collecter de la donnée sur d’autres espèces hivernantes 
 
 Quelques espèces hivernantes partagent le même type d’habitat que le gros-bec. C’est le cas par exemple des grives litornes et mauvis, des pigeons colombin et ramier ou encore du Bouvreuil pivoine dont la présence est à rechercher dans les mailles atlas.  
 
