@@ -9,9 +9,7 @@ tags: ['datacollect','ODF','hiver']
 active: true
 ---
 
-**Depuis le 1er décembre, toutes les données collectées participent à la mise à jour des répartitions hivernales des espèces...**  
-
-**Qu'elles proviennent de points EPOC ou de listes complètes, les données permettent de mettre à jour quotidiennement les cartes de distribution.**
+**Depuis le 1er décembre, toutes les données collectées participent à la mise à jour des répartitions hivernales des espèces. Qu'elles proviennent de points EPOC ou de listes complètes, les données permettent de mettre à jour quotidiennement les cartes de distribution.**
 
 ## Contribuer à l'amélioration des connaissances sur la répartition des espèces 
 
