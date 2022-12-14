@@ -9,9 +9,9 @@ tags: ['laridés','comptage 2023/2024','hiver']
 active: true
 ---
 
-**Recherchez les dortoirs de laridés dès l’hiver 2022-2023…**
+**Recherchez les dortoirs de laridés dès l’hiver 2022-2023 en vue du prochain comptage.**
 
-**En vue de la 5ième édition de l’enquête « laridés » qui aura lieu l’hiver prochain (2023-2024), il est recommandé de réaliser des prospections dès cet hiver afin de localiser les principaux dortoirs. Cette enquête ayant lieu tous les 6 ans il est fort possible qu’il y ait eu quelques changements dans les habitudes d’hivernage des laridés de votre secteur. D’autant plus sachant que la plupart des espèces, protégées pour bon nombre d’entre elles, ont une dynamique de population négative et/ou très fluctuante.**
+**En vue de la 5<sup>ième</sup> édition du recensement des laridés hivernants qui aura lieu l’hiver prochain (2023-2024), il est recommandé de réaliser des prospections dès cet hiver afin de localiser les principaux dortoirs. Cette enquête ayant lieu tous les 6 ans il est fort possible qu’il y ait eu quelques changements dans les habitudes d’hivernage des oiseaux de votre secteur. Les prospections sont d'autant plus importante que la plupart des espèces, souvent protégées, ont une dynamique de population négative et/ou très fluctuante.**
 
 Au même titre que les anatidés et les limicoles, mais aussi les plongeons, grèbes, grands échassiers et rallidés, les laridés (mouettes, goélands et sternes) sont partie intégrante des oiseaux d’eau. Complémentaire au Wetlands, cette enquête permet d’évaluer avec plus de précision les statuts de leurs populations sur le territoire.
 
