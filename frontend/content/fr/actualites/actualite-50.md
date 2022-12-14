@@ -1,7 +1,7 @@
 ---
 title: "Enquête laridés 2023-2024 : anticipez les prospections !"
 picture: actualite-50.webp
-credit:  © crédit
+credit:  Goélands argentés © Yann Brilland
 centering: center
 author: Oiseaux de France
 date: '2022-12-14'
