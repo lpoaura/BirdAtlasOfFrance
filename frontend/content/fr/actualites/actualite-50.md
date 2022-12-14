@@ -4,7 +4,7 @@ picture: actualite-50.webp
 credit:  © crédit
 centering: center
 author: Oiseaux de France
-date: '2022-12-13'
+date: '2022-12-14'
 tags: ['laridés','comptage 2023/2024','hiver']
 active: true
 ---
