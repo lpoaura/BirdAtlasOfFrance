@@ -28,8 +28,12 @@ Le guide du participant a été mis à jour pour 2023. Il reprend les principes 
 
 Au cours de vos sorties cet hiver, ayez une attention particulière sur les goélands, mouettes et sternes en vue de l'enquête laridés hivernants de l'année prochaine. C'est un bon moyen de se perfectionner sur ce groupe difficile et de repérer les principaux dortoirs en amont de l'enquête. Les dortoirs comptés pendant le Wetlands et sur les sites WI existants pourront être saisis dans le module Wetlands comme habituellement. En revanche toute observation hors sites WI ou dates officielles devra être saisie sous forme de liste en dehors du module.
 
+
+<i>Voir aussi :</i> [<i>Enquête laridés 2023-2024 : anticipez les prospections !</i>](https://www.oiseauxdefrance.org/news/actualite-50) 
+
+
 ## Vous souhaitez contribuer ?
 
-Le comptage Wetlands est ouvert aux ornithologues capables d’identifier à la vue les espèces d’oiseaux d’eau. Cependant, le Wetlands étant un suivi long-terme, il est important que les participants s’engagent à compter le(s) même(s) site(s) aussi longtemps que possible.
+Le comptage Wetlands est ouvert aux ornithologues capables d’identifier à la vue les différentes espèces d’oiseaux d’eau. Cependant, le Wetlands étant un suivi long-terme, il est important que les participants s’engagent à compter le(s) même(s) site(s) aussi longtemps que possible.
 
-Toute personne souhaitant participer au comptage doit préalablement contacter la [LPO/Wetlands France](mailto:wetlands-france@lpo.fr) pour vérifier les disponibilités et besoins au local.
+Toute personne souhaitant participer au comptage doit préalablement contacter la [LPO/Wetlands France](mailto:wetlands-france@lpo.fr) pour vérifier les disponibilités en termes de participation et les besoins au local.
