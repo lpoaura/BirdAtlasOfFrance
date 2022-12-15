@@ -1,7 +1,7 @@
 ---
 title: "Un sursis pour les espèces des milieux agricoles ?"
 picture: actualite-52.webp
-credit: Alouette des champs © 
+credit: Alouette des champs © Yann Brilland
 centering: center
 author: Oiseaux de France
 date: '2022-12-15'
@@ -11,7 +11,7 @@ active: true
 
 **L’indicateur sur l’état de santé des oiseaux nicheurs communs européens vient d’être mis à jour !**
 
-Le PECBMS, Pan-European Common Bird Monitoring Scheme, est un projet initié en 2002 par l’EBCC (European Bird Census Council) et BirdLife International. Son objectif principal est d’utiliser les oiseaux communs comme indicateurs de l’état de la nature. Il repose sur les suivis long-terme des populations d’oiseaux nicheuses de 30 pays européens, une majorité appartenant à l’UE. Le STOC vient donc nourrir ce suivi à grand échelle.
+Le PECBMS, Pan-European Common Bird Monitoring Scheme, est un projet initié en 2002 par l’EBCC (European Bird Census Council) et BirdLife International. Son objectif principal est d’utiliser les oiseaux communs comme indicateurs de l’état de la nature. Il repose sur les suivis long-terme des populations d’oiseaux nicheuses de 30 pays européens, une majorité appartenant à l’UE. Le **STOC** vient donc nourrir ce suivi à grand échelle.
 
 <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-52-visuelflyerPECBMS.webp"/>
 <span class="InformativePagePictureLegend">Page de couverture du flyer du PECBMS </span>
@@ -23,7 +23,8 @@ Le PECBMS produit les tendances de 170 oiseaux communs nichant en Europe, ainsi 
 ## De l'importance des longues séries temporelles pour alimenter les indicateurs 
 
 L'une des nouveautés de cette mise à jour a été l'exclusion du Royaume-Uni des indicateurs de l'UE suite au Brexit. L’indicateur des oiseaux agricoles de l'UE (EU Farmland Bird Indicator) semble s’en améliorer : ces populations diminuent de 52 % au lieu de 60 % si on gardait les données du Royaume Uni. Ceci est un artefact qui démontre l’importance des longues séries temporelles pour produire des indicateurs plus robustes (le suivi des oiseaux communs au Royaume Uni est le plus ancien).
-
+<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-52-visuelflyerPECBMS.webp"/>
+<span class="InformativePagePictureLegend">Graphique illustrant le nombre d'espèces par classe de tendances</span>
 ## Plus d'informations 
 
 Toutes les actualités concernant cette mise à jour sont disponibles sur le site du PECBMS : 
