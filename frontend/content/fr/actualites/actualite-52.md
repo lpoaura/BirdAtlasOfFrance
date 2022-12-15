@@ -1,39 +1,37 @@
 ---
-title: "Le comptage Wetlands approche !"
-picture: actualite-51.webp
-credit:  Canard siffleur © Corine Bliek - FlickR
+title: "Un sursis pour les espèces des milieux agricoles ?"
+picture: actualite-52.webp
+credit: Alouette des champs © 
 centering: center
 author: Oiseaux de France
-date: '2023-01-04'
-tags: ['Wetlands','comptage 2023',"oiseaux d'eau"]
+date: '2022-12-15'
+tags: ['PECBMS','oiseaux communs nicheurs', 'Europe', 'STOC']
 active: true
 ---
 
-**Les 14 et 15 janvier prochains c'est le comptage des oiseaux d’eau hivernants.**
+**L’indicateur sur l’état de santé des oiseaux nicheurs communs européens vient d’être mis à jour !**
 
-**En place depuis 1967, le dispositif de comptage « Wetlands » permet d’évaluer les tendances des populations d'oiseaux d'eau hivernants en France métropolitaine et à l'échelle de la voie de migration. Afin de l'actualiser, des équipes de bénévoles se rendront sur plus de 500 zones humides référencées pour le comptage annuel les 14 et 15 janvier prochain.**
+Le PECBMS, Pan-European Common Bird Monitoring Scheme, est un projet initié en 2002 par l’EBCC (European Bird Census Council) et BirdLife International. Son objectif principal est d’utiliser les oiseaux communs comme indicateurs de l’état de la nature. Il repose sur les suivis long-terme des populations d’oiseaux nicheuses de 30 pays européens, une majorité appartenant à l’UE. Le STOC vient donc nourrir ce suivi à grand échelle.
 
+<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-52-visuelflyerPECBMS.webp"/>
+<span class="InformativePagePictureLegend">Page de couverture du flyer du PECBMS </span>
 
-## Tous les outils pour la participation réunis dans UN seul et unique "Guide du participant", une consultation essentielle pour tout observateur !
+## 42% des oiseaux communs européens sont en déclin : les espèces des milieux agricoles sont les plus sévèrement touchées
 
-Le guide du participant a été mis à jour pour 2023. Il reprend les principes du protocole et propose une aide pour la saisie de données qui se fait uniquement via le module Wetlands sur Faune France ou l'application NaturaList (directement sur le terrain).
+Le PECBMS produit les tendances de 170 oiseaux communs nichant en Europe, ainsi que des indicateurs multispécifiques utilisés officiellement pour évaluer les politiques de l’UE. L’actualisation des tendances et des indicateurs de 1980 à 2021 a eu lieu récemment et le message principal reste malheureusement le même : si la moitié des espèces sont stables ou en augmentation, 42 % sont en déclin, particulièrement celles associées aux milieux agricoles telles que l'Alouette des champs, la Tourterelle des bois ou le Vanneau huppé.
 
+## De l'importance des longues séries temporelles pour alimenter les indicateurs 
 
-<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-51-couv-guide-participant-2023.webp"/><span class="InformativePagePictureLegend"></span>
+L'une des nouveautés de cette mise à jour a été l'exclusion du Royaume-Uni des indicateurs de l'UE suite au Brexit. L’indicateur des oiseaux agricoles de l'UE (EU Farmland Bird Indicator) semble s’en améliorer : ces populations diminuent de 52 % au lieu de 60 % si on gardait les données du Royaume Uni. Ceci est un artefact qui démontre l’importance des longues séries temporelles pour produire des indicateurs plus robustes (le suivi des oiseaux communs au Royaume Uni est le plus ancien).
 
+## Plus d'informations 
 
-<div style="align-center"><a href="https://www.lpo.fr/content/download/12609/file/Guide%20de%20saisie%20des%20donn%C3%A9es%20Wetlands_participants%202023.pdf?inLanguage=fre-FR"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success">Télécharger le Guide du participant 2023</a></div>
+Toutes les actualités concernant cette mise à jour sont disponibles sur le site du PECBMS : 
 
-## Préparation enquête laridés hivernants 2023/2024
+- [Télécharger le visuel de résumé](https://pecbms.info/wp-content/uploads/2022/12/euromonitoring-a5-2022-ok-web.pdf)
 
-Au cours de vos sorties cet hiver, ayez une attention particulière sur les goélands, mouettes et sternes en vue de l'enquête laridés hivernants de l'année prochaine. C'est un bon moyen de se perfectionner sur ce groupe difficile et de repérer les principaux dortoirs en amont de l'enquête. Les dortoirs comptés pendant le Wetlands et sur les sites WI existants pourront être saisis dans le module Wetlands comme habituellement. En revanche toute observation hors sites WI ou dates officielles devra être saisie sous forme de liste en dehors du module.
+- [Informations sur les données mises à jour](https://pecbms.info/what-is-new-in-2022-data-update/) 
 
+- [Informations sur les tendances](https://pecbms.info/trends-of-common-birds-in-europe-2022-update/)
 
-<i>Voir aussi :</i> [<i>Enquête laridés 2023-2024 : anticipez les prospections !</i>](https://www.oiseauxdefrance.org/news/actualite-50) 
-
-
-## Vous souhaitez contribuer ?
-
-Le comptage Wetlands est ouvert aux ornithologues capables d’identifier à la vue les différentes espèces d’oiseaux d’eau. Cependant, le Wetlands étant un suivi long-terme, il est important que les participants s’engagent à compter le(s) même(s) site(s) aussi longtemps que possible.
-
-Toute personne souhaitant participer au comptage doit préalablement contacter la [LPO/Wetlands France](mailto:wetlands-france@lpo.fr) pour vérifier les disponibilités en termes de participation et les besoins au local.
+- [Informations sur les indicateurs](https://pecbms.info/european-common-bird-indicators-2022-update/)
