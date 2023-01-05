@@ -5,7 +5,7 @@ credit:  Canard siffleur © Corine Bliek - FlickR
 centering: center
 author: Oiseaux de France
 date: '2023-01-09'
-tags: ['Wetlands','comptage 2023','oiseaux d'eau']
+tags: ["Wetlands","comptage 2023","oiseaux d'eau"]
 active: true
 ---
 
