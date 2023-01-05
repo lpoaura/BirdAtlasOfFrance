@@ -1,5 +1,5 @@
 ---
-title: "Les 14 et 15 janvier prochains, comptez les oiseaux d'eau"
+title: "Les 14 et 15 janvier prochains, on compte les oiseaux d'eau"
 picture: actualite-51.webp
 credit:  Canard siffleur © Corine Bliek - FlickR
 centering: center
@@ -9,11 +9,11 @@ tags: ['Wetlands','comptage 2023','oiseaux d'eau']
 active: true
 ---
 
-**Durant le weekend de la mi-janvier, plus de 2 000 bénévoles arpenteront les zones humides françaises pour y dénombrer les oiseaux d’eau.**
+**Durant le weekend de la mi-janvier, plus de 2 000 bénévoles arpenteront les zones humides françaises.**
 
-Rendez-vous annuel bien connu des passionnés d’ornithologie, en place depuis 1967, le dispositif de comptage « Wetlands » permet d’évaluer les tendances des populations d'oiseaux d'eau hivernants en France métropolitaine et à l'échelle de la voie de migration. Afin de les actualiser, des équipes de bénévoles se rendront sur plus de 500 zones humides référencées pour le comptage annuel les 14 et 15 janvier prochain.
+Rendez-vous annuel bien connu des passionnés d’ornithologie, en place depuis 1967, le dispositif de comptage « Wetlands » permet d’évaluer les tendances des populations d'oiseaux d'eau hivernants en France métropolitaine et à l'échelle de la voie de migration. Afin de les actualiser, des équipes de bénévoles se rendront sur plus de 500 zones humides référencées pour le comptage les 14 et 15 janvier prochain.
 
-La date oficcielle du weekend de la mi-janvier permet de synchroniser les comptages à l’échelle des 180 pays participants. Cependant, en cas d'obligation de report à une autre date pour cause de météo, le comptage peut être fait entre le 7 et le 22 janvier. Sur les zones humides particulièrement étendues, la synchronisation sur l’ensemble des unités de comptage prévaut sur la synchronisation nationale par rapport aux dates fixées, dans la limite de la période de tolérance cité précédemment. 
+La date officielle fixée au weekend de la mi-janvier permet de synchroniser les comptages à l’échelle des 180 pays participants. Cependant, en cas d'obligation de report à une autre date pour cause de météo, le comptage peut être fait entre le 7 et le 22 janvier. Sur les zones humides particulièrement étendues, la synchronisation sur l’ensemble des unités de comptage prévaut sur la synchronisation nationale par rapport aux dates fixées, dans la limite de la période de tolérance cité précédemment. 
 
 ## Tous les outils pour la participation réunis dans UN seul et unique "Guide du participant", une consultation essentielle pour tout observateur !
 
