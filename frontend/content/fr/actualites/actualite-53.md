@@ -4,7 +4,7 @@ picture: actualite-54.webp
 credit: Mésange bleue © 
 centering: center
 author: Oiseaux de France
-date: '2023-01-13'
+date: '2023-01-09'
 tags: ['Oiseaux des jardins', 'webinaire2023','10 ans']
 active: true
 ---
