@@ -12,7 +12,8 @@ from .actions import (
     historic_atlas_distrib,
     taxa_distrib,
     altitude_distrib,
-    phenology_distrib,
+    all_period_phenology_distrib,
+    breeding_phenology_distrib
 )
 from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection,
     HistoricAtlasInfosSchema,
@@ -21,6 +22,7 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     CommonBlockStructure,
     TaxaAltitudinalApiData,
     TaxaPhenologyApiData,
+    TaxaBreedingPhenologyApiData
 )
 
 logger = logging.getLogger(__name__)
@@ -217,7 +219,7 @@ def altitudinal_distribution(
 def all_period_phenology_distribution(
     id_area: str, cd_nom: int, db: Session = Depends(get_db)
 ) -> Any:
-    q = phenology_distrib.get_data_occurrence(db=db, id_area=id_area, cd_nom=cd_nom)
+    q = all_period_phenology_distrib.get_data_occurrence(db=db, id_area=id_area, cd_nom=cd_nom)
     if q:
         phenology = CommonBlockStructure(
             label="Nombre de données",
@@ -232,5 +234,34 @@ def all_period_phenology_distribution(
             color="#8CCB6E",
         )
         return TaxaPhenologyApiData(frequency=frequency, phenology=phenology)
+    else:
+        return Response(status_code=HTTP_204_NO_CONTENT)
+
+
+
+@router.get(
+    "/phenology/breeding/{id_area}/{cd_nom}",
+    response_model=TaxaBreedingPhenologyApiData,
+    tags=["taxa"],
+    summary="Breeding phenology distribution",
+    description="""# coming soon""",
+)
+def breeding_phenology_distribution(
+    id_area: str, cd_nom: int, db: Session = Depends(get_db)
+) -> Any:
+    q_start = breeding_phenology_distrib.get_data_occurrence(db=db, id_area=id_area, cd_nom=cd_nom, status='breeding_start')
+    q_end = breeding_phenology_distrib.get_data_occurrence(db=db, id_area=id_area, cd_nom=cd_nom, status='breeding_end')
+    if q_start or q_end :
+        breeding_start = CommonBlockStructure(
+            label="Début de période",
+            data=q_start,
+            color="#435EF2",
+        )
+        breeding_end = CommonBlockStructure(
+            label="Fin de période",
+            data=q_end,
+            color="#8CCB6E",
+        )
+        return TaxaBreedingPhenologyApiData(breeding_start=breeding_start, breeding_end=breeding_end)
     else:
         return Response(status_code=HTTP_204_NO_CONTENT)

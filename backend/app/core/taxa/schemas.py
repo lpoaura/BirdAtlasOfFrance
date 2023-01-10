@@ -48,6 +48,11 @@ class TaxaPhenologyApiData(BaseModel):
     frequency: CommonBlockStructure
 
 
+class TaxaBreedingPhenologyApiData(BaseModel):
+    breeding_start: CommonBlockStructure
+    breeding_end: CommonBlockStructure
+
+
 # class TaxaAltitudeDistributionSchema(BaseModel):
 #     range: List
 #     count: int
