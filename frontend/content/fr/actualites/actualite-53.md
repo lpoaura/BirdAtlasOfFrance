@@ -1,7 +1,7 @@
 ---
 title: "Observatoire Oiseaux des Jardins : 10 ans de suivis "
 picture: actualite-54.webp
-credit: Mésange bleue © 
+credit: Mésange bleue © Denis Girard
 centering: center
 author: Oiseaux de France
 date: '2023-01-09'
