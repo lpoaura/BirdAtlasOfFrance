@@ -54,6 +54,17 @@ class MvTaxaAllPeriodPhenology(Base):
     count_list = Column(Integer)
 
 
+class MvTaxaBreedingPhenology(Base):
+    __tablename__ = "mv_taxa_breeding_phenology"
+    __table_args__ = {"schema": "atlas"}
+    id = Column(Integer, primary_key=True)
+    id_area = Column(Integer)
+    cd_nom = Column(Integer)
+    status = Column(String)
+    decade = Column(Integer)
+    count_data = Column(Integer)
+
+
 class THistoricAtlasesInfo(Base):
     __tablename__ = "t_historic_atlases_info"
     __table_args__ = {"schema": "atlas"}

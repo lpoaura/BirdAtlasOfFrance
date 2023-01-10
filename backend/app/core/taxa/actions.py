@@ -17,6 +17,7 @@ from .models import (
     MvAltitudeDistribution,
     MvAltitudeTerritory,
     MvTaxaAllPeriodPhenology,
+    MvTaxaBreedingPhenology,
 )
 
 # from .models import MvTaxaAltitudeDistribution
@@ -199,6 +200,31 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
         return q.all()
 
 
+class TaxaBreedingPhenologyActions(BaseReadOnlyActions[MvTaxaBreedingPhenology]):
+    """[summary]
+
+    Args:
+        BaseReadOnlyActions ([type]): [description]
+    """
+
+    # TODO: read get functions
+    def get_data_occurrence(
+        self, db: Session, id_area: int, status: str, cd_nom: int = None
+    ):
+        q = (
+            db.query(
+                MvTaxaBreedingPhenology.decade.label("label"),
+                MvTaxaBreedingPhenology.count_data.label("value"),
+            )
+            .filter(MvTaxaBreedingPhenology.id_area == id_area)
+            .filter(MvTaxaBreedingPhenology.cd_nom == cd_nom)
+            .filter(MvTaxaBreedingPhenology.status == status)
+            .order_by(MvTaxaBreedingPhenology.decade)
+        )
+        return q.all()
+
+
+
 class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
     """Get Historu"""
 
@@ -287,4 +313,5 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
 taxa_distrib = TaxaDistributionActions(AreaKnowledgeTaxaList)
 historic_atlas_distrib = HistoricAtlasesActions(THistoricAtlasesData)
 altitude_distrib = TaxaAltitudeDistributionActions(MvAltitudeDistribution)
-phenology_distrib = TaxaGlobalPhenologyActions(MvTaxaAllPeriodPhenology)
+all_period_phenology_distrib = TaxaGlobalPhenologyActions(MvTaxaAllPeriodPhenology)
+breeding_phenology_distrib = TaxaBreedingPhenologyActions(MvTaxaBreedingPhenology)
