@@ -52,6 +52,8 @@ app = FastAPI(
     title=settings.APP_NAME,
     description=f"{settings.APP_NAME} API Backend",
     openapi_tags=tags_metadata,
+    docs_url="/api/v1/docs", 
+    redoc_url=None
 )
 
 
@@ -130,7 +132,7 @@ async def log_requests(request: Request, call_next):
 async def root():
     logger.debug("Hello!")
     # return {"message": "Welcome to Atlas bird of France API"}
-    return RedirectResponse("/docs")
+    return RedirectResponse("/api/v1/docs")
 
 
 if settings.SENTRY_DSN:
