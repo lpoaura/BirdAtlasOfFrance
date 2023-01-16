@@ -23,4 +23,6 @@ Au programme, la présentation des résultats des analyses réalisées sur les d
 ## Vous souhaitez contribuer à l'observatoire ? 
 [L’opération nationale de comptage des oiseaux des jardins en hiver]( https://www.lpo.fr/decouvrir-la-nature/loisirs-nature/agenda-nature/agenda-lpo-france/2023/comptage-national-oiseaux-des-jardins) aura lieu durant le dernier weekend de janvier : **les 28 et 29 janvier 2023.** 
 
+<div style="align-center"><a href="https://www.oiseauxdesjardins.fr/index.php?m_id=1164&a=N419#FN419"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success">Je participe au comptage</a></div>
+
 
