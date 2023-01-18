@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="ActivePictureDescription">
-      <h5 class="black02 fw-600">{{ activePicture.title }}</h5>
+      <h5 class="black02 fw-600" v-html="activePicture.title"></h5>
       <h5 class="black02">{{ activePicture.author }}</h5>
     </div>
     <div class="ThumbnailsWrapper">
