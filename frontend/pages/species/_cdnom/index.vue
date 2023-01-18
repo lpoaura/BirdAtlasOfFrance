@@ -198,7 +198,7 @@
                 : 'hidden'
             "
             :data-phenology-breeding="
-              dataPhenologyBreeding[selectedTerritory.area_code]
+              dataPhenologyBreeding
             "
             :data-trend="dataTrendBreeding[selectedTerritory.area_code]"
             :data-populations-breeding="
@@ -247,7 +247,7 @@ import {
   dataTrend,
   dataPopulationsBreeding,
   dataPopulationsWintering,
-  dataPhenologyMigration
+  dataPhenologyMigration,
   // dataPopulationsFake,
 } from '~/test/fakeData'
 // END UPDATE NEEDED
@@ -420,7 +420,7 @@ export default {
     dataPhenologyAllPeriod: null,
     dataPhenologyMigration: {},
     dataAltitudeAllPeriod: {},
-    dataPhenologyBreeding: {},
+    dataPhenologyBreeding: null,
     dataTrendBreeding: {},
     dataPopulationsBreeding: {},
     dataAltitudeBreeding: {},
@@ -502,7 +502,7 @@ export default {
         if (this.dataAltitudeAllPeriod[this.selectedTerritory.area_code]) {
           chartsTabAllPeriodSubjects.push('altitude-all-period')
         }
-        if (this.dataPhenologyBreeding[this.selectedTerritory.area_code]) {
+        if (this.dataPhenologyBreeding) {
           chartsTabBreedingSubjects.push('phenology-breeding')
         }
         if (this.dataTrendBreeding[this.selectedTerritory.area_code]) {
@@ -739,8 +739,6 @@ export default {
     // UPDATE NEEDED : récupérer les données des graphes via axios + API (selon le territoire sélectionné)
     this.dataPhenologyMigration[this.selectedTerritory.area_code] =
       dataPhenologyMigration
-    // this.dataPhenologyBreeding[this.selectedTerritory.area_code] =
-    //   dataPhenologyBreeding
     this.dataTrendBreeding[this.selectedTerritory.area_code] = dataTrend
     this.dataPopulationsBreeding[this.selectedTerritory.area_code] =
       dataPopulationsBreeding
@@ -783,6 +781,7 @@ export default {
       this.getIdArea().then(() => {
         this.getAltitudeDistribution()
         this.getGlobalPhenologyDistribution()
+        this.getBreedingPhenologyDistribution()
       })
     },
     getAltitudeDistribution() {
@@ -806,6 +805,17 @@ export default {
         .$get(`/api/v1/taxa/phenology/allperiod/${this.idarea}/${this.cdnom}`)
         .then((data) => {
           this.dataPhenologyAllPeriod = data
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+    getBreedingPhenologyDistribution() {
+      this.$axios
+        .$get(`/api/v1/taxa/phenology/breeding/${this.idarea}/${this.cdnom}`)
+        .then((data) => {
+          this.dataPhenologyBreeding = data
+          console.log('dataPhenologyBreeding',this.dataPhenologyBreeding)
         })
         .catch((error) => {
           console.error(error)

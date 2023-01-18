@@ -5,12 +5,12 @@
     </div>
     <div class="ChartLegend">
       <h5 class="ChartLegendLabel">
-        <i :style="{ background: formattedData.colors[0] }"></i
-        >{{ formattedData.atlasCodes[0] }}
+        <i :style="{ background: formattedData.breeding_start.color }"></i
+        >{{ formattedData.breeding_start.label }}
       </h5>
       <h5 class="ChartLegendLabel">
-        <i :style="{ background: formattedData.colors[1] }"></i
-        >{{ formattedData.atlasCodes[1] }}
+        <i :style="{ background: formattedData.breeding_end.color }"></i
+        >{{ formattedData.breeding_end.label }}
       </h5>
     </div>
   </div>
@@ -27,7 +27,6 @@ export default {
     },
   },
   mounted() {
-    const atlasCodes = ['firstAtlasCode', 'secondAtlasCode']
     // Get bar plot size
     const margin = { top: 10, right: 0, bottom: 24, left: 66 }
     const barPlotWidth = Math.max(
@@ -82,21 +81,18 @@ export default {
       )
       .call((g) => g.selectAll('line[y2]').style('opacity', 0))
     // Set Y axis and add it
-    const firstMax = this.formattedData.data.reduce((oldVal, newVal) =>
-      oldVal.firstAtlasCode > newVal.firstAtlasCode ? oldVal : newVal
+    const breedingStartMaxValue = this.formattedData.breeding_start.data.reduce(
+      (oldVal, newVal) => (oldVal.value > newVal.value ? oldVal : newVal)
     )
-    const secondMax = this.formattedData.data.reduce((oldVal, newVal) =>
-      oldVal.secondAtlasCode > newVal.secondAtlasCode ? oldVal : newVal
+    const breedingEndMaxValue = this.formattedData.breeding_end.data.reduce(
+      (oldVal, newVal) => (oldVal.value > newVal.value ? oldVal : newVal)
     )
-    const reference = firstMax >= secondMax ? atlasCodes[0] : atlasCodes[1]
     const yAxis = d3
       .scaleLinear()
       .range([barPlotHeight, 0])
       .domain([
         0,
-        d3.max(this.formattedData.data, function (d) {
-          return d[reference]
-        }),
+        d3.max([breedingStartMaxValue.value, breedingEndMaxValue.value]),
       ])
     barPlotSvg
       .append('g')
@@ -128,7 +124,7 @@ export default {
         'style',
         "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; line-height: 13px; color: #000;"
       )
-      .text(this.formattedData.label)
+      .text('Nombre de données')
     // Delete axis lines
     barPlotSvg.selectAll('path').style('opacity', 0)
     // Bars
@@ -137,52 +133,50 @@ export default {
       .range([0, barPlotWidth])
       .padding(0.45)
       .domain(
-        this.formattedData.data.map(function (d) {
+        this.formattedData.breeding_start.data.map(function (d) {
           return d.label
         })
       )
-    const xAxisAtlasCodes = d3
-      .scaleBand()
-      .range([0, xAxisDecades.bandwidth()])
-      .padding(0.5)
-      .domain(atlasCodes)
-    const colors = d3
-      .scaleOrdinal()
-      .range(this.formattedData.colors)
-      .domain(atlasCodes)
+    // INFO: display Breeding start data
     barPlotSvg
       .append('g')
       .attr('class', 'bars')
-      .selectAll('g')
-      .data(this.formattedData.data)
-      .enter()
-      .append('g')
-      .attr('class', 'bars-group')
-      .attr('transform', function (d) {
-        return 'translate(' + xAxisDecades(d.label) + ',0)'
-      })
       .selectAll('rect')
-      .data(function (d) {
-        return atlasCodes.map(function (key) {
-          return { key, value: d[key] }
-        })
-      })
+      .data(this.formattedData.breeding_start.data)
       .enter()
       .append('rect')
-      .attr('class', 'bar')
+      .attr('class', 'bar-group')
       .attr('x', function (d) {
-        return xAxisAtlasCodes(d.key)
+        return xAxisDecades(d.label)
       })
       .attr('y', function (d) {
         return yAxis(d.value)
       })
-      .attr('width', xAxisAtlasCodes.bandwidth())
+      .attr('width', xAxisDecades.bandwidth() / 2)
       .attr('height', function (d) {
         return barPlotHeight - yAxis(d.value)
       })
-      .attr('fill', function (d) {
-        return colors(d.key)
+      .attr('fill', this.formattedData.breeding_start.color)
+    // INFO: display Breeding end data
+    barPlotSvg
+      .append('g')
+      .attr('class', 'bars')
+      .selectAll('rect')
+      .data(this.formattedData.breeding_end.data)
+      .enter()
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('x', function (d) {
+        return xAxisDecades(d.label) - 5
       })
+      .attr('y', function (d) {
+        return yAxis(d.value)
+      })
+      .attr('width', xAxisDecades.bandwidth() / 2)
+      .attr('height', function (d) {
+        return barPlotHeight - yAxis(d.value)
+      })
+      .attr('fill', this.formattedData.breeding_end.color)
   },
 }
 </script>
