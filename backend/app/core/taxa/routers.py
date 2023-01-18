@@ -228,7 +228,7 @@ def all_period_phenology_distribution(
         )
         frequency = CommonBlockStructure(
             label="Fréquence dans les listes complètes",
-            data=phenology_distrib.get_list_occurrence(
+            data=all_period_phenology_distrib.get_list_occurrence(
                 db=db, id_area=id_area, cd_nom=cd_nom
             ),
             color="#8CCB6E",
@@ -265,3 +265,4 @@ def breeding_phenology_distribution(
         return TaxaBreedingPhenologyApiData(breeding_start=breeding_start, breeding_end=breeding_end)
     else:
         return Response(status_code=HTTP_204_NO_CONTENT)
+

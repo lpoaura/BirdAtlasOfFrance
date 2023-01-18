@@ -249,7 +249,7 @@ $$
         SELECT row_number() OVER ()         AS id
              , matrix.id_area
              , matrix.cd_nom
-             , data.status
+             , coalesce(data.status, matrix.status) as status
              , matrix.decade
              , coalesce(data.count_data, 0) AS count_data
         FROM matrix

@@ -206,8 +206,7 @@ class TaxaBreedingPhenologyActions(BaseReadOnlyActions[MvTaxaBreedingPhenology])
     Args:
         BaseReadOnlyActions ([type]): [description]
     """
-
-    # TODO: read get functions
+    
     def get_data_occurrence(
         self, db: Session, id_area: int, status: str, cd_nom: int = None
     ):
