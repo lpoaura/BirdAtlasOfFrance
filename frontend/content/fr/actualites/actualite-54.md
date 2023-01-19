@@ -20,4 +20,4 @@ La lettre d'information « Oiseaux de France » comporte une sélection des actu
 
 La lettre d’information diffuse les informations essentielles sur les suivis de l'avifaune animés par la LPO (dates, guide du participant, conseils pour la participation, contacts) et vous permet par exemple d’accéder facilement aux résultats (bilans annuels) à l'échelle régionale, nationale (voire internationale pour certains) ou bien d'être informé(e) de l’utilisation de ces résultats dans le cadre de programmes de restauration d’habitat ou de conservation d’espèce. 
 
-<div style="align-center"><a href="https://www.lpo.fr/content/download/12609/file/Guide%20de%20saisie%20des%20donn%C3%A9es%20Wetlands_participants%202023.pdf?inLanguage=fre-FR"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success">Je m’abonne à la Newsletter Oiseaux de France</a></div>
+<div style="align-center"><a href="https://landings.emailing.lpo.fr/61d5874f4b4b811a82e72b33/MYg2if1JS7GPXgWNqN-Hew/landing.html"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success">Je m’abonne à la Newsletter Oiseaux de France</a></div>
