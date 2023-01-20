@@ -1,5 +1,5 @@
 ---
-title: "10 ans de suivi des oiseaux des jardins : l'heure est au bilan!"
+title: "10 ans de suivi des oiseaux des jardins : l'heure est au bilan !"
 picture: actualite-55.webp
 credit: Oiseaux à la mangeoire © Alain Boullah 
 centering: center
@@ -10,7 +10,8 @@ active: true
 ---
 
 **Près d'un million de données de comptage analysées et des tendances fiables obtenues pour 30 espèces d'oiseaux communs !**
-**Ce bilan de 10 ans de comptages des oiseaux des jardins a été rendu possible grâce à l'investissement d'un très grand nombre de participants, certains sur le long terme comme ces 4 700 jardins suivis par leurs propriétaires depuis plus de 5 ans à ce programme de sciences participatives bien connu du grand public.**
+
+**Ce bilan de 10 ans de comptages des oiseaux des jardins a été rendu possible grâce à l'investissement d'un très grand nombre de participants, certains sur le long terme à l'image de ces 4 700 jardins suivis par leurs propriétaires depuis plus de 5 ans dans le cadre de ce programme de sciences participatives bien connu du grand public.**
 
 ## Un programme unique en son genre !
 
@@ -22,15 +23,17 @@ En dix ans, le nombre de jardins suivis est passé de 3 000 en 2012 à près de 
 
 ## Près d’un million de données collectées pendant les comptages d'été et d'hiver depuis 2012 ! 
 
-Près d’un million d’observations ont été collectées via les seuls comptages nationaux de janvier et de mai. C’est sans compter les données collectées quotidiennement, en dehors de ces deux weekends par les participants réguliers, qui portent la somme des observations réalisées à 6,5 millions ! 
+Grâce à des participants toujours plus nombreux et fidèles, près d’un million d’observations ont été collectées via les seuls comptages nationaux de janvier et de mai. C’est sans compter les données collectées quotidiennement, en dehors de ces deux weekends par les participants réguliers, qui portent la somme des observations réalisées à 6,5 millions ! 
 
-Ces données des comptages ont fait l’objet d’une première analyse présentée dans le [bilan des 10 ans de suivi de l’observatoire ODJ](). Sur la cinquantaine d’espèces traitées, des tendances fiables ont été évaluées pour trente d’entre-elles. La moitié de montre des signes d’augmentation durant les comptages d’hiver. Parmi les espèces concernées les plus communes : le Chardonneret élégant et la Fauvette à tête noire. A l’inverse, 41% sont en déclin d’après les analyses des comptages d’été. Parmi les espèces concernées les plus communes : le Merle noir et le Verdier d’Europe.  
+Les données des comptages d'été et d'hiver ont fait l’objet d’une première analyse, présentée dans le [bilan des 10 ans de suivi de l’observatoire ODJ](). Sur la cinquantaine d’espèces traitées, des tendances fiables ont été évaluées pour trente d’entre-elles. La moitié des espèces recensées en hiver montre des signes d’augmentation. C'est le cas du Chardonneret élégant et de la Fauvette à tête noire. A l’inverse, 41% des espèces recensées durant les comptage d'été sont en déclin, et parmi elles le Merle noir et le Verdier d’Europe.
+
+
 <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-55-couverture-bilan.webp"/>
 <span class="InformativePagePictureLegend"></span>
 
 <div style="align-center"><a href=" "  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Télécharger le Bilan des 10 ans</a></div>
 
-## N’oubliez pas les deux évènements ODJ qui vont marquer la fin janvier 2023 ! 
+## N’oubliez pas les deux prochains évènements ODJ fin janvier 2023 ! 
 
 **Jeudi 26 janvier à partir de 18h** se tiendra le webinaire, organisé sur Zoom, par la LPO et le MNHN. Cet évènement vous permettra de découvrir plus en détail les résultats présentés dans le bilan. 
 
