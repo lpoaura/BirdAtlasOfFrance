@@ -1,5 +1,5 @@
 ---
-title: "Observatoire Oiseaux des Jardins : 10 ans de suivis "
+title: "Webinaire : le bilan de 10 années de suivi des oiseaux des jardins "
 picture: actualite-53.webp
 credit: Mésange bleue © Denis Girard
 centering: center
