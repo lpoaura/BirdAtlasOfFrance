@@ -4,7 +4,7 @@ picture: actualite-55.webp
 credit: Oiseaux à la mangeoire © Alain Boullah 
 centering: center
 author: Oiseaux de France
-date: '2023-01-'
+date: '2023-01-25'
 tags: ['Oiseaux des Jardins', 'bilan', '10 ans']
 active: true
 ---
