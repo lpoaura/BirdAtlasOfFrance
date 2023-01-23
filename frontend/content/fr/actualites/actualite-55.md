@@ -32,7 +32,7 @@ Les données des comptages d'été et d'hiver ont fait l’objet d’une premiè
 
   <a href="/news/actualite-55-Bilan-ODJ.pdf" target="_blank" class="ProtocolsDocumentsCard">
     <img class="ProtocolsDocumentsPicture" src="/news/actualite-55-couverture-bilan.webp" />
-    <span class="green01 fw-600">Télécharger le Bilan des 10 ans</span>
+    <span class="green01 fw-600"> Télécharger le Bilan des 10 ans </span>
   </a>
 
 </div>
@@ -42,9 +42,17 @@ Les données des comptages d'été et d'hiver ont fait l’objet d’une premiè
 
 **Jeudi 26 janvier à partir de 18h** se tiendra le webinaire, organisé sur Zoom, par la LPO et le MNHN. Cet évènement vous permettra de découvrir plus en détail les résultats présentés dans le bilan. 
 
-<div style="align-center"><a href="https://landings.emailing.lpo.fr/61d5874f4b4b811a82e72b33/nYJuic_bTd2lJhWjcfYH4w/landing.html"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Je m’inscris au webinaire </a></div>
+<div style="align-center">
+
+<a href="https://landings.emailing.lpo.fr/61d5874f4b4b811a82e72b33/nYJuic_bTd2lJhWjcfYH4w/landing.html"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Je m’inscris au webinaire </a>
+
+</div>
 
 **Samedi 28 ou dimanche 29 janvier**, prenez 1 heure de votre temps pour compter les oiseaux de votre jardin, balcon ou du parc urbain le plus proche de chez vous. 
 
-<div style="align-center"><a href="https://www.oiseauxdesjardins.fr/"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Je participe au comptage </a></div>
+<div style="align-center">
+
+<a href="https://www.oiseauxdesjardins.fr/"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Je participe au comptage </a>
+
+</div>
 
