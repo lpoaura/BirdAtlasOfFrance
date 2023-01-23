@@ -25,8 +25,9 @@ En dix ans, le nombre de jardins suivis est passé de 3 000 en 2012 à près de 
 
 Grâce à des participants toujours plus nombreux et fidèles, près d’un million d’observations ont été collectées via les seuls comptages nationaux de janvier et de mai. C’est sans compter les données collectées quotidiennement, en dehors de ces deux weekends par les participants réguliers, qui portent la somme des observations réalisées à 6,5 millions ! 
 
-Les données des comptages d'été et d'hiver ont fait l’objet d’une première analyse, présentée dans le [bilan des 10 ans de suivi de l’observatoire ODJ](). Sur la cinquantaine d’espèces traitées, des tendances fiables ont été évaluées pour trente d’entre-elles. La moitié des espèces recensées en hiver montre des signes d’augmentation. C'est le cas du Chardonneret élégant et de la Fauvette à tête noire. A l’inverse, 41% des espèces recensées durant les comptage d'été sont en déclin, et parmi elles le Merle noir et le Verdier d’Europe.
+Les données des comptages d'été et d'hiver ont fait l’objet d’une première analyse, présentée dans le **bilan des 10 ans de suivi de l’observatoire ODJ**. Sur la cinquantaine d’espèces traitées, des tendances fiables ont été évaluées pour trente d’entre-elles. La moitié des espèces recensées en hiver montre des signes d’augmentation. C'est le cas du Chardonneret élégant et de la Fauvette à tête noire. A l’inverse, 41% des espèces recensées durant les comptage d'été sont en déclin, et parmi elles le Merle noir et le Verdier d’Europe.
 
+Découvrez tous les résultats en téléchargeant ci-dessous le bilan des 10 ans de l'Observatoire ODJ !
 
 <div class="ProtocolsDocumentsGrid">
 
