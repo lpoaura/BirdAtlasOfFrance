@@ -28,18 +28,23 @@ Grâce à des participants toujours plus nombreux et fidèles, près d’un mill
 Les données des comptages d'été et d'hiver ont fait l’objet d’une première analyse, présentée dans le [bilan des 10 ans de suivi de l’observatoire ODJ](). Sur la cinquantaine d’espèces traitées, des tendances fiables ont été évaluées pour trente d’entre-elles. La moitié des espèces recensées en hiver montre des signes d’augmentation. C'est le cas du Chardonneret élégant et de la Fauvette à tête noire. A l’inverse, 41% des espèces recensées durant les comptage d'été sont en déclin, et parmi elles le Merle noir et le Verdier d’Europe.
 
 
-<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-55-couverture-bilan.webp"/>
-<span class="InformativePagePictureLegend"></span>
+<div class="ProtocolsDocumentsGrid">
 
-<div style="align-center"><a href=" "  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Télécharger le Bilan des 10 ans</a></div>
+  <a href="/news/actualite-55-Bilan-ODJ.pdf" target="_blank" class="ProtocolsDocumentsCard">
+    <img class="ProtocolsDocumentsPicture" src="/news/actualite-55-couverture-bilan.webp" />
+    <span class="green01 fw-600">Télécharger le Bilan des 10 ans</span>
+  </a>
+
+</div>
+
 
 ## N’oubliez pas les deux prochains évènements ODJ fin janvier 2023 ! 
 
 **Jeudi 26 janvier à partir de 18h** se tiendra le webinaire, organisé sur Zoom, par la LPO et le MNHN. Cet évènement vous permettra de découvrir plus en détail les résultats présentés dans le bilan. 
 
-<div style="align-center"><a href=" "  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Je m’inscris au webinaire </a></div>
+<div style="align-center"><a href="https://landings.emailing.lpo.fr/61d5874f4b4b811a82e72b33/nYJuic_bTd2lJhWjcfYH4w/landing.html"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Je m’inscris au webinaire </a></div>
 
 **Samedi 28 ou dimanche 29 janvier**, prenez 1 heure de votre temps pour compter les oiseaux de votre jardin, balcon ou du parc urbain le plus proche de chez vous. 
 
-<div style="align-center"><a href=" "  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Je participe au comptage </a></div>
+<div style="align-center"><a href="https://www.oiseauxdesjardins.fr/"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Je participe au comptage </a></div>
 
