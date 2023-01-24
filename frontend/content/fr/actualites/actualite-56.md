@@ -1,7 +1,7 @@
 ---
 title: "Avez-vous repéré les premiers migrateurs prénuptiaux ?"
 picture: actualite-56.webp
-credit: Canard pilet © Emile Barbelette
+credit: Vol de canards pilet (Anas acuta) © Emile Barbelette
 centering: center
 author: Oiseaux de France
 date: '2023-01-24'
