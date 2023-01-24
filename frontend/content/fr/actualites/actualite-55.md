@@ -32,7 +32,7 @@ Découvrez tous les résultats en téléchargeant ci-dessous le bilan des 10 ans
 <div class="ProtocolsDocumentsGrid">
 
   <a href="/news/actualite-55-Bilan-ODJ.pdf" target="_blank" class="ProtocolsDocumentsCard">
-    <img class="ProtocolsDocumentsPicture" src="/news/actualite-55-couverture-bilan.webp" />
+    <img class="ProtocolsDocumentsPicture" src="/news/actualite-55-couverture-bilan-ODJ.webp" />
     <span class="green01 fw-600"> Télécharger le Bilan des 10 ans </span>
   </a>
 
