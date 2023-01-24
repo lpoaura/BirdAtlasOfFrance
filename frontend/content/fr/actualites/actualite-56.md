@@ -4,7 +4,7 @@ picture: actualite-56.webp
 credit: Vol de canards pilet (Anas acuta) © Emile Barbelette
 centering: center
 author: Oiseaux de France
-date: '2023-01-24'
+date: '2023-01-31'
 tags: ['ODF', 'migration prénuptiale', 'phénologie']
 active: true
 ---
