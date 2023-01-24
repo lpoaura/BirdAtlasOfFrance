@@ -4,7 +4,7 @@ picture: actualite-55.webp
 credit: Oiseaux à la mangeoire © Alain Boullah 
 centering: center
 author: Oiseaux de France
-date: '2023-01-'
+date: '2023-01-24'
 tags: ['Oiseaux des Jardins', 'bilan', '10 ans']
 active: true
 ---
@@ -38,6 +38,8 @@ Découvrez tous les résultats en téléchargeant ci-dessous le bilan des 10 ans
 
 </div>
 
+
+**[Lire le communiqué de presse LPO France du 24 janvier 2023](https://www.lpo.fr/qui-sommes-nous/espace-presse/communiques/cp-2023/comptage-des-oiseaux-des-jardins-bilan-de-10-ans-de-sciences-citoyennes)**
 
 ## N’oubliez pas les deux prochains évènements ODJ fin janvier 2023 ! 
 
