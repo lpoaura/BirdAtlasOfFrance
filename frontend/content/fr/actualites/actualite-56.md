@@ -1,5 +1,5 @@
 ---
-title: "Détec repéré les premiers migrateurs prénuptiaux ?"
+title: "Avez-vous repéré les premiers migrateurs prénuptiaux ?"
 picture: actualite-56.webp
 credit: Canard pilet © Emile Barbelette
 centering: center
@@ -9,7 +9,7 @@ tags: ['ODF', 'migration prénuptiale', 'phénologie']
 active: true
 ---
 
-**Vous avez observé des Canards pilets avec le ventre teinté de rouille ? Ces oiseaux sont parmi les premiers migrateurs prénuptiaux de la saison. Ils reviennent d’Afrique subsaharienne et certain d’entre eux effectuent une halte migratoire sur notre territoire. N’hésitez pas à noter vos observations sur Faune France, au même titre que celle d’autres anatidés (ex. Oies cendrées), de vanneaux ou de grives !**
+**Si vous avez observé des Canards pilets avec le ventre teinté de rouille, la réponse est oui ! Ces oiseaux sont parmi les premiers migrateurs prénuptiaux de la saison. Ils reviennent d’Afrique subsaharienne et certain d’entre eux effectuent une halte migratoire sur notre territoire. N’hésitez pas à noter vos observations sur Faune France, au même titre que celle d’autres anatidés (ex. Oies cendrées), de vanneaux ou de grives !**
 
 ## Détecter les migrateurs prénuptiaux précoces 
 
