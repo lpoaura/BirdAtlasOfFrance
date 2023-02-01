@@ -9,7 +9,7 @@ tags: ['Oiseaux des Jardins', 'bilan', '10 ans']
 active: true
 ---
 
-**Près d'un million de données de comptage analysées et des tendances fiables obtenues pour 30 espèces d'oiseaux communs !**
+**4,5 millions de données de comptage analysées et des tendances fiables obtenues pour 30 espèces d'oiseaux communs !**
 
 **Ce bilan de 10 ans de comptages des oiseaux des jardins a été rendu possible grâce à l'investissement d'un très grand nombre de participants, certains sur le long terme à l'image de ces 4 700 jardins suivis par leurs propriétaires depuis plus de 5 ans dans le cadre de ce programme de sciences participatives bien connu du grand public.**
 
@@ -23,7 +23,7 @@ En dix ans, le nombre de jardins suivis est passé de 3 000 en 2012 à près de 
 
 ## Près d’un million de données collectées pendant les comptages d'été et d'hiver depuis 2012 ! 
 
-Grâce à des participants toujours plus nombreux et fidèles, près d’un million d’observations ont été collectées via les seuls comptages nationaux de janvier et de mai. C’est sans compter les données collectées quotidiennement, en dehors de ces deux weekends par les participants réguliers, qui portent la somme des observations réalisées à 6,5 millions ! 
+Grâce à des participants toujours plus nombreux et fidèles, 4,5 millions d’observations ont été collectées via les seuls comptages nationaux de janvier et de mai. C’est sans compter les données collectées quotidiennement, en dehors de ces deux weekends par les participants réguliers, qui portent la somme des observations réalisées à 6,5 millions ! 
 
 Les données des comptages d'été et d'hiver ont fait l’objet d’une première analyse, présentée dans le **bilan des 10 ans de suivi de l’observatoire ODJ**. Sur la cinquantaine d’espèces traitées, des tendances fiables ont été évaluées pour trente d’entre-elles. La moitié des espèces recensées en hiver montre des signes d’augmentation. C'est le cas du Chardonneret élégant et de la Fauvette à tête noire. A l’inverse, 41% des espèces recensées durant les comptage d'été sont en déclin, et parmi elles le Merle noir et le Verdier d’Europe.
 
