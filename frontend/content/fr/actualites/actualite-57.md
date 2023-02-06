@@ -35,7 +35,7 @@ Pour certaines espèces ce déficit est probablement dû à une régression de l
 Ces prospections ciblées permettront de s’assurer que les différences de répartition observées entre les deux périodes atlas sont bien dues à une évolution de la répartition au cours du temps. 
 
 
-## Méthodologie : comment aborder le recensement ciblé de ces espèces ? 
+## Méthodologie : comment aborder le recensement ciblé des espèces ? 
 
 Pour déterminer si ces espèces sont présentes ou non dans les mailles, il faut utiliser l’onglet « Cartes », cliquer sur la maille qui vous intéresse. Un encart sur fond blanc s’ouvre avec l’onglet « Tableau de bord »), cliquez alors sur l’onglet voisin intitulé « Espèce ». De là vous pouvez rechercher directement l’espèce de votre choix dans la liste. 
 
