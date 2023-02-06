@@ -20,7 +20,7 @@ Les listes régionales des top 20 sont consultables via un fichier Excel.
 <div class="ProtocolsDocumentsGrid">
 
   <a href="https://lpo061-my.sharepoint.com/:x:/g/personal/clemence_gaudard_lpo_fr/ERMf5667GU9Asqcni0THP68Bmj-_ZufMrFTE9qumr0YZOA?e=H7v0aN" target="_blank" class="ProtocolsDocumentsCard">
-    <img class="ProtocolsDocumentsPicture" src="/news/actualite-58-logo-excel.webp" />
+    <img class="ProtocolsDocumentsPicture" src="/news/actualite-57-excel-logo.jpg" />
     <span class="green01 fw-600"> Consulter les tops 20 régionaux </span>
   </a>
 
