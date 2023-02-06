@@ -18,10 +18,9 @@ Plus de 1 100 personnes ont assisté à cet évènement destiné au grand public
 - Benoit Fontaine (MNHN/OFB) sur la compréhension des tendances observées dans les résultats de l'Observatoire
 - Benoit Viseux (LPO) sur les bonnes pratiques concernant le nourrissage des oiseaux des jardins
 
-<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-53-couverture-webinaire.webp"/>
+<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-53-couverture_webinaire.webp"/>
 <span class="InformativePagePictureLegend"></span>
 
 <div style="align-center"><a href="https://www.lpo.fr/s-engager-a-nos-cotes/sciences-participatives/observatoire-oiseaux-des-jardins/10-ans-d-observation"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success">Accéder au replay et aux diaporamas</a></div>
-
 
 
