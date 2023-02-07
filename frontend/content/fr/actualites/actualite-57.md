@@ -4,8 +4,8 @@ picture: actualite-57.webp
 credit: Bruant des roseaux © Corine Bliek
 centering: center
 author: Oiseaux de France
-date: '2023-02-07‘
-tags: ['ODF', 'newsletter','communication']
+date: '2023-02-07'
+tags: ['ODF', 'top20', 'prospection']
 active: true
 ---
 
