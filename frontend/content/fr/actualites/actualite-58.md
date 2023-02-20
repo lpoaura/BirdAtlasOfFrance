@@ -9,7 +9,7 @@ tags: ['colloque', 'oedicnème', 'national']
 active: true
 ---
 
-**Le colloque national Oedicnème criard 2023 aura lieu le 9 mars 2023 de 9 à 17h à Montepellier. Il sera toutefois possible d'y assister à distance et de bénéficier du bilan des actions de suivi et de protection engagées dans les diverses régions de France.**
+**Le colloque national Oedicnème criard 2023 aura lieu le 9 mars 2023 de 9h à 17h à Montpellier. Il sera toutefois possible d'y assister à distance et de bénéficier du bilan des actions de suivi et de protection engagées dans les diverses régions de France.**
 
 Le colloque national Oedicnème criard sera rythmée par plusieurs sessions, avec, en premier lieu, une présentation des données acquises depuis le début du programme, ainsi que les premiers résultats obtenus à l'échelle nationale (suivi des couples, des nids, des actions de baguage et les suivis GPS).
 
