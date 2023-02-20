@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
 
-from app.utils.db import get_db, settings
+from app.utils.db import get_db
 
 from .actions import (
     area_dashboard,
@@ -125,7 +125,7 @@ def area_general_stats(id_area: int, db: Session = Depends(get_db)) -> Any:
 
 Count data by time unit during atlas period
 
-**Time unit** must be a [PostgreSQL date field identifier](https://www.postgresql.org/docs/10/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT). *e.g.* :
+**Time unit** must be a [PostgreSQL date field identifier]. *e.g.* :
   * `month`
   * `year`
   * `week`
@@ -173,7 +173,8 @@ def area_list_intersected_areas(
 
 Official EPOC points, with status ("**Officiel**" vs "**Réserve**")
 
-Status can be optionaly optionally using the query string `status=...` . status filter must be one of the following:
+Status can be optionaly optionally using the query string `status=...`.
+status filter must be one of the following:
 * `Officiel`
 * `Reserve`
     """,
@@ -214,7 +215,8 @@ def epoc_list(
 
 Realized EPOC points, from "EPOC..." project codes ("**EPOC**" vs "**EPOC-ODF**")
 
-Project code can be optionaly optionally using the query string `project_code=...` . Project code filter must be one of the following:
+Project code can be optionaly optionally using the query string `project_code=...` .
+Project code filter must be one of the following:
 * `EPOC`
 * `EPOC-ODF`
     """,

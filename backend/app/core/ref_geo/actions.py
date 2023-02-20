@@ -1,5 +1,4 @@
 import logging
-import time
 from typing import List, Optional
 
 from geoalchemy2 import functions as geofunc
@@ -7,7 +6,6 @@ from sqlalchemy import and_, func
 from sqlalchemy.orm import Query, Session
 
 from app.core.actions.crud import BaseReadOnlyActions
-from app.utils.db import database
 
 from .models import BibAreasTypes, LAreas
 

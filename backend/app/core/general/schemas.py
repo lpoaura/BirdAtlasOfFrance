@@ -1,9 +1,7 @@
 #!/usr/bin/python
 
 import logging
-from typing import List, Optional, Union
 
-from geojson_pydantic.features import Feature, FeatureCollection
 from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)

@@ -1,23 +1,22 @@
 import logging
 from typing import List, Optional
 
-
 from geoalchemy2 import functions as geofunc
-from sqlalchemy import func, case, distinct
+from sqlalchemy import VARCHAR, String, case, cast, distinct, func
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Session
 
 from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
 from app.core.ref_geo.models import LAreas
 
-
 from .models import (
-    THistoricAtlasesData,
-    THistoricAtlasesInfo,
     MvAltitudeDistribution,
     MvAltitudeTerritory,
     MvTaxaAllPeriodPhenology,
     MvTaxaBreedingPhenology,
+    THistoricAtlasesData,
+    THistoricAtlasesInfo,
 )
 
 # from .models import MvTaxaAltitudeDistribution
@@ -39,9 +38,7 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
         geom = (
             LAreas.geojson_4326
             if grid
-            else geofunc.ST_AsGeoJSON(
-                geofunc.ST_Transform(geofunc.ST_Centroid(LAreas.geom), 4326)
-            )
+            else geofunc.ST_AsGeoJSON(geofunc.ST_Transform(geofunc.ST_Centroid(LAreas.geom), 4326))
         )
         status_field = {
             "breeding_old": {
@@ -84,10 +81,10 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
 
         if envelope:
             q = q.filter(
-                geofunc.ST_Intersects(
+                geofunc.ST_Intersects(  # pylint: disable=E1101
                     LAreas.geom,
-                    geofunc.ST_Transform(
-                        geofunc.ST_MakeEnvelope(
+                    geofunc.ST_Transform(  # pylint: disable=E1101
+                        geofunc.ST_MakeEnvelope(  # pylint: disable=E1101
                             envelope[0], envelope[1], envelope[2], envelope[3], 4326
                         ),
                         4326,
@@ -138,7 +135,6 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             return None
 
     def get_territory_distribution(self, db: Session, id_area: int):
-
         q = (
             db.query(
                 func.lower(MvAltitudeTerritory.range).label("label"),
@@ -184,11 +180,7 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
                 case(
                     (
                         total.total > 0,
-                        (
-                            MvTaxaAllPeriodPhenology.count_list
-                            / float(total.total)
-                            * 100
-                        ),
+                        (MvTaxaAllPeriodPhenology.count_list / float(total.total) * 100),
                     ),
                     else_=0,
                 ).label("value"),
@@ -206,10 +198,8 @@ class TaxaBreedingPhenologyActions(BaseReadOnlyActions[MvTaxaBreedingPhenology])
     Args:
         BaseReadOnlyActions ([type]): [description]
     """
-    
-    def get_data_occurrence(
-        self, db: Session, id_area: int, status: str, cd_nom: int = None
-    ):
+
+    def get_data_occurrence(self, db: Session, id_area: int, status: str, cd_nom: int = None):
         q = (
             db.query(
                 MvTaxaBreedingPhenology.decade.label("label"),
@@ -221,7 +211,6 @@ class TaxaBreedingPhenologyActions(BaseReadOnlyActions[MvTaxaBreedingPhenology])
             .order_by(MvTaxaBreedingPhenology.decade)
         )
         return q.all()
-
 
 
 class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
@@ -248,9 +237,7 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
             db.query(
                 THistoricAtlasesData.id_area.label("id"),
                 THistoricAtlasesData.status,
-                func.json_build_object("status", THistoricAtlasesData.status).label(
-                    "properties"
-                ),
+                func.json_build_object("status", THistoricAtlasesData.status).label("properties"),
                 LAreas.geojson_4326.label("geometry"),
             )
             .join(LAreas, LAreas.id_area == THistoricAtlasesData.id_area)
@@ -275,14 +262,19 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
         return q.all()
 
     def list_historic_atlas(self, db: Session, cd_nom: int = None) -> List:
-        from sqlalchemy.dialects.postgresql import ARRAY, array_agg
-        from sqlalchemy import VARCHAR, String, cast
+        """_summary_
 
+        :param db: Database session
+        :type db: Session
+        :param cd_nom: Taxa cd_nom, defaults to None
+        :type cd_nom: int, optional
+        :return: Historic atlases list
+        :rtype: List
+        """
         seasons_agg = cast(
             func.array_agg(distinct(THistoricAtlasesInfo.season_period), type_=VARCHAR),
             ARRAY(String),
         ).label("seasons")
-        # func.array_agg(distinct((THistoricAtlasesInfo.season_period)), _type=ARRAY(String)).label('seasons')
         q = (
             db.query(
                 THistoricAtlasesInfo.atlas_period.label("label"),

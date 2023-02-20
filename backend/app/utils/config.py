@@ -24,21 +24,22 @@ class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
-    POSTGRES_HOST: Optional[str] = "localhost"
-    POSTGRES_PORT: Optional[str] = 5432
-    LOG_LEVEL: Optional[str] = "INFO"
-    APP_NAME: Optional[str] = "Bird atlas of France"
-    APP_SYSNAME: Optional[str] = "odf_api"
-    API_PREFIX: Optional[str] = "/api/v1"
+    POSTGRES_HOST: str = "localhost"
+    POSTGRES_PORT: str = 5432
+    LOG_LEVEL: str = "INFO"
+    APP_NAME: str = "Bird atlas of France"
+    APP_SYSNAME: str = "odf_api"
+    API_PREFIX: str = "/api/v1"
     APP_URL: str
     SENTRY_DSN: Optional[str] = None
-    SENTRY_TRACES_SAMPLE_RATE: Optional[float] = 0.2
+    SENTRY_TRACES_SAMPLE_RATE: float = 0.2
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
-    SQLALCHEMY_POOL_SIZE: Optional[int] = 5
-    SQLALCHEMY_MAX_OVERFLOW: Optional[int] = 10
+    SQLALCHEMY_POOL_SIZE: int = 5
+    SQLALCHEMY_MAX_OVERFLOW: int = 10
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
+        """Generate db connection string"""
         if isinstance(v, str):
             return v
         pg_uri = PostgresDsn.build(
@@ -50,6 +51,7 @@ class Settings(BaseSettings):
             # path=f"/{values.get('POSTGRES_DB') or  ''}?application_name=odf_api",
             path=f"/{values.get('POSTGRES_DB') or  ''}",
         )
+        logger.debug(f"PG_URI {type(pg_uri)}")
         return pg_uri
 
     class Config:

@@ -2,10 +2,9 @@
 """Search sqlalchemy models module"""
 
 import logging
-from xmlrpc.client import Boolean
 
 from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String
-from sqlalchemy.dialects.postgresql import INT4RANGE, JSON
+from sqlalchemy.dialects.postgresql import INT4RANGE
 
 from app.core.ref_geo.models import LAreas
 from app.utils.db import Base

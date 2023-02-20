@@ -3,6 +3,7 @@ from typing import List, Optional
 
 # from geojson_pydantic import Feature, Geometry
 from geojson_pydantic.features import Feature, FeatureCollection
+
 # from geojson_pydantic.geometries import Geometry
 from pydantic import BaseModel
 
@@ -43,11 +44,13 @@ class LAreasBase(BaseModel):
     class Config:
         orm_mode = True
 
+
 class LAreasIdArea(LAreasBase):
     id_area: str
 
     class Config:
         orm_mode = True
+
 
 class LAreasBaseInDBase(LAreasBase):
     id_area: int
@@ -58,12 +61,8 @@ class LAreasBaseInDBase(LAreasBase):
         orm_mode = True
 
 
-
-
-
 class LAreasFeatureProperties(Feature):
     properties: LAreasBase
-    # type: str = "Feature"
 
     class Config:
         orm_mode = True
@@ -74,4 +73,3 @@ class LAreasGeoJsonList(FeatureCollection):
 
     class Config:
         orm_mode = True
-
