@@ -24,10 +24,10 @@ services:
     ports:
       - ${FRONT_PORT:-3000}:3000
     networks:
-      - proxy
+      # - proxy
       - odf_internal
 
 networks:
-  proxy:
-    external: true
+  # proxy:
+    # external: true
   odf_internal:
