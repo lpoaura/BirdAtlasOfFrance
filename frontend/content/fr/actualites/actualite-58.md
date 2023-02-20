@@ -1,11 +1,11 @@
 ---
 title: "Colloque National Œdicnème criard 2023"
 picture: actualite-58.webp
-credit: Oedicnème criard © Fabrice Cahez
+credit: Oedicnème criard © Jean-Luc Pinaud
 centering: center
 author: Oiseaux de France
 date: '2023-02-20'
-tags: ['colloque', 'oedicnème', 'national']
+tags: ['colloque', 'national','oedicnème']
 active: true
 ---
 
