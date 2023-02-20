@@ -53,7 +53,7 @@ Return main areas infos as geojson:
 
 Filter only enable areas if enable is True.
 
-Filter from bbox giving envelop coordinates in envelop querystring 
+Filter from bbox giving envelop coordinates in envelop querystring
 (ex: `...?envelope=2.4,48.7,2.6,48.8`)
     """,
 )
@@ -123,7 +123,11 @@ def get_area_by_coordinates(
 ) -> Any:
     coords = [float(c) for c in coordinates.split(",")]
     q = l_areas.get_feature_list(
-        db=db, type_code=type_code, bbox=bbox, coordinates=coords, only_enable=only_enable
+        db=db,
+        type_code=type_code,
+        bbox=bbox,
+        coordinates=coords,
+        only_enable=only_enable,
     ).first()
     if not q:
         return Response(status_code=HTTP_204_NO_CONTENT)
@@ -135,7 +139,7 @@ def get_area_by_coordinates(
 
 @router.get(
     "/lareas/{type_code}/{area_code}",
-    response_model=Union[LAreasFeatureProperties,LAreasIdArea],
+    response_model=Union[LAreasFeatureProperties, LAreasIdArea],
     tags=["ref_geo"],
 )
 def get_area_geom_by_type_and_code(
@@ -144,7 +148,7 @@ def get_area_geom_by_type_and_code(
     area_code: str,
     type_code: str,
     geom: Optional[bool] = True,
-    bbox: Optional[bool] = False
+    bbox: Optional[bool] = False,
 ) -> Any:
     if isinstance(bbox, str):
         bbox: bool = True

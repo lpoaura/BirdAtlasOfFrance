@@ -137,7 +137,6 @@ class AreaDashboardTimeDistribSchema(BaseModel):
 
 
 class AreaDashboardIntersectAreas(BaseModel):
-
     id_area: str
     area_code: str
     area_name: str
@@ -225,7 +224,6 @@ class RealizedEpocSchema(FeatureCollection):
 
 
 class TaxonCountClassesByTerritorySchema(BaseModel):
-
     ntile: int
     min: Optional[int]
     max: Optional[int]

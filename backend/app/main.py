@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Backend entry point"""
-import logging
 import random
 import string
 import time
@@ -11,6 +10,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import RedirectResponse
+from starlette.responses import StreamingResponse
 
 from app import __version__
 from app.core.general.routers import router as main_router
@@ -21,8 +21,6 @@ from app.core.taxa.routers import router as taxa_router
 from app.utils import log
 from app.utils.config import settings
 from app.utils.db import database
-
-logger = logging.getLogger(__name__)
 
 tags_metadata = [
     {
@@ -52,8 +50,8 @@ app = FastAPI(
     title=settings.APP_NAME,
     description=f"{settings.APP_NAME} API Backend",
     openapi_tags=tags_metadata,
-    docs_url="/api/v1/docs", 
-    redoc_url=None
+    docs_url="/api/v1/docs",
+    redoc_url=None,
 )
 
 
@@ -69,7 +67,7 @@ if settings.SENTRY_DSN:
             traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
         )
         app.add_middleware(SentryAsgiMiddleware)
-    except Exception:
+    except Exception:  # pylint: disable=W0718
         # pass silently if the Sentry integration failed
         pass
 
@@ -103,16 +101,19 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup():
+    """Database connect at startup"""
     await database.connect()
 
 
 @app.on_event("shutdown")
 async def shutdown():
+    """Database disconnect at shutdown"""
     await database.disconnect()
 
 
 @app.middleware("http")
-async def log_requests(request: Request, call_next):
+async def log_requests(request: Request, call_next) -> StreamingResponse:
+    """Log API time performances"""
     idem = "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
     logger.debug(f"rid={idem} start request path={request.url.path}")
     start_time = time.time()
@@ -124,29 +125,30 @@ async def log_requests(request: Request, call_next):
     logger.debug(
         f"rid={idem} completed_in={formatted_process_time}ms status_code={response.status_code}"
     )
-
+    logger.debug(f"RESPONSE {response}")
     return response
 
 
 @app.get("/", tags=["core"])
-async def root():
-    logger.debug("Hello!")
-    # return {"message": "Welcome to Atlas bird of France API"}
+async def root() -> RedirectResponse:
+    """Root API redirect to docs"""
     return RedirectResponse("/api/v1/docs")
 
 
 if settings.SENTRY_DSN:
 
     @app.get("/sentry")
-    async def sentry():
+    async def sentry() -> dict:
+        """Test sentry integration"""
         logger.debug(f"SENTRY_DSN: {settings.SENTRY_DSN}")
-        raise Exception("Test sentry integration")
+        return {"sentry": "ok"}
 
 
-if settings.LOG_LEVEL == "DEBUG":
+if settings.LOG_LEVEL == "debug":
 
-    @app.get("/api/v1/pong", tags=["core"])
-    async def pong():
+    @app.get("/api/v1/ping", tags=["core"])
+    async def pong() -> dict:
+        """Debug ping pong log test"""
         logger.error("Error log")
         logger.warning("Warning log")
         logger.info("Info log")
@@ -164,6 +166,7 @@ app.include_router(taxa_router, prefix=f"{settings.API_PREFIX}/taxa")
 
 
 def main():
+    """App startup"""
     try:
         logger.info(f"starting app: {app.title} {__version__}")
         uvicorn.run(
@@ -174,9 +177,9 @@ def main():
             reload=True,
             workers=2,
         )
-    except Exception as e:
+    except Exception as error:  # pylint: disable=W0718
         logger.critical("Can't start app")
-        raise e
+        raise error
 
 
 if __name__ == "__main__":

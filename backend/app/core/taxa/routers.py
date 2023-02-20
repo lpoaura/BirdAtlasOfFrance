@@ -9,20 +9,20 @@ from starlette.status import HTTP_204_NO_CONTENT
 from app.utils.db import get_db
 
 from .actions import (
+    all_period_phenology_distrib,
+    altitude_distrib,
+    breeding_phenology_distrib,
     historic_atlas_distrib,
     taxa_distrib,
-    altitude_distrib,
-    all_period_phenology_distrib,
-    breeding_phenology_distrib
 )
 from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection,
+    CommonBlockStructure,
     HistoricAtlasInfosSchema,
+    TaxaAltitudinalApiData,
+    TaxaBreedingPhenologyApiData,
     TaxaDistributionFeature,
     TaxaDistributionFeaturesCollection,
-    CommonBlockStructure,
-    TaxaAltitudinalApiData,
     TaxaPhenologyApiData,
-    TaxaBreedingPhenologyApiData
 )
 
 logger = logging.getLogger(__name__)
@@ -37,11 +37,12 @@ router = APIRouter()
     summary="taxon geographic distribution",
     description="""# Taxon geographic distribution
 
-This returns grid centroids with taxon presence for old or new atlas. For breeding period, status returned is breeding status.
+This returns grid centroids with taxon presence for old or new atlas.
+For breeding period, status returned is breeding status.
 
 Period choices must be one of following choices :
-* `breeding_new`: Breeding presence and status for new atlas 
-* `breeding_old`: Breeding presence and status from previous atlas 
+* `breeding_new`: Breeding presence and status for new atlas
+* `breeding_old`: Breeding presence and status from previous atlas
 * `wintering_new`: Wintering presence for new atlas
 * `wintering_old`: Wintering presence from previous atlas
 * `all_period_new`: All period presence for new atlas
@@ -84,7 +85,8 @@ def list_lareas(
 #     summary="taxon geographic distribution",
 #     description="""# Taxon geographic distribution
 
-# This returns grid centroids with taxon presence for old or new atlas. For breeding period, status returned is breeding status.
+# This returns grid centroids with taxon presence for old or new atlas.
+# For breeding period, status returned is breeding status.
 
 # Period choices must be one of following choices :
 # * `breeding_new`: Breeding presence and status for new atlas
@@ -238,7 +240,6 @@ def all_period_phenology_distribution(
         return Response(status_code=HTTP_204_NO_CONTENT)
 
 
-
 @router.get(
     "/phenology/breeding/{id_area}/{cd_nom}",
     response_model=TaxaBreedingPhenologyApiData,
@@ -249,9 +250,13 @@ def all_period_phenology_distribution(
 def breeding_phenology_distribution(
     id_area: str, cd_nom: int, db: Session = Depends(get_db)
 ) -> Any:
-    q_start = breeding_phenology_distrib.get_data_occurrence(db=db, id_area=id_area, cd_nom=cd_nom, status='breeding_start')
-    q_end = breeding_phenology_distrib.get_data_occurrence(db=db, id_area=id_area, cd_nom=cd_nom, status='breeding_end')
-    if q_start or q_end :
+    q_start = breeding_phenology_distrib.get_data_occurrence(
+        db=db, id_area=id_area, cd_nom=cd_nom, status="breeding_start"
+    )
+    q_end = breeding_phenology_distrib.get_data_occurrence(
+        db=db, id_area=id_area, cd_nom=cd_nom, status="breeding_end"
+    )
+    if q_start or q_end:
         breeding_start = CommonBlockStructure(
             label="Début de période",
             data=q_start,
@@ -262,7 +267,8 @@ def breeding_phenology_distribution(
             data=q_end,
             color="#8CCB6E",
         )
-        return TaxaBreedingPhenologyApiData(breeding_start=breeding_start, breeding_end=breeding_end)
+        return TaxaBreedingPhenologyApiData(
+            breeding_start=breeding_start, breeding_end=breeding_end
+        )
     else:
         return Response(status_code=HTTP_204_NO_CONTENT)
-

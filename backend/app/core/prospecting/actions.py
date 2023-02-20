@@ -28,7 +28,6 @@ class AreaKnowledgeLevelActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
     """Post actions with basic CRUD operations"""
 
     def query_data4features(self, db: Session) -> Query:
-
         q = db.query(
             AreaKnowledgeLevel.id_area.label("id"),
             func.json_build_object(
@@ -113,7 +112,6 @@ class AreaKnowledgeTaxaListActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
     """Post actions with basic CRUD operations"""
 
     def get_area_taxa_list(self, db: Session, id_area: int, limit: Optional[int] = None) -> List:
-
         q = db.query(
             AreaKnowledgeTaxaList.id_area,
             AreaKnowledgeTaxaList.cd_nom,
@@ -194,7 +192,7 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
         Args:
             db (Session): Database session
             id_area (int): Area unique id
-            time_unit (str, optional): Time unit identifier (cf. https://www.postgresql.org/docs/10/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT). Defaults to "month".
+            time_unit (str, optional): Time unit identifier. Defaults to "month".
 
         Returns:
             Query: data distribution in time
@@ -268,7 +266,11 @@ class EpocActions(BaseReadOnlyActions[Epoc]):
             Query: Return
         """
         q = db.query(
-            Epoc.id_epoc, Epoc.id_ff, Epoc.status, Epoc.rang_rsv, Epoc.geojson.label("geometry")
+            Epoc.id_epoc,
+            Epoc.id_ff,
+            Epoc.status,
+            Epoc.rang_rsv,
+            Epoc.geojson.label("geometry"),
         )
         q = q.filter(Epoc.status == status) if status else q
         q = q.filter(Epoc.id_area == id_area) if id_area else q

@@ -21,7 +21,6 @@ class MvSearchAreasActions(BaseReadOnlyActions[MvSearchAreas]):
     def get_search_list(
         self, db: Session, limit: int, search: str = None, type_code: str = None
     ) -> List:
-
         q = db.query(
             self.model.id,
             self.model.type_name,
