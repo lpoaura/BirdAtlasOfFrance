@@ -34,7 +34,7 @@ Durant les visites sur le terrain il est conseillé d’enregistrer les observat
 
   <a href="/news/actualite-59-fiche-instruction.pdf" target="_blank" class="ProtocolsDocumentsCard">
     <img class="ProtocolsDocumentsPicture" src="/news/actualite-59-fiche-instructions.png" />
-    <span class="green01 fw-600"> Télécharger la fiche instructions </span>
+    <span class="green01 fw-600"> Télécharger la Fiche d'instructions </span>
   </a>
 
 </div>
