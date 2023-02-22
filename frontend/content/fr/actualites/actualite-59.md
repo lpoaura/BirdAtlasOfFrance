@@ -28,18 +28,26 @@ En moyenne, une à deux visites par mois sont préconisées sur la maille. Sans 
 
 Durant les visites sur le terrain il est conseillé d’enregistrer les observations sur Faune France/NaturaList. Cela a pour avantage de faciliter le partage des informations au sein de l’équipe et pourquoi pas, d’en profiter pour faire des listes complète ou des points EPOC. 
 
-## Pour plus d’informations 
+## Pour plus d’informations sur le suivi des rapaces 
 
 <div class="ProtocolsDocumentsGrid">
 
-  <a href="https://lpo061-my.sharepoint.com/:x:/g/personal/clemence_gaudard_lpo_fr/ERMf5667GU9Asqcni0THP68Bmj-_ZufMrFTE9qumr0YZOA?e=H7v0aN" target="_blank" class="ProtocolsDocumentsCard">
+  <a href="XXX" target="_blank" class="ProtocolsDocumentsCard">
     <img class="ProtocolsDocumentsPicture" src="/news/actualite-57-excel-logo.jpg" />
-    <span class="green01 fw-600"> Consulter les tops 20 régionaux </span>
+    <span class="green01 fw-600"> Télécharger la fiche instructions </span>
   </a>
 
 </div>
 
 
->>Télécharger la fiche instructions<<
->>Télécharger le Guide du participant<<
+
+
+<div class="ProtocolsDocumentsGrid">
+
+  <a href="XXX" target="_blank" class="ProtocolsDocumentsCard">
+    <img class="ProtocolsDocumentsPicture" src="/news/actualite-57-excel-logo.jpg" />
+    <span class="green01 fw-600">Télécharger le Guide du participant </span>
+  </a>
+
+</div>
 
