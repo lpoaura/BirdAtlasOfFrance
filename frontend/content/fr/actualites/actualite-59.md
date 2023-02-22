@@ -33,7 +33,7 @@ Durant les visites sur le terrain il est conseillé d’enregistrer les observat
 <div class="ProtocolsDocumentsGrid">
 
   <a href="XXX" target="_blank" class="ProtocolsDocumentsCard">
-    <img class="ProtocolsDocumentsPicture" src="/news/actualite-57-excel-logo.jpg" />
+    <img class="ProtocolsDocumentsPicture" src="/news/actualite-59-fiche-instruction.jpg" />
     <span class="green01 fw-600"> Télécharger la fiche instructions </span>
   </a>
 
@@ -45,7 +45,7 @@ Durant les visites sur le terrain il est conseillé d’enregistrer les observat
 <div class="ProtocolsDocumentsGrid">
 
   <a href="XXX" target="_blank" class="ProtocolsDocumentsCard">
-    <img class="ProtocolsDocumentsPicture" src="/news/actualite-57-excel-logo.jpg" />
+    <img class="ProtocolsDocumentsPicture" src="/news/actualite-59-guide-participant.jpg" />
     <span class="green01 fw-600">Télécharger le Guide du participant </span>
   </a>
 
