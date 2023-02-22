@@ -26,8 +26,8 @@ Un [programme détaillé]( https://drive.google.com/file/d/1FH2mdKtv8FutQl60yuKd
 <a href="https://oedicneme.sciencesconf.org"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Je m’inscris au webinaire </a>
 
 
-Un lien de visualisation des présentations en visioconférence sera disponible sur la [page Facebook du programme]( https://www.ecoind-consult.fr/), ainsi que sur le [site web du programme]( http://www.oedicneme-criard.ovh/).
+Un lien de visualisation des présentations en visioconférence sera disponible sur la [page Facebook du programme](https://www.facebook.com/ProjetNationalOedicnemecriard), ainsi que sur le [site web du programme]( http://www.oedicneme-criard.ovh/).
 
-Le Colloque est organisé par les responsables du [Programme National Œdicnème criard]( https://www.oedicneme-criard.ovh/), le [Centre d’Écologie Fonctionnelle et Évolutive]( https://www.cefe.cnrs.fr/fr/) de Montpellier (CEFE-[CNRS]( https://www.cnrs.fr/fr)) et [EcoInd-Consult](), avec le soutien de la LPO France et CMSE.
+Le Colloque est organisé par les responsables du Programme National Œdicnème criard, le [Centre d’Écologie Fonctionnelle et Évolutive]( https://www.cefe.cnrs.fr/fr/) de Montpellier (CEFE-[CNRS]( https://www.cnrs.fr/fr)) et [EcoInd-Consult](https://www.ecoind-consult.fr/), avec le soutien de la LPO France et CMSE.
 
 
