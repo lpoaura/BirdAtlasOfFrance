@@ -1,15 +1,15 @@
 ---
-title: "Observatoire rapaces : 3 astuces pour bien réaliser le suivi"
+title: "Observatoire Rapaces : 3 astuces pour bien réaliser le suivi"
 picture: actualite-59.webp
-credit: XXX © XXX
+credit: Milan noir © Christian Aussaguel
 centering: center
 author: Oiseaux de France
 date: '2023-02-23'
-tags: ['conseils', 'Observatoire Rapaces']
+tags: ['Observatoire Rapaces','conseils']
 active: true
 ---
 
-**Le suivi des rapaces diurnes nicheurs a lieu chaque année de février à août. Coordonné par la LPO, c'est l'unique dispositif permettant de déterminer l'abondance et la tendance des populations de rapaces en France depuis 20 ans. Le recensement débutant autour de la mi-février, voici trois astuces pour bien le réaliser.**
+**Le suivi des rapaces diurnes nicheurs a lieu chaque année de février à août. Coordonné par la LPO, c'est l'unique dispositif permettant de déterminer l'abondance et la tendance des populations de rapaces en France depuis 20 ans. Le recensement débutant tout juste en ce mois de février, voici trois astuces pour bien le réaliser.**
 
 ## Constituez une équipe de comptage sur une maille du département 
 
@@ -32,8 +32,8 @@ Durant les visites sur le terrain il est conseillé d’enregistrer les observat
 
 <div class="ProtocolsDocumentsGrid">
 
-  <a href="XXX" target="_blank" class="ProtocolsDocumentsCard">
-    <img class="ProtocolsDocumentsPicture" src="/news/actualite-59-fiche-instruction.jpg" />
+  <a href="/news/actualite-59-fiche-instruction.pdf" target="_blank" class="ProtocolsDocumentsCard">
+    <img class="ProtocolsDocumentsPicture" src="/news/actualite-59-fiche-instructions.png" />
     <span class="green01 fw-600"> Télécharger la fiche instructions </span>
   </a>
 
@@ -44,9 +44,9 @@ Durant les visites sur le terrain il est conseillé d’enregistrer les observat
 
 <div class="ProtocolsDocumentsGrid">
 
-  <a href="XXX" target="_blank" class="ProtocolsDocumentsCard">
-    <img class="ProtocolsDocumentsPicture" src="/news/actualite-59-guide-participant.jpg" />
-    <span class="green01 fw-600">Télécharger le Guide du participant </span>
+  <a href="/news/actualite-59-guide-participant.pdf" target="_blank" class="ProtocolsDocumentsCard">
+    <img class="ProtocolsDocumentsPicture" src="/news/actualite-59-guide-participant.png" />
+    <span class="green01 fw-600"> Télécharger le Guide du participant </span>
   </a>
 
 </div>
