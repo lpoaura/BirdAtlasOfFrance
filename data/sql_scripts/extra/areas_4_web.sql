@@ -101,10 +101,8 @@ BEGIN
     -- then dump the collection of polygons into individual parts, in order to rebuild our layer.
     DROP TABLE IF EXISTS simplepolys;
     CREATE TABLE simplepolys AS
-    SELECT
-        (st_dump(st_polygonize(DISTINCT g))).geom AS g
-        FROM
-            simplelines;
+    SELECT (st_dump(st_polygonize(DISTINCT g))).geom AS g
+    FROM simplelines;
 
     SELECT count(*) FROM simplepolys INTO numpoints;
     SELECT to_char(clock_timestamp(), 'MI:ss:MS') INTO time;
@@ -151,11 +149,9 @@ $$ LANGUAGE plpgsql STRICT
 
 CREATE VIEW ref_geo.v_c_area_atlas_territory AS
 SELECT *
-    FROM
-        ref_geo.l_areas
-    WHERE
-          id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
-      AND area_code NOT LIKE 'FRMET'
+FROM ref_geo.l_areas
+WHERE id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
+  AND area_code NOT LIKE 'FRMET'
 ;
 
 --
@@ -176,51 +172,112 @@ SELECT *
 -- SELECT populate_geometry_columns()
 -- ;
 
-INSERT INTO
-    ref_geo.bib_areas_types (type_name, type_code, type_desc, ref_name, ref_version, num_version)
-    VALUES
-        ( 'Territoires de l''atlas pour un usage web'
-        , 'ATLAS_TERRITORY_SIMPLIFY'
-        , 'Zonages simplifiés pour un usage web'
-        , NULL
-        , NULL
-        , NULL)
+INSERT INTO ref_geo.bib_areas_types (type_name, type_code, type_desc, ref_name, ref_version, num_version)
+VALUES ( 'Territoires de l''atlas pour un usage web'
+       , 'ATLAS_TERRITORY_SIMPLIFY'
+       , 'Zonages simplifiés pour un usage web'
+       , NULL
+       , NULL
+       , NULL)
 ;
 
-INSERT INTO
-    ref_geo.l_areas ( id_type
-                    , area_name
-                    , area_code
-                    , geom
-                    , centroid
-                    , geojson_4326
-                    , source
-                    , comment
-                    , enable
-                    , additional_data
-                    , meta_create_date
-                    , meta_update_date)
-SELECT
-    ref_geo.get_id_area_type('ATLAS_TERRITORY_SIMPLIFY')
-  , l_areas.area_name
-  , l_areas.area_code
-  , t.geom
-  , st_centroid(t.geom)
-  , st_asgeojson(t.geom)
-  , source
-  , 'Zonages simplifiés pour un usage web'
-  , TRUE
-  , '{}'::JSONB
-  , now()
-  , now()
-    FROM
-        simplifylayerpreservetopology('ref_geo', 'v_c_area_atlas_territory', 'id_area', 'geom',
-                                      0.01) AS t(gid INT, geom GEOMETRY)
-            JOIN ref_geo.l_areas ON t.gid = l_areas.id_area
+INSERT INTO ref_geo.l_areas ( id_type
+                            , area_name
+                            , area_code
+                            , geom
+                            , centroid
+                            , geojson_4326
+                            , source
+                            , comment
+                            , enable
+                            , additional_data
+                            , meta_create_date
+                            , meta_update_date)
+SELECT ref_geo.get_id_area_type('ATLAS_TERRITORY_SIMPLIFY')
+     , l_areas.area_name
+     , l_areas.area_code
+     , t.geom
+     , st_centroid(t.geom)
+     , st_asgeojson(t.geom)
+     , source
+     , 'Zonages simplifiés pour un usage web'
+     , TRUE
+     , '{}'::JSONB
+     , now()
+     , now()
+FROM simplifylayerpreservetopology('ref_geo', 'v_c_area_atlas_territory', 'id_area', 'geom',
+                                   0.01) AS t(gid INT, geom GEOMETRY)
+         JOIN ref_geo.l_areas ON t.gid = l_areas.id_area
 ;
+
 
 DROP VIEW ref_geo.v_c_area_atlas_territory
 ;
 
+/* DEP_SIMPLIFY */
+CREATE VIEW ref_geo.v_c_area_atlas_dep AS
+SELECT *
+FROM ref_geo.l_areas
+WHERE id_type = ref_geo.get_id_area_type('DEP')
+;
+
+
+INSERT INTO ref_geo.bib_areas_types (type_name, type_code, type_desc, ref_name, ref_version, num_version)
+VALUES ( 'Départements simplifiés pour un usage web'
+       , 'DEP_SIMPLIFY'
+       , 'Départements simplifiés pour un usage web'
+       , NULL
+       , NULL
+       , NULL)
+;
+
+INSERT INTO ref_geo.l_areas ( id_type
+                            , area_name
+                            , area_code
+                            , geom
+                            , centroid
+                            , geojson_4326
+                            , source
+                            , comment
+                            , enable
+                            , additional_data
+                            , meta_create_date
+                            , meta_update_date)
+SELECT ref_geo.get_id_area_type('DEP_SIMPLIFY')
+     , l_areas.area_name
+     , l_areas.area_code
+     , st_multi(st_union(t.geom))
+     , st_centroid(st_union(t.geom))
+     , st_asgeojson(st_union(t.geom))
+     , source
+     , 'Zonages simplifiés pour un usage web'
+     , FALSE
+     , '{}'::JSONB
+     , now()
+     , now()
+FROM simplifylayerpreservetopology('ref_geo', 'v_c_area_atlas_dep', 'id_area', 'geom',
+                                   0.01) AS t(gid INT, geom GEOMETRY)
+         JOIN ref_geo.l_areas ON t.gid = l_areas.id_area
+GROUP BY ref_geo.get_id_area_type('DEP_SIMPLIFY')
+       , l_areas.area_name
+       , l_areas.area_code
+       , l_areas.source
+;
+
+
 COMMIT
 ;
+
+SELECT DISTINCT cd_nom
+FROM src_survey.vm_carto_reg_information;
+
+EXPLAIN
+    ANALYZE
+SELECT atlas.mv_survey_chart_data.id                        AS atlas_mv_survey_chart_data_id,
+       json_build_object('nb_dormitories', atlas.mv_survey_chart_data.nb_dormitories, 'nb_ind',
+                         atlas.mv_survey_chart_data.nb_ind) AS properties,
+       l_areas_1.geojson_4326                               AS geometry
+FROM atlas.mv_survey_chart_data
+         JOIN ref_geo.l_areas AS l_areas_2 ON l_areas_2.id_area = atlas.mv_survey_chart_data.id_area
+         JOIN ref_geo.l_areas AS l_areas_1 ON l_areas_1.area_code = l_areas_2.area_code
+WHERE atlas.mv_survey_chart_data.cd_nom = 2844;
