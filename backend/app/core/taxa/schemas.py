@@ -84,7 +84,7 @@ class HistoricAtlasInfosSchema(BaseModel):
 class SurveyMapDataProperties(BaseModel):
     area_name: str
     area_code: str
-    data: List[List[str]]
+    data: Optional[List[List[str]]]
 
 
 class SurveyMapDataFeature(Feature):
