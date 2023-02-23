@@ -16,8 +16,8 @@ class BibAreasTypesActions(BaseReadOnlyActions[BibAreasTypes]):
     """Post actions with basic CRUD operations"""
 
     def get_id_from_code(self, db: Session, code: str) -> Optional[int]:
-        q = db.query(self.model.id_type).filter(self.model.type_code == code)
-        return q.first().id_type
+        query = db.query(self.model.id_type).filter(self.model.type_code == code)
+        return query.first().id_type
 
 
 class LAreasActions(BaseReadOnlyActions[LAreas]):
@@ -31,7 +31,7 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
             else geofunc.ST_AsGeoJSON(geofunc.ST_SimplifyPreserveTopology(LAreas.geom, 0.005))
         )
 
-        q = db.query(
+        query = db.query(
             LAreas.id_area.label("id"),
             func.json_build_object(
                 "area_code",
@@ -41,7 +41,7 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
             ).label("properties"),
             geom.label("geometry"),
         )
-        return q
+        return query
 
     def get_by_id_area(self, db: Session, id_area: int) -> Query:
         return (
@@ -110,13 +110,13 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
             List: [description]
         """
 
-        q = self.query_data4features(db=db, bbox=bbox)
+        query = self.query_data4features(db=db, bbox=bbox)
         if type_code:
             id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
-            q = q.filter(LAreas.id_type == id_type)
-        q = q.filter(LAreas.enable) if only_enable else q
+            query = query.filter(LAreas.id_type == id_type)
+        query = query.filter(LAreas.enable) if only_enable else query
         if envelope:
-            q = q.filter(
+            query = query.filter(
                 geofunc.ST_Intersects(
                     LAreas.geom,
                     geofunc.ST_Transform(
@@ -128,14 +128,14 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
                 )
             )
         if coordinates:
-            q = q.filter(
+            query = query.filter(
                 LAreas.geom.contains(
                     geofunc.ST_SetSRID(geofunc.ST_MakePoint(coordinates[0], coordinates[1]), 4326)
                 )
             )
-        q = q.filter(LAreas.id_area == id_area) if id_area else q
-        q = q.limit(limit) if limit else q
-        return q
+        query = query.filter(LAreas.id_area == id_area) if id_area else query
+        query = query.limit(limit) if limit else query
+        return query
 
 
 bib_areas_types = BibAreasTypesActions(BibAreasTypes)

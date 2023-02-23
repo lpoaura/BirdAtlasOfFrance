@@ -4,15 +4,16 @@ from typing import List, Optional
 from geoalchemy2 import functions as geofunc
 from sqlalchemy import VARCHAR, String, case, cast, distinct, func
 from sqlalchemy.dialects.postgresql import ARRAY
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, aliased
 
 from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
-from app.core.ref_geo.models import LAreas
+from app.core.ref_geo.models import BibAreasTypes, LAreas
 
 from .models import (
     MvAltitudeDistribution,
     MvAltitudeTerritory,
+    MvSurveyMapData,
     MvTaxaAllPeriodPhenology,
     MvTaxaBreedingPhenology,
     THistoricAtlasesData,
@@ -301,8 +302,46 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
         return q.all()
 
 
+class SurveyMapDataActions(BaseReadOnlyActions[MvSurveyMapData]):
+    """Post actions with basic CRUD operations"""
+
+    def data_distribution(self, db: Session, cd_nom: int) -> List:
+        dept = aliased(LAreas)
+        dept_simp = aliased(LAreas)
+
+        DEP_SIMPLIFY_ID_TYPE = (
+            db.query(BibAreasTypes.id_type)
+            .filter(BibAreasTypes.type_code == "DEP_SIMPLIFY")
+            .first()
+            .id_type
+        )
+
+        query = (
+            db.query(
+                MvSurveyMapData.id,
+                func.json_build_object(
+                    "area_name",
+                    dept.area_name,
+                    "area_code",
+                    dept.area_code,
+                    "data",
+                    MvSurveyMapData.data,
+                ).label("properties"),
+                dept_simp.geojson_4326.label("geometry"),
+            )
+            .join(dept, dept.id_area == MvSurveyMapData.id_area)
+            .join(dept_simp, dept_simp.area_code == dept.area_code)
+            .filter(
+                MvSurveyMapData.cd_nom == cd_nom,
+                dept_simp.id_type == DEP_SIMPLIFY_ID_TYPE,
+            )
+        )
+        return query.all()
+
+
 taxa_distrib = TaxaDistributionActions(AreaKnowledgeTaxaList)
 historic_atlas_distrib = HistoricAtlasesActions(THistoricAtlasesData)
 altitude_distrib = TaxaAltitudeDistributionActions(MvAltitudeDistribution)
 all_period_phenology_distrib = TaxaGlobalPhenologyActions(MvTaxaAllPeriodPhenology)
 breeding_phenology_distrib = TaxaBreedingPhenologyActions(MvTaxaBreedingPhenology)
+survey_map_data = SurveyMapDataActions(MvSurveyMapData)

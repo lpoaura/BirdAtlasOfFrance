@@ -76,3 +76,20 @@ class HistoricAtlasInfosSchema(BaseModel):
     name: str
     slug: Optional[str]
     seasons: List[str]
+
+    class Config:
+        orm_mode = True
+
+
+class SurveyMapDataProperties(BaseModel):
+    area_name: str
+    area_code: str
+    data: List[List[str]]
+
+
+class SurveyMapDataFeature(Feature):
+    properties: SurveyMapDataProperties
+
+
+class SurveyMapDataFeaturesCollection(FeatureCollection):
+    features: List[SurveyMapDataFeature]
