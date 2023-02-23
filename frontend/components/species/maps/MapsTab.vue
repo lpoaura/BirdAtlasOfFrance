@@ -1,6 +1,6 @@
 <template>
   <div class="SpeciesCardContent map" :class="tabStatus">
-    <client-only>
+    <client-only v-if="selectedSubject.slug != 'extra-map'">
       <lazy-species-map
         :selected-territory="selectedTerritory"
         :selected-subject="selectedSubject"
@@ -8,6 +8,14 @@
         :cdnom="cdnom"
       />
     </client-only>
+    <species-maps-extra-map
+      v-if="selectedSubject.slug === 'extra-map'"
+      :selected-territory="selectedTerritory"
+      :selected-subject="selectedSubject"
+      :selected-season="selectedSeason"
+      :cdnom="cdnom"
+    >
+    </species-maps-extra-map>
     <div class="MapLegend"></div>
   </div>
 </template>
@@ -19,33 +27,33 @@ export default {
       if (process.client) {
         return import('~/components/species/maps/SpeciesMap.vue')
       }
-    }
+    },
   },
   props: {
     tabStatus: {
       type: String,
-      required: true
+      required: true,
     },
     selectedTerritory: {
       // Territoire cliqué (FrMet ou DOM-TOM)
       type: Object,
-      required: true
+      required: true,
     },
     selectedSubject: {
       // Territoire cliqué (FrMet ou DOM-TOM)
       type: Object,
-      required: true
+      required: true,
     },
     selectedSeason: {
       // Territoire cliqué (FrMet ou DOM-TOM)
       type: Object,
-      required: true
+      required: true,
     },
     cdnom: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

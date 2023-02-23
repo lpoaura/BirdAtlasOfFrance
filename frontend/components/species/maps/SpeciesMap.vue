@@ -246,10 +246,7 @@ export default {
         requestParams = { ...requestParams }
         requestParams.atlas_period = this.selectedSubject.label
         requestParams.period = this.selectedSeason.value
-      } else {
-        console.debug('else')
       }
-
       const axios = this.$axios
       this.speciesDistributionGeojson = await this.$axios
         .$get(url, {

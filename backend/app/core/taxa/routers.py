@@ -278,7 +278,7 @@ def breeding_phenology_distribution(
 
 
 @router.get(
-    "/survey/chart",
+    "/survey/map",
     response_model=SurveyMapDataFeaturesCollection,
     tags=["taxa"],
     summary="taxon geographic distribution",

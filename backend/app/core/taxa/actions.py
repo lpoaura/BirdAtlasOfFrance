@@ -2,7 +2,7 @@ import logging
 from typing import List, Optional
 
 from geoalchemy2 import functions as geofunc
-from sqlalchemy import VARCHAR, String, case, cast, distinct, func
+from sqlalchemy import VARCHAR, String, case, cast, distinct, func, and_
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Session, aliased
 
@@ -315,6 +315,12 @@ class SurveyMapDataActions(BaseReadOnlyActions[MvSurveyMapData]):
             .first()
             .id_type
         )
+        DEP_ID_TYPE = (
+            db.query(BibAreasTypes.id_type)
+            .filter(BibAreasTypes.type_code == "DEP")
+            .first()
+            .id_type
+        )
 
         query = (
             db.query(
@@ -329,10 +335,10 @@ class SurveyMapDataActions(BaseReadOnlyActions[MvSurveyMapData]):
                 ).label("properties"),
                 dept_simp.geojson_4326.label("geometry"),
             )
-            .join(dept, dept.id_area == MvSurveyMapData.id_area)
+            .join(MvSurveyMapData, and_(dept.id_area == MvSurveyMapData.id_area,  MvSurveyMapData.cd_nom == cd_nom), isouter=True)
             .join(dept_simp, dept_simp.area_code == dept.area_code)
             .filter(
-                MvSurveyMapData.cd_nom == cd_nom,
+                dept.id_type == DEP_ID_TYPE,
                 dept_simp.id_type == DEP_SIMPLIFY_ID_TYPE,
             )
         )
