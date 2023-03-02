@@ -1,7 +1,7 @@
 ---
 title: "STOC-EPS et EPOC ODF"
 picture: actualite-60.webp
-credit: Accenteur mouchet © 
+credit: Accenteur mouchet © Alain Boullah
 centering: center
 author: Oiseaux de France
 date: '2023-03-01'
@@ -29,4 +29,4 @@ Les points EPOC-ODF à réaliser en 2023 ont été tirés au sort et sont matér
 
 ## Quelques précisions sur la saisie des données
 
-Afin de faciliter et accélérer le bilan des enquêtes nationales, la saisie du STOC et des EPOC-ODF se fait uniquement sur [Faune-France](https://www.faune-france.org).
+Afin de faciliter et accélérer la réalisation du bilan des enquêtes nationales, la saisie du STOC et des EPOC-ODF se fait uniquement sur [Faune-France](https://www.faune-france.org).
