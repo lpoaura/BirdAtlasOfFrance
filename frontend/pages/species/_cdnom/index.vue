@@ -98,7 +98,7 @@
           >
             <div v-show="selectedTab.value === 'maps'" class="MapTitle">
               <h4 class="black02 fw-bold">
-                {{ selectedSubject.name }} - {{ selectedSeason.label }}
+                {{ selectedSubject.name }}<span v-if="selectedSubject.slug != 'extra-map'"> - {{ selectedSeason.label }}</span>
               </h4>
               <h5
                 v-show="
@@ -360,7 +360,8 @@ export default {
               label: 'Carte additionnelle',
               name: 'Carte additionnelle',
               slug: 'extra-map',
-              seasons: ['breeding', 'wintering']
+              // seasons: ['breeding', 'wintering']
+              seasons: []
             }
           ]
         }
