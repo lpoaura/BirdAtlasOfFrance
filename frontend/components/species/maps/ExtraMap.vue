@@ -159,15 +159,15 @@ export default {
           div
             .html(
               `
-            <p><strong>${d.properties.area_name} ${
+            <p class="tooltip-title"><strong>${d.properties.area_name} ${
                 d.properties.area_code
               }</strong></p>
             ${
               d.properties.data
                 ? d.properties.data
-                    .map((item) => `<p>${item[0]} ${item[1]}</p>`)
+                    .map((item) => `<p>${item[0]}&nbsp;:&nbsp;<strong>${item[1]}</strong></p>`)
                     .join('')
-                : 'Pas de données'
+                : '<i class="no-data">Pas de données</i>'
             }
             `
             )
@@ -207,5 +207,15 @@ export default {
 
 #legend-title {
   border-bottom: 1px solid rgba(57, 118, 90, 0.1);
+}
+
+.no-data{
+  color: rgba(255,255,255,0.5)
+}
+
+.tooltip-title{
+  border-bottom: 1px solid white;
+  padding-bottom: 2px;
+  margin-bottom: 5px;
 }
 </style>
