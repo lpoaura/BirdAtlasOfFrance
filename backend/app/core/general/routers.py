@@ -4,6 +4,7 @@ from typing import Any
 from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
+from fastapi_cache.decorator import cache
 
 from app.utils.db import get_db
 
@@ -33,6 +34,7 @@ Platform general stats for home page:
   * breeding (only breeding observations)
 """,
 )
+@cache()
 def period_stats(db: Session = Depends(get_db)) -> Any:
     q = general_stats.query(db=db)
     logger.debug(q)
@@ -60,6 +62,7 @@ Period options are:
 * `breeding`
     """,
 )
+@cache()
 def knowledge_level(
     id_area: int = None, period: str = "allperiod", db: Session = Depends(get_db)
 ) -> Any:

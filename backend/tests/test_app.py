@@ -1,13 +1,12 @@
+import pytest
+from geojson_pydantic.features import Feature, FeatureCollection
+from geojson_pydantic.geometries import Point
+
 from app import __version__
 
 
 def test_version():
     assert __version__ == "0.0.1"
-
-
-import pytest
-from geojson_pydantic.features import Feature, FeatureCollection
-from geojson_pydantic.geometries import Point
 
 
 @pytest.mark.parametrize("coordinates", [(1, 2)])

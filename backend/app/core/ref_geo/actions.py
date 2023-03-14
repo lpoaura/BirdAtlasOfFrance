@@ -53,7 +53,7 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
             .first()
         )
 
-    def get_by_area_type_and_code(
+    async def get_by_area_type_and_code(
         self, db: Session, area_code: str, type_code: str, geom: bool, bbox: bool
     ) -> Query:
         id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)

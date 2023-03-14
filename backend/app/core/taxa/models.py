@@ -102,6 +102,8 @@ class MvSurveyMapData(Base):
     __tablename__ = "mv_survey_map_data"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
+    id_area_atlas_territory = Column(ForeignKey(LAreas.id_area), nullable=False)
     id_area = Column(ForeignKey(LAreas.id_area), nullable=False)
     cd_nom = Column(Integer)
+    phenology_period = Column(String)
     data = Column(ARRAY(String, dimensions=2))
