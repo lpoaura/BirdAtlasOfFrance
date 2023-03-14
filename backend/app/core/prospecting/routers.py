@@ -6,6 +6,7 @@ from typing import Any, List, Optional
 from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
+from fastapi_cache.decorator import cache
 
 from app.utils.db import get_db
 
@@ -57,6 +58,7 @@ and within a geographic bounding box (`envelope`) with general stats:
 
     """,
 )
+@cache()
 def area_list_knowledge_level(
     db: Session = Depends(get_db),
     type_code: str = "M10",
@@ -92,6 +94,7 @@ def area_list_knowledge_level(
     tags=["prospecting"],
     summary="List of species by area with qualitative data",
 )
+@cache()
 def area_taxa_list(
     id_area: int, db: Session = Depends(get_db), limit: Optional[int] = None
 ) -> Any:
@@ -108,6 +111,7 @@ def area_taxa_list(
     tags=["prospecting"],
     summary="General stats by area",
 )
+@cache()
 def area_general_stats(id_area: int, db: Session = Depends(get_db)) -> Any:
     q = area_dashboard.get_area_stats(db=db, id_area=id_area)
     logger.debug(f"<area_general_stats> query {q}")
@@ -133,6 +137,7 @@ Count data by time unit during atlas period
   * *etc*.
 """,
 )
+@cache()
 def area_contrib_time_distrib(
     id_area: int,
     db: Session = Depends(get_db),
@@ -152,6 +157,7 @@ def area_contrib_time_distrib(
     summary="...",
     description="""cqfd""",
 )
+@cache()
 def area_list_intersected_areas(
     id_area: int,
     db: Session = Depends(get_db),
@@ -179,6 +185,7 @@ status filter must be one of the following:
 * `Reserve`
     """,
 )
+@cache()
 def epoc_list(
     db: Session = Depends(get_db),
     status: Optional[str] = None,
@@ -221,6 +228,7 @@ Project code filter must be one of the following:
 * `EPOC-ODF`
     """,
 )
+@cache()
 def realized_epoc_list(
     db: Session = Depends(get_db),
     project_code: Optional[str] = None,
@@ -259,6 +267,7 @@ def realized_epoc_list(
 Map representation classes to illustration taxon count by grid, using ntile method with 5 classes.
     """,
 )
+@cache()
 def count_taxon_classes(
     id_area: int, db: Session = Depends(get_db), period: Optional[str] = "all_period"
 ) -> Any:

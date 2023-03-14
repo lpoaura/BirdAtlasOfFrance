@@ -4,13 +4,21 @@
 import random
 import string
 import time
+import hashlib
 
 import uvicorn
-from fastapi import FastAPI, Request
+from typing import Optional
+from enum import Enum
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import RedirectResponse
-from starlette.responses import StreamingResponse
+from fastapi.responses import RedirectResponse, StreamingResponse
+
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+
+from redis import asyncio as aioredis
 
 from app import __version__
 from app.core.general.routers import router as main_router
@@ -99,10 +107,48 @@ app.add_middleware(
 )
 
 
+def api_key_builder(
+    func,
+    namespace: Optional[str] = "",
+    request: Optional[Request] = None,
+    response: Optional[Response] = None,
+    args: Optional[tuple] = None,
+    kwargs: Optional[dict] = None,
+):
+    """
+    Handle Enum and Session params properly.
+    """
+    prefix = f"{FastAPICache.get_prefix()}:{namespace}:"
+
+    # Remove session and convert Enum parameters to strings
+    arguments = {}
+    for key, value in kwargs.items():
+        if key != "db":
+            arguments[key] = value.value if isinstance(value, Enum) else value
+
+    cache_key = (
+        prefix
+        + hashlib.md5(f"{func.__module__}:{func.__name__}:{args}:{arguments}".encode()).hexdigest()
+    )
+
+    return cache_key
+
+
 @app.on_event("startup")
 async def startup():
     """Database connect at startup"""
     await database.connect()
+    redis = aioredis.from_url(
+        f"redis://{settings.CACHE_REDIS_HOST}:{settings.CACHE_REDIS_PORT}",
+        encoding="utf8",
+        decode_responses=True,
+    )
+    FastAPICache.init(
+        RedisBackend(redis),
+        prefix="fastapi-cache",
+        key_builder=api_key_builder,
+        expire=settings.CACHE_DURATION,
+    )
 
 
 @app.on_event("shutdown")
@@ -147,8 +193,10 @@ if settings.SENTRY_DSN:
 if settings.LOG_LEVEL == "debug":
 
     @app.get("/api/v1/ping", tags=["core"])
+    @cache()
     async def pong() -> dict:
         """Debug ping pong log test"""
+        print("CACHE")
         logger.error("Error log")
         logger.warning("Warning log")
         logger.info("Info log")

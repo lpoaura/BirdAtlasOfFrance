@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, Response
 from geojson_pydantic.features import FeatureCollection
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
+from fastapi_cache.decorator import cache
 
 from app.utils.db import get_db
 
@@ -22,6 +23,7 @@ router = APIRouter()
     response_model=List[BibAreasTypesSchema],
     tags=["ref_geo"],
 )
+@cache()
 def list_bibareastypes(db: Session = Depends(get_db), skip: int = 0, limit: int = 100) -> Any:
     bibareastypes = bib_areas_types.get_all(db=db, skip=skip, limit=limit)
     return bibareastypes
@@ -32,6 +34,7 @@ def list_bibareastypes(db: Session = Depends(get_db), skip: int = 0, limit: int 
     response_model=BibAreasTypesSchema,
     tags=["ref_geo"],
 )
+@cache()
 def get_bibareastypes(*, db: Session = Depends(get_db), id_type: int) -> Any:
     q = bib_areas_types.get(db=db, id_type=id_type)
     if not q:
@@ -57,6 +60,7 @@ Filter from bbox giving envelop coordinates in envelop querystring
 (ex: `...?envelope=2.4,48.7,2.6,48.8`)
     """,
 )
+@cache()
 def list_lareas(
     db: Session = Depends(get_db),
     type_code: str = "COM",
@@ -95,6 +99,7 @@ def list_lareas(
     # responses={HTTP_204_NO_CONTENT: {"model": Feature}},
     tags=["ref_geo"],
 )
+@cache()
 def get_area_geom_by_id_area(
     id_area: int,
     bbox: bool = None,
@@ -114,6 +119,7 @@ def get_area_geom_by_id_area(
     response_model=LAreasFeatureProperties,
     tags=["ref_geo"],
 )
+@cache()
 def get_area_by_coordinates(
     coordinates: str,
     type_code: str,
@@ -142,7 +148,8 @@ def get_area_by_coordinates(
     response_model=Union[LAreasFeatureProperties, LAreasIdArea],
     tags=["ref_geo"],
 )
-def get_area_geom_by_type_and_code(
+@cache()
+async def get_area_geom_by_type_and_code(
     *,
     db: Session = Depends(get_db),
     area_code: str,
@@ -152,15 +159,15 @@ def get_area_geom_by_type_and_code(
 ) -> Any:
     if isinstance(bbox, str):
         bbox: bool = True
-    q = l_areas.get_by_area_type_and_code(
+    query = await l_areas.get_by_area_type_and_code(
         db=db, area_code=area_code, type_code=type_code, geom=geom, bbox=bbox
     )
-    if not q:
+    if not query:
         return Response(status_code=HTTP_204_NO_CONTENT)
     if geom:
         feature = LAreasFeatureProperties(
-            id=q.id, properties=q.properties, geometry=json.loads(q.geometry)
+            id=query.id, properties=query.properties, geometry=json.loads(query.geometry)
         )
         return feature
     else:
-        return q
+        return query

@@ -3,6 +3,7 @@ import logging
 from typing import Any, List, Optional, Union
 
 from fastapi import APIRouter, Depends, Response
+from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
 
@@ -50,11 +51,14 @@ Period choices must be one of following choices :
 * `wintering_old`: Wintering presence from previous atlas
 * `all_period_new`: All period presence for new atlas
 * `all_period_old`: All period presence from previous atlas
+* `breeding_aofm`: 
 """,
 )
+@cache()
 def list_lareas(
     cd_nom: int,
-    period: str = "all_period_new",
+    atlas_period: str = "new",
+    phenology_period: str = "all_period",
     db: Session = Depends(get_db),
     grid: Optional[Union[bool, str]] = False,
     envelope: Optional[str] = None,
@@ -62,21 +66,26 @@ def list_lareas(
     if isinstance(grid, str):
         grid: bool = True
     if envelope:
-        logger.debug(f"envelop qs: {envelope}")
+        logger.debug("envelop qs: %s", envelope)
         envelope = [float(c) for c in envelope.split(",")]
-    logger.debug(f"envelop {envelope} {type(envelope)}")
-    q = taxa_distrib.taxa_distribution(
-        db=db, cd_nom=cd_nom, period=period, grid=grid, envelope=envelope
+    logger.debug("envelop %s %s", envelope, type(envelope))
+    query = taxa_distrib.taxa_distribution(
+        db=db,
+        cd_nom=cd_nom,
+        atlas_period=atlas_period,
+        phenology_period=phenology_period,
+        grid=grid,
+        envelope=envelope,
     )
-    if not q:
+    if not query:
         return Response(status_code=HTTP_204_NO_CONTENT)
     features = [
         TaxaDistributionFeature(
-            properties=a.properties,
-            geometry=json.loads(a.geometry),
-            id=a.id,
+            properties=row.properties,
+            geometry=json.loads(row.geometry),
+            id=row.id,
         )
-        for a in q
+        for row in query
     ]
     return TaxaDistributionFeaturesCollection(features=features)
 
@@ -123,6 +132,7 @@ def list_lareas(
 
 """,
 )
+@cache()
 def historic_atlases(
     cd_nom: int,
     atlas_period: str,
@@ -132,10 +142,8 @@ def historic_atlases(
     id_historic_atlas: Optional[int] = None,
 ) -> Any:
     if envelope:
-        logger.debug(f"envelop qs: {envelope}")
         envelope = [float(c) for c in envelope.split(",")]
-    logger.debug(f"envelop {envelope} {type(envelope)}")
-    q = historic_atlas_distrib.historic_atlas_data(
+    query = historic_atlas_distrib.historic_atlas_data(
         db=db,
         cd_nom=cd_nom,
         atlas_period=atlas_period,
@@ -143,15 +151,15 @@ def historic_atlases(
         id_historic_atlas=id_historic_atlas,
         envelope=envelope,
     )
-    if not q:
+    if not query:
         return Response(status_code=HTTP_204_NO_CONTENT)
     features = [
         TaxaDistributionFeature(
-            properties=a.properties,
-            geometry=json.loads(a.geometry),
-            id=a.id,
+            properties=row.properties,
+            geometry=json.loads(row.geometry),
+            id=row.id,
         )
-        for a in q
+        for row in query
     ]
     return TaxaDistributionFeaturesCollection(features=features)
 
@@ -167,11 +175,10 @@ def historic_atlases(
 
 """,
 )
+@cache()
 def list_historic_atlases(db: Session = Depends(get_db), cd_nom: int = None) -> Any:
-    q = historic_atlas_distrib.list_historic_atlas(db=db, cd_nom=cd_nom)
-    if not q:
-        return Response(status_code=HTTP_204_NO_CONTENT)
-    return q
+    query = historic_atlas_distrib.list_historic_atlas(db=db, cd_nom=cd_nom)
+    return query if query else Response(status_code=HTTP_204_NO_CONTENT)
 
 
 @router.get(
@@ -185,6 +192,7 @@ def list_historic_atlases(db: Session = Depends(get_db), cd_nom: int = None) -> 
 
 """,
 )
+@cache()
 def altitudinal_distribution(
     id_area: str,
     cd_nom: int,
@@ -221,14 +229,15 @@ def altitudinal_distribution(
 
 """,
 )
+@cache()
 def all_period_phenology_distribution(
     id_area: str, cd_nom: int, db: Session = Depends(get_db)
 ) -> Any:
-    q = all_period_phenology_distrib.get_data_occurrence(db=db, id_area=id_area, cd_nom=cd_nom)
-    if q:
+    query = all_period_phenology_distrib.get_data_occurrence(db=db, id_area=id_area, cd_nom=cd_nom)
+    if query:
         phenology = CommonBlockStructure(
             label="Nombre de données",
-            data=q,
+            data=query,
             color="#435EF2",
         )
         frequency = CommonBlockStructure(
@@ -250,6 +259,7 @@ def all_period_phenology_distribution(
     summary="Breeding phenology distribution",
     description="""# coming soon""",
 )
+@cache()
 def breeding_phenology_distribution(
     id_area: str, cd_nom: int, db: Session = Depends(get_db)
 ) -> Any:
@@ -285,8 +295,16 @@ def breeding_phenology_distribution(
     description="""# Taxon geographic distribution
 """,
 )
-def get_survey_map_data(cd_nom: int, db: Session = Depends(get_db)) -> Any:
-    query = survey_map_data.data_distribution(db, cd_nom=cd_nom)
+@cache()
+def get_survey_map_data(
+    cd_nom: int, id_area_atlas_territory: int, phenology_period: str, db: Session = Depends(get_db)
+) -> Any:
+    query = survey_map_data.data_distribution(
+        db,
+        cd_nom=cd_nom,
+        id_area_atlas_territory=id_area_atlas_territory,
+        phenology_period=phenology_period,
+    )
     if not query:
         return Response(status_code=HTTP_204_NO_CONTENT)
     features = [

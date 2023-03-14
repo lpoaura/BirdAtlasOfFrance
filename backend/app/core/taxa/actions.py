@@ -2,9 +2,10 @@ import logging
 from typing import List, Optional
 
 from geoalchemy2 import functions as geofunc
-from sqlalchemy import VARCHAR, String, case, cast, distinct, func, and_
+from sqlalchemy import VARCHAR, String, and_, case, cast, distinct, func, literal_column
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Session, aliased
+from fastapi_cache.decorator import cache
 
 from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
@@ -31,7 +32,8 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
     def taxa_distribution(
         self,
         db: Session,
-        period: str,
+        atlas_period: str,
+        phenology_period: str,
         cd_nom: int,
         grid: bool,
         envelope: Optional[List] = None,
@@ -39,45 +41,88 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
         geom = (
             LAreas.geojson_4326
             if grid
-            else geofunc.ST_AsGeoJSON(geofunc.ST_Transform(geofunc.ST_Centroid(LAreas.geom), 4326))
+            else geofunc.ST_AsGeoJSON(
+                geofunc.ST_Transform(geofunc.ST_Centroid(LAreas.geom), 4326)
+            )  # pylint: disable=E1101
         )
-        status_field = {
-            "breeding_old": {
-                "condition": AreaKnowledgeTaxaList.breeding_count_data_old > 0,
-                "status": AreaKnowledgeTaxaList.breeding_status_old,
-            },
-            "breeding_new": {
-                "condition": AreaKnowledgeTaxaList.breeding_count_data_new > 0,
-                "status": AreaKnowledgeTaxaList.breeding_status_new,
-            },
-            "wintering_old": {
-                "condition": AreaKnowledgeTaxaList.wintering_count_data_old > 0,
-                "status": "Presence",
-            },
-            "wintering_new": {
-                "condition": AreaKnowledgeTaxaList.wintering_count_data_new > 0,
-                "status": "Presence",
-            },
-            "all_period_old": {
-                "condition": AreaKnowledgeTaxaList.all_period_count_data_old > 0,
-                "status": "Presence",
-            },
-            "all_period_new": {
-                "condition": AreaKnowledgeTaxaList.all_period_count_data_new > 0,
-                "status": "Presence",
-            },
-        }
+
+        if atlas_period in ("new", "old"):
+            values = {
+                "condition": AreaKnowledgeTaxaList.__table__.c[  # pylint: disable=E1101
+                    phenology_period + "_count_data_" + atlas_period
+                ]
+                > 0,
+                "status": AreaKnowledgeTaxaList.__table__.c[  # pylint: disable=E1101
+                    phenology_period + "_status_" + atlas_period
+                ]
+                if phenology_period == "breeding"
+                else "Presence",
+            }
+
+        if atlas_period == "compare":
+            values = {
+                "condition": (
+                    AreaKnowledgeTaxaList.__table__.c[
+                        phenology_period + "_count_data_new"
+                    ]  # pylint: disable=E1101
+                    + AreaKnowledgeTaxaList.__table__.c[
+                        phenology_period + "_count_data_old"
+                    ]  # pylint: disable=E1101
+                )
+                > 0,
+                "status": case(
+                    (
+                        and_(
+                            AreaKnowledgeTaxaList.__table__.c[  # pylint: disable=E1101
+                                phenology_period + "_count_data_new"
+                            ]
+                            > 0,
+                            AreaKnowledgeTaxaList.__table__.c[  # pylint: disable=E1101
+                                phenology_period + "_count_data_old"
+                            ]
+                            > 0,
+                        ),
+                        "AOFM & ODF",
+                    ),
+                    (
+                        and_(
+                            AreaKnowledgeTaxaList.__table__.c[  # pylint: disable=E1101
+                                phenology_period + "_count_data_new"
+                            ]
+                            > 0,
+                            AreaKnowledgeTaxaList.__table__.c[  # pylint: disable=E1101
+                                phenology_period + "_count_data_old"
+                            ]
+                            == 0,
+                        ),
+                        "ODF",
+                    ),
+                    (
+                        and_(
+                            AreaKnowledgeTaxaList.__table__.c[  # pylint: disable=E1101
+                                phenology_period + "_count_data_new"
+                            ]
+                            == 0,
+                            AreaKnowledgeTaxaList.__table__.c[  # pylint: disable=E1101
+                                phenology_period + "_count_data_old"
+                            ]
+                            > 0,
+                        ),
+                        "AOFM",
+                    ),
+                    else_=None,
+                ),
+            }
+
         q = (
             db.query(
                 AreaKnowledgeTaxaList.id_area.label("id"),
-                func.json_build_object("status", status_field[period]["status"]).label(
-                    "properties"
-                ),
+                func.json_build_object("status", values["status"]).label("properties"),
                 geom.label("geometry"),
             )
             .join(LAreas, LAreas.id_area == AreaKnowledgeTaxaList.id_area)
             .filter(AreaKnowledgeTaxaList.cd_nom == cd_nom)
-            .filter(status_field[period]["condition"])
+            .filter(values["condition"])
         )
 
         if envelope:
@@ -93,7 +138,7 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
                 )
             )
 
-        logger.debug(f"<taxa_distribution> q {q}")
+        logger.debug("<taxa_distribution> q %s", q)
         return q.all()
 
 
@@ -112,7 +157,7 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             "breeding": MvAltitudeDistribution.count_breeding,
             "wintering": MvAltitudeDistribution.count_wintering,
         }
-        q1 = (
+        query1 = (
             db.query(
                 func.Sum(count_column[period]).label("count"),
             )
@@ -120,20 +165,19 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             .filter(MvAltitudeDistribution.cd_nom == cd_nom)
             .one()
         )
-        if q1.count > 0:
-            q = (
+        logger.debug(query1)
+        if query1 and query1.count > 0:
+            query2 = (
                 db.query(
                     func.lower(MvAltitudeDistribution.range).label("label"),
-                    (count_column[period] / float(q1.count) * 100).label("value"),
+                    (count_column[period] / float(query1.count) * 100).label("value"),
                 )
                 .filter(MvAltitudeDistribution.id_area == id_area)
                 .filter(MvAltitudeDistribution.cd_nom == cd_nom)
                 .order_by(MvAltitudeDistribution.range)
             )
-            logger.debug(q)
-            return q.all()
-        else:
-            return None
+            logger.debug(query2)
+            return query2.all()
 
     def get_territory_distribution(self, db: Session, id_area: int):
         q = (
@@ -167,6 +211,7 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
         )
         return q.all()
 
+    @cache()
     def get_list_occurrence(self, db: Session, id_area: int, cd_nom: int = None):
         total = (
             db.query(
@@ -305,7 +350,9 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
 class SurveyMapDataActions(BaseReadOnlyActions[MvSurveyMapData]):
     """Post actions with basic CRUD operations"""
 
-    def data_distribution(self, db: Session, cd_nom: int) -> List:
+    def data_distribution(
+        self, db: Session, cd_nom: int, id_area_atlas_territory: str, phenology_period: str
+    ) -> List:
         dept = aliased(LAreas)
         dept_simp = aliased(LAreas)
 
@@ -335,7 +382,16 @@ class SurveyMapDataActions(BaseReadOnlyActions[MvSurveyMapData]):
                 ).label("properties"),
                 dept_simp.geojson_4326.label("geometry"),
             )
-            .join(MvSurveyMapData, and_(dept.id_area == MvSurveyMapData.id_area,  MvSurveyMapData.cd_nom == cd_nom), isouter=True)
+            .join(
+                MvSurveyMapData,
+                and_(
+                    dept.id_area == MvSurveyMapData.id_area,
+                    MvSurveyMapData.cd_nom == cd_nom,
+                    MvSurveyMapData.id_area_atlas_territory == id_area_atlas_territory,
+                    MvSurveyMapData.phenology_period == phenology_period,
+                ),
+                isouter=True,
+            )
             .join(dept_simp, dept_simp.area_code == dept.area_code)
             .filter(
                 dept.id_type == DEP_ID_TYPE,
