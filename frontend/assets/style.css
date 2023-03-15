@@ -5,6 +5,11 @@ body {
 
 body {
   width: 100%;
+  font-family: 'Poppins', sans-serif;
+}
+
+.v-application {
+  font-family: 'Poppins', sans-serif;
 }
 
 .display-flex {
@@ -34,7 +39,9 @@ h3,
 h4,
 span,
 h5,
-h6 {
+h6,
+div,
+p {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: normal;
