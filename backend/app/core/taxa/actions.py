@@ -200,7 +200,7 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
     """
 
     def get_data_occurrence(self, db: Session, id_area: int, cd_nom: int = None):
-        q = (
+        query = (
             db.query(
                 MvTaxaAllPeriodPhenology.decade.label("label"),
                 MvTaxaAllPeriodPhenology.count_data.label("value"),
@@ -209,9 +209,9 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
             .filter(MvTaxaAllPeriodPhenology.cd_nom == cd_nom)
             .order_by(MvTaxaAllPeriodPhenology.decade)
         )
-        return q.all()
+        return query.all()
 
-    @cache()
+
     def get_list_occurrence(self, db: Session, id_area: int, cd_nom: int = None):
         total = (
             db.query(
@@ -220,7 +220,7 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
             .filter(MvTaxaAllPeriodPhenology.id_area == id_area)
             .filter(MvTaxaAllPeriodPhenology.cd_nom == cd_nom)
         ).one()
-        q = (
+        query = (
             db.query(
                 MvTaxaAllPeriodPhenology.decade.label("label"),
                 case(
@@ -235,7 +235,7 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
             .filter(MvTaxaAllPeriodPhenology.cd_nom == cd_nom)
             .order_by(MvTaxaAllPeriodPhenology.decade)
         )
-        return q.all()
+        return query.all()
 
 
 class TaxaBreedingPhenologyActions(BaseReadOnlyActions[MvTaxaBreedingPhenology]):
