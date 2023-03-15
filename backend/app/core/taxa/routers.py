@@ -233,23 +233,27 @@ def altitudinal_distribution(
 def all_period_phenology_distribution(
     id_area: str, cd_nom: int, db: Session = Depends(get_db)
 ) -> Any:
-    query = all_period_phenology_distrib.get_data_occurrence(db=db, id_area=id_area, cd_nom=cd_nom)
-    if query:
+    data_count = all_period_phenology_distrib.get_data_occurrence(
+        db=db, id_area=id_area, cd_nom=cd_nom
+    )
+    list_frequency = all_period_phenology_distrib.get_list_occurrence(
+        db=db, id_area=id_area, cd_nom=cd_nom
+    )
+    logger.debug("data_count %s", str(data_count))
+    logger.debug("list_frequency %s", str(list_frequency))
+    if data_count:
         phenology = CommonBlockStructure(
             label="Nombre de données",
-            data=query,
+            data=data_count,
             color="#435EF2",
         )
         frequency = CommonBlockStructure(
             label="Fréquence dans les listes complètes",
-            data=all_period_phenology_distrib.get_list_occurrence(
-                db=db, id_area=id_area, cd_nom=cd_nom
-            ),
+            data=list_frequency,
             color="#8CCB6E",
         )
         return TaxaPhenologyApiData(frequency=frequency, phenology=phenology)
-    else:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+    return Response(status_code=HTTP_204_NO_CONTENT)
 
 
 @router.get(
