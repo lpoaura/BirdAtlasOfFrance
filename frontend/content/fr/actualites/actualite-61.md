@@ -1,7 +1,7 @@
 ---
 title: "Une mésange peut en cacher une autre"
 picture: actualite-61.webp
-credit: Mésange boréale © 
+credit: Mésange alpestre (Poecile montanus) © Alexandre Roux
 centering: center
 author: Oiseaux de France
 date: '2023-03-20'
