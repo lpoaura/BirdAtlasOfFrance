@@ -6,7 +6,7 @@ centering: center
 author: Oiseaux de France
 date: '2023-03-20'
 tags: ['Mésange boréale','sous-espèce','confusion']
-Active: true
+active: true
 ---
 
 **Au cours des dernières décennies, le petit monde des mésanges a fait l’objet de nombreux travaux scientifiques, aboutissant notamment, en 2005, à l’éclatement du genre *Parus*. Mais tout n’est pas encore établi et il est probable qu’une mésange puisse en cacher une autre.**
