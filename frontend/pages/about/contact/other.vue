@@ -144,7 +144,7 @@ export default {
   methods: {
     updateSelectedDepartment(department) {
       this.selectedDepartment = department[0]
-      // console.log(this.selectedDepartment)
+      // console.debug(this.selectedDepartment)
     },
     updateCaptchaUser(captcha) {
       this.captchaUser = captcha
@@ -176,14 +176,14 @@ export default {
             text: messageIntroduction + this.userMessage,
           })
           .then((response) => {
-            // console.log(response)
+            // console.debug(response)
             this.validForm = true
           })
           .catch((error) => {
             this.alerts.sendingFail = true
             this.disabledButton = false
             if (error.response) {
-              console.log(error.response.data)
+              console.debug(error.response.data)
             }
           })
       }

@@ -1,59 +1,110 @@
 <template>
-  <div class="ChartWrapper">
-    <div class="Chart">
-      <!-- <svg class="BarPlotSvg"></svg> -->
-    </div>
-    <div class="ChartLegend">
-      <h5 class="ChartLegendLabel">
-        <i :style="{ background: formattedData.altitude.color }"></i
-        >{{ formattedData.altitude.label }}
-      </h5>
-      <h5 class="ChartLegendLabel">
-        <i :style="{ background: formattedData.globalAltitude.color }"></i
-        >{{ formattedData.globalAltitude.label }}
-      </h5>
+  <div v-if="chartData" id="altitude" class="ChartCard">
+    <h4 class="black02 fw-bold bottom-margin-8">
+      Répartition altitudinale des observations
+    </h4>
+    <h5 class="black03 bottom-margin-40">
+      Proportion des observations en fonction de l’altitude du territoire.
+    </h5>
+    <div class="ChartWrapper">
+      <div class="Chart">
+        <!-- <svg class="BarPlotSvg"></svg> -->
+      </div>
+      <div class="ChartLegend">
+        <h5 class="ChartLegendLabel">
+          <i :style="{ background: chartData.altitude?.color }"></i
+          >{{ chartData.altitude?.label }}
+        </h5>
+        <h5 class="ChartLegendLabel">
+          <i :style="{ background: chartData.globalAltitude?.color }"></i
+          >{{ chartData.globalAltitude?.label }}
+        </h5>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 const d3 = require('d3')
+
 export default {
-  props: {
-    formattedData: {
-      type: Object,
-      required: true
-    }
+  data: () => ({
+    chartData: {},
+  }),
+  computed: {
+    idArea() {
+      return this.$store.state.species.idArea
+    },
+    cdNom() {
+      return this.$store.state.species.cdNom
+    },
+    phenologyPeriod() {
+      return this.$store.state.species.phenologyPeriod
+    },
   },
   watch: {
-    formattedData: {
-      deep: true,
+    idArea: {
       handler() {
-        this.renderChart()
-        this.renderData()
-      }
-    }
+        this.generateChart()
+      },
+    },
+    phenologyPeriod: {
+      handler() {
+        this.generateChart()
+      },
+    },
+    // chartData: {
+    //   deep: true,
+    //   handler() {
+    //     this.renderChart()
+    //     this.renderData()
+    //   },
+    // },
   },
   mounted() {
-    if (this.formattedData.altitude.data) {
-      this.renderChart()
-      this.renderData()
-    }
+    this.$nextTick(function () {
+      this.generateChart()
+    })
   },
   methods: {
+    generateChart() {
+      this.getChartData().then(() => {
+        if (this.chartData.altitude) {
+          this.renderChart()
+          this.renderData()
+          this.$store.commit('species/pushSubjectsList', {
+            label: 'Répartition altitudinale',
+            slug: 'altitude',
+            position: 5,
+          })
+        }
+      })
+    },
+    async getChartData() {
+      console.debug('ALTITUDE AREA', this.idArea)
+      if (this.idArea) {
+        const url = `/api/v1/taxa/altitude/${this.idArea}/${this.cdNom}${
+          this.phenologyPeriod ? '?period=' + this.phenologyPeriod : ''
+        }`
+        console.debug('URL', url)
+        this.chartData = await this.$axios.$get(url).catch((error) => {
+          console.error(error)
+        })
+      }
+    },
     renderData() {
       // Render x axis Scale using data max value
       this.xAxis.domain([
         0,
-        d3.max(this.formattedData.altitude.data, function (d) {
+        d3.max(this.chartData.altitude.data, function (d) {
           return d.value
-        })
+        }),
       ])
 
       // Render y axis Scale using data max value
       this.yAxis.domain([
         0,
-        d3.max(this.formattedData.altitude.data, (d) => d.label)
+        d3.max(this.chartData.altitude.data, (d) => d.label),
       ])
 
       this.chart
@@ -77,7 +128,7 @@ export default {
           decimal: '.',
           thousands: ' ',
           grouping: [3],
-          currency: ['', '']
+          currency: ['', ''],
         })
         .format(',.0f')
       this.chart
@@ -119,7 +170,7 @@ export default {
         .append('g')
         .attr('class', 'bars')
         .selectAll('rect')
-        .data(this.formattedData.altitude.data)
+        .data(this.chartData.altitude.data)
         .enter()
         .append('rect')
         .attr('class', 'bar')
@@ -133,14 +184,14 @@ export default {
           return that.xAxis(d.value)
         })
         .attr('height', 6)
-        .attr('fill', this.formattedData.altitude.color)
+        .attr('fill', this.chartData.altitude?.color)
       // Area
 
       this.chart
         .append('path')
         .attr('class', 'area')
-        .datum(this.formattedData.globalAltitude.data)
-        .attr('fill', this.formattedData.globalAltitude.color)
+        .datum(this.chartData.globalAltitude.data)
+        .attr('fill', this.chartData.globalAltitude?.color)
         .attr('stroke-width', 0)
         .attr(
           'd',
@@ -187,8 +238,8 @@ export default {
       this.xAxis = d3.scaleLinear().range([0, this.width - 20])
       this.yAxis = d3.scaleLinear().range([this.height, 0])
       // Bars
-    }
-  }
+    },
+  },
 }
 </script>
 

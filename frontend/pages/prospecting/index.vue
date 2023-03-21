@@ -156,9 +156,9 @@
 
 <script>
 import MapSearchBar from '~/components/prospecting/MapSearchBar.vue'
-import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
-import LayersSelector from '~/components/prospecting/LayersSelector.vue'
-import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
+import SeasonsSelector from '~/components/commons/Selectors/Seasons.vue'
+import LayersSelector from '~/components/commons/Selectors/Layers.vue'
+import TerritoriesSelector from '~/components/commons/Selectors/Territories.vue'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 import CountTaxaControl from '~/components/prospecting/CountTaxaControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
@@ -343,7 +343,7 @@ export default {
             }
           })
           .catch((errors) => {
-            console.log(errors)
+            console.debug(errors)
           })
       }
       if (

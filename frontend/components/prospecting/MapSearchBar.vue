@@ -139,7 +139,7 @@ export default {
                 }
               })
               .catch((error) => {
-                console.log(error)
+                console.error(error)
               })
           }
         } else {
@@ -171,7 +171,7 @@ export default {
           this.search = data[0][`common_name_${this.lang}`]
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
     }
   },
@@ -201,7 +201,7 @@ export default {
             }
           })
           .catch((error) => {
-            console.log(error)
+            console.error(error)
           })
       }
     },

@@ -85,7 +85,7 @@ export default {
   }),
   created() {
     this.randomInt = Math.floor(Math.random() * 5)
-    // console.log(this.randomInt)
+    // console.debug(this.randomInt)
     this.homePicture.largeUrl = `url('/home/home-picture-${this.randomInt}.webp')`
     this.homePicture.mobileUrl = `url('/home/home-picture-${this.randomInt}-mobile.webp')`
     ExifReader.load(
@@ -96,10 +96,10 @@ export default {
         'type="Seq" ',
         ''
       )
-      // console.log(tags)
-      // console.log(this.homePicture.title)
-      // console.log(this.homePicture.author)
-      // console.log(JSON.parse(tags.description.description))
+      // console.debug(tags)
+      // console.debug(this.homePicture.title)
+      // console.debug(this.homePicture.author)
+      // console.debug(JSON.parse(tags.description.description))
       const focusing = JSON.parse(tags.description.description)
       this.homePicture.largeFocus = focusing.large
       this.homePicture.mobileFocus = focusing.mobile

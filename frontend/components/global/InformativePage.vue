@@ -108,7 +108,7 @@ export default {
         })[0]
       })
       .catch((error) => {
-        console.log(error)
+        console.error(error)
       })
   },
   methods: {

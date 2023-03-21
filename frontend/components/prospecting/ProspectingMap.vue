@@ -211,7 +211,7 @@
             >
               <img class="Icon" src="/calendar.svg" />
             </div>
-            <seasons-selector
+            <commons-selector-seasons
               :select-is-open="seasonIsOpen"
               :selected-season="selectedSeason"
               @selectedSeason="updateSelectedSeason"
@@ -225,7 +225,7 @@
             >
               <img class="Icon" src="/layers.svg" />
             </div>
-            <layers-selector
+            <commons-selector-layers
               :select-is-open="layerIsOpen"
               :selected-layer="selectedLayer"
               :selected-species="selectedSpecies"
@@ -246,7 +246,7 @@
             >
               <img class="Icon" src="/location.svg" />
             </div>
-            <territories-selector
+            <commons-selector-territories
               :select-is-open="territoryIsOpen"
               :selected-territory="selectedTerritory"
               @selectedTerritory="updateSelectedTerritory"
@@ -325,9 +325,6 @@ import CountTaxaControl from '~/components/prospecting/CountTaxaControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
 import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
 import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
-import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
-import LayersSelector from '~/components/prospecting/LayersSelector.vue'
-import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
 
 export default {
   components: {
@@ -336,9 +333,6 @@ export default {
     'feature-dashboard-control': FeatureDashboardControl,
     'epoc-dashboard-control': EpocDashboardControl,
     'species-dashboard-control': SpeciesDashboardControl,
-    'seasons-selector': SeasonsSelector,
-    'layers-selector': LayersSelector,
-    'territories-selector': TerritoriesSelector
   },
   props: {
     selectedArea: {
@@ -718,7 +712,7 @@ export default {
     }
   },
   mounted() {
-    // console.log('mounted')
+    // console.debug('mounted')
     if (this.$route.query.area && this.$route.query.type) {
       this.$axios
         .$get(
@@ -733,7 +727,7 @@ export default {
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
     } else {
       if (navigator.geolocation) {
@@ -754,7 +748,7 @@ export default {
             this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
           })
           .catch((error) => {
-            console.log(error)
+            console.error(error)
           })
       }
       if (this.$route.query.species) {
@@ -764,7 +758,7 @@ export default {
             this.$emit('selectedSpecies', data[0])
           })
           .catch((error) => {
-            console.log(error)
+            console.error(error)
           })
       }
     }
@@ -776,7 +770,7 @@ export default {
         this.territoriesGeojson = data
       })
       .catch((error) => {
-        console.log(error)
+        console.error(error)
       })
     this.$axios
       .$get('/api/v1/lareas/type/ATLAS_TERRITORY?bbox=true&only_enable=true')
@@ -784,7 +778,7 @@ export default {
         this.territoriesEnvelopes = data
       })
       .catch((error) => {
-        console.log(error)
+        console.error(error)
       })
   },
   beforeDestroy() {
@@ -807,7 +801,7 @@ export default {
           this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
     },
     defineEnvelope(bounds) {
@@ -822,7 +816,7 @@ export default {
       return envelope
     },
     initiateEnvelope() {
-      // console.log('[initiateEnvelope]')
+      // console.debug('[initiateEnvelope]')
       const initBounds = this.$refs.myMap.mapObject.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
@@ -836,7 +830,7 @@ export default {
       }
     },
     updateEnvelope(newBounds) {
-      // console.log('[updateEnvelope]')
+      // console.debug('[updateEnvelope]')
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
       this.updateKnowledgeLevelGeojson()
@@ -851,8 +845,8 @@ export default {
       }
     },
     updateZoom(newZoom) {
-      // console.log('Old zoom : ' + this.currentZoom)
-      // console.log('New zoom : ' + newZoom)
+      // console.debug('Old zoom : ' + this.currentZoom)
+      // console.debug('New zoom : ' + newZoom)
       this.currentZoom = newZoom
       if (this.currentZoom < 11) {
         this.$emit('clickedFeature', null)
@@ -884,14 +878,14 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
     },
     updateKnowledgeLevelGeojson() {
-      // console.log('[updateGeojson]')
-      // console.log('Ancien zoom : ' + this.oldZoomKnowledgeLevel)
-      // console.log('Nouveau zoom : ' + this.currentZoom)
-      // console.log(this.axiosSourceKnowledgeLevel)
+      // console.debug('[updateGeojson]')
+      // console.debug('Ancien zoom : ' + this.oldZoomKnowledgeLevel)
+      // console.debug('Nouveau zoom : ' + this.currentZoom)
+      // console.debug(this.axiosSourceKnowledgeLevel)
       if (
         !(
           !this.isProgramaticZoom &&
@@ -948,7 +942,7 @@ export default {
             }
           })
           .catch((error) => {
-            // console.log(error)
+            // console.error(error)
             this.axiosErrorKnowledgeLevel = error
           })
           .finally(() => {
@@ -959,16 +953,16 @@ export default {
             this.axiosErrorKnowledgeLevel = null
           })
       } else {
-        // console.log('Pas de rechargement nécessaire')
+        // console.debug('Pas de rechargement nécessaire')
       }
       this.oldZoomKnowledgeLevel = this.currentZoom
       this.isProgramaticZoom = false
     },
     updateSpeciesDistributionGeojson(species) {
-      // console.log('[updateGeojson]')
-      // console.log('Ancien zoom : ' + this.oldZoomSpeciesDistribution)
-      // console.log('Nouveau zoom : ' + this.currentZoom)
-      // console.log(this.axiosSourceSpeciesDistribution)
+      // console.debug('[updateGeojson]')
+      // console.debug('Ancien zoom : ' + this.oldZoomSpeciesDistribution)
+      // console.debug('Nouveau zoom : ' + this.currentZoom)
+      // console.debug(this.axiosSourceSpeciesDistribution)
       if (
         !(
           !this.isProgramaticZoom &&
@@ -989,7 +983,7 @@ export default {
         const grid = this.currentZoom >= 11
         this.$axios
           .$get(
-            `/api/v1/taxa/distribution?cd_nom=${species.code}&period=${this.selectedSeason.value}_new&grid=${grid}&envelope=${this.envelope}`,
+            `/api/v1/taxa/distribution?cd_nom=${species.code}&phenology_period=${this.selectedSeason.value}&atlas_period=new&grid=${grid}&envelope=${this.envelope}`,
             {
               cancelToken: this.axiosSourceSpeciesDistribution.token
             }
@@ -1006,7 +1000,7 @@ export default {
             }
           })
           .catch((error) => {
-            // console.log(error)
+            // console.error(error)
             this.axiosErrorSpeciesDistribution = error
           })
           .finally(() => {
@@ -1017,7 +1011,7 @@ export default {
             this.axiosErrorSpeciesDistribution = null
           })
       } else {
-        // console.log('Pas de rechargement nécessaire')
+        // console.debug('Pas de rechargement nécessaire')
       }
       this.oldZoomSpeciesDistribution = this.currentZoom
       this.isProgramaticZoom = false
@@ -1036,7 +1030,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
     },
     updateEpocOdfGeojson() {
@@ -1050,7 +1044,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
     },
     setFeatureColor(number) {

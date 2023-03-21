@@ -102,7 +102,7 @@ export default {
         this.newsItems = news
       })
       .catch((error) => {
-        console.log(error)
+        console.error(error)
       })
       .finally(() => {
         this.maxOffset = this.calculateMaxOffset()

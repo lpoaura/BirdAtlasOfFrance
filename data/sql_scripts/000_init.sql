@@ -467,6 +467,8 @@ $$
 
         CREATE TYPE TYPE_REPRESENTATION AS ENUM ('breed_min_max', 'breed_count');
 
+
+        /* Informations relatives aux acteurs des suivis  */
         CREATE TABLE IF NOT EXISTS src_survey.tab_utilisateur
         (
             id_utilisateur SERIAL
@@ -481,7 +483,7 @@ $$
             code_postal    VARCHAR(5)
         );
 
-        /* */
+        /* Résultats détaillés des suivis (données "brutes") */
         CREATE TABLE IF NOT EXISTS src_survey.info_detail
         (
             id_info_detail   SERIAL
@@ -492,7 +494,7 @@ $$
             info_commentaire VARCHAR(255)
         );
 
-        /* */
+        /* Critères de fiabilité des informations stockées */
         CREATE TABLE IF NOT EXISTS src_survey.info_fiabilite
         (
             id_fiabilite SERIAL
@@ -501,7 +503,10 @@ $$
             indicateur   VARCHAR(100)
         );
 
-        /* */
+        /* Descriptif général d'une information
+           lien avec src_survey.info_detail via src_survey.cor_tab_detail
+           lien avec src_survey.tab_utilisateur via src_survey.cor_tab_utilisateur
+           */
         CREATE TABLE IF NOT EXISTS src_survey.info_generale
         (
             id_info_generale SERIAL
@@ -525,7 +530,7 @@ $$
             autre_info       TEXT
         );
 
-        /* */
+        /* relation n-n src_survey.info_generale <> src_survey.tab_utilisateur  */
         CREATE TABLE IF NOT EXISTS cor_tab_utilisateur
         (
             id_tab_personne  SERIAL
@@ -539,7 +544,7 @@ $$
             role_personne    VARCHAR(255)
         );
 
-        /* */
+        /* relation n-n src_survey.info_generale <> src_survey.info_detail  */
         CREATE TABLE IF NOT EXISTS src_survey.cor_tab_detail
         (
             id_tab_detail          SERIAL
@@ -553,7 +558,7 @@ $$
             commentaire_speficique VARCHAR(255)
         );
 
-        /* */
+        /* description des représentations coté frontend (carte vs graphique (tendance, boite à moustache, etc. ))*/
         CREATE TABLE IF NOT EXISTS t_representation
         (
             id_graph          INTEGER NOT NULL
@@ -567,7 +572,7 @@ $$
             type              src_survey.TYPE_ILLUSTRATION
         );
 
-        /* */
+        /* table temporaire : A SUPPRIMER */
         CREATE TABLE IF NOT EXISTS src_survey.local_site
         (
             id         BIGINT NOT NULL
@@ -584,8 +589,8 @@ $$
             y_cood     DOUBLE PRECISION
         );
 
-        /* */
-        CREATE MATERIALIZED VIEW IF NOT EXISTS src_survey.vm_carto_reg_information AS
+        /* informations carto à restituer  */
+        CREATE MATERIALIZED VIEW IF NOT EXISTS src_survey.vm_carto_information AS
             /* INFO: UNIQUEMENT MILMIG ? DONNÉES CARTO */
         WITH reg_atlas AS (
 /* SELECTION DES DEPARTEMENTS */
@@ -834,6 +839,7 @@ $$
         GROUP BY tf.source_jdd, ig2.id_jdd, tf.cd_nom, ig2.unite, ig2.representation, ra.id_area, ra.area_name, tf.unite
                , tf.date_debut, tf.date_fin, tdh.nb_jdd, tf.id_info_generale, tdh.list_jdd;
 
+        /* */
         CREATE OR REPLACE VIEW src_survey.v_resume_info_api
                     (id_dataset, dataset_name, information_graph, representation, description, cd_nom, unite_table,
                      type_graph,

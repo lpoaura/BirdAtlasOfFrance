@@ -73,7 +73,7 @@ export default {
             : Math.floor(this.newsItems.length / this.newsNumberPerPage) + 1
       })
       .catch((error) => {
-        console.log(error)
+        console.error(error)
       })
       .finally(() => {
         if (this.$route.hash) {
