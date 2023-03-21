@@ -688,14 +688,14 @@ export default {
   methods: {
     initiateFeatureData(feature) {
       this.featureID = feature.id
-      // console.log('----------------------------------------')
-      // console.log('ID : ' + this.featureID)
+      // console.debug('----------------------------------------')
+      // console.debug('ID : ' + this.featureID)
       this.featureProperties = feature.properties
       this.featureProperties.area_name = this.featureProperties.area_name
         .replace('10kmL93', '')
         .replace('10kmUTM22', '')
-      // console.log('Properties :')
-      // console.log(this.featureProperties)
+      // console.debug('Properties :')
+      // console.debug(this.featureProperties)
       this.$router.push({
         path: '/prospecting',
         query: {
@@ -706,8 +706,8 @@ export default {
       this.$axios
         .$get(`/api/v1/area/general_stats/${this.featureID}`)
         .then((data) => {
-          // console.log('General stats :')
-          // console.log(data)
+          // console.debug('General stats :')
+          // console.debug(data)
           if (data) {
             this.featureDataKey = data
           } else {
@@ -715,7 +715,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
         .finally(() => {
           // Si la maille comporte des données...
@@ -724,7 +724,7 @@ export default {
             this.$axios
               .$get(`/api/v1/area/taxa_list/${this.featureID}`)
               .then((data) => {
-                // console.log(data)
+                // console.debug(data)
                 if (data) {
                   this.featureTaxaList = {}
                   this.featureTaxaList.all_period = data
@@ -739,14 +739,14 @@ export default {
                       item.wintering.old_count > 0
                     )
                   })
-                  // console.log('Liste des espèces par période :')
-                  // console.log(this.featureTaxaList)
+                  // console.debug('Liste des espèces par période :')
+                  // console.debug(this.featureTaxaList)
                 } else {
                   this.featureTaxaList = null
                 }
               })
               .catch((error) => {
-                console.log(error)
+                console.error(error)
               })
           } else {
             // Sinon la liste des espèces est vide
@@ -756,33 +756,33 @@ export default {
       this.$axios
         .$get(`/api/v1/area/list_areas/${this.featureID}/COM`)
         .then((data) => {
-          // console.log('Liste des communes :')
-          // console.log(data)
+          // console.debug('Liste des communes :')
+          // console.debug(data)
           this.featureMunicipalitiesList = data
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
       this.$axios
         .$get(`/api/v1/epoc?id_area=${this.featureID}`)
         .then((data) => {
           if (data) {
-            // console.log('Liste des points EPOC ODF statiques :')
-            // console.log(data.features)
+            // console.debug('Liste des points EPOC ODF statiques :')
+            // console.debug(data.features)
             this.featureEpocOdfList = data.features
           } else {
             this.featureEpocOdfList = []
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
       this.$axios
         .$get(`/api/v1/epoc/realized?id_area=${this.featureID}`)
         .then((data) => {
           if (data) {
-            // console.log('Liste des points EPOC réalisés :')
-            // console.log(data.features)
+            // console.debug('Liste des points EPOC réalisés :')
+            // console.debug(data.features)
             this.featureEpocOdfRealizedList = data.features.filter((epoc) => {
               return epoc.properties.project_code === 'EPOC-ODF'
             })
@@ -795,7 +795,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
       // Si la maille comporte des données après 2019...
       if (this.featureProperties.all_period.new_count) {
@@ -803,7 +803,7 @@ export default {
         this.$axios
           .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
           .then((data) => {
-            // console.log(data)
+            // console.debug(data)
             if (data) {
               this.timeDistributionIsOn = true
               const formattedData = this.months.map((item, index) => {
@@ -819,7 +819,7 @@ export default {
             }
           })
           .catch((error) => {
-            console.log(error)
+            console.error(error)
           })
       } else {
         // Sinon on n'affiche pas la répartition des données

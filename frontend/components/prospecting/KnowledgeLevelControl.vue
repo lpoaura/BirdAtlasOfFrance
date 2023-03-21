@@ -314,7 +314,7 @@ export default {
           }
         })
         .catch((errors) => {
-          console.log(errors)
+          console.debug(errors)
         })
     },
     // MOBILE

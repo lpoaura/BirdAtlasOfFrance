@@ -19,17 +19,17 @@ export default {
       const routeItems = this.$route.path.endsWith('/')
         ? this.$route.path.slice(1, -1).split('/')
         : this.$route.path.substring(1).split('/')
-      // console.log('routeItems : ' + routeItems)
+      // console.debug('routeItems : ' + routeItems)
       let path = ''
       const crumbs = []
       routeItems.forEach((item) => {
         path = `${path}/${item}`
-        // console.log('path : ' + path)
+        // console.debug('path : ' + path)
         crumbs.push({
           title: this.$getPageTitle(path),
           route: path,
         })
-        // console.log('crumbs : ' + this.crumbs)
+        // console.debug('crumbs : ' + this.crumbs)
       })
       return crumbs
     },

@@ -18,7 +18,7 @@ export default {
     'news-section': NewsSection,
   },
   // mounted() {
-  //   console.log(this.$i18n)
+  //   console.debug(this.$i18n)
   //   // La locale courante est accessible depuis this.$i18n.localeProperties
   //   this.$axios
   //     .$get(
@@ -32,10 +32,10 @@ export default {
   //       }
   //     )
   //     .then((data) => {
-  //       console.log(data)
+  //       console.debug(data)
   //     })
   //     .catch((error) => {
-  //       console.log(error)
+  //       console.error(error)
   //     })
   // },
   head() {

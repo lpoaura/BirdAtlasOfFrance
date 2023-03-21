@@ -1,5 +1,5 @@
 <template>
-  <div class="SpeciesCardContent" :class="tabStatus">
+  <div class="SpeciesCardContent">
     <div
       v-if="species.attributes.description || species.medias.Photos"
       id="description"
@@ -41,7 +41,7 @@
           </span>
         </div>
       </div>
-      <pictures-carousel
+      <species-monography-pictures-carousel
         v-if="species.medias.Photos"
         :pictures="species.medias.Photos"
       />
@@ -67,13 +67,13 @@
                 <div
                   class="RedListSticker"
                   :style="{
-                    background: $redLists()[species.redLists.world].bgColor
+                    background: $redLists()[species.redLists.world].bgColor,
                   }"
                 >
                   <h5
                     class="fw-600"
                     :style="{
-                      color: $redLists()[species.redLists.world].fontColor
+                      color: $redLists()[species.redLists.world].fontColor,
                     }"
                   >
                     {{ species.redLists.world }}
@@ -214,47 +214,65 @@
 </template>
 
 <script>
-import PicturesCarousel from '~/components/species/PicturesCarousel.vue'
-
 export default {
-  components: {
-    'pictures-carousel': PicturesCarousel
-  },
   props: {
     tabStatus: {
       type: String,
-      required: true
+      required: true,
     },
     species: {
       type: Object,
-      required: true
+      required: true,
     },
-    filteredTraits: {
-      type: Array,
-      required: false,
-      default: null
-    },
-    filteredFurtherInfo: {
-      type: Array,
-      required: false,
-      default: null
-    }
   },
   data: () => ({
     descriptionHeight: 0,
+    subjectsList: [
+      { label: 'Description', slug: 'description', position: 1 },
+      // { label: 'Taxonomie', slug: 'taxonomy' },
+      { label: 'Statuts', slug: 'status', position: 2 },
+      { label: 'Caractéristiques', slug: 'traits', position: 3 },
+      // { label: 'Téléchargements', slug: 'downloads' },
+      { label: 'Liens', slug: 'links', position: 4 },
+    ],
+    traitsList: [
+      { label: 'Groupe', key: 'trait_specie_group' },
+      { label: 'Longueur', key: 'trait_length' },
+      { label: 'Envergure', key: 'trait_scope' },
+      { label: 'Poids', key: 'trait_weight' },
+      { label: "Durée d'incubation", key: 'trait_incubation_time' },
+      { label: 'Nombre de pontes', key: 'trait_clutches_number' },
+      { label: "Nombre d'œufs", key: 'trait_eggs_number' },
+      {
+        label: "Durée de séjour au nid jusqu'à l'envol",
+        key: 'trait_nest_length_stay',
+      },
+      { label: 'Âge maximal Euring', key: 'trait_max_age_euring' },
+      { label: 'Âge maximal FR', key: 'trait_max_age_fr' },
+      { label: 'Habitat', key: 'trait_habitat' },
+      { label: 'Nourriture', key: 'trait_food' },
+      { label: 'Site de nidification', key: 'trait_nesting_site' },
+      { label: 'Comportement migrateur', key: 'trait_migratory_behaviour' },
+    ],
+    furtherInfoList: [
+      { label: 'Répartition et déplacements', key: 'distribution' },
+      { label: 'Habitats', key: 'habitat' },
+      { label: 'Alimentation', key: 'feeding' },
+      { label: 'Reproduction', key: 'breeding' },
+    ],
     readMore: false,
     linksList: [
       {
         label: 'Écouter le chant sur Xeno-Canto',
         key: 'xeno-canto',
-        icon: '/song-green.svg'
+        icon: '/song-green.svg',
       },
       {
         label: "Visualiser l'espèce sur EuroBirdPortal",
         key: 'euro-bird-portal',
-        icon: '/eye-green.svg'
-      }
-    ]
+        icon: '/eye-green.svg',
+      },
+    ],
   }),
   computed: {
     filteredLinks() {
@@ -266,7 +284,29 @@ export default {
       } else {
         return []
       }
-    }
+    },
+    filteredTraits() {
+      if (this.species.attributes.odf_common_name_fr) {
+        // Si les données sont arrivées
+        const filteredTraits = this.traitsList.filter((trait) => {
+          return this.species.attributes[trait.key]
+        })
+        return filteredTraits.length > 0 ? filteredTraits : null
+      } else {
+        return null
+      }
+    },
+    filteredFurtherInfo() {
+      if (this.species.attributes.odf_common_name_fr) {
+        // Si les données sont arrivées
+        const filteredFurtherInfo = this.furtherInfoList.filter((info) => {
+          return this.species.attributes[info.key]
+        })
+        return filteredFurtherInfo.length > 0 ? filteredFurtherInfo : null
+      } else {
+        return null
+      }
+    },
   },
   watch: {
     species(newVal) {
@@ -276,13 +316,16 @@ export default {
           this.descriptionHeight = this.$refs.description.offsetHeight
         }
       }, 100)
-    }
+    },
   },
   beforeMount() {
     window.addEventListener('resize', this.listener)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.listener)
+  },
+  mounted() {
+    this.$store.commit('species/setSubjectsList', this.subjectsList)
   },
   methods: {
     listener() {
@@ -292,8 +335,8 @@ export default {
       if (this.$refs.description) {
         this.descriptionHeight = this.$refs.description.offsetHeight
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

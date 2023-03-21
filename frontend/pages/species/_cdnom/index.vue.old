@@ -1,17 +1,94 @@
 <template>
   <v-container fluid>
-    <species-layout-nav-bar
-      :species="species"
-      :selected-tab="selectedTab"
-      :tabs="tabs"
-    />
+    <header>
+      <div class="Heading">
+        <div
+          class="SpeciesPicture"
+          :style="{
+            background: species.medias.Photo_principale
+              ? `url('${species.medias.Photo_principale.url}') center / cover`
+              : 'darkgrey',
+          }"
+        ></div>
+        <div class="Title">
+          <h3 class="fw-600">
+            {{ species.attributes.odf_common_name_fr }}
+          </h3>
+          <h5>
+            <i>{{ species.attributes.odf_sci_name }}</i> &nbsp;|&nbsp;
+            {{ species.attributes.odf_common_name_en }}
+            <font class="not-on-mobile">
+              &nbsp;|&nbsp; Synonymes : {{ species.attributes.common_synonyms }}
+            </font>
+          </h5>
+        </div>
+      </div>
+      <div class="Metadata">
+        <menu class="TabMenu no-bottom-margin">
+          <div
+            v-for="item in tabs"
+            :key="item.value"
+            class="TabItem"
+            :class="item.hash === selectedTab.hash ? 'selected' : ''"
+            @click="updateSelectedTab(item)"
+          >
+            {{ item.label }}
+          </div>
+        </menu>
+        <dropdown-list
+          v-model="selectedTabModel"
+          :z-index="3"
+          :items-list="tabs"
+        />
+      </div>
+    </header>
     <section class="SpeciesCardSection">
-      <species-layout-side-bar
-        :subjects-list="subjectsList"
-        :selected-tab="selectedTab"
-        :selected-subject="selectedSubject"
-        :tabs="tabs"
-      />
+      <nav class="NavDrawer">
+        <menu
+          v-if="['species', 'charts'].includes(selectedTab.value)"
+          class="TabMenu vertical no-bottom-margin"
+        >
+          <div
+            v-for="item in subjectsList"
+            :key="item.slug"
+            class="TabItem vertical"
+            :class="item.slug === selectedSubject.slug ? 'selected' : ''"
+            @click="updateSelectedSubject(item)"
+          >
+            {{ item.label }}
+          </div>
+        </menu>
+        <menu v-if="selectedTab.value === 'maps'">
+          <div class="SeeMoreWrapper" @click="updateAtlasStatus">
+            <span class="black02 fw-600 bottom-margin-">Atlas</span>
+            <img
+              class="SeeMoreChevron"
+              :src="atlasIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
+            />
+          </div>
+          <div v-show="atlasIsOpen">
+            <div
+              v-for="item in tabs[2].subjects.atlas"
+              :key="item.label"
+              class="TabItem vertical atlas"
+              :class="item.label === selectedSubject.label ? 'selected' : ''"
+              :title="item.name"
+              @click="updateSelectedSubject(item)"
+            >
+              {{ item.label }}
+            </div>
+          </div>
+          <div
+            v-for="item in tabs[2].subjects.others"
+            :key="item.slug"
+            class="TabItem vertical fw-600"
+            :class="item.slug === selectedSubject.slug ? 'selected' : ''"
+            @click="updateSelectedSubject(item)"
+          >
+            {{ item.label }}
+          </div>
+        </menu>
+      </nav>
       <div ref="scrollingContainer" class="SpeciesCardTab">
         <div class="SpeciesCardTabRelative">
           <div
@@ -56,7 +133,7 @@
                     "
                   />
                 </div>
-                <commons-selectors-seasons
+                <seasons-selector
                   :select-is-open="seasonIsOpen"
                   :selected-season="selectedSeason"
                   :filtered-seasons="
@@ -86,7 +163,7 @@
                     "
                   />
                 </div>
-                <commons-selectors-territories
+                <territories-selector
                   :select-is-open="territoryIsOpen"
                   :selected-territory="selectedTerritory"
                   @selectedTerritory="updateSelectedTerritory"
@@ -94,12 +171,67 @@
               </div>
             </div>
           </div>
-          <species-monography-tab
-            v-if="selectedTab.value === 'species'"
+          <species-tab
             :tab-status="selectedTab.value === 'species' ? '' : 'hidden'"
             :species="species"
+            :filtered-traits="filteredTraits"
+            :filtered-further-info="filteredFurtherInfo"
           />
-          <species-charts-tab v-if="selectedTab.value === 'charts'" />
+          <charts-tab-all-period
+            :selected-territory="selectedTerritory"
+            :selected-subject="selectedSubject"
+            :selected-season="selectedSeason"
+            :tab-status="
+              selectedTab.value === 'charts' &&
+              selectedSeason.value === 'all_period'
+                ? ''
+                : 'hidden'
+            "
+            :id-area="id_area"
+            :data-phenology="dataPhenologyAllPeriod"
+            :data-phenology-migration="
+              dataPhenologyMigration[selectedTerritory.area_code]
+            "
+            :data-populations-test="
+              dataPopulationsFake[selectedTerritory.area_code]
+            "
+            :cdnom="cdnom"
+          />
+          <charts-tab-breeding
+            :selected-territory="selectedTerritory"
+            :selected-subject="selectedSubject"
+            :selected-season="selectedSeason"
+            :tab-status="
+              selectedTab.value === 'charts' &&
+              selectedSeason.value === 'breeding'
+                ? ''
+                : 'hidden'
+            "
+            :data-phenology-breeding="dataPhenologyBreeding"
+            :data-trend="dataTrendBreeding[selectedTerritory.area_code]"
+            :data-populations-breeding="
+              dataPopulationsBreeding[selectedTerritory.area_code]
+            "
+            :data-altitude="dataAltitude"
+            :cdnom="cdnom"
+          />
+          <charts-tab-wintering
+            :selected-territory="selectedTerritory"
+            :selected-subject="selectedSubject"
+            :selected-season="selectedSeason"
+            :tab-status="
+              selectedTab.value === 'charts' &&
+              selectedSeason.value === 'wintering'
+                ? ''
+                : 'hidden'
+            "
+            :id-area="id_area"
+            :data-trend="dataTrendWintering[selectedTerritory.area_code]"
+            :data-populations-wintering="
+              dataPopulationsWintering[selectedTerritory.area_code]
+            "
+            :cdnom="cdnom"
+          />
           <maps-tab
             v-if="selectedTab.value === 'maps'"
             :tab-status="selectedTab.value === 'maps' ? '' : 'hidden'"
@@ -115,7 +247,13 @@
 </template>
 
 <script>
-import MapsTab from '~/components/species/MapsTab.vue'
+import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
+import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
+import SpeciesTab from '~/components/species/SpeciesTab.vue'
+import ChartsTabAllPeriod from '~/components/species/charts/ChartsTabAllPeriod.vue'
+import ChartsTabBreeding from '~/components/species/charts/ChartsTabBreeding.vue'
+import ChartsTabWintering from '~/components/species/charts/ChartsTabWintering.vue'
+import MapsTab from '~/components/species/maps/MapsTab.vue'
 // UPDATE NEEDED : supprimer cet import
 import {
   // dataAltitude,
@@ -129,6 +267,12 @@ import {
 
 export default {
   components: {
+    'seasons-selector': SeasonsSelector,
+    'territories-selector': TerritoriesSelector,
+    'species-tab': SpeciesTab,
+    'charts-tab-all-period': ChartsTabAllPeriod,
+    'charts-tab-breeding': ChartsTabBreeding,
+    'charts-tab-wintering': ChartsTabWintering,
     'maps-tab': MapsTab,
   },
   data: () => ({
@@ -238,6 +382,7 @@ export default {
     selectedTab: { value: '', hash: '', label: '', subjects: [] },
     selectedSubject: { label: '', slug: '' },
     detectMobile: false,
+    atlasIsOpen: true,
     domCurrentScrollingItems: {},
     scrollListener: true,
     scrollDuration: 600,
@@ -259,6 +404,31 @@ export default {
       redLists: null,
       protectionStatus: null,
     },
+    traitsList: [
+      { label: 'Groupe', key: 'trait_specie_group' },
+      { label: 'Longueur', key: 'trait_length' },
+      { label: 'Envergure', key: 'trait_scope' },
+      { label: 'Poids', key: 'trait_weight' },
+      { label: "Durée d'incubation", key: 'trait_incubation_time' },
+      { label: 'Nombre de pontes', key: 'trait_clutches_number' },
+      { label: "Nombre d'œufs", key: 'trait_eggs_number' },
+      {
+        label: "Durée de séjour au nid jusqu'à l'envol",
+        key: 'trait_nest_length_stay',
+      },
+      { label: 'Âge maximal Euring', key: 'trait_max_age_euring' },
+      { label: 'Âge maximal FR', key: 'trait_max_age_fr' },
+      { label: 'Habitat', key: 'trait_habitat' },
+      { label: 'Nourriture', key: 'trait_food' },
+      { label: 'Site de nidification', key: 'trait_nesting_site' },
+      { label: 'Comportement migrateur', key: 'trait_migratory_behaviour' },
+    ],
+    furtherInfoList: [
+      { label: 'Répartition et déplacements', key: 'distribution' },
+      { label: 'Habitats', key: 'habitat' },
+      { label: 'Alimentation', key: 'feeding' },
+      { label: 'Reproduction', key: 'breeding' },
+    ],
     chartsDataAlreadyDownloaded: [],
     dataPhenologyAllPeriod: null,
     dataPhenologyMigration: {},
@@ -301,9 +471,7 @@ export default {
   },
   computed: {
     cdnom() {
-      const cdNom = this.$route.params.cdnom
-      this.$store.commit('species/setCdNom', cdNom)
-      return cdNom
+      return this.$route.params.cdnom
     },
     // Permet de mettre à jour selectedTab seulement après le $router.push
     selectedTabModel: {
@@ -326,6 +494,9 @@ export default {
         }
         if (this.species.redLists || this.species.protectionStatus) {
           speciesTabSubjects.push('status')
+        }
+        if (this.filteredTraits || this.filteredFurtherInfo) {
+          speciesTabSubjects.push('traits')
         }
         tabs[0].subjects = this.tabs[0].subjects.filter((subject) => {
           return speciesTabSubjects.includes(subject.slug)
@@ -396,6 +567,28 @@ export default {
         return []
       }
     },
+    filteredTraits() {
+      if (this.species.attributes.odf_common_name_fr) {
+        // Si les données sont arrivées
+        const filteredTraits = this.traitsList.filter((trait) => {
+          return this.species.attributes[trait.key]
+        })
+        return filteredTraits.length > 0 ? filteredTraits : null
+      } else {
+        return null
+      }
+    },
+    filteredFurtherInfo() {
+      if (this.species.attributes.odf_common_name_fr) {
+        // Si les données sont arrivées
+        const filteredFurtherInfo = this.furtherInfoList.filter((info) => {
+          return this.species.attributes[info.key]
+        })
+        return filteredFurtherInfo.length > 0 ? filteredFurtherInfo : null
+      } else {
+        return null
+      }
+    },
   },
   watch: {
     $route(newVal) {
@@ -412,29 +605,17 @@ export default {
     },
     selectedSeason: {
       handler(newVal, oldVal) {
-        this.$store.commit(
-          'species/setPhenologyPeriod',
-          this.selectedSeason.value
-        )
-        // console.debug('check', newVal.value !== oldVal.value)
-        // if (newVal.value !== oldVal.value) {
-        //   this.loadChartsData()
-        // }
+        console.debug('check', newVal.value !== oldVal.value)
+        if (newVal.value !== oldVal.value) {
+          this.loadChartsData()
+        }
       },
       deep: true,
     },
     selectedTerritory: {
       handler(newVal, oldVal) {
         if (newVal.area_code !== oldVal.area_code) {
-          // this.getIdArea().then(() => this.loadChartsData())
-        }
-      },
-      deep: true,
-    },
-    selectedTab: {
-      handler(newVal, oldVal) {
-        if (newVal.value !== oldVal.value) {
-          this.$store.commit('species/setSelectedTab', newVal.value)
+          this.getIdArea().then(() => this.loadChartsData())
         }
       },
       deep: true,
@@ -452,7 +633,7 @@ export default {
     }
   },
   mounted() {
-    // this.loadChartsData()
+    this.loadChartsData()
     this.loadHistoricAtlasList()
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
@@ -596,7 +777,6 @@ export default {
         `/api/v1/lareas/ATLAS_TERRITORY/${this.selectedTerritory.area_code}?geom=false&bbox=false`
       )
       this.id_area = resp.id_area
-      this.$store.commit('species/setIdArea', this.id_area)
       this.selectedTerritory.id_area = this.id_area
       console.debug('GET ID AREA', this.selectedTerritory.id_area)
     },
@@ -646,7 +826,6 @@ export default {
       this.selectedTab = this.filteredTabs.filter((item) => {
         return item.hash === this.$route.hash
       })[0]
-      console.log('SELECTED TAB', this.selectedTab)
       this.defineSelectedSubject()
       setTimeout(() => {
         // Le timeout permet d'être assuré que les contenus sont bien integrés à la page
@@ -658,13 +837,9 @@ export default {
         ['species', 'charts'].includes(this.selectedTab.value) &&
         this.subjectsList.length
       ) {
-        this.$store.commit('species/setSelectedSubject', this.subjectsList[0])
+        this.selectedSubject = this.subjectsList[0]
       } else {
-        this.$store.commit(
-          'species/setSelectedSubject',
-          this.subjectsList[0],
-          this.tabs[2].subjects.atlas[0]
-        )
+        this.selectedSubject = this.tabs[2].subjects.atlas[0]
       }
     },
     defineDomCurrentScrollingItems() {
@@ -692,6 +867,9 @@ export default {
       if (this.selectedTab.value === 'maps') {
         this.selectedSubject = item
       }
+    },
+    updateAtlasStatus() {
+      this.atlasIsOpen = !this.atlasIsOpen
     },
     updateSelectedSeason(season) {
       this.selectedSeason = season
@@ -835,6 +1013,18 @@ nav.NavDrawer {
   padding: 24px 40px;
   display: flex;
   flex-direction: column;
+}
+
+.SeeMoreWrapper {
+  margin: 0 0 18px 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.SeeMoreChevron {
+  width: 11px;
 }
 
 .SpeciesCardTab {

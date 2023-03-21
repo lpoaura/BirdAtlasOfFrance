@@ -11,7 +11,6 @@ from app.utils.db import Base
 
 logger = logging.getLogger(__name__)
 
-
 class MvTerritoryAltitudeRanges(Base):
     """Territory altitude ranges"""
 
