@@ -2,31 +2,30 @@
   <header v-if="species">
     <div class="Heading">
       <v-skeleton-loader
-        v-if="!species.medias.Photo_principale"
+        v-if="!species.medias.Photo_principale && !species.medias.Photos"
+        class="SpeciesPicture"
         type="avatar"
       ></v-skeleton-loader>
       <div
-        v-if="species.medias.Photo_principale"
+        v-if="species.medias.Photo_principale || species.medias.Photos"
         class="SpeciesPicture"
         :style="{
           background: species.medias.Photo_principale
             ? `url('${species.medias.Photo_principale.url}') center / cover`
+            : species.medias.Photos[0]
+            ? `url('${species.medias.Photos[0].url}') center / cover`
             : 'darkgrey',
         }"
       ></div>
       <div class="Title">
         <v-skeleton-loader
-          v-if="!species.attributes.odf_common_name_fr"
-          type="text"
-        ></v-skeleton-loader>
-        <h3 v-else class="fw-600">
+            v-if="!species.attributes.odf_common_name_fr"
+            type="text"
+            >&nbsp;</v-skeleton-loader>
+        <h3 class="fw-600">
           {{ species.attributes.odf_common_name_fr }}
         </h3>
-        <v-skeleton-loader
-          v-if="!species.attributes.odf_sci_name"
-          type="text"
-        ></v-skeleton-loader>
-        <h5 v-else>
+        <h5 v-if="species.attributes.odf_sci_name">
           <i>{{ species.attributes.odf_sci_name }}</i> &nbsp;|&nbsp;
           {{ species.attributes.odf_common_name_en }}
           <font class="not-on-mobile">
@@ -91,31 +90,24 @@ export default {
       return this.$store.state.species.selectedTab
     },
     // Permet de mettre à jour selectedTab seulement après le $router.push
-    selectedTabModel: {
-      get() {
-        return this.selectedTab
-      },
-      set(value) {
-        this.$router.push(`${value.hash}`)
-      },
-    },
+    // selectedTabModel: {
+    //   get() {
+    //     return this.selectedTab
+    //   },
+    //   set(value) {
+    //     this.$router.push(`${value.hash}`)
+    //   },
+    // },
   },
   watch: {
     $route(newVal) {
-      console.log(
-        '$route',
-        newVal,
-        this.tabs.find((i) => {
-          return (i.hash = newVal.hash)
-        })
-      )
-      /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
-      this.$store.commit(
-        'species/setSelectedTab',
-        this.tabs.find((i) => {
-          return (i.hash = newVal.hash)
-        })
-      )
+      // /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
+      // this.$store.commit(
+      //   'species/setSelectedTab',
+      //   this.tabs.find((i) => {
+      //     return (i.hash = newVal.hash)
+      //   })
+      // )
       this.$parent.$refs.scrollingContainer.scrollTop = 0
     },
   },
@@ -124,7 +116,7 @@ export default {
       'species/setSelectedTab',
       this.$route.hash
         ? this.tabs.find((i) => {
-            return (i.hash = this.$route.hash)
+            return i.hash === this.$route.hash
           })
         : this.tabs[0]
     )

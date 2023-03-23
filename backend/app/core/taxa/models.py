@@ -4,12 +4,13 @@
 import logging
 
 from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String
-from sqlalchemy.dialects.postgresql import ARRAY, INT4RANGE
+from sqlalchemy.dialects.postgresql import ARRAY, INT4RANGE, JSON
 
 from app.core.ref_geo.models import LAreas
 from app.utils.db import Base
 
 logger = logging.getLogger(__name__)
+
 
 class MvTerritoryAltitudeRanges(Base):
     """Territory altitude ranges"""
@@ -106,3 +107,15 @@ class MvSurveyMapData(Base):
     cd_nom = Column(Integer)
     phenology_period = Column(String)
     data = Column(ARRAY(String, dimensions=2))
+
+
+class MvSurveyChartData(Base):
+    __tablename__ = "mv_survey_chart_data"
+    __table_args__ = {"schema": "atlas"}
+    id = Column(Integer, primary_key=True)
+    id_area_atlas_territory = Column(ForeignKey(LAreas.id_area), nullable=False)
+    year = Column(Integer)
+    cd_nom = Column(Integer)
+    phenology_period = Column(String)
+    unit = Column(String)
+    data = Column(JSON)

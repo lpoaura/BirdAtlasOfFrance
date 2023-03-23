@@ -1,6 +1,21 @@
 <template>
   <nav class="NavDrawer">
     <menu
+      v-if="
+        (selectedTab.value !== 'maps' && subjectsList.length === 0) ||
+        (selectedTab.value === 'maps' && subjectsMapAtlasList.length === 0)
+      "
+    >
+      <div
+        v-for="item in [...Array(3).keys()]"
+        :key="item"
+        :class="item === 0 ? 'selected' : ''"
+        class="TabItem vertical"
+      >
+        <v-skeleton-loader type="text"></v-skeleton-loader>
+      </div>
+    </menu>
+    <menu
       v-if="['monography', 'charts'].includes(selectedTab.value)"
       class="TabMenu vertical no-bottom-margin"
     >
@@ -79,7 +94,14 @@ export default {
     subjectsList: {
       handler(newVal) {
         if (newVal.length > 0 && this.selectedTab.value !== 'maps') {
-          console.log('newval', newVal)
+          this.$store.commit('species/setSelectedSubject', newVal[0])
+        }
+      },
+      deep: true,
+    },
+    subjectsMapAtlasList: {
+      handler(newVal) {
+        if (newVal.length > 0 && this.selectedTab.value === 'maps') {
           this.$store.commit('species/setSelectedSubject', newVal[0])
         }
       },

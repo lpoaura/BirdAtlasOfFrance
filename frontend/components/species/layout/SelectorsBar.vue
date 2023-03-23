@@ -3,7 +3,7 @@
     class="MapSelectors"
     :class="selectedTab.value === 'maps' ? 'map' : ''"
   >
-    <div v-show="selectedTab.value === 'maps'" class="MapTitle">
+    <div v-if="selectedSubject && selectedTab.value === 'maps'" class="MapTitle">
       <h4 class="black02 fw-bold">
         {{ selectedSubject.name
         }}<span v-if="selectedSubject.slug != 'extra-map'">
@@ -11,7 +11,7 @@
         >
       </h4>
       <h5
-        v-show="
+        v-if="selectedSubject &&
           selectedTab.value === 'maps' &&
           selectedSubject?.label !== selectedSubject.name
         "

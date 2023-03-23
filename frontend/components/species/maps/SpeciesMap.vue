@@ -98,13 +98,12 @@ export default {
     },
     speciesDistributionGeojsonStyle() {
       return (feature, layer) => {
-        // console.debug('CASE this.selectedSeason', this.selectedSeason)
         if (this.selectedSeason.speciesDistributionColors) {
           if (
             !this.selectedSubject.slug.startsWith('compare') &&
             this.selectedSeason.value === 'breeding'
           ) {
-            console.debug('CASE  breeding')
+            console.debug('CASE breeding')
             return {
               weight: 1.4,
               color:
@@ -125,9 +124,7 @@ export default {
             !this.selectedSubject.slug.startsWith('compare') &&
             !this.selectedSeason.value === 'breeding'
           ) {
-            console.debug('CASE  not breeding')
-            console.debug('HOP', this.selectedSeason)
-
+            console.debug('CASE not breeding not diff ODFvsAOFM')
             return {
               weight: 1.4,
               color: this.selectedSeason.speciesDistributionColors[0],
@@ -135,7 +132,7 @@ export default {
               fillOpacity: 0.7,
             }
           } else if (this.selectedSubject.slug.startsWith('compare')) {
-            console.debug('CASE  compare')
+            console.debug('CASE compare ODFvsAOFM')
             return {
               weight: 0,
               color: 'rgba(0,0,0,0)',
@@ -149,7 +146,7 @@ export default {
             }
           }
         } else {
-          console.debug('CASE  default_case')
+          console.debug('CASE default_case')
           return {
             weight: 1.4,
             color: this.defaultColor,
@@ -162,19 +159,16 @@ export default {
   },
   watch: {
     envelope() {
-      console.log('envelope', this.envelope)
       this.getSpecieData()
     },
     selectedTerritory(newVal) {
       if (newVal.area_code) {
-        console.log('SELECTED TERRITORY WATCH')
         this.isProgramaticZoom = true
         this.setBounds()
       }
     },
     selectedSeason: {
       handler(newVal, oldVal) {
-        console.debug('this.selectedSeason', this.selectedSeason)
         if (newVal.value !== oldVal.value) {
           this.getSpecieData()
         }
@@ -183,7 +177,6 @@ export default {
     },
     selectedSubject: {
       handler(newVal, oldVal) {
-        console.log('WATCH SELEC SUBJ', newVal)
         if (newVal.slug !== oldVal.slug) {
           this.getSpecieData()
         }
@@ -191,30 +184,6 @@ export default {
       deep: true,
     },
   },
-  // mounted() {
-  //   // this.$nextTick(() => {
-  //   //   const self = this
-  //   //   console.log('self', self.$refs) // Shows the mapRef object reference
-  //   //   console.log(self.$refs.mapRef) // returns undefined ???
-  //   //   this.map = self.$refs.atlasMap.mapObject
-  //   //   this.apiRequestController = this.$axios.CancelToken.source()
-  //   //   this.getTerritory().then(() => this.setBounds())
-  //   //   this.getSpecieData()
-  //   //   console.debug('SELECTED SUBJECT', this.selectedSubject)
-  //   //   console.log(self.$refs) // Shows the mapRef object reference
-  //   //   console.log(self.$refs.mapRef) // returns undefined ???
-  //   // })
-  //   // console.log('REFS', this.$refs)
-  //   // this.$nextTick(() => {
-  //   //   const self = this
-  //   //   console.log('REFS2', self.$refs.atlasMap)
-  //   //   this.map = self.$refs.atlasMap.mapObject
-  //   //   this.apiRequestController = this.$axios.CancelToken.source()
-  //   //   this.getTerritory().then(() => this.setBounds())
-  //   //   this.getSpecieData()
-  //   //   console.debug('SELECTED SUBJECT', this.selectedSubject)
-  //   // })
-  // },
   methods: {
     initMap() {
       this.map = this.$refs.atlasMap.mapObject
@@ -225,15 +194,12 @@ export default {
       })
       this.getSpecieData()
       this.initiateEnvelope()
-      console.debug('SELECTED SUBJECT', this.selectedSubject)
     },
     setBounds() {
-      console.log('setBounds',Object.keys(this.territoriesEnvelopes).includes('features'))
       if (Object.keys(this.territoriesEnvelopes).includes('features')) {
         const geojson = this.territoriesEnvelopes.features.find((item) => {
           return item.properties.area_code === this.selectedTerritory.area_code
         })
-        console.log('this.territoriesEnvelopes', geojson)
         const territory = this.$L.geoJSON(geojson)
         this.map.invalidateSize()
         this.map.fitBounds(territory.getBounds())
@@ -255,13 +221,11 @@ export default {
       return envelope
     },
     initiateEnvelope() {
-      // console.debug('[initiateEnvelope]')
       const initBounds = this.map.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
     },
     updateEnvelope(newBounds) {
-      // console.debug('[updateEnvelope]')
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
     },

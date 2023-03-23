@@ -1,5 +1,5 @@
 <template>
-  <div v-if="chartData" id="trend" class="ChartCard">
+  <div v-if="chartData.length > 1" id="trend" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">Tendance d'évolution</h4>
     <h5 class="black03 bottom-margin-40">
       Évolution de l’indice d’abondance en fonction des années.
@@ -23,24 +23,30 @@
 </template>
 
 <script>
-import { dataTrend } from '~/test/fakeData'
-
 const d3 = require('d3')
 
 export default {
   data: () => ({
-    chartData: dataTrend,
+    chartData: [],
   }),
   computed: {
     idArea() {
-      return this.$store.state.species.selectedTerritory.id_area
+      return this.$store.state.species.selectedTerritory?.id_area
     },
     cdNom() {
       return this.$store.state.species.cdNom
     },
+    phenologyPeriod() {
+      return this.$store.state.species.selectedSeason?.value
+    },
   },
   watch: {
     idArea: {
+      handler() {
+        this.generateChart()
+      },
+    },
+    phenologyPeriod: {
       handler() {
         this.generateChart()
       },
@@ -54,27 +60,41 @@ export default {
   methods: {
     generateChart() {
       this.getChartData().then(() => {
-        if (this.chartData) {
+        if (this.chartData.length > 1) {
           this.renderChart()
           this.$store.commit('species/pushSubjectsList', {
             label: "Tendance d'évolution",
             slug: 'trend',
-            position: 4
+            position: 4,
           })
         }
       })
     },
     async getChartData() {
-      // const url = `/api/v1/taxa/phenology/migration/${this.idArea}/${this.cdNom}`
-      // this.chartData = await this.$axios.$get(url).catch((error) => {
-      //   console.error(error)
-      // })
+      const requestParams = {
+        cd_nom: this.cdNom,
+        id_area_atlas_territory: this.idArea,
+        phenology_period: this.phenologyPeriod,
+      }
+      const url = `api/v1/taxa/survey/chart`
+      this.chartData = await this.$axios
+        .$get(url, {
+          params: requestParams,
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     },
     renderChart() {
+      const trend = this.chartData.map((i) => {
+        return { label: i.year, index: i.data.val }
+      })
+      const uncertainties = this.chartData.map((i) => {
+        return { label: i.year, min: i.data.val_min, max: i.data.val_max }
+      })
       // Get bar plot size
       const margin = { top: 10, right: 0, bottom: 24, left: 66 }
-      const minWidth =
-        this.chartData.trend.data.length * 30 + margin.left + margin.right
+      const minWidth = trend.length * 30 + margin.left + margin.right
       const linePlotWidth = Math.max(
         parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
           margin.left -
@@ -98,10 +118,10 @@ export default {
         .scaleLinear()
         .range([20, linePlotWidth - 20])
         .domain([
-          d3.min(this.chartData.trend.data, function (d) {
+          d3.min(trend, function (d) {
             return d.label
           }),
-          d3.max(this.chartData.trend.data, function (d) {
+          d3.max(trend, function (d) {
             return d.label
           }),
         ])
@@ -117,12 +137,7 @@ export default {
         .append('g')
         .attr('class', 'xAxis')
         .attr('transform', `translate(0, ${linePlotHeight})`)
-        .call(
-          d3
-            .axisBottom(xAxis)
-            .ticks(this.chartData.trend.data.length)
-            .tickFormat(formatter)
-        )
+        .call(d3.axisBottom(xAxis).ticks(trend.length).tickFormat(formatter))
         .call((g) =>
           g
             .selectAll('text')
@@ -137,10 +152,10 @@ export default {
         .scaleLinear()
         .range([linePlotHeight - 10, 0])
         .domain([
-          d3.min(this.chartData.uncertainties.data, function (d) {
+          d3.min(uncertainties, function (d) {
             return d.min
           }),
-          d3.max(this.chartData.uncertainties.data, function (d) {
+          d3.max(uncertainties, function (d) {
             return d.max
           }),
         ])
@@ -174,16 +189,16 @@ export default {
           'style',
           "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; line-height: 13px; color: #000;"
         )
-        .text(this.chartData.trend.label)
+        .text("Indice d'abondance")
       // Delete axis lines
       linePlotSvg.selectAll('path').style('opacity', 0)
       // Lines and points
       linePlotSvg
         .append('path')
         .attr('class', 'line')
-        .datum(this.chartData.trend.data)
+        .datum(trend)
         .attr('fill', 'none')
-        .attr('stroke', this.chartData.trend.color)
+        .attr('stroke', '#435EF2')
         .attr('stroke-width', 2)
         .attr(
           'd',
@@ -200,7 +215,7 @@ export default {
         .append('g')
         .attr('class', 'dots')
         .selectAll('dot')
-        .data(this.chartData.trend.data)
+        .data(trend)
         .enter()
         .append('circle')
         .attr('cx', function (d) {
@@ -210,13 +225,13 @@ export default {
           return yAxis(d.index)
         })
         .attr('r', 4)
-        .attr('fill', this.chartData.trend.color)
+        .attr('fill', '#435EF2')
       // Area
       linePlotSvg
         .append('path')
         .attr('class', 'area')
-        .datum(this.chartData.uncertainties.data)
-        .attr('fill', this.chartData.uncertainties.color)
+        .datum(uncertainties)
+        .attr('fill', 'rgba(67, 94, 242, 0.1)')
         .attr('stroke-width', 0)
         .attr(
           'd',

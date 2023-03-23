@@ -93,3 +93,15 @@ class SurveyMapDataFeature(Feature):
 
 class SurveyMapDataFeaturesCollection(FeatureCollection):
     features: List[SurveyMapDataFeature]
+
+
+class SurveyChartDataDetailProperties(BaseModel):
+    val: float
+    val_min: float
+    val_max: float
+
+
+class SurveyChartDataItem(BaseModel):
+    year: int
+    unit: str
+    data: SurveyChartDataDetailProperties
