@@ -40,7 +40,7 @@
               >
                 <path
                   d="M0.435809 4.38514C0.773309 2.36015 2.36015 0.773309 4.38514 0.435809C6.12541 0.145766 7.88666 0 9.65092 0H12.3491C14.1133 0 15.8746 0.145766 17.6149 0.435809C19.6399 0.773309 21.2267 2.36015 21.5642 4.38514C21.8542 6.12541 22 7.88666 22 9.65092V12.3491C22 14.1133 21.8542 15.8746 21.5642 17.6149C21.2267 19.6399 19.6399 21.2267 17.6149 21.5642C15.8746 21.8542 14.1133 22 12.3491 22H9.65092C7.88666 22 6.12541 21.8542 4.38514 21.5642C2.36015 21.2267 0.773309 19.6399 0.435809 17.6149C0.145766 15.8746 0 14.1133 0 12.3491V9.65092C0 7.88666 0.145766 6.12541 0.435809 4.38514Z"
-                  :fill="colors[phenologyPeriod]"
+                  :fill="colors[selectedSeason.value]"
                 /></svg></span
             >Existence de données de suivis
           </p>
@@ -83,13 +83,13 @@ export default {
   }),
   computed: {
     idArea() {
-      return this.$store.state.species.idArea
+      return this.$store.state.species.selectedTerritory.id_area
     },
     cdNom() {
       return this.$store.state.species.cdNom
     },
-    phenologyPeriod() {
-      return this.$store.state.species.phenologyPeriod
+    selectedSeason() {
+      return this.$store.state.species.selectedSeason
     },
   },
   watch: {
@@ -98,7 +98,7 @@ export default {
         this.generateMap()
       },
     },
-    phenologyPeriod: {
+    selectedSeason: {
       handler() {
         this.generateMap()
       },
@@ -128,7 +128,7 @@ export default {
       // Url Source selection
       const requestParams = {
         cd_nom: this.cdNom,
-        phenology_period: this.phenologyPeriod,
+        phenology_period: this.selectedSeason.value,
         id_area_atlas_territory: this.idArea,
       }
       const axios = this.$axios
@@ -146,7 +146,7 @@ export default {
     },
     renderMap() {
       d3.select('#map').selectAll('svg').remove()
-      const color = this.colors[this.phenologyPeriod]
+      const color = this.colors[this.selectedSeason.value]
       const path = d3.geoPath()
       const projection = d3
         .geoConicConformal()

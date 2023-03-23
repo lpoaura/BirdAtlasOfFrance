@@ -1,7 +1,12 @@
 <template>
   <header v-if="species">
     <div class="Heading">
+      <v-skeleton-loader
+        v-if="!species.medias.Photo_principale"
+        type="avatar"
+      ></v-skeleton-loader>
       <div
+        v-if="species.medias.Photo_principale"
         class="SpeciesPicture"
         :style="{
           background: species.medias.Photo_principale
@@ -10,10 +15,18 @@
         }"
       ></div>
       <div class="Title">
-        <h3 class="fw-600">
+        <v-skeleton-loader
+          v-if="!species.attributes.odf_common_name_fr"
+          type="text"
+        ></v-skeleton-loader>
+        <h3 v-else class="fw-600">
           {{ species.attributes.odf_common_name_fr }}
         </h3>
-        <h5>
+        <v-skeleton-loader
+          v-if="!species.attributes.odf_sci_name"
+          type="text"
+        ></v-skeleton-loader>
+        <h5 v-else>
           <i>{{ species.attributes.odf_sci_name }}</i> &nbsp;|&nbsp;
           {{ species.attributes.odf_common_name_en }}
           <font class="not-on-mobile">
@@ -34,11 +47,11 @@
           {{ item.label }}
         </div>
       </menu>
-      <dropdown-list
+      <!-- <dropdown-list
         v-model="selectedTabModel"
         :z-index="3"
         :items-list="tabs"
-      />
+      /> -->
     </div>
   </header>
 </template>
@@ -50,16 +63,33 @@ export default {
       type: Object,
       required: true,
     },
-    selectedTab: {
-      type: Object,
-      required: true,
-    },
-    tabs: {
-      type: Array,
-      required: true,
-    },
   },
+  data: () => {
+    return {
+      tabs: [
+        {
+          value: 'monography',
+          hash: '#monography',
+          label: 'Fiche espèce',
+        },
+        {
+          value: 'charts',
+          hash: '#charts',
+          label: 'Diagrammes',
+        },
+        {
+          value: 'maps',
+          hash: '#maps',
+          label: 'Cartes',
+        },
+      ],
+    }
+  },
+
   computed: {
+    selectedTab() {
+      return this.$store.state.species.selectedTab
+    },
     // Permet de mettre à jour selectedTab seulement après le $router.push
     selectedTabModel: {
       get() {
@@ -70,18 +100,45 @@ export default {
       },
     },
   },
+  watch: {
+    $route(newVal) {
+      console.log(
+        '$route',
+        newVal,
+        this.tabs.find((i) => {
+          return (i.hash = newVal.hash)
+        })
+      )
+      /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
+      this.$store.commit(
+        'species/setSelectedTab',
+        this.tabs.find((i) => {
+          return (i.hash = newVal.hash)
+        })
+      )
+      this.$parent.$refs.scrollingContainer.scrollTop = 0
+    },
+  },
+  mounted() {
+    this.$store.commit(
+      'species/setSelectedTab',
+      this.$route.hash
+        ? this.tabs.find((i) => {
+            return (i.hash = this.$route.hash)
+          })
+        : this.tabs[0]
+    )
+  },
   methods: {
     updateSelectedTab(item) {
+      this.$store.commit('species/setSelectedTab', item)
       this.$router.push(`${item.hash}`)
     },
-
-  }
+  },
 }
 </script>
 
-
 <style scoped>
-
 header {
   background: #fcfcfc;
   padding: 16px 40px;
@@ -127,7 +184,6 @@ header {
   header {
     padding: 16px 5%;
   }
-
 }
 
 @media screen and (max-width: 430px) {

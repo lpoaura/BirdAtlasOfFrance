@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="['charts', 'maps'].includes(selectedTab.value)"
     class="MapSelectors"
     :class="selectedTab.value === 'maps' ? 'map' : ''"
   >
@@ -36,9 +35,7 @@
         <commons-selectors-seasons
           :select-is-open="seasonIsOpen"
           :selected-season="selectedSeason"
-          :filtered-seasons="
-            selectedTab.value === 'maps' ? selectedSubject.seasons : null
-          "
+          :filtered-seasons="selectedTab.value === 'maps' ? selectedSubject.seasons : null"
           @selectedSeason="updateSelectedSeason"
         />
       </div>
@@ -71,30 +68,115 @@
 
 <script>
 export default {
-  props: {
-    selectedTab: {
-      type: Object,
-      required: true,
+  data: () => {
+    return {
+      territoryIsOpen: false,
+      seasonIsOpen: false,
+      selectedTerritory: {
+        area_code: 'FRMET',
+        area_name: 'France métropolitaine',
+        icon: '/prospecting/France-metropolitaine.svg',
+        isActive: true,
+      },
+      selectedSeason: {
+        label: 'Toutes saisons',
+        value: 'all_period',
+      },
+    }
+  },
+  computed: {
+    selectedSubject() {
+      return this.$store.state.species.selectedSubject
     },
-    selectedSubject: {
-      type: Object,
-      required: true,
+    selectedTab() {
+      return this.$store.state.species.selectedTab
+    },
+  },
+  watch: {
+    selectedSeason: {
+      handler(newVal, oldVal) {
+        this.$store.commit('species/setSelectedSeason', this.selectedSeason)
+      },
+      deep: true,
     },
     selectedTerritory: {
-      type: Object,
-      required: true,
-    },
-    selectedSeason: {
-      type: Object,
-      required: true,
-    },
-    territoryIsOpen: {
-      type: Boolean,
-      required: true,
+      handler(newVal, oldVal) {
+        this.getIdArea()
+      },
+      deep: true,
     },
   },
   mounted() {
-    console.debug('', this.selectedSeason)
+    this.getIdArea()
+    this.$store.commit('species/setSelectedSeason', this.selectedSeason)
+  },
+  methods: {
+    async getIdArea() {
+      const resp = await this.$axios.$get(
+        `/api/v1/lareas/ATLAS_TERRITORY/${this.selectedTerritory.area_code}?geom=false&bbox=false`
+      )
+      this.selectedTerritory.id_area = resp.id_area
+      this.$store.commit('species/setSelectedTerritory', this.selectedTerritory)
+    },
+    openOrCloseTerritoriesBox() {
+      this.territoryIsOpen = !this.territoryIsOpen
+    },
+    closeTerritoriesBox() {
+      this.territoryIsOpen = false
+    },
+    updateSelectedTerritory(territory) {
+      this.selectedTerritory = territory
+      this.territoryIsOpen = false
+      // UPDATE NEEDED : mettre à jour les données des graphes lorsqu'on sélectionne un "nouveau territoire"
+      // if (!this.chartsDataAlreadyDownloaded.includes(territory.area_code)) {
+      //   console.debug(
+      //     'Il faut télécharger les données de ce nouveau territoire !'
+      //   )
+      // }
+      // END UPDATE NEEDED
+    },
+    openOrCloseSeasonsBox() {
+      this.seasonIsOpen = !this.seasonIsOpen
+    },
+    updateSelectedSeason(season) {
+      this.selectedSeason = season
+      this.seasonIsOpen = false
+      if (this.selectedTab.value !== 'maps') {
+        // this.defineSelectedSubject()
+        // this.defineDomCurrentScrollingItems()
+      }
+    },
+    closeSeasonsBox() {
+      this.seasonIsOpen = false
+    },
   },
 }
 </script>
+
+<style>
+.MapSelectors {
+  padding: 24px 40px;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 40px;
+  row-gap: 16px;
+  flex-wrap: wrap;
+}
+
+.MapSelectors.map {
+  border-bottom: 1px solid rgba(57, 118, 90, 0.1);
+}
+
+.MapTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.MapSelectorsWrapper {
+  flex: 1 1 414px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+</style>

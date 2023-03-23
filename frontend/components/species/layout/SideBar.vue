@@ -1,7 +1,7 @@
 <template>
   <nav class="NavDrawer">
     <menu
-      v-if="['monography', 'charts'].includes(selectedTab)"
+      v-if="['monography', 'charts'].includes(selectedTab.value)"
       class="TabMenu vertical no-bottom-margin"
     >
       <div
@@ -14,7 +14,7 @@
         {{ item.label }}
       </div>
     </menu>
-    <menu v-if="selectedTab === 'maps'">
+    <menu v-if="selectedTab.value === 'maps'">
       <div class="SeeMoreWrapper" @click="atlasIsOpen = !atlasIsOpen">
         <span class="black02 fw-600 bottom-margin-">Atlas</span>
         <img
@@ -49,23 +49,10 @@
 
 <script>
 export default {
-  props: {
-    // subjectsList: {
-    //   type: Array,
-    //   required: true,
-    // },
-    selectedSubject: {
-      type: Object,
-      required: true,
-    },
-    tabs: {
-      type: Array,
-      required: true,
-    },
-  },
   data: () => {
     return {
-      atlasIsOpen : true,
+      atlasIsOpen: true,
+      scrollDuration: 600,
     }
   },
   computed: {
@@ -75,42 +62,41 @@ export default {
         return a.position - b.position
       })
     },
+    selectedSubject() {
+      return this.$store.state.species.selectedSubject
+    },
     subjectsMapAtlasList() {
       return this.$store.state.species.subjectsMapAtlasList
     },
     subjectsMapOthersList() {
       return this.$store.state.species.subjectsMapOthersList
     },
-    // Permet de mettre à jour selectedTab seulement après le $router.push
-    // selectedTabModel: {
-    //   get() {
-    //     return this.selectedTab
-    //   },
-    //   set(value) {
-    //     this.$router.push(`${value.hash}`)
-    //   },
-    // },
     selectedTab() {
       return this.$store.state.species.selectedTab
     },
   },
-  mounted() {
-    console.debug('SELECTED TAB', this.selectedTab)
-    console.debug('SELECTED TAB is maps', this.selectedTab === 'maps')
-    console.debug('atlasIsOpen', this.atlasIsOpen)
+  watch: {
+    subjectsList: {
+      handler(newVal) {
+        if (newVal.length > 0 && this.selectedTab.value !== 'maps') {
+          console.log('newval', newVal)
+          this.$store.commit('species/setSelectedSubject', newVal[0])
+        }
+      },
+      deep: true,
+    },
   },
+  mounted() {},
   methods: {
-    // updateAtlasStatus() {
-    //   console.debug('this.atlasIsOpen', this.atlasIsOpen)
-    //   this.$store.commit('species/revertAtlasIsOpen', this.atlasIsOpen)
-    // },
     updateSelectedSubject(item) {
-      console.log(item)
-      this.$store.commit('species/setSelectedSubject', item)
-      if (document.getElementById(item.slug) && this.selectedSubject !== item) {
+      // if (document.getElementById(item.slug) && this.selectedSubject !== item) {
+      if (
+        item &&
+        this.selectedTab.value !== 'maps' &&
+        this.selectedSubject.slug !== item.slug
+      ) {
         this.scrollListener = false
         // this.selectedSubject = item
-        this.$store.commit('species/setSelectedSubject', item)
         this.$animateScrollTo(
           this.$parent.$refs.scrollingContainer,
           document.getElementById(item.slug).offsetTop,
@@ -121,6 +107,7 @@ export default {
           this.scrollListener = true
         }, this.scrollDuration + 10)
       }
+      this.$store.commit('species/setSelectedSubject', item)
       // if (this.selectedTab.value === 'maps') {
       //   this.selectedSubject = item
       // }

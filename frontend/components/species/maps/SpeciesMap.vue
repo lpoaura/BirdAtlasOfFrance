@@ -40,22 +40,7 @@
 
 <script>
 export default {
-  props: {
-    selectedTerritory: {
-      // Territoire cliqué (FrMet ou DOM-TOM)
-      type: Object,
-      required: true,
-    },
-    selectedSeason: {
-      // Territoire cliqué (FrMet ou DOM-TOM)
-      type: Object,
-      required: true,
-    },
-    cdnom: {
-      type: String,
-      required: true,
-    },
-  },
+  props: {},
   data: () => ({
     // CONFIGURATION DE LA CARTE
     zoom: 6,
@@ -68,7 +53,7 @@ export default {
     envelope: null,
     // CONFIGURATION DES GEOJSON
     // Emprises des territoires
-    territoriesEnvelopes: null,
+    territoriesEnvelopes: {},
     speciesDistributionGeojson: null,
     apiRequestController: null,
     speciesDistributionIsLoading: false,
@@ -78,8 +63,17 @@ export default {
     // selectedTab() {
     //   return this.$store.state.species.selectedTab
     // },
+    cdNom() {
+      return this.$store.state.species.cdNom
+    },
     selectedSubject() {
       return this.$store.state.species.selectedSubject
+    },
+    selectedTerritory() {
+      return this.$store.state.species.selectedTerritory
+    },
+    selectedSeason() {
+      return this.$store.state.species.selectedSeason
     },
     speciesDistributionGeojsonOptions() {
       return {
@@ -173,6 +167,7 @@ export default {
     },
     selectedTerritory(newVal) {
       if (newVal.area_code) {
+        console.log('SELECTED TERRITORY WATCH')
         this.isProgramaticZoom = true
         this.setBounds()
       }
@@ -233,17 +228,20 @@ export default {
       console.debug('SELECTED SUBJECT', this.selectedSubject)
     },
     setBounds() {
-      const territory = this.$L.geoJSON(
-        this.territoriesEnvelopes.features.find((item) => {
+      console.log('setBounds',Object.keys(this.territoriesEnvelopes).includes('features'))
+      if (Object.keys(this.territoriesEnvelopes).includes('features')) {
+        const geojson = this.territoriesEnvelopes.features.find((item) => {
           return item.properties.area_code === this.selectedTerritory.area_code
         })
-      )
-      this.map.invalidateSize()
-      this.map.fitBounds(territory.getBounds())
-      this.map.setMaxBounds(territory.getBounds())
-      // this.$refs.atlasMap.mapObject.setMinZoom(
-      //   this.$refs.atlasMap.mapObject.getZoom() - 1
-      // )
+        console.log('this.territoriesEnvelopes', geojson)
+        const territory = this.$L.geoJSON(geojson)
+        this.map.invalidateSize()
+        this.map.fitBounds(territory.getBounds())
+        this.map.setMaxBounds(territory.getBounds())
+        // this.$refs.atlasMap.mapObject.setMinZoom(
+        //   this.$refs.atlasMap.mapObject.getZoom() - 1
+        // )
+      }
     },
     defineEnvelope(bounds) {
       const x = [bounds.getWest(), bounds.getEast()]
@@ -281,7 +279,7 @@ export default {
       this.speciesDistributionIsLoading = true
       // Url Source selection
       let requestParams = {
-        cd_nom: this.cdnom,
+        cd_nom: this.cdNom,
         phenology_period: this.selectedSeason.value,
         atlas_period: `new`,
         grid: true,

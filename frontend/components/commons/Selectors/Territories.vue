@@ -102,7 +102,7 @@ export default {
     // UPDATE NEEDED : récupérer la liste des territoires via l'API '/api/v1/lareas/type/ATLAS_TERRITORY?bbox=true&only_enable=true'
     // => Depuis la BDD, rajouter dans feature.properties les propriétés icon et isActive
     territoriesList: [
-      { 
+      {
         area_code: 'FRMET',
         area_name: 'France métropolitaine',
         icon: '/prospecting/France-metropolitaine.svg',

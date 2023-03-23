@@ -1,113 +1,19 @@
 <template>
   <v-container fluid>
-    <species-layout-nav-bar
-      :species="species"
-      :selected-tab="selectedTab"
-      :tabs="tabs"
-    />
+    <species-layout-nav-bar :species="species" />
     <section class="SpeciesCardSection">
-      <species-layout-side-bar
-        :subjects-list="subjectsList"
-        :selected-tab="selectedTab"
-        :selected-subject="selectedSubject"
-        :tabs="tabs"
-      />
+      <species-layout-side-bar />
       <div ref="scrollingContainer" class="SpeciesCardTab">
         <div class="SpeciesCardTabRelative">
-          <div
-            v-show="['charts', 'maps'].includes(selectedTab.value)"
-            class="MapSelectors"
-            :class="selectedTab.value === 'maps' ? 'map' : ''"
-          >
-            <div v-show="selectedTab.value === 'maps'" class="MapTitle">
-              <h4 class="black02 fw-bold">
-                {{ selectedSubject.name
-                }}<span v-if="selectedSubject.slug != 'extra-map'">
-                  - {{ selectedSeason.label }}</span
-                >
-              </h4>
-              <h5
-                v-show="
-                  selectedTab.value === 'maps' &&
-                  selectedSubject.label !== selectedSubject.name
-                "
-                class="black03"
-              >
-                {{ selectedSubject.label }}
-              </h5>
-            </div>
-            <div class="MapSelectorsWrapper">
-              <div
-                v-click-outside="closeSeasonsBox"
-                class="MapSelectorWrapper seasons"
-              >
-                <div
-                  class="MapSelectorSelectedOption"
-                  @click="openOrCloseSeasonsBox"
-                >
-                  <img class="MapSelectorIcon" src="/calendar.svg" />
-                  <h5 class="fw-600 right-margin-12">
-                    {{ selectedSeason.label }}
-                  </h5>
-                  <img
-                    class="MapSelectorChevron"
-                    :src="
-                      seasonIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'
-                    "
-                  />
-                </div>
-                <commons-selectors-seasons
-                  :select-is-open="seasonIsOpen"
-                  :selected-season="selectedSeason"
-                  :filtered-seasons="
-                    selectedTab.value === 'maps'
-                      ? selectedSubject.seasons
-                      : null
-                  "
-                  @selectedSeason="updateSelectedSeason"
-                />
-              </div>
-              <div
-                v-click-outside="closeTerritoriesBox"
-                class="MapSelectorWrapper territories"
-              >
-                <div
-                  class="MapSelectorSelectedOption"
-                  @click="openOrCloseTerritoriesBox"
-                >
-                  <img class="MapSelectorIcon" src="/location.svg" />
-                  <h5 class="fw-600 right-margin-12">
-                    {{ selectedTerritory.area_name }}
-                  </h5>
-                  <img
-                    class="MapSelectorChevron"
-                    :src="
-                      territoryIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'
-                    "
-                  />
-                </div>
-                <commons-selectors-territories
-                  :select-is-open="territoryIsOpen"
-                  :selected-territory="selectedTerritory"
-                  @selectedTerritory="updateSelectedTerritory"
-                />
-              </div>
-            </div>
-          </div>
+          <species-layout-selectors-bar
+            v-if="['charts', 'maps'].includes(selectedTab.value)"
+          />
           <species-monography-tab
-            v-if="selectedTab.value === 'species'"
-            :tab-status="selectedTab.value === 'species' ? '' : 'hidden'"
+            v-if="selectedTab.value === 'monography'"
             :species="species"
           />
           <species-charts-tab v-if="selectedTab.value === 'charts'" />
-          <maps-tab
-            v-if="selectedTab.value === 'maps'"
-            :tab-status="selectedTab.value === 'maps' ? '' : 'hidden'"
-            :selected-territory="selectedTerritory"
-            :selected-subject="selectedSubject"
-            :selected-season="selectedSeason"
-            :cdnom="cdnom"
-          />
+          <species-maps-tab v-if="selectedTab.value === 'maps'" />
         </div>
       </div>
     </section>
@@ -115,127 +21,19 @@
 </template>
 
 <script>
-import MapsTab from '~/components/species/MapsTab.vue'
 // UPDATE NEEDED : supprimer cet import
-import {
-  // dataAltitude,
-  dataTrend,
-  dataPopulationsBreeding,
-  dataPopulationsWintering,
-  dataPhenologyMigration,
-  // dataPopulationsFake,
-} from '~/test/fakeData'
+// import {
+//   // dataAltitude,
+//   dataTrend,
+//   dataPopulationsBreeding,
+//   dataPopulationsWintering,
+//   dataPhenologyMigration,
+//   // dataPopulationsFake,
+// } from '~/test/fakeData'
 // END UPDATE NEEDED
 
 export default {
-  components: {
-    'maps-tab': MapsTab,
-  },
   data: () => ({
-    tabs: [
-      {
-        value: 'species',
-        hash: '',
-        label: 'Fiche espèce',
-        subjects: [
-          { label: 'Description', slug: 'description' },
-          // { label: 'Taxonomie', slug: 'taxonomy' },
-          { label: 'Statuts', slug: 'status' },
-          { label: 'Caractéristiques', slug: 'traits' },
-          // { label: 'Téléchargements', slug: 'downloads' },
-          { label: 'Liens', slug: 'links' },
-        ],
-      },
-      {
-        value: 'charts',
-        hash: '#charts',
-        label: 'Diagrammes',
-        subjects: {
-          all_period: [
-            { label: 'Phénologie', slug: 'phenology-all-period' },
-            { label: 'Phénologie de migration', slug: 'phenology-migration' },
-            { label: 'Répartition altitudinale', slug: 'altitude-all-period' },
-          ],
-          breeding: [
-            { label: 'Phénologie', slug: 'phenology-breeding' },
-            { label: "Tendance d'évolution", slug: 'trend-breeding' },
-            {
-              label: 'Taille de populations',
-              slug: 'populations-sizes-breeding',
-            },
-            { label: 'Répartition altitudinale', slug: 'altitude-breeding' },
-          ],
-          wintering: [
-            { label: "Tendance d'évolution", slug: 'trend-wintering' },
-            {
-              label: 'Taille de populations',
-              slug: 'populations-sizes-wintering',
-            },
-            { label: 'Répartition altitudinale', slug: 'altitude-wintering' },
-          ],
-        },
-      },
-      {
-        value: 'maps',
-        hash: '#maps',
-        label: 'Cartes',
-        subjects: {
-          atlas: [
-            {
-              label: '2019 - 2024',
-              name: 'Oiseaux De France',
-              slug: 'odf',
-              seasons: ['all_period', 'breeding', 'wintering'],
-            },
-            //   {
-            //     label: '2009 - 2012',
-            //     name: 'Atlas des Oiseaux de France Métropolitaine',
-            //     slug: 'aofm',
-            //     seasons: ['breeding', 'wintering']
-            //   },
-            //   {
-            //     label: '1985 - 1989',
-            //     name: 'Nouvel Atlas des Oiseaux Nicheurs de France',
-            //     slug: 'naonf',
-            //     seasons: ['breeding']
-            //   },
-            //   {
-            //     label: '1977 - 1981',
-            //     name: 'Atlas des Oiseaux de France en Hiver',
-            //     slug: 'aofh',
-            //     seasons: ['wintering']
-            //   },
-            //   {
-            //     label: '1970 - 1975',
-            //     name: 'Atlas des Oiseaux Nicheurs de France',
-            //     slug: 'aonf',
-            //     seasons: ['breeding']
-            //   }
-          ],
-          others: [
-            {
-              label: 'Comparaison AOFM/ODF',
-              name: 'Comparaison AOFM/ODF',
-              slug: 'compare-aofm-odf',
-              seasons: ['breeding', 'wintering'],
-            },
-            // {
-            //   label: 'Densité',
-            //   name: 'Densité',
-            //   slug: 'density',
-            //   seasons: ['breeding', 'wintering']
-            // },
-            {
-              label: 'Carte additionnelle',
-              name: 'Carte additionnelle',
-              slug: 'extra-map',
-              seasons: ['breeding', 'wintering', 'all_period'],
-            },
-          ],
-        },
-      },
-    ],
-    selectedTab: { value: '', hash: '', label: '', subjects: [] },
     selectedSubject: { label: '', slug: '' },
     detectMobile: false,
     domCurrentScrollingItems: {},
@@ -300,101 +98,16 @@ export default {
     }
   },
   computed: {
-    cdnom() {
+    cdNom() {
       const cdNom = this.$route.params.cdnom
       this.$store.commit('species/setCdNom', cdNom)
       return cdNom
     },
-    // Permet de mettre à jour selectedTab seulement après le $router.push
-    selectedTabModel: {
-      get() {
-        return this.selectedTab
-      },
-      set(value) {
-        this.$router.push(`${value.hash}`)
-      },
-    },
-    filteredTabs() {
-      // Si les données sont arrivées
-      if (this.species.attributes.odf_common_name_fr) {
-        // Deep copy
-        const tabs = JSON.parse(JSON.stringify(this.tabs))
-        // SpeciesTab
-        const speciesTabSubjects = ['links']
-        if (this.species.attributes.description || this.species.medias.Photos) {
-          speciesTabSubjects.push('description')
-        }
-        if (this.species.redLists || this.species.protectionStatus) {
-          speciesTabSubjects.push('status')
-        }
-        tabs[0].subjects = this.tabs[0].subjects.filter((subject) => {
-          return speciesTabSubjects.includes(subject.slug)
-        })
-        // ChartsTabs
-        const chartsTabAllPeriodSubjects = []
-        const chartsTabBreedingSubjects = []
-        const chartsTabWinteringSubjects = []
-        console.debug('selectedTerritory', this.selectedTerritory)
-        if (this.dataPhenologyAllPeriod) {
-          chartsTabAllPeriodSubjects.push('phenology-all-period')
-        }
-        if (this.dataPhenologyMigration[this.selectedTerritory.area_code]) {
-          chartsTabAllPeriodSubjects.push('phenology-migration')
-        }
-        if (this.dataAltitudeAllPeriod[this.selectedTerritory.area_code]) {
-          chartsTabAllPeriodSubjects.push('altitude-all-period')
-        }
-        if (this.dataPhenologyBreeding) {
-          chartsTabBreedingSubjects.push('phenology-breeding')
-        }
-        if (this.dataTrendBreeding[this.selectedTerritory.area_code]) {
-          chartsTabBreedingSubjects.push('trend-breeding')
-        }
-        if (this.dataPopulationsBreeding[this.selectedTerritory.area_code]) {
-          chartsTabBreedingSubjects.push('populations-sizes-breeding')
-        }
-        if (this.dataAltitudeBreeding[this.selectedTerritory.area_code]) {
-          chartsTabBreedingSubjects.push('altitude-breeding')
-        }
-        if (this.dataTrendWintering[this.selectedTerritory.area_code]) {
-          chartsTabWinteringSubjects.push('trend-wintering')
-        }
-        if (this.dataPopulationsWintering[this.selectedTerritory.area_code]) {
-          chartsTabWinteringSubjects.push('populations-sizes-wintering')
-        }
-        if (this.dataAltitudeWintering[this.selectedTerritory.area_code]) {
-          chartsTabWinteringSubjects.push('altitude-wintering')
-        }
-        tabs[1].subjects.all_period = this.tabs[1].subjects.all_period.filter(
-          (subject) => {
-            return chartsTabAllPeriodSubjects.includes(subject.slug)
-          }
-        )
-        tabs[1].subjects.breeding = this.tabs[1].subjects.breeding.filter(
-          (subject) => {
-            return chartsTabBreedingSubjects.includes(subject.slug)
-          }
-        )
-        tabs[1].subjects.wintering = this.tabs[1].subjects.wintering.filter(
-          (subject) => {
-            return chartsTabWinteringSubjects.includes(subject.slug)
-          }
-        )
-        // End
-        return tabs
-      } else {
-        return this.tabs
-      }
+    selectedTab() {
+      return this.$store.state.species.selectedTab
     },
     subjectsList() {
-      if (['species', 'charts'].includes(this.selectedTab.value)) {
-        return (
-          this.selectedTab.subjects[this.selectedSeason.value] ??
-          this.selectedTab.subjects
-        )
-      } else {
-        return []
-      }
+      return this.$store.state.species.subjectsList
     },
   },
   watch: {
@@ -403,45 +116,24 @@ export default {
       this.defineSelectedTab()
       this.$refs.scrollingContainer.scrollTop = 0
     },
-    filteredTabs(newVal) {
-      // Change si le territoire sélectionné change
-      if (this.selectedTab.value !== 'maps') {
-        // Mettre à jour le menu de gauche
-        this.defineSelectedTab()
-      }
-    },
-    selectedSeason: {
-      handler(newVal, oldVal) {
-        this.$store.commit(
-          'species/setPhenologyPeriod',
-          this.selectedSeason.value
-        )
-        // console.debug('check', newVal.value !== oldVal.value)
-        // if (newVal.value !== oldVal.value) {
-        //   this.loadChartsData()
-        // }
-      },
-      deep: true,
-    },
-    selectedTerritory: {
-      handler(newVal, oldVal) {
-        if (newVal.area_code !== oldVal.area_code) {
-          // this.getIdArea().then(() => this.loadChartsData())
-        }
-      },
-      deep: true,
-    },
-    selectedTab: {
-      handler(newVal, oldVal) {
-        if (newVal.value !== oldVal.value) {
-          this.$store.commit('species/setSelectedTab', newVal.value)
-        }
-      },
-      deep: true,
-    },
+    // filteredTabs(newVal) {
+    //   // Change si le territoire sélectionné change
+    //   if (this.selectedTab.value !== 'maps') {
+    //     // Mettre à jour le menu de gauche
+    //     this.defineSelectedTab()
+    //   }
+    // },
+    // selectedTab: {
+    //   handler(newVal, oldVal) {
+    //     if (newVal.value !== oldVal.value) {
+    //       this.$store.commit('species/setSelectedTab', newVal.value)
+    //     }
+    //   },
+    //   deep: true,
+    // },
   },
   beforeMount() {
-    this.getIdArea()
+    // this.getIdArea()
     window.addEventListener('resize', this.listenerResize)
     if (this.$detectMobile()) {
       this.detectMobile = true
@@ -453,7 +145,7 @@ export default {
   },
   mounted() {
     // this.loadChartsData()
-    this.loadHistoricAtlasList()
+    // this.loadHistoricAtlasList()
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
     this.$refs.scrollingContainer.addEventListener(
@@ -462,7 +154,7 @@ export default {
     )
     // this.defineSelectedTab()
     this.$axios
-      .$get(`/taxhub/api/bibnoms/taxoninfo/${this.cdnom}`, {
+      .$get(`/taxhub/api/bibnoms/taxoninfo/${this.cdNom}`, {
         headers: {
           'Access-Control-Allow-Origin': 'localhost:3000',
           'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
@@ -472,7 +164,7 @@ export default {
       .then((data) => {
         if (data) {
           const species = {
-            cdnom: this.cdnom,
+            cdnom: this.cdNom,
             attributes: {},
             medias: { Photos: [] },
           }
@@ -514,7 +206,7 @@ export default {
           }
           this.$axios
             .$get(
-              `https://geonature.lpo-aura.org/taxhub/api/bdc_statuts/list/${this.cdnom}`
+              `https://geonature.lpo-aura.org/taxhub/api/bdc_statuts/list/${this.cdNom}`
             )
             .then((data) => {
               if (data) {
@@ -570,15 +262,15 @@ export default {
         }, 1000)
       })
     // UPDATE NEEDED : récupérer les données des graphes via axios + API (selon le territoire sélectionné)
-    this.dataPhenologyMigration[this.selectedTerritory.area_code] =
-      dataPhenologyMigration
-    this.dataTrendBreeding[this.selectedTerritory.area_code] = dataTrend
-    this.dataPopulationsBreeding[this.selectedTerritory.area_code] =
-      dataPopulationsBreeding
-    this.dataTrendWintering[this.selectedTerritory.area_code] = dataTrend
-    this.dataPopulationsWintering[this.selectedTerritory.area_code] =
-      dataPopulationsWintering
-    this.chartsDataAlreadyDownloaded.push(this.selectedTerritory.area_code)
+    // this.dataPhenologyMigration[this.selectedTerritory.area_code] =
+    //   dataPhenologyMigration
+    // this.dataTrendBreeding[this.selectedTerritory.area_code] = dataTrend
+    // this.dataPopulationsBreeding[this.selectedTerritory.area_code] =
+    //   dataPopulationsBreeding
+    // this.dataTrendWintering[this.selectedTerritory.area_code] = dataTrend
+    // this.dataPopulationsWintering[this.selectedTerritory.area_code] =
+    //   dataPopulationsWintering
+    // this.chartsDataAlreadyDownloaded.push(this.selectedTerritory.area_code)
     // END UPDATE NEEDED
   },
   beforeDestroy() {
@@ -591,62 +283,7 @@ export default {
     )
   },
   methods: {
-    async getIdArea() {
-      const resp = await this.$axios.$get(
-        `/api/v1/lareas/ATLAS_TERRITORY/${this.selectedTerritory.area_code}?geom=false&bbox=false`
-      )
-      this.id_area = resp.id_area
-      this.$store.commit('species/setIdArea', this.id_area)
-      this.selectedTerritory.id_area = this.id_area
-      console.debug('GET ID AREA', this.selectedTerritory.id_area)
-    },
-    loadHistoricAtlasList() {
-      this.$axios
-        .$get(`/api/v1/taxa/historic/atlas/list?cd_nom=${this.cdnom}`)
-        .then((data) => {
-          this.tabs[2].subjects.atlas = [
-            ...this.tabs[2].subjects.atlas,
-            ...data,
-          ]
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    },
-    loadChartsData() {
-      this.getIdArea().then(() => {
-        // this.getAltitudeDistribution()
-        this.getGlobalPhenologyDistribution()
-        this.getBreedingPhenologyDistribution()
-      })
-    },
-
-    getGlobalPhenologyDistribution() {
-      this.$axios
-        .$get(`/api/v1/taxa/phenology/allperiod/${this.id_area}/${this.cdnom}`)
-        .then((data) => {
-          this.dataPhenologyAllPeriod = data
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    },
-    getBreedingPhenologyDistribution() {
-      this.$axios
-        .$get(`/api/v1/taxa/phenology/breeding/${this.id_area}/${this.cdnom}`)
-        .then((data) => {
-          this.dataPhenologyBreeding = data
-          console.debug('dataPhenologyBreeding', this.dataPhenologyBreeding)
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    },
     defineSelectedTab() {
-      this.selectedTab = this.filteredTabs.filter((item) => {
-        return item.hash === this.$route.hash
-      })[0]
-      console.log('SELECTED TAB', this.selectedTab)
       this.defineSelectedSubject()
       setTimeout(() => {
         // Le timeout permet d'être assuré que les contenus sont bien integrés à la page
@@ -654,20 +291,10 @@ export default {
       }, 500)
     },
     defineSelectedSubject() {
-      if (
-        ['species', 'charts'].includes(this.selectedTab.value) &&
-        this.subjectsList.length
-      ) {
-        this.$store.commit('species/setSelectedSubject', this.subjectsList[0])
-      } else {
-        this.$store.commit(
-          'species/setSelectedSubject',
-          this.subjectsList[0],
-          this.tabs[2].subjects.atlas[0]
-        )
-      }
+      this.$store.commit('species/setSelectedSubject', this.subjectsList[0])
     },
     defineDomCurrentScrollingItems() {
+      console.log('this.subjectsList', this.subjectsList)
       this.domCurrentScrollingItems = this.subjectsList.map((item) => {
         return document.getElementById(item.slug)
       })
@@ -712,25 +339,25 @@ export default {
       }
       // END UPDATE NEEDED
     },
-    openOrCloseSeasonsBox() {
-      this.seasonIsOpen = !this.seasonIsOpen
-    },
-    openOrCloseTerritoriesBox() {
-      this.territoryIsOpen = !this.territoryIsOpen
-    },
-    closeSeasonsBox() {
-      this.seasonIsOpen = false
-    },
-    closeTerritoriesBox() {
-      this.territoryIsOpen = false
-    },
+    // openOrCloseSeasonsBox() {
+    //   this.seasonIsOpen = !this.seasonIsOpen
+    // },
+    // openOrCloseTerritoriesBox() {
+    //   this.territoryIsOpen = !this.territoryIsOpen
+    // },
+    // closeSeasonsBox() {
+    //   this.seasonIsOpen = false
+    // },
+    // closeTerritoriesBox() {
+    //   this.territoryIsOpen = false
+    // },
     listenerScroll() {
       this.$debounce(this.handleScroll())
     },
     handleScroll() {
       if (
         this.scrollListener &&
-        ['species', 'charts'].includes(this.selectedTab.value)
+        ['monography', 'charts'].includes(this.selectedTab.value)
       ) {
         // console.debug(this.domCurrentScrollingItems)
         const currentScroll = this.$refs.scrollingContainer.scrollTop

@@ -1,11 +1,11 @@
 <template>
-  <div class="SpeciesCardContent map" :class="tabStatus">
+  <div class="SpeciesCardContent map" >
     <client-only v-if="selectedSubject && selectedSubject.slug != 'extra-map'">
       <lazy-species-map
         :selected-territory="selectedTerritory"
         :selected-subject="selectedSubject"
         :selected-season="selectedSeason"
-        :cdnom="cdnom"
+        :cdnom="cdNom"
       />
     </client-only>
     <species-maps-extra-map
@@ -13,7 +13,7 @@
       :selected-territory="selectedTerritory"
       :selected-subject="selectedSubject"
       :selected-season="selectedSeason"
-      :cdnom="cdnom"
+      :cdnom="cdNom"
     >
     </species-maps-extra-map>
     <div class="MapLegend"></div>
@@ -27,26 +27,6 @@ export default {
       if (process.client) {
         return import('~/components/species/maps/SpeciesMap.vue')
       }
-    },
-  },
-  props: {
-    tabStatus: {
-      type: String,
-      required: true,
-    },
-    selectedTerritory: {
-      // Territoire cliqué (FrMet ou DOM-TOM)
-      type: Object,
-      required: true,
-    },
-    selectedSeason: {
-      // Territoire cliqué (FrMet ou DOM-TOM)
-      type: Object,
-      required: true,
-    },
-    cdnom: {
-      type: String,
-      required: true,
     },
   },
   data: () => ({
@@ -81,8 +61,17 @@ export default {
     ],
   }),
   computed: {
+    cdNom(){
+      return this.$store.state.species.cdNom
+    },
     selectedSubject() {
       return this.$store.state.species.selectedSubject
+    },
+    selectedSeason() {
+      return this.$store.state.species.selectedSeason
+    },
+    selectedTerritory() {
+      return this.$store.state.species.selectedTerritory
     }
   },
   mounted() {
@@ -106,7 +95,7 @@ export default {
     },
     loadHistoricAtlasList() {
       this.$axios
-        .$get(`/api/v1/taxa/historic/atlas/list?cd_nom=${this.cdnom}`)
+        .$get(`/api/v1/taxa/historic/atlas/list?cd_nom=${this.cdNom}`)
         .then((data) => {
           data.forEach(item => this.$store.commit('species/pushSubjectsMapAtlasList', item))
         })
