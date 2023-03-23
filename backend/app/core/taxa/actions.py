@@ -271,13 +271,14 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
         period: str = "all_period",
         envelope: Optional[List] = None,
     ) -> List:
-        id_historic_atlas = (
-            id_historic_atlas
-            if id_historic_atlas
-            else db.query(THistoricAtlasesInfo.id)
-            .filter(THistoricAtlasesInfo.atlas_period == atlas_period)
-            .filter(THistoricAtlasesInfo.season_period == period)
-        )
+        if not id_historic_atlas and atlas_period:
+            id_historic_atlas = (
+                id_historic_atlas
+                if id_historic_atlas
+                else db.query(THistoricAtlasesInfo.id)
+                .filter(THistoricAtlasesInfo.atlas_period == atlas_period)
+                .filter(THistoricAtlasesInfo.season_period == period)
+            )
 
         q = (
             db.query(

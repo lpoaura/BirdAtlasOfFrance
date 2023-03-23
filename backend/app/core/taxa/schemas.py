@@ -13,7 +13,7 @@ class TaxaDistributionFeature(Feature):
 
 
 class TaxaDistributionFeaturesCollection(FeatureCollection):
-    features: List[TaxaDistributionFeature]
+    features: Optional[List[TaxaDistributionFeature]]
 
     class Config:
         orm_mode = True
