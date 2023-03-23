@@ -184,7 +184,7 @@ def list_historic_atlases(db: Session = Depends(get_db), cd_nom: int = None) -> 
 
 
 @router.get(
-    "/altitude/{id_area}/{cd_nom}",
+    "/altitude",
     response_model=TaxaAltitudinalApiData,
     tags=["taxa"],
     summary="Altitudinal distribution",
@@ -199,10 +199,10 @@ def altitudinal_distribution(
     id_area: str,
     cd_nom: int,
     db: Session = Depends(get_db),
-    period: Optional[str] = "all_period",
+    phenology_period: Optional[str] = "all_period",
 ) -> Any:
     q = altitude_distrib.get_specie_distribution(
-        db=db, id_area=id_area, cd_nom=cd_nom, period=period
+        db=db, id_area=id_area, cd_nom=cd_nom, period=phenology_period
     )
     if q:
         altitude = CommonBlockStructure(
