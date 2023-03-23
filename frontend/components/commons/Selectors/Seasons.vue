@@ -112,13 +112,6 @@ export default {
       console.log('filteredSeasons', this.filteredSeasons)
       this.updateSelectedSeason()
     },
-    selectedSeason(newVal) {
-      console.log(
-        'season watch',
-        this.selectedSeason,
-        this.filteredSeasons.includes(this.selectedSeason.value)
-      )
-    },
   },
   mounted() {
     this.updateSelectedSeason()

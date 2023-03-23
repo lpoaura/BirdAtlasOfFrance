@@ -7,8 +7,7 @@
       Proportion des observations en fonction de l’altitude du territoire.
     </h5>
     <div class="ChartWrapper">
-      <div class="Chart">
-      </div>
+      <div class="Chart"></div>
       <div class="ChartLegend">
         <h5 class="ChartLegendLabel">
           <i :style="{ background: chartData.altitude?.color }"></i
@@ -81,12 +80,19 @@ export default {
     },
     async getChartData() {
       if (this.idArea) {
-        const url = `/api/v1/taxa/altitude/${this.idArea}/${this.cdNom}${
-          this.selectedSeason.value ? '?period=' + this.selectedSeason.value : ''
-        }`
-        this.chartData = await this.$axios.$get(url).catch((error) => {
-          console.error(error)
-        })
+        const requestParams = {
+          cd_nom: this.cdNom,
+          id_area: this.idArea,
+          period: this.selectedSeason.value,
+        }
+        const url = `/api/v1/taxa/altitude/`
+        this.chartData = await this.$axios
+          .$get(url, {
+            params: requestParams,
+          })
+          .catch((error) => {
+            console.error(error)
+          })
       }
     },
     renderData() {

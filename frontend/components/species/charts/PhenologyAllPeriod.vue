@@ -30,6 +30,11 @@ const d3 = require('d3')
 export default {
   data: () => ({
     chartData: null,
+    subject: {
+      label: 'Phénologie',
+      slug: 'phenology-all-period',
+      position: 1,
+    },
   }),
   computed: {
     idArea() {
@@ -45,6 +50,11 @@ export default {
         this.generateChart()
       },
     },
+    chartData(newVal) {
+      if (!newVal) {
+        this.$store.commit('species/removeSubjectsList', this.subject)
+      }
+    },
   },
   mounted() {
     this.$nextTick(function () {
@@ -56,11 +66,7 @@ export default {
       this.getChartData().then(() => {
         if (this.chartData) {
           this.renderChart()
-          this.$store.commit('species/pushSubjectsList', {
-            label: 'Phénologie',
-            slug: 'phenology-all-period',
-            position: 1,
-          })
+          this.$store.commit('species/pushSubjectsList', this.subject)
         }
       })
     },
