@@ -43,10 +43,21 @@ h6,
 div,
 p {
   font-family: 'Poppins', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+span,
+h5,
+h6 {
+  font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: normal;
   color: #262626;
 }
+
 
 h1 {
   font-size: 40px;

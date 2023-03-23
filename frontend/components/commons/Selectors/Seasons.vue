@@ -102,15 +102,26 @@ export default {
       },
     ],
   }),
+  computed: {
+    selectedSubject() {
+      return this.$store.state.species.selectedSubject
+    },
+  },
   watch: {
     filteredSeasons(newVal) {
-      console.log(this.filteredSeasons)
+      console.log('filteredSeasons', this.filteredSeasons)
       this.updateSelectedSeason()
+    },
+    selectedSeason(newVal) {
+      console.log(
+        'season watch',
+        this.selectedSeason,
+        this.filteredSeasons.includes(this.selectedSeason.value)
+      )
     },
   },
   mounted() {
     this.updateSelectedSeason()
-
   },
   methods: {
     updateSelectedSeason() {
@@ -138,4 +149,10 @@ export default {
 .leaflet-control .MapSelectorBox {
   right: -116px;
 }
+
+.RadioOption.inactive {
+  color: rgba(38, 38, 38, 0.2);
+  cursor: auto;
+}
+
 </style>

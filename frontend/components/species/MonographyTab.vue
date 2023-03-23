@@ -18,11 +18,15 @@
             type="paragraph"
           ></v-skeleton-loader>
           <span
-            v-if="species.attributes.description"
+            v-if="Object.keys(species.attributes).length > 0"
             ref="description"
             class="black02"
           >
-            {{ species.attributes.description }}
+            {{
+              species.attributes.description
+                ? species.attributes.description
+                : 'Pas de description disponible actuellement pour cette espèce.'
+            }}
           </span>
           <span
             v-if="
@@ -317,6 +321,7 @@ export default {
   },
   watch: {
     species(newVal) {
+      console.log('SPECIES', this.species)
       this.genSubjectList()
       setTimeout(() => {
         // Le timeout permet d'être assuré que le texte est bien integré à l'élément
@@ -398,7 +403,6 @@ export default {
         const chartsTabAllPeriodSubjects = []
         const chartsTabBreedingSubjects = []
         const chartsTabWinteringSubjects = []
-        console.debug('selectedTerritory', this.selectedTerritory)
         if (this.dataPhenologyAllPeriod) {
           chartsTabAllPeriodSubjects.push('phenology-all-period')
         }

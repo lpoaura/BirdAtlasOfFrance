@@ -73,8 +73,6 @@ export default {
       }
     },
     renderChart() {
-      // console.debug('ChartPhenoAllPeriod', this.chartData)
-      // Get bar plot size
       d3.select(this.$el).select('.BarPlotSvg').remove()
 
       d3.select(this.$el)
@@ -242,7 +240,6 @@ export default {
           return xAxisDecades(d.label)
         })
         .attr('y', function (d) {
-          // console.debug(d.value, yAxisLeft(d.value))
           return yAxisLeft(d.value)
         })
         .attr('width', xAxisDecades.bandwidth())

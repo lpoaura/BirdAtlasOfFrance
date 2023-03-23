@@ -80,12 +80,10 @@ export default {
       })
     },
     async getChartData() {
-      console.debug('ALTITUDE AREA', this.idArea)
       if (this.idArea) {
         const url = `/api/v1/taxa/altitude/${this.idArea}/${this.cdNom}${
           this.selectedSeason.value ? '?period=' + this.selectedSeason.value : ''
         }`
-        console.debug('URL', url)
         this.chartData = await this.$axios.$get(url).catch((error) => {
           console.error(error)
         })

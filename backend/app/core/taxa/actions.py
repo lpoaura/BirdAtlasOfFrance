@@ -15,6 +15,7 @@ from .models import (
     MvAltitudeDistribution,
     MvAltitudeTerritory,
     MvSurveyMapData,
+    MvSurveyChartData,
     MvTaxaAllPeriodPhenology,
     MvTaxaBreedingPhenology,
     THistoricAtlasesData,
@@ -211,7 +212,6 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
         )
         return query.all()
 
-
     def get_list_occurrence(self, db: Session, id_area: int, cd_nom: int = None):
         total = (
             db.query(
@@ -402,9 +402,28 @@ class SurveyMapDataActions(BaseReadOnlyActions[MvSurveyMapData]):
         return query.all()
 
 
+class SurveyChartDataActions(BaseReadOnlyActions[MvSurveyChartData]):
+    """Post actions with basic CRUD operations"""
+
+    def get_data(
+        self, db: Session, cd_nom: int, id_area_atlas_territory: str, phenology_period: str
+    ) -> List:
+        query = (
+            db.query(MvSurveyChartData.year, MvSurveyChartData.unit, MvSurveyChartData.data)
+            .filter(
+                MvSurveyChartData.cd_nom == cd_nom,
+                MvSurveyChartData.id_area_atlas_territory == id_area_atlas_territory,
+                MvSurveyChartData.phenology_period == phenology_period,
+            )
+            .order_by(MvSurveyChartData.year.asc())
+        )
+        return query
+
+
 taxa_distrib = TaxaDistributionActions(AreaKnowledgeTaxaList)
 historic_atlas_distrib = HistoricAtlasesActions(THistoricAtlasesData)
 altitude_distrib = TaxaAltitudeDistributionActions(MvAltitudeDistribution)
 all_period_phenology_distrib = TaxaGlobalPhenologyActions(MvTaxaAllPeriodPhenology)
 breeding_phenology_distrib = TaxaBreedingPhenologyActions(MvTaxaBreedingPhenology)
 survey_map_data = SurveyMapDataActions(MvSurveyMapData)
+survey_chart_data = SurveyChartDataActions(MvSurveyChartData)

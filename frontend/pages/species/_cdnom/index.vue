@@ -153,114 +153,7 @@ export default {
       this.listenerScroll
     )
     // this.defineSelectedTab()
-    this.$axios
-      .$get(`/taxhub/api/bibnoms/taxoninfo/${this.cdNom}`, {
-        headers: {
-          'Access-Control-Allow-Origin': 'localhost:3000',
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-          'Access-Control-Allow-Credentials': true,
-        },
-      })
-      .then((data) => {
-        if (data) {
-          const species = {
-            cdnom: this.cdNom,
-            attributes: {},
-            medias: { Photos: [] },
-          }
-          data.attributs.forEach((attribut) => {
-            species.attributes[attribut.nom_attribut] = attribut.valeur_attribut
-          })
-          data.medias.forEach((media) => {
-            if (media.nom_type_media === 'Photo') {
-              species.medias.Photos.push({
-                title: media.titre,
-                url: media.url,
-                author: media.auteur,
-                description: media.desc_media,
-              })
-            } else if (media.nom_type_media === 'Photo_principale') {
-              species.medias.Photos.splice(0, 0, {
-                title: media.titre,
-                url: media.url,
-                author: media.auteur,
-                description: media.desc_media,
-              })
-              species.medias[media.nom_type_media] = {
-                title: media.titre,
-                url: media.url,
-                author: media.auteur,
-                description: media.desc_media,
-              }
-            } else {
-              species.medias[media.nom_type_media] = {
-                title: media.titre,
-                url: media.url,
-                author: media.auteur,
-                description: media.desc_media,
-              }
-            }
-          })
-          if (!species.medias.Photos.length) {
-            delete species.medias.Photos
-          }
-          this.$axios
-            .$get(
-              `https://geonature.lpo-aura.org/taxhub/api/bdc_statuts/list/${this.cdNom}`
-            )
-            .then((data) => {
-              if (data) {
-                // UPDATE NEEDED : récupérer les noms des territoires pour les LR (et pas seulement leur cd_sig)
-                const redListWorld = data.filter((item) => {
-                  return item.cd_type_statut === 'LRM'
-                })
-                const redListsNational = data.filter((item) => {
-                  return item.cd_type_statut === 'LRN'
-                })
-                if (redListWorld.length || redListsNational.length) {
-                  species.redLists = { national: [] }
-                  if (redListWorld.length) {
-                    species.redLists.world = redListWorld[0].code_statut
-                  }
-                  if (redListsNational.length) {
-                    redListsNational.forEach((item) => {
-                      species.redLists.national.push({
-                        territory: item.cd_sig,
-                        statut: item.code_statut,
-                      })
-                    })
-                  }
-                }
-                // END UPDATE NEEDED
-                // UPDATE NEEDED : récupérer les statuts de protection
-                species.protectionStatus = {}
-                species.protectionStatus.national = 'Chassable'
-                species.protectionStatus.birdDirective = 'Protégée'
-                // END UPDATE NEEDED
-                this.species = species
-                // console.debug(species)
-              }
-            })
-            .catch((error) => {
-              console.error(error)
-            })
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-      .finally(() => {
-        setTimeout(() => {
-          // Le timeout permet d'être assuré que les contenus sont bien integrés à la page
-          this.defineDomCurrentScrollingItems() // Certaines sections ne sont affichées qu'une fois les données récupérées
-          const scrollingContainerHeight =
-            this.$refs.scrollingContainer.offsetHeight
-          document.documentElement.style.setProperty(
-            '--scrolling-container-height',
-            `${scrollingContainerHeight}px`
-          )
-        }, 1000)
-      })
+    this.getSpecieData()
     // UPDATE NEEDED : récupérer les données des graphes via axios + API (selon le territoire sélectionné)
     // this.dataPhenologyMigration[this.selectedTerritory.area_code] =
     //   dataPhenologyMigration
@@ -283,6 +176,117 @@ export default {
     )
   },
   methods: {
+    async getSpecieData() {
+      await this.$axios
+        .$get(`/taxhub/api/bibnoms/taxoninfo/${this.cdNom}`, {
+          headers: {
+            'Access-Control-Allow-Origin': 'localhost:3000',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            'Access-Control-Allow-Credentials': true,
+          },
+        })
+        .then((data) => {
+          if (data) {
+            const species = {
+              cdnom: this.cdNom,
+              attributes: {},
+              medias: { Photos: [] },
+            }
+            data.attributs.forEach((attribut) => {
+              species.attributes[attribut.nom_attribut] =
+                attribut.valeur_attribut
+            })
+            data.medias.forEach((media) => {
+              if (media.nom_type_media === 'Photo') {
+                species.medias.Photos.push({
+                  title: media.titre,
+                  url: media.url,
+                  author: media.auteur,
+                  description: media.desc_media,
+                })
+              } else if (media.nom_type_media === 'Photo_principale') {
+                species.medias.Photos.splice(0, 0, {
+                  title: media.titre,
+                  url: media.url,
+                  author: media.auteur,
+                  description: media.desc_media,
+                })
+                species.medias[media.nom_type_media] = {
+                  title: media.titre,
+                  url: media.url,
+                  author: media.auteur,
+                  description: media.desc_media,
+                }
+              } else {
+                species.medias[media.nom_type_media] = {
+                  title: media.titre,
+                  url: media.url,
+                  author: media.auteur,
+                  description: media.desc_media,
+                }
+              }
+            })
+            if (!species.medias.Photos.length) {
+              delete species.medias.Photos
+            }
+            this.$axios
+              .$get(
+                `https://geonature.lpo-aura.org/taxhub/api/bdc_statuts/list/${this.cdNom}`
+              )
+              .then((data) => {
+                if (data) {
+                  // UPDATE NEEDED : récupérer les noms des territoires pour les LR (et pas seulement leur cd_sig)
+                  const redListWorld = data.filter((item) => {
+                    return item.cd_type_statut === 'LRM'
+                  })
+                  const redListsNational = data.filter((item) => {
+                    return item.cd_type_statut === 'LRN'
+                  })
+                  if (redListWorld.length || redListsNational.length) {
+                    species.redLists = { national: [] }
+                    if (redListWorld.length) {
+                      species.redLists.world = redListWorld[0].code_statut
+                    }
+                    if (redListsNational.length) {
+                      redListsNational.forEach((item) => {
+                        species.redLists.national.push({
+                          territory: item.cd_sig,
+                          statut: item.code_statut,
+                        })
+                      })
+                    }
+                  }
+                  // END UPDATE NEEDED
+                  // UPDATE NEEDED : récupérer les statuts de protection
+                  species.protectionStatus = {}
+                  species.protectionStatus.national = 'Chassable'
+                  species.protectionStatus.birdDirective = 'Protégée'
+                  // END UPDATE NEEDED
+                  this.species = species
+                  // console.debug(species)
+                }
+              })
+              .catch((error) => {
+                console.error(error)
+              })
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+        .finally(() => {
+          setTimeout(() => {
+            // Le timeout permet d'être assuré que les contenus sont bien integrés à la page
+            this.defineDomCurrentScrollingItems() // Certaines sections ne sont affichées qu'une fois les données récupérées
+            const scrollingContainerHeight =
+              this.$refs.scrollingContainer.offsetHeight
+            document.documentElement.style.setProperty(
+              '--scrolling-container-height',
+              `${scrollingContainerHeight}px`
+            )
+          }, 1000)
+        })
+    },
     defineSelectedTab() {
       this.defineSelectedSubject()
       setTimeout(() => {
@@ -294,7 +298,6 @@ export default {
       this.$store.commit('species/setSelectedSubject', this.subjectsList[0])
     },
     defineDomCurrentScrollingItems() {
-      console.log('this.subjectsList', this.subjectsList)
       this.domCurrentScrollingItems = this.subjectsList.map((item) => {
         return document.getElementById(item.slug)
       })
@@ -359,7 +362,6 @@ export default {
         this.scrollListener &&
         ['monography', 'charts'].includes(this.selectedTab.value)
       ) {
-        // console.debug(this.domCurrentScrollingItems)
         const currentScroll = this.$refs.scrollingContainer.scrollTop
         const domCurrentScrolledItem = this.domCurrentScrollingItems.filter(
           (item) => {

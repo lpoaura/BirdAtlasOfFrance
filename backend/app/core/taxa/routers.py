@@ -15,6 +15,7 @@ from .actions import (
     breeding_phenology_distrib,
     historic_atlas_distrib,
     survey_map_data,
+    survey_chart_data,
     taxa_distrib,
 )
 from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection,
@@ -22,6 +23,7 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     HistoricAtlasInfosSchema,
     SurveyMapDataFeature,
     SurveyMapDataFeaturesCollection,
+    SurveyChartDataItem,
     TaxaAltitudinalApiData,
     TaxaBreedingPhenologyApiData,
     TaxaDistributionFeature,
@@ -320,3 +322,26 @@ def get_survey_map_data(
         for item in query
     ]
     return SurveyMapDataFeaturesCollection(features=features)
+
+
+@router.get(
+    "/survey/chart",
+    response_model=List[SurveyChartDataItem],
+    tags=["taxa"],
+    summary="taxon geographic distribution",
+    description="""# Taxon geographic distribution
+""",
+)
+@cache()
+def get_survey_chart_data(
+    cd_nom: int, id_area_atlas_territory: int, phenology_period: str, db: Session = Depends(get_db)
+) -> Any:
+    query = survey_chart_data.get_data(
+        db,
+        cd_nom=cd_nom,
+        id_area_atlas_territory=id_area_atlas_territory,
+        phenology_period=phenology_period,
+    )
+    if not query:
+        return Response(status_code=HTTP_204_NO_CONTENT)
+    return query.all()

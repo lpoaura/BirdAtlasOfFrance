@@ -76,7 +76,6 @@ export default {
       // })
     },
     renderChart() {
-      console.debug('CHECK')
       // Get bar plot size
       const margin = { top: 20, right: 0, bottom: 24, left: 66 }
       const barPlotWidth = Math.max(
