@@ -108,7 +108,7 @@ export default {
       {
         name: 'Guadeloupe',
         icon: '/prospecting/Guadeloupe.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         name: 'Guyane',
@@ -128,7 +128,7 @@ export default {
       {
         name: 'Nouvelle Calédonie',
         icon: '/prospecting/Nouvelle-Caledonie.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         name: 'Polynésie Française',
@@ -153,7 +153,7 @@ export default {
       {
         name: 'Saint Pierre et Miquelon',
         icon: '/prospecting/Saint-Pierre-et-Miquelon.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         name: 'TAAF',
