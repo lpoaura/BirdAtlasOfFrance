@@ -42,6 +42,11 @@ export const mutations = {
         index === self.findIndex((t) => t.slug === subject.slug)
     )
   },
+  removeSubjectsList(state, subject) {
+    state.subjectsList = state.subjectsList.filter(
+      (item) => item.slug !== subject.slug
+    )
+  },
   setSelectedSubject(state, subject) {
     state.selectedSubject = subject
   },
