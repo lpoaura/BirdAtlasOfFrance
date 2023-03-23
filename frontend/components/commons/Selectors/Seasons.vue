@@ -104,11 +104,13 @@ export default {
   }),
   watch: {
     filteredSeasons(newVal) {
+      console.log(this.filteredSeasons)
       this.updateSelectedSeason()
     },
   },
   mounted() {
     this.updateSelectedSeason()
+
   },
   methods: {
     updateSelectedSeason() {

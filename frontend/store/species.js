@@ -2,12 +2,13 @@ export const state = () => ({
   atlasIsOpen: true,
   idArea: null,
   cdNom: null,
-  phenologyPeriod: 'all_period',
   selectedTab: 'monography',
   subjectsList: [],
   subjectsMapAtlasList: {},
   subjectsMapOthersList: {},
   selectedSubject: {},
+  selectedTerritory: {},
+  selectedSeason:{},
 })
 
 export const getters = {
@@ -23,25 +24,32 @@ export const mutations = {
   setCdNom(state, cdNom) {
     state.cdNom = cdNom
   },
-  setPhenologyPeriod(state, phenologyPeriod){
-    state.phenologyPeriod = phenologyPeriod
-  },
-  setSelectedTab(state, selectedTab){
+  setSelectedTab(state, selectedTab) {
     state.selectedTab = selectedTab
   },
   revertAtlasIsOpen(state, atlas) {
-    console.debug('mutation state',state)
-    console.debug('mutation atlas',atlas)
-		state.atlasIsOpen = !atlas
-	},
+    console.debug('mutation state', state)
+    console.debug('mutation atlas', atlas)
+    state.atlasIsOpen = !atlas
+  },
   setSubjectsList(state, subjects) {
     state.subjectsList = subjects
   },
   pushSubjectsList(state, subject) {
     state.subjectsList.push(subject)
+    state.subjectsList = state.subjectsList.filter(
+      (subject, index, self) =>
+        index === self.findIndex((t) => t.slug === subject.slug)
+    )
   },
   setSelectedSubject(state, subject) {
     state.selectedSubject = subject
+  },
+  setSelectedTerritory(state, territory) {
+    state.selectedTerritory = territory
+  },
+  setSelectedSeason(state, season) {
+    state.selectedSeason = season
   },
   setSubjectsMapAtlasList(state, maps) {
     state.subjectsMapAtlasList = maps
@@ -54,9 +62,8 @@ export const mutations = {
   },
   pushSubjectsMapOthersList(state, map) {
     state.subjectsMapOthersList.push(map)
-  }
+  },
 }
-
 
 // export const actions = {
 // 	revertAtlasIsOpen(context, atlas) {
@@ -66,4 +73,3 @@ export const mutations = {
 // 		context.commit(atlasState)
 // 	},
 // }
-

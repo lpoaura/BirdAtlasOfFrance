@@ -1,15 +1,14 @@
 <template>
   <div class="SpeciesCardContent">
     <species-charts-phenology-all-period
-      v-if="phenologyPeriod === 'all_period'"
+      v-if="selectedSeason.value === 'all_period'"
     />
     <species-charts-phenology-migration
-      v-if="phenologyPeriod === 'all_period'"
+      v-if="selectedSeason.value === 'all_period'"
     />
-    <species-charts-phenology-breeding v-if="phenologyPeriod === 'breeding'" />
-    <!-- <species-charts-populations-sizes v-if="['all_period','breeding'].includes(phenologyPeriod)"/> -->
+    <species-charts-phenology-breeding v-if="selectedSeason.value === 'breeding'" />
     <species-charts-trend
-      v-if="['wintering', 'breeding'].includes(phenologyPeriod)"
+      v-if="['wintering', 'breeding'].includes(selectedSeason.value)"
     />
     <species-charts-altitude />
   </div>
@@ -18,12 +17,12 @@
 <script>
 export default {
   computed: {
-    phenologyPeriod() {
-      return this.$store.state.species.phenologyPeriod
+    selectedSeason() {
+      return this.$store.state.species.selectedSeason
     },
   },
   watch: {
-    phenologyPeriod: {
+    selectedSeason: {
       handler() {
         this.initSubjectsList()
       },

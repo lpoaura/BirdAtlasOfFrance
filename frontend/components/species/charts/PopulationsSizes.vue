@@ -42,7 +42,7 @@ export default {
   }),
   computed: {
     idArea() {
-      return this.$store.state.species.idArea
+      return this.$store.state.species.selectedTerritory.id_area
     },
     cdNom() {
       return this.$store.state.species.cdNom
@@ -50,11 +50,6 @@ export default {
   },
   watch: {
     idArea: {
-      handler() {
-        this.generateChart()
-      },
-    },
-    phenologyPeriod: {
       handler() {
         this.generateChart()
       },

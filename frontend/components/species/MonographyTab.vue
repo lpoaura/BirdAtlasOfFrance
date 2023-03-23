@@ -1,7 +1,6 @@
 <template>
   <div class="SpeciesCardContent">
     <div
-      v-if="species.attributes.description || species.medias.Photos"
       id="description"
       class="Row"
       :style="{ height: readMore || !species.medias.Photos ? 'auto' : '367px' }"
@@ -9,6 +8,15 @@
       <div class="Column read-more-wrapper">
         <div class="read-more">
           <h4 class="black02 fw-bold bottom-margin-16">Description</h4>
+          <!-- <span
+            v-if="species.attributes.description"
+            ref="description"
+            class="black02"
+          > -->
+          <v-skeleton-loader
+            v-if="Object.keys(species.attributes).length === 0"
+            type="paragraph"
+          ></v-skeleton-loader>
           <span
             v-if="species.attributes.description"
             ref="description"
@@ -16,7 +24,13 @@
           >
             {{ species.attributes.description }}
           </span>
-          <span v-else class="black02">
+          <span
+            v-if="
+              Object.keys(species.attributes).length > 0 &&
+              species.attributes.description
+            "
+            class="black02"
+          >
             Pas de description disponible actuellement pour cette espèce.
           </span>
           <div
@@ -216,10 +230,6 @@
 <script>
 export default {
   props: {
-    tabStatus: {
-      type: String,
-      required: true,
-    },
     species: {
       type: Object,
       required: true,
@@ -228,9 +238,6 @@ export default {
   data: () => ({
     descriptionHeight: 0,
     subjectsList: [
-      { label: 'Description', slug: 'description', position: 1 },
-      // { label: 'Taxonomie', slug: 'taxonomy' },
-      { label: 'Statuts', slug: 'status', position: 2 },
       { label: 'Caractéristiques', slug: 'traits', position: 3 },
       // { label: 'Téléchargements', slug: 'downloads' },
       { label: 'Liens', slug: 'links', position: 4 },
@@ -310,6 +317,7 @@ export default {
   },
   watch: {
     species(newVal) {
+      this.genSubjectList()
       setTimeout(() => {
         // Le timeout permet d'être assuré que le texte est bien integré à l'élément
         if (this.$refs.description) {
@@ -325,15 +333,121 @@ export default {
     window.removeEventListener('resize', this.listener)
   },
   mounted() {
-    this.$store.commit('species/setSubjectsList', this.subjectsList)
+    this.genSubjectList()
   },
   methods: {
+    genSubjectList() {
+      this.$store.commit('species/setSubjectsList', [])
+      this.$store.commit('species/pushSubjectsList', {
+        label: 'Description',
+        slug: 'description',
+        position: 1,
+      })
+      if (this.species.redLists || this.species.protectionStatus) {
+        this.$store.commit('species/pushSubjectsList', {
+          label: 'Statuts',
+          slug: 'status',
+          position: 2,
+        })
+      }
+      if (this.species.attributes.description) {
+        this.$store.commit('species/pushSubjectsList', {
+          label: 'Statuts',
+          slug: 'status',
+          position: 2,
+        })
+      }
+      if (this.filteredTraits || this.filteredFurtherInfo) {
+        this.$store.commit('species/pushSubjectsList', {
+          label: 'Caractéristiques',
+          slug: 'traits',
+          position: 3,
+        })
+      }
+      this.$store.commit('species/pushSubjectsList', {
+        label: 'Liens',
+        slug: 'links',
+        position: 4,
+      })
+    },
     listener() {
       this.$debounce(this.detectResize())
     },
     detectResize() {
       if (this.$refs.description) {
         this.descriptionHeight = this.$refs.description.offsetHeight
+      }
+    },
+    filteredTabs() {
+      // Si les données sont arrivées
+      if (this.species.attributes.odf_common_name_fr) {
+        // Deep copy
+        const tabs = JSON.parse(JSON.stringify(this.tabs))
+        // SpeciesTab
+        const speciesTabSubjects = ['links']
+        if (this.species.attributes.description || this.species.medias.Photos) {
+          speciesTabSubjects.push('description')
+        }
+        if (this.species.redLists || this.species.protectionStatus) {
+          speciesTabSubjects.push('status')
+        }
+        tabs[0].subjects = this.tabs[0].subjects.filter((subject) => {
+          return speciesTabSubjects.includes(subject.slug)
+        })
+        // ChartsTabs
+        const chartsTabAllPeriodSubjects = []
+        const chartsTabBreedingSubjects = []
+        const chartsTabWinteringSubjects = []
+        console.debug('selectedTerritory', this.selectedTerritory)
+        if (this.dataPhenologyAllPeriod) {
+          chartsTabAllPeriodSubjects.push('phenology-all-period')
+        }
+        if (this.dataPhenologyMigration[this.selectedTerritory.area_code]) {
+          chartsTabAllPeriodSubjects.push('phenology-migration')
+        }
+        if (this.dataAltitudeAllPeriod[this.selectedTerritory.area_code]) {
+          chartsTabAllPeriodSubjects.push('altitude-all-period')
+        }
+        if (this.dataPhenologyBreeding) {
+          chartsTabBreedingSubjects.push('phenology-breeding')
+        }
+        if (this.dataTrendBreeding[this.selectedTerritory.area_code]) {
+          chartsTabBreedingSubjects.push('trend-breeding')
+        }
+        if (this.dataPopulationsBreeding[this.selectedTerritory.area_code]) {
+          chartsTabBreedingSubjects.push('populations-sizes-breeding')
+        }
+        if (this.dataAltitudeBreeding[this.selectedTerritory.area_code]) {
+          chartsTabBreedingSubjects.push('altitude-breeding')
+        }
+        if (this.dataTrendWintering[this.selectedTerritory.area_code]) {
+          chartsTabWinteringSubjects.push('trend-wintering')
+        }
+        if (this.dataPopulationsWintering[this.selectedTerritory.area_code]) {
+          chartsTabWinteringSubjects.push('populations-sizes-wintering')
+        }
+        if (this.dataAltitudeWintering[this.selectedTerritory.area_code]) {
+          chartsTabWinteringSubjects.push('altitude-wintering')
+        }
+        tabs[1].subjects.all_period = this.tabs[1].subjects.all_period.filter(
+          (subject) => {
+            return chartsTabAllPeriodSubjects.includes(subject.slug)
+          }
+        )
+        tabs[1].subjects.breeding = this.tabs[1].subjects.breeding.filter(
+          (subject) => {
+            return chartsTabBreedingSubjects.includes(subject.slug)
+          }
+        )
+        tabs[1].subjects.wintering = this.tabs[1].subjects.wintering.filter(
+          (subject) => {
+            return chartsTabWinteringSubjects.includes(subject.slug)
+          }
+        )
+        // End
+        return tabs
+      } else {
+        return this.tabs
       }
     },
   },

@@ -17,27 +17,6 @@ export default {
     'key-data-section': KeyDataSection,
     'news-section': NewsSection,
   },
-  // mounted() {
-  //   console.debug(this.$i18n)
-  //   // La locale courante est accessible depuis this.$i18n.localeProperties
-  //   this.$axios
-  //     .$get(
-  //       'https://www.xeno-canto.org/api/2/recordings?query=Circus+pygargus+cnt:France',
-  //       {
-  //         headers: {
-  //           'Access-Control-Allow-Origin': '*',
-  //           'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-  //           'Access-Control-Allow-Credentials': true,
-  //         },
-  //       }
-  //     )
-  //     .then((data) => {
-  //       console.debug(data)
-  //     })
-  //     .catch((error) => {
-  //       console.error(error)
-  //     })
-  // },
   head() {
     return {
       title: this.$getPageTitle(this.$route.path),

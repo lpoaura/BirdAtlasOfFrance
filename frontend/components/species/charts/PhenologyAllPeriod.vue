@@ -1,18 +1,12 @@
 <template>
-  <div
-    v-if="chartData && phenologyPeriod == 'all_period'"
-    id="phenology-all-period"
-    class="ChartCard"
-  >
+  <div v-if="chartData" id="phenology-all-period" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
     <h5 class="black03 bottom-margin-40">
       Nombre de données cumulées par décade du 1<sup>er</sup> janvier 2019 au 31
       décembre de l'année dernière.
     </h5>
     <div class="ChartWrapper">
-      <div class="Chart">
-        <svg class="BarPlotSvg"></svg>
-      </div>
+      <div class="Chart"></div>
       <div class="ChartLegend">
         <h5 class="ChartLegendLabel">
           <i :style="{ background: chartData.phenology.color }"></i
@@ -39,13 +33,10 @@ export default {
   }),
   computed: {
     idArea() {
-      return this.$store.state.species.idArea
+      return this.$store.state.species.selectedTerritory.id_area
     },
     cdNom() {
       return this.$store.state.species.cdNom
-    },
-    phenologyPeriod() {
-      return this.$store.state.species.phenologyPeriod
     },
   },
   watch: {
@@ -74,14 +65,22 @@ export default {
       })
     },
     async getChartData() {
-      const url = `/api/v1/taxa/phenology/allperiod/${this.idArea}/${this.cdNom}`
-      this.chartData = await this.$axios.$get(url).catch((error) => {
-        console.error(error)
-      })
+      if (this.idArea) {
+        const url = `/api/v1/taxa/phenology/allperiod/${this.idArea}/${this.cdNom}`
+        this.chartData = await this.$axios.$get(url).catch((error) => {
+          console.error(error)
+        })
+      }
     },
     renderChart() {
       // console.debug('ChartPhenoAllPeriod', this.chartData)
       // Get bar plot size
+      d3.select(this.$el).select('.BarPlotSvg').remove()
+
+      d3.select(this.$el)
+        .select('.Chart')
+        .append('svg')
+        .attr('class', 'BarPlotSvg')
       const margin = { top: 10, right: 60, bottom: 24, left: 66 }
       const barPlotWidth = Math.max(
         parseFloat(d3.select(this.$el).select('.Chart').style('width')) -

@@ -8,7 +8,6 @@
     </h5>
     <div class="ChartWrapper">
       <div class="Chart">
-        <!-- <svg class="BarPlotSvg"></svg> -->
       </div>
       <div class="ChartLegend">
         <h5 class="ChartLegendLabel">
@@ -33,13 +32,13 @@ export default {
   }),
   computed: {
     idArea() {
-      return this.$store.state.species.idArea
+      return this.$store.state.species.selectedTerritory.id_area
     },
     cdNom() {
       return this.$store.state.species.cdNom
     },
-    phenologyPeriod() {
-      return this.$store.state.species.phenologyPeriod
+    selectedSeason() {
+      return this.$store.state.species.selectedSeason
     },
   },
   watch: {
@@ -48,7 +47,7 @@ export default {
         this.generateChart()
       },
     },
-    phenologyPeriod: {
+    selectedSeason: {
       handler() {
         this.generateChart()
       },
@@ -84,7 +83,7 @@ export default {
       console.debug('ALTITUDE AREA', this.idArea)
       if (this.idArea) {
         const url = `/api/v1/taxa/altitude/${this.idArea}/${this.cdNom}${
-          this.phenologyPeriod ? '?period=' + this.phenologyPeriod : ''
+          this.selectedSeason.value ? '?period=' + this.selectedSeason.value : ''
         }`
         console.debug('URL', url)
         this.chartData = await this.$axios.$get(url).catch((error) => {
