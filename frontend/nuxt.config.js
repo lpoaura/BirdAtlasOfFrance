@@ -148,10 +148,10 @@ export default {
   //   },
   // },
   proxy: {
+    '/api/taxa':  process.env.TAXREF_URL || 'https://taxref.mnhn.fr',
     '/api': process.env.API_URL || 'http://localhost:8888',
     '/taxhub': process.env.GEONATURE_URL || 'https://geonature.alx.host',
   },
-
   // PWA module configuration
   pwa: {
     meta: {

@@ -71,4 +71,32 @@ SELECT atlas.mv_survey_chart_data.id   AS atlas_mv_survey_chart_data_id,
 FROM atlas.mv_survey_chart_data
 WHERE atlas.mv_survey_chart_data.cd_nom = 4064
   AND atlas.mv_survey_chart_data.id_area_atlas_territory = 87145
-  AND atlas.mv_survey_chart_data.phenology_period = 'breeding'
+  AND atlas.mv_survey_chart_data.phenology_period = 'breeding';
+
+SELECT *
+FROM src_survey.vm_graph_information;
+BEGIN;
+INSERT INTO gn_synthese.cor_area_synthese(id_area, id_synthese)
+    (SELECT id_area, id_synthese
+     FROM gn_synthese.synthese
+              JOIN ref_geo.l_areas ON st_intersects(synthese.the_geom_local, l_areas.geom)
+     WHERE area_code ILIKE '5kmUTM21%')
+ON CONFLICT DO NOTHING;
+
+SELECT atlas.refresh_materialized_view_data();
+COMMIT;
+
+SELECT *
+FROM taxonomie.taxref
+WHERE lb_nom = 'Melanerpes herminieri';
+SELECT *
+FROM atlas.mv_data_for_atlas
+WHERE cd_nom = 442063;
+SELECT *
+FROM gn_synthese.synthese
+         JOIN src_lpodatas.t_c_synthese_extended ON synthese.id_synthese = t_c_synthese_extended.id_synthese
+WHERE cd_nom = 442063;
+
+SELECT *
+FROM atlas.t_taxa
+WHERE cd_nom = 442063;
