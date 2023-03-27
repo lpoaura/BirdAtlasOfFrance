@@ -3,36 +3,28 @@
     <div
       id="description"
       class="Row"
-      :style="{ height: readMore || !species.medias.Photos ? 'auto' : '367px' }"
+      :style="{ height: readMore || !medias?.Photos ? 'auto' : '367px' }"
     >
       <div class="Column read-more-wrapper">
         <div class="read-more">
           <h4 class="black02 fw-bold bottom-margin-16">Description</h4>
-          <!-- <span
-            v-if="species.attributes.description"
-            ref="description"
-            class="black02"
-          > -->
           <v-skeleton-loader
-            v-if="Object.keys(species.attributes).length === 0"
+            v-if="Object.keys(attributes).length === 0"
             type="paragraph"
           ></v-skeleton-loader>
           <span
-            v-if="Object.keys(species.attributes).length > 0"
+            v-if="Object.keys(attributes).length > 0"
             ref="description"
             class="black02"
           >
             {{
-              species.attributes.description
-                ? species.attributes.description
+              attributes?.description
+                ? attributes.description
                 : 'Pas de description disponible actuellement pour cette espèce.'
             }}
           </span>
           <span
-            v-if="
-              Object.keys(species.attributes).length > 0 &&
-              species.attributes.description
-            "
+            v-if="Object.keys(attributes).length > 0 && attributes?.description"
             class="black02"
           >
             Pas de description disponible actuellement pour cette espèce.
@@ -60,93 +52,77 @@
         </div>
       </div>
       <species-monography-pictures-carousel
-        v-if="species.medias.Photos"
-        :pictures="species.medias.Photos"
+        v-if="medias?.Photos"
+        :pictures="medias.Photos"
       />
     </div>
-    <div
-      v-if="species.redLists || species.protectionStatus"
-      id="status"
-      class="Column"
-    >
+    <div v-if="redLists || species.protectionStatus" id="status" class="Column">
       <div class="StatusGrid">
-        <div v-if="species.redLists" class="Column">
+        <div v-if="redLists" class="Column">
           <h4 class="black02 fw-bold bottom-margin-16">
             Statuts de conservation
           </h4>
           <div class="StatusWrapper">
             <span class="black02 fw-bold bottom-margin-8">Listes rouges</span>
             <li
-              v-if="species.redLists.world"
-              class="StatusOption bottom-margin-8"
-            >
-              <span class="black02 flex-1 right-margin-8">Monde</span>
-              <div class="black02 StatusValue">
-                <div
-                  class="RedListSticker"
-                  :style="{
-                    background: $redLists()[species.redLists.world].bgColor,
-                  }"
-                >
-                  <h5
-                    class="fw-600"
-                    :style="{
-                      color: $redLists()[species.redLists.world].fontColor,
-                    }"
-                  >
-                    {{ species.redLists.world }}
-                  </h5>
-                </div>
-              </div>
-            </li>
-            <li
-              v-for="(item, index) in species.redLists.national"
+              v-for="(item, index) in redLists"
               :key="index"
               class="StatusOption bottom-margin-8"
             >
               <span class="black02 flex-1 right-margin-8">
-                {{ item.territory }}
+                {{ item.locationName }}
+                <span v-if="item.statusRemarks"
+                  >({{ item.statusRemarks }})</span
+                >
               </span>
-              <div class="black02 StatusValue">
+              <div v-if="item.statusCode" class="black02 StatusValue">
                 <div
                   class="RedListSticker"
-                  :style="{ background: $redLists()[item.statut].bgColor }"
+                  :style="{ background: $redLists(item.statusCode).bgColor }"
                 >
                   <h5
                     class="fw-600"
-                    :style="{ color: $redLists()[item.statut].fontColor }"
+                    :style="{ color: $redLists(item.statusCode).fontColor }"
                   >
-                    {{ item.statut }}
+                    {{ item.statusCode }}
                   </h5>
                 </div>
               </div>
             </li>
           </div>
         </div>
-        <div v-if="species.protectionStatus" class="Column">
+        <div
+          v-if="regulatories.length || europeenDirectives.length"
+          class="Column"
+        >
           <h4 class="black02 fw-bold bottom-margin-16">
-            Statuts de protection
+            Statuts réglementaires
           </h4>
-          <div v-if="species.protectionStatus.national" class="StatusWrapper">
-            <li class="StatusOption">
+          <div v-if="regulatories.length" class="StatusWrapper">
+            <li
+              v-for="(regulatory, index) in regulatories"
+              :key="index"
+              class="StatusOption"
+            >
               <span class="black02 fw-bold flex-1 right-margin-8">
-                Protection nationale
+                {{ regulatory.statusTypeName }} ({{ regulatory.locationName }})
               </span>
               <span class="black02 StatusValue">
-                {{ species.protectionStatus.national }}
+                {{ regulatory.statusName }}
               </span>
             </li>
           </div>
-          <div
-            v-if="species.protectionStatus.birdDirective"
-            class="StatusWrapper"
-          >
-            <li class="StatusOption">
+          <div v-if="europeenDirectives.length" class="StatusWrapper">
+            <li
+              v-for="(directive, index) in europeenDirectives"
+              :key="index"
+              class="StatusOption"
+            >
               <span class="black02 fw-bold flex-1 right-margin-8">
-                Directive oiseau
+                {{ directive.statusTypeName }} ({{ directive.locationName }})
               </span>
               <span class="black02 StatusValue">
-                {{ species.protectionStatus.birdDirective }}
+                {{ directive.statusName }}
               </span>
             </li>
           </div>
@@ -170,7 +146,7 @@
               {{ trait.label }}
             </span>
             <span class="black02">
-              {{ species.attributes[trait.key] }}
+              {{ attributes[trait.key] }}
             </span>
           </div>
         </div>
@@ -185,7 +161,7 @@
             {{ info.label }}
           </h4>
           <span class="black02">
-            {{ species.attributes[info.key] }}
+            {{ attributes[info.key] }}
           </span>
         </div>
       </div>
@@ -220,7 +196,7 @@
           >
             <img :src="link.icon" class="LinkOptionIcon" />
             <span class="fw-500">
-              <a :href="species.medias[link.key].url" target="_blank">
+              <a :href="medias[link.key].url" target="_blank">
                 {{ link.label }}
               </a>
             </span>
@@ -240,6 +216,7 @@ export default {
     },
   },
   data: () => ({
+    status: [],
     descriptionHeight: 0,
     subjectsList: [
       { label: 'Caractéristiques', slug: 'traits', position: 3 },
@@ -286,21 +263,45 @@ export default {
     ],
   }),
   computed: {
+    cdNom() {
+      return this.$store.state.species.cdNom
+    },
+    medias() {
+      return this.$store.state.species.medias
+    },
+    attributes() {
+      return this.$store.state.species.attributes
+    },
+    redLists() {
+      return this.status
+        .filter((i) => i.statusTypeGroup === 'Liste rouge')
+        .sort((a, b) => b.locationAdminLevel > a.locationAdminLevel)
+    },
+    regulatories() {
+      return this.status
+        .filter((i) => i.statusTypeGroup === 'Réglementation')
+        .sort((a, b) => b.locationAdminLevel > a.locationAdminLevel)
+    },
+    europeenDirectives() {
+      return this.status.filter(
+        (i) => i.statusTypeGroup === 'Directives européennes'
+      )
+    },
     filteredLinks() {
-      if (this.species.attributes.odf_common_name_fr) {
+      if (this.attributes.odf_common_name_fr) {
         // Si les données sont arrivées
         return this.linksList.filter((link) => {
-          return this.species.medias[link.key]
+          return this.medias[link.key]
         })
       } else {
         return []
       }
     },
     filteredTraits() {
-      if (this.species.attributes.odf_common_name_fr) {
+      if (this.attributes?.odf_common_name_fr) {
         // Si les données sont arrivées
         const filteredTraits = this.traitsList.filter((trait) => {
-          return this.species.attributes[trait.key]
+          return this.attributes[trait.key]
         })
         return filteredTraits.length > 0 ? filteredTraits : null
       } else {
@@ -308,10 +309,10 @@ export default {
       }
     },
     filteredFurtherInfo() {
-      if (this.species.attributes.odf_common_name_fr) {
+      if (this.attributes?.odf_common_name_fr) {
         // Si les données sont arrivées
         const filteredFurtherInfo = this.furtherInfoList.filter((info) => {
-          return this.species.attributes[info.key]
+          return this.attributes[info.key]
         })
         return filteredFurtherInfo.length > 0 ? filteredFurtherInfo : null
       } else {
@@ -320,6 +321,9 @@ export default {
     },
   },
   watch: {
+    cdNom() {
+      this.getStatus()
+    },
     species(newVal) {
       console.log('SPECIES', this.species)
       this.genSubjectList()
@@ -339,8 +343,19 @@ export default {
   },
   mounted() {
     this.genSubjectList()
+    this.getStatus()
   },
   methods: {
+    async getStatus() {
+      await this.$axios
+        .$get(`/api/taxa/${this.cdNom}/status/lines`)
+        .then((data) => (this.status = data._embedded.status))
+      console.log('STATUS', this.status)
+      console.log(
+        'redList',
+        this.status.filter((i) => i.statusTypeGroup === 'Réglementation')
+      )
+    },
     genSubjectList() {
       this.$store.commit('species/setSubjectsList', [])
       this.$store.commit('species/pushSubjectsList', {
@@ -348,21 +363,24 @@ export default {
         slug: 'description',
         position: 1,
       })
-      if (this.species.redLists || this.species.protectionStatus) {
-        this.$store.commit('species/pushSubjectsList', {
-          label: 'Statuts',
-          slug: 'status',
-          position: 2,
-        })
-      }
-      if (this.species.attributes.description) {
-        this.$store.commit('species/pushSubjectsList', {
-          label: 'Statuts',
-          slug: 'status',
-          position: 2,
-        })
-      }
-      if (this.filteredTraits || this.filteredFurtherInfo) {
+      // if (this.species.redLists || this.species.protectionStatus) {
+      //   this.$store.commit('species/pushSubjectsList', {
+      //     label: 'Statuts',
+      //     slug: 'status',
+      //     position: 2,
+      //   })
+      // }
+      // if (this.attributes.description) {
+      //   this.$store.commit('species/pushSubjectsList', {
+      //     label: 'Statuts',
+      //     slug: 'status',
+      //     position: 2,
+      //   })
+      // }
+      if (
+        this.filteredTraits?.length > 0 ||
+        this.filteredFurtherInfo?.length > 0
+      ) {
         this.$store.commit('species/pushSubjectsList', {
           label: 'Caractéristiques',
           slug: 'traits',
@@ -385,14 +403,14 @@ export default {
     },
     filteredTabs() {
       // Si les données sont arrivées
-      if (this.species.attributes.odf_common_name_fr) {
+      if (this.attributes?.odf_common_name_fr) {
         // Deep copy
         const tabs = JSON.parse(JSON.stringify(this.tabs))
         // SpeciesTab
         const speciesTabSubjects = ['links']
-        if (this.species.attributes.description || this.species.medias.Photos) {
-          speciesTabSubjects.push('description')
-        }
+        // if (this.attributes.description || this.medias.Photos) {
+        //   speciesTabSubjects.push('description')
+        // }
         if (this.species.redLists || this.species.protectionStatus) {
           speciesTabSubjects.push('status')
         }

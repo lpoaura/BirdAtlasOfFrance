@@ -8,7 +8,9 @@ export const state = () => ({
   subjectsMapOthersList: {},
   selectedSubject: {},
   selectedTerritory: {},
-  selectedSeason:{},
+  selectedSeason: {},
+  attributes: {},
+  medias: {},
 })
 
 export const getters = {
@@ -67,6 +69,12 @@ export const mutations = {
   },
   pushSubjectsMapOthersList(state, map) {
     state.subjectsMapOthersList.push(map)
+  },
+  setAttributes(state, attributes) {
+    state.attributes = attributes
+  },
+  setMedias(state, medias) {
+    state.medias = medias
   },
 }
 

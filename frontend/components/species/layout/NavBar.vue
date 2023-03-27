@@ -2,34 +2,34 @@
   <header v-if="species">
     <div class="Heading">
       <v-skeleton-loader
-        v-if="!species.medias.Photo_principale && !species.medias.Photos"
+        v-if="!medias?.Photo_principale && !medias?.Photos"
         class="SpeciesPicture"
         type="avatar"
       ></v-skeleton-loader>
       <div
-        v-if="species.medias.Photo_principale || species.medias.Photos"
+        v-if="medias?.Photo_principale || medias?.Photos"
         class="SpeciesPicture"
         :style="{
-          background: species.medias.Photo_principale
-            ? `url('${species.medias.Photo_principale.url}') center / cover`
-            : species.medias.Photos[0]
-            ? `url('${species.medias.Photos[0].url}') center / cover`
+          background: medias?.Photo_principale
+            ? `url('${medias?.Photo_principale.url}') center / cover`
+            : medias.Photos[0]
+            ? `url('${medias?.Photos[0].url}') center / cover`
             : 'darkgrey',
         }"
       ></div>
       <div class="Title">
         <v-skeleton-loader
-            v-if="!species.attributes.odf_common_name_fr"
+            v-if="!species.frenchVernacularName"
             type="text"
             >&nbsp;</v-skeleton-loader>
         <h3 class="fw-600">
-          {{ species.attributes.odf_common_name_fr }}
+          {{ species.frenchVernacularName }}
         </h3>
-        <h5 v-if="species.attributes.odf_sci_name">
-          <i>{{ species.attributes.odf_sci_name }}</i> &nbsp;|&nbsp;
-          {{ species.attributes.odf_common_name_en }}
+        <h5 v-if="species.referenceNameHtml">
+          <span v-html="species.referenceNameHtml"></span> &nbsp;|&nbsp;
+          {{ species.englishVernacularName }}
           <font class="not-on-mobile">
-            &nbsp;|&nbsp; Synonymes : {{ species.attributes.common_synonyms }}
+            &nbsp;|&nbsp; Synonymes : {{ attributes?.common_synonyms }}
           </font>
         </h5>
       </div>
@@ -65,6 +65,8 @@ export default {
   },
   data: () => {
     return {
+      regulatory: null,
+      redList: null,
       tabs: [
         {
           value: 'monography',
@@ -86,6 +88,15 @@ export default {
   },
 
   computed: {
+    cdNom() {
+      return this.$store.state.species.cdNom
+    },
+    medias() {
+      return this.$store.state.species.medias
+    },
+    attributes() {
+      return this.$store.state.species.attributes
+    },
     selectedTab() {
       return this.$store.state.species.selectedTab
     },
