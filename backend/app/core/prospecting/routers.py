@@ -4,9 +4,9 @@ import time
 from typing import Any, List, Optional
 
 from fastapi import APIRouter, Depends, Response
+from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
-from fastapi_cache.decorator import cache
 
 from app.utils.db import get_db
 
@@ -98,11 +98,11 @@ def area_list_knowledge_level(
 def area_taxa_list(
     id_area: int, db: Session = Depends(get_db), limit: Optional[int] = None
 ) -> Any:
-    q = area_knowledge_taxa_list.get_area_taxa_list(db=db, id_area=id_area)
-    logger.debug(q)
-    if not q:
+    query = area_knowledge_taxa_list.get_area_taxa_list(db=db, id_area=id_area)
+    logger.debug(query)
+    if not query:
         return Response(status_code=HTTP_204_NO_CONTENT)
-    return q
+    return query
 
 
 @router.get(

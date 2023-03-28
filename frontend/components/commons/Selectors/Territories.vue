@@ -112,7 +112,7 @@ export default {
         area_code: '01',
         area_name: 'Guadeloupe',
         icon: '/prospecting/Guadeloupe.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         area_code: '03',
@@ -133,13 +133,13 @@ export default {
         isActive: false,
       },
       {
-        area_code: null,
+        area_code: '988',
         area_name: 'Nouvelle Calédonie',
         icon: '/prospecting/Nouvelle-Caledonie.svg',
-        isActive: false,
+        isActive: true,
       },
       {
-        area_code: null,
+        area_code: '987',
         area_name: 'Polynésie Française',
         icon: '/prospecting/Polynesie.svg',
         isActive: false,
@@ -151,31 +151,31 @@ export default {
         isActive: false,
       },
       {
-        area_code: null,
+        area_code: '977',
         area_name: 'Saint Barthélémy',
         icon: '/prospecting/Saint-Barthelemy.svg',
         isActive: false,
       },
       {
-        area_code: null,
+        area_code: '978',
         area_name: 'Saint Martin',
         icon: '/prospecting/Saint-Martin.svg',
         isActive: false,
       },
       {
-        area_code: null,
+        area_code: '975',
         area_name: 'Saint Pierre et Miquelon',
         icon: '/prospecting/Saint-Pierre-et-Miquelon.svg',
-        isActive: false,
+        isActive: true,
       },
       {
-        area_code: null,
+        area_code: '984',
         area_name: 'TAAF',
         icon: '/prospecting/TAAF.svg',
         isActive: false,
       },
       {
-        area_code: null,
+        area_code: '986',
         area_name: 'Wallis et Futuna',
         icon: '/prospecting/Wallis-et-Futuna.svg',
         isActive: false,
@@ -187,7 +187,7 @@ export default {
   computed: {
     filteredTerritories() {
       return this.territoriesList.filter((territory) =>
-        territory.area_name
+        territory.area_code
           .toLowerCase()
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '')

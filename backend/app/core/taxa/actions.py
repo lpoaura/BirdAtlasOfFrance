@@ -1,11 +1,12 @@
 import logging
 from typing import List, Optional
 
+from fastapi_cache.decorator import cache
 from geoalchemy2 import functions as geofunc
 from sqlalchemy import VARCHAR, String, and_, case, cast, distinct, func, literal_column
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Session, aliased
-from fastapi_cache.decorator import cache
+from sqlalchemy.types import Integer
 
 from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
@@ -14,8 +15,8 @@ from app.core.ref_geo.models import BibAreasTypes, LAreas
 from .models import (
     MvAltitudeDistribution,
     MvAltitudeTerritory,
-    MvSurveyMapData,
     MvSurveyChartData,
+    MvSurveyMapData,
     MvTaxaAllPeriodPhenology,
     MvTaxaBreedingPhenology,
     THistoricAtlasesData,
@@ -115,10 +116,36 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
                 ),
             }
 
-        q = (
+        query = (
             db.query(
                 AreaKnowledgeTaxaList.id_area.label("id"),
-                func.json_build_object("status", values["status"]).label("properties"),
+                func.json_build_object(
+                    "status",
+                    values["status"],
+                    "radius",
+                    (
+                        func.round(
+                            cast(
+                                (
+                                    geofunc.ST_DistanceSphere(
+                                        geofunc.ST_MakePoint(
+                                            geofunc.ST_XMin(LAreas.geom),
+                                            geofunc.ST_YMin(LAreas.geom),
+                                        ),
+                                        geofunc.ST_MakePoint(
+                                            geofunc.ST_XMax(LAreas.geom),
+                                            geofunc.ST_YMin(LAreas.geom),
+                                        ),
+                                    )
+                                    / 2
+                                    * 0.9
+                                ),
+                                Integer,
+                            ),
+                            -2,
+                        )
+                    ),
+                ).label("properties"),
                 geom.label("geometry"),
             )
             .join(LAreas, LAreas.id_area == AreaKnowledgeTaxaList.id_area)
@@ -127,8 +154,8 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
         )
 
         if envelope:
-            q = q.filter(
-                geofunc.ST_Intersects(  # pylint: disable=E1101
+            query = query.filter(
+                geofunc.ST_Intersects(
                     LAreas.geom,
                     geofunc.ST_Transform(  # pylint: disable=E1101
                         geofunc.ST_MakeEnvelope(  # pylint: disable=E1101
@@ -138,9 +165,7 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
                     ),
                 )
             )
-
-        logger.debug("<taxa_distribution> q %s", q)
-        return q.all()
+        return query.all()
 
 
 class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution]):

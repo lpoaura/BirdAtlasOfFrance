@@ -2,9 +2,9 @@ import logging
 from typing import Any
 
 from fastapi import APIRouter, Depends, Response
+from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
-from fastapi_cache.decorator import cache
 
 from app.utils.db import get_db
 

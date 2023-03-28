@@ -1,23 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Backend entry point"""
+import hashlib
 import random
 import string
 import time
-import hashlib
+from enum import Enum
+from typing import Optional
 
 import uvicorn
-from typing import Optional
-from enum import Enum
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import RedirectResponse, StreamingResponse
-
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi_cache.decorator import cache
-
 from redis import asyncio as aioredis
 
 from app import __version__
