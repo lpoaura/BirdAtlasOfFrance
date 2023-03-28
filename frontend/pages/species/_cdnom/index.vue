@@ -98,7 +98,7 @@ export default {
   methods: {
     // async getOldSpecieData_old() {
     //   const species = await this.$axios
-    //     .$get(`/api/taxa/${this.cdNom}`)
+    //     .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}`)
     //     .then((data) => {
     //       if (data) {
     //         const species = {
@@ -202,7 +202,7 @@ export default {
     //     })
     // },
     async getSpecieData() {
-      this.species = await this.$axios.$get(`/api/taxa/${this.cdNom}`)
+      this.species = await this.$axios.$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}`)
       await this.$axios
         .$get(`/taxhub/api/bibnoms/taxoninfo/${this.cdNom}`, {
           headers: {

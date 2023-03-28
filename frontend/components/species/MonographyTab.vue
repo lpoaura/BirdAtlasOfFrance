@@ -348,7 +348,7 @@ export default {
   methods: {
     async getStatus() {
       await this.$axios
-        .$get(`/api/taxa/${this.cdNom}/status/lines`)
+        .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}/status/lines`)
         .then((data) => (this.status = data._embedded.status))
       console.log('STATUS', this.status)
       console.log(
