@@ -140,7 +140,7 @@ export default {
   axios: {
     // baseURL: 'http://localhost:8888',
     proxy: true,
-    retry: { retries: 5, retryDelay: 200 },
+    retry: { retries: 5 },
   },
   // publicRuntimeConfig: {
   //   axios: {
