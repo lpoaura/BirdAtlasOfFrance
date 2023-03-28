@@ -70,10 +70,8 @@
               class="StatusOption bottom-margin-8"
             >
               <span class="black02 flex-1 right-margin-8">
-                {{ item.locationName }} {{ item.locationAdminLevel }}
-                {{ item.locationId }}
-                <span v-if="item.statusRemarks"
-                  >({{ item.statusRemarks }})</span
+                {{ item.locationName }}<span v-if="item.statusRemarks"
+                  > ({{ item.statusRemarks }})</span
                 >
               </span>
               <div v-if="item.statusCode" class="black02 StatusValue">
