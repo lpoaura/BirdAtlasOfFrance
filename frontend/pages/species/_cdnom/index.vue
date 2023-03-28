@@ -202,7 +202,9 @@ export default {
     //     })
     // },
     async getSpecieData() {
-      this.species = await this.$axios.$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}`)
+      this.species = await this.$axios.$get(
+        `https://taxref.mnhn.fr/api/taxa/${this.cdNom}`
+      )
       await this.$axios
         .$get(`/taxhub/api/bibnoms/taxoninfo/${this.cdNom}`, {
           headers: {
@@ -254,6 +256,17 @@ export default {
           this.$store.commit('species/setMedias', medias)
         })
       console.log('attributes', this.attributes)
+
+      setTimeout(() => {
+        // Le timeout permet d'être assuré que les contenus sont bien integrés à la page
+        this.defineDomCurrentScrollingItems() // Certaines sections ne sont affichées qu'une fois les données récupérées
+        const scrollingContainerHeight =
+          this.$refs.scrollingContainer.offsetHeight
+        document.documentElement.style.setProperty(
+          '--scrolling-container-height',
+          `${scrollingContainerHeight}px`
+        )
+      }, 1000)
     },
     defineSelectedTab() {
       this.defineSelectedSubject()
