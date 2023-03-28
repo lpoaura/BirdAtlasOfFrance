@@ -546,7 +546,10 @@ export default {
     },
     speciesDistributionPointToLayer() {
       return (geojsonPoint, latlng) => {
-        return this.$L.circle(latlng, { radius: 4800 })
+        console.log('geojsonPoint', geojsonPoint)
+        return this.$L.circle(latlng, {
+          radius: geojsonPoint.properties.radius || 4800,
+        })
       }
     },
     speciesDistributionOnEachFeature() {
@@ -714,7 +717,7 @@ export default {
       if (newVal.name) {
         const territory = this.$L.geoJSON(
           this.territoriesEnvelopes.features.filter((item) => {
-            return item.properties.area_name === newVal.name
+            return item.properties.area_code === newVal.area_code
           })
         )
         this.isProgramaticZoom = true

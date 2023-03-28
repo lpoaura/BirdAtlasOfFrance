@@ -10,6 +10,7 @@ from sqlalchemy import Integer
 
 class TaxaDistributionProperties(BaseModel):
     status: Optional[str]
+    radius: Optional[str]
 
 
 class TaxaDistributionFeature(Feature):
