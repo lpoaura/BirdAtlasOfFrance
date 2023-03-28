@@ -36,8 +36,8 @@ class Settings(BaseSettings):
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
     SQLALCHEMY_POOL_SIZE: int = 5
     SQLALCHEMY_MAX_OVERFLOW: int = 10
-    CACHE_REDIS_HOST: str = 'localhost'
-    CACHE_REDIS_PORT: str = '6379'
+    CACHE_REDIS_HOST: str = "localhost"
+    CACHE_REDIS_PORT: str = "6379"
     CACHE_DURATION: int = 1440
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)

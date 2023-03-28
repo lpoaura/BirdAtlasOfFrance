@@ -526,7 +526,9 @@ export default {
     },
     speciesDistributionPointToLayer() {
       return (geojsonPoint, latlng) => {
-        return this.$L.circle(latlng, { radius: 4800 })
+        return this.$L.circle(latlng, {
+          radius: geojsonPoint.properties.radius || 4800,
+        })
       }
     },
     speciesDistributionOnEachFeature() {

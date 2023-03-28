@@ -112,7 +112,7 @@ class AreaKnowledgeTaxaListActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
     """Post actions with basic CRUD operations"""
 
     def get_area_taxa_list(self, db: Session, id_area: int, limit: Optional[int] = None) -> List:
-        q = db.query(
+        query = db.query(
             AreaKnowledgeTaxaList.id_area,
             AreaKnowledgeTaxaList.cd_nom,
             AreaKnowledgeTaxaList.sci_name,
@@ -150,9 +150,8 @@ class AreaKnowledgeTaxaListActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
         ).filter(AreaKnowledgeTaxaList.id_area == id_area)
 
         if limit:
-            q = q.limit(limit)
-        logger.debug(f"Q {dir(q)}")
-        return q.order_by(AreaKnowledgeTaxaList.common_name_fr).all()
+            query = query.limit(limit)
+        return query.order_by(AreaKnowledgeTaxaList.common_name_fr).all()
 
 
 class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
