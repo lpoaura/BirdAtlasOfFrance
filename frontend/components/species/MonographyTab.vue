@@ -70,7 +70,8 @@
               class="StatusOption bottom-margin-8"
             >
               <span class="black02 flex-1 right-margin-8">
-                {{ item.locationName }}
+                {{ item.locationName }} {{ item.locationAdminLevel }}
+                {{ item.locationId }}
                 <span v-if="item.statusRemarks"
                   >({{ item.statusRemarks }})</span
                 >
@@ -325,7 +326,6 @@ export default {
       this.getStatus()
     },
     species(newVal) {
-      console.log('SPECIES', this.species)
       this.genSubjectList()
       setTimeout(() => {
         // Le timeout permet d'être assuré que le texte est bien integré à l'élément
@@ -333,6 +333,21 @@ export default {
           this.descriptionHeight = this.$refs.description.offsetHeight
         }
       }, 100)
+    },
+    status() {
+      if (
+        this.status.filter((i) =>
+          ['Liste rouge', 'Réglementation', 'Directives européennes'].includes(
+            i.statusTypeGroup
+          )
+        )
+      ) {
+        this.$store.commit('species/pushSubjectsList', {
+          label: 'Statuts',
+          slug: 'status',
+          position: 2,
+        })
+      }
     },
   },
   beforeMount() {
@@ -350,11 +365,6 @@ export default {
       await this.$axios
         .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}/status/lines`)
         .then((data) => (this.status = data._embedded.status))
-      console.log('STATUS', this.status)
-      console.log(
-        'redList',
-        this.status.filter((i) => i.statusTypeGroup === 'Réglementation')
-      )
     },
     genSubjectList() {
       this.$store.commit('species/setSubjectsList', [])
