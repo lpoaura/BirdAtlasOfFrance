@@ -333,7 +333,7 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
         logger.debug(f"<taxa_distribution> q {q}")
         return q.all()
 
-    def list_historic_atlas(self, db: Session, cd_nom: int = None) -> List:
+    def list_historic_atlas(self, db: Session, cd_nom: int = None) -> Optional[List]:
         """_summary_
 
         :param db: Database session
@@ -347,7 +347,7 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
             func.array_agg(distinct(THistoricAtlasesInfo.season_period), type_=VARCHAR),
             ARRAY(String),
         ).label("seasons")
-        q = (
+        query = (
             db.query(
                 THistoricAtlasesInfo.atlas_period.label("label"),
                 THistoricAtlasesInfo.description.label("name"),
@@ -363,14 +363,13 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
             .order_by(THistoricAtlasesInfo.atlas_period.desc())
             .distinct()
         )
-        if cd_nom:
-            q = q.join(
-                THistoricAtlasesData,
-                THistoricAtlasesInfo.id == THistoricAtlasesData.id_historic_atlas_info,
-            ).filter(THistoricAtlasesData.cd_nom == cd_nom)
-        print("jlkjlk")
-        print(q.all()[0])
-        return q.all()
+        if query:
+            if cd_nom:
+                query = query.join(
+                    THistoricAtlasesData,
+                    THistoricAtlasesInfo.id == THistoricAtlasesData.id_historic_atlas_info,
+                ).filter(THistoricAtlasesData.cd_nom == cd_nom)
+            return query.all()
 
 
 class SurveyMapDataActions(BaseReadOnlyActions[MvSurveyMapData]):
