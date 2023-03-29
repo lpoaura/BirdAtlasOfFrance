@@ -18,10 +18,9 @@
         }"
       ></div>
       <div class="Title">
-        <v-skeleton-loader
-            v-if="!species.frenchVernacularName"
-            type="text"
-            >&nbsp;</v-skeleton-loader>
+        <v-skeleton-loader v-if="!species.frenchVernacularName" type="text"
+          >&nbsp;</v-skeleton-loader
+        >
         <h3 class="fw-600">
           {{ species.frenchVernacularName }}
         </h3>
@@ -46,11 +45,11 @@
           {{ item.label }}
         </div>
       </menu>
-      <!-- <dropdown-list
+      <dropdown-list
         v-model="selectedTabModel"
         :z-index="3"
         :items-list="tabs"
-      /> -->
+      />
     </div>
   </header>
 </template>
@@ -101,14 +100,14 @@ export default {
       return this.$store.state.species.selectedTab
     },
     // Permet de mettre à jour selectedTab seulement après le $router.push
-    // selectedTabModel: {
-    //   get() {
-    //     return this.selectedTab
-    //   },
-    //   set(value) {
-    //     this.$router.push(`${value.hash}`)
-    //   },
-    // },
+    selectedTabModel: {
+      get() {
+        return this.selectedTab
+      },
+      set(value) {
+        this.updateSelectedTab(value)
+      },
+    },
   },
   watch: {
     $route(newVal) {
