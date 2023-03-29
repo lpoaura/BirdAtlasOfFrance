@@ -25,7 +25,7 @@ export default {
   data: () => ({
     selectedSubject: { label: '', slug: '' },
     detectMobile: false,
-    domCurrentScrollingItems: {},
+    domCurrentScrollingItems: [],
     scrollListener: true,
     scrollDuration: 600,
     species: {
