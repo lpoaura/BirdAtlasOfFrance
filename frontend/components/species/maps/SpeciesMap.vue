@@ -99,39 +99,35 @@ export default {
     speciesDistributionGeojsonStyle() {
       return (feature, layer) => {
         if (this.selectedSeason.speciesDistributionColors) {
-          if (
-            !this.selectedSubject.slug.startsWith('compare') &&
-            this.selectedSeason.value === 'breeding'
-          ) {
-            console.debug('CASE breeding')
-            return {
-              weight: 1.4,
-              color:
-                feature.properties.status === 'Nicheur possible'
-                  ? this.selectedSeason.speciesDistributionColors[0]
-                  : feature.properties.status === 'Nicheur probable'
-                  ? this.selectedSeason.speciesDistributionColors[1]
-                  : this.selectedSeason.speciesDistributionColors[2],
-              fillColor:
-                feature.properties.status === 'Nicheur possible'
-                  ? this.selectedSeason.speciesDistributionColors[0]
-                  : feature.properties.status === 'Nicheur probable'
-                  ? this.selectedSeason.speciesDistributionColors[1]
-                  : this.selectedSeason.speciesDistributionColors[2],
-              fillOpacity: 0.7,
+          if (!this.selectedSubject.slug.startsWith('compare')) {
+            if (this.selectedSeason.value === 'breeding') {
+              console.debug('CASE breeding')
+              return {
+                weight: 1.4,
+                color:
+                  feature.properties.status === 'Nicheur possible'
+                    ? this.selectedSeason.speciesDistributionColors[0]
+                    : feature.properties.status === 'Nicheur probable'
+                    ? this.selectedSeason.speciesDistributionColors[1]
+                    : this.selectedSeason.speciesDistributionColors[2],
+                fillColor:
+                  feature.properties.status === 'Nicheur possible'
+                    ? this.selectedSeason.speciesDistributionColors[0]
+                    : feature.properties.status === 'Nicheur probable'
+                    ? this.selectedSeason.speciesDistributionColors[1]
+                    : this.selectedSeason.speciesDistributionColors[2],
+                fillOpacity: 0.7,
+              }
+            } else {
+              console.debug('CASE not breeding not diff ODF vs AOFM')
+              return {
+                weight: 1.4,
+                color: this.selectedSeason.speciesDistributionColors[0],
+                fillColor: this.selectedSeason.speciesDistributionColors[0],
+                fillOpacity: 0.7,
+              }
             }
-          } else if (
-            !this.selectedSubject.slug.startsWith('compare') &&
-            !this.selectedSeason.value === 'breeding'
-          ) {
-            console.debug('CASE not breeding not diff ODFvsAOFM')
-            return {
-              weight: 1.4,
-              color: this.selectedSeason.speciesDistributionColors[0],
-              fillColor: this.selectedSeason.speciesDistributionColors[0],
-              fillOpacity: 0.7,
-            }
-          } else if (this.selectedSubject.slug.startsWith('compare')) {
+          } else {
             console.debug('CASE compare ODFvsAOFM')
             return {
               weight: 0,

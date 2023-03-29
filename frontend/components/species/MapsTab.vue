@@ -1,5 +1,5 @@
 <template>
-  <div class="SpeciesCardContent map" >
+  <div class="SpeciesCardContent map">
     <client-only v-if="selectedSubject && selectedSubject.slug != 'extra-map'">
       <lazy-species-map
         :selected-territory="selectedTerritory"
@@ -61,7 +61,7 @@ export default {
     ],
   }),
   computed: {
-    cdNom(){
+    cdNom() {
       return this.$store.state.species.cdNom
     },
     selectedSubject() {
@@ -72,7 +72,7 @@ export default {
     },
     selectedTerritory() {
       return this.$store.state.species.selectedTerritory
-    }
+    },
   },
   mounted() {
     this.initSubjectsList()
@@ -94,10 +94,19 @@ export default {
       )
     },
     loadHistoricAtlasList() {
+      const params = {
+        cd_nom: this.cdNom,
+      }
       this.$axios
-        .$get(`/api/v1/taxa/historic/atlas/list?cd_nom=${this.cdNom}`)
+        .$get(`/api/v1/taxa/historic/atlas/list`, {
+          params
+        })
         .then((data) => {
-          data.forEach(item => this.$store.commit('species/pushSubjectsMapAtlasList', item))
+          if (data) {
+            data.forEach((item) =>
+              this.$store.commit('species/pushSubjectsMapAtlasList', item)
+            )
+          }
         })
         .catch((error) => {
           console.error(error)
