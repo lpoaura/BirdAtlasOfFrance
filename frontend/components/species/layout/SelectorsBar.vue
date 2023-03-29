@@ -154,14 +154,14 @@ export default {
 </script>
 
 <style>
-.MapSelectors {
+/* .MapSelectors {
   padding: 24px 40px;
   justify-content: flex-start;
   align-items: center;
   column-gap: 40px;
   row-gap: 16px;
   flex-wrap: wrap;
-}
+} */
 
 .MapSelectors.map {
   border-bottom: 1px solid rgba(57, 118, 90, 0.1);
