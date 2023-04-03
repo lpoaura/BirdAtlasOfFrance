@@ -599,6 +599,10 @@ export default {
   margin-bottom: 0;
 }
 
+.StatusOption{
+  margin-bottom: 20px;
+}
+
 .StatusOption,
 .LinkOption {
   list-style: none;
