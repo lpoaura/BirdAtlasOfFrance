@@ -69,23 +69,45 @@
               :key="index"
               class="StatusOption bottom-margin-8"
             >
-              <span class="black02 flex-1 right-margin-8">
-                {{ item.locationName }}<span v-if="item.statusRemarks"
-                  > ({{ item.statusRemarks }})</span
-                >
-              </span>
-              <div v-if="item.statusCode" class="black02 StatusValue">
-                <div
-                  class="RedListSticker"
-                  :style="{ background: $redLists(item.statusCode).bgColor }"
-                >
-                  <h5
-                    class="fw-600"
-                    :style="{ color: $redLists(item.statusCode).fontColor }"
+              <v-tooltip bottom>
+                <template #activator="{ on, attrs }">
+                  <span
+                    v-bind="attrs"
+                    class="black02 flex-1 right-margin-8"
+                    v-on="on"
                   >
-                    {{ item.statusCode }}
-                  </h5>
-                </div>
+                    {{ item.locationName }} (<span class="text--disabled">{{
+                      item.statusTypeName
+                    }}</span
+                    ><span v-if="item.statusRemarks">
+                      - {{ item.statusRemarks }}</span
+                    >)
+                  </span>
+                </template>
+                <span class="text-white" v-html="item.source"></span>
+              </v-tooltip>
+
+              <div v-if="item.statusCode" class="black02 float-right">
+                <v-tooltip bottom>
+                  <template #activator="{ on, attrs }">
+                    <div
+                      v-bind="attrs"
+                      class="RedListSticker"
+                      :style="{
+                        background: $redLists(item.statusCode).bgColor,
+                      }"
+                      v-on="on"
+                    >
+                      <h5
+                        class="fw-600"
+                        :style="{ color: $redLists(item.statusCode).fontColor }"
+                      >
+                        {{ item.statusCode }}
+                      </h5>
+                    </div>
+                  </template>
+                  <span class="text-white">{{ item.statusName }}</span>
+                </v-tooltip>
               </div>
             </li>
           </div>
@@ -216,6 +238,7 @@ export default {
   },
   data: () => ({
     status: [],
+    adminLevelOrderedList: ['État', 'Territoire'],
     descriptionHeight: 0,
     subjectsList: [
       { label: 'Caractéristiques', slug: 'traits', position: 3 },
@@ -273,8 +296,16 @@ export default {
     },
     redLists() {
       return this.status
-        .filter((i) => i.statusTypeGroup === 'Liste rouge')
-        .sort((a, b) => b.locationAdminLevel > a.locationAdminLevel)
+        .filter(
+          (i) =>
+            i.statusTypeGroup === 'Liste rouge' &&
+            this.adminLevelOrderedList.includes(i.locationAdminLevel)
+        )
+        .sort(
+          (a, b) =>
+            this.adminLevelOrderedList.indexOf(a.locationAdminLevel) -
+            this.adminLevelOrderedList.indexOf(b.locationAdminLevel)
+        )
     },
     regulatories() {
       return this.status
@@ -359,6 +390,9 @@ export default {
     this.getStatus()
   },
   methods: {
+    consoleLog(message) {
+      console.log(message)
+    },
     async getStatus() {
       await this.$axios
         .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}/status/lines`)
@@ -580,6 +614,14 @@ export default {
   flex: 0.7;
   display: flex;
   align-items: center;
+}
+
+.v-tooltip__content {
+  background-color: white;
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 10px;
+  max-width: 50%;
 }
 
 .RedListSticker {
