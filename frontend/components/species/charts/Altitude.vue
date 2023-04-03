@@ -80,15 +80,15 @@ export default {
     },
     async getChartData() {
       if (this.idArea) {
-        const requestParams = {
+        const url = `/api/v1/taxa/altitude`
+        const params = {
           cd_nom: this.cdNom,
           id_area: this.idArea,
           period: this.selectedSeason.value,
         }
-        const url = `/api/v1/taxa/altitude/`
         this.chartData = await this.$axios
           .$get(url, {
-            params: requestParams,
+            params
           })
           .catch((error) => {
             console.error(error)

@@ -64,10 +64,18 @@ export default {
       })
     },
     async getChartData() {
-      const url = `/api/v1/taxa/phenology/breeding/${this.idArea}/${this.cdNom}`
-      this.chartData = await this.$axios.$get(url).catch((error) => {
-        console.error(error)
-      })
+      const url = `/api/v1/taxa/phenology/breeding`
+      const params = {
+        cd_nom: this.cdNom,
+        id_area: this.idArea,
+      }
+      this.chartData = await this.$axios
+        .$get(url, {
+          params,
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     },
     renderChart() {
       // Get bar plot size
