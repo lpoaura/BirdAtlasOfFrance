@@ -600,7 +600,7 @@ export default {
 }
 
 .StatusOption{
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .StatusOption,
