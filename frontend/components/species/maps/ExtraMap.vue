@@ -116,15 +116,16 @@ export default {
       this.apiRequestController = this.$axios.CancelToken.source()
       this.dataLoading = true
       // Url Source selection
-      const requestParams = {
+      const url = `/api/v1/taxa/survey/map`
+      const params = {
         cd_nom: this.cdNom,
         phenology_period: this.selectedSeason.value,
         id_area_atlas_territory: this.idArea,
       }
       const axios = this.$axios
       this.mapData = await this.$axios
-        .$get(`/api/v1/taxa/survey/map`, {
-          params: requestParams,
+        .$get(url, {
+          params,
           cancelToken: this.apiRequestController.token,
         })
         .catch(function (thrown) {
@@ -244,6 +245,4 @@ export default {
 .tooltip-values {
   color: white;
 }
-
-
 </style>

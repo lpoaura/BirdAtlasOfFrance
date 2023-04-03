@@ -221,7 +221,7 @@ def altitudinal_distribution(
 
 
 @router.get(
-    "/phenology/allperiod/{id_area}/{cd_nom}",
+    "/phenology/allperiod",
     response_model=TaxaPhenologyApiData,
     tags=["taxa"],
     summary="Altitudinal distribution",
@@ -259,7 +259,7 @@ def all_period_phenology_distribution(
 
 
 @router.get(
-    "/phenology/breeding/{id_area}/{cd_nom}",
+    "/phenology/breeding",
     response_model=TaxaBreedingPhenologyApiData,
     tags=["taxa"],
     summary="Breeding phenology distribution",

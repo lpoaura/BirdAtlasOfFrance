@@ -94,12 +94,13 @@ export default {
       )
     },
     loadHistoricAtlasList() {
+      const url = `/api/v1/taxa/historic/atlas/list`
       const params = {
         cd_nom: this.cdNom,
       }
       this.$axios
-        .$get(`/api/v1/taxa/historic/atlas/list`, {
-          params
+        .$get(url, {
+          params,
         })
         .then((data) => {
           if (data) {
