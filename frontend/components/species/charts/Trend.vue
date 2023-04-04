@@ -76,7 +76,7 @@ export default {
         id_area_atlas_territory: this.idArea,
         phenology_period: this.phenologyPeriod,
       }
-      const url = `api/v1/taxa/survey/chart`
+      const url = `api/v1/taxa/chart/survey`
       this.chartData = await this.$axios
         .$get(url, {
           params: requestParams,

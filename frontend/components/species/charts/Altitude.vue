@@ -80,7 +80,7 @@ export default {
     },
     async getChartData() {
       if (this.idArea) {
-        const url = `/api/v1/taxa/altitude`
+        const url = `/api/v1/taxa/chart/altitude`
         const params = {
           cd_nom: this.cdNom,
           id_area: this.idArea,

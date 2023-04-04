@@ -64,7 +64,7 @@ export default {
       })
     },
     async getChartData() {
-      const url = `/api/v1/taxa/phenology/breeding`
+      const url = `/api/v1/taxa/chart/phenology/breeding`
       const params = {
         cd_nom: this.cdNom,
         id_area: this.idArea,

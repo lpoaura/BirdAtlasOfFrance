@@ -782,7 +782,7 @@ export default {
     },
     loadHistoricAtlasList() {
       this.$axios
-        .$get(`/api/v1/taxa/historic/atlas/list?cd_nom=${this.cdnom}`)
+        .$get(`/api/v1/taxa/list/historic/atlas?cd_nom=${this.cdnom}`)
         .then((data) => {
           this.tabs[2].subjects.atlas = [
             ...this.tabs[2].subjects.atlas,
@@ -803,7 +803,7 @@ export default {
 
     getGlobalPhenologyDistribution() {
       this.$axios
-        .$get(`/api/v1/taxa/phenology/allperiod/${this.id_area}/${this.cdnom}`)
+        .$get(`/api/v1/taxa/chart/phenology/allperiod/${this.id_area}/${this.cdnom}`)
         .then((data) => {
           this.dataPhenologyAllPeriod = data
         })
@@ -813,7 +813,7 @@ export default {
     },
     getBreedingPhenologyDistribution() {
       this.$axios
-        .$get(`/api/v1/taxa/phenology/breeding/${this.id_area}/${this.cdnom}`)
+        .$get(`/api/v1/taxa/chart/phenology/breeding/${this.id_area}/${this.cdnom}`)
         .then((data) => {
           this.dataPhenologyBreeding = data
           console.debug('dataPhenologyBreeding', this.dataPhenologyBreeding)

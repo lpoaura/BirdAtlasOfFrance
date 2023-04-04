@@ -37,7 +37,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/distribution",
+    "/map/distribution",
     response_model=TaxaDistributionFeaturesCollection,
     tags=["taxa"],
     summary="taxon geographic distribution",
@@ -93,7 +93,7 @@ def list_lareas(
 
 
 # @router.get(
-#     "/data/altitudes/{id_area}",
+#     "/data/chart/altitudes/{id_area}",
 #     response_model=TaxaAltitudeDistributionSchema,
 #     tags=["taxa"],
 #     summary="taxon geographic distribution",
@@ -124,7 +124,7 @@ def list_lareas(
 
 
 @router.get(
-    "/historic/atlas/data",
+    "/map/historic/atlas",
     response_model=TaxaDistributionFeaturesCollection,
     tags=["taxa"],
     summary="taxon geographic distribution (Historic atlases)",
@@ -167,7 +167,7 @@ def historic_atlases(
 
 
 @router.get(
-    "/historic/atlas/list",
+    "/list/historic/atlas",
     response_model=List[HistoricAtlasInfosSchema],
     tags=["taxa"],
     summary="List historic atlases",
@@ -184,7 +184,7 @@ def list_historic_atlases(db: Session = Depends(get_db), cd_nom: int = None) -> 
 
 
 @router.get(
-    "/altitude",
+    "/chart/altitude",
     response_model=TaxaAltitudinalApiData,
     tags=["taxa"],
     summary="Altitudinal distribution",
@@ -221,7 +221,7 @@ def altitudinal_distribution(
 
 
 @router.get(
-    "/phenology/allperiod",
+    "/chart/phenology/allperiod",
     response_model=TaxaPhenologyApiData,
     tags=["taxa"],
     summary="Altitudinal distribution",
@@ -259,7 +259,7 @@ def all_period_phenology_distribution(
 
 
 @router.get(
-    "/phenology/breeding",
+    "/chart/phenology/breeding",
     response_model=TaxaBreedingPhenologyApiData,
     tags=["taxa"],
     summary="Breeding phenology distribution",
@@ -294,7 +294,7 @@ def breeding_phenology_distribution(
 
 
 @router.get(
-    "/survey/map",
+    "/map/survey/map",
     response_model=SurveyMapDataFeaturesCollection,
     tags=["taxa"],
     summary="taxon geographic distribution",
@@ -325,7 +325,7 @@ def get_survey_map_data(
 
 
 @router.get(
-    "/survey/chart",
+    "/chart/survey",
     response_model=List[SurveyChartDataItem],
     tags=["taxa"],
     summary="taxon geographic distribution",

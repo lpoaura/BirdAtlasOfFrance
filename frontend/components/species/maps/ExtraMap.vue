@@ -116,7 +116,7 @@ export default {
       this.apiRequestController = this.$axios.CancelToken.source()
       this.dataLoading = true
       // Url Source selection
-      const url = `/api/v1/taxa/survey/map`
+      const url = `/api/v1/taxa/map/survey`
       const params = {
         cd_nom: this.cdNom,
         phenology_period: this.selectedSeason.value,
