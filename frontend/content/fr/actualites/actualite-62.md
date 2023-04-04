@@ -1,5 +1,5 @@
 ---
-title: "Les données des territoires d’Outremer sont désormais visualisables sur l’onglet cartes !"
+title: "Les données des territoires d’Outremer sont désormais visualisables sur l’onglet cartes!"
 picture: actualite-62.webp
 credit: Héron vert (Butorides virescens) © Michel Desbiens
 centering: center
