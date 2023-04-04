@@ -94,7 +94,7 @@ export default {
       )
     },
     loadHistoricAtlasList() {
-      const url = `/api/v1/taxa/historic/atlas/list`
+      const url = `/api/v1/taxa/list/historic/atlas`
       const params = {
         cd_nom: this.cdNom,
       }

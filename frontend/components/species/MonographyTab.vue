@@ -119,7 +119,7 @@
           <h4 class="black02 fw-bold bottom-margin-16">
             Statuts réglementaires
           </h4>
-          <div v-if="regulatories.length" class="StatusWrapper">
+          <div v-if="regulatories.length" id="Regulatory" class="StatusWrapper">
             <li
               v-for="(regulatory, index) in regulatories"
               :key="index"
@@ -599,9 +599,9 @@ export default {
   margin-bottom: 0;
 }
 
-.StatusOption{
+/* .StatusOption{
   margin-bottom: 16px;
-}
+} */
 
 .StatusOption,
 .LinkOption {

@@ -238,35 +238,35 @@ export default {
       this.apiRequestController = this.$axios.CancelToken.source()
       this.speciesDistributionIsLoading = true
       // Url Source selection
-      let requestParams = {
+      let params = {
         cd_nom: this.cdNom,
         phenology_period: this.selectedSeason.value,
         atlas_period: `new`,
         grid: true,
         envelope: this.envelope ? this.envelope.toString() : null,
       }
-      let url = `/api/v1/taxa/distribution`
+      let url = `/api/v1/taxa/map/distribution`
       if (this.selectedSubject.slug === 'odf') {
         console.debug('ODF data')
-        url = `/api/v1/taxa/distribution`
-        requestParams = { ...requestParams }
+        url = `/api/v1/taxa/map/distribution`
+        params = { ...params }
       } else if (this.selectedSubject.slug.startsWith('aofm')) {
         console.debug('AOFM data')
-        url = `/api/v1/taxa/historic/atlas/data`
-        requestParams = { ...requestParams }
-        requestParams.atlas_period = this.selectedSubject.label
-        requestParams.period = this.selectedSeason.value
+        url = `/api/v1/taxa/map/historic/atlas`
+        params = { ...params }
+        params.atlas_period = this.selectedSubject.label
+        params.period = this.selectedSeason.value
       } else if (this.selectedSubject.slug.startsWith('compare')) {
         console.debug('ODF VS AOFM')
-        url = `/api/v1/taxa/distribution`
-        requestParams = { ...requestParams }
-        requestParams.atlas_period = 'compare'
-        requestParams.grid = false
+        url = `/api/v1/taxa/map/distribution`
+        params = { ...params }
+        params.atlas_period = 'compare'
+        params.grid = false
       }
       const axios = this.$axios
       this.speciesDistributionGeojson = await this.$axios
         .$get(url, {
-          params: requestParams,
+          params,
           cancelToken: this.apiRequestController.token,
         })
         // .then((data) => (this.speciesDistributionGeojson = data))

@@ -974,7 +974,7 @@ export default {
         const grid = this.currentZoom >= 11
         this.$axios
           .$get(
-            `/api/v1/taxa/distribution?cd_nom=${species.code}&phenology_period=${this.selectedSeason.value}&atlas_period=new&grid=${grid}&envelope=${this.envelope}`,
+            `/api/v1/taxa/map/distribution?cd_nom=${species.code}&phenology_period=${this.selectedSeason.value}&atlas_period=new&grid=${grid}&envelope=${this.envelope}`,
             {
               cancelToken: this.axiosSourceSpeciesDistribution.token,
             }
