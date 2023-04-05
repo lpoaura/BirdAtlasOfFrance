@@ -18,7 +18,7 @@ active: true
 
 Les territoires ultramarins ouverts actuellement à la consultation sont la Guyane, la Guadeloupe, la Nouvelle-Calédonie et Saint-Pierre-et-Miquelon. Saint-Martin et Saint-Barthélemy suivront dans quelques temps. 
 
-## Comment accéder aux cartes sur les différents territoires ?
+## Comment accéder aux cartes ?
 
 Rendez-vous d’abord dans [l’onglet « Cartes »](https://www.oiseauxdefrance.org/prospecting) puis dans l’onglet « Territoire », en haut à droite de l’écran d’accueil. 
 
