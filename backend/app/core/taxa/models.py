@@ -12,6 +12,16 @@ from app.utils.db import Base
 logger = logging.getLogger(__name__)
 
 
+class MvTaxaTerritoryDistribution(Base):
+    __tablename__ = "mv_taxa_territory_distribution"
+    __table_args__ = {"schema": "atlas"}
+    id = Column(Integer, primary_key=True)
+    cd_nom = Column(Integer)
+    id_area = Column(Integer)
+    area_code = Column(String)
+    area_name = Column(String)
+
+
 class MvTerritoryAltitudeRanges(Base):
     """Territory altitude ranges"""
 

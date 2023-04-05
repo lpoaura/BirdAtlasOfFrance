@@ -4,6 +4,11 @@ from geojson_pydantic.features import Feature, FeatureCollection
 from pydantic import BaseModel
 
 
+class TaxaTerritoryDistribution(BaseModel):
+    cd_nom: int
+    areas: List[str]
+
+
 class TaxaDistributionProperties(BaseModel):
     status: Optional[str]
     radius: Optional[str]
