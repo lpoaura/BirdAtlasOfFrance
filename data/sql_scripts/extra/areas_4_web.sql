@@ -267,17 +267,3 @@ GROUP BY ref_geo.get_id_area_type('DEP_SIMPLIFY')
 
 COMMIT
 ;
-
-SELECT DISTINCT cd_nom
-FROM src_survey.vm_carto_reg_information;
-
-EXPLAIN
-    ANALYZE
-SELECT atlas.mv_survey_chart_data.id                        AS atlas_mv_survey_chart_data_id,
-       json_build_object('nb_dormitories', atlas.mv_survey_chart_data.nb_dormitories, 'nb_ind',
-                         atlas.mv_survey_chart_data.nb_ind) AS properties,
-       l_areas_1.geojson_4326                               AS geometry
-FROM atlas.mv_survey_chart_data
-         JOIN ref_geo.l_areas AS l_areas_2 ON l_areas_2.id_area = atlas.mv_survey_chart_data.id_area
-         JOIN ref_geo.l_areas AS l_areas_1 ON l_areas_1.area_code = l_areas_2.area_code
-WHERE atlas.mv_survey_chart_data.cd_nom = 2844;
