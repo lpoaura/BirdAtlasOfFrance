@@ -108,4 +108,3 @@ $$
 
 grant select on all tables in schema atlas to odfapp, gnadm;
 grant select on all tables in schema taxonomie to odfapp, gnadm;
-
