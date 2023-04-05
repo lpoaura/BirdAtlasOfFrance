@@ -18,6 +18,31 @@ Taxa relative data (generally by atlas territories)
 DO
 $$
     BEGIN
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_taxa_territory_distribution;
+        CREATE MATERIALIZED VIEW atlas.mv_taxa_territory_distribution AS
+        WITH t1 AS (SELECT DISTINCT mtg.cd_group AS cd_nom,
+                                    la.id_area,
+                                    la.area_code,
+                                    la.area_name
+                    FROM atlas.mv_data_for_atlas
+                             JOIN atlas.mv_grid_territories_matching ON id_area = id_area_grid
+                             JOIN atlas.t_taxa ON mv_data_for_atlas.cd_nom = t_taxa.cd_nom
+                             JOIN atlas.mv_taxa_groups mtg ON mtg.cd_nom = t_taxa.cd_nom
+                             JOIN ref_geo.l_areas la ON id_area_territory = la.id_area)
+        SELECT row_number() OVER () AS id, t1.*
+        FROM t1
+        ORDER BY t1.cd_nom, t1.id_area;
+
+        CREATE INDEX ON atlas.mv_taxa_territory_distribution (cd_nom);
+        CREATE UNIQUE INDEX ON atlas.mv_taxa_territory_distribution (cd_nom, id_area);
+        COMMIT;
+    END
+$$
+;
+
+DO
+$$
+    BEGIN
         SET WORK_MEM = '10GB';
         /* Vue matérialisée finale */
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_territory_altitude_ranges;
@@ -246,12 +271,12 @@ $$
                                    WHEN mv_data_for_atlas.bird_breed_code = ANY (ARRAY [3]) THEN 'breeding_start'
                                    WHEN mv_data_for_atlas.bird_breed_code = ANY (ARRAY [13])
                                        THEN 'breeding_end' END)
-        SELECT row_number() OVER ()         AS id
+        SELECT row_number() OVER ()                 AS id
              , matrix.id_area
              , matrix.cd_nom
-             , coalesce(data.status, matrix.status) as status
+             , coalesce(data.status, matrix.status) AS status
              , matrix.decade
-             , coalesce(data.count_data, 0) AS count_data
+             , coalesce(data.count_data, 0)         AS count_data
         FROM matrix
                  LEFT JOIN data
                            ON (matrix.cd_nom, matrix.id_area, matrix.decade, matrix.status) =

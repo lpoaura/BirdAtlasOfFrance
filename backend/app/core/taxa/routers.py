@@ -17,6 +17,7 @@ from .actions import (
     survey_chart_data,
     survey_map_data,
     taxa_distrib,
+    taxa_list_territory,
 )
 from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection,
     CommonBlockStructure,
@@ -29,11 +30,31 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     TaxaDistributionFeature,
     TaxaDistributionFeaturesCollection,
     TaxaPhenologyApiData,
+    TaxaTerritoryDistribution,
 )
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+
+@router.get(
+    "/list/distribution",
+    response_model=Optional[TaxaTerritoryDistribution],
+    tags=["taxa"],
+    summary="Taxa territory distribution",
+    description="""# Taxon territory distribution
+This returns the list of concerned area_code for each taxon.
+""",
+)
+@cache()
+def list_territories(
+    cd_nom: int,
+    db: Session = Depends(get_db),
+) -> Response:
+    """Taxa territory distribution"""
+    logger.debug("TAXA LIST")
+    return taxa_list_territory.territory_list(db, cd_nom)
 
 
 @router.get(

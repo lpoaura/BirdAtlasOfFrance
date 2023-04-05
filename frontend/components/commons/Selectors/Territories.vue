@@ -42,17 +42,26 @@
         class="TerritoriesCard"
         :class="[
           territory.area_code === selectedTerritory.area_code ? 'selected' : '',
-          territory.isActive ? '' : 'inactive',
+          territory.isActive &&
+          territoryDistribution.includes(territory.area_code)
+            ? ''
+            : 'inactive',
         ]"
         @click="territory.isActive ? updateSelectedTerritory(territory) : null"
       >
         <img class="TerritoriesCardsIcon" :src="territory.icon" />
         <h6 class="text-center">{{ territory.area_name }}</h6>
         <h5
-          v-show="!territory.isActive"
+          v-show="
+            !(
+              territory.isActive &&
+              territoryDistribution.includes(territory.area_code)
+            )
+          "
           class="UnavailableData fw-600 text-center"
         >
-          Données non disponibles actuellement
+          <!-- Données non disponibles actuellement -->
+          Aucune donnée pour ce territoire
         </h5>
       </div>
     </div>
@@ -63,9 +72,17 @@
         class="RadioOption"
         :class="[
           territory.area_code === selectedTerritory.area_code ? 'selected' : '',
-          territory.isActive ? '' : 'inactive',
+          territory.isActive &&
+          territoryDistribution.includes(territory.area_code)
+            ? ''
+            : 'inactive',
         ]"
-        @click="territory.isActive ? updateSelectedTerritory(territory) : null"
+        @click="
+          territory.isActive &&
+          territoryDistribution.includes(territory.area_code)
+            ? updateSelectedTerritory(territory)
+            : null
+        "
       >
         <div class="RadioLabel">
           <div class="RadioButton">
@@ -184,6 +201,7 @@ export default {
     // END UPDATE NEEDED
     search: '',
   }),
+
   computed: {
     filteredTerritories() {
       return this.territoriesList.filter((territory) =>
@@ -198,6 +216,20 @@ export default {
               .replace(/[\u0300-\u036f]/g, '')
           )
       )
+    },
+    territoryDistribution() {
+      return this.$store.state.species.territoryDistribution
+    },
+  },
+  watch: {
+    territoryDistribution() {
+      const firstTerritory = this.territoriesList.find(
+        (territory) =>
+          territory.isActive &&
+          this.territoryDistribution.includes(territory.area_code)
+      )
+      console.log('firstTerritory',firstTerritory)
+      this.updateSelectedTerritory(firstTerritory)
     },
   },
   methods: {

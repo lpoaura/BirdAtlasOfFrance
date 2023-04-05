@@ -11,6 +11,7 @@ export const state = () => ({
   selectedSeason: {},
   attributes: {},
   medias: {},
+  territoryDistribution:[],
 })
 
 export const getters = {
@@ -76,6 +77,9 @@ export const mutations = {
   setMedias(state, medias) {
     state.medias = medias
   },
+  setTerritoryDistribution(state, distribution) {
+    state.territoryDistribution = distribution
+  }
 }
 
 // export const actions = {

@@ -5,7 +5,7 @@ from fastapi_cache.decorator import cache
 from geoalchemy2 import functions as geofunc
 from sqlalchemy import VARCHAR, String, and_, case, cast, distinct, func, literal_column
 from sqlalchemy.dialects.postgresql import ARRAY
-from sqlalchemy.orm import Session, aliased
+from sqlalchemy.orm import Session, aliased, Query
 from sqlalchemy.types import Integer
 
 from app.core.actions.crud import BaseReadOnlyActions
@@ -21,11 +21,28 @@ from .models import (
     MvTaxaBreedingPhenology,
     THistoricAtlasesData,
     THistoricAtlasesInfo,
+    MvTaxaTerritoryDistribution,
 )
 
 # from .models import MvTaxaAltitudeDistribution
 
 logger = logging.getLogger(__name__)
+
+
+class TaxaTerritoryDistributionActions(BaseReadOnlyActions[MvTaxaTerritoryDistribution]):
+    """Actions to get taxon territory list"""
+
+    def territory_list(self, db: Session, cd_nom: int) -> Query:
+        query = (
+            db.query(
+                MvTaxaTerritoryDistribution.cd_nom,
+                func.array_agg(MvTaxaTerritoryDistribution.area_code).label("areas"),
+            )
+            .filter(MvTaxaTerritoryDistribution.cd_nom == cd_nom)
+            .group_by(MvTaxaTerritoryDistribution.cd_nom)
+        )
+        logger.debug(f'TAXA LIST QUERY {query}')
+        return query.first()
 
 
 class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
@@ -189,10 +206,11 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             )
             .filter(MvAltitudeDistribution.id_area == id_area)
             .filter(MvAltitudeDistribution.cd_nom == cd_nom)
-            .one()
+            .first()
         )
-        logger.debug(query1)
-        if query1 and query1.count > 0:
+        logger.debug(f"query1 {query1}")
+        if query1:
+            logger.debug(f"query1 2 {query1}")
             query2 = (
                 db.query(
                     func.lower(MvAltitudeDistribution.range).label("label"),
@@ -444,6 +462,7 @@ class SurveyChartDataActions(BaseReadOnlyActions[MvSurveyChartData]):
         return query
 
 
+taxa_list_territory = TaxaTerritoryDistributionActions(MvTaxaTerritoryDistribution)
 taxa_distrib = TaxaDistributionActions(AreaKnowledgeTaxaList)
 historic_atlas_distrib = HistoricAtlasesActions(THistoricAtlasesData)
 altitude_distrib = TaxaAltitudeDistributionActions(MvAltitudeDistribution)

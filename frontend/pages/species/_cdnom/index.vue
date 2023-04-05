@@ -84,6 +84,7 @@ export default {
       'scroll',
       this.listenerScroll
     )
+    this.getTerritoryList()
     this.getSpecieData()
   },
   beforeDestroy() {
@@ -96,6 +97,11 @@ export default {
     )
   },
   methods: {
+    async getTerritoryList() {
+      const params = {cd_nom: this.cdNom}
+      const territoryList = await this.$axios.$get('/api/v1/taxa/list/distribution',{params})
+      this.$store.commit('species/setTerritoryDistribution', territoryList.areas)
+    },
     // async getOldSpecieData_old() {
     //   const species = await this.$axios
     //     .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}`)
@@ -283,46 +289,46 @@ export default {
         return document.getElementById(item.slug)
       })
     },
-    updateSelectedTab(item) {
-      this.$router.push(`${item.hash}`)
-    },
-    updateSelectedSubject(item) {
-      if (document.getElementById(item.slug) && this.selectedSubject !== item) {
-        this.scrollListener = false
-        this.selectedSubject = item
-        this.$animateScrollTo(
-          this.$refs.scrollingContainer,
-          document.getElementById(item.slug).offsetTop,
-          12,
-          this.scrollDuration
-        )
-        setTimeout(() => {
-          this.scrollListener = true
-        }, this.scrollDuration + 10)
-      }
-      if (this.selectedTab.value === 'maps') {
-        this.selectedSubject = item
-      }
-    },
-    updateSelectedSeason(season) {
-      this.selectedSeason = season
-      this.seasonIsOpen = false
-      if (this.selectedTab.value !== 'maps') {
-        this.defineSelectedSubject()
-        this.defineDomCurrentScrollingItems()
-      }
-    },
-    updateSelectedTerritory(territory) {
-      this.selectedTerritory = territory
-      this.territoryIsOpen = false
-      // UPDATE NEEDED : mettre à jour les données des graphes lorsqu'on sélectionne un "nouveau territoire"
-      // if (!this.chartsDataAlreadyDownloaded.includes(territory.area_code)) {
-      //   console.debug(
-      //     'Il faut télécharger les données de ce nouveau territoire !'
-      //   )
-      // }
-      // END UPDATE NEEDED
-    },
+    // updateSelectedTab(item) {
+    //   this.$router.push(`${item.hash}`)
+    // },
+    // updateSelectedSubject(item) {
+    //   if (document.getElementById(item.slug) && this.selectedSubject !== item) {
+    //     this.scrollListener = false
+    //     this.selectedSubject = item
+    //     this.$animateScrollTo(
+    //       this.$refs.scrollingContainer,
+    //       document.getElementById(item.slug).offsetTop,
+    //       12,
+    //       this.scrollDuration
+    //     )
+    //     setTimeout(() => {
+    //       this.scrollListener = true
+    //     }, this.scrollDuration + 10)
+    //   }
+    //   if (this.selectedTab.value === 'maps') {
+    //     this.selectedSubject = item
+    //   }
+    // },
+    // updateSelectedSeason(season) {
+    //   this.selectedSeason = season
+    //   this.seasonIsOpen = false
+    //   if (this.selectedTab.value !== 'maps') {
+    //     this.defineSelectedSubject()
+    //     this.defineDomCurrentScrollingItems()
+    //   }
+    // },
+    // updateSelectedTerritory(territory) {
+    //   this.selectedTerritory = territory
+    //   this.territoryIsOpen = false
+    //   // UPDATE NEEDED : mettre à jour les données des graphes lorsqu'on sélectionne un "nouveau territoire"
+    //   // if (!this.chartsDataAlreadyDownloaded.includes(territory.area_code)) {
+    //   //   console.debug(
+    //   //     'Il faut télécharger les données de ce nouveau territoire !'
+    //   //   )
+    //   // }
+    //   // END UPDATE NEEDED
+    // },
     // openOrCloseSeasonsBox() {
     //   this.seasonIsOpen = !this.seasonIsOpen
     // },
