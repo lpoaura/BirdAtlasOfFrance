@@ -272,15 +272,24 @@ $$
 
 
         WITH species AS (SELECT taxref.cd_nom
-                              , taxref.lb_nom           AS latin_name
-                              , item ->> 'french_name'  AS french_name
-                              , item ->> 'english_name' AS english_name
-                         FROM src_vn_json.species_json
-                                  JOIN taxonomie.cor_c_vn_taxref ON vn_id = species_json.id
-                                  JOIN taxonomie.taxref ON cor_c_vn_taxref.taxref_id = taxref.cd_nom
-                         WHERE site = 'ff'
-                           --              AND cast(item ->> 'id_taxo_group' as int) = 1
-                           AND taxref.classe LIKE 'Aves')
+                              , taxref.lb_nom                                                          AS latin_name
+                              , coalesce(t.french_name,
+                                         coalesce(split_part(taxref.nom_vern, ',', 1), taxref.lb_nom)) AS french_name
+                              , coalesce(t.english_name,
+                                         split_part(taxref.nom_vern_eng, ',', 1))                      AS english_name
+                         FROM taxonomie.taxref
+                                  JOIN (SELECT DISTINCT cd_nom FROM gn_synthese.synthese) AS cd_nom_synthese ON
+                             taxref.cd_nom = cd_nom_synthese.cd_nom
+                                  LEFT JOIN (taxonomie.cor_c_vn_taxref
+                             JOIN (SELECT id,
+                                          (array_agg(item ->> 'french_name')
+                                           FILTER (WHERE item ->> 'french_name' IS NOT NULL))[1]  AS french_name,
+                                          (array_agg(item ->> 'english_name')
+                                           FILTER (WHERE item ->> 'english_name' IS NOT NULL))[1] AS english_name
+                                   FROM src_vn_json.species_json
+                                   GROUP BY id) AS species_json ON species_json.id = vn_id) AS t
+                                            ON taxref.cd_nom = t.taxref_id
+                         WHERE taxref.classe LIKE 'Aves')
            , attributs AS (SELECT (SELECT id_attribut
                                    FROM taxonomie.bib_attributs
                                    WHERE bib_attributs.nom_attribut LIKE 'odf_sci_name') AS id_attribut
@@ -305,21 +314,30 @@ $$
         INTO taxonomie.cor_taxon_attribut(id_attribut, valeur_attribut, cd_ref)
         SELECT *
         FROM attributs
+        WHERE valeur_attribut IS NOT NULL
         ORDER BY cd_nom, id_attribut
         ON CONFLICT (id_attribut, cd_ref) DO NOTHING;
 
+
         WITH species AS (SELECT taxref.cd_nom
-                              , taxref.lb_nom           AS latin_name
-                              , item ->> 'french_name'  AS french_name
-                              , item ->> 'english_name' AS english_name
-                         FROM src_vn_json.species_json
-                                  JOIN taxonomie.cor_c_vn_taxref ON vn_id = species_json.id
-                                  JOIN taxonomie.taxref ON cor_c_vn_taxref.taxref_id = taxref.cd_nom
-                         WHERE
---                                   site = (SELECT DISTINCT site FROM src_vn_json.species_json LIMIT 1)
-                             site = 'ff'
-                           --              AND cast(item ->> 'id_taxo_group' as int) = 1
-                           AND taxref.classe LIKE 'Aves')
+                              , taxref.lb_nom                                                          AS latin_name
+                              , coalesce(t.french_name,
+                                         coalesce(split_part(taxref.nom_vern, ',', 1), taxref.lb_nom)) AS french_name
+                              , coalesce(t.english_name,
+                                         split_part(taxref.nom_vern_eng, ',', 1))                      AS english_name
+                         FROM taxonomie.taxref
+                                  JOIN (SELECT DISTINCT cd_nom FROM gn_synthese.synthese) AS cd_nom_synthese ON
+                             taxref.cd_nom = cd_nom_synthese.cd_nom
+                                  LEFT JOIN (taxonomie.cor_c_vn_taxref
+                             JOIN (SELECT id,
+                                          (array_agg(item ->> 'french_name')
+                                           FILTER (WHERE item ->> 'french_name' IS NOT NULL))[1]  AS french_name,
+                                          (array_agg(item ->> 'english_name')
+                                           FILTER (WHERE item ->> 'english_name' IS NOT NULL))[1] AS english_name
+                                   FROM src_vn_json.species_json
+                                   GROUP BY id) AS species_json ON species_json.id = vn_id) AS t
+                                            ON taxref.cd_nom = t.taxref_id
+                         WHERE taxref.classe LIKE 'Aves')
            , attributs AS (SELECT (SELECT id_attribut
                                    FROM taxonomie.bib_attributs
                                    WHERE bib_attributs.nom_attribut LIKE 'odf_sci_name') AS id_attribut
@@ -347,6 +365,7 @@ $$
         WHERE cor_taxon_attribut.
                   cd_ref = attributs.cd_nom
           AND cor_taxon_attribut.id_attribut = attributs.id_attribut;
+
 
         CREATE TABLE atlas.t_decades AS
         WITH t1 AS (SELECT extract(MONTH FROM dd::DATE) AS m
@@ -700,10 +719,12 @@ $$
                                     LEFT JOIN tab_value_nb tvn
                                               ON tvn.id_info_generale = tun.id_info_generale AND
                                                  tvn.unite::TEXT = tun.unite::TEXT
-                                    LEFT JOIN tab_value_min tvmin ON tvmin.id_info_generale = tun.id_info_generale AND
-                                                                     tvmin.unite::TEXT = tun.unite::TEXT
-                                    LEFT JOIN tab_value_max tvmax ON tvmax.id_info_generale = tun.id_info_generale AND
-                                                                     tvmax.unite::TEXT = tun.unite::TEXT
+                                    LEFT JOIN tab_value_min tvmin
+                                              ON tvmin.id_info_generale = tun.id_info_generale AND
+                                                 tvmin.unite::TEXT = tun.unite::TEXT
+                                    LEFT JOIN tab_value_max tvmax
+                                              ON tvmax.id_info_generale = tun.id_info_generale AND
+                                                 tvmax.unite::TEXT = tun.unite::TEXT
                            ORDER BY tun.id_info_generale)
         SELECT row_number() OVER ()                           AS id
              , tf.source_jdd
@@ -734,7 +755,8 @@ $$
           AND dm.last_date IS NOT NULL
           AND (bat2.type_code::TEXT = ANY
                (ARRAY ['COM'::CHARACTER VARYING::TEXT, 'DEP'::CHARACTER VARYING::TEXT, 'PSOM'::CHARACTER VARYING::TEXT]))
-        GROUP BY tf.source_jdd, ig2.id_jdd, tf.cd_nom, ig2.unite, ig2.representation, ra.id_area, ra.area_name, ra.geom
+        GROUP BY tf.source_jdd, ig2.id_jdd, tf.cd_nom, ig2.unite, ig2.representation, ra.id_area, ra.area_name
+               , ra.geom
                , tf.unite
                , dm.last_date;
 
@@ -836,7 +858,8 @@ $$
         WHERE ig2.unite::TEXT = tf.unite::TEXT
           AND ig2.type = 'graphique'::src_survey.TYPE_ILLUSTRATION
           AND (tdh.nb_jdd = 1 OR ig2.id_jdd::TEXT <> '1155'::TEXT)
-        GROUP BY tf.source_jdd, ig2.id_jdd, tf.cd_nom, ig2.unite, ig2.representation, ra.id_area, ra.area_name, tf.unite
+        GROUP BY tf.source_jdd, ig2.id_jdd, tf.cd_nom, ig2.unite, ig2.representation, ra.id_area, ra.area_name
+               , tf.unite
                , tf.date_debut, tf.date_fin, tdh.nb_jdd, tf.id_info_generale, tdh.list_jdd;
 
         /* */
