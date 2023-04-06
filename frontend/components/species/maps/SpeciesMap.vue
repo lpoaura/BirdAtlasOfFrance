@@ -225,7 +225,6 @@ export default {
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
     },
-
     async getTerritory() {
       this.territoriesEnvelopes = await this.$axios.$get(
         '/api/v1/lareas/type/ATLAS_TERRITORY?bbox=true&only_enable=true'

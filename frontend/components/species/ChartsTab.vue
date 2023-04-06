@@ -20,12 +20,21 @@ export default {
     selectedSeason() {
       return this.$store.state.species.selectedSeason
     },
+    selectedTerritory() {
+      return this.$store.state.species.selectedTerritory
+    },
   },
   watch: {
     selectedSeason: {
       handler() {
         this.initSubjectsList()
       },
+    },
+    selectedTerritory: {
+      handler() {
+        this.initSubjectsList()
+      },
+      deep: true,
     },
   },
   mounted() {

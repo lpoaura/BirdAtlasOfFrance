@@ -7,6 +7,7 @@ from sqlalchemy import VARCHAR, String, and_, case, cast, distinct, func, litera
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Session, aliased, Query
 from sqlalchemy.types import Integer
+from sqlalchemy.exc import DataError
 
 from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
@@ -209,18 +210,22 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             .first()
         )
         logger.debug(f"query1 {query1}")
-        if query1:
-            logger.debug(f"query1 2 {query1}")
-            query2 = (
-                db.query(
-                    func.lower(MvAltitudeDistribution.range).label("label"),
-                    (count_column[period] / float(query1.count) * 100).label("value"),
+        if query1 and query1.count > 0 :
+            try:
+                logger.debug(f"query1 2 {query1}")
+                query2 = (
+                    db.query(
+                        func.lower(MvAltitudeDistribution.range).label("label"),
+                        (count_column[period] / float(query1.count) * 100).label("value"),
+                    )
+                    .filter(MvAltitudeDistribution.id_area == id_area)
+                    .filter(MvAltitudeDistribution.cd_nom == cd_nom)
+                    .order_by(MvAltitudeDistribution.range)
                 )
-                .filter(MvAltitudeDistribution.id_area == id_area)
-                .filter(MvAltitudeDistribution.cd_nom == cd_nom)
-                .order_by(MvAltitudeDistribution.range)
-            )
-            logger.debug(query2)
+                logger.debug(query2)
+            except Exception as error:
+                logger.error(error)
+                return None
             return query2.all()
 
     def get_territory_distribution(self, db: Session, id_area: int):
