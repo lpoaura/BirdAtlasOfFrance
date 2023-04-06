@@ -206,7 +206,7 @@ def list_historic_atlases(db: Session = Depends(get_db), cd_nom: int = None) -> 
 
 @router.get(
     "/chart/altitude",
-    response_model=TaxaAltitudinalApiData,
+    response_model=Optional[TaxaAltitudinalApiData],
     tags=["taxa"],
     summary="Altitudinal distribution",
     description="""# coming soon
@@ -222,13 +222,15 @@ def altitudinal_distribution(
     db: Session = Depends(get_db),
     phenology_period: Optional[str] = "all_period",
 ) -> Any:
-    q = altitude_distrib.get_specie_distribution(
+    query = altitude_distrib.get_specie_distribution(
         db=db, id_area=id_area, cd_nom=cd_nom, period=phenology_period
     )
-    if q:
+    logger.debug(f"altitudinal_distribution_1 {query}")
+    if query:
+        logger.debug(f"altitudinal_distribution {query}")
         altitude = CommonBlockStructure(
             label="Répartition des observations",
-            data=q,
+            data=query,
             color="#435EF2",
         )
         global_altitude = CommonBlockStructure(
@@ -237,13 +239,12 @@ def altitudinal_distribution(
             color="rgba(67, 94, 242, 0.3)",
         )
         return TaxaAltitudinalApiData(altitude=altitude, globalAltitude=global_altitude)
-    else:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+    return Response(status_code=HTTP_204_NO_CONTENT)
 
 
 @router.get(
     "/chart/phenology/allperiod",
-    response_model=TaxaPhenologyApiData,
+    response_model=Optional[TaxaPhenologyApiData],
     tags=["taxa"],
     summary="Altitudinal distribution",
     description="""# coming soon
@@ -281,7 +282,7 @@ def all_period_phenology_distribution(
 
 @router.get(
     "/chart/phenology/breeding",
-    response_model=TaxaBreedingPhenologyApiData,
+    response_model=Optional[TaxaBreedingPhenologyApiData],
     tags=["taxa"],
     summary="Breeding phenology distribution",
     description="""# coming soon""",
@@ -310,13 +311,12 @@ def breeding_phenology_distribution(
         return TaxaBreedingPhenologyApiData(
             breeding_start=breeding_start, breeding_end=breeding_end
         )
-    else:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+    return Response(status_code=HTTP_204_NO_CONTENT)
 
 
 @router.get(
-    "/map/survey/map",
-    response_model=SurveyMapDataFeaturesCollection,
+    "/map/survey",
+    response_model=Optional[SurveyMapDataFeaturesCollection],
     tags=["taxa"],
     summary="taxon geographic distribution",
     description="""# Taxon geographic distribution
@@ -332,22 +332,22 @@ def get_survey_map_data(
         id_area_atlas_territory=id_area_atlas_territory,
         phenology_period=phenology_period,
     )
-    if not query:
-        return Response(status_code=HTTP_204_NO_CONTENT)
-    features = [
-        SurveyMapDataFeature(
-            properties=item.properties,
-            geometry=json.loads(item.geometry),
-            id=item.id,
-        )
-        for item in query
-    ]
-    return SurveyMapDataFeaturesCollection(features=features)
+    if query:
+        features = [
+            SurveyMapDataFeature(
+                properties=item.properties,
+                geometry=json.loads(item.geometry),
+                id=item.id,
+            )
+            for item in query
+        ]
+        return SurveyMapDataFeaturesCollection(features=features)
+    return Response(status_code=HTTP_204_NO_CONTENT)
 
 
 @router.get(
     "/chart/survey",
-    response_model=List[SurveyChartDataItem],
+    response_model=Optional[List[SurveyChartDataItem]],
     tags=["taxa"],
     summary="taxon geographic distribution",
     description="""# Taxon geographic distribution
@@ -363,6 +363,7 @@ def get_survey_chart_data(
         id_area_atlas_territory=id_area_atlas_territory,
         phenology_period=phenology_period,
     )
-    if not query:
-        return Response(status_code=HTTP_204_NO_CONTENT)
-    return query.all()
+    logger.debug(f"get_survey_chart_data COUNT {query.count()}")
+    if query.count() > 0:
+        return query.all()
+    return Response(status_code=HTTP_204_NO_CONTENT)

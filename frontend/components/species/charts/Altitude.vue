@@ -27,7 +27,7 @@ const d3 = require('d3')
 
 export default {
   data: () => ({
-    chartData: {},
+    chartData: null,
   }),
   computed: {
     idArea() {
@@ -67,7 +67,7 @@ export default {
   methods: {
     generateChart() {
       this.getChartData().then(() => {
-        if (this.chartData.altitude) {
+        if (this.chartData?.altitude) {
           this.renderChart()
           this.renderData()
           this.$store.commit('species/pushSubjectsList', {

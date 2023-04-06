@@ -58,6 +58,9 @@ export default {
     subjectsList() {
       return this.$store.state.species.subjectsList
     },
+    territoriesList() {
+      return [...this.$store.state.species.territoriesList]
+    },
   },
   watch: {
     $route(newVal) {
@@ -101,6 +104,16 @@ export default {
       const params = {cd_nom: this.cdNom}
       const territoryList = await this.$axios.$get('/api/v1/taxa/list/distribution',{params})
       this.$store.commit('species/setTerritoryDistribution', territoryList.areas)
+      this.initSelectedTerritory(territoryList.areas)
+    },
+    initSelectedTerritory(territoryList) {
+      const firstTerritory = this.territoriesList.find(
+        (territory) =>
+          territory.isActive &&
+          territoryList.includes(territory.area_code)
+      )
+      console.log('FIRST TERRITORY', firstTerritory)
+      this.$store.commit('species/setSelectedTerritory', firstTerritory)
     },
     // async getOldSpecieData_old() {
     //   const species = await this.$axios

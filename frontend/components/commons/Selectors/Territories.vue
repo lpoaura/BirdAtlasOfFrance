@@ -47,7 +47,12 @@
             ? ''
             : 'inactive',
         ]"
-        @click="territory.isActive ? updateSelectedTerritory(territory) : null"
+        @click="
+          territory.isActive &&
+          territoryDistribution.includes(territory.area_code)
+            ? updateSelectedTerritory(territory)
+            : null
+        "
       >
         <img class="TerritoriesCardsIcon" :src="territory.icon" />
         <h6 class="text-center">{{ territory.area_name }}</h6>
@@ -105,10 +110,6 @@ export default {
       type: Boolean,
       required: true,
     },
-    selectedTerritory: {
-      type: Object,
-      required: true,
-    },
   },
   data: () => ({
     displayingTypesList: [
@@ -118,91 +119,18 @@ export default {
     selectedDisplayingType: { value: 'grid', icon: 'grid.svg' },
     // UPDATE NEEDED : récupérer la liste des territoires via l'API '/api/v1/lareas/type/ATLAS_TERRITORY?bbox=true&only_enable=true'
     // => Depuis la BDD, rajouter dans feature.properties les propriétés icon et isActive
-    territoriesList: [
-      {
-        area_code: 'FRMET',
-        area_name: 'France métropolitaine',
-        icon: '/prospecting/France-metropolitaine.svg',
-        isActive: true,
-      },
-      {
-        area_code: '01',
-        area_name: 'Guadeloupe',
-        icon: '/prospecting/Guadeloupe.svg',
-        isActive: true,
-      },
-      {
-        area_code: '03',
-        area_name: 'Guyane',
-        icon: '/prospecting/Guyane.svg',
-        isActive: true,
-      },
-      {
-        area_code: '02',
-        area_name: 'Martinique',
-        icon: '/prospecting/Martinique.svg',
-        isActive: false,
-      },
-      {
-        area_code: '06',
-        area_name: 'Mayotte',
-        icon: '/prospecting/Mayotte.svg',
-        isActive: false,
-      },
-      {
-        area_code: '988',
-        area_name: 'Nouvelle Calédonie',
-        icon: '/prospecting/Nouvelle-Caledonie.svg',
-        isActive: true,
-      },
-      {
-        area_code: '987',
-        area_name: 'Polynésie Française',
-        icon: '/prospecting/Polynesie.svg',
-        isActive: false,
-      },
-      {
-        area_code: '04',
-        area_name: 'La Réunion',
-        icon: '/prospecting/Reunion.svg',
-        isActive: false,
-      },
-      {
-        area_code: '977',
-        area_name: 'Saint Barthélémy',
-        icon: '/prospecting/Saint-Barthelemy.svg',
-        isActive: false,
-      },
-      {
-        area_code: '978',
-        area_name: 'Saint Martin',
-        icon: '/prospecting/Saint-Martin.svg',
-        isActive: false,
-      },
-      {
-        area_code: '975',
-        area_name: 'Saint Pierre et Miquelon',
-        icon: '/prospecting/Saint-Pierre-et-Miquelon.svg',
-        isActive: true,
-      },
-      {
-        area_code: '984',
-        area_name: 'TAAF',
-        icon: '/prospecting/TAAF.svg',
-        isActive: false,
-      },
-      {
-        area_code: '986',
-        area_name: 'Wallis et Futuna',
-        icon: '/prospecting/Wallis-et-Futuna.svg',
-        isActive: false,
-      },
-    ],
+
     // END UPDATE NEEDED
     search: '',
   }),
 
   computed: {
+    territoriesList() {
+      return this.$store.state.species.territoriesList
+    },
+    selectedTerritory() {
+      return { ...this.$store.state.species.selectedTerritory }
+    },
     filteredTerritories() {
       return this.territoriesList.filter((territory) =>
         territory.area_code
@@ -222,17 +150,50 @@ export default {
     },
   },
   watch: {
-    territoryDistribution() {
-      const firstTerritory = this.territoriesList.find(
-        (territory) =>
-          territory.isActive &&
-          this.territoryDistribution.includes(territory.area_code)
-      )
-      console.log('firstTerritory',firstTerritory)
-      this.updateSelectedTerritory(firstTerritory)
-    },
+    // territoryDistribution() {
+    //   this.initSelectedTerritory()
+    // },
+    // selectedTerritory: {
+    //   handler(newVal, oldVal) {
+    //     if (
+    //       newVal.area_code !== oldVal.area_code
+    //     ) {
+    //       this.getIdArea()
+    //     }
+    //   },
+    //   deep: true,
+    // },
+  },
+  mounted() {
+    // if (this.territoryDistribution.length === 0) {
+    //   this.$store.commit(
+    //     'species/setSelectedTerritory',
+    //     this.territoriesList[0]
+    //   )
+    // }
   },
   methods: {
+    // async getIdArea() {
+    //   if (this.selectedTerritory) {
+    //     const resp = await this.$axios.$get(
+    //       `/api/v1/lareas/ATLAS_TERRITORY/${this.selectedTerritory.area_code}?geom=false&bbox=false`
+    //     )
+    //     this.selectedTerritory.id_area = resp.id_area
+    //     this.$store.commit(
+    //       'species/setSelectedTerritory',
+    //       {...this.selectedTerritory}
+    //     )
+    //   }
+    // },
+    // initSelectedTerritory() {
+    //   const firstTerritory = this.territoriesList.find(
+    //     (territory) =>
+    //       territory.isActive &&
+    //       this.territoryDistribution.includes(territory.area_code)
+    //   )
+    //   console.log('firstTerritory', firstTerritory)
+    //   this.updateSelectedTerritory({...firstTerritory})
+    // },
     updateSelectedDisplayingType(type) {
       this.selectedDisplayingType = type
     },
@@ -240,7 +201,8 @@ export default {
       this.search = ''
     },
     updateSelectedTerritory(territory) {
-      this.$emit('selectedTerritory', territory)
+      console.log('updateSelectedTerritory')
+      this.$store.commit('species/setSelectedTerritory', territory)
     },
   },
 }
