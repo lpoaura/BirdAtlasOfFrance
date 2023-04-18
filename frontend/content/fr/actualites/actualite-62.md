@@ -14,7 +14,7 @@ active: true
 <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-62-carte-répartition-héron-vert-nicheur.PNG"/>
 <span class="InformativePagePictureLegend">Répartition des observations de Héron vert nicheur en Guadeloupe par mailles depuis 2019</span>
 
-## Les données de 4 territoires ultramrins sont consultables via le module "cartes"
+## Les données de 4 territoires ultramarins sont consultables via le module "cartes"
 
 Les territoires ultramarins ouverts actuellement à la consultation sont la Guyane, la Guadeloupe, la Nouvelle-Calédonie et Saint-Pierre-et-Miquelon. Saint-Martin et Saint-Barthélemy suivront dans quelques temps. 
 
