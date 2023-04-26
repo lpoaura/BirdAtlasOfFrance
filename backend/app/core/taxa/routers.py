@@ -199,8 +199,12 @@ def historic_atlases(
 """,
 )
 @cache()
-def list_historic_atlases(db: Session = Depends(get_db), cd_nom: int = None) -> Any:
-    query = historic_atlas_distrib.list_historic_atlas(db=db, cd_nom=cd_nom)
+def list_historic_atlases(
+    cd_nom: int, id_area: int, db: Session = Depends(get_db)
+) -> Any:
+    query = historic_atlas_distrib.list_historic_atlas(
+        db=db, cd_nom=cd_nom, id_area=id_area
+    )
     return query if query else Response(status_code=HTTP_204_NO_CONTENT)
 
 
@@ -324,7 +328,10 @@ def breeding_phenology_distribution(
 )
 @cache()
 def get_survey_map_data(
-    cd_nom: int, id_area_atlas_territory: int, phenology_period: str, db: Session = Depends(get_db)
+    cd_nom: int,
+    id_area_atlas_territory: int,
+    phenology_period: str,
+    db: Session = Depends(get_db),
 ) -> Any:
     query = survey_map_data.data_distribution(
         db,
@@ -355,7 +362,10 @@ def get_survey_map_data(
 )
 @cache()
 def get_survey_chart_data(
-    cd_nom: int, id_area_atlas_territory: int, phenology_period: str, db: Session = Depends(get_db)
+    cd_nom: int,
+    id_area_atlas_territory: int,
+    phenology_period: str,
+    db: Session = Depends(get_db),
 ) -> Any:
     query = survey_chart_data.get_data(
         db,

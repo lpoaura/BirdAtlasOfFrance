@@ -61,6 +61,9 @@ export default {
     ],
   }),
   computed: {
+    idArea(){
+      return this.$store.state.species.selectedTerritory.id_area
+    },
     cdNom() {
       return this.$store.state.species.cdNom
     },
@@ -72,6 +75,13 @@ export default {
     },
     selectedTerritory() {
       return this.$store.state.species.selectedTerritory
+    },
+  },
+  watch: {
+    idArea: {
+      handler() {
+        this.loadHistoricAtlasList()
+      },
     },
   },
   mounted() {
@@ -97,17 +107,19 @@ export default {
       const url = `/api/v1/taxa/list/historic/atlas`
       const params = {
         cd_nom: this.cdNom,
+        id_area: this.idArea
       }
       this.$axios
         .$get(url, {
           params,
         })
         .then((data) => {
-          if (data) {
-            data.forEach((item) =>
-              this.$store.commit('species/pushSubjectsMapAtlasList', item)
-            )
-          }
+          this.$store.commit('species/updateSubjectsMapAtlasList', data || [])
+          // if (data) {
+          //   data.forEach((item) =>
+          //     this.$store.commit('species/pushSubjectsMapAtlasList', item)
+          //   )
+          // }
         })
         .catch((error) => {
           console.error(error)
