@@ -1,5 +1,6 @@
 ## Build
 FROM node:lts-bullseye as builder
+ENV NODE_OPTIONS=--openssl-legacy-provider
 WORKDIR /app
 COPY  ["package.json", "package-lock.json","./"]
 RUN npm install
@@ -9,6 +10,7 @@ RUN npm run build
 
 ## Prod
 FROM node:lts-bullseye
+ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN apt update && apt upgrade -y && apt install -y git
 WORKDIR /app
 COPY  ["package.json", "package-lock.json","./"]

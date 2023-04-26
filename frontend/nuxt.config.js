@@ -1,11 +1,6 @@
 // import colors from 'vuetify/es5/util/colors'
 
 export default {
-  // Faire des tests sur mobile
-  // server: {
-  //   host: '0', // default: localhost
-  // },
-  // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s | Atlas des Oiseaux de France',
     title: '',
@@ -280,13 +275,6 @@ export default {
       themes: {
         dark: {
           background: '#121212',
-          //   primary: colors.blue.darken2,
-          //   accent: colors.grey.darken3,
-          //   secondary: colors.amber.darken3,
-          //   info: colors.teal.lighten1,
-          //   warning: colors.amber.base,
-          //   error: colors.deepOrange.accent4,
-          //   success: colors.green.accent3,
         },
         light: {
           background: '#fcfcfc',

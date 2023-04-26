@@ -16,11 +16,11 @@ psycopg2-binary = "^2.8.6"
 databases = {extras = ["postgresql"], version = "^0.4.1"}
 uvicorn = "^0.13.4"
 python-dotenv = "^0.15.0"
-GeoAlchemy2 = "^0.8.5"
 coloredlogs = "^15.0"
 loguru = "^0.5.3"
 geojson-pydantic = "^0.2.3"
 sentry-sdk = "^1.5.1"
+geoalchemy2 = "^0.13.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
