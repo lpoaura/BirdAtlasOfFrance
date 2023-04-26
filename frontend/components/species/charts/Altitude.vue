@@ -1,5 +1,5 @@
 <template>
-  <div v-if="chartData" id="altitude" class="ChartCard">
+  <div v-if="idArea && chartData" id="altitude" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">
       Répartition altitudinale des observations
     </h4>

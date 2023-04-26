@@ -1,5 +1,5 @@
 <template>
-  <div v-if="chartData.length > 1" id="trend" class="ChartCard">
+  <div v-if="idArea && chartData.length > 1" id="trend" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">Tendance d'évolution</h4>
     <h5 class="black03 bottom-margin-40">
       Évolution de l’indice d’abondance en fonction des années.

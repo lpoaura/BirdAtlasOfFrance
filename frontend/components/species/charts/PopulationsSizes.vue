@@ -1,5 +1,5 @@
 <template>
-  <div v-if="chartData" class="ChartCard">
+  <div v-if="idArea && chartData" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">
       Tailles de populations (CECI EST UN TEST QUI N'A RIEN À FAIRE ICI)
     </h4>
