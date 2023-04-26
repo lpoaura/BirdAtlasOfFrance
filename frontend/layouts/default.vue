@@ -80,7 +80,7 @@ export default {
         // },
         {
           // label: this.$t('map'),
-          label: 'Carte',
+          label: 'Prospection',
           route: '/prospecting'
         },
         {
