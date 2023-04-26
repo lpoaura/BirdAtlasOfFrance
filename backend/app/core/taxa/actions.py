@@ -2,8 +2,9 @@ import logging
 from typing import List, Optional
 
 from geoalchemy2 import functions as geofunc
-from sqlalchemy import func
+from sqlalchemy import func, cast
 from sqlalchemy.orm import Session
+from sqlalchemy.types import Integer
 
 from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
@@ -30,7 +31,9 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
         geom = (
             LAreas.geojson_4326
             if grid
-            else geofunc.ST_AsGeoJSON(geofunc.ST_Transform(geofunc.ST_Centroid(LAreas.geom), 4326))
+            else geofunc.ST_AsGeoJSON(
+                geofunc.ST_Transform(geofunc.ST_Centroid(LAreas.geom), 4326)
+            )
         )
         status_field = {
             "breeding_old": {
@@ -58,12 +61,36 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
                 "status": "Presence",
             },
         }
-        q = (
+
+        query = (
             db.query(
                 AreaKnowledgeTaxaList.id_area.label("id"),
-                func.json_build_object("status", status_field[period]["status"]).label(
-                    "properties"
-                ),
+                func.json_build_object(
+                    "status",
+                    status_field[period]["status"],
+                    "radius",
+                    (
+                        func.round(
+                            cast(
+                                (
+                                    geofunc.ST_DistanceSphere(
+                                        geofunc.ST_MakePoint(
+                                            geofunc.ST_XMin(LAreas.geom),
+                                            geofunc.ST_YMin(LAreas.geom),
+                                        ),
+                                        geofunc.ST_MakePoint(
+                                            geofunc.ST_XMax(LAreas.geom),
+                                            geofunc.ST_YMin(LAreas.geom),
+                                        ),
+                                    )
+                                    / 2*0.9
+                                ),
+                                Integer,
+                            ),
+                            -2,
+                        )
+                    ),
+                ).label("properties"),
                 geom.label("geometry"),
             )
             .join(LAreas, LAreas.id_area == AreaKnowledgeTaxaList.id_area)
@@ -72,7 +99,7 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
         )
 
         if envelope:
-            q = q.filter(
+            query = query.filter(
                 geofunc.ST_Intersects(
                     LAreas.geom,
                     geofunc.ST_Transform(
@@ -83,9 +110,7 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
                     ),
                 )
             )
-
-        logger.debug(f"<taxa_distribution> q {q}")
-        return q.all()
+        return query.all()
 
 
 # class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvTaxaAltitudeDistribution]):
@@ -124,7 +149,9 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
             db.query(
                 THistoricAtlasesData.id_area.label("id"),
                 THistoricAtlasesData.status,
-                func.json_build_object("status", THistoricAtlasesData.status).label("properties"),
+                func.json_build_object("status", THistoricAtlasesData.status).label(
+                    "properties"
+                ),
                 LAreas.geojson_4326.label("geometry"),
             )
             .join(LAreas, LAreas.id_area == THistoricAtlasesData.id_area)

@@ -1,7 +1,7 @@
 ---
 title: "Une espèce d'oiseau sur 8 menacée d'extinction dans le monde"
 picture: actualite-41.webp
-credit: 
+credit: Monarque de Fatu Hiva © Benjamin Ignace
 centering: center
 author: Oiseaux de France
 date: '2022-10-11'
@@ -12,7 +12,7 @@ active: true
 **Publié tous les quatre ans par BirdLife International, dont la LPO est le représentant en France, le dernier rapport sur l’état des populations d’oiseaux à l'échelle mondiale brosse le tableau le plus préoccupant à ce jour de l'avenir des espèces aviaires et, par extension, de toute vie terrestre.**
 
 
-Largement répandus dans le monde, les oiseaux constituent de véritables baromètres de la santé de la planète. Le [rapport sur l'état des populations mondiales d'oiseaux ](https://lpo061-my.sharepoint.com/personal/carine_carbon_lpo_fr/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fcarine%5Fcarbon%5Flpo%5Ffr%2FDocuments%2FRapport%20%C3%A9tat%20pop%20oiseaux%20monde%202022%2FBirdLife%5FSOWB%20Report%202022%5FFRENCH%5Fcompressed%281%29%2Epdf&parent=%2Fpersonal%2Fcarine%5Fcarbon%5Flpo%5Ffr%2FDocuments%2FRapport%20%C3%A9tat%20pop%20oiseaux%20monde%202022&ct=1664357499368&or=OWA%2DNT&cid=822fe58d%2Dff49%2D293b%2D7dfe%2Da0c097e14a5c&ga=1) rendu public le 28 septembre par BirdLife International montre que près de la moitié des plus de 11 000 espèces d'oiseaux répertoriées sur Terre sont actuellement en déclin, dont 1 409 menacées d’extinction, pour seulement 6 % en augmentation.
+Largement répandus dans le monde, les oiseaux constituent de véritables baromètres de la santé de la planète. Le [rapport sur l'état des populations mondiales d'oiseaux](https://www.birdlife.org/wp-content/uploads/2022/09/SOWB2022_FR_compressed.pdf) rendu public le 28 septembre par BirdLife International montre que près de la moitié des plus de 11 000 espèces d'oiseaux répertoriées sur Terre sont actuellement en déclin, dont 1 409 menacées d’extinction, pour seulement 6 % en augmentation.
 
 <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-41-EtatOiseau20222couverture.webp"/>
 <span class="InformativePagePictureLegend">Couverture du Bilan 2022 sur l'état des populations mondiales d'oiseaux</span>
