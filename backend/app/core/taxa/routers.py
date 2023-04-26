@@ -220,10 +220,10 @@ def altitudinal_distribution(
     id_area: str,
     cd_nom: int,
     db: Session = Depends(get_db),
-    phenology_period: Optional[str] = "all_period",
+    period: Optional[str] = "all_period",
 ) -> Any:
     query = altitude_distrib.get_specie_distribution(
-        db=db, id_area=id_area, cd_nom=cd_nom, period=phenology_period
+        db=db, id_area=id_area, cd_nom=cd_nom, period=period
     )
     logger.debug(f"altitudinal_distribution_1 {query}")
     if query:
