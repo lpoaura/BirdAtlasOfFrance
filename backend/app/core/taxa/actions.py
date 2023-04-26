@@ -203,7 +203,7 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             "breeding": MvAltitudeDistribution.count_breeding,
             "wintering": MvAltitudeDistribution.count_wintering,
         }
-        print(f'ACTION ROUTER PERIOD {period}')
+        print(f"ACTION ROUTER PERIOD {period}")
         query1 = (
             db.query(
                 func.Sum(count_column[period]).label("count"),
@@ -369,7 +369,9 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
         logger.debug(f"<taxa_distribution> q {q}")
         return q.all()
 
-    def list_historic_atlas(self, db: Session, cd_nom: int = None) -> Optional[List]:
+    def list_historic_atlas(
+        self, db: Session, cd_nom: int, id_area: int
+    ) -> Optional[List]:
         """_summary_
 
         :param db: Database session
@@ -400,12 +402,15 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
             .distinct()
         )
         if query:
-            if cd_nom:
+            if cd_nom and id_area:
                 query = query.join(
                     THistoricAtlasesData,
                     THistoricAtlasesInfo.id
                     == THistoricAtlasesData.id_historic_atlas_info,
-                ).filter(THistoricAtlasesData.cd_nom == cd_nom)
+                ).filter(
+                    THistoricAtlasesData.cd_nom == cd_nom,
+                    THistoricAtlasesInfo.id_territory == id_area,
+                )
             return query.all()
 
 

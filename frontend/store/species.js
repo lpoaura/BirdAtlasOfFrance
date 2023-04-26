@@ -159,6 +159,12 @@ export const mutations = {
   setSubjectsMapAtlasList(state, maps) {
     state.subjectsMapAtlasList = maps
   },
+  updateSubjectsMapAtlasList(state, maps) {
+    state.subjectsMapAtlasList = state.subjectsMapAtlasList.filter(
+      (i) => !i.slug.startsWith('aofm')
+    )
+    maps.forEach((i) => state.subjectsMapAtlasList.push(i))
+  },
   pushSubjectsMapAtlasList(state, map) {
     state.subjectsMapAtlasList.push(map)
   },
