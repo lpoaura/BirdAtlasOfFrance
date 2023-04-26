@@ -2,7 +2,11 @@ export const state = () => ({
   atlasIsOpen: true,
   idArea: null,
   cdNom: null,
-  selectedTab: 'monography',
+  selectedTab: {
+    value: 'monography',
+    hash: '#monography',
+    label: 'Fiche espèce',
+  },
   subjectsList: [],
   subjectsMapAtlasList: {},
   subjectsMapOthersList: {},
