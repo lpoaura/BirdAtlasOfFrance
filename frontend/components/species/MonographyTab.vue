@@ -23,12 +23,6 @@
                 : 'Pas de description disponible actuellement pour cette espèce.'
             }}
           </span>
-          <span
-            v-if="Object.keys(attributes).length > 0 && attributes?.description"
-            class="black02"
-          >
-            Pas de description disponible actuellement pour cette espèce.
-          </span>
           <div
             v-if="descriptionHeight > 327 && !readMore"
             class="Blurring"
