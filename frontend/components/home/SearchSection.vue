@@ -21,7 +21,7 @@
           </h4>
         </header>
         <div class="SearchBar">
-          <search-bar />
+          <commons-search-bar />
         </div>
       </div>
     </div>
@@ -43,13 +43,9 @@
 </template>
 
 <script>
-import SearchBar from '~/components/home/SearchBar.vue'
 const ExifReader = require('exifreader')
 
 export default {
-  components: {
-    'search-bar': SearchBar
-  },
   data: () => ({
     randomInt: 0,
     homePicture: {
