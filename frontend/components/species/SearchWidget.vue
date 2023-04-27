@@ -24,7 +24,7 @@
         @click="clearResults"
       />
       <div class="AutocompleteSearchSplit"></div>
-      <div class="AutocompleteSearch map">
+      <div class="AutocompleteSearch map" @click="$emit('close')">
         <img class="AutocompleteSearchIcon map" src="/search.svg" />
       </div>
     </div>
@@ -36,17 +36,8 @@
         class="AutocompleteResultsOption"
         @click="updateSelectedData(data)"
       >
-        {{
-          selectedType.value === 'species'
-            ? data[`common_name_${lang}`]
-            : data.name.replace('10kmL93', '').replace('10kmUTM22', '')
-        }}
+        {{data[`common_name_${lang}`]}}
         <i v-if="selectedType.value === 'species'">({{ data.sci_name }})</i>
-        {{
-          selectedType.value === 'place' && data.type_code !== 'ATLAS_GRID'
-            ? ' (' + data.code.slice(0, -3) + ')'
-            : ''
-        }}
       </li>
       <h5 v-if="!dataList.length" class="black03 italic AutocompleteNoResults">
         Aucun résultat trouvé, vous recherchez peut-être une
@@ -58,6 +49,12 @@
 
 <script>
 export default {
+  props: {
+    widgetStatus: {
+      type: Boolean,
+      required: true,
+    },
+  },
   data: () => ({
     search: '',
     dataList: [],

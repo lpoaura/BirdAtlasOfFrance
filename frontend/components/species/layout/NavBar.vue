@@ -32,8 +32,11 @@
           </font>
         </h5>
       </div>
-      <div class="searchWidget" v-else>
-        <species-search-widget />
+      <div v-else class="searchWidget">
+        <species-search-widget
+          :widget-status="searchMode"
+          @close="searchMode = false"
+        />
       </div>
     </div>
     <div class="Metadata">
