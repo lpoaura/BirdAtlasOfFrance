@@ -85,8 +85,17 @@ export default {
       //   isActive: true,
       // },
       selectedSeason: {
-        label: 'Toutes saisons',
         value: 'all_period',
+        label: 'Toutes saisons',
+        featuresColors: [
+          '#bcbcbc',
+          'rgba(51, 105, 80, 0.2)',
+          'rgba(51, 105, 80, 0.4)',
+          'rgba(51, 105, 80, 0.6)',
+          'rgba(51, 105, 80, 0.8)',
+          '#336950',
+        ],
+        speciesDistributionColors: ['#336950'],
       },
     }
   },
