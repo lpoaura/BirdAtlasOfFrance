@@ -32,7 +32,7 @@
         :options-style="speciesDistributionGeojsonStyle"
       />
       <l-control position="topright" :disable-scroll-propagation="true">
-        <generic-map-loading-control :loading="speciesDistributionIsLoading" />
+        <commons-map-loading-control :loading="speciesDistributionIsLoading" />
       </l-control>
       <l-control position="topleft" :disable-scroll-propagation="true">
         <species-maps-legend />

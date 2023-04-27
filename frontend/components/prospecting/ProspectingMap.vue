@@ -159,7 +159,7 @@
       </l-control>
       <!-- Top right -->
       <l-control position="topright" :disable-scroll-propagation="true">
-        <generic-map-loading-control
+        <commons-map-loading-control
           :loading="
             (knowledgeLevelIsLoading &&
               ['knowledge-level', 'species-number'].includes(
