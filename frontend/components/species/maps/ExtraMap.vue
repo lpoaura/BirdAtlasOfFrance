@@ -3,7 +3,7 @@
     <v-row class="fill-height ma-0">
       <v-col v-if="!mapData">Aucune donnée disponible pour ce territoire</v-col>
       <v-col v-if="mapData" ref="mapBlock" cols="9" xs="12" sm="12" md="8">
-        <generic-map-loading-control
+        <commons-map-loading-control
           class="float-right"
           :loading="dataLoading"
         />
