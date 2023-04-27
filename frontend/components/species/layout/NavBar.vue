@@ -17,7 +17,7 @@
             : 'darkgrey',
         }"
       ></div>
-      <div class="Title">
+      <div v-if="!searchMode" class="Title" @click="searchMode = !searchMode">
         <v-skeleton-loader v-if="!species.frenchVernacularName" type="text"
           >&nbsp;</v-skeleton-loader
         >
@@ -31,6 +31,9 @@
             &nbsp;|&nbsp; Synonymes : {{ attributes?.common_synonyms }}
           </font>
         </h5>
+      </div>
+      <div class="searchWidget" v-else>
+        <species-search-widget />
       </div>
     </div>
     <div class="Metadata">
@@ -64,6 +67,7 @@ export default {
   },
   data: () => {
     return {
+      searchMode: false,
       regulatory: null,
       redList: null,
       tabs: [
@@ -201,5 +205,10 @@ header {
     display: block;
     margin-bottom: 0;
   }
+}
+
+.searchWidget {
+  width: 420px;
+  height: 44px;
 }
 </style>
