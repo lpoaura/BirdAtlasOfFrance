@@ -67,6 +67,7 @@
 
 <script>
 export default {
+
   data: () => ({
     search: '',
     dataList: [],
@@ -76,23 +77,23 @@ export default {
         value: 'species',
         label: 'Espèce',
         api: '/api/v1/search/taxa?limit=10&search=',
-        route: '/species'
+        route: '/species',
       },
       {
         value: 'place',
         label: 'Lieu',
         api: '/api/v1/search/areas?limit=10&type_code=COM&search=',
-        route: '/prospecting'
-      }
+        route: '/prospecting',
+      },
     ],
     selectedType: {
       value: 'species',
       label: 'Espèce',
       api: '/api/v1/search/taxa?limit=10&search=',
-      route: '/species'
+      route: '/species',
     },
     selectIsOpen: false,
-    lang: 'fr'
+    lang: 'fr',
   }),
   watch: {
     search(newVal) {
@@ -113,7 +114,7 @@ export default {
             console.error(error)
           })
       }
-    }
+    },
   },
   methods: {
     openOrCloseSelectBox() {
@@ -146,12 +147,12 @@ export default {
     updateSelectedData(data) {
       if (this.selectedType.value === 'species') {
         this.$router.push({
-          path: `${this.selectedType.route}/${data.code}`
+          path: `${this.selectedType.route}/${data.code}`,
         })
       } else {
         this.$router.push({
           path: this.selectedType.route,
-          query: { area: `${data.code}`, type: `${data.type_code}` }
+          query: { area: `${data.code}`, type: `${data.type_code}` },
         })
       }
     },
@@ -162,8 +163,8 @@ export default {
     closeSearchBar() {
       this.autocompleteIsOpen = false
       this.selectIsOpen = false
-    }
-  }
+    },
+  },
 }
 </script>
 
