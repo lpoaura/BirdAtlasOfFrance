@@ -61,7 +61,7 @@ export default {
     ],
   }),
   computed: {
-    idArea(){
+    idArea() {
       return this.$store.state.species.selectedTerritory.id_area
     },
     cdNom() {
@@ -78,10 +78,14 @@ export default {
     },
   },
   watch: {
-    idArea: {
-      handler() {
-        this.loadHistoricAtlasList()
+    selectedTerritory: {
+      handler(newVal, oldVal) {
+        console.log('TEST IDAREA', oldVal.id_area, newVal.id_area)
+        if (newVal.id_area) {
+          this.loadHistoricAtlasList()
+        }
       },
+      deep: true,
     },
   },
   mounted() {
@@ -107,7 +111,7 @@ export default {
       const url = `/api/v1/taxa/list/historic/atlas`
       const params = {
         cd_nom: this.cdNom,
-        id_area: this.idArea
+        id_area: this.idArea,
       }
       this.$axios
         .$get(url, {
