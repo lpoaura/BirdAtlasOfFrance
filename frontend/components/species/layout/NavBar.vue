@@ -17,13 +17,24 @@
             : 'darkgrey',
         }"
       ></div>
-      <div v-if="!searchMode" class="Title" @click="searchMode = !searchMode">
-        <v-skeleton-loader v-if="!species.frenchVernacularName" type="text"
-          >&nbsp;</v-skeleton-loader
-        >
-        <h3 class="fw-600">
-          {{ species.frenchVernacularName }}
-        </h3>
+      <div v-if="!searchMode" class="Title" @click="searchMode = true">
+        <v-tooltip bottom>
+          <template #activator="{ on, attrs }">
+            <span
+              v-bind="attrs"
+              class="black02 flex-1 right-margin-8"
+              v-on="on"
+            >
+              <h3 class="fw-600">
+                {{ species.frenchVernacularName }}
+              </h3>
+            </span>
+          </template>
+          <v-skeleton-loader v-if="!species.frenchVernacularName" type="text"
+            >&nbsp;</v-skeleton-loader
+          >
+          Rechercher une autre espèce
+        </v-tooltip>
         <h5 v-if="species.referenceNameHtml">
           <span v-html="species.referenceNameHtml"></span> &nbsp;|&nbsp;
           {{ species.englishVernacularName }}
@@ -143,6 +154,10 @@ export default {
       this.$store.commit('species/setSelectedTab', item)
       this.$router.push(`${item.hash}`)
     },
+    revertSearchMode() {
+      console.log(this.searchMode)
+      this.searchMode = !this.searchMode
+    },
   },
 }
 </script>
@@ -176,6 +191,7 @@ header {
 .Title {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .Metadata {
@@ -211,7 +227,7 @@ header {
 }
 
 .searchWidget {
-  width: 420px;
-  height: 44px;
+  max-width: 420px;
+  height: 42px;
 }
 </style>
