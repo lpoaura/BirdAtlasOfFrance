@@ -50,9 +50,9 @@
         :pictures="medias.Photos"
       />
     </div>
-    <div v-if="redLists || species.protectionStatus" id="status" class="Column">
+    <div v-if="redLists.length || species.protectionStatus" id="status" class="Column">
       <div class="StatusGrid">
-        <div v-if="redLists" class="Column">
+        <div v-if="redLists.length" class="Column">
           <h4 class="black02 fw-bold bottom-margin-16">
             Statuts de conservation
           </h4>
@@ -349,7 +349,7 @@ export default {
       this.getStatus()
     },
     species(newVal) {
-      this.genSubjectList()
+      this.initSubjectList()
       setTimeout(() => {
         // Le timeout permet d'être assuré que le texte est bien integré à l'élément
         if (this.$refs.description) {
@@ -380,8 +380,7 @@ export default {
     window.removeEventListener('resize', this.listener)
   },
   mounted() {
-    this.genSubjectList()
-    this.getStatus()
+    this.initSubjectList()
   },
   methods: {
     consoleLog(message) {
@@ -392,27 +391,14 @@ export default {
         .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}/status/lines`)
         .then((data) => (this.status = data._embedded.status))
     },
-    genSubjectList() {
+    initSubjectList() {
       this.$store.commit('species/setSubjectsList', [])
       this.$store.commit('species/pushSubjectsList', {
         label: 'Description',
         slug: 'description',
         position: 1,
       })
-      // if (this.species.redLists || this.species.protectionStatus) {
-      //   this.$store.commit('species/pushSubjectsList', {
-      //     label: 'Statuts',
-      //     slug: 'status',
-      //     position: 2,
-      //   })
-      // }
-      // if (this.attributes.description) {
-      //   this.$store.commit('species/pushSubjectsList', {
-      //     label: 'Statuts',
-      //     slug: 'status',
-      //     position: 2,
-      //   })
-      // }
+
       if (
         this.filteredTraits?.length > 0 ||
         this.filteredFurtherInfo?.length > 0
