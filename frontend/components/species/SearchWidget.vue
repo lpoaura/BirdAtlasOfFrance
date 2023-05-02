@@ -1,48 +1,52 @@
 <template>
-  <div
-    v-click-outside="closeSearchBar"
-    class="AutocompleteWrapper map"
-    :class="search.length > 0 ? 'open' : ''"
-  >
-    <input
-      v-model="search"
-      class="large"
-      type="text"
-      :placeholder="selectedType.placeholder"
-    />
-    <input
-      v-model="search"
-      class="small"
-      type="text"
-      placeholder="Rechercher"
-    />
-    <div class="AutocompleteGadgets map">
-      <img
-        v-if="search.length > 0"
-        class="AutocompleteCloseIcon map"
-        src="/close.svg"
-        @click="clearResults"
+  <div>
+    <div
+      class="AutocompleteWrapper map"
+      :class="search.length > 0 ? 'open' : ''"
+    >
+      <input
+        v-model="search"
+        class="large"
+        type="text"
+        :placeholder="selectedType.placeholder"
       />
-      <div class="AutocompleteSearchSplit"></div>
-      <div class="AutocompleteSearch map" @click="$emit('close')">
-        <img class="AutocompleteSearchIcon map" src="/search.svg" />
+      <input
+        v-model="search"
+        class="small"
+        type="text"
+        placeholder="Rechercher"
+      />
+      <div class="AutocompleteGadgets map">
+        <img
+          v-if="search.length > 0"
+          class="AutocompleteCloseIcon map"
+          src="/close.svg"
+          @click="clearResults"
+        />
+        <div class="AutocompleteSearchSplit"></div>
+        <div class="AutocompleteSearch map" @click="$emit('close')">
+          <img class="AutocompleteSearchIcon map" src="/search.svg" />
+        </div>
       </div>
-    </div>
-    <div v-show="autocompleteIsOpen" class="AutocompleteResultsSplit"></div>
-    <div v-show="autocompleteIsOpen" class="AutocompleteResults">
-      <li
-        v-for="data in dataList"
-        :key="data.code"
-        class="AutocompleteResultsOption"
-        @click="updateSelectedData(data)"
-      >
-        {{data[`common_name_${lang}`]}}
-        <i v-if="selectedType.value === 'species'">({{ data.sci_name }})</i>
-      </li>
-      <h5 v-if="!dataList.length" class="black03 italic AutocompleteNoResults">
-        Aucun résultat trouvé, vous recherchez peut-être une
-        <nuxt-link to="/about/glossary">espèce sensible</nuxt-link>.
-      </h5>
+      <div v-show="autocompleteIsOpen" class="AutocompleteResultsSplit"></div>
+      <div v-show="autocompleteIsOpen" class="AutocompleteResults">
+        <li
+          v-for="data in dataList"
+          :key="data.code"
+          class="AutocompleteResultsOption"
+          @click="updateSelectedData(data)"
+        >
+          {{ data[`common_name_${lang}`] }}
+          <i v-if="selectedType.value === 'species'">({{ data.sci_name }})</i>
+        </li>
+        <h5
+          v-if="!dataList.length"
+          class="black03 italic AutocompleteNoResults"
+        >
+          Aucun résultat trouvé, vous recherchez peut-être une
+          <nuxt-link to="/about/glossary">espèce sensible</nuxt-link>.
+        </h5>
+      </div>
     </div>
   </div>
 </template>
@@ -59,12 +63,12 @@ export default {
     search: '',
     dataList: [],
     autocompleteIsOpen: false,
-    selectedType:   {
-        value: 'species',
-        label: 'Espèce',
-        api: '/api/v1/search/taxa',
-        placeholder: 'Rechercher une espèce...',
-      },
+    selectedType: {
+      value: 'species',
+      label: 'Espèce',
+      api: '/api/v1/search/taxa',
+      placeholder: 'Rechercher une espèce...',
+    },
     selectIsOpen: false,
     speciesIsSelected: false,
     searchIsProgramatic: false,
@@ -79,13 +83,13 @@ export default {
           } else {
             const params = {
               limit: 10,
-              search : newVal
+              search: newVal,
             }
             this.$axios
-              .$get(this.selectedType.api ,{params})
+              .$get(this.selectedType.api, { params })
               .then((data) => {
-                  this.autocompleteIsOpen = true
-                  this.dataList = data
+                this.autocompleteIsOpen = true
+                this.dataList = data
               })
               .catch((error) => {
                 console.error(error)
