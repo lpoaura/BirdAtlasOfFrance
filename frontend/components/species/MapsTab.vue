@@ -119,11 +119,6 @@ export default {
         })
         .then((data) => {
           this.$store.commit('species/updateSubjectsMapAtlasList', data || [])
-          // if (data) {
-          //   data.forEach((item) =>
-          //     this.$store.commit('species/pushSubjectsMapAtlasList', item)
-          //   )
-          // }
         })
         .catch((error) => {
           console.error(error)

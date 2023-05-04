@@ -102,7 +102,10 @@
             @click="openOrCloseTerritoriesBox"
           >
             <img class="MapSelectorIcon" src="/location.svg" />
-            <h5 v-if="currentTerritory.area_code" class="fw-600 right-margin-12">
+            <h5
+              v-if="currentTerritory.area_code"
+              class="fw-600 right-margin-12"
+            >
               {{ currentTerritory.area_name }}
             </h5>
             <h5 v-else class="fw-600 right-margin-12">Territoires</h5>
@@ -111,11 +114,7 @@
               :src="territoryIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
             />
           </div>
-          <territories-selector
-            :select-is-open="territoryIsOpen"
-            :selected-territory="selectedTerritory"
-            @selectedTerritory="updateSelectedTerritory"
-          />
+          <commons-selectors-territories :select-is-open="territoryIsOpen" />
         </div>
       </div>
     </header>
@@ -158,7 +157,6 @@
 import MapSearchBar from '~/components/prospecting/MapSearchBar.vue'
 import SeasonsSelector from '~/components/commons/Selectors/Seasons.vue'
 import LayersSelector from '~/components/commons/Selectors/Layers.vue'
-import TerritoriesSelector from '~/components/commons/Selectors/Territories.vue'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 import CountTaxaControl from '~/components/prospecting/CountTaxaControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
@@ -170,7 +168,6 @@ export default {
     'map-search-bar': MapSearchBar,
     'seasons-selector': SeasonsSelector,
     'layers-selector': LayersSelector,
-    'territories-selector': TerritoriesSelector,
     'lazy-prospecting-map': () => {
       if (process.client) {
         return import('~/components/prospecting/ProspectingMap.vue')
@@ -206,9 +203,9 @@ export default {
       subtitle: null,
       permanent: true,
     },
-    selectedTerritory: {
-      // Territoire cliqué (FrMet ou DOM-TOM)
-    },
+    // selectedTerritory: {
+    //   // Territoire cliqué (FrMet ou DOM-TOM)
+    // },
     currentTerritory: {
       // Territoire sur lequel est centrée la carte (peut être non défini)
     },
@@ -266,15 +263,47 @@ export default {
       title: this.$getPageTitle(this.$route.path),
     }
   },
+  computed: {
+    selectedTerritory() {
+      return this.$store.state.species.selectedTerritory
+    },
+  },
+  watch: {
+    selectedSpecies() {
+      this.getTerritoryList()
+    },
+    cdNom() {
+      this.getTerritoryList()
+    },
+  },
   mounted() {
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
+    this.getTerritoryList()
   },
   beforeDestroy() {
     document.documentElement.style.removeProperty('overflow')
     document.body.style.removeProperty('position')
   },
   methods: {
+    async getTerritoryList() {
+      console.log('getTerritoryList', this.cdNom)
+      if (this.selectedSpecies?.code) {
+        console.log('getTerritoryList', this.selectedSpecies?.code)
+        const params = { cd_nom: this.selectedSpecies.code }
+        const territoryList = await this.$axios.$get(
+          '/api/v1/taxa/list/distribution',
+          { params }
+        )
+        this.$store.commit(
+          'species/setTerritoryDistribution',
+          territoryList.areas
+        )
+        // this.initSelectedTerritory(territoryList.areas)
+      } else {
+        this.$store.commit('species/setTerritoryDistribution', [])
+      }
+    },
     updateSelectedArea(data) {
       this.selectedArea = data
     },
@@ -299,6 +328,7 @@ export default {
     updateSelectedTerritory(territory) {
       // Permet d'activer le watch de ProspectingMap et ainsi de recentrer la carte sur un territoire même si l'utilisateur se trouve déjà dessus
       this.selectedTerritory = {}
+      console.log('TERRITORY', territory)
       setTimeout(() => {
         this.selectedTerritory = territory
       }, 1)

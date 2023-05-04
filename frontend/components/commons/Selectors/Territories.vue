@@ -43,13 +43,15 @@
         :class="[
           territory.area_code === selectedTerritory.area_code ? 'selected' : '',
           territory.isActive &&
-          territoryDistribution.includes(territory.area_code)
+          (territoryDistribution.includes(territory.area_code) ||
+            territoryDistribution.length === 0)
             ? ''
             : 'inactive',
         ]"
         @click="
           territory.isActive &&
-          territoryDistribution.includes(territory.area_code)
+          (territoryDistribution.includes(territory.area_code) ||
+            territoryDistribution.length === 0)
             ? updateSelectedTerritory(territory)
             : null
         "
@@ -60,7 +62,8 @@
           v-show="
             !(
               territory.isActive &&
-              territoryDistribution.includes(territory.area_code)
+              (territoryDistribution.includes(territory.area_code) ||
+                territoryDistribution.length === 0)
             )
           "
           class="UnavailableData fw-600 text-center"
@@ -78,13 +81,15 @@
         :class="[
           territory.area_code === selectedTerritory.area_code ? 'selected' : '',
           territory.isActive &&
-          territoryDistribution.includes(territory.area_code)
+          (territoryDistribution.includes(territory.area_code) ||
+            territoryDistribution.length === 0)
             ? ''
             : 'inactive',
         ]"
         @click="
           territory.isActive &&
-          territoryDistribution.includes(territory.area_code)
+          (territoryDistribution.includes(territory.area_code) ||
+            territoryDistribution.length === 0)
             ? updateSelectedTerritory(territory)
             : null
         "
