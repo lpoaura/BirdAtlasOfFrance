@@ -1,6 +1,6 @@
 run_api:
 	cd backend && \
-	poetry run odf_api
+	poetry run backend
 
 run_front:
 	cd frontend && \
