@@ -267,6 +267,9 @@ export default {
     selectedTerritory() {
       return this.$store.state.species.selectedTerritory
     },
+    territoriesList() {
+      return [...this.$store.state.species.territoriesList]
+    },
   },
   watch: {
     selectedSpecies() {
@@ -299,10 +302,20 @@ export default {
           'species/setTerritoryDistribution',
           territoryList.areas
         )
+        this.initSelectedTerritory(territoryList.areas)
         // this.initSelectedTerritory(territoryList.areas)
       } else {
         this.$store.commit('species/setTerritoryDistribution', [])
       }
+    },
+    initSelectedTerritory(territoryList) {
+      const firstTerritory = this.territoriesList.find(
+        (territory) =>
+          territory.isActive &&
+          territoryList.includes(territory.area_code)
+      )
+      console.log('FIRST TERRITORY', firstTerritory)
+      this.$store.commit('species/setSelectedTerritory', firstTerritory)
     },
     updateSelectedArea(data) {
       this.selectedArea = data
