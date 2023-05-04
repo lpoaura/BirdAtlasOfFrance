@@ -5,7 +5,7 @@ description = ""
 authors = ["lpofredc <frederic.cloitre@lpo.fr>"]
 
 [tool.poetry.scripts]
-odf_api = "app.main:main"
+backend = "app.main:main"
 
 [tool.poetry.dependencies]
 python=">=3.8.1,<4.0"
