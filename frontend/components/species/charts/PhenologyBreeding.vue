@@ -75,10 +75,11 @@ export default {
     },
     async getChartData() {
       if (this.idArea) {
-        const url = `/api/v1/taxa/chart/phenology/breeding`
+        const url = `/api/v1/taxa/chart/phenology`
         const params = {
           cd_nom: this.cdNom,
           id_area: this.idArea,
+          period: 'breeding'
         }
         this.chartData = await this.$axios
           .$get(url, {
