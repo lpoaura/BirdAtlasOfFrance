@@ -255,17 +255,16 @@ export default {
   },
   methods: {
     updateGlobalKnowledgeLevel() {
-      Promise.all([
-        this.$axios.$get(
-          `/api/v1/knowledge_level?id_area=${this.currentTerritory.id}&period=allperiod`
-        ),
-        this.$axios.$get(
-          `/api/v1/knowledge_level?id_area=${this.currentTerritory.id}&period=breeding`
-        ),
-        this.$axios.$get(
-          `/api/v1/knowledge_level?id_area=${this.currentTerritory.id}&period=wintering`
-        ),
-      ])
+      const periods = ['allperiod', 'breeding', 'wintering']
+      Promise.all(
+        periods.map((i) => {
+          const params = {
+            id_area: this.currentTerritory.id,
+            period: i,
+          }
+          return this.$axios.$get(`/api/v1/knowledge_level`, { params })
+        })
+      )
         .then((responses) => {
           if (responses[0].average !== 0) {
             this.noAvailableData = false

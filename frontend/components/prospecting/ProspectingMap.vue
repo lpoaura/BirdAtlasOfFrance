@@ -890,13 +890,12 @@ export default {
         const cancelToken = this.$axios.CancelToken
         this.axiosSourceKnowledgeLevel = cancelToken.source()
         this.knowledgeLevelIsLoading = true
+        const params = { envelope: this.envelope }
         this.$axios
-          .$get(
-            `/api/v1/area/knowledge_level/ATLAS_GRID?envelope=${this.envelope}`,
-            {
-              cancelToken: this.axiosSourceKnowledgeLevel.token,
-            }
-          )
+          .$get(`/api/v1/area/knowledge_level/ATLAS_GRID`, {
+            cancelToken: this.axiosSourceKnowledgeLevel.token,
+            params,
+          })
           .then((data) => {
             if (data) {
               this.knowledgeLevelGeojson = data
@@ -972,13 +971,18 @@ export default {
         this.speciesDistributionIsLoading = true
         this.noSpeciesData = false
         const grid = this.currentZoom >= 11
+        const params = {
+          cd_nom: species.code,
+          phenology_period: this.selectedSeason.value,
+          atlas_period: 'new',
+          grid,
+          envelope: this.envelope,
+        }
         this.$axios
-          .$get(
-            `/api/v1/taxa/map/distribution?cd_nom=${species.code}&phenology_period=${this.selectedSeason.value}&atlas_period=new&grid=${grid}&envelope=${this.envelope}`,
-            {
-              cancelToken: this.axiosSourceSpeciesDistribution.token,
-            }
-          )
+          .$get(`/api/v1/taxa/map/distribution`, {
+            cancelToken: this.axiosSourceSpeciesDistribution.token,
+            params,
+          })
           .then((data) => {
             if (data) {
               this.speciesDistributionGeojson = data
