@@ -151,7 +151,7 @@ def area_contrib_time_distrib(
 
 
 @router.get(
-    "/area/list_areas/{id_area}/{type_code}",
+    "/area/list_areas",
     response_model=List[AreaDashboardIntersectAreas],
     tags=["prospecting"],
     summary="...",
@@ -161,9 +161,9 @@ def area_contrib_time_distrib(
 def area_list_intersected_areas(
     id_area: int,
     db: Session = Depends(get_db),
-    type_code: str = "COM",
+    area_type: str = "COM",
 ) -> Any:
-    q = area_dashboard.get_intersected_areas(db=db, id_area=id_area, type_code=type_code)
+    q = area_dashboard.get_intersected_areas(db=db, id_area=id_area, type_code=area_type)
     logger.debug(q)
     if not q:
         return Response(status_code=HTTP_204_NO_CONTENT)
@@ -258,7 +258,7 @@ def realized_epoc_list(
 
 
 @router.get(
-    "/map/count_taxon_classes/{id_area}",
+    "/map/count_taxon_classes",
     response_model=List[TaxonCountClassesByTerritorySchema],
     tags=["prospecting"],
     summary="Count taxon map classes",
@@ -272,6 +272,4 @@ def count_taxon_classes(
     id_area: int, db: Session = Depends(get_db), period: Optional[str] = "all_period"
 ) -> Any:
     q = taxon_count_classes_by_territory.get_classes(db=db, id_area=id_area, period=period)
-    if not q:
-        return Response(status_code=HTTP_204_NO_CONTENT)
-    return q
+    return q if q else Response(status_code=HTTP_204_NO_CONTENT)

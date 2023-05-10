@@ -311,8 +311,7 @@ export default {
     initSelectedTerritory(territoryList) {
       const firstTerritory = this.territoriesList.find(
         (territory) =>
-          territory.isActive &&
-          territoryList.includes(territory.area_code)
+          territory.isActive && territoryList.includes(territory.area_code)
       )
       console.log('FIRST TERRITORY', firstTerritory)
       this.$store.commit('species/setSelectedTerritory', firstTerritory)
@@ -349,28 +348,28 @@ export default {
     },
     updateCurrentTerritory(territory) {
       this.currentTerritory = territory
+      const periods = ['all_period', 'breeding', 'wintering']
       if (territory.area_code) {
-        Promise.all([
-          this.$axios.$get(
-            `/api/v1/map/count_taxon_classes/${territory.id}?period=all_period`
-          ),
-          this.$axios.$get(
-            `/api/v1/map/count_taxon_classes/${territory.id}?period=breeding`
-          ),
-          this.$axios.$get(
-            `/api/v1/map/count_taxon_classes/${territory.id}?period=wintering`
-          ),
-        ])
+        Promise.all(
+          periods.map((i) => {
+            const params = {
+              id_area: territory.id,
+              period: i,
+            }
+            return this.$axios.$get(`/api/v1/map/count_taxon_classes`, {
+              params,
+            })
+          })
+        )
           .then((responses) => {
             if (responses[0]) {
-              const seasons = ['all_period', 'breeding', 'wintering']
               responses.forEach((item, index) => {
-                this.countTaxaClasses[seasons[index]] = item
-                this.countTaxaClasses[seasons[index]].forEach(
+                this.countTaxaClasses[periods[index]] = item
+                this.countTaxaClasses[periods[index]].forEach(
                   (taxaClass, i) => {
                     if (
                       i !==
-                      this.countTaxaClasses[seasons[index]].length - 1
+                      this.countTaxaClasses[periods[index]].length - 1
                     ) {
                       taxaClass.max -= 1
                     }
@@ -378,11 +377,9 @@ export default {
                 )
               })
             } else {
-              this.countTaxaClasses = {
-                all_period: [],
-                breeding: [],
-                wintering: [],
-              }
+              const emptyObj = {}
+              periods.forEach((i) => (emptyObj[i] = []))
+              this.countTaxaClasses = emptyObj
             }
           })
           .catch((errors) => {

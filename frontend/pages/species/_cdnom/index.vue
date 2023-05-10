@@ -221,6 +221,8 @@ export default {
     //     })
     // },
     async getSpecieData() {
+      this.$store.commit('species/setMedias', {})
+      this.$store.commit('species/setAttributes', {})
       this.species = await this.$axios.$get(
         `https://taxref.mnhn.fr/api/taxa/${this.cdNom}`
       )

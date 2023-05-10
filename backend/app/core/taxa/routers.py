@@ -53,7 +53,6 @@ def list_territories(
     db: Session = Depends(get_db),
 ) -> Response:
     """Taxa territory distribution"""
-    logger.debug("TAXA LIST")
     return taxa_list_territory.territory_list(db, cd_nom)
 
 
@@ -89,9 +88,7 @@ def list_lareas(
     if isinstance(grid, str):
         grid: bool = True
     if envelope:
-        logger.debug("envelop qs: %s", envelope)
         envelope = [float(c) for c in envelope.split(",")]
-    logger.debug("envelop %s %s", envelope, type(envelope))
     query = taxa_distrib.taxa_distribution(
         db=db,
         cd_nom=cd_nom,
@@ -111,37 +108,6 @@ def list_lareas(
         for row in query
     ]
     return TaxaDistributionFeaturesCollection(features=features)
-
-
-# @router.get(
-#     "/data/chart/altitudes/{id_area}",
-#     response_model=TaxaAltitudeDistributionSchema,
-#     tags=["taxa"],
-#     summary="taxon geographic distribution",
-#     description="""# Taxon geographic distribution
-
-# This returns grid centroids with taxon presence for old or new atlas.
-# For breeding period, status returned is breeding status.
-
-# Period choices must be one of following choices :
-# * `breeding_new`: Breeding presence and status for new atlas
-# * `breeding_old`: Breeding presence and status from previous atlas
-# * `wintering_new`: Wintering presence for new atlas
-# * `wintering_old`: Wintering presence from previous atlas
-# * `all_period_new`: All period presence for new atlas
-# * `all_period_old`: All period presence from previous atlas
-# """,
-# )
-# def altitude_distribution(
-#     id_area: int,
-#     cd_nom: int = None,
-#     db: Session = Depends(get_db),
-# ) -> Any:
-#     # for a in areas:
-#     #     f = TaxaDistributionFeature(**a)
-#     #     features.append(f)
-#     # collection = TaxaDistributionFeatureCollection(features=features)
-#     return altitude_distrib.taxa_alti_distribution(db=db, id_area=id_area, cd_nom=cd_nom)
 
 
 @router.get(
@@ -247,8 +213,8 @@ def altitudinal_distribution(
 
 
 @router.get(
-    "/chart/phenology/allperiod",
-    response_model=Optional[TaxaPhenologyApiData],
+    "/chart/phenology",
+    response_model=Optional[Union[TaxaPhenologyApiData, TaxaBreedingPhenologyApiData]],
     tags=["taxa"],
     summary="Altitudinal distribution",
     description="""# coming soon
@@ -258,65 +224,55 @@ def altitudinal_distribution(
 """,
 )
 @cache()
-def all_period_phenology_distribution(
-    id_area: str, cd_nom: int, db: Session = Depends(get_db)
+def phenology_distribution(
+    id_area: str,
+    cd_nom: int,
+    db: Session = Depends(get_db),
+    period: Optional[str] = "all_period",
 ) -> Any:
-    data_count = all_period_phenology_distrib.get_data_occurrence(
-        db=db, id_area=id_area, cd_nom=cd_nom
-    )
-    list_frequency = all_period_phenology_distrib.get_list_occurrence(
-        db=db, id_area=id_area, cd_nom=cd_nom
-    )
-    logger.debug("data_count %s", str(data_count))
-    logger.debug("list_frequency %s", str(list_frequency))
-    if data_count:
-        phenology = CommonBlockStructure(
-            label="Nombre de données",
-            data=data_count,
-            color="#435EF2",
+    if period == "all_period":
+        data_count = all_period_phenology_distrib.get_data_occurrence(
+            db=db, id_area=id_area, cd_nom=cd_nom
         )
-        frequency = CommonBlockStructure(
-            label="Fréquence dans les listes complètes",
-            data=list_frequency,
-            color="#8CCB6E",
+        list_frequency = all_period_phenology_distrib.get_list_occurrence(
+            db=db, id_area=id_area, cd_nom=cd_nom
         )
-        return TaxaPhenologyApiData(frequency=frequency, phenology=phenology)
+        logger.debug("data_count %s", str(data_count))
+        logger.debug("list_frequency %s", str(list_frequency))
+        if data_count:
+            phenology = CommonBlockStructure(
+                label="Nombre de données",
+                data=data_count,
+                color="#435EF2",
+            )
+            frequency = CommonBlockStructure(
+                label="Fréquence dans les listes complètes",
+                data=list_frequency,
+                color="#8CCB6E",
+            )
+            return TaxaPhenologyApiData(frequency=frequency, phenology=phenology)
+    if period == "breeding":
+        q_start = breeding_phenology_distrib.get_data_occurrence(
+            db=db, id_area=id_area, cd_nom=cd_nom, status="breeding_start"
+        )
+        q_end = breeding_phenology_distrib.get_data_occurrence(
+            db=db, id_area=id_area, cd_nom=cd_nom, status="breeding_end"
+        )
+        if q_start or q_end:
+            breeding_start = CommonBlockStructure(
+                label="Début de période",
+                data=q_start,
+                color="#435EF2",
+            )
+            breeding_end = CommonBlockStructure(
+                label="Fin de période",
+                data=q_end,
+                color="#8CCB6E",
+            )
+            return TaxaBreedingPhenologyApiData(
+                breeding_start=breeding_start, breeding_end=breeding_end
+            )
     return Response(status_code=HTTP_204_NO_CONTENT)
-
-
-@router.get(
-    "/chart/phenology/breeding",
-    response_model=Optional[TaxaBreedingPhenologyApiData],
-    tags=["taxa"],
-    summary="Breeding phenology distribution",
-    description="""# coming soon""",
-)
-@cache()
-def breeding_phenology_distribution(
-    id_area: str, cd_nom: int, db: Session = Depends(get_db)
-) -> Any:
-    q_start = breeding_phenology_distrib.get_data_occurrence(
-        db=db, id_area=id_area, cd_nom=cd_nom, status="breeding_start"
-    )
-    q_end = breeding_phenology_distrib.get_data_occurrence(
-        db=db, id_area=id_area, cd_nom=cd_nom, status="breeding_end"
-    )
-    if q_start or q_end:
-        breeding_start = CommonBlockStructure(
-            label="Début de période",
-            data=q_start,
-            color="#435EF2",
-        )
-        breeding_end = CommonBlockStructure(
-            label="Fin de période",
-            data=q_end,
-            color="#8CCB6E",
-        )
-        return TaxaBreedingPhenologyApiData(
-            breeding_start=breeding_start, breeding_end=breeding_end
-        )
-    return Response(status_code=HTTP_204_NO_CONTENT)
-
 
 @router.get(
     "/map/survey",
@@ -333,6 +289,19 @@ def get_survey_map_data(
     phenology_period: str,
     db: Session = Depends(get_db),
 ) -> Any:
+    """Get survey map data
+
+    :param cd_nom: Taxa cd_nom
+    :type cd_nom: int
+    :param id_area_atlas_territory: Atlas territory pk
+    :type id_area_atlas_territory: int
+    :param phenology_period: _description_
+    :type phenology_period: str
+    :param db: _description_, defaults to Depends(get_db)
+    :type db: Session, optional
+    :return: _description_
+    :rtype: Any
+    """
     query = survey_map_data.data_distribution(
         db,
         cd_nom=cd_nom,
