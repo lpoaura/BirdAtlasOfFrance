@@ -187,7 +187,7 @@ export default {
                 ? d.properties.data
                     .map(
                       (item) =>
-                        `<p class="tooltip-values">${item[0]}&nbsp;:&nbsp;<strong>${item[1]}</strong></p>`
+                        `<p class="tooltip-values">${item[0]}&nbsp;:&nbsp;<strong>${item[1]}&nbsp;(${item[2]})</strong></p>`
                     )
                     .join('')
                 : '<i class="no-data">Pas de données</i>'
