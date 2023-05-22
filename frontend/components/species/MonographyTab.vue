@@ -303,7 +303,7 @@ export default {
     },
     regulatories() {
       return this.status
-        .filter((i) => i.statusTypeGroup === 'Réglementation')
+        .filter((i) => i.statusTypeGroup === 'Réglementation' || i.statusTypeGroup === 'Protection')
         .sort((a, b) => b.locationAdminLevel > a.locationAdminLevel)
     },
     europeenDirectives() {
