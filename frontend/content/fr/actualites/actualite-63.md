@@ -27,18 +27,18 @@ La répartition du Hibou moyen-duc en période de nidification est nettement mie
 La détection du hibou moyen-duc se fait essentiellement à l’oreille et est plus aisée en période de parade nuptiale, soit en mars-avril.  
 
 <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-63-carte-repartition_HibouMoyenDuc-nich.webp"/>
-<span class="InformativePagePictureLegend">Répartition des observations par mailles de Locustelle tachetée nicheuse en France métropolitaine depuis 2019</span>
+<span class="InformativePagePictureLegend">Répartition des observations par mailles de Hibou moyen-duc nicheur en France métropolitaine depuis 2019</span>
 
 ## Rechercher le Moineau friquet 
 
 Espèce en déclin avéré, le Moineau friquet disparait de nos campagnes. Il est donc important de maintenir un bon niveau de recensement de sa présence ainsi que de son statut nicheur sur le territoire, sachant que sa présence concernait 86 % du territoire avant 2019. Il est souvent présent dans les petites villes ou les villages des zones rurales. Grégaire, il se déplace en bandes, parfois mixtes avec le Moineau domestique. Il faut donc ouvrir l’œil à la vue d’une bande de moineaux ! Un (ou plusieurs) friquets peuvent s’y cacher ! 
 
 <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-63-carte-repartition_MoineaufriquetNich.webp"/>
-<span class="InformativePagePictureLegend">Répartition des observations par mailles de Locustelle tachetée nicheuse en France métropolitaine depuis 2019</span>
+<span class="InformativePagePictureLegend">Répartition des observations par mailles de Moineau friquet nicheur en France métropolitaine depuis 2019</span>
 
 ## Rechercher le Bruant des roseaux 
 
 Espèce fortement associée aux milieux humides, le Bruant des roseaux est présent dans plus de 76% des mailles du territoire. Recensé majoritairement dans la moitié nord du territoire et sur la côte méditerranéenne, il reste de nombreuses mailles où le statut nicheur n’est pas encore confirmé, notamment dans la partie orientale de son aire de nidification. Il est conseillé de consulter également la liste d’espèce des mailles où il n’est pas. 
 
 <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-63-carte-repartition_Burantdesroseaux-nich.webp"/>
-<span class="InformativePagePictureLegend">Répartition des observations par mailles de Locustelle tachetée nicheuse en France métropolitaine depuis 2019</span>
+<span class="InformativePagePictureLegend">Répartition des observations par mailles de Bruant des roseaux nicheur en France métropolitaine depuis 2019</span>
