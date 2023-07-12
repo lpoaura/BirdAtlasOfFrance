@@ -45,6 +45,6 @@ Le Choucas des Tours est une espèce protégée (inscrite à l'annexe II/2 de la
 
 ## Recenser ces espèces pour mieux les aider 
 
-Même si elles sont communes, pensez à recenser ces 5 espèces quand vous les observez, de préférence dans le cadre de listes complètes. Les données récoltées permettront de surveiller l’état de santé de leurs populations.   
+Même si elles sont communes, pensez à recenser ces 5 espèces quand vous les observez, de préférence dans le cadre de [listes complètes](https://oiseauxdefrance.org/get-involved/complete-lists). Les données récoltées permettront de surveiller l’état de santé de leurs populations.   
 
  
