@@ -25,7 +25,7 @@ Les chiffres de destruction par année sont effarants :
 
 - 1 million de corneilles et de corbeaux  
 
-- 10 0000 étourneaux.  
+- 10 0000 d'étourneaux.  
 
  
 Si les espèces d’oiseaux classées « ESOD » se portent globalement bien, ce n’est pas le cas du Corbeau freux dont les effectifs tendent à régresser (-36,7% sur les 18 dernières années selon [l’analyse de 30 ans de STOC]( https://www.lpo.fr/content/download/8133/file/SyntheseOiseauxCommuns2020_V8_WEB%282%29.PDF?inLanguage=fre-FR)). 
