@@ -1,7 +1,7 @@
 ---
 title: "ESOD : de l’importance de recenser ces espèces communes malaimées"
 picture: actualite-64.webp
-credit:  © 
+credit:  Geai des chênes © Fabrice Croset 
 centering: center
 author: Oiseaux de France
 date: '2023-07-13'
