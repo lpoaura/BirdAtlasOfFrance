@@ -1,54 +1,28 @@
 <template>
   <div class="SpeciesCardContent">
-    <div
-      id="description"
-      class="Row"
-      :style="{ height: readMore || !medias?.Photos ? 'auto' : '367px' }"
-    >
+    <div id="description" class="Row" :style="{ height: readMore || !medias?.Photos ? 'auto' : '367px' }">
       <div class="Column read-more-wrapper">
         <div class="read-more">
           <h4 class="black02 fw-bold bottom-margin-16">Description</h4>
-          <v-skeleton-loader
-            v-if="Object.keys(attributes).length === 0"
-            type="paragraph"
-          ></v-skeleton-loader>
-          <span
-            v-if="Object.keys(attributes).length > 0"
-            ref="description"
-            class="black02"
-          >
-            {{
-              attributes?.description
-                ? attributes.description
-                : 'Pas de description disponible actuellement pour cette espèce.'
-            }}
+          <v-skeleton-loader v-if="Object.keys(attributes).length === 0" type="paragraph"></v-skeleton-loader>
+          <span v-if="Object.keys(attributes).length > 0" ref="description" class="black02" v-html="attributes?.description
+            ? attributes.description
+            : 'Pas de description disponible actuellement pour cette espèce.'">
           </span>
-          <div
-            v-if="descriptionHeight > 327 && !readMore"
-            class="Blurring"
-          ></div>
+          <div v-if="descriptionHeight > 327 && !readMore" class="Blurring"></div>
         </div>
         <div v-if="descriptionHeight > 327 && !readMore" class="display-flex">
-          <span
-            class="green01 fw-600 pointer ReadMore"
-            @click="readMore = !readMore"
-          >
+          <span class="green01 fw-600 pointer ReadMore" @click="readMore = !readMore">
             Lire plus
           </span>
         </div>
         <div v-if="descriptionHeight > 327 && readMore" class="display-flex">
-          <span
-            class="green01 fw-600 pointer ReadMore"
-            @click="readMore = !readMore"
-          >
+          <span class="green01 fw-600 pointer ReadMore" @click="readMore = !readMore">
             Lire moins
           </span>
         </div>
       </div>
-      <species-monography-pictures-carousel
-        v-if="medias?.Photos"
-        :pictures="medias.Photos"
-      />
+      <species-monography-pictures-carousel v-if="medias?.Photos" :pictures="medias.Photos" />
     </div>
     <div v-if="redLists.length || species.protectionStatus" id="status" class="Column">
       <div class="StatusGrid">
@@ -58,24 +32,14 @@
           </h4>
           <div class="StatusWrapper">
             <span class="black02 fw-bold bottom-margin-8">Listes rouges</span>
-            <li
-              v-for="(item, index) in redLists"
-              :key="index"
-              class="StatusOption bottom-margin-8"
-            >
+            <li v-for="(item, index) in redLists" :key="index" class="StatusOption bottom-margin-8">
               <v-tooltip bottom>
                 <template #activator="{ on, attrs }">
-                  <span
-                    v-bind="attrs"
-                    class="black02 flex-1 right-margin-8"
-                    v-on="on"
-                  >
+                  <span v-bind="attrs" class="black02 flex-1 right-margin-8" v-on="on">
                     {{ item.locationName }} (<span class="text--disabled">{{
                       item.statusTypeName
-                    }}</span
-                    ><span v-if="item.statusRemarks">
-                      - {{ item.statusRemarks }}</span
-                    >)
+                    }}</span><span v-if="item.statusRemarks">
+                      - {{ item.statusRemarks }}</span>)
                   </span>
                 </template>
                 <span class="text-white" v-html="item.source"></span>
@@ -84,18 +48,10 @@
               <div v-if="item.statusCode" class="black02 float-right">
                 <v-tooltip bottom>
                   <template #activator="{ on, attrs }">
-                    <div
-                      v-bind="attrs"
-                      class="RedListSticker"
-                      :style="{
-                        background: $redLists(item.statusCode).bgColor,
-                      }"
-                      v-on="on"
-                    >
-                      <h5
-                        class="fw-600"
-                        :style="{ color: $redLists(item.statusCode).fontColor }"
-                      >
+                    <div v-bind="attrs" class="RedListSticker" :style="{
+                      background: $redLists(item.statusCode).bgColor,
+                    }" v-on="on">
+                      <h5 class="fw-600" :style="{ color: $redLists(item.statusCode).fontColor }">
                         {{ item.statusCode }}
                       </h5>
                     </div>
@@ -106,19 +62,12 @@
             </li>
           </div>
         </div>
-        <div
-          v-if="regulatories.length || europeenDirectives.length"
-          class="Column"
-        >
+        <div v-if="regulatories.length || europeenDirectives.length" class="Column">
           <h4 class="black02 fw-bold bottom-margin-16">
             Statuts réglementaires
           </h4>
           <div v-if="regulatories.length" id="Regulatory" class="StatusWrapper">
-            <li
-              v-for="(regulatory, index) in regulatories"
-              :key="index"
-              class="StatusOption"
-            >
+            <li v-for="(regulatory, index) in regulatories" :key="index" class="StatusOption">
               <span class="black02 fw-bold flex-1 right-margin-8">
                 {{ regulatory.statusTypeName }} ({{ regulatory.locationName }})
               </span>
@@ -128,11 +77,7 @@
             </li>
           </div>
           <div v-if="europeenDirectives.length" class="StatusWrapper">
-            <li
-              v-for="(directive, index) in europeenDirectives"
-              :key="index"
-              class="StatusOption"
-            >
+            <li v-for="(directive, index) in europeenDirectives" :key="index" class="StatusOption">
               <span class="black02 fw-bold flex-1 right-margin-8">
                 {{ directive.statusTypeName }} ({{ directive.locationName }})
               </span>
@@ -144,19 +89,11 @@
         </div>
       </div>
     </div>
-    <div
-      v-if="filteredTraits || filteredFurtherInfo"
-      id="traits"
-      class="Column"
-    >
+    <div v-if="filteredTraits || filteredFurtherInfo" id="traits" class="Column">
       <div v-if="filteredTraits" class="Column">
         <h4 class="black02 fw-bold bottom-margin-16">Caractéristiques</h4>
         <div class="TraitsCardsGrid">
-          <div
-            v-for="(trait, index) in filteredTraits"
-            :key="index"
-            class="TraitCard"
-          >
+          <div v-for="(trait, index) in filteredTraits" :key="index" class="TraitCard">
             <span class="black02 fw-600 bottom-margin-8">
               {{ trait.label }}
             </span>
@@ -167,11 +104,7 @@
         </div>
       </div>
       <div v-if="filteredFurtherInfo" class="FurtherInfoGrid">
-        <div
-          v-for="(info, index) in filteredFurtherInfo"
-          :key="index"
-          class="Column"
-        >
+        <div v-for="(info, index) in filteredFurtherInfo" :key="index" class="Column">
           <h4 class="black02 fw-bold bottom-margin-16">
             {{ info.label }}
           </h4>
@@ -188,10 +121,7 @@
           <li class="LinkOption">
             <img src="/eye-green.svg" class="LinkOptionIcon" />
             <span class="fw-500">
-              <a
-                :href="`https://inpn.mnhn.fr/espece/cd_nom/${species.cdnom}`"
-                target="_blank"
-              >
+              <a :href="`https://inpn.mnhn.fr/espece/cd_nom/${species.cdnom}`" target="_blank">
                 Visualiser la fiche INPN de l'espèce
               </a>
             </span>
@@ -204,11 +134,7 @@
               </a>
             </span>
           </li>
-          <li
-            v-for="(link, index) in filteredLinks"
-            :key="index"
-            class="LinkOption"
-          >
+          <li v-for="(link, index) in filteredLinks" :key="index" class="LinkOption">
             <img :src="link.icon" class="LinkOptionIcon" />
             <span class="fw-500">
               <a :href="medias[link.key].url" target="_blank">
@@ -391,7 +317,7 @@ export default {
         .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}/status/lines`)
         .then((data) => (this.status = data._embedded.status))
     },
-    initStore(){
+    initStore() {
 
     },
     initSubjectList() {
@@ -516,20 +442,20 @@ export default {
   flex-direction: column;
 }
 
-.Row > .Column {
+.Row>.Column {
   flex: 1;
   margin-right: 24px;
 }
 
-.SpeciesCardContent > .Column {
+.SpeciesCardContent>.Column {
   margin-top: 40px;
 }
 
-.Row > .Column:last-child {
+.Row>.Column:last-child {
   margin-right: 0;
 }
 
-.SpeciesCardContent > .Column:first-child {
+.SpeciesCardContent>.Column:first-child {
   margin-top: 0;
 }
 
@@ -547,11 +473,9 @@ export default {
 }
 
 .Blurring {
-  background: linear-gradient(
-    0deg,
-    rgba(252, 252, 252, 1) 0%,
-    rgba(252, 252, 252, 0) 100%
-  );
+  background: linear-gradient(0deg,
+      rgba(252, 252, 252, 1) 0%,
+      rgba(252, 252, 252, 0) 100%);
   position: absolute;
   z-index: 1;
   left: 0;
@@ -620,7 +544,7 @@ export default {
   display: flex;
 }
 
-.RedListSticker > h5 {
+.RedListSticker>h5 {
   margin: auto;
 }
 
