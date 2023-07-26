@@ -443,7 +443,8 @@ $$
             date_end      DATE,
             season_period PHENOLOGY_PERIOD                             NOT NULL,
             description   VARCHAR,
-            is_active     BOOLEAN                                      NOT NULL DEFAULT TRUE
+            is_active     BOOLEAN                                      NOT NULL DEFAULT TRUE,
+            code          VARCHAR
         );
         COMMENT ON TABLE atlas.t_historic_atlases_info IS 'List of historic atlases and relative informations';
 --         DROP TABLE atlas.t_historic_atlases_data CASCADE;
