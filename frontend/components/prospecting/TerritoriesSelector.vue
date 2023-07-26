@@ -4,31 +4,16 @@
       <div class="MapSelectorInfo">
         <h4 class="black02 fw-600">Territoires</h4>
         <div class="DisplayingTypeWrapper">
-          <div
-            v-for="(type, index) in displayingTypesList"
-            :key="index"
-            class="DisplayingType"
-            :class="
-              type.value === selectedDisplayingType.value ? 'selected' : ''
-            "
-            @click="updateSelectedDisplayingType(type)"
-          >
+          <div v-for="(type, index) in displayingTypesList" :key="index" class="DisplayingType" :class="type.value === selectedDisplayingType.value ? 'selected' : ''
+            " @click="updateSelectedDisplayingType(type)">
             <img class="DisplayingTypeIcon" :src="type.icon" />
           </div>
         </div>
       </div>
-      <div
-        class="AutocompleteWrapper map"
-        :class="search.length > 0 ? 'open' : ''"
-      >
+      <div class="AutocompleteWrapper map" :class="search.length > 0 ? 'open' : ''">
         <input v-model="search" type="text" placeholder="Rechercher" />
         <div class="AutocompleteGadgets map">
-          <img
-            v-if="search.length > 0"
-            class="AutocompleteCloseIcon map"
-            src="/close.svg"
-            @click="clearResults"
-          />
+          <img v-if="search.length > 0" class="AutocompleteCloseIcon map" src="/close.svg" @click="clearResults" />
           <div class="AutocompleteSearch map">
             <img class="AutocompleteSearchIcon map" src="/search.svg" />
           </div>
@@ -36,43 +21,25 @@
       </div>
     </header>
     <div v-if="selectedDisplayingType.value === 'grid'" class="TerritoriesGrid">
-      <div
-        v-for="(territory, index) in filteredTerritories"
-        :key="index"
-        class="TerritoriesCard"
-        :class="[
-          territory.name === selectedTerritory.name ? 'selected' : '',
-          territory.isActive ? '' : 'inactive',
-        ]"
-        @click="territory.isActive ? updateSelectedTerritory(territory) : null"
-      >
+      <div v-for="(territory, index) in filteredTerritories" :key="index" class="TerritoriesCard" :class="[
+        territory.name === selectedTerritory.name ? 'selected' : '',
+        territory.isActive ? '' : 'inactive',
+      ]" @click="territory.isActive ? updateSelectedTerritory(territory) : null">
         <img class="TerritoriesCardsIcon" :src="territory.icon" />
         <h6 class="text-center">{{ territory.name }}</h6>
-        <h5
-          v-show="!territory.isActive"
-          class="UnavailableData fw-600 text-center"
-        >
+        <h5 v-show="!territory.isActive" class="UnavailableData fw-600 text-center">
           Données non disponibles actuellement
         </h5>
       </div>
     </div>
     <div v-else class="TerritoriesList">
-      <li
-        v-for="(territory, index) in filteredTerritories"
-        :key="index"
-        class="RadioOption"
-        :class="[
-          territory.name === selectedTerritory.name ? 'selected' : '',
-          territory.isActive ? '' : 'inactive',
-        ]"
-        @click="territory.isActive ? updateSelectedTerritory(territory) : null"
-      >
+      <li v-for="(territory, index) in filteredTerritories" :key="index" class="RadioOption" :class="[
+        territory.name === selectedTerritory.name ? 'selected' : '',
+        territory.isActive ? '' : 'inactive',
+      ]" @click="territory.isActive ? updateSelectedTerritory(territory) : null">
         <div class="RadioLabel">
           <div class="RadioButton">
-            <div
-              v-show="territory.name === selectedTerritory.name"
-              class="RadioButtonSelected"
-            ></div>
+            <div v-show="territory.name === selectedTerritory.name" class="RadioButtonSelected"></div>
           </div>
           {{ territory.name }}
         </div>
@@ -122,13 +89,13 @@ export default {
         area_code: '02',
         name: 'Martinique',
         icon: '/prospecting/Martinique.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         area_code: '06',
         name: 'Mayotte',
         icon: '/prospecting/Mayotte.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         area_code: '988',
@@ -146,7 +113,7 @@ export default {
         area_code: '04',
         name: 'La Réunion',
         icon: '/prospecting/Reunion.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         area_code: '977',
@@ -158,7 +125,7 @@ export default {
         area_code: '978',
         name: 'Saint Martin',
         icon: '/prospecting/Saint-Martin.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         area_code: '975',
