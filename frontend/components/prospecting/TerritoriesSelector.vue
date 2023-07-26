@@ -125,7 +125,7 @@ export default {
         area_code: '978',
         name: 'Saint Martin',
         icon: '/prospecting/Saint-Martin.svg',
-        isActive: true,
+        isActive: false,
       },
       {
         area_code: '975',
