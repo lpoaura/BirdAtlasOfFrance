@@ -4,7 +4,7 @@ picture: actualite-65.webp
 credit:  Gravelot siffleur © Vincent Lemoine
 centering: center
 author: Oiseaux de France
-date: '2023-08-09'
+date: '2023-08-10'
 tags: ['recensement','EPOC-ODF','Faune-Antilles']
 active: true
 ---
