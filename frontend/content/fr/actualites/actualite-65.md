@@ -1,11 +1,11 @@
 ---
-title: "Interview : "
+title: "Plus de 230 espèces recensées sur Saint-Martin (Interview de Vincent Lemoine)"
 picture: actualite-65.webp
 credit:  Gravelot siffleur © Vincent Lemoine
 centering: center
 author: Oiseaux de France
 date: '2023-08-10'
-tags: ['recensement','EPOC-ODF','Faune-Antilles']
+tags: ['recensement avifaunistique','EPOC-ODF','Faune-Antilles']
 active: true
 ---
  
@@ -68,4 +68,4 @@ Après mon départ de la Caraïbe, j’ai continué à m’intéresser à l’av
 
 
 ## 9-Racontez-nous une anecdote sur votre séjour (votre plus belle observation, par exemple...)
-Avant de partir à Saint-Martin, je savais déjà quelles espèces, régulièrement présentes sur l’île, je n’avais pas vu en Martinique et en Guadeloupe. Je ciblais tout particulièrement deux espèces, le Gravelot siffleur et le Gravelot neigeux. J’ai effectué quatre comptages mensuels d’oiseaux d’eau et plusieurs visites répétées sur des sites connus de ces espèces et deux jours avant de partir j’ai finalement réussi à en voir une (deux individus) :  le magnifique et rare Gravelot siffleur.  
+Avant de partir à Saint-Martin, je savais déjà quelles espèces, régulièrement présentes sur l’île, je n’avais pas vu en Martinique et en Guadeloupe. Je ciblais tout particulièrement deux espèces : le Gravelot siffleur et le Gravelot neigeux. J’ai effectué quatre comptages mensuels d’oiseaux d’eau et plusieurs visites répétées sur des sites fréquentés par ces espèces et c'est finalement deux jours avant de partir que j’ai réussi à en voir une (deux individus) :  le magnifique et rare Gravelot siffleur.  
