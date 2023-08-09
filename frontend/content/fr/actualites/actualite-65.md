@@ -23,7 +23,7 @@ Les connaissances qui étaient disponibles sur l’avifaune concernaient princip
 
 Oui, je suis satisfait que la plateforme soit utilisée de manière régulière. Concernant le nombre de données, il faut tout de même relativiser puisque la moitié des données sont issues de mes différents comptages à Saint-Martin. 
 
-La grande majorité des données concernaient des oiseaux (80,2 % soit 8 537 données), puis des papillons de jour (11,8 % soit1 261 données), des reptiles (4,3 % soit462 données), des odonates (2,3 % soit 243 données). Les autres taxons "amphibiens, mammifères, chauves-Souris et mammifères marins" étaient encore peu représentés : 1,4 % (129 données). 
+La grande majorité des données concernaient des oiseaux (80,2 % soit 8 537 données), puis des papillons de jour (11,8 % soit1 261 données), des reptiles (4,3 % soit 462 données), des odonates (2,3 % soit 243 données). Les autres taxons "amphibiens, mammifères, chauves-Souris et mammifères marins" étaient encore peu représentés : 1,4 % (129 données). 
 
 ## 3-L’île de Saint Martin est divisée en deux territoires, le nord est français et le sud est néerlandais. Votre mission concernait-elle l’ensemble de l’île ou seulement la partie française ?
 
