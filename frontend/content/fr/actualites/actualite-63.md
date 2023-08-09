@@ -11,7 +11,7 @@ active: true
 
 **Certaines espèces sont moins bien suivies que les autres sur une majeure partie du territoire. Ou tout du moins, semblent moins présentes que par le passé. C’est le cas du Moineau friquet, de la Locustelle tachetée, du Hibou moyen-duc et du Bruant des roseaux.**
 
-Le Moineau friquet, le Hibou moyen-duc, la Locustelle tachetée et le Bruant des roseaux sont présents dans plus de 75% des mailles du territoire. Ces quatre espèces font partie du top 20 des espèces à rechercher dans les mailles d’au moins 10 régions sur 13.  
+Le Moineau friquet, le Hibou moyen-duc, la Locustelle tachetée et le Bruant des roseaux sont présents dans plus de 75% des mailles du territoire. Ces quatre espèces font partie du [top 20 des espèces à rechercher dans les mailles](https://www.oiseauxdefrance.org/news/actualite-57) d’au moins 10 régions sur 13.  
 
 
 ## Rechercher la Locustelle tachetée  
