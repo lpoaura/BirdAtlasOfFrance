@@ -1,5 +1,5 @@
 ---
-title: "Plus de 230 espèces recensées sur Saint-Martin (Interview de Vincent Lemoine)"
+title: "230 espèces recensées sur l'île de Saint-Martin des Antilles (Interview de Vincent Lemoine)"
 picture: actualite-65.webp
 credit:  Gravelot siffleur © Vincent Lemoine
 centering: center
