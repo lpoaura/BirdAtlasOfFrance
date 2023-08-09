@@ -31,7 +31,9 @@ Seule la partie française a été prospectée. Le projet Life BIODIV’OM ne co
 
 ## 4-Comment qualifieriez-vous l’'état de l’avifaune à Saint-Martin ? 
 
-Un des objectifs de cette mission a été de réaliser une liste des espèces d’oiseaux de l’île de Saint-Martin, sans distinction entre les parties française et néerlandaise. L’île est de petite taille (93 km²) et un total de 230 espèces a tout de même été inventorié, dont 29 espèces non homologuées. L’avifaune de l’île de Saint-Martin est pauvre en espèces sédentaires (59 dont 14 exotiques), aucune espèce endémique stricte et seulement 8 espèces à répartition restreinte (endémique des Petites Antilles ou endémique de la Caraïbe). L’avifaune est surtout représentée par des espèces migratrices qui fréquentent l’île pendant leur halte migratoire et en hivernage pour les oiseaux d’eau et les passereaux, ainsi qu'en période de reproduction pour les oiseaux marins. 
+Un des objectifs de cette mission a été de réaliser une liste des espèces d’oiseaux de l’île de Saint-Martin, sans distinction entre les parties française et néerlandaise. L’île est de petite taille (93 km²) et un total de 230 espèces a tout de même été inventorié, dont 29 espèces non homologuées*. L’avifaune de l’île de Saint-Martin est pauvre en espèces sédentaires (59 dont 14 exotiques), aucune espèce endémique stricte et seulement 8 espèces à répartition restreinte (endémique des Petites Antilles ou endémique de la Caraïbe). L’avifaune est surtout représentée par des espèces migratrices qui fréquentent l’île pendant leur halte migratoire et en hivernage pour les oiseaux d’eau et les passereaux, ainsi qu'en période de reproduction pour les oiseaux marins. 
+
+*Espèces mentionnées par le passé comme présentes sur l'île mais dont la présence n'a pas pu être vérifiée à l'occasion des recensements. 
 
 ## 5-Le cœur de votre mission consistait à faire un état des lieux de l’avifaune de l’île de Saint-Martin. Comment avez-vous organisé vos recensements ? Quel(s) protocole(s) avez-vous appliqué(s) ? Avez-vous recensé d’autres taxons ? Etiez-vous seul ou accompagné par un groupe d’ornithologues/naturalistes locaux ? 
 
