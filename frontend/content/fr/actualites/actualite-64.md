@@ -13,9 +13,9 @@ active: true
 
 ## Des espèces communes dont l’avenir est incertain 
 
-Le classement en tant qu’ESOD place le Geai des chênes, la Corneille noire, le Corbeau freux, la Pie bavarde et l’Etourneau sansonnet dans une fâcheuse posture. Ces espèces sont soumises à une règlementation particulière autorisant leur destruction de façon illimitée, y compris en dehors de la période de chasse.  
+Le classement en tant qu’ESOD place le Geai des chênes, la Corneille noire, le Corbeau freux, la Pie bavarde et l’Etourneau sansonnet dans une fâcheuse posture. Ces espèces sont soumises à une règlementation particulière autorisant leur destruction de façon illimitée, y compris pendant la période de reproduction.  
 
-Les ESOD sont classées selon 3 groupes : les espèces non indigènes (ex. Vison d’Amérique), les espèces indigènes visées par des arrêtés triennaux (dont font partie nos 5 espèces d’oiseaux) et enfin les espèces qui ne posent un problème que dans certaines régions et dont la destruction est soumise à des arrêtés annuels, comme le Pigeon ramier dans le Sud-Ouest dont la chasse relève plus de la tradition (chasse à la Palombe) que d’une réelle nécessité de régulation.  
+Les ESOD sont classées selon 3 groupes : les espèces exogènes (ex. Vison d’Amérique), les espèces indigènes visées par des arrêtés triennaux (dont font partie nos 5 espèces d’oiseaux) et enfin les espèces qui ne posent problème que dans certaines régions et dont la destruction est soumise à des arrêtés annuels, comme le Pigeon ramier dans le Sud-Est dont la chasse relève plus de la tradition (chasse à la Palombe) que d’une réelle nécessité de régulation.  
 
 Les chiffres de destruction par année sont effarants :  
 
@@ -25,7 +25,7 @@ Les chiffres de destruction par année sont effarants :
 
 - 1 million de corneilles et de corbeaux  
 
-- 10 0000 d'étourneaux.  
+- 100 000 étourneaux.  
 
  
 Si les espèces d’oiseaux classées « ESOD » se portent globalement bien, ce n’est pas le cas du Corbeau freux dont les effectifs tendent à régresser (-36,7% sur les 18 dernières années selon [l’analyse de 30 ans de STOC]( https://www.lpo.fr/content/download/8133/file/SyntheseOiseauxCommuns2020_V8_WEB%282%29.PDF?inLanguage=fre-FR)). 
@@ -35,7 +35,7 @@ A travers sa campagne de plaidoyer « Présumés coupables », la LPO demande la
 *Plus de détails sur la campagne LPO et les ESOD : [Quelles sont les ESOD ?](https://www.lpo.fr/la-lpo-en-actions/campagnes-de-plaidoyer/presumes-coupables/quelles-sont-les-esod)* 
 ## Une source de services écologiques inestimable  
 
-Outre le fait qu’ils jouent le rôle d’équarisseur naturel sur les routes, les corvidés contribuent au maintien de la biodiversité en disséminant les graines des fruits consommés. Ils sont aussi de précieux axillaires du secteur agricole, consommant les parasites du bétail et des cultures. Grand amateur de glands, le Geai des chênes contribue aussi à l’entretien des forêts et petits boisements ainsi qu’à la propagation spatiale des chênes.   
+Outre le fait qu’ils jouent le rôle d’équarisseur naturel sur les routes, les corvidés contribuent au maintien de la biodiversité en disséminant les graines des fruits consommés. Ils sont aussi de précieux auxillaires du secteur agricole, consommant les parasites du bétail et des cultures. Grand amateur de glands, le Geai des chênes contribue aussi à l’entretien des forêts et petits boisements ainsi qu’à la propagation spatiale des chênes.   
 
 L’étourneau quant à lui joue un rôle essentiel dans la régulation des insectes qui peuvent causer des dégâts dans les jardins et les cultures.  
 
