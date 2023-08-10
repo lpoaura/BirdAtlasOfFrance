@@ -15,7 +15,7 @@ active: true
 
 Le classement en tant qu’ESOD place le Geai des chênes, la Corneille noire, le Corbeau freux, la Pie bavarde et l’Etourneau sansonnet dans une fâcheuse posture. Ces espèces sont soumises à une règlementation particulière autorisant leur destruction de façon illimitée, y compris pendant la période de reproduction.  
 
-Les ESOD sont classées selon 3 groupes : les espèces exogènes (ex. Vison d’Amérique), les espèces indigènes visées par des arrêtés triennaux (dont font partie nos 5 espèces d’oiseaux) et enfin les espèces qui ne posent problème que dans certaines régions et dont la destruction est soumise à des arrêtés annuels, comme le Pigeon ramier dans le Sud-Est dont la chasse relève plus de la tradition (chasse à la Palombe) que d’une réelle nécessité de régulation.  
+Les ESOD sont classées selon 3 groupes : les espèces exogènes (ex. Vison d’Amérique), les espèces indigènes visées par des arrêtés triennaux (dont font partie nos 5 espèces d’oiseaux) et enfin les espèces qui ne posent problème que dans certaines régions et dont la destruction est soumise à des arrêtés annuels, comme le Pigeon ramier dans les régions agricoles portées sur la culture céréalière où il est accusé de causer des dégâts sur les semis. 
 
 Les chiffres de destruction par année sont effarants :  
 
