@@ -21,7 +21,7 @@ Les chiffres de destruction du dernier arrêté 2019-2023 sont effarants :
 - Plus de 4 millions de corneilles et corbeaux ;
 - 870 000 pies ;
 - 447 000 étourneaux ;
-- Plus de 16 000 geais (dans les 4 départements où l'espèce reste classée ESOD) .
+- Plus de 16 000 geais (dans les 5 départements où l'espèce reste classée ESOD) .
 
 Si les espèces d’oiseaux classées « ESOD » se portent globalement bien, ce n’est pas le cas du Corbeau freux dont les effectifs tendent à régresser (-36,7% sur les 18 dernières années selon [l’analyse de 30 ans de STOC]( https://www.lpo.fr/content/download/8133/file/SyntheseOiseauxCommuns2020_V8_WEB%282%29.PDF?inLanguage=fre-FR), avec près de la moitié des populations en Europe renseignées en déclin, l’espèce à fait son entrée en 2021 dans la catégorie Vulnérable de la liste rouge européenne des espèces d’oiseau menacées de disparition).
 
