@@ -23,7 +23,7 @@ Le passage de mars, jusqu'ici optionnel, n'est plus considéré comme tel désor
 
 En 2023, le programme STOC s'enrichira des premières contributions des agents de l'Office Français pour la Biodiversité, qui intègrent désormais ce suivi dans leur programmation de travaux. 
 
-## EPOC-ODF: nouvaux points tirés au sort
+## EPOC-ODF: nouveaux points tirés au sort
 
 Les points EPOC-ODF à réaliser en 2023 ont été tirés au sort et sont matérialisés sur Faune-France. Outre les nouveaux points 2023, vous retrouverez dans ce tirage tous ceux qui n'ont pas été couverts les années précédentes et qui demeurent disponibles. Merci de vous rapprocher de vos coordinateurs locaux pour organiser leur prospection.
 

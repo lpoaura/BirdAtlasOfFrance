@@ -35,7 +35,6 @@ Partie 7 - Questions & Réponses
 
 <div style="align-center"><a href="https://www.youtube.com/playlist?list=PL2otdJu2pvJf8oQQtytah1410tF9qR3XH"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Je souhaite visionner les enregistrements</a></div>
 
-
 ## Vous avez assisté à l’évènement le jour J ? Donnez votre avis si vous le souhaitez ! 
 
 Répondre à l’enquête ne vous prendra qu’une minute ! Un peu plus si vous êtes bavard(e) !  
