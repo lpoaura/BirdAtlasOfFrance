@@ -122,10 +122,6 @@ export default {
       { value: 'list', icon: '/list.svg' },
     ],
     selectedDisplayingType: { value: 'grid', icon: 'grid.svg' },
-    // UPDATE NEEDED : récupérer la liste des territoires via l'API '/api/v1/lareas/type/ATLAS_TERRITORY?bbox=true&only_enable=true'
-    // => Depuis la BDD, rajouter dans feature.properties les propriétés icon et isActive
-
-    // END UPDATE NEEDED
     search: '',
   }),
 
