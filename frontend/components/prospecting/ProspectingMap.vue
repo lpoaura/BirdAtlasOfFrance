@@ -984,7 +984,7 @@ export default {
             params,
           })
           .then((data) => {
-            if (data) {
+            if (data && data.features) {
               this.speciesDistributionGeojson = data
             } else {
               this.speciesDistributionGeojson = {
