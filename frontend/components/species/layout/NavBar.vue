@@ -181,13 +181,13 @@ header {
   display: none;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (width <= 800px) {
   header {
     padding: 16px 5%;
   }
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (width <= 430px) {
   .not-on-mobile {
     display: none;
   }

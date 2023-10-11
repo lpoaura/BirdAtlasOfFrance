@@ -1568,7 +1568,7 @@ button.v-pagination__navigation .theme--light.v-icon {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 1050px) {
+@media screen and (width <= 1050px) {
   /********** INFORMATIVE PAGES **********/
 
   .InformativePagePicture {
@@ -1576,7 +1576,7 @@ button.v-pagination__navigation .theme--light.v-icon {
   }
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (width <= 950px) {
   /********** MAP **********/
   header > .MapSelectors {
     display: none;
@@ -1618,7 +1618,7 @@ button.v-pagination__navigation .theme--light.v-icon {
   }
 }
 
-@media screen and (max-width: 920px) {
+@media screen and (width <= 920px) {
   /********** NAVBAR **********/
 
   .NavBar nav {
@@ -1642,7 +1642,7 @@ button.v-pagination__navigation .theme--light.v-icon {
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   /********** TYPOGRAPHY **********/
 
   .PlayfairDisplayTypo {

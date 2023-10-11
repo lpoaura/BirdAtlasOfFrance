@@ -249,7 +249,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .AutocompleteWrapper input {
     height: 50px;
     padding-left: 20px;
@@ -332,7 +332,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 370px) {
+@media screen and (width <= 370px) {
   .AutocompleteCloseIcon {
     display: none;
   }

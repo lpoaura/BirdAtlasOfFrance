@@ -142,10 +142,7 @@ export default {
 .TopSectionContent {
   position: absolute;
   z-index: 5;
-  top: -8%; /* responsive */
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: -8% 0 0; /* responsive */
   margin: auto;
   width: 64%;
   min-width: 820px;
@@ -181,7 +178,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 920px) {
+@media screen and (width <= 920px) {
   .TopSectionPicture /* Recentrer l'image d'accueil */ {
     background: linear-gradient(
         101.98deg,
@@ -213,7 +210,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .TopSection {
     height: 380px;
     min-height: auto;
@@ -263,7 +260,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 464px) {
+@media screen and (width <= 464px) {
   .TopSectionContent {
     top: 120px;
   }
@@ -274,7 +271,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 406px) {
+@media screen and (width <= 406px) {
   .PlayfairDisplayTypo {
     font-size: 28px;
     line-height: 37px;

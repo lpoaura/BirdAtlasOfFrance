@@ -585,7 +585,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 740px) {
+@media screen and (width <= 740px) {
   .Row {
     height: auto !important;
     flex-direction: column;

@@ -18,7 +18,7 @@ export default {
 <style scoped>
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 600px) {
+@media screen and (width <= 600px) {
   div.container.container--fluid :deep(.TabMenu) {
     display: none;
   }

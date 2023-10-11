@@ -158,7 +158,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 400px) {
+@media screen and (width <= 400px) {
   .KnowledgeLevelPieChartWrapper {
     flex-direction: column;
     align-items: center;

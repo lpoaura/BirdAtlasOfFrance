@@ -181,13 +181,13 @@ header {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 920px) {
+@media screen and (width <= 920px) {
   header {
     padding: 16px 5%;
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .LogoWrapper {
     width: 100px;
     min-width: 100px;

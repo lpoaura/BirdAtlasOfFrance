@@ -1177,14 +1177,14 @@ span.TableColumn.small {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   h3.MapControlKeyDataValue {
     font-size: 24px;
     line-height: 36px;
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (width <= 400px) {
   .br,
   .MapControlSeeMore h5.large.green01,
   span.TableColumn.large,

@@ -408,14 +408,14 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   h3.KnowledgeLevelGlobalData {
     font-size: 24px;
     line-height: 36px;
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (width <= 400px) {
   .KnowledgeLevelPieChartWrapper {
     flex-direction: column;
     align-items: center;

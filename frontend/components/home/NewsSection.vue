@@ -272,7 +272,7 @@ h5.Subtitle {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .Section {
     padding: 46px 0 16px;
   }
