@@ -107,7 +107,7 @@ export default {
         area_code: '987',
         name: 'Polynésie Française',
         icon: '/prospecting/Polynesie.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         area_code: '04',
@@ -119,13 +119,13 @@ export default {
         area_code: '977',
         name: 'Saint Barthélémy',
         icon: '/prospecting/Saint-Barthelemy.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         area_code: '978',
         name: 'Saint Martin',
         icon: '/prospecting/Saint-Martin.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         area_code: '975',
@@ -137,7 +137,7 @@ export default {
         area_code: '984',
         name: 'TAAF',
         icon: '/prospecting/TAAF.svg',
-        isActive: false,
+        isActive: true,
       },
       {
         area_code: '986',
