@@ -45,7 +45,7 @@ export const state = () => ({
       area_code: '06',
       area_name: 'Mayotte',
       icon: '/prospecting/Mayotte.svg',
-      isActive: false,
+      isActive: true,
     },
     {
       area_code: '988',
@@ -57,25 +57,25 @@ export const state = () => ({
       area_code: '987',
       area_name: 'Polynésie Française',
       icon: '/prospecting/Polynesie.svg',
-      isActive: false,
+      isActive: true,
     },
     {
       area_code: '04',
       area_name: 'La Réunion',
       icon: '/prospecting/Reunion.svg',
-      isActive: false,
+      isActive: true,
     },
     {
       area_code: '977',
       area_name: 'Saint Barthélémy',
       icon: '/prospecting/Saint-Barthelemy.svg',
-      isActive: false,
+      isActive: true,
     },
     {
       area_code: '978',
       area_name: 'Saint Martin',
       icon: '/prospecting/Saint-Martin.svg',
-      isActive: false,
+      isActive: true,
     },
     {
       area_code: '975',
@@ -87,7 +87,7 @@ export const state = () => ({
       area_code: '984',
       area_name: 'TAAF',
       icon: '/prospecting/TAAF.svg',
-      isActive: false,
+      isActive: true,
     },
     {
       area_code: '986',
