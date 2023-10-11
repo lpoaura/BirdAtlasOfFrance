@@ -215,7 +215,7 @@ p {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 400px) {
+@media screen and (width <= 400px) {
   .EpocPropertyLabel {
     flex: 0.8;
   }

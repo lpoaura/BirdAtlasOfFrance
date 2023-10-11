@@ -109,7 +109,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .NewsSection {
     padding-bottom: 24px;
   }

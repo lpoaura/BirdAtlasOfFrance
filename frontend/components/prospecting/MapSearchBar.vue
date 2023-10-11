@@ -313,7 +313,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 440px) {
+@media screen and (width <= 440px) {
   .AutocompleteWrapper input.large {
     display: none;
   }

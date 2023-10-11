@@ -139,7 +139,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .ProtocolsCardsGrid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     grid-gap: 16px;

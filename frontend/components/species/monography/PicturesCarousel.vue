@@ -162,10 +162,7 @@ export default {
 
 .CarouselNavWrapper {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
   width: 100%;
   height: 32px;
   margin: auto;
@@ -238,7 +235,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 740px) {
+@media screen and (width <= 740px) {
   .PicturesCarousel {
     align-self: center;
   }

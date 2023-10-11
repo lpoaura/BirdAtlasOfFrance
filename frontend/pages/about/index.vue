@@ -220,7 +220,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 920px) {
+@media screen and (width <= 920px) {
   .TopSectionPictureCredit {
     width: 90%;
     left: 5%;
@@ -235,7 +235,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .TopSection {
     height: 270px;
   }
@@ -263,7 +263,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (width <= 400px) {
   .TopSectionPictureCredit {
     bottom: 10px;
     text-align: right;

@@ -194,14 +194,14 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   h3 {
     font-size: 24px;
     line-height: 36px;
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (width <= 550px) {
   .CardPicture {
     background-position: center center !important;
   }

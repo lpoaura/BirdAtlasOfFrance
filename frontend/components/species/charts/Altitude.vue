@@ -249,7 +249,7 @@ export default {
 <style scoped>
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 510px) {
+@media screen and (width <= 510px) {
   .ChartLegend {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));

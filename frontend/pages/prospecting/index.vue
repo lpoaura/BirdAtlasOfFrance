@@ -467,7 +467,7 @@ header {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 950px) {
+@media screen and (width <= 950px) {
   header {
     padding: 0 10px;
   }

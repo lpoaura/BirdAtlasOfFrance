@@ -26,7 +26,7 @@ div.container.container--fluid :deep(.InformativePageLogo) {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 1300px) {
+@media screen and (width <= 1300px) {
   div.container.container--fluid :deep(.TabMenu) {
     display: none;
   }
@@ -38,7 +38,7 @@ div.container.container--fluid :deep(.InformativePageLogo) {
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   div.container.container--fluid :deep(.Logo) {
     width: 80px;
   }

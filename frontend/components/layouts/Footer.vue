@@ -128,19 +128,19 @@ footer {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 1050px) {
+@media screen and (width <= 1050px) {
   .LinksSection {
     max-width: none;
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   footer {
     padding: 14px 5%;
   }
 }
 
-@media screen and (max-width: 370px) {
+@media screen and (width <= 370px) {
   h4 {
     font-size: 12px;
     line-height: 18px;

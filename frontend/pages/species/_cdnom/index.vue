@@ -470,10 +470,7 @@ nav.NavDrawer {
 
 .SpeciesCardTab {
   position: absolute;
-  top: 0;
-  left: 300px;
-  right: 0;
-  bottom: 0;
+  inset: 0 0 0 300px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -596,7 +593,7 @@ nav.NavDrawer {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 1050px) {
+@media screen and (width <= 1050px) {
   nav.NavDrawer {
     display: none;
   }
@@ -606,7 +603,7 @@ nav.NavDrawer {
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (width <= 800px) {
   header {
     padding: 16px 5%;
   }
@@ -617,7 +614,7 @@ nav.NavDrawer {
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .SpeciesCardContent >>> h4.fw-bold {
     font-size: 16px;
     line-height: 24px;
@@ -628,7 +625,7 @@ nav.NavDrawer {
   }
 }
 
-@media screen and (max-width: 552px) {
+@media screen and (width <= 552px) {
   .SpeciesCardTabRelative >>> .MapSelectorsWrapper {
     flex-direction: column;
   }
@@ -669,7 +666,7 @@ nav.NavDrawer {
   }
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (width <= 430px) {
   .not-on-mobile {
     display: none;
   }
