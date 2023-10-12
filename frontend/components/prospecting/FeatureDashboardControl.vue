@@ -1,12 +1,7 @@
 <template>
   <section class="MapControl">
     <!-- MAIN DASHBOARD -->
-    <div
-      v-show="
-        !clickedSpecies && !clickedEpocItem && !seeMoreMunicipalitiesIsClicked
-      "
-      class="MapControlDashboard"
-    >
+    <div v-show="!clickedSpecies && !clickedEpocItem && !seeMoreMunicipalitiesIsClicked" class="MapControlDashboard">
       <!-- Header -->
       <header class="MapControlHeader">
         <div class="MapControlInfo">
@@ -22,60 +17,31 @@
               Cette maille ne comporte pas de données
             </h5>
           </div>
-          <a
-            v-if="featureProperties"
-            class="MapControlDownloadButton"
-            :href="`/files/map/grid/${featureProperties.area_name}.pdf`"
-            target="_blank"
-          >
+          <a v-if="featureProperties" class="MapControlDownloadButton"
+            :href="`/files/map/grid/${featureProperties.area_name}.pdf`" target="_blank">
             <img class="MapControlDownloadButtonIcon" src="/download.svg" />
           </a>
-          <img
-            class="MobileMapControlCloseIcon"
-            src="/cross.svg"
-            @click="closeMobileMapControl"
-          />
+          <img class="MobileMapControlCloseIcon" src="/cross.svg" @click="closeMobileMapControl" />
         </div>
         <menu class="TabMenu">
-          <span
-            v-for="(item, index) in tabs"
-            :key="index"
-            class="TabItem"
-            :class="item.label === selectedTab.label ? 'selected' : ''"
-            @click="updateSelectedTab(item)"
-          >
+          <span v-for="(item, index) in tabs" :key="index" class="TabItem"
+            :class="item.label === selectedTab.label ? 'selected' : ''" @click="updateSelectedTab(item)">
             {{ item.label }}
           </span>
         </menu>
         <div class="MobileMapControlMenuWrapper">
-          <dropdown-list
-            v-model="selectedTab"
-            :z-index="3"
-            :items-list="tabs"
-          />
-          <a
-            v-if="featureProperties"
-            class="MapControlDownloadButton"
-            :href="`/files/map/grid/${featureProperties.area_name}.pdf`"
-            target="_blank"
-          >
+          <dropdown-list v-model="selectedTab" :z-index="3" :items-list="tabs" />
+          <a v-if="featureProperties" class="MapControlDownloadButton"
+            :href="`/files/map/grid/${featureProperties.area_name}.pdf`" target="_blank">
             <img class="MapControlDownloadButtonIcon" src="/download.svg" />
           </a>
         </div>
-        <div
-          class="MapControlSplit main right-margin-16"
-          :class="scrolled && selectedTab.label === 'Espèces' ? 'fixed' : ''"
-        ></div>
+        <div class="MapControlSplit main right-margin-16"
+          :class="scrolled && selectedTab.label === 'Espèces' ? 'fixed' : ''"></div>
       </header>
       <!-- Onglet "Tableau de bord" -->
-      <div
-        v-show="selectedTab.label === 'Tableau de bord'"
-        class="MapControlOverflow"
-      >
-        <h4
-          v-if="featureDataKey"
-          class="black02 fw-bold top-margin-24 bottom-margin-16"
-        >
+      <div v-show="selectedTab.label === 'Tableau de bord'" class="MapControlOverflow">
+        <h4 v-if="featureDataKey" class="black02 fw-bold top-margin-24 bottom-margin-16">
           Indice de complétude ({{
             selectedSeason.label
               .replace('Période de ', '')
@@ -84,12 +50,10 @@
           }})
         </h4>
         <div v-if="featureDataKey" class="MapControlKeyData">
-          <h3
-            class="MapControlKeyDataValue fw-bold right-margin-24"
-            :class="selectedSeason.value"
-          >
-            {{
-              $toPercent(
+          <h3 class="MapControlKeyDataValue fw-bold right-margin-24" :class="selectedSeason.value">
+            {{ (!featureProperties[selectedSeason.value].old_count || featureProperties[selectedSeason.value].old_count ==
+              0) && featureProperties[selectedSeason.value].new_count
+              > 0 ? $toPercent(1) : $toPercent(
                 featureProperties[selectedSeason.value].percent_knowledge
               )
             }}%
@@ -104,10 +68,7 @@
           maille à ce jour.
         </h4>
         <div class="MapControlSplit"></div>
-        <h4
-          v-if="featureDataKey"
-          class="black02 fw-bold top-margin-24 bottom-margin-16"
-        >
+        <h4 v-if="featureDataKey" class="black02 fw-bold top-margin-24 bottom-margin-16">
           Nombre d'espèces ({{
             selectedSeason.label
               .replace('Période de ', '')
@@ -116,19 +77,13 @@
           }})
         </h4>
         <div v-if="featureDataKey" class="MapControlKeyData">
-          <h3
-            class="MapControlKeyDataValue large fw-bold right-margin-24"
-            :class="selectedSeason.value"
-          >
+          <h3 class="MapControlKeyDataValue large fw-bold right-margin-24" :class="selectedSeason.value">
             {{ featureProperties[selectedSeason.value].old_count || 0 }}
             espèce{{
               featureProperties[selectedSeason.value].old_count > 1 ? 's' : ''
             }}
           </h3>
-          <h3
-            class="MapControlKeyDataValue small fw-bold right-margin-24"
-            :class="selectedSeason.value"
-          >
+          <h3 class="MapControlKeyDataValue small fw-bold right-margin-24" :class="selectedSeason.value">
             {{ featureProperties[selectedSeason.value].old_count || 0 }} esp.
           </h3>
           <h5 class="black03">
@@ -139,19 +94,13 @@
           </h5>
         </div>
         <div v-if="featureDataKey" class="MapControlKeyData">
-          <h3
-            class="MapControlKeyDataValue large fw-bold right-margin-24"
-            :class="selectedSeason.value"
-          >
+          <h3 class="MapControlKeyDataValue large fw-bold right-margin-24" :class="selectedSeason.value">
             {{ featureProperties[selectedSeason.value].new_count || 0 }}
             espèce{{
               featureProperties[selectedSeason.value].new_count > 1 ? 's' : ''
             }}
           </h3>
-          <h3
-            class="MapControlKeyDataValue small fw-bold right-margin-24"
-            :class="selectedSeason.value"
-          >
+          <h3 class="MapControlKeyDataValue small fw-bold right-margin-24" :class="selectedSeason.value">
             {{ featureProperties[selectedSeason.value].new_count || 0 }} esp.
           </h3>
           <h5 class="black03">
@@ -162,18 +111,12 @@
           </h5>
         </div>
         <div v-if="featureDataKey" class="MapControlSplit"></div>
-        <h4
-          v-if="featureDataKey && featureDataKey.taxa_count_all_period > 0"
-          class="black02 fw-bold bottom-margin-16"
-        >
+        <h4 v-if="featureDataKey && featureDataKey.taxa_count_all_period > 0" class="black02 fw-bold bottom-margin-16">
           Répartition temporelle des données ({{
             $thousandDelimiter(featureDataKey.data_count)
           }})
         </h4>
-        <div
-          class="TimeDistributionBarPlot"
-          :class="timeDistributionIsOn ? '' : 'hidden'"
-        >
+        <div class="TimeDistributionBarPlot" :class="timeDistributionIsOn ? '' : 'hidden'">
           <svg class="BarPlotSvg"></svg>
         </div>
         <div v-if="timeDistributionIsOn" class="MapControlSplit"></div>
@@ -182,29 +125,17 @@
             Communes ({{ featureMunicipalitiesList.length }})
           </h4>
           <div class="MapControlSeeMore">
-            <h5
-              class="large green01 fw-600 right-margin-12"
-              @click="updateSeeMoreMunicipalities"
-            >
+            <h5 class="large green01 fw-600 right-margin-12" @click="updateSeeMoreMunicipalities">
               Voir toutes les communes
             </h5>
-            <h5
-              class="small green01 fw-600 right-margin-12"
-              @click="updateSeeMoreMunicipalities"
-            >
+            <h5 class="small green01 fw-600 right-margin-12" @click="updateSeeMoreMunicipalities">
               Voir tout
             </h5>
-            <img
-              class="MapControlSeeMoreChevron"
-              src="/chevron-right-green.svg"
-            />
+            <img class="MapControlSeeMoreChevron" src="/chevron-right-green.svg" />
           </div>
         </div>
-        <li
-          v-for="(municipality, index) in featureMunicipalitiesList.slice(0, 3)"
-          :key="index"
-          class="MapControlDataOption"
-        >
+        <li v-for="(municipality, index) in featureMunicipalitiesList.slice(0, 3)" :key="index"
+          class="MapControlDataOption">
           {{ municipality.area_name }}
         </li>
         <!-- <div class="MapControlSplit"></div>
@@ -213,46 +144,23 @@
         > -->
       </div>
       <!-- Onglet "Espèces" -->
-      <div
-        v-show="selectedTab.label === 'Espèces'"
-        ref="speciesOverflow"
-        class="MapControlOverflow"
-      >
-        <div
-          class="AutocompleteWrapper map"
-          :class="search.length > 0 ? 'open' : ''"
-        >
+      <div v-show="selectedTab.label === 'Espèces'" ref="speciesOverflow" class="MapControlOverflow">
+        <div class="AutocompleteWrapper map" :class="search.length > 0 ? 'open' : ''">
           <input v-model="search" type="text" placeholder="Rechercher" />
           <div class="AutocompleteGadgets map">
-            <img
-              v-if="search.length > 0"
-              class="AutocompleteCloseIcon map"
-              src="/close.svg"
-              @click="clearResults"
-            />
+            <img v-if="search.length > 0" class="AutocompleteCloseIcon map" src="/close.svg" @click="clearResults" />
             <div class="AutocompleteSearch map">
               <img class="AutocompleteSearchIcon map" src="/search.svg" />
             </div>
           </div>
         </div>
         <div class="ChipMenu">
-          <div
-            v-for="(item, index) in speciesStatusList"
-            :key="index"
-            class="ChipItem"
-            :class="
-              item.value === selectedSpeciesStatus.value ? 'selected' : ''
-            "
-            @click="updateSelectedSpeciesStatus(item)"
-          >
+          <div v-for="(item, index) in speciesStatusList" :key="index" class="ChipItem" :class="item.value === selectedSpeciesStatus.value ? 'selected' : ''
+            " @click="updateSelectedSpeciesStatus(item)">
             {{ item.label }}
           </div>
         </div>
-        <dropdown-list
-          v-model="selectedSpeciesStatus"
-          :z-index="2"
-          :items-list="speciesStatusList"
-        />
+        <dropdown-list v-model="selectedSpeciesStatus" :z-index="2" :items-list="speciesStatusList" />
         <div class="TableHeader" :class="scrolled ? 'fixed' : ''">
           <div class="TableLineContent">
             <span class="black02 fw-600 align-end flex-1">
@@ -283,47 +191,27 @@
           </div>
           <div class="MapControlSplit header table"></div>
         </div>
-        <div
-          v-for="taxon in filteredSpecies.list"
-          :key="taxon.cd_nom"
-          class="TableLine"
-        >
-          <div
-            class="TableLineContent pointer"
-            @click="updateClickedSpecies(taxon)"
-          >
+        <div v-for="taxon in filteredSpecies.list" :key="taxon.cd_nom" class="TableLine">
+          <div class="TableLineContent pointer" @click="updateClickedSpecies(taxon)">
             <div class="HelperWrapper">
-              <div
-                class="Dot"
-                :class="
-                  taxon.breeding.new_status
-                    ? taxon.breeding.new_status.replace('Nicheur ', '')
-                    : ''
-                "
-              ></div>
+              <div class="Dot" :class="taxon.breeding.new_status
+                ? taxon.breeding.new_status.replace('Nicheur ', '')
+                : ''
+                "></div>
               <div v-if="taxon.breeding.new_status" class="HelperTip"></div>
-              <h5
-                v-if="taxon.breeding.new_status"
-                class="HelperContent white02 nowrap"
-              >
+              <h5 v-if="taxon.breeding.new_status" class="HelperContent white02 nowrap">
                 {{ taxon.breeding.new_status }} (ODF)
               </h5>
             </div>
             <span class="flex-1">{{ taxon[`common_name_${lang}`] }}</span>
             <div class="TableColumnsWrapper">
               <div class="TableColumn">
-                <img
-                  v-show="taxon[selectedSpeciesStatus.value].old_count > 0"
-                  class="TableCheckIcon"
-                  src="/check-green.svg"
-                />
+                <img v-show="taxon[selectedSpeciesStatus.value].old_count > 0" class="TableCheckIcon"
+                  src="/check-green.svg" />
               </div>
               <div class="TableColumn">
-                <img
-                  v-show="taxon[selectedSpeciesStatus.value].new_count > 0"
-                  class="TableCheckIcon"
-                  src="/check-green.svg"
-                />
+                <img v-show="taxon[selectedSpeciesStatus.value].new_count > 0" class="TableCheckIcon"
+                  src="/check-green.svg" />
               </div>
             </div>
           </div>
@@ -331,10 +219,7 @@
         </div>
       </div>
       <!-- Onglet "Prospection" -->
-      <div
-        v-show="selectedTab.label === 'Prospection'"
-        class="MapControlOverflow"
-      >
+      <div v-show="selectedTab.label === 'Prospection'" class="MapControlOverflow">
         <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
           Durée totale de prospection ({{
             selectedSeason.label
@@ -344,16 +229,10 @@
           }})
         </h4>
         <div class="MapControlKeyData">
-          <h3
-            class="MapControlKeyDataValue large fw-bold right-margin-24"
-            :class="selectedSeason.value"
-          >
+          <h3 class="MapControlKeyDataValue large fw-bold right-margin-24" :class="selectedSeason.value">
             {{ prospectingHours }} heure(s)
           </h3>
-          <h3
-            class="MapControlKeyDataValue small fw-bold right-margin-24"
-            :class="selectedSeason.value"
-          >
+          <h3 class="MapControlKeyDataValue small fw-bold right-margin-24" :class="selectedSeason.value">
             {{ prospectingHours }} h
           </h3>
           <h5 class="black03">enregistrées sur la période Atlas 2019-2024</h5>
@@ -364,31 +243,20 @@
             featureEpocOdfList.length
           }})
         </h4>
-        <li
-          v-for="(epoc, index) in featureEpocOdfList"
-          :key="'epocOdf' + index"
-          class="MapControlDataOption pointer"
-          @click="updateClickedEpocItem(epoc)"
-        >
+        <li v-for="(epoc, index) in featureEpocOdfList" :key="'epocOdf' + index" class="MapControlDataOption pointer"
+          @click="updateClickedEpocItem(epoc)">
           <img class="MapControlDataOptionIcon" src="/location.svg" />
           {{ epoc.properties.id_ff.replace('-', ' ').replace(/_/g, ' ') }}
         </li>
-        <li
-          v-if="!featureEpocOdfList.length"
-          class="MapControlDataOption bottom-margin-24"
-        >
+        <li v-if="!featureEpocOdfList.length" class="MapControlDataOption bottom-margin-24">
           Aucun point EPOC ODF à afficher dans cette maille.
         </li>
         <div class="MapControlSplit top-margin-24"></div>
         <h4 class="black02 fw-bold bottom-margin-16">
           Points EPOC ODF réalisés ({{ featureEpocOdfRealizedList.length }})
         </h4>
-        <li
-          v-for="(epoc, index) in featureEpocOdfRealizedList"
-          :key="'epocOdfRealized' + index"
-          class="MapControlDataOption pointer"
-          @click="updateClickedEpocItem(epoc)"
-        >
+        <li v-for="(epoc, index) in featureEpocOdfRealizedList" :key="'epocOdfRealized' + index"
+          class="MapControlDataOption pointer" @click="updateClickedEpocItem(epoc)">
           <img class="MapControlDataOptionIcon" src="/location.svg" />
           EPOC ODF réalisé le
           {{
@@ -397,20 +265,14 @@
             epoc.properties.time.slice(0, -3)
           }}
         </li>
-        <li
-          v-if="!featureEpocOdfRealizedList.length"
-          class="MapControlDataOption bottom-margin-24"
-        >
+        <li v-if="!featureEpocOdfRealizedList.length" class="MapControlDataOption bottom-margin-24">
           Aucun point EPOC ODF réalisé dans cette maille.
         </li>
         <div class="MapControlSplit top-margin-24"></div>
         <h4 class="black02 fw-bold bottom-margin-16">
           Points EPOC réalisés ({{ featureEpocRealizedList.length }})
         </h4>
-        <li
-          v-if="featureEpocRealizedList.length > 0"
-          class="MapControlDataOption"
-        >
+        <li v-if="featureEpocRealizedList.length > 0" class="MapControlDataOption">
           Pour accéder aux informations des points EPOC réalisés, veuillez les
           sélectionner directement sur la carte (après avoir affiché la couche
           "Points EPOC").
@@ -433,11 +295,8 @@
       </header>
       <div class="MapControlSplit right-margin-16 no-bottom-margin"></div>
       <div class="MapControlOverflow">
-        <li
-          v-for="(municipality, index) in featureMunicipalitiesList"
-          :key="index"
-          class="MapControlDataOption top-margin"
-        >
+        <li v-for="(municipality, index) in featureMunicipalitiesList" :key="index"
+          class="MapControlDataOption top-margin">
           {{ municipality.area_name }}
         </li>
       </div>
@@ -456,10 +315,7 @@
       <div class="MapControlSplit right-margin-16 no-bottom-margin"></div>
       <div class="MapControlOverflow">
         <li class="MapControlDataOption top-margin-24">
-          <img
-            class="MapControlDataOptionIcon"
-            src="/nav-bar/burger-black.svg"
-          />
+          <img class="MapControlDataOptionIcon" src="/nav-bar/burger-black.svg" />
           {{ clickedSpecies.all_period.new_count }} donnée(s) sur la période
           Atlas 2019-2024
         </li>
@@ -472,8 +328,8 @@
           <img class="MapControlDataOptionIcon" src="/book.svg" />
           {{
             clickedSpecies.all_period.old_count > 0
-              ? 'Espèce observée avant 2019'
-              : 'Espèce non observée avant 2019'
+            ? 'Espèce observée avant 2019'
+            : 'Espèce non observée avant 2019'
           }}
         </li>
         <li class="MapControlDataOption">
@@ -481,19 +337,12 @@
           Calendrier d'observation sur la période Atlas 2019-2024 :
         </li>
         <div class="PhenologyWrapper">
-          <div
-            v-for="(item, index) in clickedSpeciesPhenology"
-            :key="index"
-            class="PhenologyItem"
-            :class="item.is_present ? 'colored' : ''"
-          >
+          <div v-for="(item, index) in clickedSpeciesPhenology" :key="index" class="PhenologyItem"
+            :class="item.is_present ? 'colored' : ''">
             <span class="black02">{{ item.label }}</span>
           </div>
         </div>
-        <nuxt-link
-          :to="`/species/${clickedSpecies.cd_nom}`"
-          class="PrimaryButton flex-1"
-        >
+        <nuxt-link :to="`/species/${clickedSpecies.cd_nom}`" class="PrimaryButton flex-1">
           Voir la fiche espèce
         </nuxt-link>
       </div>
@@ -504,11 +353,8 @@
         <img class="MapControlComeBackIcon" src="/previous.svg" />
         <span class="fw-500">{{ featureProperties.area_name }}</span>
       </div>
-      <epoc-dashboard-control
-        v-if="clickedEpocItem"
-        :clicked-epoc-point="clickedEpocItem"
-        @mobileMapControl="closeMobileMapControl"
-      />
+      <epoc-dashboard-control v-if="clickedEpocItem" :clicked-epoc-point="clickedEpocItem"
+        @mobileMapControl="closeMobileMapControl" />
     </div>
   </section>
 </template>
@@ -648,14 +494,14 @@ export default {
               (this.featureDataKey.prospecting_hours_breeding +
                 this.featureDataKey.prospecting_hours_wintering +
                 this.featureDataKey.prospecting_hours_other_period) *
-                10
+              10
             ) / 10
           )
         } else {
           return (
             Math.round(
               this.featureDataKey[
-                'prospecting_hours_' + this.selectedSeason.value
+              'prospecting_hours_' + this.selectedSeason.value
               ] * 10
             ) / 10
           )
@@ -837,8 +683,8 @@ export default {
         parseFloat(
           d3.select(this.$el).select('.TimeDistributionBarPlot').style('width')
         ) -
-          margin.left -
-          margin.right,
+        margin.left -
+        margin.right,
         360
       )
       const barPlotHeight =
@@ -1056,7 +902,9 @@ export default {
 
 .TableHeader.fixed {
   position: sticky;
-  z-index: 1; /* Pour que les .Dot ne passent pas par-dessus */
+  z-index: 1;
+
+  /* Pour que les .Dot ne passent pas par-dessus */
   top: 0;
 }
 
@@ -1140,7 +988,7 @@ span.TableColumn.small {
   top: -2px;
 }
 
-.Dot:hover ~ .HelperTip {
+.Dot:hover~.HelperTip {
   display: block;
 }
 
@@ -1149,7 +997,7 @@ span.TableColumn.small {
   left: 28px;
 }
 
-.Dot:hover ~ .HelperContent {
+.Dot:hover~.HelperContent {
   display: flex;
 }
 
@@ -1177,14 +1025,14 @@ span.TableColumn.small {
 
 /********** RESPONSIVE **********/
 
-@media screen and (width <= 680px) {
+@media screen and (width <=680px) {
   h3.MapControlKeyDataValue {
     font-size: 24px;
     line-height: 36px;
   }
 }
 
-@media screen and (width <= 400px) {
+@media screen and (width <=400px) {
   .br,
   .MapControlSeeMore h5.large.green01,
   span.TableColumn.large,

@@ -67,8 +67,10 @@ def area_list_knowledge_level(
 ) -> Any:
     start_time = time.time()
     logger.debug(f"step1: {start_time}")
+    logger.debug(f"envelope TEST 1 {envelope}")
     if envelope:
         envelope = [float(c) for c in envelope.split(",")]
+    logger.debug(f"envelope TEST 2 {envelope}")
     logger.debug(f"step2: {(time.time() - start_time) * 1000}")
     q = area_knowledge_level.get_feature_list(
         db=db, type_code=type_code, limit=limit, envelope=envelope
