@@ -890,7 +890,7 @@ export default {
         const cancelToken = this.$axios.CancelToken
         this.axiosSourceKnowledgeLevel = cancelToken.source()
         this.knowledgeLevelIsLoading = true
-        const params = { envelope: this.envelope }
+        const params = { envelope: this.envelope.toString() }
         this.$axios
           .$get(`/api/v1/area/knowledge_level/ATLAS_GRID`, {
             cancelToken: this.axiosSourceKnowledgeLevel.token,
