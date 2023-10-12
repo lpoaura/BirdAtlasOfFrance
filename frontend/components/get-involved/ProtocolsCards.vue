@@ -95,7 +95,7 @@ export default {
         subtitle: 'Limicoles et Anatidés Nicheurs',
         route: '/get-involved/limat',
         season: 'Reproduction',
-        speciesGroup: ["#water-birds"],
+        speciesGroup: ['#water-birds'],
       },
       {
         icon: '/get-involved/Wetlands-logo.svg',
@@ -103,7 +103,7 @@ export default {
         subtitle: "Recensement des Oiseaux d'Eau",
         route: '/get-involved/wetlands',
         season: 'Hivernage',
-        speciesGroup: ["#water-birds"],
+        speciesGroup: ['#water-birds'],
       },
       {
         icon: '/get-involved/complete-lists-logo.svg',
@@ -111,7 +111,7 @@ export default {
         subtitle: null,
         route: '/get-involved/complete-lists',
         season: null,
-        speciesGroup: ['#common-birds', '#raptors', "#water-birds"],
+        speciesGroup: ['#common-birds', '#raptors', '#water-birds'],
       },
     ],
   }),

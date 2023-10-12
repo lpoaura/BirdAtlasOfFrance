@@ -64,7 +64,7 @@ export default {
           this.$store.commit('species/pushSubjectsList', {
             label: 'Phénologie de migration',
             slug: 'phenology-migration',
-            position: 2
+            position: 2,
           })
         }
       })

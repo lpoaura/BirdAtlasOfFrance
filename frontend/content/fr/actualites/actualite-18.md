@@ -1,5 +1,5 @@
 ---
-title: "Les rapaces nocturnes donnent de la voix, c’est le moment d’en profiter !"
+title: 'Les rapaces nocturnes donnent de la voix, c’est le moment d’en profiter !'
 picture: actualite-18.webp
 credit: Chevêchette d’Europe © G.Corsand de FlickR
 centering: center
@@ -29,6 +29,6 @@ Les données collectées dans le cadre de ces EPOC alimenteront le futur atlas d
 
 ## Plus d’informations
 
-* [Faire des points EPOC](/get-involved/epoc)
-* [Participer au suivi « Petites chouettes de montagne »](http://rapaces.lpo.fr/chevechette-tengmalm/suivi-et-conservation)
-* [Participer au jeu-concours ODF](https://www.cocheurs.fr/reglement/odf-list.php)
+- [Faire des points EPOC](/get-involved/epoc)
+- [Participer au suivi « Petites chouettes de montagne »](http://rapaces.lpo.fr/chevechette-tengmalm/suivi-et-conservation)
+- [Participer au jeu-concours ODF](https://www.cocheurs.fr/reglement/odf-list.php)

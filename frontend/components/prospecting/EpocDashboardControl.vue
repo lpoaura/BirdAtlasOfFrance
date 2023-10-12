@@ -2,10 +2,15 @@
   <div class="EpocDashboardControl">
     <header class="MapControlInfo">
       <h4 v-if="clickedEpocPoint.properties.id_ff" class="fw-bold">
-        {{ clickedEpocPoint.properties.id_ff.replace('-', ' ').replace(/_/g, ' ') }}
+        {{
+          clickedEpocPoint.properties.id_ff.replace('-', ' ').replace(/_/g, ' ')
+        }}
       </h4>
       <h4 v-else class="fw-bold">
-        {{ clickedEpocPoint.properties.project_code.replace('-', ' ') + ' réalisé'}}
+        {{
+          clickedEpocPoint.properties.project_code.replace('-', ' ') +
+          ' réalisé'
+        }}
       </h4>
       <a
         v-if="clickedEpocPoint.properties.id_ff"
@@ -56,7 +61,10 @@
             }}
           </span>
           <span v-else class="EpocPropertyValue">
-            {{ clickedEpocPoint.properties.project_code.replace('-', ' ') + ' réalisé'}}
+            {{
+              clickedEpocPoint.properties.project_code.replace('-', ' ') +
+              ' réalisé'
+            }}
           </span>
         </li>
         <li class="MapControlDataOption">

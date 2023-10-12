@@ -1,26 +1,43 @@
 <template>
   <header v-if="species">
     <div class="Heading">
-      <v-skeleton-loader v-if="!medias?.Photo_principale && !medias?.Photos" class="SpeciesPicture"
-        type="avatar"></v-skeleton-loader>
-      <div v-if="medias?.Photo_principale || medias?.Photos" class="SpeciesPicture" :style="{
-        background: medias?.Photo_principale
-          ? `url('${medias?.Photo_principale.url}') center / cover`
-          : medias.Photos[0]
+      <v-skeleton-loader
+        v-if="!medias?.Photo_principale && !medias?.Photos"
+        class="SpeciesPicture"
+        type="avatar"
+      ></v-skeleton-loader>
+      <div
+        v-if="medias?.Photo_principale || medias?.Photos"
+        class="SpeciesPicture"
+        :style="{
+          background: medias?.Photo_principale
+            ? `url('${medias?.Photo_principale.url}') center / cover`
+            : medias.Photos[0]
             ? `url('${medias?.Photos[0].url}') center / cover`
             : 'darkgrey',
-      }"></div>
+        }"
+      ></div>
       <div v-if="!searchMode" class="Title" @click="searchMode = true">
         <v-tooltip bottom>
           <template #activator="{ on, attrs }">
-            <span v-bind="attrs" class="black02 flex-1 right-margin-8" v-on="on">
+            <span
+              v-bind="attrs"
+              class="black02 flex-1 right-margin-8"
+              v-on="on"
+            >
               <h3 class="fw-600">
-                {{ attributes?.odf_common_name_fr || species.frenchVernacularName || attributes?.odf_sci_name ||
-                  attributes?.referenceNameHtml }}
+                {{
+                  attributes?.odf_common_name_fr ||
+                  species.frenchVernacularName ||
+                  attributes?.odf_sci_name ||
+                  attributes?.referenceNameHtml
+                }}
               </h3>
             </span>
           </template>
-          <v-skeleton-loader v-if="!species.frenchVernacularName" type="text">&nbsp;</v-skeleton-loader>
+          <v-skeleton-loader v-if="!species.frenchVernacularName" type="text"
+            >&nbsp;</v-skeleton-loader
+          >
           Rechercher une autre espèce
         </v-tooltip>
         <h5 v-if="species.referenceNameHtml">
@@ -32,17 +49,29 @@
         </h5>
       </div>
       <div v-else class="searchWidget">
-        <species-search-widget :widget-status="searchMode" @close="searchMode = false" />
+        <species-search-widget
+          :widget-status="searchMode"
+          @close="searchMode = false"
+        />
       </div>
     </div>
     <div class="Metadata">
       <menu class="TabMenu no-bottom-margin">
-        <div v-for="item in tabs" :key="item.value" class="TabItem"
-          :class="item.hash === selectedTab.hash ? 'selected' : ''" @click="updateSelectedTab(item)">
+        <div
+          v-for="item in tabs"
+          :key="item.value"
+          class="TabItem"
+          :class="item.hash === selectedTab.hash ? 'selected' : ''"
+          @click="updateSelectedTab(item)"
+        >
           {{ item.label }}
         </div>
       </menu>
-      <dropdown-list v-model="selectedTabModel" :z-index="3" :items-list="tabs" />
+      <dropdown-list
+        v-model="selectedTabModel"
+        :z-index="3"
+        :items-list="tabs"
+      />
     </div>
   </header>
 </template>
@@ -120,8 +149,8 @@ export default {
       'species/setSelectedTab',
       this.$route.hash
         ? this.tabs.find((i) => {
-          return i.hash === this.$route.hash
-        })
+            return i.hash === this.$route.hash
+          })
         : this.tabs[0]
     )
   },

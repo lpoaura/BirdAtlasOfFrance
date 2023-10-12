@@ -4,7 +4,7 @@
       class="CardPicture"
       :src="news.picture"
       :style="{
-        background: `url(/news/${news.picture}) ${news.centering} / cover`
+        background: `url(/news/${news.picture}) ${news.centering} / cover`,
       }"
     >
       <h5 v-if="news.credit" class="white02 PictureCredit">
@@ -73,8 +73,8 @@ export default {
   props: {
     news: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     sharingIsOpen: false,
@@ -82,24 +82,24 @@ export default {
       {
         label: 'Twitter',
         logo: '/news/twitter.svg',
-        url: 'https://twitter.com/intent/tweet?url='
+        url: 'https://twitter.com/intent/tweet?url=',
       },
       {
         label: 'Facebook',
         logo: '/news/facebook.svg',
-        url: 'https://www.facebook.com/share.php?u='
+        url: 'https://www.facebook.com/share.php?u=',
       },
       {
         label: 'LinkedIn',
         logo: '/news/linkedin.svg',
-        url: 'https://www.linkedin.com/sharing/share-offsite/?url='
+        url: 'https://www.linkedin.com/sharing/share-offsite/?url=',
       },
       {
         label: 'WhatsApp',
         logo: '/news/whatsapp.svg',
-        url: 'https://api.whatsapp.com/send?text='
-      }
-    ]
+        url: 'https://api.whatsapp.com/send?text=',
+      },
+    ],
   }),
   methods: {
     openOrCloseSharing() {
@@ -107,8 +107,8 @@ export default {
     },
     closeSharing() {
       this.sharingIsOpen = false
-    }
-  }
+    },
+  },
 }
 </script>
 

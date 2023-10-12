@@ -11,9 +11,9 @@ export default {
     loading: {
       // Territoire cliqué (FrMet ou DOM-TOM)
       type: Boolean,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 <style>

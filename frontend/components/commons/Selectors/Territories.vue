@@ -4,16 +4,31 @@
       <div class="MapSelectorInfo">
         <h4 class="black02 fw-600">Territoires</h4>
         <div class="DisplayingTypeWrapper">
-          <div v-for="(type, index) in displayingTypesList" :key="index" class="DisplayingType" :class="type.value === selectedDisplayingType.value ? 'selected' : ''
-            " @click="updateSelectedDisplayingType(type)">
+          <div
+            v-for="(type, index) in displayingTypesList"
+            :key="index"
+            class="DisplayingType"
+            :class="
+              type.value === selectedDisplayingType.value ? 'selected' : ''
+            "
+            @click="updateSelectedDisplayingType(type)"
+          >
             <img class="DisplayingTypeIcon" :src="type.icon" />
           </div>
         </div>
       </div>
-      <div class="AutocompleteWrapper map" :class="search.length > 0 ? 'open' : ''">
+      <div
+        class="AutocompleteWrapper map"
+        :class="search.length > 0 ? 'open' : ''"
+      >
         <input v-model="search" type="text" placeholder="Rechercher" />
         <div class="AutocompleteGadgets map">
-          <img v-if="search.length > 0" class="AutocompleteCloseIcon map" src="/close.svg" @click="clearResults" />
+          <img
+            v-if="search.length > 0"
+            class="AutocompleteCloseIcon map"
+            src="/close.svg"
+            @click="clearResults"
+          />
           <div class="AutocompleteSearch map">
             <img class="AutocompleteSearchIcon map" src="/search.svg" />
           </div>

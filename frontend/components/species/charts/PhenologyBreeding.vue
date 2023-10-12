@@ -1,5 +1,9 @@
 <template>
-  <div v-if="chartData && (hasStartData || hasEndData)" id="phenology-breeding" class="ChartCard">
+  <div
+    v-if="chartData && (hasStartData || hasEndData)"
+    id="phenology-breeding"
+    class="ChartCard"
+  >
     <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
     <h5 class="black03 bottom-margin-40">
       Nombre de données cumulées par décade du 1<sup>er</sup> janvier 2019 au 31
@@ -39,7 +43,8 @@ export default {
     },
     hasStartData() {
       return (
-        this.chartData?.breeding_start.data.filter((i) => i.value > 0).length > 0
+        this.chartData?.breeding_start.data.filter((i) => i.value > 0).length >
+        0
       )
     },
     hasEndData() {
@@ -79,7 +84,7 @@ export default {
         const params = {
           cd_nom: this.cdNom,
           id_area: this.idArea,
-          period: 'breeding'
+          period: 'breeding',
         }
         this.chartData = await this.$axios
           .$get(url, {

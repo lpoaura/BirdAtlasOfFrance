@@ -1,11 +1,11 @@
 ---
-title: "Après le sable, les oiseaux migrateurs…"
+title: 'Après le sable, les oiseaux migrateurs…'
 picture: actualite-23.webp
 credit: Torcol fourmilier © P-M Epiney de FlickR
 centering: center
 author: Oiseaux de France
 date: '2022-05-17'
-tags: ['migrateurs','EPOC','Atlas ODF']
+tags: ['migrateurs', 'EPOC', 'Atlas ODF']
 active: true
 ---
 
@@ -13,15 +13,15 @@ active: true
 
 **En panne d’inspiration pour vos prochaines prospections ? Le retour des migrateurs transsahariens tombe à pic ! Gobemouche gris, Torcol fourmilier ou encore Fauvette des jardins… Assez discrètes, ces trois espèces sont encore sous-prospectées. Aidez-nous à compléter leurs cartes de répartition pour l’Atlas des Oiseaux de France !**
 
-Chaque année le mois de mai est marqué par le retour des migrateurs transsahariens comme le  Gobemouche gris, le Torcol fourmilier ou encore la Fauvette des jardins. Ces trois espèces, nicheuses en France, fréquentent des milieux arborés, d’avantages arbustifs pour la fauvette mais aussi urbanisés pour le Gobemouche gris.
+Chaque année le mois de mai est marqué par le retour des migrateurs transsahariens comme le Gobemouche gris, le Torcol fourmilier ou encore la Fauvette des jardins. Ces trois espèces, nicheuses en France, fréquentent des milieux arborés, d’avantages arbustifs pour la fauvette mais aussi urbanisés pour le Gobemouche gris.
 
 ## Les potentielles difficultés de repérage
 
 Qu’il s’agisse d’un risque de confusion ou d’une problématique de détection, ces trois espèces ne sont pas évidentes à contacter et leur recherche nécessite un bon bagage en ornithologie. Quelques informations sur les potentielles difficultés de repérage :
 
-* Le **Gobemouche gris** est réputé pour sa discrétion. Difficile à repérer au chant, il ne l’est pas plus à la vue.
-* Rarement identifiée à la vue, car très souvent cachée dans le feuillage des buissons, la **Fauvette des jardins** se repère surtout à son chant. Tendez bien l’oreille cependant, car il est proche de celui de la Fauvette à tête noire. La confusion est possible !
-* S’il est facilement repérable à son chant tonitruant, le **Torcol fourmilier** l’est beaucoup moins à la vue, en raison de son plumage homochromique le rendant presque invisible sur l’écorce d’un tronc d’arbre.
+- Le **Gobemouche gris** est réputé pour sa discrétion. Difficile à repérer au chant, il ne l’est pas plus à la vue.
+- Rarement identifiée à la vue, car très souvent cachée dans le feuillage des buissons, la **Fauvette des jardins** se repère surtout à son chant. Tendez bien l’oreille cependant, car il est proche de celui de la Fauvette à tête noire. La confusion est possible !
+- S’il est facilement repérable à son chant tonitruant, le **Torcol fourmilier** l’est beaucoup moins à la vue, en raison de son plumage homochromique le rendant presque invisible sur l’écorce d’un tronc d’arbre.
 
 ## De la nécessité de renforcer les prospections sur ces espèces
 

@@ -44,7 +44,7 @@ Chaque EPOC-ODF doit être suivi **3 fois dans le printemps** :
 
 Chaque passage doit être espacé d’**au moins 30 jours** en respectant les périodes.
 
-En zone montagneuse, le premier passage n’est pas obligatoire, et les périodes des passages 2 et 3 sont modulables selon les conditions d’enneigement et l’accessibilité aux EPOC-ODF. 
+En zone montagneuse, le premier passage n’est pas obligatoire, et les périodes des passages 2 et 3 sont modulables selon les conditions d’enneigement et l’accessibilité aux EPOC-ODF.
 
 </div>
 
@@ -62,6 +62,6 @@ A la différence d’un EPOC qui ne dure que 5 minutes, un passage sur un EPOC-O
 
 <div class="InformativePageParagraph">
 
-Entre le 1er décembre de l'année N et le 31 janvier de l'année N+1, **un passage sur les 5 points EPOC-ODF, issus du tirage de l'année N (printemps précédent)** est à réaliser. Il servira à faire un état des lieux du statut des espèces d'oiseaux communs en hiver. Le protocole de terrain est identique à celui du printemps. 
+Entre le 1er décembre de l'année N et le 31 janvier de l'année N+1, **un passage sur les 5 points EPOC-ODF, issus du tirage de l'année N (printemps précédent)** est à réaliser. Il servira à faire un état des lieux du statut des espèces d'oiseaux communs en hiver. Le protocole de terrain est identique à celui du printemps.
 
 </div>

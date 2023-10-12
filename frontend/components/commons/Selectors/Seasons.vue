@@ -147,5 +147,4 @@ export default {
   color: rgba(38, 38, 38, 0.2);
   cursor: auto;
 }
-
 </style>

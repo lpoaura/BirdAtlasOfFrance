@@ -6,7 +6,9 @@
     <!-- <species-charts-phenology-migration
       v-if="selectedSeason.value === 'all_period'"
     /> -->
-    <species-charts-phenology-breeding v-if="selectedSeason.value === 'breeding'" />
+    <species-charts-phenology-breeding
+      v-if="selectedSeason.value === 'breeding'"
+    />
     <species-charts-trend
       v-if="['wintering', 'breeding'].includes(selectedSeason.value)"
     />

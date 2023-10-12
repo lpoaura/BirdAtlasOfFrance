@@ -71,10 +71,7 @@
             : ''
         }}
       </li>
-      <h5
-        v-if="!dataList.length"
-        class="black03 italic AutocompleteNoResults"
-      >
+      <h5 v-if="!dataList.length" class="black03 italic AutocompleteNoResults">
         Aucun résultat trouvé, vous recherchez peut-être une
         <nuxt-link to="/about/glossary">espèce sensible</nuxt-link>.
       </h5>
