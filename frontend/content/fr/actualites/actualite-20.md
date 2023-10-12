@@ -1,7 +1,7 @@
 ---
-title: "L’atlas des Oiseaux migrateurs de France paraîtra le 15 septembre 2022 !"
+title: 'L’atlas des Oiseaux migrateurs de France paraîtra le 15 septembre 2022 !'
 picture: actualite-20.webp
-credit: ""
+credit: ''
 centering: center
 author: Oiseaux de France
 date: '2022-04-25'
@@ -18,7 +18,6 @@ L’atlas paraîtra officiellement le 15 septembre 2022, mais vous pouvez d’or
 <p class="text-center">
 <a style="text-transform: uppercase; font-size: 1.2em;" href="https://boutique.lpo.fr/catalogue/edition/ornithologie/observations-ornithologiques/atlas-des-oiseaux-migrateurs-de-france" target="_blank">Réservez-vite votre atlas !</a>
 </p>
-
 
 Envie d’en savoir un peu plus sur ce travail colossal de synthèse ?
 

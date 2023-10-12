@@ -1,5 +1,5 @@
 ---
-title: "Dernier passage STOC & points EPOC ODF et début des suivis en montagne !"
+title: 'Dernier passage STOC & points EPOC ODF et début des suivis en montagne !'
 picture: actualite-22.webp
 credit: Accenteur alpin © claphoteau de FlickR
 centering: center
@@ -15,20 +15,20 @@ La date du 8 mai marque la 3ème phase des suivis STOC et EPOC ODF. Le 10 mai co
 
 ## EPOC-ODF
 
-* [En savoir plus sur EPOC-ODF](/get-involved/epoc-odf)
-* [Participer à EPOC-ODF](/get-involved/epoc-odf#get-involved)
+- [En savoir plus sur EPOC-ODF](/get-involved/epoc-odf)
+- [Participer à EPOC-ODF](/get-involved/epoc-odf#get-involved)
 
 ## STOC
 
-* [Participer au STOC](/get-involved/stoc#get-involved)
-* [Réaliser un STOC et saisir ses données](https://www.lpo.fr/content/download/14086/176404?version=1)
-* Télécharger la [fiche d’observation](https://www.lpo.fr/content/download/7261/68444?version=3) pour noter facilement tous les contacts
-* Faire un [relevé détaillé de l’habitat](https://www.lpo.fr/content/download/7262/68450?version=4) autour de chaque point d’écoute en suivant la [typologie fournie](https://www.lpo.fr/content/download/7266/68474?version=3)
+- [Participer au STOC](/get-involved/stoc#get-involved)
+- [Réaliser un STOC et saisir ses données](https://www.lpo.fr/content/download/14086/176404?version=1)
+- Télécharger la [fiche d’observation](https://www.lpo.fr/content/download/7261/68444?version=3) pour noter facilement tous les contacts
+- Faire un [relevé détaillé de l’habitat](https://www.lpo.fr/content/download/7262/68450?version=4) autour de chaque point d’écoute en suivant la [typologie fournie](https://www.lpo.fr/content/download/7266/68474?version=3)
 
 ## STOM
 
-* [En savoir plus sur le STOM](https://www.lpo.fr/la-lpo-en-actions/connaissance-des-especes-sauvages/suivis-ornithologiques/oiseaux-communs/stom)
-* [Participer au STOM](mailto:jules.chiffard@gmail.com)
+- [En savoir plus sur le STOM](https://www.lpo.fr/la-lpo-en-actions/connaissance-des-especes-sauvages/suivis-ornithologiques/oiseaux-communs/stom)
+- [Participer au STOM](mailto:jules.chiffard@gmail.com)
 
 ## Transmission des données
 

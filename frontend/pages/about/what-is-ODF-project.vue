@@ -5,13 +5,13 @@
 <script>
 export default {
   data: () => ({
-    nuxtContent: 'fr/projet-ODF'
+    nuxtContent: 'fr/projet-ODF',
   }),
   head() {
     return {
-      title: this.$getPageTitle(this.$route.path)
+      title: this.$getPageTitle(this.$route.path),
     }
-  }
+  },
 }
 </script>
 

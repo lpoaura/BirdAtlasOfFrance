@@ -1,5 +1,5 @@
 ---
-title: "ODF collabore avec cocheurs.fr pour le lancement d’un jeu concours : l’ODF List !"
+title: 'ODF collabore avec cocheurs.fr pour le lancement d’un jeu concours : l’ODF List !'
 picture: actualite-9.webp
 credit: Michael Ducrocq
 centering: center

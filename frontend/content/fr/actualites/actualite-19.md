@@ -1,5 +1,5 @@
 ---
-title: "La saison EPOC démarre sur les chapeaux de roue"
+title: 'La saison EPOC démarre sur les chapeaux de roue'
 picture: actualite-19.webp
 credit: Rougequeue noir © G. Corsand - FlickR
 centering: center

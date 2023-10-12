@@ -61,8 +61,7 @@ export default {
         if (!this.selectedSubject.slug.startsWith('compare')) {
           if (this.selectedSeason.value === 'breeding') {
             labels = ['Nicheur certain', 'Nicheur probable', 'Nicheur possible']
-          }
-          else if (this.selectedSeason.value === 'wintering') {
+          } else if (this.selectedSeason.value === 'wintering') {
             labels = ['Hivernant']
           } else {
             labels = ['Présence']
@@ -75,13 +74,12 @@ export default {
       return this.generateLegendItems(labels)
     },
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     generateLegendItems(labels) {
       const colors = !this.selectedSubject.slug.startsWith('compare')
-          ? this.selectedSeason.speciesDistributionColors
-          : ['#D999EF', '#4C61F4', '#EB6A0A']
+        ? this.selectedSeason.speciesDistributionColors
+        : ['#D999EF', '#4C61F4', '#EB6A0A']
       return labels.map((e, i) => {
         return {
           label: e,

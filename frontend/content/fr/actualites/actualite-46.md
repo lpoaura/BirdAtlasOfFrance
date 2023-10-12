@@ -1,11 +1,11 @@
 ---
-title: "Bientôt le début des suivis hivernaux des oiseaux communs"
+title: 'Bientôt le début des suivis hivernaux des oiseaux communs'
 picture: actualite-46.webp
 credit: Winterseitler - Pixabay
 centering: center
 author: Oiseaux de France
 date: '2022-11-16'
-tags: ['SHOC','EPOC-ODF','hiver']
+tags: ['SHOC', 'EPOC-ODF', 'hiver']
 active: true
 ---
 
@@ -31,4 +31,4 @@ L’objectif de ce passage est d’acquérir des données structurées sur l’h
 
 Pour contribuer à ces deux suivis, il faut être capable d’identifier la majorité des espèces d’oiseaux communs à vue ou à l'oreille.
 Pour participer au SHOC, contactez [la coordination du SHOC](mailto:shoc@mnhn.fr).
-Pour participer à EPOC-ODF, contactez [la coordination nationale EPOC-ODF](mailto:oiseauxdefrance@lpo.fr). 
+Pour participer à EPOC-ODF, contactez [la coordination nationale EPOC-ODF](mailto:oiseauxdefrance@lpo.fr).

@@ -89,7 +89,7 @@ export default {
         const requestParams = {
           cd_nom: this.cdNom,
           id_area: this.idArea,
-          period: 'all_period'
+          period: 'all_period',
         }
         const url = `/api/v1/taxa/chart/phenology`
         this.chartData = await this.$axios

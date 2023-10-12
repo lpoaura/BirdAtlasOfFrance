@@ -6,15 +6,15 @@
 export default {
   head() {
     return {
-      title: this.$getPageTitle(this.$route.path)
+      title: this.$getPageTitle(this.$route.path),
     }
   },
   computed: {
     nuxtContent() {
       const protocol = this.$route.params.protocol
       return `fr/protocoles/${protocol}`
-    }
-  }
+    },
+  },
 }
 </script>
 

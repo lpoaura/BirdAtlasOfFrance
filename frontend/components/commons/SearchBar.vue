@@ -67,7 +67,6 @@
 
 <script>
 export default {
-
   data: () => ({
     search: '',
     dataList: [],

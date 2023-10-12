@@ -1,5 +1,5 @@
 ---
-title: "Prêt(e)s pour une nouvelle saison de suivis des oiseaux communs ?"
+title: 'Prêt(e)s pour une nouvelle saison de suivis des oiseaux communs ?'
 picture: actualite-12.webp
 credit: Grive musicienne (Turdus philomelos) Caro!B De FlickR
 centering: center
@@ -27,6 +27,6 @@ Les protocoles STOC et EPOC-ODF sont rythmés de la même manière, avec 3 passa
 
 ## Comment participer ?
 
-* Participer au STOC : https://www.oiseauxdefrance.org/get-involved/stoc#get-involved 
-* Participer à l’EPOC-ODF : https://www.oiseauxdefrance.org/get-involved/epoc-odf#get-involved 
-* Faire de l’EPOC : https://www.oiseauxdefrance.org/get-involved/epoc#get-involved 
+- Participer au STOC : https://www.oiseauxdefrance.org/get-involved/stoc#get-involved
+- Participer à l’EPOC-ODF : https://www.oiseauxdefrance.org/get-involved/epoc-odf#get-involved
+- Faire de l’EPOC : https://www.oiseauxdefrance.org/get-involved/epoc#get-involved

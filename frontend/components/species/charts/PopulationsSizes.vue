@@ -23,8 +23,7 @@
       </div>
       <div v-else class="ChartLegend">
         <h5 class="ChartLegendLabel">
-          <i :style="{ background: chartData.color }"></i
-          >{{ chartData.label }}
+          <i :style="{ background: chartData.color }"></i>{{ chartData.label }}
         </h5>
       </div>
     </div>

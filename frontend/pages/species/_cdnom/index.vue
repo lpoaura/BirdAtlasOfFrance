@@ -101,16 +101,21 @@ export default {
   },
   methods: {
     async getTerritoryList() {
-      const params = {cd_nom: this.cdNom}
-      const territoryList = await this.$axios.$get('/api/v1/taxa/list/distribution',{params})
-      this.$store.commit('species/setTerritoryDistribution', territoryList.areas)
+      const params = { cd_nom: this.cdNom }
+      const territoryList = await this.$axios.$get(
+        '/api/v1/taxa/list/distribution',
+        { params }
+      )
+      this.$store.commit(
+        'species/setTerritoryDistribution',
+        territoryList.areas
+      )
       this.initSelectedTerritory(territoryList.areas)
     },
     initSelectedTerritory(territoryList) {
       const firstTerritory = this.territoriesList.find(
         (territory) =>
-          territory.isActive &&
-          territoryList.includes(territory.area_code)
+          territory.isActive && territoryList.includes(territory.area_code)
       )
       console.log('FIRST TERRITORY', firstTerritory)
       this.$store.commit('species/setSelectedTerritory', firstTerritory)

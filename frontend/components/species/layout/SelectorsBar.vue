@@ -64,9 +64,7 @@
           :selected-territory="selectedTerritory"
           @selectedTerritory="updateSelectedTerritory"
         /> -->
-        <commons-selectors-territories
-          :select-is-open="territoryIsOpen"
-        />
+        <commons-selectors-territories :select-is-open="territoryIsOpen" />
       </div>
     </div>
   </div>
@@ -106,9 +104,9 @@ export default {
     selectedTab() {
       return this.$store.state.species.selectedTab
     },
-    selectedTerritory(){
+    selectedTerritory() {
       return this.$store.state.species.selectedTerritory
-    }
+    },
   },
   watch: {
     selectedSeason: {

@@ -6,7 +6,7 @@
         '--large-url': homePicture.largeUrl,
         '--mobile-url': homePicture.mobileUrl,
         '--large-focus': `${homePicture.largeFocus}%`,
-        '--mobile-focus': `${homePicture.mobileFocus}%`
+        '--mobile-focus': `${homePicture.mobileFocus}%`,
       }"
     >
       <div class="PictureGradient"></div>
@@ -54,7 +54,7 @@ export default {
       largeUrl: '',
       mobileUrl: '',
       largeFocus: 0,
-      mobileFocus: 0
+      mobileFocus: 0,
     },
     cards: [
       // {
@@ -65,19 +65,19 @@ export default {
       {
         icon: '/prospecting.svg',
         title: 'Voir la carte<br />de prospection',
-        route: '/prospecting'
+        route: '/prospecting',
       },
       {
         icon: '/protocol.svg',
         title: 'Découvrir<br />les dispositifs',
-        route: '/get-involved'
+        route: '/get-involved',
       },
       {
         icon: '/ODF.svg',
         title: 'Le projet Oiseaux<br />de France',
-        route: '/about/what-is-ODF-project'
-      }
-    ]
+        route: '/about/what-is-ODF-project',
+      },
+    ],
   }),
   created() {
     this.randomInt = Math.floor(Math.random() * 5)
@@ -100,7 +100,7 @@ export default {
       this.homePicture.largeFocus = focusing.large
       this.homePicture.mobileFocus = focusing.mobile
     })
-  }
+  },
 }
 </script>
 

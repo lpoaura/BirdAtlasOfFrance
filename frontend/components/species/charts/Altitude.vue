@@ -88,7 +88,7 @@ export default {
         }
         this.chartData = await this.$axios
           .$get(url, {
-            params
+            params,
           })
           .catch((error) => {
             console.error(error)

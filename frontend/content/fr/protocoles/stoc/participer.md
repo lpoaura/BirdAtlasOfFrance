@@ -8,9 +8,9 @@ hash: '#get-involved'
 
 <div class="InformativePageParagraph">
 
-Pour participer au STOC, il est nécessaire de savoir identifier les oiseaux à la vue et à l'oreille. Si vous avez un doute, [cliquez ici](https://acoustoc.vigienature.fr/) pour tester vos connaissances sur les chants d'oiseaux et savoir si vous êtes capable de prendre en charge le suivi d'un carré STOC. 
+Pour participer au STOC, il est nécessaire de savoir identifier les oiseaux à la vue et à l'oreille. Si vous avez un doute, [cliquez ici](https://acoustoc.vigienature.fr/) pour tester vos connaissances sur les chants d'oiseaux et savoir si vous êtes capable de prendre en charge le suivi d'un carré STOC.
 
-Pour rejoindre le réseau national, contactez votre [coordinateur local](http://www.vigienature.fr/fr/observatoires/suivi-temporel-oiseaux-communs-stoc/j-integre-reseau-3414), ou, à défaut, la [coordination nationale](mailto:stoceps@mnhn.fr). 
+Pour rejoindre le réseau national, contactez votre [coordinateur local](http://www.vigienature.fr/fr/observatoires/suivi-temporel-oiseaux-communs-stoc/j-integre-reseau-3414), ou, à défaut, la [coordination nationale](mailto:stoceps@mnhn.fr).
 
 Fournissez au coordinateur le nom de la ou des communes autour desquelles vous souhaitez faire un STOC. Le coordinateur local vous fera parvenir par la suite une fiche visualisant sur fond de carte le carré à prospecter, ainsi qu'un carré de remplacement au cas où le premier serait inaccessible.
 
@@ -35,7 +35,6 @@ La saisie des données STOC se fait en ligne sur Faune-France, sur les sites Vis
 Retrouvez sur [Vigie-Nature](http://www.vigienature.fr/fr/observatoires/suivi-temporel-oiseaux-communs-stoc/resultats-3413) les derniers résultats du suivi.
 
 </div>
-
 
 <div class="InformativePageParagraph">
 

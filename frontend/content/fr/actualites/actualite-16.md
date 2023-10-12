@@ -1,5 +1,5 @@
 ---
-title: "Les oiseaux marins au menu du prochain atlas des Oiseaux de France grâce au GISOM"
+title: 'Les oiseaux marins au menu du prochain atlas des Oiseaux de France grâce au GISOM'
 picture: actualite-16.webp
 credit: Fulmar boréal © Julien Carnot de FlickR
 centering: center
