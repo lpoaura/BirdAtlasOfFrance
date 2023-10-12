@@ -194,7 +194,6 @@ if settings.LOG_LEVEL == "debug":
     @cache()
     async def pong() -> dict:
         """Debug ping pong log test"""
-        print("CACHE")
         logger.error("Error log")
         logger.warning("Warning log")
         logger.info("Info log")

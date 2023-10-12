@@ -203,7 +203,6 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             "breeding": MvAltitudeDistribution.count_breeding,
             "wintering": MvAltitudeDistribution.count_wintering,
         }
-        print(f"ACTION ROUTER PERIOD {period}")
         query1 = (
             db.query(
                 func.Sum(count_column[period]).label("count"),

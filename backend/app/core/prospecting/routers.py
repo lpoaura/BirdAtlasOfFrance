@@ -212,8 +212,6 @@ def epoc_list(
         features.append(f)
     logger.debug(f"step4: {(time.time() - start_time) * 1000}")
     logger.debug(f"EpocSchema type {type(EpocSchema(features=features))}")
-    print('EPOC')
-    print(f'FEATURES {features}')
     return EpocSchema(features=features)
 
 
@@ -245,7 +243,6 @@ def realized_epoc_list(
         db=db, envelope=envelope, project_code=project_code, id_area=id_area
     )
     if not q:
-        print('NOT Q')
         return Response(status_code=HTTP_204_NO_CONTENT)
     features = []
     logger.debug(f"step3: {(time.time() - start_time) * 1000}")
