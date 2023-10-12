@@ -230,7 +230,13 @@ export default {
     },
     async getTerritory() {
       this.territoriesEnvelopes = await this.$axios.$get(
-        '/api/v1/lareas/type/ATLAS_TERRITORY?bbox=true&only_enable=true'
+        '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY',
+        {
+          params: {
+            bbox: true,
+            only_enable: true,
+          },
+        }
       )
     },
     async getSpecieData() {

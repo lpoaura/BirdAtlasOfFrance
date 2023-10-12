@@ -187,7 +187,7 @@ status filter must be one of the following:
 * `Reserve`
     """,
 )
-@cache()
+# @cache()
 def epoc_list(
     db: Session = Depends(get_db),
     status: Optional[str] = None,
@@ -212,6 +212,8 @@ def epoc_list(
         features.append(f)
     logger.debug(f"step4: {(time.time() - start_time) * 1000}")
     logger.debug(f"EpocSchema type {type(EpocSchema(features=features))}")
+    print('EPOC')
+    print(f'FEATURES {features}')
     return EpocSchema(features=features)
 
 
@@ -242,9 +244,10 @@ def realized_epoc_list(
     q = realized_epoc.get_realized_epocs(
         db=db, envelope=envelope, project_code=project_code, id_area=id_area
     )
-    features = []
     if not q:
+        print('NOT Q')
         return Response(status_code=HTTP_204_NO_CONTENT)
+    features = []
     logger.debug(f"step3: {(time.time() - start_time) * 1000}")
     for e in q:
         de = e._asdict()
@@ -261,7 +264,7 @@ def realized_epoc_list(
 
 @router.get(
     "/map/count_taxon_classes",
-    response_model=List[TaxonCountClassesByTerritorySchema],
+    response_model=Optional[List[TaxonCountClassesByTerritorySchema]],
     tags=["prospecting"],
     summary="Count taxon map classes",
     description="""# Count taxon map classes

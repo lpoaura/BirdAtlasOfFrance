@@ -178,7 +178,7 @@ class EpocSchema(FeatureCollection):
         FeatureCollection ([type]): [description]
     """
 
-    features: List[EpocFeatureSchema]
+    features: List[Optional[EpocFeatureSchema]]
 
     class Config:
         orm_mode = True
@@ -217,7 +217,7 @@ class RealizedEpocSchema(FeatureCollection):
         FeatureCollection ([type]): [description]
     """
 
-    features: List[RealizedEpocFeatureSchema]
+    features: List[Optional[RealizedEpocFeatureSchema]]
 
     class Config:
         orm_mode = True

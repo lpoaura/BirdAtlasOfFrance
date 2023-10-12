@@ -754,9 +754,12 @@ export default {
       }
     }
     this.$axios
-      .$get(
-        '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true'
-      )
+      .$get('/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY', {
+        params: {
+          bbox: false,
+          only_enable: true,
+        },
+      })
       .then((data) => {
         this.territoriesGeojson = data
       })
@@ -764,7 +767,12 @@ export default {
         console.error(error)
       })
     this.$axios
-      .$get('/api/v1/lareas/type/ATLAS_TERRITORY?bbox=true&only_enable=true')
+      .$get('/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY', {
+        params: {
+          bbox: true,
+          only_enable: true,
+        },
+      })
       .then((data) => {
         this.territoriesEnvelopes = data
       })
