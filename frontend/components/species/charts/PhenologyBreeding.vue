@@ -70,12 +70,13 @@ export default {
       this.getChartData().then(() => {
         if (this.chartData && (this.hasStartData || this.hasEndData)) {
           this.renderChart()
-          this.$store.commit('species/pushSubjectsList', {
-            label: 'Phénologie',
-            slug: 'phenology-breeding',
-            position: 3,
-          })
         }
+        this.$store.commit('species/pushSubjectsList', {
+          label: 'Phénologie',
+          slug: 'phenology-breeding',
+          position: 3,
+          status: !!this.chartData && (this.hasStartData || this.hasEndData),
+        })
       })
     },
     async getChartData() {

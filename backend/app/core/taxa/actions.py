@@ -1,13 +1,11 @@
 import logging
 from typing import List, Optional
 
-from fastapi_cache.decorator import cache
 from geoalchemy2 import functions as geofunc
-from sqlalchemy import VARCHAR, String, and_, case, cast, distinct, func, literal_column
+from sqlalchemy import VARCHAR, String, and_, case, cast, distinct, func
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Session, aliased, Query
 from sqlalchemy.types import Integer
-from sqlalchemy.exc import DataError
 
 from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
@@ -211,6 +209,7 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             .filter(MvAltitudeDistribution.cd_nom == cd_nom)
             .first()
         )
+        logger.debug(f"query1 {query1}")
         # logger.debug(f"query1DIR {type(query1)}")
         if query1[0]:
             try:

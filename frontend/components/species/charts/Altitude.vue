@@ -70,12 +70,13 @@ export default {
         if (this.chartData?.altitude) {
           this.renderChart()
           this.renderData()
-          this.$store.commit('species/pushSubjectsList', {
-            label: 'Répartition altitudinale',
-            slug: 'altitude',
-            position: 5,
-          })
         }
+        this.$store.commit('species/pushSubjectsList', {
+          label: 'Répartition altitudinale',
+          slug: 'altitude',
+          position: 5,
+          status: !!this.chartData,
+        })
       })
     },
     async getChartData() {
@@ -258,10 +259,6 @@ export default {
 
   .ChartLegendLabel {
     margin-right: 0 !important;
-  }
-
-  .ChartLegendLabel i {
-    border: 5px solid red;
   }
 }
 </style>

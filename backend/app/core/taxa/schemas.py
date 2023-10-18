@@ -102,9 +102,9 @@ class SurveyMapDataFeaturesCollection(FeatureCollection):
 
 
 class SurveyChartDataDetailProperties(BaseModel):
-    val: float
-    val_min: float
-    val_max: float
+    val: Optional[float]
+    val_min: Optional[float]
+    val_max: Optional[float]
 
 
 class SurveyChartDataItem(BaseModel):

@@ -31,6 +31,10 @@ export default {
   }),
   computed: {
     idArea() {
+      console.log(
+        'STORE ID AREA',
+        this.$store.state.species.selectedTerritory?.id_area
+      )
       return this.$store.state.species.selectedTerritory?.id_area
     },
     cdNom() {
@@ -62,18 +66,24 @@ export default {
       this.getChartData().then(() => {
         if (this.chartData.length > 1) {
           this.renderChart()
-          this.$store.commit('species/pushSubjectsList', {
-            label: "Tendance d'évolution",
-            slug: 'trend',
-            position: 4,
-          })
         }
+        this.$store.commit('species/pushSubjectsList', {
+          label: "Tendance d'évolution",
+          slug: 'trend',
+          position: 4,
+          status: !!this.chartData,
+        })
       })
     },
     async getChartData() {
+      console.log(
+        'getChartData STORE ID AREA ',
+        this.$store.state.species.selectedTerritory
+      )
+      console.log('ID AREA', this.idArea)
       const requestParams = {
         cd_nom: this.cdNom,
-        id_area_atlas_territory: this.idArea,
+        id_area: this.idArea,
         phenology_period: this.phenologyPeriod,
       }
       const url = `api/v1/taxa/chart/survey`

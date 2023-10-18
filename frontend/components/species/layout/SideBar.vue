@@ -2,7 +2,10 @@
   <nav class="NavDrawer">
     <menu
       v-if="
-        (selectedTab.value !== 'maps' && subjectsList.length === 0) ||
+        (selectedTab.value === 'monography' && subjectsList.length === 0) ||
+        (selectedTab.value === 'charts' &&
+          subjectsList.length > 0 &&
+          subjectsList.filter((i) => i.status) > 0) ||
         (selectedTab.value === 'maps' && subjectsMapAtlasList.length === 0)
       "
     >
@@ -19,15 +22,17 @@
       v-if="['monography', 'charts'].includes(selectedTab.value)"
       class="TabMenu vertical no-bottom-margin"
     >
-      <div
-        v-for="item in subjectsList"
-        :key="item.slug"
-        class="TabItem vertical"
-        :class="item.slug === selectedSubject.slug ? 'selected' : ''"
-        @click="updateSelectedSubject(item)"
-      >
-        {{ item.label }}
-      </div>
+      <template v-for="item in subjectsList">
+        <div
+          v-if="selectedTab.value === 'charts' ? item.status : true"
+          :key="item.slug"
+          class="TabItem vertical"
+          :class="item.slug === selectedSubject.slug ? 'selected' : ''"
+          @click="updateSelectedSubject(item)"
+        >
+          {{ item.label }}
+        </div>
+      </template>
     </menu>
     <menu v-if="selectedTab.value === 'maps'">
       <div class="SeeMoreWrapper" @click="atlasIsOpen = !atlasIsOpen">

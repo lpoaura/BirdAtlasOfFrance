@@ -728,11 +728,15 @@ export default {
           this.catchGeolocationError
         )
       } else {
+        const params = {
+          coordinates: [2.3488, 48.85341].toString(),
+          type_code: 'ATLAS_TERRITORY',
+          bbox: true,
+          only_enable: true,
+        }
         // La géolocalisation N'EST PAS supportée par le navigateur
         this.$axios
-          .$get(
-            '/api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
-          )
+          .$get('/api/v1/lareas/position', { params })
           .then((data) => {
             const territory = this.$L.geoJSON(data)
             this.isProgramaticZoom = true
@@ -859,7 +863,10 @@ export default {
         )
         .then((data) => {
           if (
-            data &&
+            data && // console.debug('[updateGeojson]')
+            // console.debug('Ancien zoom : ' + this.oldZoomSpeciesDistribution)
+            // console.debug('Nouveau zoom : ' + this.currentZoom)
+            // console.debug(this.axiosSourceSpeciesDistribution)
             data.properties.area_code !== this.currentTerritory.area_code
           ) {
             this.$emit('currentTerritory', {
@@ -881,10 +888,6 @@ export default {
         })
     },
     updateKnowledgeLevelGeojson() {
-      // console.debug('[updateGeojson]')
-      // console.debug('Ancien zoom : ' + this.oldZoomKnowledgeLevel)
-      // console.debug('Nouveau zoom : ' + this.currentZoom)
-      // console.debug(this.axiosSourceKnowledgeLevel)
       if (
         !(
           !this.isProgramaticZoom &&
@@ -898,7 +901,9 @@ export default {
         const cancelToken = this.$axios.CancelToken
         this.axiosSourceKnowledgeLevel = cancelToken.source()
         this.knowledgeLevelIsLoading = true
-        const params = { envelope: this.envelope.toString() }
+        const params = {
+          envelope: this.envelope ? this.envelope.toString() : null,
+        }
         this.$axios
           .$get(`/api/v1/area/knowledge_level/ATLAS_GRID`, {
             cancelToken: this.axiosSourceKnowledgeLevel.token,
@@ -957,10 +962,6 @@ export default {
       this.isProgramaticZoom = false
     },
     updateSpeciesDistributionGeojson(species) {
-      // console.debug('[updateGeojson]')
-      // console.debug('Ancien zoom : ' + this.oldZoomSpeciesDistribution)
-      // console.debug('Nouveau zoom : ' + this.currentZoom)
-      // console.debug(this.axiosSourceSpeciesDistribution)
       if (
         !(
           !this.isProgramaticZoom &&
@@ -984,7 +985,7 @@ export default {
           phenology_period: this.selectedSeason.value,
           atlas_period: 'new',
           grid,
-          envelope: this.envelope,
+          envelope: this.envelope ? this.envelope.toString() : null,
         }
         this.$axios
           .$get(`/api/v1/taxa/map/distribution`, {
@@ -1020,8 +1021,11 @@ export default {
       this.isProgramaticZoom = false
     },
     updateEpocRealizedGeojson() {
+      const params = {
+        envelope: this.envelope ? this.envelope.toString() : null,
+      }
       this.$axios
-        .$get(`/api/v1/epoc/realized?envelope=${this.envelope}`)
+        .$get(`/api/v1/epoc/realized`, { params })
         .then((data) => {
           if (data) {
             this.epocRealizedGeojson = data
@@ -1037,8 +1041,11 @@ export default {
         })
     },
     updateEpocOdfGeojson() {
+      const params = {
+        envelope: this.envelope ? this.envelope.toString() : null,
+      }
       this.$axios
-        .$get(`/api/v1/epoc?envelope=${this.envelope}`)
+        .$get(`/api/v1/epoc`, { params })
         .then((data) => {
           if (data) {
             this.epocOdfGeojson = data

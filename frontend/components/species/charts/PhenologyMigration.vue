@@ -61,12 +61,13 @@ export default {
       this.getChartData().then(() => {
         if (this.chartData) {
           this.renderChart()
-          this.$store.commit('species/pushSubjectsList', {
-            label: 'Phénologie de migration',
-            slug: 'phenology-migration',
-            position: 2,
-          })
         }
+        this.$store.commit('species/pushSubjectsList', {
+          label: 'Phénologie de migration',
+          slug: 'phenology-migration',
+          position: 2,
+          status: !!this.chartData,
+        })
       })
     },
     async getChartData() {
