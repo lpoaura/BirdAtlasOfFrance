@@ -157,7 +157,7 @@ export default {
   methods: {
     updateSelectedTab(item) {
       this.$store.commit('species/setSelectedTab', item)
-      this.$router.push(`${item.hash}`)
+      // this.$router.push(`${item.hash}`)
     },
     revertSearchMode() {
       console.log(this.searchMode)

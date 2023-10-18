@@ -3,12 +3,13 @@ import logging
 from typing import Any, List, Optional, Union
 
 from fastapi import APIRouter, Depends, Response
+from fastapi.responses import JSONResponse
 from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
 
 from app.utils.db import get_db
-
+from app.core.commons.schemas    import Message
 from .actions import (
     all_period_phenology_distrib,
     altitude_distrib,
@@ -185,7 +186,7 @@ def list_historic_atlases(
 
 """,
 )
-@cache()
+# @cache()
 def altitudinal_distribution(
     id_area: str,
     cd_nom: int,
@@ -324,6 +325,7 @@ def get_survey_map_data(
 @router.get(
     "/chart/survey",
     response_model=Optional[List[SurveyChartDataItem]],
+    # responses = {HTTP_204_NO_CONTENT: {"model": Message}},
     tags=["taxa"],
     summary="taxon geographic distribution",
     description="""# Taxon geographic distribution
@@ -332,17 +334,18 @@ def get_survey_map_data(
 @cache()
 def get_survey_chart_data(
     cd_nom: int,
-    id_area_atlas_territory: int,
+    id_area: int,
     phenology_period: str,
     db: Session = Depends(get_db),
 ) -> Any:
     query = survey_chart_data.get_data(
         db,
         cd_nom=cd_nom,
-        id_area_atlas_territory=id_area_atlas_territory,
+        id_area_atlas_territory=id_area,
         phenology_period=phenology_period,
     )
     logger.debug(f"get_survey_chart_data COUNT {query.count()}")
     if query.count() > 0:
         return query.all()
     return Response(status_code=HTTP_204_NO_CONTENT)
+    # return JSONResponse(status_code=HTTP_204_NO_CONTENT, content={"message":'No item'})

@@ -63,11 +63,11 @@ export default {
     },
   },
   watch: {
-    $route(newVal) {
-      /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
-      this.defineSelectedTab()
-      this.$refs.scrollingContainer.scrollTop = 0
-    },
+    // $route(newVal) {
+    //   /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
+    //   this.defineSelectedTab()
+    //   this.$refs.scrollingContainer.scrollTop = 0
+    // },
   },
   beforeMount() {
     // this.getIdArea()
