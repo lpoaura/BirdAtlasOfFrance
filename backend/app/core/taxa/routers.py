@@ -2,13 +2,14 @@ import json
 import logging
 from typing import Any, List, Optional, Union
 
-from fastapi import APIRouter, Depends, Response, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
 
-from app.utils.db import get_db
 from app.core.commons.schemas import Message
+from app.utils.db import get_db
+
 from .actions import (
     all_period_phenology_distrib,
     altitude_distrib,
@@ -141,7 +142,7 @@ def historic_atlases(
         id_historic_atlas=id_historic_atlas,
         envelope=envelope,
     )
-    if query:         
+    if query:
         features = [
             TaxaDistributionFeature(
                 properties=row.properties,
@@ -165,12 +166,8 @@ def historic_atlases(
 """,
 )
 @cache()
-def list_historic_atlases(
-    cd_nom: int, id_area: int, db: Session = Depends(get_db)
-) -> Any:
-    query = historic_atlas_distrib.list_historic_atlas(
-        db=db, cd_nom=cd_nom, id_area=id_area
-    )
+def list_historic_atlases(cd_nom: int, id_area: int, db: Session = Depends(get_db)) -> Any:
+    query = historic_atlas_distrib.list_historic_atlas(db=db, cd_nom=cd_nom, id_area=id_area)
     if query:
         return query
     print(query)
@@ -210,9 +207,7 @@ def altitudinal_distribution(
             label="Répartition de l'altitude du territoire",
             data=[
                 q._asdict()
-                for q in altitude_distrib.get_territory_distribution(
-                    db=db, id_area=id_area
-                )
+                for q in altitude_distrib.get_territory_distribution(db=db, id_area=id_area)
             ],
             color="rgba(67, 94, 242, 0.3)",
         )
@@ -336,7 +331,7 @@ def get_survey_map_data(
     description="""# Taxon geographic distribution
 """,
 )
-@cache() # TODO: Fix error 500 when status is 204 and reload from cache
+@cache()  # TODO: Fix error 500 when status is 204 and reload from cache
 def get_survey_chart_data(
     cd_nom: int,
     id_area: int,

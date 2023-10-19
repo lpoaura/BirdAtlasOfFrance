@@ -1,6 +1,7 @@
 import logging
 from typing import Any, Dict, Optional
-from pydantic import PostgresDsn, validator, ConfigDict
+
+from pydantic import ConfigDict, PostgresDsn, validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 logger = logging.getLogger(__name__)

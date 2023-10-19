@@ -29,7 +29,7 @@ $$
                              JOIN atlas.t_taxa ON mv_data_for_atlas.cd_nom = t_taxa.cd_nom
                              JOIN atlas.mv_taxa_groups mtg ON mtg.cd_nom = t_taxa.cd_nom
                              JOIN ref_geo.l_areas la ON id_area_territory = la.id_area)
-        SELECT row_number() OVER () AS id, t1.*
+        SELECT ROW_NUMBER() OVER () AS id, t1.*
         FROM t1
         ORDER BY t1.cd_nom, t1.id_area;
 
@@ -49,8 +49,8 @@ $$
 
         CREATE MATERIALIZED VIEW atlas.mv_territory_altitude_ranges AS
         WITH maxalti AS (SELECT cor_area_synthese.id_area
-                              , (max(mv_data_for_atlas.altitude) +
-                                 (19 - mod(max(mv_data_for_atlas.altitude), 19))) AS alti
+                              , (MAX(mv_data_for_atlas.altitude) +
+                                 (19 - MOD(MAX(mv_data_for_atlas.altitude), 19))) AS alti
                          FROM atlas.mv_data_for_atlas
                                   JOIN gn_synthese.cor_area_synthese
                                        ON mv_data_for_atlas.id_data = cor_area_synthese.id_synthese
@@ -59,12 +59,12 @@ $$
                                                              WHERE id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
                                                                AND enable)
                          GROUP BY cor_area_synthese.id_area)
-        SELECT row_number() OVER ()                                       AS id
+        SELECT ROW_NUMBER() OVER ()                                       AS id
              , id_area
-             , int4range(i, i + (SELECT round(alti, -2) / 20)::INT, '[)') AS range
+             , INT4RANGE(i, i + (SELECT ROUND(alti, -2) / 20)::INT, '[)') AS range
         FROM maxalti
-                 CROSS JOIN generate_series(0, alti,
-                                            (SELECT round(alti, -2) / 20)::INT) t(i);
+                 CROSS JOIN GENERATE_SERIES(0, alti,
+                                            (SELECT ROUND(alti, -2) / 20)::INT) t(i);
 
 
         CREATE UNIQUE INDEX ON atlas.mv_territory_altitude_ranges (id);
@@ -74,22 +74,22 @@ $$
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_alti_territory;
         CREATE MATERIALIZED VIEW atlas.mv_alti_territory AS
         WITH maxalti AS (SELECT id_area
-                              , round(max(altitude), -2) AS alti
+                              , ROUND(MAX(altitude), -2) AS alti
                          FROM atlas.t_territory_altitude
                          GROUP BY id_area)
            , ranges AS (SELECT id_area
-                             , int4range(i::INT, (i + (SELECT round(alti, -2) / 10))::INT, '[)'::TEXT) AS range
+                             , INT4RANGE(i::INT, (i + (SELECT ROUND(alti, -2) / 10))::INT, '[)'::TEXT) AS range
                         FROM maxalti
-                                 CROSS JOIN generate_series(0, alti,
-                                                            (SELECT round(alti, -2) / 10)::INT) t(i))
+                                 CROSS JOIN GENERATE_SERIES(0, alti,
+                                                            (SELECT ROUND(alti, -2) / 10)::INT) t(i))
            , pixel_count_by_territory AS (SELECT id_area
-                                               , sum(pixel_count) AS total_pixel_count
+                                               , SUM(pixel_count) AS total_pixel_count
                                           FROM atlas.t_territory_altitude
                                           GROUP BY id_area)
-        SELECT row_number() OVER ()                                                     AS id
+        SELECT ROW_NUMBER() OVER ()                                                     AS id
              , ranges.id_area
              , ranges.range                                                             AS range
-             , round(((sum(pixel_count) / total_pixel_count::FLOAT) * 100)::NUMERIC, 1) AS percentage
+             , ROUND(((SUM(pixel_count) / total_pixel_count::FLOAT) * 100)::NUMERIC, 1) AS percentage
              , total_pixel_count::FLOAT
         FROM ranges
                  LEFT JOIN atlas.t_territory_altitude
@@ -103,13 +103,13 @@ $$
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_alti_distribution;
         CREATE MATERIALIZED VIEW atlas.mv_alti_distribution AS
         WITH t1 AS
-                 (SELECT row_number() OVER ()                                    AS id
+                 (SELECT ROW_NUMBER() OVER ()                                    AS id
                        , id_area_territory                                       AS id_area
                        , ranges.id                                               AS id_range
                        , cd_group                                                AS cd_nom
-                       , count(data.altitude) FILTER (WHERE new_data_all_period) AS count_all_period
-                       , count(data.altitude) FILTER (WHERE new_data_breeding)   AS count_breeding
-                       , count(data.altitude) FILTER (WHERE new_data_wintering)  AS count_wintering
+                       , COUNT(data.altitude) FILTER (WHERE new_data_all_period) AS count_all_period
+                       , COUNT(data.altitude) FILTER (WHERE new_data_breeding)   AS count_breeding
+                       , COUNT(data.altitude) FILTER (WHERE new_data_wintering)  AS count_wintering
                   FROM atlas.mv_territory_altitude_ranges AS ranges
                            LEFT JOIN atlas.mv_data_for_atlas data
                                      ON data.altitude <@ ranges.range AND new_data_all_period
@@ -124,13 +124,13 @@ $$
                   GROUP BY id_area_territory, mv_taxa_groups.cd_group, ranges.id
                   ORDER BY id_area_territory, mv_taxa_groups.cd_group, ranges.id)
 
-        SELECT row_number() OVER ()             AS id
+        SELECT ROW_NUMBER() OVER ()             AS id
              , mv_territory_altitude_ranges.id_area
              , t_taxa.cd_nom
              , mv_territory_altitude_ranges.range
-             , coalesce(t1.count_all_period, 0) AS count_all_period
-             , coalesce(t1.count_breeding, 0)   AS count_breeding
-             , coalesce(t1.count_wintering, 0)  AS count_wintering
+             , COALESCE(t1.count_all_period, 0) AS count_all_period
+             , COALESCE(t1.count_breeding, 0)   AS count_breeding
+             , COALESCE(t1.count_wintering, 0)  AS count_wintering
         FROM atlas.mv_territory_altitude_ranges
                  CROSS JOIN atlas.t_taxa
                  LEFT JOIN t1 ON (t1.cd_nom = t_taxa.cd_nom
@@ -161,7 +161,7 @@ $$
         WITH matrix AS (SELECT DISTINCT decade
                                       , l_areas.id_area         AS id_area
                                       , mv_taxa_groups.cd_group AS cd_nom
-                        FROM generate_series(1, 36) AS t(decade)
+                        FROM GENERATE_SERIES(1, 36) AS t(decade)
                                  CROSS JOIN (atlas.mv_taxa_groups
                             JOIN atlas.t_taxa
                                              ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND
@@ -172,9 +172,9 @@ $$
                         ORDER BY id_area, cd_nom, decade)
            , data AS (SELECT mv_grid_territories_matching.id_area_territory      AS id_area
                            , mv_taxa_groups.cd_group                             AS cd_nom
-                           , trunc(extract(DOY FROM date_min) / 10)              AS decade
-                           , count(mv_data_for_atlas.id_data)                    AS count_data
-                           , count(DISTINCT mv_data_for_atlas.id_form_universal) AS count_list
+                           , TRUNC(EXTRACT(DOY FROM date_min) / 10)              AS decade
+                           , COUNT(mv_data_for_atlas.id_data)                    AS count_data
+                           , COUNT(DISTINCT mv_data_for_atlas.id_form_universal) AS count_list
                       FROM atlas.mv_data_for_atlas
                                JOIN atlas.mv_grid_territories_matching
                                     ON mv_data_for_atlas.id_area = mv_grid_territories_matching.id_area_grid
@@ -187,16 +187,16 @@ $$
                         AND l_areas.enable
                       GROUP BY mv_grid_territories_matching.id_area_territory
                              , mv_taxa_groups.cd_group
-                             , trunc(extract(DOY FROM date_min) / 10)
+                             , TRUNC(EXTRACT(DOY FROM date_min) / 10)
                       ORDER BY mv_grid_territories_matching.id_area_territory
                              , mv_taxa_groups.cd_group
-                             , trunc(extract(DOY FROM date_min) / 10))
-        SELECT row_number() OVER ()         AS id
+                             , TRUNC(EXTRACT(DOY FROM date_min) / 10))
+        SELECT ROW_NUMBER() OVER ()         AS id
              , matrix.id_area
              , matrix.cd_nom
              , matrix.decade
-             , coalesce(data.count_data, 0) AS count_data
-             , coalesce(data.count_list, 0) AS count_list
+             , COALESCE(data.count_data, 0) AS count_data
+             , COALESCE(data.count_list, 0) AS count_list
         FROM matrix
                  LEFT JOIN data ON (matrix.cd_nom, matrix.id_area, matrix.decade) =
                                    (data.cd_nom, data.id_area, data.decade)
@@ -221,9 +221,9 @@ $$
         CREATE MATERIALIZED VIEW atlas.mv_taxa_breeding_phenology AS
         WITH matrix AS (SELECT DISTINCT l_areas.id_area                                             AS id_area
                                       , mv_taxa_groups.cd_group                                     AS cd_nom
-                                      , unnest(ARRAY ['breeding_start', 'breeding_end']::VARCHAR[]) AS status
+                                      , UNNEST(ARRAY ['breeding_start', 'breeding_end']::VARCHAR[]) AS status
                                       , decade
-                        FROM generate_series(1, 36) AS t(decade)
+                        FROM GENERATE_SERIES(1, 36) AS t(decade)
                                  CROSS JOIN (atlas.mv_taxa_groups
                             JOIN atlas.t_taxa
                                              ON t_taxa.cd_nom = mv_taxa_groups.cd_group AND
@@ -234,12 +234,12 @@ $$
                         ORDER BY 1, 2, 3, 4)
            , data AS (SELECT mv_grid_territories_matching.id_area_territory AS id_area
                            , mv_taxa_groups.cd_group                        AS cd_nom
-                           , trunc(extract(DOY FROM date_min) / 10)         AS decade
+                           , TRUNC(EXTRACT(DOY FROM date_min) / 10)         AS decade
                            , CASE
                                  WHEN mv_data_for_atlas.bird_breed_code = ANY (ARRAY [3]) THEN 'breeding_start'
                                  WHEN mv_data_for_atlas.bird_breed_code = ANY (ARRAY [13])
                                      THEN 'breeding_end' END                AS status
-                           , count(mv_data_for_atlas.*)                     AS count_data
+                           , COUNT(mv_data_for_atlas.*)                     AS count_data
                       FROM atlas.mv_data_for_atlas
                                JOIN atlas.mv_grid_territories_matching
                                     ON mv_data_for_atlas.id_area = mv_grid_territories_matching.id_area_grid
@@ -255,8 +255,8 @@ $$
                         AND mv_data_for_atlas.bird_breed_code = ANY (ARRAY [3, 13])
                       GROUP BY mv_grid_territories_matching.id_area_territory
                              , mv_taxa_groups.cd_group
-                             , trunc(
-                                  extract(
+                             , TRUNC(
+                                  EXTRACT(
                                           DOY FROM date_min) / 10)
                              , CASE
                                    WHEN mv_data_for_atlas.bird_breed_code = ANY (ARRAY [3]) THEN 'breeding_start'
@@ -264,19 +264,19 @@ $$
                                        THEN 'breeding_end' END
                       ORDER BY mv_grid_territories_matching.id_area_territory
                              , mv_taxa_groups.cd_group
-                             , trunc(
-                                  extract(
+                             , TRUNC(
+                                  EXTRACT(
                                           DOY FROM date_min) / 10)
                              , CASE
                                    WHEN mv_data_for_atlas.bird_breed_code = ANY (ARRAY [3]) THEN 'breeding_start'
                                    WHEN mv_data_for_atlas.bird_breed_code = ANY (ARRAY [13])
                                        THEN 'breeding_end' END)
-        SELECT row_number() OVER ()                 AS id
+        SELECT ROW_NUMBER() OVER ()                 AS id
              , matrix.id_area
              , matrix.cd_nom
-             , coalesce(data.status, matrix.status) AS status
+             , COALESCE(data.status, matrix.status) AS status
              , matrix.decade
-             , coalesce(data.count_data, 0)         AS count_data
+             , COALESCE(data.count_data, 0)         AS count_data
         FROM matrix
                  LEFT JOIN data
                            ON (matrix.cd_nom, matrix.id_area, matrix.decade, matrix.status) =
@@ -333,7 +333,7 @@ $$
         /* Migration phenology */
         WITH selected_taxa AS (SELECT id_area_territory
                                     , cd_nom
-                                    , count(*)
+                                    , COUNT(*)
                                FROM atlas.mv_data_for_atlas
                                         JOIN atlas.mv_grid_territories_matching
                                              ON mv_data_for_atlas.id_area = mv_grid_territories_matching.id_area_grid
@@ -341,8 +341,8 @@ $$
                                WHERE mv_data_for_atlas.active_migration
                                  AND l_areas.enable
                                GROUP BY id_area_territory, cd_nom
-                               HAVING count(*) > 200)
-           , matrix AS (SELECT FROM generate_series(1, 36))
+                               HAVING COUNT(*) > 200)
+           , matrix AS (SELECT FROM GENERATE_SERIES(1, 36))
         SELECT atlas.mv_alcross JOIN atlas.mv_taxa_groups
                                  JOIN atlas.t_taxa
         ON t_taxa.
@@ -366,3 +366,35 @@ FROM atlas.mv_alti_territory
 
 GRANT SELECT ON ALL TABLES IN SCHEMA atlas TO odfapp
 ;
+
+SELECT DISTINCT type_code, l_areas.id_area, area_name, area_code, t_territory_altitude.altitude IS NULL AS missing
+FROM ref_geo.l_areas
+         JOIN ref_geo.bib_areas_types ON l_areas.id_type = bib_areas_types.id_type
+         LEFT JOIN atlas.t_territory_altitude ON t_territory_altitude.id_area = l_areas.id_area
+WHERE type_code = 'ATLAS_TERRITORY'
+  AND enable;
+
+EXPLAIN
+SELECT name_source,
+       area_code,
+       area_name,
+       COUNT(*) noalti_data
+--        COUNT(*) FILTER ( WHERE altitude IS NOT NULL )
+FROM atlas.mv_data_for_atlas
+         JOIN atlas.mv_grid_territories_matching ON mv_data_for_atlas.id_area = id_area_grid
+         JOIN ref_geo.l_areas ON id_area_territory = l_areas.id_area
+         JOIN gn_synthese.synthese ON id_data = id_synthese
+         JOIN gn_synthese.t_sources ON synthese.id_source = t_sources.id_source
+WHERE altitude IS NULL
+  AND new_data_all_period
+  AND enable
+GROUP BY name_source, area_name, area_code;
+
+SELECT *
+FROM atlas.t_territory_altitude
+LIMIT 10;
+
+SELECT *
+FROM ref_geo.l_areas
+WHERE id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
+  AND enable

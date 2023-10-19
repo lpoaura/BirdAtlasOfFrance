@@ -4,7 +4,7 @@ from typing import List, Optional
 from geoalchemy2 import functions as geofunc
 from sqlalchemy import VARCHAR, String, and_, case, cast, distinct, func
 from sqlalchemy.dialects.postgresql import ARRAY
-from sqlalchemy.orm import Session, aliased, Query
+from sqlalchemy.orm import Query, Session, aliased
 from sqlalchemy.types import Integer
 
 from app.core.actions.crud import BaseReadOnlyActions
@@ -18,9 +18,9 @@ from .models import (
     MvSurveyMapData,
     MvTaxaAllPeriodPhenology,
     MvTaxaBreedingPhenology,
+    MvTaxaTerritoryDistribution,
     THistoricAtlasesData,
     THistoricAtlasesInfo,
-    MvTaxaTerritoryDistribution,
 )
 
 # from .models import MvTaxaAltitudeDistribution
