@@ -718,7 +718,7 @@ export default {
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
         .catch((error) => {
-          console.error(error)
+          console.debug(`${error}`)
         })
     } else {
       if (navigator.geolocation) {
@@ -743,7 +743,7 @@ export default {
             this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
           })
           .catch((error) => {
-            console.error(error)
+            console.debug(`${error}`)
           })
       }
       if (this.$route.query.species) {
@@ -753,7 +753,7 @@ export default {
             this.$emit('selectedSpecies', data[0])
           })
           .catch((error) => {
-            console.error(error)
+            console.debug(`${error}`)
           })
       }
     }
@@ -768,7 +768,7 @@ export default {
         this.territoriesGeojson = data
       })
       .catch((error) => {
-        console.error(error)
+        console.debug(`${error}`)
       })
     this.$axios
       .$get('/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY', {
@@ -781,7 +781,7 @@ export default {
         this.territoriesEnvelopes = data
       })
       .catch((error) => {
-        console.error(error)
+        console.debug(`${error}`)
       })
   },
   beforeDestroy() {
@@ -804,7 +804,7 @@ export default {
           this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
         })
         .catch((error) => {
-          console.error(error)
+          console.debug(`${error}`)
         })
     },
     defineEnvelope(bounds) {
@@ -884,7 +884,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.error(error)
+          console.debug(`${error}`)
         })
     },
     updateKnowledgeLevelGeojson() {
@@ -945,7 +945,7 @@ export default {
             }
           })
           .catch((error) => {
-            // console.error(error)
+            // console.debug(`${error}`)
             this.axiosErrorKnowledgeLevel = error
           })
           .finally(() => {
@@ -1004,7 +1004,7 @@ export default {
             }
           })
           .catch((error) => {
-            // console.error(error)
+            // console.debug(`${error}`)
             this.axiosErrorSpeciesDistribution = error
           })
           .finally(() => {
@@ -1037,7 +1037,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.error(error)
+          console.debug(`${error}`)
         })
     },
     updateEpocOdfGeojson() {
@@ -1054,7 +1054,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.error(error)
+          console.debug(`${error}`)
         })
     },
     setFeatureColor(number) {

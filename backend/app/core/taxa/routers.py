@@ -2,14 +2,13 @@ import json
 import logging
 from typing import Any, List, Optional, Union
 
-from fastapi import APIRouter, Depends, Response
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, Response, HTTPException
 from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
 
 from app.utils.db import get_db
-from app.core.commons.schemas    import Message
+from app.core.commons.schemas import Message
 from .actions import (
     all_period_phenology_distrib,
     altitude_distrib,
@@ -22,6 +21,7 @@ from .actions import (
 )
 from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection,
     CommonBlockStructure,
+    CommonDataStructure,
     HistoricAtlasInfosSchema,
     SurveyChartDataItem,
     SurveyMapDataFeature,
@@ -99,7 +99,7 @@ def list_lareas(
         envelope=envelope,
     )
     if not query:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+        raise HTTPException(status_code=404, detail="No data")
     features = [
         TaxaDistributionFeature(
             properties=row.properties,
@@ -141,17 +141,17 @@ def historic_atlases(
         id_historic_atlas=id_historic_atlas,
         envelope=envelope,
     )
-    if not query:
-        return Response(status_code=HTTP_204_NO_CONTENT)
-    features = [
-        TaxaDistributionFeature(
-            properties=row.properties,
-            geometry=json.loads(row.geometry),
-            id=row.id,
-        )
-        for row in query
-    ]
-    return TaxaDistributionFeaturesCollection(features=features)
+    if query:         
+        features = [
+            TaxaDistributionFeature(
+                properties=row.properties,
+                geometry=json.loads(row.geometry),
+                id=row.id,
+            )
+            for row in query
+        ]
+        return TaxaDistributionFeaturesCollection(features=features)
+    raise HTTPException(status_code=404, detail="No data")
 
 
 @router.get(
@@ -162,7 +162,6 @@ def historic_atlases(
     description="""# List historic atlases
 
     get historic atlases list
-
 """,
 )
 @cache()
@@ -172,7 +171,10 @@ def list_historic_atlases(
     query = historic_atlas_distrib.list_historic_atlas(
         db=db, cd_nom=cd_nom, id_area=id_area
     )
-    return query if query else Response(status_code=HTTP_204_NO_CONTENT)
+    if query:
+        return query
+    print(query)
+    raise HTTPException(status_code=404, detail="No data")
 
 
 @router.get(
@@ -186,7 +188,7 @@ def list_historic_atlases(
 
 """,
 )
-# @cache()
+@cache()
 def altitudinal_distribution(
     id_area: str,
     cd_nom: int,
@@ -198,19 +200,24 @@ def altitudinal_distribution(
     )
     logger.debug(f"altitudinal_distribution_1 {query}")
     if query:
-        logger.debug(f"altitudinal_distribution {query}")
+        logger.debug(f"altitudinal_distribution {dir(query[0])}")
         altitude = CommonBlockStructure(
             label="Répartition des observations",
-            data=query,
+            data=[q._asdict() for q in query],
             color="#435EF2",
         )
         global_altitude = CommonBlockStructure(
             label="Répartition de l'altitude du territoire",
-            data=altitude_distrib.get_territory_distribution(db=db, id_area=id_area),
+            data=[
+                q._asdict()
+                for q in altitude_distrib.get_territory_distribution(
+                    db=db, id_area=id_area
+                )
+            ],
             color="rgba(67, 94, 242, 0.3)",
         )
         return TaxaAltitudinalApiData(altitude=altitude, globalAltitude=global_altitude)
-    return Response(status_code=HTTP_204_NO_CONTENT)
+    raise HTTPException(status_code=404, detail="No data")
 
 
 @router.get(
@@ -238,17 +245,15 @@ def phenology_distribution(
         list_frequency = all_period_phenology_distrib.get_list_occurrence(
             db=db, id_area=id_area, cd_nom=cd_nom
         )
-        logger.debug("data_count %s", str(data_count))
-        logger.debug("list_frequency %s", str(list_frequency))
         if data_count:
             phenology = CommonBlockStructure(
                 label="Nombre de données",
-                data=data_count,
+                data=[q._asdict() for q in data_count],
                 color="#435EF2",
             )
             frequency = CommonBlockStructure(
                 label="Fréquence dans les listes complètes",
-                data=list_frequency,
+                data=[q._asdict() for q in list_frequency],
                 color="#8CCB6E",
             )
             return TaxaPhenologyApiData(frequency=frequency, phenology=phenology)
@@ -262,18 +267,19 @@ def phenology_distribution(
         if q_start or q_end:
             breeding_start = CommonBlockStructure(
                 label="Début de période",
-                data=q_start,
+                data=[q._asdict() for q in q_start],
                 color="#435EF2",
             )
             breeding_end = CommonBlockStructure(
                 label="Fin de période",
-                data=q_end,
+                data=[q._asdict() for q in q_end],
                 color="#8CCB6E",
             )
             return TaxaBreedingPhenologyApiData(
                 breeding_start=breeding_start, breeding_end=breeding_end
             )
-    return Response(status_code=HTTP_204_NO_CONTENT)
+    raise HTTPException(status_code=404, detail="No data")
+
 
 @router.get(
     "/map/survey",
@@ -319,33 +325,32 @@ def get_survey_map_data(
             for item in query
         ]
         return SurveyMapDataFeaturesCollection(features=features)
-    return Response(status_code=HTTP_204_NO_CONTENT)
+    raise HTTPException(status_code=404, detail="No data")
 
 
 @router.get(
     "/chart/survey",
-    response_model=Optional[List[SurveyChartDataItem]],
-    # responses = {HTTP_204_NO_CONTENT: {"model": Message}},
+    response_model=List[SurveyChartDataItem],
     tags=["taxa"],
     summary="taxon geographic distribution",
     description="""# Taxon geographic distribution
 """,
 )
-@cache()
+@cache() # TODO: Fix error 500 when status is 204 and reload from cache
 def get_survey_chart_data(
     cd_nom: int,
     id_area: int,
     phenology_period: str,
+    unit: str,
     db: Session = Depends(get_db),
 ) -> Any:
     query = survey_chart_data.get_data(
         db,
         cd_nom=cd_nom,
         id_area_atlas_territory=id_area,
+        unit=unit,
         phenology_period=phenology_period,
     )
-    logger.debug(f"get_survey_chart_data COUNT {query.count()}")
     if query.count() > 0:
         return query.all()
-    return Response(status_code=HTTP_204_NO_CONTENT)
-    # return JSONResponse(status_code=HTTP_204_NO_CONTENT, content={"message":'No item'})
+    raise HTTPException(status_code=404, detail="No data")

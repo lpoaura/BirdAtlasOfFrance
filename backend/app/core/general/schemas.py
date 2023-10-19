@@ -42,7 +42,7 @@ class GeneralStatsSchema(BaseModel):
     count_taxa: GeneralStatsCountTaxaSubSchema
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class KnowledgeLevelGeneralStatsSchema(BaseModel):
@@ -60,4 +60,4 @@ class KnowledgeLevelGeneralStatsSchema(BaseModel):
     over100: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

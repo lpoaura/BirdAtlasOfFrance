@@ -205,12 +205,12 @@ export default {
     //             }
     //           })
     //           .catch((error) => {
-    //             console.error(error)
+    //             console.debug(`${error}`)
     //           })
     //       }
     //     })
     //     .catch((error) => {
-    //       console.error(error)
+    //       console.debug(`${error}`)
     //     })
     //     .finally(() => {
     //       setTimeout(() => {

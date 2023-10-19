@@ -92,7 +92,7 @@ export default {
                 this.dataList = data
               })
               .catch((error) => {
-                console.error(error)
+                console.debug(`${error}`)
               })
           }
         } else {
@@ -139,7 +139,7 @@ export default {
             }
           })
           .catch((error) => {
-            console.error(error)
+            console.debug(`${error}`)
           })
       }
     },

@@ -93,7 +93,7 @@ export default {
         //     params: requestParams,
         //   })
         //   .catch((error) => {
-        //     console.error(error)
+        //     console.debug(`${error}`)
         //   })
         const sleep = (m) => new Promise((resolve) => setTimeout(resolve, m))
         await sleep(100)

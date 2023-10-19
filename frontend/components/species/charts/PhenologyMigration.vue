@@ -73,7 +73,7 @@ export default {
     async getChartData() {
       // const url = `/api/v1/taxa/phenology/migration/${this.idArea}/${this.cdNom}`
       // this.chartData = await this.$axios.$get(url).catch((error) => {
-      //   console.error(error)
+      //   console.debug(`${error}`)
       // })
     },
     renderChart() {

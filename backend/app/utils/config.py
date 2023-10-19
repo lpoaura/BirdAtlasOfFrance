@@ -1,7 +1,7 @@
 import logging
 from typing import Any, Dict, Optional
-
-from pydantic import BaseSettings, PostgresDsn, validator
+from pydantic import PostgresDsn, validator, ConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
     POSTGRES_HOST: str = "localhost"
-    POSTGRES_PORT: str = 5432
+    POSTGRES_PORT: int = 5432
     LOG_LEVEL: str = "INFO"
     APP_NAME: str = "Bird atlas of France"
     APP_SYSNAME: str = "odf_api"
@@ -39,6 +39,7 @@ class Settings(BaseSettings):
     CACHE_REDIS_HOST: str = "localhost"
     CACHE_REDIS_PORT: str = "6379"
     CACHE_DURATION: int = 1440
+    model_config = SettingsConfigDict(case_sensitive=True, extra="ignore", env_file="../.env")
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
@@ -47,19 +48,15 @@ class Settings(BaseSettings):
             return v
         pg_uri = PostgresDsn.build(
             scheme="postgresql",
-            user=values.get("POSTGRES_USER"),
+            username=values.get("POSTGRES_USER"),
             password=values.get("POSTGRES_PASSWORD"),
             host=values.get("POSTGRES_HOST"),
             port=values.get("POSTGRES_PORT"),
             # path=f"/{values.get('POSTGRES_DB') or  ''}?application_name=odf_api",
-            path=f"/{values.get('POSTGRES_DB') or  ''}",
+            path=f"{values.get('POSTGRES_DB') or  ''}",
         )
         logger.debug(f"PG_URI {type(pg_uri)}")
         return pg_uri
-
-    class Config:
-        case_sensitive = True
-        env_file = "../.env"
 
 
 settings = Settings()

@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-if="idArea && chartData && (hasFreqData || hasNbData)"
-    id="phenology-all-period"
-    class="ChartCard"
-  >
+  <div v-if="idArea && chartData && (hasFreqData || hasNbData)" id="phenology-all-period" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">Phénologie</h4>
     <h5 class="black03 bottom-margin-40">
       Nombre de données cumulées par décade du 1<sup>er</sup> janvier 2019 au 31
@@ -13,15 +9,10 @@
       <div class="Chart"></div>
       <div class="ChartLegend">
         <h5 class="ChartLegendLabel">
-          <i :style="{ background: chartData.phenology.color }"></i
-          >{{ chartData.phenology.label }}
+          <i :style="{ background: chartData.phenology.color }"></i>{{ chartData.phenology.label }}
         </h5>
         <h5 class="ChartLegendLabel">
-          <i
-            class="round"
-            :style="{ background: chartData.frequency.color }"
-          ></i
-          >{{ chartData.frequency.label }}
+          <i class="round" :style="{ background: chartData.frequency.color }"></i>{{ chartData.frequency.label }}
         </h5>
       </div>
     </div>
@@ -76,6 +67,7 @@ export default {
         if (this.chartData && (this.hasFreqData || this.hasNbData)) {
           this.renderChart()
         }
+        console.log('pheno allperiod', !!this.chartData, this.hasFreqData, this.hasNbData)
         this.$store.commit('species/pushSubjectsList', {
           label: 'Phénologie',
           slug: 'phenology-all-period',
@@ -97,7 +89,7 @@ export default {
             params: requestParams,
           })
           .catch((error) => {
-            console.error(error)
+            console.debug(`${error}`)
           })
       }
     },
@@ -111,8 +103,8 @@ export default {
       const margin = { top: 10, right: 60, bottom: 24, left: 66 }
       const barPlotWidth = Math.max(
         parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
-          margin.left -
-          margin.right,
+        margin.left -
+        margin.right,
         400
       )
       const barPlotHeight =
@@ -246,8 +238,8 @@ export default {
               return d.value
             }) > 0
               ? d3.max(this.chartData.frequency.data, function (d) {
-                  return d.value
-                })
+                return d.value
+              })
               : 1,
           ])
         const ticksNumber = Math.round(

@@ -37,8 +37,9 @@ export default {
       return this.$store.state.species.cdNom
     },
     selectedSeason() {
-      return this.$store.state.species.selectedSeason
+      return this.$store.state.species.selectedSeason?.value
     },
+
   },
   watch: {
     idArea: {
@@ -92,7 +93,7 @@ export default {
             params,
           })
           .catch((error) => {
-            console.error(error)
+            console.debug(`${error}`)
           })
       }
     },

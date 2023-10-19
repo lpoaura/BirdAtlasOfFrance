@@ -71,6 +71,7 @@ export default {
         if (this.chartData && (this.hasStartData || this.hasEndData)) {
           this.renderChart()
         }
+        console.log('pheno breeding', !!this.chartData, this.hasStartData, this.hasEndData)
         this.$store.commit('species/pushSubjectsList', {
           label: 'Phénologie',
           slug: 'phenology-breeding',
@@ -92,7 +93,7 @@ export default {
             params,
           })
           .catch((error) => {
-            console.error(error)
+            console.debug(`${error}`)
           })
       }
     },

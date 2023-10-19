@@ -158,7 +158,6 @@
           <div
             v-if="regulatories.length"
             id="Regulatory"
-            :key="index"
             class="StatusWrapper"
           >
             <p

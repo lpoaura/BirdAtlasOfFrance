@@ -1,5 +1,5 @@
 <template>
-  <div v-if="idArea && chartData.length > 1" id="trend" class="ChartCard">
+  <div v-if="idArea && chartData?.length > 1" id="trend" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">Tendance d'évolution</h4>
     <h5 class="black03 bottom-margin-40">
       Évolution de l’indice d’abondance en fonction des années.
@@ -27,15 +27,11 @@ const d3 = require('d3')
 
 export default {
   data: () => ({
-    chartData: [],
+    chartData: null,
   }),
   computed: {
     idArea() {
-      console.log(
-        'STORE ID AREA',
-        this.$store.state.species.selectedTerritory?.id_area
-      )
-      return this.$store.state.species.selectedTerritory?.id_area
+      return this.$store.state.species.selectedTerritory.id_area
     },
     cdNom() {
       return this.$store.state.species.cdNom
@@ -64,9 +60,10 @@ export default {
   methods: {
     generateChart() {
       this.getChartData().then(() => {
-        if (this.chartData.length > 1) {
+        if (this.chartData?.length > 1) {
           this.renderChart()
         }
+        console.log('trend', !!this.chartData, this.chartData)
         this.$store.commit('species/pushSubjectsList', {
           label: "Tendance d'évolution",
           slug: 'trend',
@@ -76,24 +73,23 @@ export default {
       })
     },
     async getChartData() {
-      console.log(
-        'getChartData STORE ID AREA ',
-        this.$store.state.species.selectedTerritory
-      )
-      console.log('ID AREA', this.idArea)
-      const requestParams = {
-        cd_nom: this.cdNom,
-        id_area: this.idArea,
-        phenology_period: this.phenologyPeriod,
+      if (this.idArea) {
+        const url = `api/v1/taxa/chart/survey`
+        const requestParams = {
+          cd_nom: this.cdNom,
+          id_area: this.idArea,
+          phenology_period: this.phenologyPeriod,
+          unit: 'Tendance'
+        }
+        this.chartData = await this.$axios
+          .$get(url, {
+            params: requestParams,
+          })
+          .catch((error) => {
+            console.debug(`${error}`)
+          })
+        console.log('this.chartData', this.chartData)
       }
-      const url = `api/v1/taxa/chart/survey`
-      this.chartData = await this.$axios
-        .$get(url, {
-          params: requestParams,
-        })
-        .catch((error) => {
-          console.error(error)
-        })
     },
     renderChart() {
       const trend = this.chartData.map((i) => {
@@ -107,8 +103,8 @@ export default {
       const minWidth = trend.length * 30 + margin.left + margin.right
       const linePlotWidth = Math.max(
         parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
-          margin.left -
-          margin.right,
+        margin.left -
+        margin.right,
         minWidth
       )
       const linePlotHeight =
@@ -272,11 +268,9 @@ export default {
 
 .TrendCard {
   min-width: 200px;
-  background: linear-gradient(
-    93.58deg,
-    rgba(100, 120, 226, 0.1) 0%,
-    rgba(67, 94, 242, 0.1) 100%
-  );
+  background: linear-gradient(93.58deg,
+      rgba(100, 120, 226, 0.1) 0%,
+      rgba(67, 94, 242, 0.1) 100%);
   padding: 12px 16px;
   border-radius: 8px;
   white-space: nowrap;
