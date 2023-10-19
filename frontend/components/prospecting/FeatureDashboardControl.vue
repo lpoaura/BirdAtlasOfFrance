@@ -719,7 +719,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.error(error)
+          console.debug(`${error}`)
         })
         .finally(() => {
           // Si la maille comporte des données...
@@ -750,7 +750,7 @@ export default {
                 }
               })
               .catch((error) => {
-                console.error(error)
+                console.debug(`${error}`)
               })
           } else {
             // Sinon la liste des espèces est vide
@@ -769,7 +769,7 @@ export default {
           this.featureMunicipalitiesList = data
         })
         .catch((error) => {
-          console.error(error)
+          console.debug(`${error}`)
         })
       this.$axios
         .$get(`/api/v1/epoc?id_area=${this.featureID}`)
@@ -783,7 +783,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.error(error)
+          console.debug(`${error}`)
         })
       this.$axios
         .$get(`/api/v1/epoc/realized?id_area=${this.featureID}`)
@@ -803,7 +803,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.error(error)
+          console.debug(`${error}`)
         })
       // Si la maille comporte des données après 2019...
       if (this.featureProperties.all_period.new_count) {
@@ -827,7 +827,7 @@ export default {
             }
           })
           .catch((error) => {
-            console.error(error)
+            console.debug(`${error}`)
           })
       } else {
         // Sinon on n'affiche pas la répartition des données

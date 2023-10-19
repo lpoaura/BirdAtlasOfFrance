@@ -28,9 +28,7 @@ from .models import (
 logger = logging.getLogger(__name__)
 
 
-class TaxaTerritoryDistributionActions(
-    BaseReadOnlyActions[MvTaxaTerritoryDistribution]
-):
+class TaxaTerritoryDistributionActions(BaseReadOnlyActions[MvTaxaTerritoryDistribution]):
     """Actions to get taxon territory list"""
 
     def territory_list(self, db: Session, cd_nom: int) -> Query:
@@ -210,6 +208,7 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
             .first()
         )
         logger.debug(f"query1 {query1}")
+
         # logger.debug(f"query1DIR {type(query1)}")
         if query1[0]:
             try:
@@ -217,9 +216,7 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
                 query2 = (
                     db.query(
                         func.lower(MvAltitudeDistribution.range).label("label"),
-                        (count_column[period] / float(query1.count) * 100).label(
-                            "value"
-                        ),
+                        (count_column[period] / float(query1.count) * 100).label("value"),
                     )
                     .filter(MvAltitudeDistribution.id_area == id_area)
                     .filter(MvAltitudeDistribution.cd_nom == cd_nom)
@@ -277,11 +274,7 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
                 case(
                     (
                         total.total > 0,
-                        (
-                            MvTaxaAllPeriodPhenology.count_list
-                            / float(total.total)
-                            * 100
-                        ),
+                        (MvTaxaAllPeriodPhenology.count_list / float(total.total) * 100),
                     ),
                     else_=0,
                 ).label("value"),
@@ -300,9 +293,7 @@ class TaxaBreedingPhenologyActions(BaseReadOnlyActions[MvTaxaBreedingPhenology])
         BaseReadOnlyActions ([type]): [description]
     """
 
-    def get_data_occurrence(
-        self, db: Session, id_area: int, status: str, cd_nom: int = None
-    ):
+    def get_data_occurrence(self, db: Session, id_area: int, status: str, cd_nom: int = None):
         q = (
             db.query(
                 MvTaxaBreedingPhenology.decade.label("label"),
@@ -341,9 +332,7 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
             db.query(
                 THistoricAtlasesData.id_area.label("id"),
                 THistoricAtlasesData.status,
-                func.json_build_object("status", THistoricAtlasesData.status).label(
-                    "properties"
-                ),
+                func.json_build_object("status", THistoricAtlasesData.status).label("properties"),
                 LAreas.geojson_4326.label("geometry"),
             )
             .join(LAreas, LAreas.id_area == THistoricAtlasesData.id_area)
@@ -367,9 +356,7 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
         logger.debug(f"<taxa_distribution> q {q}")
         return q.all()
 
-    def list_historic_atlas(
-        self, db: Session, cd_nom: int, id_area: int
-    ) -> Optional[List]:
+    def list_historic_atlas(self, db: Session, cd_nom: int, id_area: int) -> Optional[List]:
         """_summary_
 
         :param db: Database session
@@ -403,8 +390,7 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
             if cd_nom and id_area:
                 query = query.join(
                     THistoricAtlasesData,
-                    THistoricAtlasesInfo.id
-                    == THistoricAtlasesData.id_historic_atlas_info,
+                    THistoricAtlasesInfo.id == THistoricAtlasesData.id_historic_atlas_info,
                 ).filter(
                     THistoricAtlasesData.cd_nom == cd_nom,
                     THistoricAtlasesInfo.id_territory == id_area,
@@ -479,15 +465,15 @@ class SurveyChartDataActions(BaseReadOnlyActions[MvSurveyChartData]):
         cd_nom: int,
         id_area_atlas_territory: str,
         phenology_period: str,
+        unit: str,
     ) -> List:
         query = (
-            db.query(
-                MvSurveyChartData.year, MvSurveyChartData.unit, MvSurveyChartData.data
-            )
+            db.query(MvSurveyChartData.year, MvSurveyChartData.unit, MvSurveyChartData.data)
             .filter(
                 MvSurveyChartData.cd_nom == cd_nom,
                 MvSurveyChartData.id_area_atlas_territory == id_area_atlas_territory,
                 MvSurveyChartData.phenology_period == phenology_period,
+                MvSurveyChartData.unit == unit,
             )
             .order_by(MvSurveyChartData.year.asc())
         )

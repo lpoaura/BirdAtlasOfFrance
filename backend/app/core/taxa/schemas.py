@@ -1,7 +1,9 @@
 from typing import List, Optional
 
-from geojson_pydantic.features import Feature, FeatureCollection
-from pydantic import BaseModel
+from geojson_pydantic.features import FeatureCollection
+from pydantic import BaseModel, Field
+
+from ..commons.schemas import BaseFeature, BaseFeatureCollection
 
 
 class TaxaTerritoryDistribution(BaseModel):
@@ -11,18 +13,18 @@ class TaxaTerritoryDistribution(BaseModel):
 
 class TaxaDistributionProperties(BaseModel):
     status: Optional[str]
-    radius: Optional[str]
+    radius: Optional[int] = Field(None)
 
 
-class TaxaDistributionFeature(Feature):
+class TaxaDistributionFeature(BaseFeature):
     properties: TaxaDistributionProperties
 
 
-class TaxaDistributionFeaturesCollection(FeatureCollection):
+class TaxaDistributionFeaturesCollection(BaseFeatureCollection):
     features: Optional[List[TaxaDistributionFeature]]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class CommonDataStructure(BaseModel):
@@ -30,7 +32,7 @@ class CommonDataStructure(BaseModel):
     value: float
 
     # class Config:
-    #     orm_mode = True
+    #     from_attributes = True
 
 
 class CommonBlockStructure(BaseModel):
@@ -59,7 +61,7 @@ class TaxaBreedingPhenologyApiData(BaseModel):
 #     count: int
 
 #     class Config:
-#         orm_mode = True
+#         from_attributes = True
 
 
 # class HistoricAtlasProperties(BaseModel):
@@ -70,11 +72,11 @@ class TaxaBreedingPhenologyApiData(BaseModel):
 #     properties: HistoricAtlasProperties
 
 
-# class HistoricAtlasFeaturesCollection(FeatureCollection):
+# class HistoricAtlasFeaturesCollection(BaseFeatureCollection):
 #     features: List[HistoricAtlasFeature]
 
 #     class Config:
-#         orm_mode = True
+#         from_attributes = True
 
 
 class HistoricAtlasInfosSchema(BaseModel):
@@ -84,7 +86,7 @@ class HistoricAtlasInfosSchema(BaseModel):
     seasons: List[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class SurveyMapDataProperties(BaseModel):
@@ -93,11 +95,11 @@ class SurveyMapDataProperties(BaseModel):
     data: Optional[List[List[str]]]
 
 
-class SurveyMapDataFeature(Feature):
+class SurveyMapDataFeature(BaseFeature):
     properties: SurveyMapDataProperties
 
 
-class SurveyMapDataFeaturesCollection(FeatureCollection):
+class SurveyMapDataFeaturesCollection(BaseFeatureCollection):
     features: List[SurveyMapDataFeature]
 
 

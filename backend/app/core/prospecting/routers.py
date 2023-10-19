@@ -3,7 +3,7 @@ import logging
 import time
 from typing import Any, List, Optional
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
@@ -77,7 +77,7 @@ def area_list_knowledge_level(
     )
     features = []
     if not q:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+        raise HTTPException(status_code=404, detail="No data")
     logger.debug(f"step3: {(time.time() - start_time) * 1000}")
     for a in q:
         f = AreaKnowledgeLevelFeatureSchema(
@@ -103,7 +103,7 @@ def area_taxa_list(
     query = area_knowledge_taxa_list.get_area_taxa_list(db=db, id_area=id_area)
     logger.debug(query)
     if not query:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+        raise HTTPException(status_code=404, detail="No data")
     return query
 
 
@@ -118,7 +118,7 @@ def area_general_stats(id_area: int, db: Session = Depends(get_db)) -> Any:
     q = area_dashboard.get_area_stats(db=db, id_area=id_area)
     logger.debug(f"<area_general_stats> query {q}")
     if not q:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+        raise HTTPException(status_code=404, detail="No data")
     return q
 
 
@@ -148,7 +148,7 @@ def area_contrib_time_distrib(
     q = area_dashboard.get_time_distribution(db=db, id_area=id_area, time_unit=time_unit)
     logger.debug(f"<area_contrib_time_distrib> query {q}")
     if not q:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+        raise HTTPException(status_code=404, detail="No data")
     return q
 
 
@@ -168,7 +168,7 @@ def area_list_intersected_areas(
     q = area_dashboard.get_intersected_areas(db=db, id_area=id_area, type_code=area_type)
     logger.debug(q)
     if not q:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+        raise HTTPException(status_code=404, detail="No data")
     return q
 
 
@@ -198,7 +198,7 @@ def epoc_list(
     envelope = [float(c) for c in envelope.split(",")] if envelope else None
     q = epoc.get_epocs(db=db, envelope=envelope, status=status, id_area=id_area)
     if not q:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+        raise HTTPException(status_code=404, detail="No data")
     features = []
     logger.debug(f"step3: {(time.time() - start_time) * 1000}")
     for e in q:
@@ -243,7 +243,7 @@ def realized_epoc_list(
         db=db, envelope=envelope, project_code=project_code, id_area=id_area
     )
     if not q:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+        raise HTTPException(status_code=404, detail="No data")
     features = []
     logger.debug(f"step3: {(time.time() - start_time) * 1000}")
     for e in q:
@@ -274,4 +274,6 @@ def count_taxon_classes(
     id_area: int, db: Session = Depends(get_db), period: Optional[str] = "all_period"
 ) -> Any:
     q = taxon_count_classes_by_territory.get_classes(db=db, id_area=id_area, period=period)
-    return q if q else Response(status_code=HTTP_204_NO_CONTENT)
+    if q: 
+        return q
+    raise HTTPException(status_code=404, detail='No data')

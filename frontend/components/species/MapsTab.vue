@@ -121,7 +121,7 @@ export default {
           this.$store.commit('species/updateSubjectsMapAtlasList', data || [])
         })
         .catch((error) => {
-          console.error(error)
+          console.debug(`${error}`)
         })
     },
   },

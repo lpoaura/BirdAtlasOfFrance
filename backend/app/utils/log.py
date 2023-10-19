@@ -7,7 +7,7 @@ from typing import Optional
 
 from loguru import logger
 from loguru._logger import Logger
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 

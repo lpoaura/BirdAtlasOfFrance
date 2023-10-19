@@ -1,7 +1,7 @@
 import logging
 from typing import Any
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
@@ -68,5 +68,5 @@ def knowledge_level(
 ) -> Any:
     q = knowledge_level_general_stats.query(db=db, id_area=id_area, period=period)
     if not q:
-        return Response(status_code=HTTP_204_NO_CONTENT)
+        raise HTTPException(status_code=404, detail="No data")
     return q
