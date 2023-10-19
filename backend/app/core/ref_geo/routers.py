@@ -10,9 +10,9 @@ from starlette.status import HTTP_204_NO_CONTENT
 
 from app.utils.db import get_db
 
+from ..commons.schemas import BaseFeatureCollection
 from .actions import bib_areas_types, l_areas
 from .schemas import BibAreasTypesSchema, LAreasFeatureProperties, LAreasIdArea
-from ..commons.schemas import BaseFeatureCollection
 
 logger = logging.getLogger(__name__)
 

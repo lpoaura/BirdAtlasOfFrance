@@ -341,3 +341,4 @@ $$
 $$
 ;
 
+CREATE UNIQUE INDEX i_area_knowledge_list_taxa_id_area_cd_nom ON atlas.mv_area_knowledge_list_taxa (id_area, cd_nom);

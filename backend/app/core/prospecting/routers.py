@@ -274,6 +274,6 @@ def count_taxon_classes(
     id_area: int, db: Session = Depends(get_db), period: Optional[str] = "all_period"
 ) -> Any:
     q = taxon_count_classes_by_territory.get_classes(db=db, id_area=id_area, period=period)
-    if q: 
+    if q:
         return q
-    raise HTTPException(status_code=404, detail='No data')
+    raise HTTPException(status_code=404, detail="No data")
