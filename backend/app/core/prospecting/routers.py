@@ -94,7 +94,6 @@ def area_taxa_list(
     id_area: int, db: Session = Depends(get_db), limit: Optional[int] = None
 ) -> Any:
     query = area_knowledge_taxa_list.get_area_taxa_list(db=db, id_area=id_area)
-    logger.debug(query)
     if query:
         return query
     return []
@@ -138,7 +137,6 @@ def area_contrib_time_distrib(
     time_unit: str = "month",
 ) -> Any:
     q = area_dashboard.get_time_distribution(db=db, id_area=id_area, time_unit=time_unit)
-    logger.debug(f"<area_contrib_time_distrib> query {q}")
     if not q:
         raise HTTPException(status_code=404, detail="No data")
     return q
@@ -189,7 +187,6 @@ def epoc_list(
     query = epoc.get_epocs(db=db, envelope=envelope, status=status, id_area=id_area)
     features = []
     if query:
-        logger.debug(f"step3: {(time.time() - start_time) * 1000}")
         for item in query:
             ditem = item._asdict()
             geojson = ditem.pop("geometry", None)
@@ -239,7 +236,6 @@ def realized_epoc_list(
                 id=item.id,
             )
             features.append(f)
-        logger.debug(f"step4: {(time.time() - start_time) * 1000}")
     return RealizedEpocSchema(features=features)
 
 
