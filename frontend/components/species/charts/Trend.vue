@@ -63,12 +63,11 @@ export default {
         if (this.chartData?.length > 1) {
           this.renderChart()
         }
-        console.log('trend', !!this.chartData, this.chartData)
         this.$store.commit('species/pushSubjectsList', {
           label: "Tendance d'évolution",
           slug: 'trend',
           position: 4,
-          status: !!this.chartData,
+          status: !!this.chartData?.length,
         })
       })
     },
@@ -79,7 +78,7 @@ export default {
           cd_nom: this.cdNom,
           id_area: this.idArea,
           phenology_period: this.phenologyPeriod,
-          unit: 'Tendance'
+          unit: 'Tendance',
         }
         this.chartData = await this.$axios
           .$get(url, {
@@ -88,7 +87,6 @@ export default {
           .catch((error) => {
             console.debug(`${error}`)
           })
-        console.log('this.chartData', this.chartData)
       }
     },
     renderChart() {
@@ -96,7 +94,7 @@ export default {
         return { label: i.year, index: i.data.val }
       })
       const uncertainties = this.chartData.map((i) => {
-        return { label: i.year, min: i.data.val_min, max: i.data.val_max }
+        return { label: i.year, min: i.data.val_min, max: i.data.val_max, val:i.data.val }
       })
       // Get bar plot size
       const margin = { top: 10, right: 0, bottom: 24, left: 66 }
@@ -159,10 +157,11 @@ export default {
         .range([linePlotHeight - 10, 0])
         .domain([
           d3.min(uncertainties, function (d) {
-            return d.min
+            console.log('d', d)
+            return Math.min(...[d.min, d.max, d.val])
           }),
           d3.max(uncertainties, function (d) {
-            return d.max
+            return Math.max(...[d.min, d.max, d.val])
           }),
         ])
       linePlotSvg
