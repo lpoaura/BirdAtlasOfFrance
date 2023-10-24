@@ -407,19 +407,21 @@ class SurveyMapDataActions(BaseReadOnlyActions[MvSurveyMapData]):
         cd_nom: int,
         id_area_atlas_territory: str,
         phenology_period: str,
+        simplified_area_id_type: str = 'DEP_SIMPLIFY',
+        area_id_type: str = 'DEP'
     ) -> List:
         dept = aliased(LAreas)
         dept_simp = aliased(LAreas)
 
         DEP_SIMPLIFY_ID_TYPE = (
             db.query(BibAreasTypes.id_type)
-            .filter(BibAreasTypes.type_code == "DEP_SIMPLIFY")
+            .filter(BibAreasTypes.type_code == simplified_area_id_type)
             .first()
             .id_type
         )
         DEP_ID_TYPE = (
             db.query(BibAreasTypes.id_type)
-            .filter(BibAreasTypes.type_code == "DEP")
+            .filter(BibAreasTypes.type_code == area_id_type)
             .first()
             .id_type
         )
