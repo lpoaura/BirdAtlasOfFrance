@@ -66,7 +66,6 @@ $$
                         JOIN areas ON mv_data_for_atlas.id_area = areas.id_area
                 WHERE
                       (t_taxa.available AND t_taxa.enabled)
-                  AND tcse.bird_breed_code IS NULL
                   AND extract(
                               MONTH
                               FROM mv_data_for_atlas.date_min
@@ -86,7 +85,6 @@ $$
                         JOIN areas ON mv_data_for_atlas.id_area = areas.id_area
                 WHERE
                       (t_taxa.available AND t_taxa.enabled)
-                  AND tcse.bird_breed_code IS NULL
                   AND extract(
                               MONTH
                               FROM mv_data_for_atlas.date_min
@@ -178,3 +176,4 @@ $$
 $$
 ;
 
+REFRESH MATERIALIZED VIEW atlas.mv_area_knowledge_level;
