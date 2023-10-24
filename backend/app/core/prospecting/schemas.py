@@ -138,7 +138,7 @@ class AreaDashboardTimeDistribSchema(BaseModel):
 
 
 class AreaDashboardIntersectAreas(BaseModel):
-    id_area: str
+    id_area: int
     area_code: str
     area_name: str
 

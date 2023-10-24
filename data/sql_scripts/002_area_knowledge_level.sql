@@ -175,5 +175,3 @@ $$
     END
 $$
 ;
-
-REFRESH MATERIALIZED VIEW atlas.mv_area_knowledge_level;

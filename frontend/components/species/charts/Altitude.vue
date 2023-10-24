@@ -39,7 +39,6 @@ export default {
     selectedSeason() {
       return this.$store.state.species.selectedSeason?.value
     },
-
   },
   watch: {
     idArea: {

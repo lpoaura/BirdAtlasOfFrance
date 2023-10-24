@@ -4,7 +4,6 @@ from typing import Any, List, Optional, Union
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi_cache.decorator import cache
-from geojson_pydantic.features import FeatureCollection
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_204_NO_CONTENT
 
@@ -116,7 +115,7 @@ def get_area_geom_by_id_area(
 
 @router.get(
     "/lareas/position",
-    response_model=LAreasFeatureProperties,
+    response_model=Union[LAreasFeatureProperties,dict],
     tags=["ref_geo"],
 )
 @cache()
@@ -136,7 +135,7 @@ def get_area_by_coordinates(
         only_enable=only_enable,
     ).first()
     if not q:
-        raise HTTPException(status_code=404, detail="No data")
+        return {}
     feature = LAreasFeatureProperties(
         id=q.id, properties=q.properties, geometry=json.loads(q.geometry)
     )
