@@ -2,12 +2,10 @@ import json
 import logging
 from typing import Any, List, Optional, Union
 
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, Response
 from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
-from starlette.status import HTTP_204_NO_CONTENT
 
-from app.core.commons.schemas import Message
 from app.utils.db import get_db
 
 from .actions import (
@@ -22,7 +20,6 @@ from .actions import (
 )
 from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection,
     CommonBlockStructure,
-    CommonDataStructure,
     HistoricAtlasInfosSchema,
     SurveyChartDataItem,
     SurveyMapDataFeature,
@@ -34,6 +31,8 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     TaxaPhenologyApiData,
     TaxaTerritoryDistribution,
 )
+
+from ..commons.schemas import BaseFeatureCollection
 
 logger = logging.getLogger(__name__)
 
@@ -99,8 +98,6 @@ def list_lareas(
         grid=grid,
         envelope=envelope,
     )
-    if not query:
-        raise HTTPException(status_code=404, detail="No data")
     features = [
         TaxaDistributionFeature(
             properties=row.properties,
@@ -142,17 +139,16 @@ def historic_atlases(
         id_historic_atlas=id_historic_atlas,
         envelope=envelope,
     )
-    if query:
-        features = [
-            TaxaDistributionFeature(
-                properties=row.properties,
-                geometry=json.loads(row.geometry),
-                id=row.id,
-            )
-            for row in query
-        ]
-        return TaxaDistributionFeaturesCollection(features=features)
-    raise HTTPException(status_code=404, detail="No data")
+    features = [
+        TaxaDistributionFeature(
+            properties=row.properties,
+            geometry=json.loads(row.geometry),
+            id=row.id,
+        )
+        for row in query
+    ]
+    return TaxaDistributionFeaturesCollection(features=features)
+    
 
 
 @router.get(
@@ -165,18 +161,20 @@ def historic_atlases(
     get historic atlases list
 """,
 )
-@cache()
-def list_historic_atlases(cd_nom: int, id_area: int, db: Session = Depends(get_db)) -> Any:
-    query = historic_atlas_distrib.list_historic_atlas(db=db, cd_nom=cd_nom, id_area=id_area)
-    if query:
-        return query
-    print(query)
-    raise HTTPException(status_code=404, detail="No data")
+# @cache()
+def list_historic_atlases(
+    cd_nom: int, id_area: int, db: Session = Depends(get_db)
+) -> Any:
+    query = historic_atlas_distrib.list_historic_atlas(
+        db=db, cd_nom=cd_nom, id_area=id_area
+    )
+    return query
+    
 
 
 @router.get(
     "/chart/altitude",
-    response_model=Optional[TaxaAltitudinalApiData],
+    response_model=Union[TaxaAltitudinalApiData, dict],
     tags=["taxa"],
     summary="Altitudinal distribution",
     description="""# coming soon
@@ -187,7 +185,7 @@ def list_historic_atlases(cd_nom: int, id_area: int, db: Session = Depends(get_d
 )
 @cache()
 def altitudinal_distribution(
-    id_area: str,
+    id_area: int,
     cd_nom: int,
     db: Session = Depends(get_db),
     period: Optional[str] = "all_period",
@@ -207,17 +205,20 @@ def altitudinal_distribution(
             label="Répartition de l'altitude du territoire",
             data=[
                 q._asdict()
-                for q in altitude_distrib.get_territory_distribution(db=db, id_area=id_area)
+                for q in altitude_distrib.get_territory_distribution(
+                    db=db, id_area=id_area
+                )
             ],
             color="rgba(67, 94, 242, 0.3)",
         )
         return TaxaAltitudinalApiData(altitude=altitude, globalAltitude=global_altitude)
-    raise HTTPException(status_code=404, detail="No data")
+    # raise HTTPException(status_code=404, detail="No data")
+    return dict()
 
 
 @router.get(
     "/chart/phenology",
-    response_model=Optional[Union[TaxaPhenologyApiData, TaxaBreedingPhenologyApiData]],
+    response_model=Union[dict, TaxaPhenologyApiData, TaxaBreedingPhenologyApiData],
     tags=["taxa"],
     summary="Altitudinal distribution",
     description="""# coming soon
@@ -228,57 +229,59 @@ def altitudinal_distribution(
 )
 @cache()
 def phenology_distribution(
-    id_area: str,
+    id_area: int,
     cd_nom: int,
     db: Session = Depends(get_db),
     period: Optional[str] = "all_period",
 ) -> Any:
-    if period == "all_period":
-        data_count = all_period_phenology_distrib.get_data_occurrence(
-            db=db, id_area=id_area, cd_nom=cd_nom
-        )
-        list_frequency = all_period_phenology_distrib.get_list_occurrence(
-            db=db, id_area=id_area, cd_nom=cd_nom
-        )
-        if data_count:
-            phenology = CommonBlockStructure(
-                label="Nombre de données",
-                data=[q._asdict() for q in data_count],
-                color="#435EF2",
+    try:
+        if period == "all_period":
+            data_count = all_period_phenology_distrib.get_data_occurrence(
+                db=db, id_area=id_area, cd_nom=cd_nom
             )
-            frequency = CommonBlockStructure(
-                label="Fréquence dans les listes complètes",
-                data=[q._asdict() for q in list_frequency],
-                color="#8CCB6E",
+            list_frequency = all_period_phenology_distrib.get_list_occurrence(
+                db=db, id_area=id_area, cd_nom=cd_nom
             )
-            return TaxaPhenologyApiData(frequency=frequency, phenology=phenology)
-    if period == "breeding":
-        q_start = breeding_phenology_distrib.get_data_occurrence(
-            db=db, id_area=id_area, cd_nom=cd_nom, status="breeding_start"
-        )
-        q_end = breeding_phenology_distrib.get_data_occurrence(
-            db=db, id_area=id_area, cd_nom=cd_nom, status="breeding_end"
-        )
-        if q_start or q_end:
-            breeding_start = CommonBlockStructure(
-                label="Début de période",
-                data=[q._asdict() for q in q_start],
-                color="#435EF2",
+            if data_count:
+                phenology = CommonBlockStructure(
+                    label="Nombre de données",
+                    data=[q._asdict() for q in data_count],
+                    color="#435EF2",
+                )
+                frequency = CommonBlockStructure(
+                    label="Fréquence dans les listes complètes",
+                    data=[q._asdict() for q in list_frequency],
+                    color="#8CCB6E",
+                )
+                return TaxaPhenologyApiData(frequency=frequency, phenology=phenology)
+        if period == "breeding":
+            q_start = breeding_phenology_distrib.get_data_occurrence(
+                db=db, id_area=id_area, cd_nom=cd_nom, status="breeding_start"
             )
-            breeding_end = CommonBlockStructure(
-                label="Fin de période",
-                data=[q._asdict() for q in q_end],
-                color="#8CCB6E",
+            q_end = breeding_phenology_distrib.get_data_occurrence(
+                db=db, id_area=id_area, cd_nom=cd_nom, status="breeding_end"
             )
-            return TaxaBreedingPhenologyApiData(
-                breeding_start=breeding_start, breeding_end=breeding_end
-            )
-    raise HTTPException(status_code=404, detail="No data")
+            if q_start or q_end:
+                breeding_start = CommonBlockStructure(
+                    label="Début de période",
+                    data=[q._asdict() for q in q_start],
+                    color="#435EF2",
+                )
+                breeding_end = CommonBlockStructure(
+                    label="Fin de période",
+                    data=[q._asdict() for q in q_end],
+                    color="#8CCB6E",
+                )
+                return TaxaBreedingPhenologyApiData(
+                    breeding_start=breeding_start, breeding_end=breeding_end
+                )
+    except:
+        return dict()
 
 
 @router.get(
     "/map/survey",
-    response_model=Optional[SurveyMapDataFeaturesCollection],
+    response_model=SurveyMapDataFeaturesCollection,
     tags=["taxa"],
     summary="taxon geographic distribution",
     description="""# Taxon geographic distribution
@@ -289,6 +292,8 @@ def get_survey_map_data(
     cd_nom: int,
     id_area_atlas_territory: int,
     phenology_period: str,
+    simplified_area_id_type: str = "DEP_SIMPLIFY",
+    area_id_type: str = "DEP",
     db: Session = Depends(get_db),
 ) -> Any:
     """Get survey map data
@@ -309,29 +314,29 @@ def get_survey_map_data(
         cd_nom=cd_nom,
         id_area_atlas_territory=id_area_atlas_territory,
         phenology_period=phenology_period,
+        simplified_area_id_type=simplified_area_id_type,
+        area_id_type=area_id_type,
     )
-    if query:
-        features = [
-            SurveyMapDataFeature(
-                properties=item.properties,
-                geometry=json.loads(item.geometry),
-                id=item.id,
-            )
-            for item in query
-        ]
-        return SurveyMapDataFeaturesCollection(features=features)
-    raise HTTPException(status_code=404, detail="No data")
+    features = [
+        SurveyMapDataFeature(
+            properties=item.properties,
+            geometry=json.loads(item.geometry),
+            id=item.id,
+        )
+        for item in query
+    ]
+    return SurveyMapDataFeaturesCollection(features=features)
 
 
 @router.get(
     "/chart/survey",
-    response_model=List[SurveyChartDataItem],
+    response_model=Union[List[SurveyChartDataItem], List],
     tags=["taxa"],
     summary="taxon geographic distribution",
     description="""# Taxon geographic distribution
 """,
 )
-@cache()  # TODO: Fix error 500 when status is 204 and reload from cache
+@cache()  
 def get_survey_chart_data(
     cd_nom: int,
     id_area: int,
@@ -348,4 +353,4 @@ def get_survey_chart_data(
     )
     if query.count() > 0:
         return query.all()
-    raise HTTPException(status_code=404, detail="No data")
+    return list()

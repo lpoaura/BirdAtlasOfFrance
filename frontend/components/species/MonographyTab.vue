@@ -155,11 +155,7 @@
           <h4 class="black02 fw-bold bottom-margin-16">
             Statuts réglementaires
           </h4>
-          <div
-            v-if="regulatories.length"
-            id="Regulatory"
-            class="StatusWrapper"
-          >
+          <div v-if="regulatories.length" id="Regulatory" class="StatusWrapper">
             <p
               v-for="(regulatory, index) in regulatories"
               :key="index"

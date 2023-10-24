@@ -51,11 +51,6 @@ export default {
       return this.$store.state.species.selectedSubject
     },
     legendItems() {
-      console.debug(
-        'SET LEGEND ITEMS',
-        this.selectedSeason,
-        this.selectedSubject
-      )
       let labels = []
       if (this.selectedSeason.speciesDistributionColors) {
         if (!this.selectedSubject.slug.startsWith('compare')) {
@@ -70,7 +65,6 @@ export default {
           labels = ['ODF uniquement', 'AOFM uniquement', 'AOFM & ODF']
         }
       }
-      console.log('LABELS2', labels)
       return this.generateLegendItems(labels)
     },
   },

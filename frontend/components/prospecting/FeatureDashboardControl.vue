@@ -584,9 +584,8 @@ export default {
         let filteredSpecies =
           this.featureTaxaList[this.selectedSpeciesStatus.value]
         if (this.search.length > 0) {
-          filteredSpecies = this.featureTaxaList[
-            this.selectedSpeciesStatus.value
-          ].filter(
+          console.debug('filteredSpecies this.search', this.search)
+          filteredSpecies = filteredSpecies.filter(
             (species) =>
               species[`common_name_${this.lang}`] &&
               species[`common_name_${this.lang}`]

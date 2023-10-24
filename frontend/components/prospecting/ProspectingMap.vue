@@ -738,9 +738,11 @@ export default {
         this.$axios
           .$get('/api/v1/lareas/position', { params })
           .then((data) => {
-            const territory = this.$L.geoJSON(data)
-            this.isProgramaticZoom = true
-            this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
+            if (data) {
+              const territory = this.$L.geoJSON(data)
+              this.isProgramaticZoom = true
+              this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
+            }
           })
           .catch((error) => {
             console.debug(`${error}`)
