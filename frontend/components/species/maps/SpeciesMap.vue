@@ -1,36 +1,10 @@
 <template>
   <div id="map-wrap" ref="test">
-    <!-- <div>selectedTerritory {{ selectedTerritory }}</div>
-    <div>selectedSubject {{ selectedSubject }}</div>
-    <div>selectedSeason {{ selectedSeason }}</div> -->
-    <!-- MAP -->
-    <l-map
-      ref="atlasMap"
-      :zoom="zoom"
-      :center="center"
-      :options="{ zoomControl: false }"
-      style="z-index: 0"
-      @ready="initMap()"
-      @update:bounds="updateEnvelope"
-    >
-      <!-- LAYERS -->
-      <l-tile-layer
-        :url="osmUrl"
-        :attribution="'© les contributeurs d’OpenStreetMap'"
-      />
-
-      <!-- MAP DATA -->
-      <!-- <l-geo-json
-        :geojson="speciesDistributionGeojson"
-        :options="speciesDistributionGeojsonOptions"
-        :options-style="speciesDistributionGeojsonStyle"
-      /> -->
-      <l-geo-json
-        v-if="speciesDistributionGeojson"
-        :geojson="speciesDistributionGeojson"
-        :options="speciesDistributionGeojsonOptions"
-        :options-style="speciesDistributionGeojsonStyle"
-      />
+    <l-map ref="atlasMap" :zoom="zoom" :center="center" :options="{ zoomControl: false }" style="z-index: 0"
+      @ready="initMap()" @update:bounds="updateEnvelope">
+      <l-tile-layer :url="osmUrl" :attribution="'© les contributeurs d’OpenStreetMap'" />
+      <l-geo-json v-if="speciesDistributionGeojson" :geojson="speciesDistributionGeojson"
+        :options="speciesDistributionGeojsonOptions" :options-style="speciesDistributionGeojsonStyle" />
       <l-control position="topright" :disable-scroll-propagation="true">
         <commons-map-loading-control :loading="speciesDistributionIsLoading" />
       </l-control>
@@ -59,7 +33,7 @@ export default {
     territoriesEnvelopes: {},
     speciesDistributionGeojson: null,
     apiRequestController: null,
-    speciesDistributionIsLoading: false,
+    speciesDistributionIsLoading: true,
     defaultColor: '#336950',
   }),
   computed: {
@@ -111,14 +85,14 @@ export default {
                   feature.properties.status === 'Nicheur possible'
                     ? this.selectedSeason.speciesDistributionColors[0]
                     : feature.properties.status === 'Nicheur probable'
-                    ? this.selectedSeason.speciesDistributionColors[1]
-                    : this.selectedSeason.speciesDistributionColors[2],
+                      ? this.selectedSeason.speciesDistributionColors[1]
+                      : this.selectedSeason.speciesDistributionColors[2],
                 fillColor:
                   feature.properties.status === 'Nicheur possible'
                     ? this.selectedSeason.speciesDistributionColors[0]
                     : feature.properties.status === 'Nicheur probable'
-                    ? this.selectedSeason.speciesDistributionColors[1]
-                    : this.selectedSeason.speciesDistributionColors[2],
+                      ? this.selectedSeason.speciesDistributionColors[1]
+                      : this.selectedSeason.speciesDistributionColors[2],
                 fillOpacity: 0.7,
               }
             } else {
@@ -139,8 +113,8 @@ export default {
                 feature.properties.status === 'ODF'
                   ? '#EB6A0A'
                   : feature.properties.status === 'AOFM'
-                  ? '#4C61F4'
-                  : '#D999EF',
+                    ? '#4C61F4'
+                    : '#D999EF',
               fillOpacity: 0.7,
             }
           }
@@ -195,10 +169,11 @@ export default {
       this.initiateEnvelope()
     },
     setBounds() {
-      if (Object.keys(this.territoriesEnvelopes).includes('features')) {
+      if (this.territoriesEnvelopes?.features) {
         const geojson = this.territoriesEnvelopes.features.find((item) => {
           return item.properties.area_code === this.selectedTerritory.area_code
         })
+        console.log('TERRITORY', geojson, this.selectedTerritory.area_code)
         const territory = this.$L.geoJSON(geojson)
         this.map.invalidateSize()
         this.map.fitBounds(territory.getBounds())
@@ -229,22 +204,23 @@ export default {
       this.envelope = this.defineEnvelope(newBounds)
     },
     async getTerritory() {
+      const params = {
+        bbox: true,
+        only_enable: true,
+      }
       this.territoriesEnvelopes = await this.$axios.$get(
         '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY',
-        {
-          params: {
-            bbox: true,
-            only_enable: true,
-          },
-        }
+        { params }
       )
     },
     async getSpecieData() {
+      console.log('/api/v1/taxa/map/distribution', this.speciesDistributionIsLoading)
+      this.speciesDistributionIsLoading = true
       if (this.apiRequestController) {
         this.apiRequestController.cancel('Loading canceled')
       }
       this.apiRequestController = this.$axios.CancelToken.source()
-      this.speciesDistributionIsLoading = true
+
       // Url Source selection
       let params = {
         cd_nom: this.cdNom,
@@ -253,7 +229,7 @@ export default {
         grid: true,
         envelope: this.envelope ? this.envelope.toString() : null,
       }
-      let url = `/api/v1/taxa/map/distribution`
+      let url = null
       if (this.selectedSubject.slug === 'odf') {
         console.debug('ODF data')
         url = `/api/v1/taxa/map/distribution`
@@ -283,8 +259,9 @@ export default {
             console.debug('Request canceled', thrown.message)
           }
         })
-
-      this.speciesDistributionIsLoading = false
+      if (this.speciesDistributionGeojson) {
+        this.speciesDistributionIsLoading = false
+      }
     },
   },
 }
