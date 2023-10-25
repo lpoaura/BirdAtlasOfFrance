@@ -42,6 +42,11 @@ $$
                cd_nom,
                phenologie                    AS phenology_period,
                unite                         AS unit,
+               CASE
+                   WHEN unite LIKE 'Tendance'
+                       THEN 'trend'
+                   ELSE 'pop_size'
+                   END                       AS chart_type,
                JSONB_BUILD_OBJECT('val', val, 'val_min', val_min, 'val_max',
                                   val_max)   AS data
         FROM src_survey.vm_graph_information
@@ -51,6 +56,8 @@ $$
         CREATE INDEX ON atlas.mv_survey_chart_data (id_area_atlas_territory);
         CREATE INDEX ON atlas.mv_survey_chart_data (cd_nom);
         CREATE INDEX ON atlas.mv_survey_chart_data (phenology_period);
+        CREATE INDEX ON atlas.mv_survey_chart_data (chart_type);
+
 
         COMMIT;
     END
