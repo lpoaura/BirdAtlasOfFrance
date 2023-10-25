@@ -17,9 +17,9 @@
     <species-charts-phenology-breeding
       v-if="selectedSeason.value === 'breeding'"
     />
-    <!-- <species-charts-populations-sizes
+    <species-charts-populations-sizes
       v-if="['wintering', 'breeding'].includes(selectedSeason.value)"
-    /> -->
+    />
     <species-charts-trend
       v-if="['wintering', 'breeding'].includes(selectedSeason.value)"
     />

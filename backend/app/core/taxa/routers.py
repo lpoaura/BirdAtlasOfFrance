@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from app.utils.db import get_db
 
+from ..commons.schemas import BaseFeatureCollection
 from .actions import (
     all_period_phenology_distrib,
     altitude_distrib,
@@ -31,8 +32,6 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     TaxaPhenologyApiData,
     TaxaTerritoryDistribution,
 )
-
-from ..commons.schemas import BaseFeatureCollection
 
 logger = logging.getLogger(__name__)
 
@@ -148,7 +147,6 @@ def historic_atlases(
         for row in query
     ]
     return TaxaDistributionFeaturesCollection(features=features)
-    
 
 
 @router.get(
@@ -162,14 +160,9 @@ def historic_atlases(
 """,
 )
 # @cache()
-def list_historic_atlases(
-    cd_nom: int, id_area: int, db: Session = Depends(get_db)
-) -> Any:
-    query = historic_atlas_distrib.list_historic_atlas(
-        db=db, cd_nom=cd_nom, id_area=id_area
-    )
+def list_historic_atlases(cd_nom: int, id_area: int, db: Session = Depends(get_db)) -> Any:
+    query = historic_atlas_distrib.list_historic_atlas(db=db, cd_nom=cd_nom, id_area=id_area)
     return query
-    
 
 
 @router.get(
@@ -205,9 +198,7 @@ def altitudinal_distribution(
             label="Répartition de l'altitude du territoire",
             data=[
                 q._asdict()
-                for q in altitude_distrib.get_territory_distribution(
-                    db=db, id_area=id_area
-                )
+                for q in altitude_distrib.get_territory_distribution(db=db, id_area=id_area)
             ],
             color="rgba(67, 94, 242, 0.3)",
         )
@@ -336,19 +327,19 @@ def get_survey_map_data(
     description="""# Taxon geographic distribution
 """,
 )
-@cache()  
+@cache()
 def get_survey_chart_data(
     cd_nom: int,
     id_area: int,
     phenology_period: str,
-    unit: str,
+    chart_type: str,
     db: Session = Depends(get_db),
 ) -> Any:
     query = survey_chart_data.get_data(
         db,
         cd_nom=cd_nom,
         id_area_atlas_territory=id_area,
-        unit=unit,
+        chart_type=chart_type,
         phenology_period=phenology_period,
     )
     if query.count() > 0:

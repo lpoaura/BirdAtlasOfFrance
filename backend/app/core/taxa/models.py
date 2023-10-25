@@ -128,4 +128,5 @@ class MvSurveyChartData(Base):
     cd_nom = Column(Integer)
     phenology_period = Column(String)
     unit = Column(String)
+    chart_type = Column(String)
     data = Column(JSON)

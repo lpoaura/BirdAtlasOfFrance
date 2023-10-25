@@ -115,7 +115,7 @@ def get_area_geom_by_id_area(
 
 @router.get(
     "/lareas/position",
-    response_model=Union[LAreasFeatureProperties,dict],
+    response_model=Union[LAreasFeatureProperties, dict],
     tags=["ref_geo"],
 )
 @cache()

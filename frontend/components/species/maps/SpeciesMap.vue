@@ -1,10 +1,24 @@
 <template>
   <div id="map-wrap" ref="test">
-    <l-map ref="atlasMap" :zoom="zoom" :center="center" :options="{ zoomControl: false }" style="z-index: 0"
-      @ready="initMap()" @update:bounds="updateEnvelope">
-      <l-tile-layer :url="osmUrl" :attribution="'© les contributeurs d’OpenStreetMap'" />
-      <l-geo-json v-if="speciesDistributionGeojson" :geojson="speciesDistributionGeojson"
-        :options="speciesDistributionGeojsonOptions" :options-style="speciesDistributionGeojsonStyle" />
+    <l-map
+      ref="atlasMap"
+      :zoom="zoom"
+      :center="center"
+      :options="{ zoomControl: false }"
+      style="z-index: 0"
+      @ready="initMap()"
+      @update:bounds="updateEnvelope"
+    >
+      <l-tile-layer
+        :url="osmUrl"
+        :attribution="'© les contributeurs d’OpenStreetMap'"
+      />
+      <l-geo-json
+        v-if="speciesDistributionGeojson"
+        :geojson="speciesDistributionGeojson"
+        :options="speciesDistributionGeojsonOptions"
+        :options-style="speciesDistributionGeojsonStyle"
+      />
       <l-control position="topright" :disable-scroll-propagation="true">
         <commons-map-loading-control :loading="speciesDistributionIsLoading" />
       </l-control>
@@ -85,14 +99,14 @@ export default {
                   feature.properties.status === 'Nicheur possible'
                     ? this.selectedSeason.speciesDistributionColors[0]
                     : feature.properties.status === 'Nicheur probable'
-                      ? this.selectedSeason.speciesDistributionColors[1]
-                      : this.selectedSeason.speciesDistributionColors[2],
+                    ? this.selectedSeason.speciesDistributionColors[1]
+                    : this.selectedSeason.speciesDistributionColors[2],
                 fillColor:
                   feature.properties.status === 'Nicheur possible'
                     ? this.selectedSeason.speciesDistributionColors[0]
                     : feature.properties.status === 'Nicheur probable'
-                      ? this.selectedSeason.speciesDistributionColors[1]
-                      : this.selectedSeason.speciesDistributionColors[2],
+                    ? this.selectedSeason.speciesDistributionColors[1]
+                    : this.selectedSeason.speciesDistributionColors[2],
                 fillOpacity: 0.7,
               }
             } else {
@@ -113,8 +127,8 @@ export default {
                 feature.properties.status === 'ODF'
                   ? '#EB6A0A'
                   : feature.properties.status === 'AOFM'
-                    ? '#4C61F4'
-                    : '#D999EF',
+                  ? '#4C61F4'
+                  : '#D999EF',
               fillOpacity: 0.7,
             }
           }
@@ -214,7 +228,10 @@ export default {
       )
     },
     async getSpecieData() {
-      console.log('/api/v1/taxa/map/distribution', this.speciesDistributionIsLoading)
+      console.log(
+        '/api/v1/taxa/map/distribution',
+        this.speciesDistributionIsLoading
+      )
       this.speciesDistributionIsLoading = true
       if (this.apiRequestController) {
         this.apiRequestController.cancel('Loading canceled')
