@@ -113,13 +113,16 @@ export default {
       })
       // Get bar plot size
       const margin = { top: 10, right: 0, bottom: 24, left: 66 }
-      const minWidth = data.length * 30 + margin.left + margin.right
-      const barPlotWidth = Math.max(
-        parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
+      // const minWidth = data.length * 30 + margin.left + margin.right
+      // const barPlotWidth = Math.max(
+      //   parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
+      //   margin.left -
+      //   margin.right,
+      //   minWidth
+      // )
+      const barPlotWidth = parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
         margin.left -
-        margin.right,
-        minWidth
-      )
+        margin.right
       const barPlotHeight =
         parseFloat(d3.select(this.$el).select('.Chart').style('height')) -
         margin.top -
@@ -157,7 +160,7 @@ export default {
       const xAxis5Years = d3
         .scaleBand()
         .range([0, barPlotWidth])
-        .padding(0.9)
+        .padding(0.4)
         .domain(
           data.filter(d => this.isRoundYear(d.label)).map(function (d) {
             return d.label

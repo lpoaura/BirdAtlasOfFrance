@@ -103,13 +103,16 @@ export default {
       })
       // Get bar plot size
       const margin = { top: 10, right: 0, bottom: 24, left: 66 }
-      const minWidth = trend.length * 30 + margin.left + margin.right
-      const linePlotWidth = Math.max(
-        parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
-          margin.left -
-          margin.right,
-        minWidth
-      )
+      // const minWidth = trend.length * 30 + margin.left + margin.right
+      // const linePlotWidth = Math.max(
+      //   parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
+      //     margin.left -
+      //     margin.right,
+      //   minWidth
+      // )
+      const linePlotWidth = parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
+        margin.left -
+        margin.right
       const linePlotHeight =
         parseFloat(d3.select(this.$el).select('.Chart').style('height')) -
         margin.top -
@@ -123,30 +126,28 @@ export default {
         .append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
       // Set X axis and add it
-      const xAxis = d3
-        .scaleLinear()
-        .range([20, linePlotWidth - 20])
-        .domain([
-          d3.min(trend, function (d) {
+      const xAxisYears = d3
+        .scaleBand()
+        .range([0, linePlotWidth])
+        .padding(0.4)
+        .domain(
+          trend.map(d => d.label)
+        )
+        
+      const xAxis5Years = d3
+        .scaleBand()
+        .range([0, linePlotWidth])
+        .padding(0.4)
+        .domain(
+          trend.filter(d => d.label % 5 ===0).map(function (d) {
             return d.label
-          }),
-          d3.max(trend, function (d) {
-            return d.label
-          }),
-        ])
-      const formatter = d3
-        .formatLocale({
-          decimal: '.',
-          thousands: '',
-          grouping: [3],
-          currency: ['', ''],
-        })
-        .format(',.0f')
+          })
+        )
       linePlotSvg
         .append('g')
         .attr('class', 'xAxis')
         .attr('transform', `translate(0, ${linePlotHeight})`)
-        .call(d3.axisBottom(xAxis).ticks(trend.length).tickFormat(formatter))
+        .call(d3.axisBottom(xAxis5Years))
         .call((g) =>
           g
             .selectAll('text')
@@ -214,7 +215,7 @@ export default {
           d3
             .line()
             .x(function (d) {
-              return xAxis(d.label)
+              return xAxisYears(d.label)
             })
             .y(function (d) {
               return yAxis(d.index)
@@ -228,7 +229,7 @@ export default {
         .enter()
         .append('circle')
         .attr('cx', function (d) {
-          return xAxis(d.label)
+          return xAxisYears(d.label)
         })
         .attr('cy', function (d) {
           return yAxis(d.index)
@@ -247,7 +248,7 @@ export default {
           d3
             .area()
             .x(function (d) {
-              return xAxis(d.label)
+              return xAxisYears(d.label)
             })
             .y0(function (d) {
               return yAxis(d.min)
