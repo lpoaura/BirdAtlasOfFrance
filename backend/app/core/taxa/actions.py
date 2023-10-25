@@ -407,8 +407,8 @@ class SurveyMapDataActions(BaseReadOnlyActions[MvSurveyMapData]):
         cd_nom: int,
         id_area_atlas_territory: str,
         phenology_period: str,
-        simplified_area_id_type: str = 'DEP_SIMPLIFY',
-        area_id_type: str = 'DEP'
+        simplified_area_id_type: str = "DEP_SIMPLIFY",
+        area_id_type: str = "DEP",
     ) -> List:
         dept = aliased(LAreas)
         dept_simp = aliased(LAreas)
@@ -467,7 +467,7 @@ class SurveyChartDataActions(BaseReadOnlyActions[MvSurveyChartData]):
         cd_nom: int,
         id_area_atlas_territory: str,
         phenology_period: str,
-        unit: str,
+        chart_type: str,
     ) -> List:
         query = (
             db.query(MvSurveyChartData.year, MvSurveyChartData.unit, MvSurveyChartData.data)
@@ -475,7 +475,7 @@ class SurveyChartDataActions(BaseReadOnlyActions[MvSurveyChartData]):
                 MvSurveyChartData.cd_nom == cd_nom,
                 MvSurveyChartData.id_area_atlas_territory == id_area_atlas_territory,
                 MvSurveyChartData.phenology_period == phenology_period,
-                MvSurveyChartData.unit == unit,
+                MvSurveyChartData.chart_type == chart_type,
             )
             .order_by(MvSurveyChartData.year.asc())
         )

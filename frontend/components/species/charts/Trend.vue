@@ -78,7 +78,7 @@ export default {
           cd_nom: this.cdNom,
           id_area: this.idArea,
           phenology_period: this.phenologyPeriod,
-          unit: 'Tendance',
+          chart_type: 'trend',
         }
         this.chartData = await this.$axios
           .$get(url, {
@@ -94,15 +94,20 @@ export default {
         return { label: i.year, index: i.data.val }
       })
       const uncertainties = this.chartData.map((i) => {
-        return { label: i.year, min: i.data.val_min, max: i.data.val_max, val:i.data.val }
+        return {
+          label: i.year,
+          min: i.data.val_min,
+          max: i.data.val_max,
+          val: i.data.val,
+        }
       })
       // Get bar plot size
       const margin = { top: 10, right: 0, bottom: 24, left: 66 }
       const minWidth = trend.length * 30 + margin.left + margin.right
       const linePlotWidth = Math.max(
         parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
-        margin.left -
-        margin.right,
+          margin.left -
+          margin.right,
         minWidth
       )
       const linePlotHeight =
@@ -157,7 +162,6 @@ export default {
         .range([linePlotHeight - 10, 0])
         .domain([
           d3.min(uncertainties, function (d) {
-            console.log('d', d)
             return Math.min(...[d.min, d.max, d.val])
           }),
           d3.max(uncertainties, function (d) {
@@ -267,9 +271,11 @@ export default {
 
 .TrendCard {
   min-width: 200px;
-  background: linear-gradient(93.58deg,
-      rgba(100, 120, 226, 0.1) 0%,
-      rgba(67, 94, 242, 0.1) 100%);
+  background: linear-gradient(
+    93.58deg,
+    rgba(100, 120, 226, 0.1) 0%,
+    rgba(67, 94, 242, 0.1) 100%
+  );
   padding: 12px 16px;
   border-radius: 8px;
   white-space: nowrap;
