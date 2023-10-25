@@ -2,7 +2,7 @@
   <div v-if="idArea && !!chartData?.length" id="population-size" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">Taille de population</h4>
     <h5 class="black03 bottom-margin-40">
-      Nombre de données cumulées par années
+      Effectifs cumulés par années
     </h5>
     <div class="ChartWrapper">
       <div class="Chart"></div>
