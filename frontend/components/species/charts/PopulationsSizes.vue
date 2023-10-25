@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-if="idArea && chartData && hasNbData"
-    id="phenology-all-period"
-    class="ChartCard"
-  >
+  <div v-if="idArea && !!chartData?.length" id="population-size" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">Taille de population</h4>
     <h5 class="black03 bottom-margin-40">
       Nombre de données cumulées par années
@@ -12,7 +8,7 @@
       <div class="Chart"></div>
       <div class="ChartLegend">
         <h5 class="ChartLegendLabel">
-          <i style="background: blue"></i>{{ chartData[0].unit }}
+          <i style="background: #435EF2"></i>{{ chartData[0].unit }}
         </h5>
         <!-- <h5 class="ChartLegendLabel">
           <i
@@ -33,11 +29,6 @@ const d3 = require('d3')
 export default {
   data: () => ({
     chartData: null,
-    subject: {
-      label: 'Taille de population',
-      slug: 'population-size',
-      position: 1,
-    },
   }),
   computed: {
     idArea() {
@@ -49,9 +40,12 @@ export default {
     phenologyPeriod() {
       return this.$store.state.species.selectedSeason?.value
     },
-    hasNbData() {
-      return this.chartData?.length > 0
+    hasMinMaxValues() {
+      return !!this.chartData?.filter(i => i.data.val_min || i.val_max).length
     },
+    hasValues() {
+      return !!this.chartData?.filter(i => i.data.val).length
+    }
   },
   watch: {
     idArea(newVal) {
@@ -73,10 +67,17 @@ export default {
   methods: {
     generateChart() {
       this.getChartData().then(() => {
-        if (this.chartData && this.hasNbData) {
-          this.renderBarChart()
-          this.$store.commit('species/pushSubjectsList', this.subject)
+        if (this.chartData?.length) {
+          if (this.hasValues && !this.hasMinMaxValues) {
+            this.renderBarChart()
+          }
         }
+        this.$store.commit('species/pushSubjectsList', {
+          label: "Taille de population",
+          slug: 'population-size',
+          position: 4,
+          status: !!this.chartData?.length,
+        })
       })
     },
     async getChartData() {
@@ -97,65 +98,76 @@ export default {
           })
       }
     },
+    isRoundYear(year){
+      return year % 5 ===0
+    },
     renderBarChart() {
-      console.log('RENDNSD')
-      const trend = this.chartData.map((i) => {
-        return { label: i.year, index: i.data.val }
-      })
-      const uncertainties = this.chartData.map((i) => {
-        return {
-          label: i.year,
-          min: i.data.val_min,
-          max: i.data.val_max,
-          val: i.data.val,
-        }
+      d3.select(this.$el).select('.barPlotSvg').remove()
+      d3.select(this.$el)
+        .select('.Chart')
+        .append('svg')
+        .attr('class', 'barPlotSvg')
+      console.debug('init SVG')
+      const data = this.chartData.map((i) => {
+        return { label: i.year, val: i.data.val, min: i.data.val_min, max: i.data.val_max }
       })
       // Get bar plot size
       const margin = { top: 10, right: 0, bottom: 24, left: 66 }
-      const minWidth = trend.length * 30 + margin.left + margin.right
-      const linePlotWidth = Math.max(
+      const minWidth = data.length * 30 + margin.left + margin.right
+      const barPlotWidth = Math.max(
         parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
-          margin.left -
-          margin.right,
+        margin.left -
+        margin.right,
         minWidth
       )
-      const linePlotHeight =
+      const barPlotHeight =
         parseFloat(d3.select(this.$el).select('.Chart').style('height')) -
         margin.top -
         margin.bottom
       // Get bar plot svg and set size
-      const linePlotSvg = d3
+      const barPlotSvg = d3
         .select(this.$el)
-        .select('.LinePlotSvg')
-        .attr('width', linePlotWidth + margin.left + margin.right)
-        .attr('height', linePlotHeight + margin.top + margin.bottom)
+        .select('.barPlotSvg')
+        .attr('width', barPlotWidth + margin.left + margin.right)
+        .attr('height', barPlotHeight + margin.top + margin.bottom)
         .append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
       // Set X axis and add it
-      const xAxis = d3
-        .scaleLinear()
-        .range([20, linePlotWidth - 20])
-        .domain([
-          d3.min(trend, function (d) {
+      // const xAxis = d3
+      //   .scaleLinear()
+      //   .range([20, barPlotWidth - 20])
+      //   .domain([
+      //     d3.min(data, function (d) {
+      //       console.log('label', d.label)
+      //       return d.label
+      //     }),
+      //     d3.max(data, function (d) {
+      //       console.log('lablemax', d.label)
+      //       return d.label
+      //     }),
+      //   ])
+      const xAxisYears = d3
+        .scaleBand()
+        .range([0, barPlotWidth])
+        .padding(0.4)
+        .domain(
+          data.map(d => d.label)
+        )
+        
+      const xAxis5Years = d3
+        .scaleBand()
+        .range([0, barPlotWidth])
+        .padding(0.9)
+        .domain(
+          data.filter(d => this.isRoundYear(d.label)).map(function (d) {
             return d.label
-          }),
-          d3.max(trend, function (d) {
-            return d.label
-          }),
-        ])
-      const formatter = d3
-        .formatLocale({
-          decimal: '.',
-          thousands: '',
-          grouping: [3],
-          currency: ['', ''],
-        })
-        .format(',.0f')
-      linePlotSvg
+          })
+        )
+      barPlotSvg
         .append('g')
         .attr('class', 'xAxis')
-        .attr('transform', `translate(0, ${linePlotHeight})`)
-        .call(d3.axisBottom(xAxis).ticks(trend.length).tickFormat(formatter))
+        .attr('transform', `translate(0, ${barPlotHeight})`)
+        .call(d3.axisBottom(xAxis5Years))
         .call((g) =>
           g
             .selectAll('text')
@@ -168,16 +180,16 @@ export default {
       // Set Y axis and add it
       const yAxis = d3
         .scaleLinear()
-        .range([linePlotHeight - 10, 0])
+        .range([barPlotHeight - 10, 0])
         .domain([
-          d3.min(uncertainties, function (d) {
+          d3.min(data, function (d) {
             return Math.min(...[d.min, d.max, d.val])
           }),
-          d3.max(uncertainties, function (d) {
+          d3.max(data, function (d) {
             return Math.max(...[d.min, d.max, d.val])
           }),
         ])
-      linePlotSvg
+      barPlotSvg
         .append('g')
         .attr('class', 'yAxis')
         .call(d3.axisLeft(yAxis))
@@ -185,7 +197,7 @@ export default {
           g
             .selectAll('.tick line')
             .clone()
-            .attr('x2', linePlotWidth)
+            .attr('x2', barPlotWidth)
             .attr('stroke-opacity', 0.1)
         )
         .call((g) =>
@@ -198,10 +210,10 @@ export default {
         )
         .call((g) => g.selectAll('line[x2="-6"]').style('opacity', 0))
       // Set Y axis label
-      linePlotSvg
+      barPlotSvg
         .append('text')
         .attr('transform', 'rotate(-90)')
-        .attr('x', -(linePlotHeight / 2))
+        .attr('x', -(barPlotWidth / 2))
         .attr('y', -margin.left + 10)
         .attr(
           'style',
@@ -209,62 +221,43 @@ export default {
         )
         .text("Indice d'abondance")
       // Delete axis lines
-      linePlotSvg.selectAll('path').style('opacity', 0)
+      barPlotSvg.selectAll('path').style('opacity', 0)
       // Lines and points
-      linePlotSvg
-        .append('path')
-        .attr('class', 'line')
-        .datum(trend)
-        .attr('fill', 'none')
-        .attr('stroke', '#435EF2')
-        .attr('stroke-width', 2)
-        .attr(
-          'd',
-          d3
-            .line()
-            .x(function (d) {
-              return xAxis(d.label)
-            })
-            .y(function (d) {
-              return yAxis(d.index)
-            })
-        )
-      linePlotSvg
+      barPlotSvg
         .append('g')
-        .attr('class', 'dots')
-        .selectAll('dot')
-        .data(trend)
+        .attr('class', 'bars')
+        .selectAll('rect')
+        .data(data)
         .enter()
-        .append('circle')
-        .attr('cx', function (d) {
-          return xAxis(d.label)
+        .append('rect')
+        .attr('class', 'bar')
+        .attr('x', function (d) {
+          return xAxisYears(d.label)
         })
-        .attr('cy', function (d) {
-          return yAxis(d.index)
+        .attr('y', function (d) {
+          console.log(d.val)
+          return yAxis(d.val)
         })
-        .attr('r', 4)
+        .attr('width', xAxisYears.bandwidth()+5)
+        .attr('height', function (d) {
+          return barPlotHeight - yAxis(d.val)
+        })
         .attr('fill', '#435EF2')
-      // Area
-      linePlotSvg
-        .append('path')
-        .attr('class', 'area')
-        .datum(uncertainties)
-        .attr('fill', 'rgba(67, 94, 242, 0.1)')
-        .attr('stroke-width', 0)
-        .attr(
-          'd',
-          d3
-            .area()
-            .x(function (d) {
-              return xAxis(d.label)
-            })
-            .y0(function (d) {
-              return yAxis(d.min)
-            })
-            .y1(function (d) {
-              return yAxis(d.max)
-            })
-        )
+      // barPlotSvg
+      //   .append('g')
+      //   .attr('class', 'dots')
+      //   .selectAll('dot')
+      //   .data(data)
+      //   .enter()
+      //   .append('circle')
+      //   .attr('cx', function (d) {
+      //     return xAxisYears(d.label)
+      //   })
+      //   .attr('cy', function (d) {
+      //     return yAxis(d.val)
+      //   })
+      //   .attr('r', 4)
+      //   .attr('fill', '#435EF2')
     },
   },
 }
