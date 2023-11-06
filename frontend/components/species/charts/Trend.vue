@@ -5,16 +5,16 @@
       Évolution de l’indice d’abondance en fonction des années.
     </h5>
     <div class="ChartWrapper">
-      <div class="TrendsWrapper">
-        <!-- <div class="TrendCard">
+      <!-- <div class="TrendsWrapper">
+        <div class="TrendCard">
           <h5 class="black02 fw-500">Long terme 1980-2020</h5>
           <h5 class="black02">Forte augmentation<br />+8.0% p.a. ±ES0.2%</h5>
         </div>
         <div class="TrendCard">
           <h5 class="black02 fw-500">Court terme 2009-2020</h5>
           <h5 class="black02">Augmentation modérée<br />+2.5% p.a. ±ES0.5%</h5>
-        </div> -->
-      </div>
+        </div>
+      </div> -->
       <div class="Chart">
         <svg class="LinePlotSvg"></svg>
       </div>
@@ -90,6 +90,11 @@ export default {
       }
     },
     renderChart() {
+      d3.select(this.$el).select('.LinePlotSvg').remove()
+      d3.select(this.$el)
+        .select('.Chart')
+        .append('svg')
+        .attr('class', 'LinePlotSvg')
       const trend = this.chartData.map((i) => {
         return { label: i.year, index: i.data.val }
       })
