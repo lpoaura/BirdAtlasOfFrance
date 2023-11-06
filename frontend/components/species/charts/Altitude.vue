@@ -97,6 +97,15 @@ export default {
       }
     },
     renderData() {
+      const divId = 'altitude-chart-tooltip'
+      document.getElementById(divId)?.remove()
+      const div = d3
+        .select('body')
+        .append('div')
+        .attr('class', 'chart-tooltip')
+        .attr('id', divId)
+        .style('opacity', 0)
+
       // Render x axis Scale using data max value
       this.xAxis.domain([
         0,
@@ -189,6 +198,22 @@ export default {
         })
         .attr('height', 6)
         .attr('fill', this.chartData.altitude?.color)
+        .on('mouseover', function (event, d) {
+          console.log('mousover')
+          div.transition().duration(200).style('opacity', 0.9)
+          div
+            .html(
+              `<strong>Nombre de données</strong>&nbsp;: ${d.value.toFixed(
+                2
+              )} %`
+            )
+            .style('left', event.pageX + 30 + 'px')
+            .style('top', event.pageY - 30 + 'px')
+        })
+        .on('mouseout', function (event, d) {
+          div.style('opacity', 0)
+          div.html('').style('left', '-500px').style('top', '-500px')
+        })
       // Area
 
       this.chart
