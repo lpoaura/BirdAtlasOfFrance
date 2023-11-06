@@ -2,7 +2,7 @@
   <div v-if="idArea && !!chartData?.length" id="population-size" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">Taille de population</h4>
     <h5 class="black03 bottom-margin-40">
-      Effectifs cumulés par années
+      Résultats des comptages
     </h5>
     <div class="ChartWrapper">
       <div class="Chart"></div>
@@ -68,7 +68,7 @@ export default {
     generateChart() {
       this.getChartData().then(() => {
         if (this.chartData?.length) {
-          if (this.hasValues && !this.hasMinMaxValues) {
+          if (this.hasValues || this.hasMinMaxValues) {
             this.renderBarChart()
           }
         }
@@ -98,8 +98,8 @@ export default {
           })
       }
     },
-    isRoundYear(year){
-      return year % 5 ===0
+    isRoundYear(year) {
+      return year % 5 === 0
     },
     renderBarChart() {
       d3.select(this.$el).select('.barPlotSvg').remove()
@@ -156,7 +156,7 @@ export default {
         .domain(
           data.map(d => d.label)
         )
-        
+
       const xAxis5Years = d3
         .scaleBand()
         .range([0, barPlotWidth])
@@ -226,26 +226,51 @@ export default {
       // Delete axis lines
       barPlotSvg.selectAll('path').style('opacity', 0)
       // Lines and points
-      barPlotSvg
-        .append('g')
-        .attr('class', 'bars')
-        .selectAll('rect')
-        .data(data)
-        .enter()
-        .append('rect')
-        .attr('class', 'bar')
-        .attr('x', function (d) {
-          return xAxisYears(d.label)
-        })
-        .attr('y', function (d) {
-          console.log(d.val)
-          return yAxis(d.val)
-        })
-        .attr('width', xAxisYears.bandwidth()+5)
-        .attr('height', function (d) {
-          return barPlotHeight - yAxis(d.val)
-        })
-        .attr('fill', '#435EF2')
+      if (this.hasValues && !this.hasMinMaxValues) {
+        barPlotSvg
+          .append('g')
+          .attr('class', 'bars')
+          .selectAll('rect')
+          .data(data)
+          .enter()
+          .append('rect')
+          .attr('class', 'bar')
+          .attr('x', function (d) {
+            return xAxisYears(d.label)
+          })
+          .attr('y', function (d) {
+            console.log(d.val)
+            return yAxis(d.val)
+          })
+          .attr('width', xAxisYears.bandwidth() + 5)
+          .attr('height', function (d) {
+            return barPlotHeight - yAxis(d.val)
+          })
+          .attr('fill', '#435EF2')
+      }
+      if (this.hasMinMaxValues) {
+        barPlotSvg
+          .append('g')
+          .attr('class', 'bars')
+          .selectAll('rect')
+          .data(data)
+          .enter()
+          .append('rect')
+          .attr('class', 'bar')
+          .attr('x', function (d) {
+            console.log(d.label)
+            return xAxisYears(d.label)
+          })
+          .attr('y', function (d) {
+            console.log(d.val_max)
+            return yAxis(d.val_max)
+          })
+          .attr('width', xAxisYears.bandwidth() + 5)
+          .attr('height', function (d) {
+            return barPlotHeight - yAxis(d.val_max)
+          })
+          .attr('fill', '#435EF2')
+      }
       // barPlotSvg
       //   .append('g')
       //   .attr('class', 'dots')
