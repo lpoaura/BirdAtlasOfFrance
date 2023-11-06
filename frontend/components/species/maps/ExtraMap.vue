@@ -157,10 +157,13 @@ export default {
 
       const areas = svg.append('g')
 
+      document.getElementById('map-tooltip')?.remove()
+
       const div = d3
         .select('body')
         .append('div')
         .attr('class', 'map-tooltip')
+        .attr('id', 'map-tooltip')
         .style('opacity', 0)
 
       areas
