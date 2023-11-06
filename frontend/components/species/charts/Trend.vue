@@ -90,15 +90,21 @@ export default {
       }
     },
     renderChart() {
+      // const divId = 'trend-chart-tooltip'
+      // document.getElementById(divId)?.remove()
+      // const div = d3
+      //   .select('body')
+      //   .append('div')
+      //   .attr('class', 'chart-tooltip')
+      //   .attr('id', divId)
+      //   .style('opacity', 0)
+
       d3.select(this.$el).select('.LinePlotSvg').remove()
       d3.select(this.$el)
         .select('.Chart')
         .append('svg')
         .attr('class', 'LinePlotSvg')
-      const trend = this.chartData.map((i) => {
-        return { label: i.year, index: i.data.val }
-      })
-      const uncertainties = this.chartData.map((i) => {
+      const data = this.chartData.map((i) => {
         return {
           label: i.year,
           min: i.data.val_min,
@@ -115,7 +121,8 @@ export default {
       //     margin.right,
       //   minWidth
       // )
-      const linePlotWidth = parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
+      const linePlotWidth =
+        parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
         margin.left -
         margin.right
       const linePlotHeight =
@@ -135,18 +142,18 @@ export default {
         .scaleBand()
         .range([0, linePlotWidth])
         .padding(0.4)
-        .domain(
-          trend.map(d => d.label)
-        )
-        
+        .domain(data.map((d) => d.label))
+
       const xAxis5Years = d3
         .scaleBand()
         .range([0, linePlotWidth])
         .padding(0.4)
         .domain(
-          trend.filter(d => d.label % 5 ===0).map(function (d) {
-            return d.label
-          })
+          data
+            .filter((d) => d.label % 5 === 0)
+            .map(function (d) {
+              return d.label
+            })
         )
       linePlotSvg
         .append('g')
@@ -167,10 +174,10 @@ export default {
         .scaleLinear()
         .range([linePlotHeight - 10, 0])
         .domain([
-          d3.min(uncertainties, function (d) {
+          d3.min(data, function (d) {
             return Math.min(...[d.min, d.max, d.val])
           }),
-          d3.max(uncertainties, function (d) {
+          d3.max(data, function (d) {
             return Math.max(...[d.min, d.max, d.val])
           }),
         ])
@@ -211,7 +218,7 @@ export default {
       linePlotSvg
         .append('path')
         .attr('class', 'line')
-        .datum(trend)
+        .datum(data)
         .attr('fill', 'none')
         .attr('stroke', '#435EF2')
         .attr('stroke-width', 2)
@@ -223,29 +230,48 @@ export default {
               return xAxisYears(d.label)
             })
             .y(function (d) {
-              return yAxis(d.index)
+              return yAxis(d.val)
             })
         )
+        
+
       linePlotSvg
         .append('g')
         .attr('class', 'dots')
-        .selectAll('dot')
-        .data(trend)
+        .selectAll('circle')
+        .data(data)
         .enter()
         .append('circle')
         .attr('cx', function (d) {
           return xAxisYears(d.label)
         })
         .attr('cy', function (d) {
-          return yAxis(d.index)
+          return yAxis(d.val)
         })
         .attr('r', 4)
         .attr('fill', '#435EF2')
+        // .on('mouseover', function (event, d, i) {
+        //   div.transition().duration(200).style('opacity', 0.9)
+        //   console.log(event, d, i)
+        //   div
+        //     .html(
+        //       `<p class="tooltip-title"><strong>${d.label}</strong></p>
+        //         ${d.unit}&nbsp;: ${d.val}`
+        //     )
+        //     .style('left', event.pageX + 30 + 'px')
+        //     .style('top', event.pageY - 30 + 'px')
+        // })
+        // .on('mouseout', function (event, d) {
+        //   div.style('opacity', 0)
+        //   div.html('').style('left', '-500px').style('top', '-500px')
+        // })
+
+        
       // Area
       linePlotSvg
         .append('path')
         .attr('class', 'area')
-        .datum(uncertainties)
+        .datum(data)
         .attr('fill', 'rgba(67, 94, 242, 0.1)')
         .attr('stroke-width', 0)
         .attr(

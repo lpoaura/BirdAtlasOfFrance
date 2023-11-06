@@ -1,14 +1,16 @@
 <template>
-  <div v-if="idArea && !!chartData?.length" id="population-size" class="ChartCard">
+  <div
+    v-if="idArea && !!chartData?.length"
+    id="population-size"
+    class="ChartCard"
+  >
     <h4 class="black02 fw-bold bottom-margin-8">Taille de population</h4>
-    <h5 class="black03 bottom-margin-40">
-      Résultats des comptages
-    </h5>
+    <h5 class="black03 bottom-margin-40">Résultats des comptages</h5>
     <div class="ChartWrapper">
       <div class="Chart"></div>
       <div class="ChartLegend">
         <h5 class="ChartLegendLabel">
-          <i style="background: #435EF2"></i>{{ chartData[0].unit }}
+          <i style="background: #435ef2"></i>{{ chartData[0].unit }}
         </h5>
         <!-- <h5 class="ChartLegendLabel">
           <i
@@ -41,11 +43,11 @@ export default {
       return this.$store.state.species.selectedSeason?.value
     },
     hasMinMaxValues() {
-      return !!this.chartData?.filter(i => i.data.val_min || i.val_max).length
+      return !!this.chartData?.filter((i) => i.data.val_min || i.val_max).length
     },
     hasValues() {
-      return !!this.chartData?.filter(i => i.data.val).length
-    }
+      return !!this.chartData?.filter((i) => i.data.val).length
+    },
   },
   watch: {
     idArea(newVal) {
@@ -73,7 +75,7 @@ export default {
           }
         }
         this.$store.commit('species/pushSubjectsList', {
-          label: "Taille de population",
+          label: 'Taille de population',
           slug: 'population-size',
           position: 4,
           status: !!this.chartData?.length,
@@ -83,7 +85,7 @@ export default {
     async getChartData() {
       if (this.idArea) {
         const url = `api/v1/taxa/chart/survey`
-        const requestParams = {
+        const params = {
           cd_nom: this.cdNom,
           id_area: this.idArea,
           phenology_period: this.phenologyPeriod,
@@ -91,7 +93,7 @@ export default {
         }
         this.chartData = await this.$axios
           .$get(url, {
-            params: requestParams,
+            params,
           })
           .catch((error) => {
             console.debug(`${error}`)
@@ -102,6 +104,15 @@ export default {
       return year % 5 === 0
     },
     renderBarChart() {
+      const divId = 'pop-size-chart-tooltip'
+      document.getElementById(divId)?.remove()
+      const div = d3
+        .select('body')
+        .append('div')
+        .attr('class', 'chart-tooltip')
+        .attr('id', divId)
+        .style('opacity', 0)
+
       d3.select(this.$el).select('.barPlotSvg').remove()
       d3.select(this.$el)
         .select('.Chart')
@@ -109,7 +120,13 @@ export default {
         .attr('class', 'barPlotSvg')
       console.debug('init SVG')
       const data = this.chartData.map((i) => {
-        return { label: i.year, val: i.data.val, min: i.data.val_min, max: i.data.val_max }
+        return {
+          label: i.year,
+          val: i.data.val,
+          min: i.data.val_min,
+          max: i.data.val_max,
+          unit: i.unit,
+        }
       })
       // Get bar plot size
       const margin = { top: 10, right: 0, bottom: 24, left: 66 }
@@ -120,7 +137,8 @@ export default {
       //   margin.right,
       //   minWidth
       // )
-      const barPlotWidth = parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
+      const barPlotWidth =
+        parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
         margin.left -
         margin.right
       const barPlotHeight =
@@ -153,18 +171,18 @@ export default {
         .scaleBand()
         .range([0, barPlotWidth])
         .padding(0.4)
-        .domain(
-          data.map(d => d.label)
-        )
+        .domain(data.map((d) => d.label))
 
       const xAxis5Years = d3
         .scaleBand()
         .range([0, barPlotWidth])
         .padding(0.4)
         .domain(
-          data.filter(d => this.isRoundYear(d.label)).map(function (d) {
-            return d.label
-          })
+          data
+            .filter((d) => this.isRoundYear(d.label))
+            .map(function (d) {
+              return d.label
+            })
         )
       barPlotSvg
         .append('g')
@@ -225,8 +243,10 @@ export default {
         .text("Indice d'abondance")
       // Delete axis lines
       barPlotSvg.selectAll('path').style('opacity', 0)
+
       // Lines and points
       if (this.hasValues && !this.hasMinMaxValues) {
+        console.debug('STANDARD CHART')
         barPlotSvg
           .append('g')
           .attr('class', 'bars')
@@ -247,8 +267,23 @@ export default {
             return barPlotHeight - yAxis(d.val)
           })
           .attr('fill', '#435EF2')
+          .on('mouseover', function (event, d) {
+            div.transition().duration(200).style('opacity', 0.9)
+            div
+              .html(
+                `<p class="tooltip-title"><strong>${d.label}</strong></p>
+                ${d.unit}&nbsp;: ${d.val}`
+              )
+              .style('left', event.pageX + 30 + 'px')
+              .style('top', event.pageY - 30 + 'px')
+          })
+          .on('mouseout', function (event, d) {
+            div.style('opacity', 0)
+            div.html('').style('left', '-500px').style('top', '-500px')
+          })
       }
       if (this.hasMinMaxValues) {
+        console.debug('MINMAX CHART')
         barPlotSvg
           .append('g')
           .attr('class', 'bars')
@@ -258,18 +293,31 @@ export default {
           .append('rect')
           .attr('class', 'bar')
           .attr('x', function (d) {
-            console.log(d.label)
+            console.log(d.label, d.max)
             return xAxisYears(d.label)
           })
           .attr('y', function (d) {
-            console.log(d.val_max)
-            return yAxis(d.val_max)
+            return yAxis(d.max)
           })
           .attr('width', xAxisYears.bandwidth() + 5)
           .attr('height', function (d) {
-            return barPlotHeight - yAxis(d.val_max)
+            return yAxis(d.min) - yAxis(d.max)
           })
-          .attr('fill', '#435EF2')
+          .attr('fill', '#D5E1DC')
+          .on('mouseover', function (event, d) {
+            div.transition().duration(200).style('opacity', 0.9)
+            div
+              .html(
+                `<p class="tooltip-title"><strong>${d.label}</strong></p>
+                ${d.unit}&nbsp;: ${d.min} - ${d.max}`
+              )
+              .style('left', event.pageX + 30 + 'px')
+              .style('top', event.pageY - 30 + 'px')
+          })
+          .on('mouseout', function (event, d) {
+            div.style('opacity', 0)
+            div.html('').style('left', '-500px').style('top', '-500px')
+          })
       }
       // barPlotSvg
       //   .append('g')
@@ -290,3 +338,19 @@ export default {
   },
 }
 </script>
+
+<style>
+.chart-tooltip {
+  position: absolute;
+  min-width: 250px;
+  left: 0;
+  top: -12px;
+  background: #262626;
+  border-radius: 8px;
+  z-index: 1000;
+  padding: 10px;
+  pointer-events: none;
+  color: white;
+  font-size: 0.8rem;
+}
+</style>

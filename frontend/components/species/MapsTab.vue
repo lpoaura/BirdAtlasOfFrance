@@ -53,8 +53,8 @@ export default {
       //   seasons: ['breeding', 'wintering']
       // },
       {
-        label: 'Carte additionnelle',
-        name: 'Carte additionnelle',
+        label: 'Résultats des suivis',
+        name: 'Résultats des suivis',
         slug: 'extra-map',
         seasons: ['breeding', 'wintering', 'all_period'],
       },
@@ -80,7 +80,6 @@ export default {
   watch: {
     selectedTerritory: {
       handler(newVal, oldVal) {
-        console.log('TEST IDAREA', oldVal.id_area, newVal.id_area)
         if (newVal.id_area) {
           this.loadHistoricAtlasList()
         }

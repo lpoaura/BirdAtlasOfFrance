@@ -108,6 +108,15 @@ export default {
       }
     },
     renderChart() {
+      const divId = 'pheno-all-period-chart-tooltip'
+      document.getElementById(divId)?.remove()
+      const div = d3
+        .select('body')
+        .append('div')
+        .attr('class', 'chart-tooltip')
+        .attr('id', divId)
+        .style('opacity', 0)
+
       d3.select(this.$el).select('.BarPlotSvg').remove()
 
       d3.select(this.$el)
@@ -180,6 +189,7 @@ export default {
         )
       // Set left Y axis and add it
       if (this.hasNbData) {
+        const nbDataLabel = this.chartData.phenology.label
         const yAxisLeft = d3
           .scaleLinear()
           .range([barPlotHeight, 0])
@@ -240,9 +250,21 @@ export default {
             return barPlotHeight - yAxisLeft(d.value)
           })
           .attr('fill', this.chartData.phenology.color)
+          .on('mouseover', function (event, d) {
+            div.transition().duration(200).style('opacity', 0.9)
+            div
+              .html(`<strong>${nbDataLabel}</strong>&nbsp;: ${d.value}`)
+              .style('left', event.pageX + 30 + 'px')
+              .style('top', event.pageY - 30 + 'px')
+          })
+          .on('mouseout', function (event, d) {
+            div.style('opacity', 0)
+            div.html('').style('left', '-500px').style('top', '-500px')
+          })
       }
       // Set right Y axis and add it
       if (this.hasFreqData) {
+        const freqDataLabel = this.chartData.frequency.label
         const yAxisRight = d3
           .scaleLinear()
           .range([barPlotHeight, 0])
@@ -323,6 +345,21 @@ export default {
           })
           .attr('r', 4)
           .attr('fill', this.chartData.frequency.color)
+          .on('mouseover', function (event, d) {
+            div.transition().duration(200).style('opacity', 0.9)
+            div
+              .html(
+                `<strong>${freqDataLabel}</strong>&nbsp;: ${d.value.toFixed(
+                  2
+                )}%`
+              )
+              .style('left', event.pageX + 30 + 'px')
+              .style('top', event.pageY - 30 + 'px')
+          })
+          .on('mouseout', function (event, d) {
+            div.style('opacity', 0)
+            div.html('').style('left', '-500px').style('top', '-500px')
+          })
       }
       // Delete axis lines
       barPlotSvg
