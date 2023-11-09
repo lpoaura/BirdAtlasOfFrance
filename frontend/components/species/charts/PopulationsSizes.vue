@@ -167,21 +167,25 @@ export default {
       //       return d.label
       //     }),
       //   ])
+      const minYear=Math.min.apply(Math, data.map(i => i.label))
+      const maxYear=Math.max.apply(Math, data.map(i => i.label))
+      const domain = Array((maxYear-minYear)+1).fill().map((_e, i) => minYear+i)
       const xAxisYears = d3
         .scaleBand()
         .range([0, barPlotWidth])
         .padding(0.4)
-        .domain(data.map((d) => d.label))
+        // .domain(data.map((d) => d.label))
+        .domain(domain)
 
       const xAxis5Years = d3
         .scaleBand()
         .range([0, barPlotWidth])
         .padding(0.4)
         .domain(
-          data
-            .filter((d) => this.isRoundYear(d.label))
+          domain
+            .filter((d) => this.isRoundYear(d))
             .map(function (d) {
-              return d.label
+              return d
             })
         )
       barPlotSvg

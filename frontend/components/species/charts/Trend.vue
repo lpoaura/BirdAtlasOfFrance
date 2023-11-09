@@ -138,11 +138,23 @@ export default {
         .append('g')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
       // Set X axis and add it
+      const minYear=Math.min.apply(Math, data.map(i => i.label))
+      const maxYear=Math.max.apply(Math, data.map(i => i.label))
+      const domain = Array((maxYear-minYear)+1).fill().map((_e, i) => minYear+i)
+      console.log(domain)
       const xAxisYears = d3
         .scaleBand()
         .range([0, linePlotWidth])
         .padding(0.4)
-        .domain(data.map((d) => d.label))
+        .domain(domain)
+      // const minYear=Math.min.apply(Math, data.map(i => i.label))
+      // const maxYear=Math.max.apply(Math, data.map(i => i.label))
+      // const xAxisYears = d3
+      //   .scaleBand()
+      //   .range([0, linePlotWidth])
+      //   .padding(0.4)
+      //   // .domain(data.map((d) => d.label))
+      //   .domain(Array(maxYear-minYear).fill().map((_e, i) => minYear+i))
 
       const xAxis5Years = d3
         .scaleBand()
