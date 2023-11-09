@@ -98,7 +98,7 @@ export default {
     },
     renderChart() {
       // Get bar plot size
-      const margin = { top: 20, right: 0, bottom: 24, left: 66 }
+      const margin = { top: 30, right: 0, bottom: 24, left: 66 }
       const barPlotWidth = Math.max(
         parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
         margin.left -
@@ -199,8 +199,25 @@ export default {
         .domain(
           this.chartData.distribution.map(d => d.decade)
         )
-      // Zone Quantile
+
+      // DECADE DATA
+      barPlotSvg
+        .append('g')
+        .attr('class', 'bars')
+        .selectAll('rect')
+        .data(this.chartData.distribution)
+        .enter()
+        .append('rect')
+        .attr('class', 'bar')
+        .attr('x', d => xAxisDecades(d.decade))
+        .attr('y', d => yAxis(d.count))
+        .attr('width', xAxisDecades.bandwidth())
+        .attr('height', d => barPlotHeight - yAxis(d.count))
+        .attr('fill', "rgba(67, 94, 242, 0.6)")
+
+      // QUANTILE ZONES
       this.chartData?.quantile?.forEach(item => {
+        // ZONE
         barPlotSvg
           .append('rect')
           .attr('class', 'quantiles')
@@ -236,6 +253,7 @@ export default {
           .attr('stroke-width', 4)
           .style('stroke-dasharray', '4,5')
           .style('stroke', this.quantileDesc[item.phenology_period].colors.median)
+        // Text 5%
         barPlotSvg
           .append('text')
           .attr(
@@ -243,12 +261,13 @@ export default {
             xAxisDecades(item.q5) +
             xAxisDecades.bandwidth() / 2
           )
-          .attr('y', -margin.top + 10)
+          .attr('y', -margin.top + 25)
           .attr(
             'style',
             "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
           )
           .text('5%')
+        // Text median
         barPlotSvg
           .append('text')
           .attr(
@@ -262,6 +281,7 @@ export default {
             "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
           )
           .text('Médiane')
+        // Text 95%
         barPlotSvg
           .append('text')
           .attr(
@@ -269,16 +289,17 @@ export default {
             xAxisDecades(item.q95) +
             xAxisDecades.bandwidth() / 2
           )
-          .attr('y', -margin.top + 10)
+          .attr('y', -margin.top + 25)
           .attr(
             'style',
             "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
           )
           .text('95%')
-      }
+      })
 
-      )
+      // Pivotal date
       this.chartData?.distribution?.filter(item => item.pivotal_decade).forEach(item => {
+        // LINE
         barPlotSvg
           .append('line')
           .attr('class', 'median')
@@ -296,7 +317,8 @@ export default {
           .attr('y2', barPlotHeight)
           .attr('stroke-width', 4)
           .style('stroke-dasharray', '4,5')
-          .style('stroke', 'green')
+          .style('stroke', 'pink')
+        // text
         barPlotSvg
           .append('text')
           .attr(
@@ -311,20 +333,8 @@ export default {
           )
           .text('Date charnière')
       })
-     
-      barPlotSvg
-        .append('g')
-        .attr('class', 'bars')
-        .selectAll('rect')
-        .data(this.chartData.distribution)
-        .enter()
-        .append('rect')
-        .attr('class', 'bar')
-        .attr('x', d => xAxisDecades(d.decade))
-        .attr('y', d => yAxis(d.count))
-        .attr('width', xAxisDecades.bandwidth())
-        .attr('height', d => barPlotHeight - yAxis(d.count))
-        .attr('fill', "rgba(67, 94, 242, 0.6)")
+
+
     },
   },
 }
