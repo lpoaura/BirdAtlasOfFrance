@@ -181,7 +181,7 @@ export default {
       const xAxisDecades = d3
         .scaleBand()
         .range([0, barPlotWidth])
-        .padding(0.9)
+        .padding(0.7)
         .domain(
           this.chartData.phenology.data.map(function (d) {
             return d.label

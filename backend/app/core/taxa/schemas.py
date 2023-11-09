@@ -113,3 +113,29 @@ class SurveyChartDataItem(BaseModel):
     year: int
     unit: str
     data: SurveyChartDataDetailProperties
+
+
+# class MigrationChartBaseModel(BaseModel):
+#     processing: str
+
+
+class MigrationDecadeDataItem(BaseModel):
+    decade: int
+    count: int
+    pivotal_decade: bool
+
+
+
+class MigrationQuantileDataItem(BaseModel):
+    phenology_period: str
+    q2_5: int
+    q5: int
+    q25: int
+    median: int
+    q75: int
+    q95: int
+    q2_5: int
+
+class MigrationChartData(BaseModel):
+    quantile: List[MigrationQuantileDataItem]
+    distribution: List[MigrationDecadeDataItem]

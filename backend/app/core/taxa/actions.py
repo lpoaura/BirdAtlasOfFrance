@@ -21,6 +21,8 @@ from .models import (
     MvTaxaTerritoryDistribution,
     THistoricAtlasesData,
     THistoricAtlasesInfo,
+    TTaxaMigrationDecadeData,
+    TTaxaMigrationQuantileData,
 )
 
 # from .models import MvTaxaAltitudeDistribution
@@ -28,7 +30,7 @@ from .models import (
 logger = logging.getLogger(__name__)
 
 
-class TaxaTerritoryDistributionActions(BaseReadOnlyActions[MvTaxaTerritoryDistribution]):
+class TaxaTerritoryDistributionActions:
     """Actions to get taxon territory list"""
 
     def territory_list(self, db: Session, cd_nom: int) -> Query:
@@ -44,7 +46,7 @@ class TaxaTerritoryDistributionActions(BaseReadOnlyActions[MvTaxaTerritoryDistri
         return query.first()
 
 
-class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
+class TaxaDistributionActions:
     """Post actions with basic CRUD operations"""
 
     def taxa_distribution(
@@ -184,7 +186,7 @@ class TaxaDistributionActions(BaseReadOnlyActions[AreaKnowledgeTaxaList]):
         return query.all()
 
 
-class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution]):
+class TaxaAltitudeDistributionActions:
     """[summary]
 
     Args:
@@ -241,7 +243,7 @@ class TaxaAltitudeDistributionActions(BaseReadOnlyActions[MvAltitudeDistribution
         return q.all()
 
 
-class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
+class TaxaGlobalPhenologyActions:
     """[summary]
 
     Args:
@@ -286,7 +288,7 @@ class TaxaGlobalPhenologyActions(BaseReadOnlyActions[MvTaxaAllPeriodPhenology]):
         return query.all()
 
 
-class TaxaBreedingPhenologyActions(BaseReadOnlyActions[MvTaxaBreedingPhenology]):
+class TaxaBreedingPhenologyActions:
     """[summary]
 
     Args:
@@ -307,7 +309,7 @@ class TaxaBreedingPhenologyActions(BaseReadOnlyActions[MvTaxaBreedingPhenology])
         return q.all()
 
 
-class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
+class HistoricAtlasesActions:
     """Get Historu"""
 
     def historic_atlas_data(
@@ -398,7 +400,7 @@ class HistoricAtlasesActions(BaseReadOnlyActions[THistoricAtlasesData]):
             return query.all()
 
 
-class SurveyMapDataActions(BaseReadOnlyActions[MvSurveyMapData]):
+class SurveyMapDataActions:
     """Post actions with basic CRUD operations"""
 
     def data_distribution(
@@ -458,7 +460,7 @@ class SurveyMapDataActions(BaseReadOnlyActions[MvSurveyMapData]):
         return query.all()
 
 
-class SurveyChartDataActions(BaseReadOnlyActions[MvSurveyChartData]):
+class SurveyChartDataActions:
     """Post actions with basic CRUD operations"""
 
     def get_data(
@@ -482,11 +484,50 @@ class SurveyChartDataActions(BaseReadOnlyActions[MvSurveyChartData]):
         return query
 
 
-taxa_list_territory = TaxaTerritoryDistributionActions(MvTaxaTerritoryDistribution)
-taxa_distrib = TaxaDistributionActions(AreaKnowledgeTaxaList)
-historic_atlas_distrib = HistoricAtlasesActions(THistoricAtlasesData)
-altitude_distrib = TaxaAltitudeDistributionActions(MvAltitudeDistribution)
-all_period_phenology_distrib = TaxaGlobalPhenologyActions(MvTaxaAllPeriodPhenology)
-breeding_phenology_distrib = TaxaBreedingPhenologyActions(MvTaxaBreedingPhenology)
-survey_map_data = SurveyMapDataActions(MvSurveyMapData)
-survey_chart_data = SurveyChartDataActions(MvSurveyChartData)
+class MigrationChartDataActions:
+    """Post actions with basic CRUD operations"""
+
+    def get_data(
+        self,
+        db: Session,
+        cd_nom: int,
+        id_area_atlas_territory: str,
+    ) -> dict:
+        quantile = (
+            db.query(
+                TTaxaMigrationQuantileData.phenology_period,
+                TTaxaMigrationQuantileData.q2_5,
+                TTaxaMigrationQuantileData.q5,
+                TTaxaMigrationQuantileData.q25,
+                TTaxaMigrationQuantileData.q75,
+                TTaxaMigrationQuantileData.median,
+                TTaxaMigrationQuantileData.q75,
+                TTaxaMigrationQuantileData.q95,
+                TTaxaMigrationQuantileData.q2_5,
+            ).filter(
+                TTaxaMigrationQuantileData.cd_nom == cd_nom,
+                TTaxaMigrationQuantileData.id_area == id_area_atlas_territory,
+            )
+        ).all()
+        distribution = (
+            db.query(
+                TTaxaMigrationDecadeData.decade,
+                TTaxaMigrationDecadeData.count,
+                TTaxaMigrationDecadeData.pivotal_decade,
+            ).filter(
+                TTaxaMigrationDecadeData.cd_nom == cd_nom,
+                TTaxaMigrationDecadeData.id_area == id_area_atlas_territory,
+            )
+        ).all()
+        return {"quantile": quantile, "distribution": distribution}
+
+
+taxa_list_territory = TaxaTerritoryDistributionActions()
+taxa_distrib = TaxaDistributionActions()
+historic_atlas_distrib = HistoricAtlasesActions()
+altitude_distrib = TaxaAltitudeDistributionActions()
+all_period_phenology_distrib = TaxaGlobalPhenologyActions()
+breeding_phenology_distrib = TaxaBreedingPhenologyActions()
+survey_map_data = SurveyMapDataActions()
+survey_chart_data = SurveyChartDataActions()
+migration_chart_distrib = MigrationChartDataActions()
