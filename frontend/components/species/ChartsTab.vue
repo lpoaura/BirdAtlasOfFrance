@@ -11,9 +11,9 @@
     <species-charts-phenology-all-period
       v-if="selectedSeason.value === 'all_period'"
     />
-    <!-- <species-charts-phenology-migration
+    <species-charts-phenology-migration
       v-if="selectedSeason.value === 'all_period'"
-    /> -->
+    />
     <species-charts-phenology-breeding
       v-if="selectedSeason.value === 'breeding'"
     />

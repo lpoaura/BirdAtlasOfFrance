@@ -11,16 +11,12 @@
       </div>
       <div class="ChartLegend">
         <h5 class="ChartLegendLabel">
-          <i :style="{ background: chartData.phenology?.color }"></i
-          >{{ chartData.phenology?.label }}
+          <i style="background:#435EF2"></i>Nombre de données en migration active
         </h5>
-        <h5 class="ChartLegendLabel">
-          <i :style="{ background: chartData.prenuptial?.colors.quantile }"></i
-          >{{ chartData.prenuptial?.label }}
-        </h5>
-        <h5 class="ChartLegendLabel">
-          <i :style="{ background: chartData.postnuptial?.colors.quantile }"></i
-          >{{ chartData.postnuptial?.label }}
+
+        <h5 v-for="item in chartData?.quantile?.map(i => i.phenology_period)" class="ChartLegendLabel" :key="item">
+          <i :style="{ background: quantileDesc[item].colors.quantile }"></i>{{
+            quantileDesc[item].label }}
         </h5>
       </div>
     </div>
@@ -28,13 +24,27 @@
 </template>
 
 <script>
-import { dataPhenologyMigration } from '~/test/fakeData'
+// import { dataPhenologyMigration } from '~/test/fakeData'
 
 const d3 = require('d3')
 
 export default {
   data: () => ({
-    chartData: dataPhenologyMigration,
+    chartData: null,
+    quantileDesc: {
+      migration_prenuptial: {
+        label: 'Migration prénuptiale',
+        colors: { quantile: 'rgba(57, 118, 90, 0.1)', median: 'rgba(57, 118, 90, 1)' },
+      },
+      migration_postnuptial: {
+        label: 'Migration postnuptiale',
+        colors: { quantile: 'rgba(235, 106, 10, 0.1)', median: 'rgba(235, 106, 10, 1)' },
+      },
+      migration: {
+        label: 'Migration',
+        colors: { quantile: 'rgba(67, 94, 242, 0.1)', median: 'rgba(67, 94, 242, 1)' },
+      }
+    }
   }),
   computed: {
     idArea() {
@@ -71,18 +81,28 @@ export default {
       })
     },
     async getChartData() {
-      // const url = `/api/v1/taxa/phenology/migration/${this.idArea}/${this.cdNom}`
-      // this.chartData = await this.$axios.$get(url).catch((error) => {
-      //   console.debug(`${error}`)
-      // })
+      if (this.idArea) {
+        const params = {
+          cd_nom: this.cdNom,
+          id_area: this.idArea,
+        }
+        const url = `/api/v1/taxa/chart/migration`
+        this.chartData = await this.$axios
+          .$get(url, {
+            params
+          })
+          .catch((error) => {
+            console.debug(`${error}`)
+          })
+      }
     },
     renderChart() {
       // Get bar plot size
       const margin = { top: 20, right: 0, bottom: 24, left: 66 }
       const barPlotWidth = Math.max(
         parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
-          margin.left -
-          margin.right,
+        margin.left -
+        margin.right,
         500
       )
       const barPlotHeight =
@@ -136,9 +156,7 @@ export default {
         .range([barPlotHeight, 0])
         .domain([
           0,
-          d3.max(this.chartData.phenology.data, function (d) {
-            return d.count_data
-          }),
+          d3.max(this.chartData.distribution, d => d.count),
         ])
       barPlotSvg
         .append('g')
@@ -177,178 +195,136 @@ export default {
       const xAxisDecades = d3
         .scaleBand()
         .range([0, barPlotWidth])
-        .padding(0.9)
+        .padding(0.7)
         .domain(
-          this.chartData.phenology.data.map(function (d) {
-            return d.label
-          })
+          this.chartData.distribution.map(d => d.decade)
         )
-      barPlotSvg
-        .append('rect')
-        .attr('class', 'quantiles')
-        .attr(
-          'x',
-          xAxisDecades(this.chartData.prenuptial.data[0]) +
+      // Zone Quantile
+      this.chartData?.quantile?.forEach(item => {
+        barPlotSvg
+          .append('rect')
+          .attr('class', 'quantiles')
+          .attr(
+            'x',
+            xAxisDecades(item.q5) +
             xAxisDecades.bandwidth() / 2
-        )
-        .attr('y', 0)
-        .attr(
-          'width',
-          xAxisDecades(this.chartData.prenuptial.data[2]) -
-            xAxisDecades(this.chartData.prenuptial.data[0])
-        )
-        .attr('height', barPlotHeight)
-        .attr('fill', this.chartData.prenuptial.colors.quantile)
-      barPlotSvg
-        .append('line')
-        .attr('class', 'median')
-        .attr(
-          'x1',
-          xAxisDecades(this.chartData.prenuptial.data[1]) +
+          )
+          .attr('y', 0)
+          .attr(
+            'width',
+            xAxisDecades(item.q95) -
+            xAxisDecades(item.q5)
+          )
+          .attr('height', barPlotHeight)
+          .attr('fill', this.quantileDesc[item.phenology_period].colors.quantile)
+        // MEDIAN Line
+        barPlotSvg
+          .append('line')
+          .attr('class', 'median')
+          .attr(
+            'x1',
+            xAxisDecades(item.median) +
             xAxisDecades.bandwidth() / 2
-        )
-        .attr(
-          'x2',
-          xAxisDecades(this.chartData.prenuptial.data[1]) +
+          )
+          .attr(
+            'x2',
+            xAxisDecades(item.median) +
             xAxisDecades.bandwidth() / 2
-        )
-        .attr('y1', 0)
-        .attr('y2', barPlotHeight)
-        .attr('stroke-width', 4)
-        .style('stroke-dasharray', '4,5')
-        .style('stroke', '#39765A')
-      barPlotSvg
-        .append('text')
-        .attr(
-          'x',
-          xAxisDecades(this.chartData.prenuptial.data[0]) +
+          )
+          .attr('y1', 0)
+          .attr('y2', barPlotHeight)
+          .attr('stroke-width', 4)
+          .style('stroke-dasharray', '4,5')
+          .style('stroke', this.quantileDesc[item.phenology_period].colors.median)
+        barPlotSvg
+          .append('text')
+          .attr(
+            'x',
+            xAxisDecades(item.q5) +
             xAxisDecades.bandwidth() / 2
-        )
-        .attr('y', -margin.top + 10)
-        .attr(
-          'style',
-          "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
-        )
-        .text('5%')
-      barPlotSvg
-        .append('text')
-        .attr(
-          'x',
-          xAxisDecades(this.chartData.prenuptial.data[1]) +
+          )
+          .attr('y', -margin.top + 10)
+          .attr(
+            'style',
+            "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
+          )
+          .text('5%')
+        barPlotSvg
+          .append('text')
+          .attr(
+            'x',
+            xAxisDecades(item.median) +
             xAxisDecades.bandwidth() / 2
-        )
-        .attr('y', -margin.top + 10)
-        .attr(
-          'style',
-          "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
-        )
-        .text('Médiane')
-      barPlotSvg
-        .append('text')
-        .attr(
-          'x',
-          xAxisDecades(this.chartData.prenuptial.data[2]) +
+          )
+          .attr('y', -margin.top + 10)
+          .attr(
+            'style',
+            "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
+          )
+          .text('Médiane')
+        barPlotSvg
+          .append('text')
+          .attr(
+            'x',
+            xAxisDecades(item.q95) +
             xAxisDecades.bandwidth() / 2
-        )
-        .attr('y', -margin.top + 10)
-        .attr(
-          'style',
-          "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
-        )
-        .text('95%')
-      barPlotSvg
-        .append('rect')
-        .attr('class', 'quantiles')
-        .attr(
-          'x',
-          xAxisDecades(this.chartData.postnuptial.data[0]) +
+          )
+          .attr('y', -margin.top + 10)
+          .attr(
+            'style',
+            "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
+          )
+          .text('95%')
+      }
+
+      )
+      this.chartData?.distribution?.filter(item => item.pivotal_decade).forEach(item => {
+        barPlotSvg
+          .append('line')
+          .attr('class', 'median')
+          .attr(
+            'x1',
+            xAxisDecades(item.decade) +
             xAxisDecades.bandwidth() / 2
-        )
-        .attr('y', 0)
-        .attr(
-          'width',
-          xAxisDecades(this.chartData.postnuptial.data[2]) -
-            xAxisDecades(this.chartData.postnuptial.data[0])
-        )
-        .attr('height', barPlotHeight)
-        .attr('fill', this.chartData.postnuptial.colors.quantile)
-      barPlotSvg
-        .append('line')
-        .attr('class', 'median')
-        .attr(
-          'x1',
-          xAxisDecades(this.chartData.postnuptial.data[1]) +
+          )
+          .attr(
+            'x2',
+            xAxisDecades(item.decade) +
             xAxisDecades.bandwidth() / 2
-        )
-        .attr(
-          'x2',
-          xAxisDecades(this.chartData.postnuptial.data[1]) +
+          )
+          .attr('y1', 0)
+          .attr('y2', barPlotHeight)
+          .attr('stroke-width', 4)
+          .style('stroke-dasharray', '4,5')
+          .style('stroke', 'green')
+        barPlotSvg
+          .append('text')
+          .attr(
+            'x',
+            xAxisDecades(item.decade) +
             xAxisDecades.bandwidth() / 2
-        )
-        .attr('y1', 0)
-        .attr('y2', barPlotHeight)
-        .attr('stroke-width', 4)
-        .style('stroke-dasharray', '4,5')
-        .style('stroke', '#EB6A0A')
-      barPlotSvg
-        .append('text')
-        .attr(
-          'x',
-          xAxisDecades(this.chartData.postnuptial.data[0]) +
-            xAxisDecades.bandwidth() / 2
-        )
-        .attr('y', -margin.top + 10)
-        .attr(
-          'style',
-          "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
-        )
-        .text('5%')
-      barPlotSvg
-        .append('text')
-        .attr(
-          'x',
-          xAxisDecades(this.chartData.postnuptial.data[1]) +
-            xAxisDecades.bandwidth() / 2
-        )
-        .attr('y', -margin.top + 10)
-        .attr(
-          'style',
-          "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
-        )
-        .text('Médiane')
-      barPlotSvg
-        .append('text')
-        .attr(
-          'x',
-          xAxisDecades(this.chartData.postnuptial.data[2]) +
-            xAxisDecades.bandwidth() / 2
-        )
-        .attr('y', -margin.top + 10)
-        .attr(
-          'style',
-          "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
-        )
-        .text('95%')
-      // Bars
+          )
+          .attr('y', -margin.top + 10)
+          .attr(
+            'style',
+            "text-anchor: middle; font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
+          )
+          .text('Date charnière')
+      })
+     
       barPlotSvg
         .append('g')
         .attr('class', 'bars')
         .selectAll('rect')
-        .data(this.chartData.phenology.data)
+        .data(this.chartData.distribution)
         .enter()
         .append('rect')
         .attr('class', 'bar')
-        .attr('x', function (d) {
-          return xAxisDecades(d.label)
-        })
-        .attr('y', function (d) {
-          return yAxis(d.count_data)
-        })
+        .attr('x', d => xAxisDecades(d.decade))
+        .attr('y', d => yAxis(d.count))
         .attr('width', xAxisDecades.bandwidth())
-        .attr('height', function (d) {
-          return barPlotHeight - yAxis(d.count_data)
-        })
-        .attr('fill', this.chartData.phenology.color)
+        .attr('height', d => barPlotHeight - yAxis(d.count))
+        .attr('fill', "rgba(67, 94, 242, 0.6)")
     },
   },
 }
@@ -357,7 +333,7 @@ export default {
 <style scoped>
 /********** RESPONSIVE **********/
 
-@media screen and (width <= 510px) {
+@media screen and (width <=510px) {
   .ChartLegend {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));

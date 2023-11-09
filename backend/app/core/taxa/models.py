@@ -95,7 +95,7 @@ class THistoricAtlasesInfo(Base):
     season_period = Column(String)
     description = Column(String)
     code = Column(String)
-    is_active = Column(Boolean)
+    is_active = Column(Integer)
 
 
 class THistoricAtlasesData(Base):
@@ -130,3 +130,32 @@ class MvSurveyChartData(Base):
     unit = Column(String)
     chart_type = Column(String)
     data = Column(JSON)
+
+
+class TTaxaMigrationDecadeData(Base):
+    __tablename__ = "t_taxa_migration_decade_data"
+    __table_args__ = {"schema": "atlas"}
+    id = Column(Integer, primary_key=True)
+    cd_nom = Column(Integer)
+    id_area = Column(ForeignKey(LAreas.id_area), nullable=False)
+    processing = Column(String)
+    decade = Column(Integer)
+    count = Column(Integer)
+    pivotal_decade = Column(Boolean)
+
+
+class TTaxaMigrationQuantileData(Base):
+    __tablename__ = "t_taxa_migration_quantile_data"
+    __table_args__ = {"schema": "atlas"}
+    id = Column(Integer, primary_key=True)
+    cd_nom = Column(Integer)
+    id_area = Column(ForeignKey(LAreas.id_area), nullable=False)
+    processing = Column(String)
+    phenology_period = Column(String)
+    q2_5 = Column(Integer)
+    q5 = Column(Integer)
+    q25 = Column(Integer)
+    median = Column(Integer)
+    q75 = Column(Integer)
+    q95 = Column(Integer)
+    q97_5 = Column(Integer)

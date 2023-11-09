@@ -8,12 +8,12 @@ from sqlalchemy.orm import Session
 
 from app.utils.db import get_db
 
-from ..commons.schemas import BaseFeatureCollection
 from .actions import (
     all_period_phenology_distrib,
     altitude_distrib,
     breeding_phenology_distrib,
     historic_atlas_distrib,
+    migration_chart_distrib,
     survey_chart_data,
     survey_map_data,
     taxa_distrib,
@@ -31,6 +31,7 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     TaxaDistributionFeaturesCollection,
     TaxaPhenologyApiData,
     TaxaTerritoryDistribution,
+    MigrationChartData
 )
 
 logger = logging.getLogger(__name__)
@@ -345,3 +346,27 @@ def get_survey_chart_data(
     if query.count() > 0:
         return query.all()
     return list()
+
+
+
+
+@router.get(
+    "/chart/migration",
+    response_model=MigrationChartData,
+    tags=["taxa"],
+    summary="taxon geographic distribution",
+    description="""# Taxon geographic distribution
+""",
+)
+@cache()
+def get_migration_chart_data(
+    cd_nom: int,
+    id_area: int,
+    db: Session = Depends(get_db),
+) -> Any:
+    query = migration_chart_distrib.get_data(
+        db,
+        cd_nom=cd_nom,
+        id_area_atlas_territory=id_area,
+    )
+    return query
