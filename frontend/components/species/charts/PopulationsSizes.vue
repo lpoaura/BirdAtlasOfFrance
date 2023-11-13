@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-if="idArea && !!chartData?.length"
-    id="population-size"
-    class="ChartCard"
-  >
+  <div v-if="idArea && !!chartData?.length" id="population-size" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">Taille de population</h4>
     <h5 class="black03 bottom-margin-40">Résultats des comptages</h5>
     <div class="ChartWrapper">
@@ -167,9 +163,9 @@ export default {
       //       return d.label
       //     }),
       //   ])
-      const minYear=Math.min.apply(Math, data.map(i => i.label))
-      const maxYear=Math.max.apply(Math, data.map(i => i.label))
-      const domain = Array((maxYear-minYear)+1).fill().map((_e, i) => minYear+i)
+      const minYear = Math.min.apply(Math, data.map(i => i.label))
+      const maxYear = Math.max.apply(Math, data.map(i => i.label))
+      const domain = Array((maxYear - minYear) + 1).fill().map((_e, i) => minYear + i)
       const xAxisYears = d3
         .scaleBand()
         .range([0, barPlotWidth])
@@ -208,12 +204,15 @@ export default {
         .range([barPlotHeight - 10, 0])
         .domain([
           d3.min(data, function (d) {
-            return Math.min(...[d.min, d.max, d.val])
+            const min = Math.min(...[d.min, d.max, d.val].filter(i => i > 0))
+            return min - 0.1 * min
           }),
           d3.max(data, function (d) {
-            return Math.max(...[d.min, d.max, d.val])
+            const max = Math.max(...[d.min, d.max, d.val])
+            return max + 0.1 * max
           }),
         ])
+      console.log('yAxis', yAxis.domain(), yAxis.range())
       barPlotSvg
         .append('g')
         .attr('class', 'yAxis')
@@ -250,7 +249,6 @@ export default {
 
       // Lines and points
       if (this.hasValues && !this.hasMinMaxValues) {
-        console.debug('STANDARD CHART')
         barPlotSvg
           .append('g')
           .attr('class', 'bars')
@@ -287,7 +285,6 @@ export default {
           })
       }
       if (this.hasMinMaxValues) {
-        console.debug('MINMAX CHART')
         barPlotSvg
           .append('g')
           .attr('class', 'bars')
