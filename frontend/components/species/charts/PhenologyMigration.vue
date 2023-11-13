@@ -69,14 +69,14 @@ export default {
   methods: {
     generateChart() {
       this.getChartData().then(() => {
-        if (this.chartData.distribution.length) {
+        if (this.chartData?.distribution.length) {
           this.renderChart()
         }
         this.$store.commit('species/pushSubjectsList', {
           label: 'Phénologie de migration',
           slug: 'phenology-migration',
           position: 2,
-          status: !!this.chartData.distribution.length,
+          status: !!this.chartData?.distribution.length,
         })
       })
     },
