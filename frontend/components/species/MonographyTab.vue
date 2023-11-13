@@ -216,14 +216,7 @@ export default {
       return this.$store.state.species.attributes
     },
     redLists() {
-      console.log('redList', this.status
-        .filter(
-          (i) =>
-            i.statusTypeGroup === 'Liste rouge' &&
-            !this.adminLevelOrderedList.includes(i.locationAdminLevel) &&
-            !(i.locationName === 'France métropolitaine' && i.source.includes('2011'))
-        ).map(i => [i.source, i.locationAdminLevel, i.locationName])
-      )
+
       return this.status
         .filter(
           (i) => i.statusTypeGroup === 'Liste rouge' &&
@@ -325,14 +318,10 @@ export default {
     this.initSubjectList()
   },
   methods: {
-    consoleLog(message) {
-      console.log(message)
-    },
     async getStatus() {
       await this.$axios
         .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}/status/lines`)
         .then((data) => {
-          console.log('DATA', data)
           this.status = data._embedded.status
         })
     },
