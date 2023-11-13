@@ -157,6 +157,7 @@ export default {
   },
   data: () => ({
     status: [],
+    locationNameList: ['Monde', 'Europe'],
     adminLevelOrderedList: ['État', 'Territoire'],
     descriptionHeight: 0,
     subjectsList: [
@@ -217,19 +218,25 @@ export default {
     redLists() {
       console.log('redList', this.status
         .filter(
-          (i) => (i.statusTypeGroup === 'Liste rouge' && (i.locationName === 'France métropolitaine' && i.source.includes('2011')))
-        )
+          (i) =>
+            i.statusTypeGroup === 'Liste rouge' &&
+            !this.adminLevelOrderedList.includes(i.locationAdminLevel) &&
+            !(i.locationName === 'France métropolitaine' && i.source.includes('2011'))
+        ).map(i => [i.source, i.locationAdminLevel, i.locationName])
       )
       return this.status
         .filter(
           (i) => i.statusTypeGroup === 'Liste rouge' &&
-            this.adminLevelOrderedList.includes(i.locationAdminLevel) &&
+            (this.locationNameList.includes(i.locationName) || this.adminLevelOrderedList.includes(i.locationAdminLevel)) &&
             !(i.locationName === 'France métropolitaine' && i.source.includes('2011'))
         )
         .sort(
           (a, b) =>
             this.adminLevelOrderedList.indexOf(a.locationAdminLevel) -
             this.adminLevelOrderedList.indexOf(b.locationAdminLevel)
+        )
+        .sort((a, b) =>
+          this.locationNameList.indexOf(b.locationName) - this.locationNameList.indexOf(a.locationName)
         )
     },
     regulatories() {
