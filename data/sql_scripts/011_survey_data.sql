@@ -23,10 +23,8 @@ $$
                  id_area,
                  cd_nom,
                  phenologie
-        ORDER BY 1, 2, 3, 4;
-
-        SELECT * FROM atlas.mv_survey_map_data;
-
+        ORDER BY 1, 2, 3, 4
+        WITH NO DATA;
 
         CREATE INDEX ON atlas.mv_survey_map_data (id_area_atlas_territory);
         CREATE INDEX ON atlas.mv_survey_map_data (cd_nom);
@@ -51,7 +49,7 @@ $$
                                   val_max)   AS data
         FROM src_survey.vm_graph_information
 --         GROUP BY 2, 3, 4, 5, 6
-            );
+            ) WITH NO DATA;
 
         CREATE INDEX ON atlas.mv_survey_chart_data (id_area_atlas_territory);
         CREATE INDEX ON atlas.mv_survey_chart_data (cd_nom);

@@ -173,22 +173,22 @@ export default {
         // .domain(data.map((d) => d.label))
         .domain(domain)
 
-      const xAxis5Years = d3
-        .scaleBand()
-        .range([0, barPlotWidth])
-        .padding(0.4)
-        .domain(
-          domain
-            .filter((d) => this.isRoundYear(d))
-            .map(function (d) {
-              return d
-            })
-        )
+      // const xAxis5Years = d3
+      //   .scaleBand()
+      //   .range([0, barPlotWidth])
+      //   .padding(0.4)
+      //   .domain(
+      //     domain
+      //       .filter((d) => this.isRoundYear(d))
+      //       .map(function (d) {
+      //         return d
+      //       })
+      //   )
       barPlotSvg
         .append('g')
         .attr('class', 'xAxis')
         .attr('transform', `translate(0, ${barPlotHeight})`)
-        .call(d3.axisBottom(xAxis5Years))
+        .call(d3.axisBottom(xAxisYears))
         .call((g) =>
           g
             .selectAll('text')
@@ -268,7 +268,7 @@ export default {
           .attr('height', function (d) {
             return barPlotHeight - yAxis(d.val)
           })
-          .attr('fill', '#435EF2')
+          .attr('fill', 'RGBA(67, 94, 242, 0.9)')
           .on('mouseover', function (event, d) {
             div.transition().duration(200).style('opacity', 0.9)
             div
@@ -294,7 +294,6 @@ export default {
           .append('rect')
           .attr('class', 'bar')
           .attr('x', function (d) {
-            console.log(d.label, d.max)
             return xAxisYears(d.label)
           })
           .attr('y', function (d) {
@@ -304,7 +303,7 @@ export default {
           .attr('height', function (d) {
             return yAxis(d.min) - yAxis(d.max)
           })
-          .attr('fill', '#D5E1DC')
+          .attr('fill', 'RGBA(67, 94, 242, 0.5)')
           .on('mouseover', function (event, d) {
             div.transition().duration(200).style('opacity', 0.9)
             div

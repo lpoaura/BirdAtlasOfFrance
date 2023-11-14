@@ -31,7 +31,8 @@ $$
                              JOIN ref_geo.l_areas la ON id_area_territory = la.id_area)
         SELECT ROW_NUMBER() OVER () AS id, t1.*
         FROM t1
-        ORDER BY t1.cd_nom, t1.id_area;
+        ORDER BY t1.cd_nom, t1.id_area
+        WITH NO DATA;
 
         CREATE INDEX ON atlas.mv_taxa_territory_distribution (cd_nom);
         CREATE UNIQUE INDEX ON atlas.mv_taxa_territory_distribution (cd_nom, id_area);
@@ -45,7 +46,7 @@ $$
     BEGIN
         SET WORK_MEM = '10GB';
         /* Vue matérialisée finale */
-        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_territory_altitude_ranges;
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_territory_altitude_ranges CASCADE ;
 
         CREATE MATERIALIZED VIEW atlas.mv_territory_altitude_ranges AS
         WITH maxalti AS (SELECT cor_area_synthese.id_area
@@ -64,7 +65,8 @@ $$
              , INT4RANGE(i, i + (SELECT ROUND(alti, -2) / 20)::INT, '[)') AS range
         FROM maxalti
                  CROSS JOIN GENERATE_SERIES(0, alti,
-                                            (SELECT ROUND(alti, -2) / 20)::INT) t(i);
+                                            (SELECT ROUND(alti, -2) / 20)::INT) t(i)
+        WITH NO DATA;
 
 
         CREATE UNIQUE INDEX ON atlas.mv_territory_altitude_ranges (id);
@@ -97,7 +99,8 @@ $$
                                t_territory_altitude.id_area = ranges.id_area)
                  JOIN pixel_count_by_territory ON t_territory_altitude.
                                                       id_area = pixel_count_by_territory.id_area
-        GROUP BY ranges.id_area, range, total_pixel_count;
+        GROUP BY ranges.id_area, range, total_pixel_count
+        WITH NO DATA;
 
 
         DROP MATERIALIZED VIEW IF EXISTS atlas.mv_alti_distribution;
@@ -138,8 +141,9 @@ $$
                                   mv_territory_altitude_ranges.id_area =
                                   t1.id_area)
         ORDER BY mv_territory_altitude_ranges.id_area
-               , t_taxa.cd_nom, range;
-        ;
+               , t_taxa.cd_nom, range
+        WITH NO DATA;
+
         CREATE UNIQUE INDEX ON atlas.mv_alti_distribution (id);
         CREATE INDEX ON atlas.mv_alti_distribution (cd_nom);
         CREATE INDEX ON atlas.mv_alti_distribution (id_area);
@@ -200,7 +204,8 @@ $$
         FROM matrix
                  LEFT JOIN data ON (matrix.cd_nom, matrix.id_area, matrix.decade) =
                                    (data.cd_nom, data.id_area, data.decade)
-        ORDER BY matrix.id_area, matrix.cd_nom, matrix.decade;
+        ORDER BY matrix.id_area, matrix.cd_nom, matrix.decade
+        WITH NO DATA;
 
         CREATE INDEX ON atlas.mv_taxa_allperiod_phenology (cd_nom);
         CREATE INDEX ON atlas.mv_taxa_allperiod_phenology (id_area);
@@ -281,7 +286,8 @@ $$
                  LEFT JOIN data
                            ON (matrix.cd_nom, matrix.id_area, matrix.decade, matrix.status) =
                               (data.cd_nom, data.id_area, data.decade, data.status)
-        ORDER BY matrix.id_area, matrix.cd_nom, matrix.decade;
+        ORDER BY matrix.id_area, matrix.cd_nom, matrix.decade
+        WITH NO DATA;
 
         CREATE INDEX ON atlas.mv_taxa_breeding_phenology (cd_nom);
         CREATE INDEX ON atlas.mv_taxa_breeding_phenology (id_area);
@@ -306,8 +312,8 @@ $$
             q97_5            INT
         );
 
-        CREATE INDEX ON atlas.t_taxa_migration_quartile_data (cd_nom, id_area);
-        COMMENT ON TABLE atlas.t_taxa_migration_quartile_data IS 'Migration quartile data';
+        CREATE INDEX ON atlas.t_taxa_migration_quantile_data (cd_nom, id_area);
+        COMMENT ON TABLE atlas.t_taxa_migration_quantile_data IS 'Migration quartile data';
 
         DROP TABLE IF EXISTS atlas.t_taxa_migration_decade_data;
         CREATE TABLE IF NOT EXISTS atlas.t_taxa_migration_decade_data
