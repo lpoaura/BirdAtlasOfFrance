@@ -132,6 +132,20 @@ class MvSurveyChartData(Base):
     data = Column(JSON)
 
 
+class TTaxa(Base):
+    __tablename__ = "t_taxa"
+    __table_args__ = {"schema": "atlas"}
+    cd_nom = Column(Integer, primary_key=True)
+    cd_sp = Column(Integer)
+    has_subsp = Column(Boolean)
+    rank = Column(String)
+    enabled = Column(Boolean)
+    available = Column(Boolean)
+    wintering_area_type = Column(Integer)
+    all_period_area_type = Column(Integer)
+    breeding_area_type = Column(Integer)
+
+
 class TTaxaMigrationDecadeData(Base):
     __tablename__ = "t_taxa_migration_decade_data"
     __table_args__ = {"schema": "atlas"}

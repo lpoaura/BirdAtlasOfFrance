@@ -21,46 +21,58 @@ $$
         (
         WITH cor_area_synthese AS (SELECT
                                        /* Zonages utilisés : Mailles */
-                                       cas.*
+                                       cas.*,
+                                       l_areas.id_type
                                    FROM gn_synthese.cor_area_synthese cas
                                             JOIN ref_geo.l_areas ON cas.id_area = l_areas.id_area
                                    WHERE enable IS TRUE
-                                     AND id_type = ref_geo.get_id_area_type('ATLAS_GRID'))
-        --           , data AS (
-        /* Filtrage des données et association au zonage */
-        SELECT DISTINCT cor_area_synthese.id_area
-                      , id_form                                   AS id_form_universal
-                      , project_code
-                      , synthese.id_synthese                      AS id_data
-                      , synthese.cd_nom
-                      , synthese.altitude_min                     AS altitude
-                      , synthese.date_min::DATE
-                      , TRUNC((EXTRACT(DOY FROM date_min) / 10))  AS day_decade
-                      , (synthese.date_min > '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min >= '2019-01-01'))               AS new_data_all_period
-                      , (synthese.date_min <= '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min < '2019-01-01'))                AS old_data_all_period
-                      , (EXTRACT(MONTH FROM synthese.date_min) IN (12, 1)
-            AND synthese.date_min <= '2019-01-31')                AS old_data_wintering
-                      , (EXTRACT(MONTH FROM synthese.date_min) IN (12, 1)
-            AND synthese.date_min > '2019-11-30')                 AS new_data_wintering
-                      , (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min < '2019-01-01')                 AS old_data_breeding
-                      , (tcse.bird_breed_code BETWEEN 2 AND 50
-            AND synthese.date_min >= '2019-01-01')                AS new_data_breeding
-                      , tcse.bird_breed_code
-                      , 'Migration active' = ANY (tcse.behaviour) AS active_migration
-        FROM gn_synthese.synthese
-                 JOIN cor_area_synthese ON cor_area_synthese.id_synthese = synthese.id_synthese
-                 JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
-                 JOIN atlas.mv_taxa_groups groups ON synthese.cd_nom = groups.cd_nom
-                 JOIN atlas.t_taxa ON t_taxa.cd_nom = groups.cd_group
-        WHERE t_taxa.enabled
-          AND synthese.id_nomenclature_valid_status IN (ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '1'),
-                                                        ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '2'))
-          AND synthese.id_nomenclature_observation_status !=
-              ref_nomenclatures.get_id_nomenclature('STATUT_OBS', 'No')
-          AND date_min >= '2007-01-01')
+                                     AND id_type IN (
+                                                     ref_geo.get_id_area_type('ATLAS_GRID'),
+                                                     ref_geo.get_id_area_type('DEP')))
+           , data AS (
+            /* Filtrage des données et association au zonage */
+            SELECT DISTINCT id_form                                   AS id_form_universal
+                          , project_code
+                          , synthese.id_synthese                      AS id_data
+                          , synthese.cd_nom
+                          , synthese.altitude_min                     AS altitude
+                          , synthese.date_min::DATE
+                          , TRUNC((EXTRACT(DOY FROM date_min) / 10))  AS day_decade
+                          , (synthese.date_min > '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
+                AND synthese.date_min >= '2019-01-01'))               AS new_data_all_period
+                          , (synthese.date_min <= '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
+                AND synthese.date_min < '2019-01-01'))                AS old_data_all_period
+                          , (EXTRACT(MONTH FROM synthese.date_min) IN (12, 1)
+                AND synthese.date_min <= '2019-01-31')                AS old_data_wintering
+                          , (EXTRACT(MONTH FROM synthese.date_min) IN (12, 1)
+                AND synthese.date_min > '2019-11-30')                 AS new_data_wintering
+                          , (tcse.bird_breed_code BETWEEN 2 AND 50
+                AND synthese.date_min < '2019-01-01')                 AS old_data_breeding
+                          , (tcse.bird_breed_code BETWEEN 2 AND 50
+                AND synthese.date_min >= '2019-01-01')                AS new_data_breeding
+                          , tcse.bird_breed_code
+                          , 'Migration active' = ANY (tcse.behaviour) AS active_migration
+            FROM gn_synthese.synthese
+                     JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
+                     JOIN atlas.mv_taxa_groups groups ON synthese.cd_nom = groups.cd_nom
+                     JOIN atlas.t_taxa ON t_taxa.cd_nom = groups.cd_group
+            WHERE t_taxa.enabled
+              AND synthese.id_nomenclature_valid_status IN (ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '1'),
+                                                            ref_nomenclatures.get_id_nomenclature('STATUT_VALID', '2'))
+              AND synthese.id_nomenclature_observation_status !=
+                  ref_nomenclatures.get_id_nomenclature('STATUT_OBS', 'No')
+              AND date_min >= '2007-01-01')
+        SELECT id_area, data.*
+        FROM data
+                 JOIN atlas.t_taxa ON data.cd_nom = t_taxa.cd_nom
+                 JOIN cor_area_synthese ON cor_area_synthese.id_synthese = data.id_data AND
+                                           (CASE
+                                                WHEN new_data_breeding OR old_data_breeding
+                                                    THEN t_taxa.breeding_area_type
+                                                WHEN new_data_wintering OR old_data_wintering
+                                                    THEN t_taxa.wintering_area_type
+                                                ELSE t_taxa.all_period_area_type END) = id_type
+            )
         WITH NO DATA;
         COMMENT ON MATERIALIZED VIEW atlas.mv_data_for_atlas IS 'All datas used for atlas';
         CREATE UNIQUE INDEX i_data_for_atlas_id_area_id_data ON atlas.mv_data_for_atlas (id_area, id_data);
@@ -148,11 +160,11 @@ $$
 
 
         WITH species AS (SELECT taxref.cd_nom
-                              , taxref.lb_nom                                                              AS latin_name
+                              , taxref.lb_nom                                     AS latin_name
                               , COALESCE(item ->> 'french_name',
-                                         SPLIT_PART(taxref.nom_vern, ',', 1))                              AS french_name
+                                         SPLIT_PART(taxref.nom_vern, ',', 1))     AS french_name
                               , COALESCE(item ->> 'english_name',
-                                         SPLIT_PART(taxref.nom_vern_eng, ',', 1))                          AS english_name
+                                         SPLIT_PART(taxref.nom_vern_eng, ',', 1)) AS english_name
                          FROM src_vn_json.species_json
                                   JOIN taxonomie.cor_c_vn_taxref ON vn_id = species_json.id
                                   JOIN taxonomie.taxref ON cor_c_vn_taxref.taxref_id = taxref.cd_nom
