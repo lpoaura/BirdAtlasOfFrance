@@ -11,7 +11,7 @@ $$
         RAISE NOTICE 'INFO: (RE)CREATE MV atlas mv_area_knowledge_list_taxa';
 
         /* function to retrieve nomenclature value and hierarchy */
-        CREATE OR REPLACE FUNCTION ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(_hierarchy VARCHAR, _type_mnemonique TEXT, _column TEXT)
+        CREATE OR REPLACE FUNCTION atlas.fct_nomenclature_value_from_hierarchy(_hierarchy VARCHAR, _type_mnemonique TEXT, _column TEXT)
             RETURNS TEXT AS
         $func$
         DECLARE
@@ -66,13 +66,13 @@ $$
                    , count(id_data) FILTER (WHERE new_data_all_period)                            AS all_period_count_data_new
                    , extract(YEAR FROM max(data.date_min))                                        AS all_period_last_obs
                    , count(id_data) FILTER (WHERE new_data_breeding)                              AS breeding_count_data_new
-                   , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
+                   , atlas.fct_nomenclature_value_from_hierarchy(
                              (max(ac.hierarchy) FILTER (WHERE new_data_breeding))::TEXT, 'VN_ATLAS_CODE',
                              'label_default')                                                     AS breeding_status_new
                    , count(id_data) FILTER (WHERE old_data_breeding)                              AS breeding_count_data_old
                    , extract(YEAR FROM
                              (max(data.date_min) FILTER (WHERE bird_breed_code IS NOT NULL)))     AS breeding_last_obs
-                   , ref_nomenclatures.fct_c_nomenclature_value_from_hierarchy(
+                   , atlas.fct_nomenclature_value_from_hierarchy(
                              (max(ac.hierarchy) FILTER (WHERE old_data_breeding))::TEXT, 'VN_ATLAS_CODE',
                              'label_default')                                                     AS breeding_status_old
                    , count(id_data) FILTER (WHERE old_data_wintering)                             AS wintering_count_data_old
@@ -105,6 +105,3 @@ $$
     END
 $$
 ;
-
-grant select on all tables in schema atlas to odfapp, gnadm;
-grant select on all tables in schema taxonomie to odfapp, gnadm;
