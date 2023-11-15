@@ -1,8 +1,8 @@
 <template>
   <v-container fluid class="fill-height">
-    <v-row class="fill-height ma-0">
-      <v-col v-if="!mapData">Aucune donnée disponible pour ce territoire</v-col>
-      <v-col v-if="mapData" ref="mapBlock" cols="9" xs="12" sm="12" md="8">
+    <v-col v-if="!hasData" class="no-data-info">Aucune donnée disponible pour ce territoire et cette période</v-col>
+    <v-row v-if="hasData"  class="fill-height ma-0">
+      <v-col ref="mapBlock" cols="9" xs="12" sm="12" md="8">
         <commons-map-loading-control
           class="float-right"
           :loading="dataLoading"
@@ -19,6 +19,7 @@
         md="4"
       >
         <div id="legend-title" class="pa-5 black02 fw-bold">Légende</div>
+        
         <div class="pa-5">
           <p>
             <span class="float-left pr-5"
@@ -82,6 +83,9 @@ export default {
     selectedSeason() {
       return this.$store.state.species.selectedSeason
     },
+    hasData(){
+      return !!this.mapData?.features.filter(i => i.properties.data != null).length
+    }
   },
   watch: {
     idArea: {
@@ -104,7 +108,9 @@ export default {
   methods: {
     generateMap() {
       this.getMapData().then(() => {
-        if (this.mapData) {
+        d3.select('#map').selectAll('svg').remove()
+        console.log('hasData', this.hasData)
+        if (this.hasData) {
           this.renderMap()
         }
       })
@@ -136,7 +142,6 @@ export default {
       this.dataLoading = false
     },
     renderMap() {
-      d3.select('#map').selectAll('svg').remove()
       const color = this.colors[this.selectedSeason.value]
       const path = d3.geoPath()
       const projection = d3
@@ -146,7 +151,6 @@ export default {
         .translate([600 / 2, 600 / 2])
       path.projection(projection)
 
-      d3.select('#map').selectAll('svg').remove()
 
       const svg = d3
         .select('#map')
@@ -247,5 +251,12 @@ export default {
 
 .tooltip-values {
   color: white;
+}
+
+.no-data-info {
+  background-color: rgb(78, 78, 78, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 10%;
 }
 </style>
