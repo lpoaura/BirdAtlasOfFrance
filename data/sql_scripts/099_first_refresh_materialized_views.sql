@@ -94,6 +94,6 @@ $$
     END
 $$
 ;
-
-GRANT SELECT ON ALL TABLES IN SCHEMA atlas TO odfapp, gnadm
-;
+--
+-- GRANT SELECT ON ALL TABLES IN SCHEMA atlas TO odfapp, gnadm
+-- ;

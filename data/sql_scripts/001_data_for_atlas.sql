@@ -67,9 +67,9 @@ $$
                  JOIN atlas.t_taxa ON data.cd_nom = t_taxa.cd_nom
                  JOIN cor_area_synthese ON cor_area_synthese.id_synthese = data.id_data AND
                                            (CASE
-                                                WHEN new_data_breeding OR old_data_breeding
+                                                WHEN (new_data_breeding OR old_data_breeding)
                                                     THEN t_taxa.breeding_area_type
-                                                WHEN new_data_wintering OR old_data_wintering
+                                                WHEN (new_data_wintering OR old_data_wintering)
                                                     THEN t_taxa.wintering_area_type
                                                 ELSE t_taxa.all_period_area_type END) = id_type
             )
