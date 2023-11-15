@@ -70,7 +70,7 @@ $$
         FROM lpofrance_mte.pheno_migration_etape7_quantiles_choix_traitement_esp_d,
              ref_geo.l_areas
         WHERE id_type = ref_geo.get_id_area_type('ATLAS_TERRITORY')
-          AND area_code LIKE 'FRMET');
+          AND area_code LIKE 'FRMET';
 
         INSERT INTO atlas.t_taxa_migration_quantile_data(cd_nom, id_area, processing, period, q2_5, q5, q25, median,
                                                          q75, q95,
@@ -95,3 +95,5 @@ $$
     END
 $$
 ;
+
+select * from
