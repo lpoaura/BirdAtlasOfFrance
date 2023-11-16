@@ -19,7 +19,7 @@ from .models import (
     MvTaxaAllPeriodPhenology,
     MvTaxaBreedingPhenology,
     MvTaxaTerritoryDistribution,
-    THistoricAtlasesData,
+    MVHistoricAtlasesData,
     THistoricAtlasesInfo,
     TTaxaMigrationDecadeData,
     TTaxaMigrationQuantileData,
@@ -341,14 +341,14 @@ class HistoricAtlasesActions:
 
         q = (
             db.query(
-                THistoricAtlasesData.id_area.label("id"),
-                THistoricAtlasesData.status,
-                func.json_build_object("status", THistoricAtlasesData.status).label("properties"),
+                MVHistoricAtlasesData.id_area.label("id"),
+                MVHistoricAtlasesData.status,
+                func.json_build_object("status", MVHistoricAtlasesData.status).label("properties"),
                 LAreas.geojson_4326.label("geometry"),
             )
-            .join(LAreas, LAreas.id_area == THistoricAtlasesData.id_area)
-            .filter(THistoricAtlasesData.cd_nom == cd_nom)
-            .filter(THistoricAtlasesData.id_historic_atlas_info == id_historic_atlas)
+            .join(LAreas, LAreas.id_area == MVHistoricAtlasesData.id_area)
+            .filter(MVHistoricAtlasesData.cd_nom == cd_nom)
+            .filter(MVHistoricAtlasesData.id_historic_atlas_info == id_historic_atlas)
         )
 
         if envelope:
@@ -400,10 +400,10 @@ class HistoricAtlasesActions:
         if query:
             if cd_nom and id_area:
                 query = query.join(
-                    THistoricAtlasesData,
-                    THistoricAtlasesInfo.id == THistoricAtlasesData.id_historic_atlas_info,
+                    MVHistoricAtlasesData,
+                    THistoricAtlasesInfo.id == MVHistoricAtlasesData.id_historic_atlas_info,
                 ).filter(
-                    THistoricAtlasesData.cd_nom == cd_nom,
+                    MVHistoricAtlasesData.cd_nom == cd_nom,
                     THistoricAtlasesInfo.id_territory == id_area,
                 )
             return query.all()

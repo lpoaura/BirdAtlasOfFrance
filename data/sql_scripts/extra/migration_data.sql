@@ -95,5 +95,3 @@ $$
     END
 $$
 ;
-
-select * from
