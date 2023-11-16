@@ -46,7 +46,7 @@ $$
     BEGIN
         SET WORK_MEM = '10GB';
         /* Vue matérialisée finale */
-        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_territory_altitude_ranges CASCADE ;
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_territory_altitude_ranges CASCADE;
 
         CREATE MATERIALIZED VIEW atlas.mv_territory_altitude_ranges AS
         WITH maxalti AS (SELECT cor_area_synthese.id_area
@@ -329,6 +329,49 @@ $$
 
         CREATE INDEX ON atlas.t_taxa_migration_decade_data (cd_nom, id_area);
         COMMENT ON TABLE atlas.t_taxa_migration_decade_data IS 'Migration decade data';
+
+
+        CREATE MATERIALIZED VIEW atlas.mv_historic_atlases_data AS
+        WITH area_type
+                 AS (SELECT DISTINCT UNNEST(ARRAY [breeding_area_type, wintering_area_type, all_period_area_type]) AS id_type
+                     FROM atlas.t_taxa),
+             grid AS (SELECT id_area, centroid
+                      FROM ref_geo.l_areas
+                      WHERE id_area IN (SELECT DISTINCT id_area FROM atlas.t_historic_atlases_data)),
+             area AS (SELECT id_type, id_area, geom
+                      FROM ref_geo.l_areas
+                      WHERE id_type IN (SELECT id_type FROM area_type))
+        SELECT ROW_NUMBER() OVER ()                                      AS id,
+               id_historic_atlas_info,
+               area.id_area,
+               t_historic_atlases_data.cd_nom,
+               CASE
+                   WHEN 'Nicheur certain' = ANY (ARRAY_AGG(status)) THEN 'Nicheur certain'
+                   WHEN 'Nicheur probable' = ANY (ARRAY_AGG(status)) THEN 'Nicheur probable'
+                   WHEN 'Nicheur possible' = ANY (ARRAY_AGG(status)) THEN 'Nicheur possible'
+                   WHEN 'Hivernant' = ANY (ARRAY_AGG(status)) THEN 'Hivernant'
+                   WHEN 'rare' = ANY (ARRAY_AGG(status)) THEN 'rare' END AS status
+        FROM atlas.t_historic_atlases_data
+                 JOIN atlas.t_historic_atlases_info
+                      ON t_historic_atlases_data.id_historic_atlas_info = t_historic_atlases_info.id
+                 JOIN atlas.t_taxa ON t_historic_atlases_data.cd_nom = t_taxa.cd_nom
+                 JOIN grid ON t_historic_atlases_data.id_area = grid.id_area
+                 JOIN area ON st_within(grid.centroid, area.geom)
+            AND grid.id_area IN (SELECT DISTINCT id_area FROM atlas.t_historic_atlases_data)
+            AND area.id_type IN (SELECT id_type FROM area_type)
+        WHERE area.id_type = CASE
+                                 WHEN t_historic_atlases_info.season_period = 'breeding' THEN breeding_area_type
+                                 WHEN t_historic_atlases_info.season_period = 'wintering' THEN wintering_area_type
+                                 ELSE all_period_area_type END
+        GROUP BY id_historic_atlas_info, area.id_area,
+                 t_historic_atlases_data.cd_nom;
+
+        CREATE INDEX ON atlas.mv_historic_atlases_data (id_historic_atlas_info);
+        CREATE INDEX ON atlas.mv_historic_atlases_data (id_area);
+        CREATE INDEX ON atlas.mv_historic_atlases_data (cd_nom);
+        CREATE INDEX ON atlas.mv_historic_atlases_data (status);
+
+        COMMENT ON TABLE atlas.mv_historic_atlases_data IS 'Historic atlases data (one data is on specie on one area (grid) with one status from one source';
 
         COMMIT;
     END

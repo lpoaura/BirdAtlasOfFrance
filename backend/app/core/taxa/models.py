@@ -98,8 +98,8 @@ class THistoricAtlasesInfo(Base):
     is_active = Column(Integer)
 
 
-class THistoricAtlasesData(Base):
-    __tablename__ = "t_historic_atlases_data"
+class MVHistoricAtlasesData(Base):
+    __tablename__ = "mv_historic_atlases_data"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
     id_historic_atlas_info = Column(ForeignKey(THistoricAtlasesInfo.id), nullable=False)
