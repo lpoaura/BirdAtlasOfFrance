@@ -330,7 +330,7 @@ $$
         CREATE INDEX ON atlas.t_taxa_migration_decade_data (cd_nom, id_area);
         COMMENT ON TABLE atlas.t_taxa_migration_decade_data IS 'Migration decade data';
 
-
+        DROP MATERIALIZED VIEW IF EXISTS atlas.mv_historic_atlases_data;
         CREATE MATERIALIZED VIEW atlas.mv_historic_atlases_data AS
         WITH area_type
                  AS (SELECT DISTINCT UNNEST(ARRAY [breeding_area_type, wintering_area_type, all_period_area_type]) AS id_type
@@ -343,7 +343,15 @@ $$
                       WHERE id_type IN (SELECT id_type FROM area_type))
         SELECT ROW_NUMBER() OVER ()                                      AS id,
                id_historic_atlas_info,
-               area.id_area,
+               CASE
+                   WHEN (CASE
+                             WHEN t_historic_atlases_info.season_period = 'breeding'::phenology_period
+                                 THEN t_taxa.breeding_area_type
+                             WHEN t_historic_atlases_info.season_period = 'wintering'::phenology_period
+                                 THEN t_taxa.wintering_area_type
+                             ELSE t_taxa.all_period_area_type
+                       END) != ref_geo.get_id_area_type('ATLAS_GRID') THEN area.id_area
+                   ELSE t_historic_atlases_data.id_area END              AS id_area,
                t_historic_atlases_data.cd_nom,
                CASE
                    WHEN 'Nicheur certain' = ANY (ARRAY_AGG(status)) THEN 'Nicheur certain'
@@ -363,7 +371,16 @@ $$
                                  WHEN t_historic_atlases_info.season_period = 'breeding' THEN breeding_area_type
                                  WHEN t_historic_atlases_info.season_period = 'wintering' THEN wintering_area_type
                                  ELSE all_period_area_type END
-        GROUP BY id_historic_atlas_info, area.id_area,
+        GROUP BY id_historic_atlas_info,
+                 CASE
+                     WHEN (CASE
+                               WHEN t_historic_atlases_info.season_period = 'breeding'::phenology_period
+                                   THEN t_taxa.breeding_area_type
+                               WHEN t_historic_atlases_info.season_period = 'wintering'::phenology_period
+                                   THEN t_taxa.wintering_area_type
+                               ELSE t_taxa.all_period_area_type
+                         END) != ref_geo.get_id_area_type('ATLAS_GRID') THEN area.id_area
+                     ELSE t_historic_atlases_data.id_area END,
                  t_historic_atlases_data.cd_nom;
 
         CREATE INDEX ON atlas.mv_historic_atlases_data (id_historic_atlas_info);

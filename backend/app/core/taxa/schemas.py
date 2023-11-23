@@ -114,6 +114,13 @@ class SurveyChartDataItem(BaseModel):
     unit: str
     data: SurveyChartDataDetailProperties
 
+class SurveyChartDescItem(BaseModel):
+    title: str
+    desc: str
+    
+class SurveyChartData(BaseModel):
+    descriptions: List[SurveyChartDescItem]
+    data: List[SurveyChartDataItem]
 
 # class MigrationChartBaseModel(BaseModel):
 #     processing: str
