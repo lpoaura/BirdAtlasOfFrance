@@ -6,13 +6,9 @@
     </h5>
     <div class="ChartWrapper">
       <div class="TrendsWrapper">
-        <div class="TrendCard">
-          <h5 class="black02 fw-500">Long terme 1980-2020</h5>
-          <h5 class="black02">Forte augmentation<br />+8.0% p.a. ±ES0.2%</h5>
-        </div>
-        <div class="TrendCard">
-          <h5 class="black02 fw-500">Court terme 2009-2020</h5>
-          <h5 class="black02">Augmentation modérée<br />+2.5% p.a. ±ES0.5%</h5>
+        <div v-for="d in descData" :key="d" class="TrendCard">
+          <h5 class="black02 fw-500">{{ d.title }}</h5>
+          <h5 class="black02">{{d.desc}}</h5>
         </div>
       </div>
       <div class="Chart">
@@ -27,7 +23,7 @@ const d3 = require('d3')
 
 export default {
   data: () => ({
-    chartData: null,
+    apiData: null,
   }),
   computed: {
     idArea() {
@@ -39,6 +35,12 @@ export default {
     phenologyPeriod() {
       return this.$store.state.species.selectedSeason?.value
     },
+    chartData() {
+      return this.apiData?.data
+    },
+    descData(){
+      return this.apiData?.descriptions
+    }
   },
   watch: {
     idArea: {
@@ -80,7 +82,7 @@ export default {
           phenology_period: this.phenologyPeriod,
           chart_type: 'trend',
         }
-        this.chartData = await this.$axios
+        this.apiData = await this.$axios
           .$get(url, {
             params: requestParams,
           })
@@ -245,7 +247,7 @@ export default {
               return yAxis(d.val)
             })
         )
-        
+
 
       linePlotSvg
         .append('g')
@@ -278,7 +280,7 @@ export default {
         //   div.html('').style('left', '-500px').style('top', '-500px')
         // })
 
-        
+
       // Area
       linePlotSvg
         .append('path')
@@ -309,7 +311,7 @@ export default {
 .TrendsWrapper {
   margin-bottom: 16px;
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 16px;
 }
 

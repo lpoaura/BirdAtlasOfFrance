@@ -123,6 +123,7 @@ class MvSurveyChartData(Base):
     __tablename__ = "mv_survey_chart_data"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
+    id_graph = Column(Integer)
     id_area_atlas_territory = Column(ForeignKey(LAreas.id_area), nullable=False)
     year = Column(Integer)
     cd_nom = Column(Integer)
@@ -130,6 +131,17 @@ class MvSurveyChartData(Base):
     unit = Column(String)
     chart_type = Column(String)
     data = Column(JSON)
+    
+class MvSurveyChartDescs(Base):
+    __tablename__ = "mv_survey_chart_descs"
+    __table_args__ = {"schema": "atlas"}
+    id = Column(Integer, primary_key=True)
+    id_area_atlas_territory = Column(ForeignKey(LAreas.id_area), nullable=False)
+    cd_nom = Column(Integer)
+    phenology_period = Column(String)
+    chart_type = Column(String)
+    data = Column(JSON)
+
 
 
 class TTaxa(Base):

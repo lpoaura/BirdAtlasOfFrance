@@ -15,6 +15,7 @@ from .models import (
     MvAltitudeDistribution,
     MvAltitudeTerritory,
     MvSurveyChartData,
+    MvSurveyChartDescs,
     MvSurveyMapData,
     MvTaxaAllPeriodPhenology,
     MvTaxaBreedingPhenology,
@@ -66,14 +67,13 @@ class TaxaDistributionActions:
                 geofunc.ST_Transform(geofunc.ST_Centroid(LAreas.geom), 4326)
             )  # pylint: disable=E1101
         )
-        if phenology_period == 'breeding':
+        if phenology_period == "breeding":
             area_type = TTaxa.breeding_area_type
-        elif phenology_period == 'wintering':
+        elif phenology_period == "wintering":
             area_type = TTaxa.wintering_area_type
         else:
             area_type = TTaxa.all_period_area_type
 
-        
         if atlas_period in ("new", "old"):
             values = {
                 "condition": AreaKnowledgeTaxaList.__table__.c[  # pylint: disable=E1101
@@ -86,7 +86,7 @@ class TaxaDistributionActions:
                 if phenology_period == "breeding"
                 else "Presence",
             }
-        
+
         if atlas_period == "compare":
             values = {
                 "condition": (
@@ -175,7 +175,10 @@ class TaxaDistributionActions:
                 geom.label("geometry"),
             )
             .join(LAreas, LAreas.id_area == AreaKnowledgeTaxaList.id_area)
-            .join(TTaxa, and_(LAreas.id_type == area_type,TTaxa.cd_nom == AreaKnowledgeTaxaList.cd_nom))
+            .join(
+                TTaxa,
+                and_(LAreas.id_type == area_type, TTaxa.cd_nom == AreaKnowledgeTaxaList.cd_nom),
+            )
             .filter(AreaKnowledgeTaxaList.cd_nom == cd_nom)
             .filter(values["condition"])
         )
@@ -490,7 +493,26 @@ class SurveyChartDataActions:
             )
             .order_by(MvSurveyChartData.year.asc())
         )
-        return query
+        return query.all()
+
+    def get_descriptions(
+        self,
+        db: Session,
+        cd_nom: int,
+        id_area_atlas_territory: str,
+        phenology_period: str,
+        chart_type: str,
+    ) -> List:
+        print('DESCRIPTION CHART')
+        query = db.query(MvSurveyChartDescs.data).filter(
+                MvSurveyChartDescs.cd_nom == cd_nom,
+                MvSurveyChartDescs.id_area_atlas_territory == id_area_atlas_territory,
+                MvSurveyChartDescs.phenology_period == phenology_period,
+                MvSurveyChartDescs.chart_type == chart_type,
+            )
+        print(f'QUERY {query}')
+        result = query.first()
+        return result.data if result else None
 
 
 class MigrationChartDataActions:

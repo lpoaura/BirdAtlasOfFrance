@@ -23,6 +23,8 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     CommonBlockStructure,
     HistoricAtlasInfosSchema,
     SurveyChartDataItem,
+    SurveyChartDataDetailProperties,
+    SurveyChartData,
     SurveyMapDataFeature,
     SurveyMapDataFeaturesCollection,
     TaxaAltitudinalApiData,
@@ -31,7 +33,7 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     TaxaDistributionFeaturesCollection,
     TaxaPhenologyApiData,
     TaxaTerritoryDistribution,
-    MigrationChartData
+    MigrationChartData,
 )
 
 logger = logging.getLogger(__name__)
@@ -322,7 +324,7 @@ def get_survey_map_data(
 
 @router.get(
     "/chart/survey",
-    response_model=Union[List[SurveyChartDataItem], List],
+    response_model=SurveyChartData,
     tags=["taxa"],
     summary="taxon geographic distribution",
     description="""# Taxon geographic distribution
@@ -336,18 +338,26 @@ def get_survey_chart_data(
     chart_type: str,
     db: Session = Depends(get_db),
 ) -> Any:
-    query = survey_chart_data.get_data(
+    descriptions = survey_chart_data.get_descriptions(
         db,
         cd_nom=cd_nom,
         id_area_atlas_territory=id_area,
         chart_type=chart_type,
         phenology_period=phenology_period,
     )
-    if query.count() > 0:
-        return query.all()
-    return list()
-
-
+    print(f'descriptions {descriptions}')
+    data = survey_chart_data.get_data(
+        db,
+        cd_nom=cd_nom,
+        id_area_atlas_territory=id_area,
+        chart_type=chart_type,
+        phenology_period=phenology_period,
+    )
+    print(dir(data))
+    return SurveyChartData(
+        descriptions=descriptions or [],
+        data=[SurveyChartDataItem(year=d.year, unit=d.unit, data=d.data) for d in data] if len(data) > 0 else [],
+    )
 
 
 @router.get(
