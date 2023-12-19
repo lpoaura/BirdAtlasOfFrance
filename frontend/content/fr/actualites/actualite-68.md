@@ -4,7 +4,7 @@ picture: actualite-68.webp
 credit: Laridés © Fabrice Cahez
 centering: center
 author: Oiseaux de France
-date: '2023-12-15'
+date: '2023-12-19'
 tags: ['Laridés','Recensement','Comptage']
 active: true
 ---
