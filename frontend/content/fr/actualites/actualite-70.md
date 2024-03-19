@@ -1,5 +1,5 @@
 ---
-title: "Inventaire national des lieux de nidification des hirondelles et des martinets pour concilier rénovation du bâti et biodiversité"
+title: "Inventaire national des lieux de nidification des hirondelles et des martinets"
 picture: actualite-70.webp
 credit: Hirondelles de fenêtre © Fabrice Cahez
 centering: center
