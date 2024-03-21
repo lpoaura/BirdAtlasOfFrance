@@ -6,20 +6,15 @@
           <h4 class="black02 fw-bold bottom-margin-16">Description</h4>
           <v-skeleton-loader v-if="Object.keys(attributes).length === 0" type="paragraph"></v-skeleton-loader>
           <span v-if="Object.keys(attributes).length > 0" ref="description" class="black02" v-html="attributes?.description
-            ? attributes.description
-            : 'Pas de description disponible actuellement pour cette espèce.'
-            ">
+      ? attributes.description
+      : 'Pas de description disponible actuellement pour cette espèce.'
+      ">
           </span>
           <div v-if="descriptionHeight > 37 && !readMore" class="Blurring"></div>
         </div>
         <div v-if="descriptionHeight > 37" class="display-flex">
           <span class="green01 fw-600 pointer ReadMore" @click="readMore = !readMore">
             {{ readMore ? 'Lire moins' : 'Lire plus' }}
-          </span>
-        </div>
-        <div v-if="descriptionHeight > 327 && readMore" class="display-flex">
-          <span class="green01 fw-600 pointer ReadMore" @click="readMore = !readMore">
-            Lire moins
           </span>
         </div>
       </div>
@@ -64,8 +59,8 @@
                 <template #activator="{ on, attrs }">
                   <span v-bind="attrs" class="black02 flex-1 right-margin-8" v-on="on">
                     {{ item.locationName }} (<span class="text--disabled">{{
-                      item.statusTypeName
-                    }}</span><span v-if="item.statusRemarks">
+      item.statusTypeName
+    }}</span><span v-if="item.statusRemarks">
                       - {{ item.statusRemarks }}</span>)
                   </span>
                 </template>
@@ -76,8 +71,8 @@
                 <v-tooltip bottom>
                   <template #activator="{ on, attrs }">
                     <div v-bind="attrs" class="RedListSticker" :style="{
-                      background: $redLists(item.statusCode).bgColor,
-                    }" v-on="on">
+      background: $redLists(item.statusCode).bgColor,
+    }" v-on="on">
                       <h5 class="fw-600" :style="{ color: $redLists(item.statusCode).fontColor }">
                         {{ item.statusCode }}
                       </h5>
@@ -97,16 +92,16 @@
             <p v-for="(regulatory, index) in regulatories" :key="index" class="black02">
               <span class="fw-bold">
                 {{ regulatory.statusTypeName }} ({{
-                  regulatory.locationName
-                }}) </span><br />
+      regulatory.locationName
+    }}) </span><br />
               {{ regulatory.statusName }}
             </p>
           </div>
           <div v-if="europeenDirectives.length" class="StatusWrapper">
             <p v-for="(directive, index) in europeenDirectives" :key="index" class="black02">
               <span class="fw-bold">{{ directive.statusTypeName }} ({{
-                directive.locationName
-              }})</span><br />
+      directive.locationName
+    }})</span><br />
               {{ directive.statusName }}
             </p>
           </div>
@@ -280,6 +275,13 @@ export default {
     },
   },
   watch: {
+    // attributes: {
+    //   handler: function (val, oldVal) {
+    //     console.log('watch attributes', this.$refs.description)
+    //     this.listener()
+    //   },
+    //   deep: true
+    // },
     cdNom() {
       this.getStatus()
     },
@@ -307,6 +309,11 @@ export default {
         })
       }
     },
+  },
+  updated: function () {
+    this.$nextTick(function () {
+      this.listener()
+    })
   },
   beforeMount() {
     window.addEventListener('resize', this.listener)
@@ -358,77 +365,6 @@ export default {
         this.descriptionHeight = this.$refs.description.offsetHeight
       }
     },
-    // filteredTabs() {
-    //   // Si les données sont arrivées
-    //   if (this.attributes?.odf_common_name_fr) {
-    //     // Deep copy
-    //     const tabs = JSON.parse(JSON.stringify(this.tabs))
-    //     // SpeciesTab
-    //     const speciesTabSubjects = ['links']
-    //     // if (this.attributes.description || this.medias.Photos) {
-    //     //   speciesTabSubjects.push('description')
-    //     // }
-    //     if (this.species.redLists || this.species.protectionStatus) {
-    //       speciesTabSubjects.push('status')
-    //     }
-    //     tabs[0].subjects = this.tabs[0].subjects.filter((subject) => {
-    //       return speciesTabSubjects.includes(subject.slug)
-    //     })
-    //     // ChartsTabs
-    //     const chartsTabAllPeriodSubjects = []
-    //     const chartsTabBreedingSubjects = []
-    //     const chartsTabWinteringSubjects = []
-    //     if (this.dataPhenologyAllPeriod) {
-    //       chartsTabAllPeriodSubjects.push('phenology-all-period')
-    //     }
-    //     if (this.dataPhenologyMigration[this.selectedTerritory.area_code]) {
-    //       chartsTabAllPeriodSubjects.push('phenology-migration')
-    //     }
-    //     if (this.dataAltitudeAllPeriod[this.selectedTerritory.area_code]) {
-    //       chartsTabAllPeriodSubjects.push('altitude-all-period')
-    //     }
-    //     if (this.dataPhenologyBreeding) {
-    //       chartsTabBreedingSubjects.push('phenology-breeding')
-    //     }
-    //     if (this.dataTrendBreeding[this.selectedTerritory.area_code]) {
-    //       chartsTabBreedingSubjects.push('trend-breeding')
-    //     }
-    //     if (this.dataPopulationsBreeding[this.selectedTerritory.area_code]) {
-    //       chartsTabBreedingSubjects.push('populations-sizes-breeding')
-    //     }
-    //     if (this.dataAltitudeBreeding[this.selectedTerritory.area_code]) {
-    //       chartsTabBreedingSubjects.push('altitude-breeding')
-    //     }
-    //     if (this.dataTrendWintering[this.selectedTerritory.area_code]) {
-    //       chartsTabWinteringSubjects.push('trend-wintering')
-    //     }
-    //     if (this.dataPopulationsWintering[this.selectedTerritory.area_code]) {
-    //       chartsTabWinteringSubjects.push('populations-sizes-wintering')
-    //     }
-    //     if (this.dataAltitudeWintering[this.selectedTerritory.area_code]) {
-    //       chartsTabWinteringSubjects.push('altitude-wintering')
-    //     }
-    //     tabs[1].subjects.all_period = this.tabs[1].subjects.all_period.filter(
-    //       (subject) => {
-    //         return chartsTabAllPeriodSubjects.includes(subject.slug)
-    //       }
-    //     )
-    //     tabs[1].subjects.breeding = this.tabs[1].subjects.breeding.filter(
-    //       (subject) => {
-    //         return chartsTabBreedingSubjects.includes(subject.slug)
-    //       }
-    //     )
-    //     tabs[1].subjects.wintering = this.tabs[1].subjects.wintering.filter(
-    //       (subject) => {
-    //         return chartsTabWinteringSubjects.includes(subject.slug)
-    //       }
-    //     )
-    //     // End
-    //     return tabs
-    //   } else {
-    //     return this.tabs
-    //   }
-    // },
   },
 }
 </script>
