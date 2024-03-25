@@ -38,7 +38,7 @@ En parallèle, la campagne de recensement des lieux de nidification des martinet
 
 Cette cartographie, par commune, permettra aux collectivités territoriales d’assurer une meilleure protection des sites de nidification notamment dans les documents d’urbanisme. Mise à disposition des agents d’urbanisme, elle permettra aussi d’alerter les entreprises lors de leurs demandes de permis de démolir, rénover, construire et de les inciter à préserver les sites de nidification et les espèces.
 
-Les données seront collectées sur Faune France (via le site internet ou l’application NaturaList) d’avril à septembre. Un module spécifique a été créé pour cette campagne, Biobat. Un guide compilant des protocoles d’inventaires détaillé et d’aide à la saisie des données sera mis à disposition.
+Les données seront collectées sur Faune France (via le site internet ou l’application NaturaList) d’avril à septembre. Un module spécifique a été créé pour cette campagne, Biobat. Le [guide de pratiques de recensement des sites de nidification](https://www.lpo.fr/media/read/32097/file/Guide%20protocole%20de%20recensement%20site%20nidif%20Hirondelle-Martinet.pdf) des martinets noirs et de l’Hirondelle de fenêtre est ligne.
 
 Grâce à l’engagement de tous, nous pourrons faire évoluer les pratiques !
 
