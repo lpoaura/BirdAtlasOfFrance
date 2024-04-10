@@ -1,9 +1,7 @@
 #!/usr/bin/python
 
 import logging
-from typing import List, Optional, Union
 
-from geojson_pydantic.features import Feature, FeatureCollection
 from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
@@ -44,7 +42,7 @@ class GeneralStatsSchema(BaseModel):
     count_taxa: GeneralStatsCountTaxaSubSchema
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class KnowledgeLevelGeneralStatsSchema(BaseModel):
@@ -62,4 +60,4 @@ class KnowledgeLevelGeneralStatsSchema(BaseModel):
     over100: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

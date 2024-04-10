@@ -1,11 +1,11 @@
 ---
-title: "Enquête laridés 2023-2024 : anticipez les prospections !"
+title: 'Enquête laridés 2023-2024 : anticipez les prospections !'
 picture: actualite-50.webp
-credit:  Goélands argentés © Yann Brilland
+credit: Goélands argentés © Yann Brilland
 centering: center
 author: Oiseaux de France
 date: '2022-12-14'
-tags: ['laridés','comptage 2023/2024','hiver']
+tags: ['laridés', 'comptage 2023/2024', 'hiver']
 active: true
 ---
 

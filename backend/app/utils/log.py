@@ -7,7 +7,7 @@ from typing import Optional
 
 from loguru import logger
 from loguru._logger import Logger
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 
@@ -29,7 +29,7 @@ class LoggingSettings(BaseSettings):
 
     Args:
         level (str, optional): the minimum log-level to log. Default to "DEBUG".
-        format (str, optional): the logformat to use. Default to "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> | <level>{message}</level>".
+        format (str, optional): the logformat to use.
         filepath (Path, optional): the path where to store the logfiles. Default to None.
         rotation (str, optional): when to rotate the logfile. Default to "1 days".
         retention (str, optional): when to remove logfiles. Default to "1 months".
@@ -86,9 +86,9 @@ def setup_logger(
     Args:
         level (str): The minimum log-level to log.
         format (str): The logformat to use.
-        filepath (Optional[Path], optional): The path where to store the logfiles. Defaults to None.
-        rotation (Optional[str], optional): When to rotate the logfile.. Defaults to None.
-        retention (Optional[str], optional): When to remove logfiles.. Defaults to None.
+        filepath (Optional[Path], optional): logfiles path. Defaults to None.
+        rotation (Optional[str], optional): logfile time rotation. Defaults to None.
+        retention (Optional[str], optional): logfile retention duration. Defaults to None.
 
     Returns:
         Logger: The logger to be used by the service.
@@ -96,7 +96,7 @@ def setup_logger(
     References:
         - [Loguru: Intercepting logging logs #247](https://github.com/Delgan/loguru/issues/247)
         - [Gunicorn: generic logging options #1572](https://github.com/benoitc/gunicorn/issues/1572#issuecomment-638391953)
-    """
+    """  # noqa
     # Remove loguru default logger
     logger.remove()
     # Cath all existing loggers
@@ -142,7 +142,7 @@ def setup_logger_from_settings(settings: Optional[LoggingSettings] = None) -> Lo
     Returns:
         Logger: The logger instance.
 
-    """
+    """  # noqa
 
     # Parse from env when no settings are given
     if not settings:
@@ -168,6 +168,5 @@ if settings.LOG_LEVEL.upper() == "DEBUG":
     @event.listens_for(Engine, "after_cursor_execute")
     def after_cursor_execute(conn, cursor, statement, parameters, context, executemany):
         total = time.time() - conn.info["query_start_time"].pop(-1)
-        q = statement % parameters
         logger.debug("Query Complete!")
         logger.debug(f"Total Time: {total}")

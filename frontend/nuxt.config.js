@@ -37,7 +37,7 @@ export default {
       {
         hid: 'og:image',
         property: 'og:image',
-        content: '/home/home-picture-0.jpg',
+        content: '/home/home-picture-0.webp',
       },
       {
         hid: 'twitter:card',
@@ -63,18 +63,20 @@ export default {
       {
         hid: 'twitter:image',
         property: 'twitter:image',
-        content: '/home/home-picture-0.jpg',
+        content: '/home/home-picture-0.webp',
       },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Playfair+Display:300,400,500,600,700,800,900&display=swap',
+        href: 'https://fonts.googleapis.com/css?family=Playfair+Display:900&display=swap',
+        defer: true,
       },
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap',
+        defer: true,
       },
     ],
   },
@@ -94,6 +96,8 @@ export default {
     '~/plugins/getPageTitle.js',
     '~/plugins/detectMobile.js',
     '~/plugins/departmentsList.js',
+    '~/plugins/redLists.js',
+    '~/plugins/animateScrollTo.js',
     '~/plugins/debounce.js',
     // { src: '~/plugins/vueLeaflet.js', ssr: false },
   ],
@@ -136,6 +140,7 @@ export default {
   axios: {
     // baseURL: 'http://localhost:8888',
     proxy: true,
+    retry: { retries: 5 },
   },
   // publicRuntimeConfig: {
   //   axios: {
@@ -143,9 +148,10 @@ export default {
   //   },
   // },
   proxy: {
+    '/api/taxa': process.env.TAXREF_URL || 'https://taxref.mnhn.fr',
     '/api': process.env.API_URL || 'http://localhost:8888',
+    '/taxhub': process.env.GEONATURE_URL || 'https://geonature.alx.host',
   },
-
   // PWA module configuration
   pwa: {
     meta: {
@@ -267,6 +273,7 @@ export default {
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    defaultAssets: false,
     theme: {
       options: {
         customProperties: true,
@@ -285,4 +292,8 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
+  publicRuntimeConfig: {
+    speciesSheet: process.env.SPECIES_SHEET || true,
+    newsletterUrl: process.env.NEWSLETTER_URL || false,
+  },
 }

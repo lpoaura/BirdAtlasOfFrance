@@ -28,7 +28,6 @@ class AreaKnowledgeLevelActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
     """Post actions with basic CRUD operations"""
 
     def query_data4features(self, db: Session) -> Query:
-
         q = db.query(
             AreaKnowledgeLevel.id_area.label("id"),
             func.json_build_object(
@@ -85,16 +84,11 @@ class AreaKnowledgeLevelActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
         Returns:
             List: [description]
         """
-        start_time = time.time()
-        logger.debug(f"stepa: {(time.time()-start_time)*1000}")
-        logger.debug(f"stepb1: {(time.time()-start_time)*1000}")
         id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
-        logger.debug(f"stepb2: {(time.time()-start_time)*1000}")
-        q = self.query_data4features(db=db)
-        logger.debug(f"stepc: {(time.time()-start_time)*1000}")
-        q = q.filter(AreaKnowledgeLevel.id_type == id_type)
+        query = self.query_data4features(db=db)
+        query = query.filter(AreaKnowledgeLevel.id_type == id_type)
         if envelope:
-            q = q.filter(
+            query = query.filter(
                 functions.ST_Intersects(
                     AreaKnowledgeLevel.geom,
                     functions.ST_MakeEnvelope(
@@ -103,18 +97,15 @@ class AreaKnowledgeLevelActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
                 ),
             )
         if limit:
-            q = q.limit(limit)
-
-        logger.debug(f"stepd: {(time.time()-start_time)*1000}")
-        return q.all()
+            query = query.limit(limit)
+        return query.all()
 
 
 class AreaKnowledgeTaxaListActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
     """Post actions with basic CRUD operations"""
 
     def get_area_taxa_list(self, db: Session, id_area: int, limit: Optional[int] = None) -> List:
-
-        q = db.query(
+        query = db.query(
             AreaKnowledgeTaxaList.id_area,
             AreaKnowledgeTaxaList.cd_nom,
             AreaKnowledgeTaxaList.sci_name,
@@ -152,9 +143,9 @@ class AreaKnowledgeTaxaListActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
         ).filter(AreaKnowledgeTaxaList.id_area == id_area)
 
         if limit:
-            q = q.limit(limit)
-        logger.debug(f"Q {dir(q)}")
-        return q.order_by(AreaKnowledgeTaxaList.common_name_fr).all()
+            query = query.limit(limit)
+        print(query)
+        return query.order_by(AreaKnowledgeTaxaList.common_name_fr).all()
 
 
 class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
@@ -194,7 +185,7 @@ class AreaDashboardActions(BaseReadOnlyActions[AreaDashboard]):
         Args:
             db (Session): Database session
             id_area (int): Area unique id
-            time_unit (str, optional): Time unit identifier (cf. https://www.postgresql.org/docs/10/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT). Defaults to "month".
+            time_unit (str, optional): Time unit identifier. Defaults to "month".
 
         Returns:
             Query: data distribution in time
@@ -267,13 +258,17 @@ class EpocActions(BaseReadOnlyActions[Epoc]):
         Returns:
             Query: Return
         """
-        q = db.query(
-            Epoc.id_epoc, Epoc.id_ff, Epoc.status, Epoc.rang_rsv, Epoc.geojson.label("geometry")
+        query = db.query(
+            Epoc.id_epoc,
+            Epoc.id_ff,
+            Epoc.status,
+            Epoc.rang_rsv,
+            Epoc.geojson.label("geometry"),
         )
-        q = q.filter(Epoc.status == status) if status else q
-        q = q.filter(Epoc.id_area == id_area) if id_area else q
-        q = (
-            q.filter(
+        query = query.filter(Epoc.status == status) if status else query
+        query = query.filter(Epoc.id_area == id_area) if id_area else query
+        query = (
+            query.filter(
                 functions.ST_Intersects(
                     Epoc.geom,
                     functions.ST_MakeEnvelope(
@@ -282,9 +277,9 @@ class EpocActions(BaseReadOnlyActions[Epoc]):
                 ),
             )
             if envelope
-            else q
+            else query
         )
-        return q.all()
+        return query.all()
 
 
 class RealizedEpocActions(BaseReadOnlyActions[RealizedEpoc]):

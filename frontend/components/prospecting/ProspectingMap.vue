@@ -88,22 +88,19 @@
       />
       <!-- MAP CONTROLS -->
       <!-- Top left -->
-      <l-control
-        position="topleft"
-        :disable-scroll-propagation="disableScrollPropagation"
-      >
-        <knowledge-level-control
+      <l-control position="topleft" :disable-scroll-propagation="true">
+        <prospecting-knowledge-level-control
           v-show="selectedLayer.value === 'knowledge-level' && !clickedFeature"
           :current-territory="currentTerritory"
           :selected-season="selectedSeason"
         />
-        <count-taxa-control
+        <prospecting-count-taxa-control
           v-show="selectedLayer.value === 'species-number' && !clickedFeature"
           :current-territory="currentTerritory"
           :count-taxa-classes="countTaxaClasses"
           :selected-season="selectedSeason"
         />
-        <feature-dashboard-control
+        <prospecting-feature-dashboard-control
           v-if="
             ['knowledge-level', 'species-number', 'epoc'].includes(
               selectedLayer.value
@@ -114,7 +111,7 @@
           :clicked-feature="clickedFeature"
           :selected-season="selectedSeason"
         />
-        <species-dashboard-control
+        <prospecting-species-dashboard-control
           v-if="
             selectedLayer.value === 'species-distribution' && selectedSpecies
           "
@@ -136,7 +133,9 @@
               clickedFeature.properties.area_name
             }}</span>
           </div>
-          <epoc-dashboard-control :clicked-epoc-point="clickedEpocPoint" />
+          <prospecting-epoc-dashboard-control
+            :clicked-epoc-point="clickedEpocPoint"
+          />
         </section>
         <!-- Apparaît si au moins une des conditions précédentes est remplie -->
         <div
@@ -159,12 +158,9 @@
         </div>
       </l-control>
       <!-- Top right -->
-      <l-control
-        position="topright"
-        :disable-scroll-propagation="disableScrollPropagation"
-      >
-        <div
-          v-show="
+      <l-control position="topright" :disable-scroll-propagation="true">
+        <commons-map-loading-control
+          :loading="
             (knowledgeLevelIsLoading &&
               ['knowledge-level', 'species-number'].includes(
                 selectedLayer.value
@@ -172,14 +168,8 @@
             (speciesDistributionIsLoading &&
               selectedLayer.value === 'species-distribution')
           "
-          class="InformationControl"
-          style="position: relative"
-        >
-          <div class="Progress"></div>
-          <h5 class="black02 fw-500 bottom-margin-38">
-            Chargement des données
-          </h5>
-        </div>
+        />
+
         <div
           v-show="
             selectedLayer.value === 'epoc' &&
@@ -223,7 +213,7 @@
             >
               <img class="Icon" src="/calendar.svg" />
             </div>
-            <seasons-selector
+            <commons-selectors-seasons
               :select-is-open="seasonIsOpen"
               :selected-season="selectedSeason"
               @selectedSeason="updateSelectedSeason"
@@ -237,7 +227,7 @@
             >
               <img class="Icon" src="/layers.svg" />
             </div>
-            <layers-selector
+            <commons-selectors-layers
               :select-is-open="layerIsOpen"
               :selected-layer="selectedLayer"
               :selected-species="selectedSpecies"
@@ -258,7 +248,7 @@
             >
               <img class="Icon" src="/location.svg" />
             </div>
-            <territories-selector
+            <commons-selectors-territories
               :select-is-open="territoryIsOpen"
               :selected-territory="selectedTerritory"
               @selectedTerritory="updateSelectedTerritory"
@@ -332,26 +322,7 @@
 </template>
 
 <script>
-import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
-import CountTaxaControl from '~/components/prospecting/CountTaxaControl.vue'
-import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
-import SpeciesDashboardControl from '~/components/prospecting/SpeciesDashboardControl.vue'
-import EpocDashboardControl from '~/components/prospecting/EpocDashboardControl.vue'
-import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
-import LayersSelector from '~/components/prospecting/LayersSelector.vue'
-import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
-
 export default {
-  components: {
-    'knowledge-level-control': KnowledgeLevelControl,
-    'count-taxa-control': CountTaxaControl,
-    'feature-dashboard-control': FeatureDashboardControl,
-    'epoc-dashboard-control': EpocDashboardControl,
-    'species-dashboard-control': SpeciesDashboardControl,
-    'seasons-selector': SeasonsSelector,
-    'layers-selector': LayersSelector,
-    'territories-selector': TerritoriesSelector,
-  },
   props: {
     selectedArea: {
       // Zonage sélectionné dans la barre de recherche
@@ -437,7 +408,6 @@ export default {
     osmUrl:
       'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     envelope: null,
-    initTerritory: null,
     // CONFIGURATION DES GEOJSON
     // Limites des territoires
     territoriesGeojson: null,
@@ -457,7 +427,6 @@ export default {
     epocRealizedGeojson: null,
     epocOdfGeojson: null,
     // CONFIGURATION DES MAPCONTROLS
-    disableScrollPropagation: true,
     noSpeciesData: false,
     knowledgeLevelClasses: [0, 0.25, 0.5, 0.75, 1],
     searchedFeatureId: null, // Le zonage sélectionné est une maille (recherche depuis la carte de Prospection)
@@ -713,7 +682,7 @@ export default {
       this.$emit('clickedEpocPoint', null)
     },
     selectedTerritory(newVal) {
-      if (newVal.name) {
+      if (newVal.area_code) {
         const territory = this.$L.geoJSON(
           this.territoriesEnvelopes.features.filter((item) => {
             return item.properties.area_code === newVal.area_code
@@ -734,7 +703,7 @@ export default {
     }
   },
   mounted() {
-    // console.log('mounted')
+    // console.debug('mounted')
     if (this.$route.query.area && this.$route.query.type) {
       this.$axios
         .$get(
@@ -749,7 +718,7 @@ export default {
           this.$refs.myMap.mapObject.fitBounds(area.getBounds())
         })
         .catch((error) => {
-          console.log(error)
+          console.debug(`${error}`)
         })
     } else {
       if (navigator.geolocation) {
@@ -759,18 +728,24 @@ export default {
           this.catchGeolocationError
         )
       } else {
+        const params = {
+          coordinates: [2.3488, 48.85341].toString(),
+          type_code: 'ATLAS_TERRITORY',
+          bbox: true,
+          only_enable: true,
+        }
         // La géolocalisation N'EST PAS supportée par le navigateur
         this.$axios
-          .$get(
-            '/api/v1/lareas/position?coordinates=2.3488,48.85341&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true'
-          )
+          .$get('/api/v1/lareas/position', { params })
           .then((data) => {
-            const territory = this.$L.geoJSON(data)
-            this.isProgramaticZoom = true
-            this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
+            if (data) {
+              const territory = this.$L.geoJSON(data)
+              this.isProgramaticZoom = true
+              this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
+            }
           })
           .catch((error) => {
-            console.log(error)
+            console.debug(`${error}`)
           })
       }
       if (this.$route.query.species) {
@@ -780,27 +755,35 @@ export default {
             this.$emit('selectedSpecies', data[0])
           })
           .catch((error) => {
-            console.log(error)
+            console.debug(`${error}`)
           })
       }
     }
     this.$axios
-      .$get(
-        '/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY?bbox=false&only_enable=true'
-      )
+      .$get('/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY', {
+        params: {
+          bbox: false,
+          only_enable: true,
+        },
+      })
       .then((data) => {
         this.territoriesGeojson = data
       })
       .catch((error) => {
-        console.log(error)
+        console.debug(`${error}`)
       })
     this.$axios
-      .$get('/api/v1/lareas/type/ATLAS_TERRITORY?bbox=true&only_enable=true')
+      .$get('/api/v1/lareas/type/ATLAS_TERRITORY_SIMPLIFY', {
+        params: {
+          bbox: true,
+          only_enable: true,
+        },
+      })
       .then((data) => {
         this.territoriesEnvelopes = data
       })
       .catch((error) => {
-        console.log(error)
+        console.debug(`${error}`)
       })
   },
   beforeDestroy() {
@@ -823,7 +806,7 @@ export default {
           this.$refs.myMap.mapObject.fitBounds(territory.getBounds())
         })
         .catch((error) => {
-          console.log(error)
+          console.debug(`${error}`)
         })
     },
     defineEnvelope(bounds) {
@@ -838,7 +821,7 @@ export default {
       return envelope
     },
     initiateEnvelope() {
-      // console.log('[initiateEnvelope]')
+      // console.debug('[initiateEnvelope]')
       const initBounds = this.$refs.myMap.mapObject.getBounds()
       this.bounds = initBounds
       this.envelope = this.defineEnvelope(initBounds)
@@ -852,7 +835,7 @@ export default {
       }
     },
     updateEnvelope(newBounds) {
-      // console.log('[updateEnvelope]')
+      // console.debug('[updateEnvelope]')
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
       this.updateKnowledgeLevelGeojson()
@@ -867,8 +850,8 @@ export default {
       }
     },
     updateZoom(newZoom) {
-      // console.log('Old zoom : ' + this.currentZoom)
-      // console.log('New zoom : ' + newZoom)
+      // console.debug('Old zoom : ' + this.currentZoom)
+      // console.debug('New zoom : ' + newZoom)
       this.currentZoom = newZoom
       if (this.currentZoom < 11) {
         this.$emit('clickedFeature', null)
@@ -881,28 +864,32 @@ export default {
           `/api/v1/lareas/position?coordinates=${newCenter.lng},${newCenter.lat}&type_code=ATLAS_TERRITORY&bbox=true&only_enable=true`
         )
         .then((data) => {
-          if (data && data.id !== this.currentTerritory.id) {
+          if (
+            data && // console.debug('[updateGeojson]')
+            // console.debug('Ancien zoom : ' + this.oldZoomSpeciesDistribution)
+            // console.debug('Nouveau zoom : ' + this.currentZoom)
+            // console.debug(this.axiosSourceSpeciesDistribution)
+            data.properties.area_code !== this.currentTerritory.area_code
+          ) {
             this.$emit('currentTerritory', {
               id: data.id,
-              name: data.properties.area_name,
+              area_code: data.properties.area_code,
+              area_name: data.properties.area_name,
             })
           }
-          if (!data && this.currentTerritory.id) {
+          if (!data && this.currentTerritory.area_code) {
             this.$emit('currentTerritory', {
               id: null,
-              name: null,
+              area_code: null,
+              area_name: null,
             })
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.debug(`${error}`)
         })
     },
     updateKnowledgeLevelGeojson() {
-      // console.log('[updateGeojson]')
-      // console.log('Ancien zoom : ' + this.oldZoomKnowledgeLevel)
-      // console.log('Nouveau zoom : ' + this.currentZoom)
-      // console.log(this.axiosSourceKnowledgeLevel)
       if (
         !(
           !this.isProgramaticZoom &&
@@ -916,13 +903,14 @@ export default {
         const cancelToken = this.$axios.CancelToken
         this.axiosSourceKnowledgeLevel = cancelToken.source()
         this.knowledgeLevelIsLoading = true
+        const params = {
+          envelope: this.envelope ? this.envelope.toString() : null,
+        }
         this.$axios
-          .$get(
-            `/api/v1/area/knowledge_level/ATLAS_GRID?envelope=${this.envelope}`,
-            {
-              cancelToken: this.axiosSourceKnowledgeLevel.token,
-            }
-          )
+          .$get(`/api/v1/area/knowledge_level/ATLAS_GRID`, {
+            cancelToken: this.axiosSourceKnowledgeLevel.token,
+            params,
+          })
           .then((data) => {
             if (data) {
               this.knowledgeLevelGeojson = data
@@ -959,7 +947,7 @@ export default {
             }
           })
           .catch((error) => {
-            // console.log(error)
+            // console.debug(`${error}`)
             this.axiosErrorKnowledgeLevel = error
           })
           .finally(() => {
@@ -970,16 +958,12 @@ export default {
             this.axiosErrorKnowledgeLevel = null
           })
       } else {
-        // console.log('Pas de rechargement nécessaire')
+        // console.debug('Pas de rechargement nécessaire')
       }
       this.oldZoomKnowledgeLevel = this.currentZoom
       this.isProgramaticZoom = false
     },
     updateSpeciesDistributionGeojson(species) {
-      // console.log('[updateGeojson]')
-      // console.log('Ancien zoom : ' + this.oldZoomSpeciesDistribution)
-      // console.log('Nouveau zoom : ' + this.currentZoom)
-      // console.log(this.axiosSourceSpeciesDistribution)
       if (
         !(
           !this.isProgramaticZoom &&
@@ -998,15 +982,20 @@ export default {
         this.speciesDistributionIsLoading = true
         this.noSpeciesData = false
         const grid = this.currentZoom >= 11
+        const params = {
+          cd_nom: species.code,
+          phenology_period: this.selectedSeason.value,
+          atlas_period: 'new',
+          grid,
+          envelope: this.envelope ? this.envelope.toString() : null,
+        }
         this.$axios
-          .$get(
-            `/api/v1/taxa/${species.code}?period=${this.selectedSeason.value}_new&grid=${grid}&envelope=${this.envelope}`,
-            {
-              cancelToken: this.axiosSourceSpeciesDistribution.token,
-            }
-          )
+          .$get(`/api/v1/taxa/map/distribution`, {
+            cancelToken: this.axiosSourceSpeciesDistribution.token,
+            params,
+          })
           .then((data) => {
-            if (data) {
+            if (data && data.features) {
               this.speciesDistributionGeojson = data
             } else {
               this.speciesDistributionGeojson = {
@@ -1017,7 +1006,7 @@ export default {
             }
           })
           .catch((error) => {
-            // console.log(error)
+            // console.debug(`${error}`)
             this.axiosErrorSpeciesDistribution = error
           })
           .finally(() => {
@@ -1028,14 +1017,17 @@ export default {
             this.axiosErrorSpeciesDistribution = null
           })
       } else {
-        // console.log('Pas de rechargement nécessaire')
+        // console.debug('Pas de rechargement nécessaire')
       }
       this.oldZoomSpeciesDistribution = this.currentZoom
       this.isProgramaticZoom = false
     },
     updateEpocRealizedGeojson() {
+      const params = {
+        envelope: this.envelope ? this.envelope.toString() : null,
+      }
       this.$axios
-        .$get(`/api/v1/epoc/realized?envelope=${this.envelope}`)
+        .$get(`/api/v1/epoc/realized`, { params })
         .then((data) => {
           if (data) {
             this.epocRealizedGeojson = data
@@ -1047,12 +1039,15 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.debug(`${error}`)
         })
     },
     updateEpocOdfGeojson() {
+      const params = {
+        envelope: this.envelope ? this.envelope.toString() : null,
+      }
       this.$axios
-        .$get(`/api/v1/epoc?envelope=${this.envelope}`)
+        .$get(`/api/v1/epoc`, { params })
         .then((data) => {
           if (data) {
             this.epocOdfGeojson = data
@@ -1061,7 +1056,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.debug(`${error}`)
         })
     },
     setFeatureColor(number) {
@@ -1152,6 +1147,7 @@ export default {
     },
     openOrCloseSeasonsBox() {
       this.seasonIsOpen = !this.seasonIsOpen
+      console.info('this.seasonIsOpen', this.seasonIsOpen)
     },
     closeSeasonsBox() {
       this.seasonIsOpen = false
@@ -1212,21 +1208,5 @@ export default {
 #map-wrap {
   height: calc(100vh - 136px);
   height: calc(calc(var(--vh, 1vh) * 100) - 136px);
-}
-
-.Progress {
-  background: url('/prospecting/progress.gif') center / cover;
-  background-size: 240%;
-  width: 34px;
-  height: 34px;
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-.bottom-margin-38 {
-  margin-bottom: 38px;
 }
 </style>

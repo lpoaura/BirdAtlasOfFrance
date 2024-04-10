@@ -1,11 +1,11 @@
 ---
-title: "Codes atlas : les 3 choses à savoir"
+title: 'Codes atlas : les 3 choses à savoir'
 picture: actualite-24.webp
 credit: Bergeronnette grise apportant de la nourriture à ses jeunes (code atlas 14) © J. Dupuy
 centering: center
 author: Oiseaux de France
 date: '2022-05-24'
-tags: ['nicheurs','code atlas','Atlas ODF']
+tags: ['nicheurs', 'code atlas', 'Atlas ODF']
 active: true
 ---
 

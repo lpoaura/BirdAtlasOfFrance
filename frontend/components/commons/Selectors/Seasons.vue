@@ -10,8 +10,19 @@
         v-for="(season, index) in seasonsList"
         :key="index"
         class="RadioOption"
-        :class="season.value === selectedSeason.value ? 'selected' : ''"
-        @click="updateSelectedSeason(season)"
+        :class="[
+          season.value === selectedSeason.value ? 'selected' : '',
+          !filteredSeasons ||
+          (filteredSeasons && filteredSeasons.includes(season.value))
+            ? ''
+            : 'inactive',
+        ]"
+        @click="
+          !filteredSeasons ||
+          (filteredSeasons && filteredSeasons.includes(season.value))
+            ? $emit('selectedSeason', season)
+            : null
+        "
       >
         <div class="RadioLabel">
           <div class="RadioButton">
@@ -37,6 +48,11 @@ export default {
     selectedSeason: {
       type: Object,
       required: true,
+    },
+    filteredSeasons: {
+      type: Array,
+      required: false,
+      default: null,
     },
   },
   data: () => ({
@@ -86,9 +102,33 @@ export default {
       },
     ],
   }),
+  computed: {
+    selectedSubject() {
+      return this.$store.state.species.selectedSubject
+    },
+  },
+  watch: {
+    filteredSeasons(newVal) {
+      console.log('filteredSeasons', this.filteredSeasons)
+      this.updateSelectedSeason()
+    },
+  },
+  mounted() {
+    this.updateSelectedSeason()
+  },
   methods: {
-    updateSelectedSeason(season) {
-      this.$emit('selectedSeason', season)
+    updateSelectedSeason() {
+      if (
+        this.filteredSeasons &&
+        !this.filteredSeasons.includes(this.selectedSeason.value)
+      ) {
+        const filteredSeasons = this.seasonsList.filter((season) => {
+          return this.filteredSeasons.includes(season.value)
+        })
+        if (filteredSeasons.length) {
+          this.$emit('selectedSeason', filteredSeasons[0])
+        }
+      }
     },
   },
 }
@@ -101,5 +141,10 @@ export default {
 
 .leaflet-control .MapSelectorBox {
   right: -116px;
+}
+
+.RadioOption.inactive {
+  color: rgba(38, 38, 38, 0.2);
+  cursor: auto;
 }
 </style>

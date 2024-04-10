@@ -1,11 +1,11 @@
 ---
-title: "Webinaire Oiseaux des jardins : le replay et les diaporamas sont disponibles !"
+title: 'Webinaire Oiseaux des jardins : le replay et les diaporamas sont disponibles !'
 picture: actualite-53.webp
 credit: Mésange bleue © Denis Girard
 centering: center
 author: Oiseaux de France
 date: '2023-02-03'
-tags: ['Oiseaux des jardins', 'webinaire2023','10 ans']
+tags: ['Oiseaux des jardins', 'webinaire2023', '10 ans']
 active: true
 ---
 
@@ -22,6 +22,3 @@ Plus de 1 100 personnes ont assisté à cet évènement destiné au grand public
 <span class="InformativePagePictureLegend"></span>
 
 <div style="align-center"><a href="https://www.lpo.fr/s-engager-a-nos-cotes/sciences-participatives/observatoire-oiseaux-des-jardins/10-ans-d-observation"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success">Accéder au replay et aux diaporamas</a></div>
-
-
-

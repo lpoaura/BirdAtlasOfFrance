@@ -6,12 +6,12 @@
         <nuxt-link v-for="(link, index) in links" :key="index" :to="link.route">
           <h4 class="nowrap">{{ link.label }}</h4>
         </nuxt-link>
-        <a v-if="newsletterUrl" :href="newsletterUrl" target="_blank">
+        <a v-if="$config.newsletterUrl" :href="$config.newsletterUrl" target="_blank">
           <h4 class="nowrap">Newsletter</h4>
         </a>
       </div>
       <div class="Split"></div>
-      <div class="flex">
+      <div class="display-flex">
         <a
           v-for="(item, index) in socialNetworksItems"
           :key="index"
@@ -33,27 +33,26 @@
 <script>
 export default {
   data: () => ({
-    newsletterUrl: process.env.NEWSLETTER_URL,
     links: [
       { label: 'À propos', route: '/about' },
       { label: 'Contact', route: '/about/contact' },
-      { label: 'Mentions légales', route: '/about/legal-notices' }
+      { label: 'Mentions légales', route: '/about/legal-notices' },
     ],
     socialNetworksItems: [
       {
         icon: '/mail-filled.svg',
-        link: 'mailto:oiseauxdefrance@lpo.fr'
+        link: 'mailto:oiseauxdefrance@lpo.fr',
       },
       {
         icon: '/youtube.svg',
-        link: 'https://www.youtube.com/channel/UCI13cz60YLX3DHEeOEBxdMg'
+        link: 'https://www.youtube.com/channel/UCI13cz60YLX3DHEeOEBxdMg',
       },
       {
         icon: '/github.svg',
-        link: 'https://github.com/lpoaura/BirdAtlasOfFrance'
-      }
-    ]
-  })
+        link: 'https://github.com/lpoaura/BirdAtlasOfFrance',
+      },
+    ],
+  }),
 }
 </script>
 
@@ -128,19 +127,19 @@ footer {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 1050px) {
+@media screen and (width <= 1050px) {
   .LinksSection {
     max-width: none;
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   footer {
     padding: 14px 5%;
   }
 }
 
-@media screen and (max-width: 370px) {
+@media screen and (width <= 370px) {
   h4 {
     font-size: 12px;
     line-height: 18px;

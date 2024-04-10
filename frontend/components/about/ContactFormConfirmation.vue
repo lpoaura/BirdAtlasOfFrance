@@ -1,7 +1,9 @@
 <template>
   <section class="Section">
     <img class="ConfirmationPicture" src="/confirmation-of-receipt.svg" />
-    <h3 class="fw-600 text-center bottom-margin-16">Nous avons bien reçu votre demande</h3>
+    <h3 class="fw-600 text-center bottom-margin-16">
+      Nous avons bien reçu votre demande
+    </h3>
     <span class="text-center bottom-margin-32">
       Nous mettons tout en œuvre pour vous répondre au plus vite !
     </span>

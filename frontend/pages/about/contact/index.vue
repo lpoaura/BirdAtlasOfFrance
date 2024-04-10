@@ -115,7 +115,7 @@ div.container.container--fluid {
   flex-direction: column;
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .Section {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     grid-gap: 16px;

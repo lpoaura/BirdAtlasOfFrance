@@ -1,5 +1,4 @@
 import logging
-import time
 from typing import List, Optional
 
 from geoalchemy2 import functions as geofunc
@@ -7,7 +6,6 @@ from sqlalchemy import and_, func
 from sqlalchemy.orm import Query, Session
 
 from app.core.actions.crud import BaseReadOnlyActions
-from app.utils.db import database
 
 from .models import BibAreasTypes, LAreas
 
@@ -18,8 +16,8 @@ class BibAreasTypesActions(BaseReadOnlyActions[BibAreasTypes]):
     """Post actions with basic CRUD operations"""
 
     def get_id_from_code(self, db: Session, code: str) -> Optional[int]:
-        q = db.query(self.model.id_type).filter(self.model.type_code == code)
-        return q.first().id_type
+        query = db.query(self.model.id_type).filter(self.model.type_code == code)
+        return query.first().id_type
 
 
 class LAreasActions(BaseReadOnlyActions[LAreas]):
@@ -33,7 +31,7 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
             else geofunc.ST_AsGeoJSON(geofunc.ST_SimplifyPreserveTopology(LAreas.geom, 0.005))
         )
 
-        q = db.query(
+        query = db.query(
             LAreas.id_area.label("id"),
             func.json_build_object(
                 "area_code",
@@ -43,7 +41,7 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
             ).label("properties"),
             geom.label("geometry"),
         )
-        return q
+        return query
 
     def get_by_id_area(self, db: Session, id_area: int) -> Query:
         return (
@@ -55,29 +53,40 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
             .first()
         )
 
-    def get_by_area_type_and_code(
-        self, db: Session, area_code: str, type_code: str, bbox: bool
+    async def get_by_area_type_and_code(
+        self, db: Session, area_code: str, type_code: str, geom: bool, bbox: bool
     ) -> Query:
         id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
-        geom = (
-            geofunc.ST_AsGeoJSON(geofunc.ST_Envelope(geofunc.ST_Transform(LAreas.geom, 4326)))
-            if bbox
-            else LAreas.geojson_4326
-        )
-        return (
-            db.query(
-                LAreas.id_area.label("id"),
-                geom.label("geometry"),
-                func.json_build_object(
-                    "area_code",
-                    LAreas.area_code,
-                    "area_name",
-                    LAreas.area_name,
-                ).label("properties"),
+        if geom:
+            geometry = (
+                geofunc.ST_AsGeoJSON(geofunc.ST_Envelope(geofunc.ST_Transform(LAreas.geom, 4326)))
+                if bbox
+                else LAreas.geojson_4326
             )
-            .filter(and_(LAreas.area_code == area_code, LAreas.id_type == id_type))
-            .first()
-        )
+            return (
+                db.query(
+                    LAreas.id_area.label("id"),
+                    geometry.label("geometry"),
+                    func.json_build_object(
+                        "area_code",
+                        LAreas.area_code,
+                        "area_name",
+                        LAreas.area_name,
+                    ).label("properties"),
+                )
+                .filter(and_(LAreas.area_code == area_code, LAreas.id_type == id_type))
+                .first()
+            )
+        else:
+            return (
+                db.query(
+                    LAreas.id_area,
+                    LAreas.area_code,
+                    LAreas.area_name,
+                )
+                .filter(and_(LAreas.area_code == area_code, LAreas.id_type == id_type))
+                .first()
+            )
 
     def get_feature_list(
         self,
@@ -101,13 +110,13 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
             List: [description]
         """
 
-        q = self.query_data4features(db=db, bbox=bbox)
+        query = self.query_data4features(db=db, bbox=bbox)
         if type_code:
             id_type = bib_areas_types.get_id_from_code(db=db, code=type_code)
-            q = q.filter(LAreas.id_type == id_type)
-        q = q.filter(LAreas.enable) if only_enable else q
+            query = query.filter(LAreas.id_type == id_type)
+        query = query.filter(LAreas.enable) if only_enable else query
         if envelope:
-            q = q.filter(
+            query = query.filter(
                 geofunc.ST_Intersects(
                     LAreas.geom,
                     geofunc.ST_Transform(
@@ -119,14 +128,14 @@ class LAreasActions(BaseReadOnlyActions[LAreas]):
                 )
             )
         if coordinates:
-            q = q.filter(
+            query = query.filter(
                 LAreas.geom.contains(
                     geofunc.ST_SetSRID(geofunc.ST_MakePoint(coordinates[0], coordinates[1]), 4326)
                 )
             )
-        q = q.filter(LAreas.id_area == id_area) if id_area else q
-        q = q.limit(limit) if limit else q
-        return q
+        query = query.filter(LAreas.id_area == id_area) if id_area else query
+        query = query.limit(limit) if limit else query
+        return query
 
 
 bib_areas_types = BibAreasTypesActions(BibAreasTypes)

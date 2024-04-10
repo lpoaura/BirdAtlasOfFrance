@@ -13,7 +13,7 @@ Comme chaque année, la saison du suivi des rapaces diurnes nicheurs débute ave
 
 Voir aussi : [Découvrir l’Observatoire Rapaces](/get-involved/observatoire-rapaces)
 
-## Observatoire Rapaces : le suivi des rapaces nicheurs 
+## Observatoire Rapaces : le suivi des rapaces nicheurs
 
 Le suivi des rapaces diurnes nicheurs a lieu chaque année de février à juillet. Coordonné par la LPO, c'est l'unique dispositif permettant de déterminer l'**abondance**, la **distribution** et la **tendance** des rapaces en France depuis 20 ans.
 
@@ -37,4 +37,4 @@ Téléchargez d’abord la [carte](https://lpo061-my.sharepoint.com/:f:/g/person
 
 ## Envie de participer ?
 
-[Contactez votre coordinateur local](http://observatoire-rapaces.lpo.fr/index.php?m_id=1126) pour intégrer une équipe de suivi des rapaces diurnes nicheurs dans votre département. 
+[Contactez votre coordinateur local](http://observatoire-rapaces.lpo.fr/index.php?m_id=1126) pour intégrer une équipe de suivi des rapaces diurnes nicheurs dans votre département.

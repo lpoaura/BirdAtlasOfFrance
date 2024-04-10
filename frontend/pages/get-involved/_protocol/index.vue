@@ -6,22 +6,22 @@
 export default {
   head() {
     return {
-      title: this.$getPageTitle(this.$route.path)
+      title: this.$getPageTitle(this.$route.path),
     }
   },
   computed: {
     nuxtContent() {
       const protocol = this.$route.params.protocol
       return `fr/protocoles/${protocol}`
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   div.container.container--fluid :deep(.TabMenu) {
     display: none;
   }

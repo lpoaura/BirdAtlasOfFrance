@@ -40,7 +40,8 @@
     <app-footer
       v-show="
         !$route.path.includes('/prospecting') &&
-        !$route.path.includes('/mobile')
+        !$route.path.includes('/mobile') &&
+        !$route.path.includes('/species')
       "
     />
   </v-app>
@@ -79,7 +80,7 @@ export default {
         // },
         {
           // label: this.$t('map'),
-          label: 'Carte',
+          label: 'Prospection',
           route: '/prospecting',
         },
         {

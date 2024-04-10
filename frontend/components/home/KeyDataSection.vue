@@ -77,7 +77,7 @@
               <span class="black02 fw-500">
                 {{ pieChartLabels[season] }}
               </span>
-              <span class="black02 flex">
+              <span class="black02 display-flex">
                 <div class="right-margin-16">
                   {{
                     keyData.prospecting_hours
@@ -191,7 +191,7 @@ export default {
           })
       })
       .catch((error) => {
-        console.log(error)
+        console.debug(`${error}`)
       })
   },
 }
@@ -269,7 +269,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 1070px) {
+@media screen and (width <= 1070px) {
   h2.bottom-margin-40 {
     margin-bottom: 24px !important;
   }
@@ -290,7 +290,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 612px) {
+@media screen and (width <= 612px) {
   .KeyDataCard {
     display: flex;
     flex-direction: column;

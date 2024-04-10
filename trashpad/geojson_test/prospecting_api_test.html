@@ -60,7 +60,7 @@
   //       envelop
   //   )
   //   .then((response) => {
-  //     console.log(response.data);
+  //     console.debug(response.data);
   //     var tl = L.geoJSON(response.data, {
   //       onEachFeature: function (f, l) {
   //         l.bindPopup(
@@ -87,7 +87,7 @@
     axios
       .get("http://localhost:8888/api/v1/historic/atlas/4532/6?envelope=" + mapEnvelop)
       .then((response) => {
-        console.log(response.data);
+        console.debug(response.data);
         var ml = L.geoJSON(response.data, {
           pointToLayer: function (f, l) {
             return L.circleMarker(l, geojsonMarkerOptions);
@@ -112,7 +112,7 @@
   axios
     .get("http://localhost:8888/api/v1/lareas/COM/69160")
     .then((response) => {
-      console.log(response.data);
+      console.debug(response.data);
       var area = L.geoJSON(response.data, {
         style: function (f, l) {
           return {

@@ -12,14 +12,14 @@ import NewsCard from '~/components/news/NewsCard.vue'
 
 export default {
   components: {
-    'news-card': NewsCard
+    'news-card': NewsCard,
   },
   async asyncData({ $content, params }) {
     const news = await $content(`fr/actualites/${params.id}`).fetch()
     return { news }
   },
   data: () => ({
-    newsContent: ''
+    newsContent: '',
   }),
   head() {
     const newsContent = this.newsContent
@@ -30,65 +30,65 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: newsContent
+          content: newsContent,
         },
         {
           hid: 'og:type',
           property: 'og:type',
-          content: 'website'
+          content: 'website',
         },
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `https://www.oiseauxdefrance.org${route.fullPath}`
+          content: `https://www.oiseauxdefrance.org${route.fullPath}`,
         },
         {
           hid: 'og:title',
           property: 'og:title',
-          content: `${this.news.title} | Atlas des Oiseaux de France`
+          content: `${this.news.title} | Atlas des Oiseaux de France`,
         },
         {
           hid: 'og:description',
           property: 'og:description',
-          content: newsContent
+          content: newsContent,
         },
         {
           hid: 'og:image',
           property: 'og:image',
-          content: `/news/${this.news.picture}`
+          content: `/news/${this.news.picture}`,
         },
         {
           hid: 'twitter:card',
           property: 'twitter:card',
-          content: 'summary_large_image'
+          content: 'summary_large_image',
         },
         {
           hid: 'twitter:url',
           property: 'twitter:url',
-          content: `https://www.oiseauxdefrance.org${route.fullPath}`
+          content: `https://www.oiseauxdefrance.org${route.fullPath}`,
         },
         {
           hid: 'twitter:title',
           property: 'twitter:title',
-          content: `${this.news.title} | Atlas des Oiseaux de France`
+          content: `${this.news.title} | Atlas des Oiseaux de France`,
         },
         {
           hid: 'twitter:description',
           property: 'twitter:description',
-          content: newsContent
+          content: newsContent,
         },
         {
           hid: 'twitter:image',
           property: 'twitter:image',
-          content: `/news/${this.news.picture}`
-        }
-      ]
+          content: `/news/${this.news.picture}`,
+        },
+      ],
     }
   },
   mounted() {
     this.newsContent =
       document.getElementsByClassName('nuxt-content')[0].textContent
-  }
+  },
 }
 </script>
 
@@ -109,7 +109,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .NewsSection {
     padding-bottom: 24px;
   }

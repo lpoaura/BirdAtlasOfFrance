@@ -1,11 +1,11 @@
 ---
-title: "Avez-vous vu le Pouillot à grands sourcils ?"
+title: 'Avez-vous vu le Pouillot à grands sourcils ?'
 picture: actualite-44.webp
 credit: Frank Vassen - FlickR
 centering: center
 author: Oiseaux de France
 date: '2022-11-01'
-tags: ['migration','PGS']
+tags: ['migration', 'PGS']
 active: true
 ---
 
@@ -25,7 +25,7 @@ Chaque automne des afflux variables d’individus, nichant à l’Ouest de l’O
 ## Où et quand l’observer ?
 
 En France, le Pouillot à grands sourcils est présent principalement de septembre à novembre. Il apprécie les milieux arborés et riches en broussailles et fréquente une large gamme d’habitats comportant ces éléments proches des côtes ou des fleuves, jusque dans les parcs et jardin.
-Discrète, l’espèce se déplace avec agilité dans le feuillage des ligneux. Tendez bien l’oreille car il est plus souvent décelé grâce à [son cri typique : *«&nbsp;tsu&nbsp;ii&nbsp;»*](https://xeno-canto.org/species/Phylloscopus-inornatus) !
+Discrète, l’espèce se déplace avec agilité dans le feuillage des ligneux. Tendez bien l’oreille car il est plus souvent décelé grâce à [son cri typique : _«&nbsp;tsu&nbsp;ii&nbsp;»_](https://xeno-canto.org/species/Phylloscopus-inornatus) !
 
 <v-container class="grey lighten-5">
     <v-row>
@@ -41,7 +41,7 @@ Discrète, l’espèce se déplace avec agilité dans le feuillage des ligneux. 
     </v-row>
   </v-container>
 
-## Signalement des observations : ouvrez l’œil  et sortez l’appareil photo
+## Signalement des observations : ouvrez l’œil et sortez l’appareil photo
 
 Le Pouillot à grands sourcils est vert mousse dessus et blanc sale dessous. La double barre alaire jaunâtre sur les grandes et moyennes couvertures ressort nettement sur le fond sombre de l’aile. Le trait sourcilier foncé est surmonté d’un sourcil jaune pâle.
 
@@ -52,5 +52,5 @@ Pour signaler vos observations, rendez-vous sur la plateforme [Faune France](htt
 [^1]: Faune France : <https://www.faune-france.org/index.php?m_id=30160>
 [^2]: Clement, P. (2020). Yellow-browed Warbler (Phylloscopus inornatus), version 1.0. In Birds of the World (J. del Hoyo, A. Elliott, J. Sargatal, D. A. Christie, and E. de Juana, Editors). Cornell Lab of Ornithology, Ithaca, NY, USA. <https://doi.org/10.2173/bow.yebwar3.01>
 [^3]: Ornithomédia.com : <https://www.ornithomedia.com/magazine/analyses/pouillot-grands-sourcils-futur-visiteur-hivernal-nos-jardins-01691/>
-[^4]: Simon Tonkin et Juan Miguel Gonzalez (2019). Ringing recovery of Yellow-browed Warbler in Andalucía confirms overwintering in consecutive winters. British Birds. Numéro : 112. Pages : 683– 687. Ingloriousbustards.com*
+[^4]: Simon Tonkin et Juan Miguel Gonzalez (2019). Ringing recovery of Yellow-browed Warbler in Andalucía confirms overwintering in consecutive winters. British Birds. Numéro : 112. Pages : 683– 687. Ingloriousbustards.com\*
 [^5]: Oiseaux.net : <https://www.oiseaux.net/oiseaux/pouillot.a.grands.sourcils.html>

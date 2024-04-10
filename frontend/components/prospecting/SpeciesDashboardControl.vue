@@ -15,33 +15,26 @@
             }}
           </h5>
         </div>
-        <img
-          class="MobileMapControlCloseIcon"
-          src="/cross.svg"
-          @click="closeMobileMapControl"
-        />
+        <img class="MobileMapControlCloseIcon" src="/cross.svg" @click="closeMobileMapControl" />
       </div>
     </header>
     <div class="MapControlOverflow">
       <div class="FeaturesLegend">
-        <div
-          v-for="(item, index) in selectedSeason.speciesDistributionColors"
-          :key="index"
-          class="FeaturesLegendLabel"
-        >
+        <div v-for="(item, index) in selectedSeason.speciesDistributionColors" :key="index" class="FeaturesLegendLabel">
           <i
             :style="{
               background: item,
-            }"
-          ></i>
+            }"></i>
           {{ featuresLabels[selectedSeason.value][index] }}
         </div>
       </div>
-      <div
-        class="PrimaryButton outlined top-margin-24"
-        @click="deleteSelectedSpecies"
-      >
-        Fermer
+      <div class="Buttons">
+        <nuxt-link v-if="$config.speciesSheet" :to="`/species/${selectedSpecies.code}`" class="PrimaryButton flex-1">
+          Voir la fiche espèce
+        </nuxt-link>
+        <div class="PrimaryButton outlined flex-1" @click="deleteSelectedSpecies">
+          Fermer
+        </div>
       </div>
     </div>
   </section>
@@ -88,10 +81,9 @@ export default {
   width: 420px;
 }
 
-/* À REMETTRE lorsque le bouton "Voir la fiche espèce" sera dispo
 .FeaturesLegend {
   margin-bottom: 24px;
-} */
+}
 
 .FeaturesLegendLabel {
   margin-bottom: 16px;
@@ -114,6 +106,13 @@ export default {
   float: left;
   margin-right: 12px;
   display: flex;
+}
+
+.Buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 8px;
 }
 
 .MobileMapControl .MapControlOverflow .PrimaryButton.outlined {

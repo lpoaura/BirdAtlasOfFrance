@@ -15,12 +15,12 @@ Ces deux dispositifs permettent d’assurer la surveillance des populations d’
 
 Plus d’informations sur le STOC:
 
-* [Participer au STOC](/get-involved/stoc#get-involved)
-* [Réaliser un STOC et saisir ses données](https://www.lpo.fr/content/download/14086/176404?version=1)
-* Télécharger la [fiche d’observation](https://www.lpo.fr/content/download/7261/68444?version=3) pour noter facilement tous les contacts
-* Faire un [relevé détaillé de l’habitat](https://www.lpo.fr/content/download/7262/68450?version=4) autour de chaque point d’écoute en suivant la [typologie fournie](https://www.lpo.fr/content/download/7266/68474?version=3)
+- [Participer au STOC](/get-involved/stoc#get-involved)
+- [Réaliser un STOC et saisir ses données](https://www.lpo.fr/content/download/14086/176404?version=1)
+- Télécharger la [fiche d’observation](https://www.lpo.fr/content/download/7261/68444?version=3) pour noter facilement tous les contacts
+- Faire un [relevé détaillé de l’habitat](https://www.lpo.fr/content/download/7262/68450?version=4) autour de chaque point d’écoute en suivant la [typologie fournie](https://www.lpo.fr/content/download/7266/68474?version=3)
 
 Plus d’informations sur EPOC-ODF :
 
-* [En savoir plus sur EPOC-ODF](/get-involved/epoc-odf)
-* [Participer à EPOC-ODF](/get-involved/epoc-odf#get-involved)
+- [En savoir plus sur EPOC-ODF](/get-involved/epoc-odf)
+- [Participer à EPOC-ODF](/get-involved/epoc-odf#get-involved)

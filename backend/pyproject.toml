@@ -5,45 +5,91 @@ description = ""
 authors = ["lpofredc <frederic.cloitre@lpo.fr>"]
 
 [tool.poetry.scripts]
-odf_api = "app.main:main"
+backend = "app.main:main"
 
 [tool.poetry.dependencies]
-python = "^3.7"
-fastapi = "^0.65.1"
-pydantic = "^1.8.2"
-SQLAlchemy = "^1.4.15"
-psycopg2-binary = "^2.8.6"
+python=">=3.8.1,<4.0"
+fastapi = "^0.104.0"
+pydantic = "^2.4.2"
+psycopg2-binary = "^2.9.5"
 databases = {extras = ["postgresql"], version = "^0.4.1"}
-uvicorn = "^0.13.4"
-python-dotenv = "^0.15.0"
-coloredlogs = "^15.0"
-loguru = "^0.5.3"
-geojson-pydantic = "^0.2.3"
-sentry-sdk = "^1.5.1"
-geoalchemy2 = "^0.13.1"
+uvicorn = "^0.19.0"
+python-dotenv = "^0.21.0"
+coloredlogs = "^15.0.1"
+loguru = "^0.7.2"
+geojson-pydantic = "^1.0.1"
+sentry-sdk = "^1.10.1"
+sqlalchemy = "^1.4.49"
+geoalchemy2 = "^0.12.5"
+websockets = "^10.4"
+fastapi-cache2 = {extras = ["redis"], version = "^0.2.1"}
+pydantic-settings = "^2.0.3"
 
-[tool.poetry.dev-dependencies]
-pytest = "^5.2"
-mypy = "^0.790"
-sqlalchemy-stubs = "^0.3"
-flake8 = "^3.8.4"
-autoflake = "^1.4"
-isort = "^5.6.4"
-black = "^20.8b1"
-tox = "^3.20.1"
-Sphinx = "^3.4.1"
+[tool.poetry.group.dev.dependencies]
+mypy = "1.0.0"
+pytest = "^7.2.1"
+sqlalchemy-stubs = "^0.4"
+flake8 = "^6.0.0"
+autoflake = "^2.0.1"
+isort = "^5.10.1"
+black = "^23.1.0"
+tox = "^4.4.5"
+pylint = "^2.16.2"
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+include_trailing_comma = true
+line_length = 99
+multi_line_output = 3
+profile = "black"
+
+[tool.black]
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
+include = '\.pyi?$'
+line-length = 99
+target-version = ['py38']
+
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 99
+disable = """
+"""
+good-names = [
+    "db",
+]
+
+[tool.mypy]
+ignore_missing_imports = true
+
 
 [tool.tox]
 legacy_tox_ini = """
 [tox]
 isolated_build = True
-envlist = py37
+envlist = py38
 
 [testenv]
-deps = pytest >= 3.0.0, <4
+deps = pytest >= 3.8.1, <4
 commands = pytest
 """
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

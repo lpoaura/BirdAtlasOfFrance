@@ -1,5 +1,5 @@
 ---
-title: "Vous êtes plutôt pic ou grive ?"
+title: 'Vous êtes plutôt pic ou grive ?'
 picture: actualite-13.webp
 credit: Pic mar © Frank Vassen from FlickR
 centering: center
@@ -28,8 +28,8 @@ Ces espèces peuvent aussi être ciblées dans le cadre de la participation au j
 
 ## Plus d’information
 
-* [Faire des listes complètes](https://www.oiseauxdefrance.org/get-involved/complete-lists)
-* [Saisir des listes complètes sur Faune France](https://www.faune-france.org/index.php?m_id=20043)
-* [Saisir une liste en temps réel sur NaturaList](https://www.faune-france.org/index.php?m_id=20047)
-* [Faire des points EPOC](https://www.oiseauxdefrance.org/get-involved/epoc)
-* [Participer au jeu concours ODF List](https://www.cocheurs.fr/reglement/odf-list.php)
+- [Faire des listes complètes](https://www.oiseauxdefrance.org/get-involved/complete-lists)
+- [Saisir des listes complètes sur Faune France](https://www.faune-france.org/index.php?m_id=20043)
+- [Saisir une liste en temps réel sur NaturaList](https://www.faune-france.org/index.php?m_id=20047)
+- [Faire des points EPOC](https://www.oiseauxdefrance.org/get-involved/epoc)
+- [Participer au jeu concours ODF List](https://www.cocheurs.fr/reglement/odf-list.php)

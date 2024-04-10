@@ -58,13 +58,13 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .ChartLegend {
     margin-bottom: 16px;
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (width <= 600px) {
   .ChartLegend {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));

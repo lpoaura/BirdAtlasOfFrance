@@ -71,10 +71,7 @@
             : ''
         }}
       </li>
-      <h5
-        v-if="!dataList.length"
-        class="black03 italic AutocompleteNoResults"
-      >
+      <h5 v-if="!dataList.length" class="black03 italic AutocompleteNoResults">
         Aucun résultat trouvé, vous recherchez peut-être une
         <nuxt-link to="/about/glossary">espèce sensible</nuxt-link>.
       </h5>
@@ -139,7 +136,7 @@ export default {
                 }
               })
               .catch((error) => {
-                console.log(error)
+                console.debug(`${error}`)
               })
           }
         } else {
@@ -171,7 +168,7 @@ export default {
           this.search = data[0][`common_name_${this.lang}`]
         })
         .catch((error) => {
-          console.log(error)
+          console.debug(`${error}`)
         })
     }
   },
@@ -201,7 +198,7 @@ export default {
             }
           })
           .catch((error) => {
-            console.log(error)
+            console.debug(`${error}`)
           })
       }
     },
@@ -313,7 +310,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 440px) {
+@media screen and (width <= 440px) {
   .AutocompleteWrapper input.large {
     display: none;
   }

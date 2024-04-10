@@ -1,5 +1,5 @@
 ---
-title: "Observatoire Rapaces & ODF : rechercher l’Épervier d’Europe et l’Autour des Palombes"
+title: 'Observatoire Rapaces & ODF : rechercher l’Épervier d’Europe et l’Autour des Palombes'
 picture: actualite-15.webp
 credit: Épervier d’Europe (jeune) © Ott Rebane de FlickR
 centering: center
@@ -27,11 +27,11 @@ La liste complète est la saisie de données la plus informative. Ce standard de
 
 Les « accipiters » sont des espèces forestières. Comme ils sont discrets, il n’est pas toujours aisé de repérer leur aire de reproduction ni leur territoires. Voici donc quelques critères typiques d’occupation :
 
-* vols en duo
-* cris entre individus
-* proies déplumées au sol
-* nid est toujours perché en hauteur dans un arbre (type conifère)
-* nid pouvant être volumineux comparé à celui de la buse ou du milan
+- vols en duo
+- cris entre individus
+- proies déplumées au sol
+- nid est toujours perché en hauteur dans un arbre (type conifère)
+- nid pouvant être volumineux comparé à celui de la buse ou du milan
 
 ## Détecter les individus sur un site de nidification connu
 
@@ -39,10 +39,10 @@ Les comportements de parades des deux espèces sont le plus visibles en mars et 
 
 Elles partagent plusieurs comportements nuptiaux typiques :
 
-* sous forme de circuits effectués au-dessus du site de nidification, avec de lents battements d’ailes, la queue étalée, les sous-caudales blanches ébouriffées
-* un vol ondulé au raz de la canopée
-* un vol avec les ailes fortement relevées (ressemblant à celui des pigeons)
-* un composé de « piqués » (comme chez la Buse variable)
+- sous forme de circuits effectués au-dessus du site de nidification, avec de lents battements d’ailes, la queue étalée, les sous-caudales blanches ébouriffées
+- un vol ondulé au raz de la canopée
+- un vol avec les ailes fortement relevées (ressemblant à celui des pigeons)
+- un composé de « piqués » (comme chez la Buse variable)
 
 La construction du nid commence cependant avant mars et se poursuit durant toute la saison de reproduction. Le transport de matériel est un bon indice de construction de nid.
 

@@ -5,20 +5,20 @@
 <script>
 export default {
   data: () => ({
-    nuxtContent: 'fr/mentions-legales'
+    nuxtContent: 'fr/mentions-legales',
   }),
   head() {
     return {
-      title: this.$getPageTitle(this.$route.path)
+      title: this.$getPageTitle(this.$route.path),
     }
-  }
+  },
 }
 </script>
 
 <style scoped>
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 600px) {
+@media screen and (width <= 600px) {
   div.container.container--fluid :deep(.TabMenu) {
     display: none;
   }
