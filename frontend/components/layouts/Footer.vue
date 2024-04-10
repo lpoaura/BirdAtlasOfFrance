@@ -6,7 +6,7 @@
         <nuxt-link v-for="(link, index) in links" :key="index" :to="link.route">
           <h4 class="nowrap">{{ link.label }}</h4>
         </nuxt-link>
-        <a v-if="newsletterUrl" :href="newsletterUrl" target="_blank">
+        <a v-if="$config.newsletterUrl" :href="$config.newsletterUrl" target="_blank">
           <h4 class="nowrap">Newsletter</h4>
         </a>
       </div>
@@ -33,7 +33,6 @@
 <script>
 export default {
   data: () => ({
-    newsletterUrl: process.env.NEWSLETTER_URL,
     links: [
       { label: 'À propos', route: '/about' },
       { label: 'Contact', route: '/about/contact' },

@@ -495,6 +495,7 @@
           </div>
         </div>
         <nuxt-link
+          v-if="$config.speciesSheet"
           :to="`/species/${clickedSpecies.cd_nom}`"
           class="PrimaryButton flex-1"
         >

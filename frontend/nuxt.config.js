@@ -292,4 +292,8 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
+  publicRuntimeConfig: {
+    speciesSheet: process.env.SPECIES_SHEET || true,
+    newsletterUrl: process.env.NEWSLETTER_URL || false,
+  },
 }
