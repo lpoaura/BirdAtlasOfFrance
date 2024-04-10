@@ -248,7 +248,7 @@ h5.Subtitle {
 }
 
 .CardPicture {
-  height: 190px;
+  min-height: 190px;
 }
 
 .CardTitle {
@@ -294,7 +294,7 @@ h5.Subtitle {
   }
 
   .CardPicture {
-    height: 160px;
+    min-height: 160px;
   }
 
   .CardTitle {
