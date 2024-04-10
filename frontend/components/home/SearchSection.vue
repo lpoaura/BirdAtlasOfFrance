@@ -7,8 +7,7 @@
         '--mobile-url': homePicture.mobileUrl,
         '--large-focus': `${homePicture.largeFocus}%`,
         '--mobile-focus': `${homePicture.mobileFocus}%`,
-      }"
-    >
+      }">
       <div class="PictureGradient"></div>
       <div class="TopSectionContent">
         <header>
@@ -29,12 +28,7 @@
       Photo : {{ homePicture.title }}, {{ homePicture.author }}
     </h6>
     <div class="MenuCardsContent">
-      <nuxt-link
-        v-for="(card, index) in cards"
-        :key="index"
-        :to="card.route"
-        class="MenuCard"
-      >
+      <nuxt-link v-for="(card, index) in cards" :key="index" :to="card.route" class="MenuCard">
         <img class="CardIcon" :src="card.icon" />
         <h4 class="CardTitle fw-500 text-center" v-html="card.title"></h4>
       </nuxt-link>
@@ -80,8 +74,7 @@ export default {
     ],
   }),
   created() {
-    this.randomInt = Math.floor(Math.random() * 5)
-    // console.debug(this.randomInt)
+    this.randomInt = this.getRandom(0, 9)
     this.homePicture.largeUrl = `url('/home/home-picture-${this.randomInt}.webp')`
     this.homePicture.mobileUrl = `url('/home/home-picture-${this.randomInt}-mobile.webp')`
     ExifReader.load(
@@ -92,14 +85,19 @@ export default {
         'type="Seq" ',
         ''
       )
-      // console.debug(tags)
-      // console.debug(this.homePicture.title)
-      // console.debug(this.homePicture.author)
-      // console.debug(JSON.parse(tags.description.description))
       const focusing = JSON.parse(tags.description.description)
       this.homePicture.largeFocus = focusing.large
       this.homePicture.mobileFocus = focusing.mobile
     })
+  },
+  methods: {
+    getRandom(min, max) {
+      const floatRandom = Math.random()
+      const difference = max - min
+      const random = Math.round(difference * floatRandom)
+      const randomWithinRange = random + min
+      return randomWithinRange
+    }
   },
 }
 </script>
@@ -115,11 +113,9 @@ export default {
 
 .TopSectionPicture {
   position: relative;
-  background: linear-gradient(
-      101.98deg,
+  background: linear-gradient(101.98deg,
       #3957a4 0%,
-      rgba(57, 87, 164, 0) 69.37%
-    ),
+      rgba(57, 87, 164, 0) 69.37%),
     var(--large-url) center / cover, #3957a4;
   width: 100%;
   height: 86%;
@@ -130,11 +126,9 @@ export default {
 .PictureGradient {
   position: absolute;
   z-index: 1;
-  background: linear-gradient(
-    185.18deg,
-    #3957a4 -29.97%,
-    rgba(57, 87, 164, 0) 64.13%
-  );
+  background: linear-gradient(185.18deg,
+      #3957a4 -29.97%,
+      rgba(57, 87, 164, 0) 64.13%);
   width: 100%;
   height: 60%;
 }
@@ -142,7 +136,9 @@ export default {
 .TopSectionContent {
   position: absolute;
   z-index: 5;
-  inset: -8% 0 0; /* responsive */
+  inset: -8% 0 0;
+
+  /* responsive */
   margin: auto;
   width: 64%;
   min-width: 820px;
@@ -152,7 +148,10 @@ export default {
   max-height: 282px;
 }
 
-.SearchBar /* Évite que la barre de recherche ne remonte (car position: absolute) */ {
+.SearchBar
+
+/* Évite que la barre de recherche ne remonte (car position: absolute) */
+  {
   width: 710px;
   height: 60px;
 }
@@ -178,13 +177,14 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (width <= 920px) {
-  .TopSectionPicture /* Recentrer l'image d'accueil */ {
-    background: linear-gradient(
-        101.98deg,
+@media screen and (width <=920px) {
+  .TopSectionPicture
+
+  /* Recentrer l'image d'accueil */
+    {
+    background: linear-gradient(101.98deg,
         #3957a4 0%,
-        rgba(57, 87, 164, 0) 69.37%
-      ),
+        rgba(57, 87, 164, 0) 69.37%),
       var(--large-url) var(--large-focus) / cover, #3957a4;
   }
 
@@ -210,19 +210,20 @@ export default {
   }
 }
 
-@media screen and (width <= 680px) {
+@media screen and (width <=680px) {
   .TopSection {
     height: 380px;
     min-height: auto;
   }
 
-  .TopSectionPicture /* Modifier l'image d'accueil sur mobile */ {
+  .TopSectionPicture
+
+  /* Modifier l'image d'accueil sur mobile */
+    {
     height: 100%;
-    background: linear-gradient(
-        101.98deg,
+    background: linear-gradient(101.98deg,
         #3957a4 0%,
-        rgba(57, 87, 164, 0) 69.37%
-      ),
+        rgba(57, 87, 164, 0) 69.37%),
       var(--mobile-url) var(--mobile-focus) / cover, #3957a4;
   }
 
@@ -260,7 +261,7 @@ export default {
   }
 }
 
-@media screen and (width <= 464px) {
+@media screen and (width <=464px) {
   .TopSectionContent {
     top: 120px;
   }
@@ -271,7 +272,7 @@ export default {
   }
 }
 
-@media screen and (width <= 406px) {
+@media screen and (width <=406px) {
   .PlayfairDisplayTypo {
     font-size: 28px;
     line-height: 37px;
