@@ -31,7 +31,7 @@
               class="CardPicture"
               :src="news.picture"
               :style="{
-                background: `url(/news/${news.picture}) center / cover`
+                background: `url(/news/${news.picture}) center / cover`,
               }"
             ></div>
             <span class="black03 bottom-margin-8">
@@ -41,10 +41,8 @@
             <h4 class="CardTitle fw-bold bottom-margin-16">
               {{ news.title }}
             </h4>
-            <div class="CardOverflow CardSubtitle">
-              <nuxt-content :document="news" />
-              <div class="CardSubtitleBlurring"></div>
-            </div>
+            <nuxt-content :document="news" />
+            <div class="CardBlurring"></div>
           </div>
           <div class="CardFooter">
             <div class="TagMenu">
@@ -74,7 +72,7 @@ export default {
     currentOffset: 0,
     maxOffset: 0,
     resizeId: 0,
-    isTouchDevice: false
+    isTouchDevice: false,
   }),
   computed: {
     atEndOfList() {
@@ -82,7 +80,7 @@ export default {
     },
     atHeadOfList() {
       return this.currentOffset === 0
-    }
+    },
   },
   beforeMount() {
     this.isTouchDevice =
@@ -104,7 +102,7 @@ export default {
         this.newsItems = news
       })
       .catch((error) => {
-        console.log(error)
+        console.debug(`${error}`)
       })
       .finally(() => {
         this.maxOffset = this.calculateMaxOffset()
@@ -160,8 +158,8 @@ export default {
           .marginRight
       )
       return cardWidth + cardMarginRight
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -233,15 +231,17 @@ h5.Subtitle {
   margin-right: 0;
 }
 
+.CardHeader {
+  position: relative;
+}
+
 .CardHeader,
-.CardFooter,
-.CardOverflow {
+.CardFooter {
   display: flex;
   flex-direction: column;
 }
 
 .CardHeader,
-.CardOverflow,
 .nuxt-content-container {
   flex: 1;
   overflow-y: hidden;
@@ -256,11 +256,7 @@ h5.Subtitle {
   overflow-y: hidden;
 }
 
-.CardSubtitle {
-  position: relative;
-}
-
-.CardSubtitleBlurring {
+.CardBlurring {
   background: linear-gradient(
     0deg,
     rgba(252, 252, 252, 1) 0%,
@@ -276,7 +272,7 @@ h5.Subtitle {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .Section {
     padding: 46px 0 16px;
   }

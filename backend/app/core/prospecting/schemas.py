@@ -4,8 +4,9 @@ import datetime
 import logging
 from typing import List, Optional, Union
 
-from geojson_pydantic.features import Feature, FeatureCollection
 from pydantic import BaseModel
+
+from ..commons.schemas import BaseFeature, BaseFeatureCollection
 
 logger = logging.getLogger(__name__)
 
@@ -28,19 +29,19 @@ class AreaKnowledgeLevelPropertiesSchema(BaseModel):
     wintering: AreaKnowledgeLevelDetailSchema
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
-class AreaKnowledgeLevelFeatureSchema(Feature):
+class AreaKnowledgeLevelFeatureSchema(BaseFeature):
     """[AreaKnowledgeLevel] AreaKnowledgeLevelPropertiesSchema as GeoJson properties"""
 
     properties: AreaKnowledgeLevelPropertiesSchema
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
-class AreaKnowledgeLevelGeoJson(FeatureCollection):
+class AreaKnowledgeLevelGeoJson(BaseFeatureCollection):
     """[summary]
 
     Args:
@@ -50,7 +51,7 @@ class AreaKnowledgeLevelGeoJson(FeatureCollection):
     features: List[AreaKnowledgeLevelFeatureSchema]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class AreaKnowledgeTaxaListGenericDetailSchema(BaseModel):
@@ -94,7 +95,7 @@ class AreaKnowledgeTaxaListSchema(BaseModel):
     phenology: List[int]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class AreaDashboardSchema(BaseModel):
@@ -115,7 +116,7 @@ class AreaDashboardSchema(BaseModel):
     prospecting_hours_breeding: float
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class AreaDashboardTimeDistribSchema(BaseModel):
@@ -133,17 +134,16 @@ class AreaDashboardTimeDistribSchema(BaseModel):
     count_data: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class AreaDashboardIntersectAreas(BaseModel):
-
-    id_area: str
+    id_area: int
     area_code: str
     area_name: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class EpocFeaturePropertiesSchema(BaseModel):
@@ -159,10 +159,10 @@ class EpocFeaturePropertiesSchema(BaseModel):
     rang_rsv: Optional[int]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
-class EpocFeatureSchema(Feature):
+class EpocFeatureSchema(BaseFeature):
     """[summary]
 
     Args:
@@ -172,17 +172,17 @@ class EpocFeatureSchema(Feature):
     properties: EpocFeaturePropertiesSchema
 
 
-class EpocSchema(FeatureCollection):
+class EpocSchema(BaseFeatureCollection):
     """[summary]
 
     Args:
         FeatureCollection ([type]): [description]
     """
 
-    features: List[EpocFeatureSchema]
+    features: List[Optional[EpocFeatureSchema]]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class RealizedEpocFeaturePropertiesSchema(BaseModel):
@@ -198,10 +198,10 @@ class RealizedEpocFeaturePropertiesSchema(BaseModel):
     time: datetime.time
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
-class RealizedEpocFeatureSchema(Feature):
+class RealizedEpocFeatureSchema(BaseFeature):
     """[summary]
 
     Args:
@@ -211,24 +211,23 @@ class RealizedEpocFeatureSchema(Feature):
     properties: RealizedEpocFeaturePropertiesSchema
 
 
-class RealizedEpocSchema(FeatureCollection):
+class RealizedEpocSchema(BaseFeatureCollection):
     """[summary]
 
     Args:
         FeatureCollection ([type]): [description]
     """
 
-    features: List[RealizedEpocFeatureSchema]
+    features: List[Optional[RealizedEpocFeatureSchema]]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class TaxonCountClassesByTerritorySchema(BaseModel):
-
     ntile: int
     min: Optional[int]
     max: Optional[int]
 
     class Config:
-        orm_mode = True
+        from_attributes = True

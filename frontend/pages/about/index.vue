@@ -1,5 +1,9 @@
 <template>
   <v-container fluid>
+    <!-- <img
+      class="Test"
+      src="/about/about-picture.webp"
+    /> -->
     <main class="TopSection">
       <header>
         <h1 class="white02 fw-bold text-center">À propos</h1>
@@ -118,6 +122,13 @@ export default {
 </script>
 
 <style scoped>
+/* img.Test {
+  width: 100%;
+  height: 580px;
+  object-fit: cover;
+  object-position: center;
+} */
+
 .TopSection {
   position: relative;
   height: 410px;
@@ -126,7 +137,7 @@ export default {
       rgba(85, 75, 57, 0.6) 0%,
       rgba(85, 75, 57, 0) 100%
     ),
-    url('/about/about-picture.jpg') center / cover, rgba(85, 75, 57, 1);
+    url('/about/about-picture.webp') center / cover, rgba(85, 75, 57, 1);
 }
 
 .TopSectionPictureCredit {
@@ -209,7 +220,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 920px) {
+@media screen and (width <= 920px) {
   .TopSectionPictureCredit {
     width: 90%;
     left: 5%;
@@ -224,7 +235,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .TopSection {
     height: 270px;
   }
@@ -252,7 +263,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (width <= 400px) {
   .TopSectionPictureCredit {
     bottom: 10px;
     text-align: right;

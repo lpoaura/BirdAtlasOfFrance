@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""General module > DB queries"""
+
 import logging
 
 # from sqlalchemy_utils.functions import json_sql
@@ -17,8 +21,14 @@ class GeneralStatsActions(BaseReadOnlyActions[GeneralStats]):
     """Post actions with basic CRUD operations"""
 
     def query(self, db: Session) -> Query:
+        """_summary_
 
-        q = db.query(
+        :param db: db connection
+        :type db: Session
+        :return: Query result (first row)
+        :rtype: Query
+        """
+        query = db.query(
             func.json_build_object(
                 "all_period",
                 GeneralStats.count_taxa_all_period,
@@ -36,7 +46,7 @@ class GeneralStatsActions(BaseReadOnlyActions[GeneralStats]):
                 func.coalesce(GeneralStats.prospecting_hours_wintering, 0),
             ).label("prospecting_hours"),
         )
-        return q.first()
+        return query.first()
 
 
 class KnowledgeLevelGeneralStatsActions(BaseReadOnlyActions[AreaKnowledgeLevel]):
@@ -60,7 +70,7 @@ class KnowledgeLevelGeneralStatsActions(BaseReadOnlyActions[AreaKnowledgeLevel])
             "wintering": AreaKnowledgeLevel.wintering_percent_knowledge,
             "breeding": AreaKnowledgeLevel.breeding_percent_knowledge,
         }
-        q = (
+        query = (
             db.query(
                 func.coalesce(func.avg(percent_knowledge_fields[period]), 0).label("average"),
                 func.count(AreaKnowledgeLevel.id_area)
@@ -101,15 +111,15 @@ class KnowledgeLevelGeneralStatsActions(BaseReadOnlyActions[AreaKnowledgeLevel])
             )
             # .filter(LAreas.id_type == territory_type)
         )
-        q = (
-            q.filter(LAreas.id_area == id_area)
+        query = (
+            query.filter(LAreas.id_area == id_area)
             .filter(LAreas.geom.intersects(AreaKnowledgeLevel.geom))
             .group_by(LAreas.id_area)
             if id_area
-            else q
+            else query
         )
-        logger.debug(q)
-        return q.first()
+        logger.debug(query)
+        return query.first()
 
 
 general_stats = GeneralStatsActions(GeneralStats)

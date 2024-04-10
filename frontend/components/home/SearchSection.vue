@@ -1,15 +1,14 @@
 <template>
   <main class="TopSection">
-    <div class="TopSectionPicture">
-      <!-- <div
+    <div
       class="TopSectionPicture"
       :style="{
-        '--largeUrl': homePicture.largeUrl,
-        '--mobileUrl': homePicture.mobileUrl,
-        '--largeFocus': `${homePicture.largeFocus}%`,
-        '--mobileFocus': `${homePicture.mobileFocus}%`,
+        '--large-url': homePicture.largeUrl,
+        '--mobile-url': homePicture.mobileUrl,
+        '--large-focus': `${homePicture.largeFocus}%`,
+        '--mobile-focus': `${homePicture.mobileFocus}%`,
       }"
-    > -->
+    >
       <div class="PictureGradient"></div>
       <div class="TopSectionContent">
         <header>
@@ -22,13 +21,12 @@
           </h4>
         </header>
         <div class="SearchBar">
-          <search-bar />
+          <commons-search-bar />
         </div>
       </div>
     </div>
     <h6 class="TopSectionPictureCredit white01 fw-300">
-      <!-- Photo : {{ homePicture.title }}, {{ homePicture.author }} -->
-      Photo : Phaéton à bec jaune, Florent Bignon
+      Photo : {{ homePicture.title }}, {{ homePicture.author }}
     </h6>
     <div class="MenuCardsContent">
       <nuxt-link
@@ -45,13 +43,9 @@
 </template>
 
 <script>
-import SearchBar from '~/components/home/SearchBar.vue'
-// const ExifReader = require('exifreader')
+const ExifReader = require('exifreader')
 
 export default {
-  components: {
-    'search-bar': SearchBar,
-  },
   data: () => ({
     randomInt: 0,
     homePicture: {
@@ -85,29 +79,28 @@ export default {
       },
     ],
   }),
-  // created() {
-  //   this.randomInt = Math.floor(Math.random() * 5)
-  //   console.log(this.randomInt)
-  //   // this.randomInt = 5
-  //   this.homePicture.largeUrl = `url('/home/home-picture-${this.randomInt}.jpg')`
-  //   this.homePicture.mobileUrl = `url('/home/home-picture-${this.randomInt}-mobile.jpg')`
-  //   ExifReader.load(`/home/home-picture-${this.randomInt.toString()}.jpg`).then(
-  //     (tags) => {
-  //       this.homePicture.title = tags.title.description
-  //       this.homePicture.author = tags.creator.description.replace(
-  //         'type="Seq" ',
-  //         ''
-  //       )
-  //       // console.log(tags)
-  //       // console.log(this.homePicture.title)
-  //       // console.log(this.homePicture.author)
-  //       // console.log(JSON.parse(tags.description.description))
-  //       const focusing = JSON.parse(tags.description.description)
-  //       this.homePicture.largeFocus = focusing.large
-  //       this.homePicture.mobileFocus = focusing.mobile
-  //     }
-  //   )
-  // },
+  created() {
+    this.randomInt = Math.floor(Math.random() * 5)
+    // console.debug(this.randomInt)
+    this.homePicture.largeUrl = `url('/home/home-picture-${this.randomInt}.webp')`
+    this.homePicture.mobileUrl = `url('/home/home-picture-${this.randomInt}-mobile.webp')`
+    ExifReader.load(
+      `/home/home-picture-${this.randomInt.toString()}.webp`
+    ).then((tags) => {
+      this.homePicture.title = tags.title.description
+      this.homePicture.author = tags.creator.description.replace(
+        'type="Seq" ',
+        ''
+      )
+      // console.debug(tags)
+      // console.debug(this.homePicture.title)
+      // console.debug(this.homePicture.author)
+      // console.debug(JSON.parse(tags.description.description))
+      const focusing = JSON.parse(tags.description.description)
+      this.homePicture.largeFocus = focusing.large
+      this.homePicture.mobileFocus = focusing.mobile
+    })
+  },
 }
 </script>
 
@@ -127,9 +120,7 @@ export default {
       #3957a4 0%,
       rgba(57, 87, 164, 0) 69.37%
     ),
-    url('/home/home-picture-0.jpg') center / cover, #3957a4;
-
-  /* var(--largeUrl) center / cover, #3957a4; */
+    var(--large-url) center / cover, #3957a4;
   width: 100%;
   height: 86%;
   display: flex;
@@ -151,10 +142,7 @@ export default {
 .TopSectionContent {
   position: absolute;
   z-index: 5;
-  top: -8%; /* responsive */
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: -8% 0 0; /* responsive */
   margin: auto;
   width: 64%;
   min-width: 820px;
@@ -190,16 +178,14 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 920px) {
+@media screen and (width <= 920px) {
   .TopSectionPicture /* Recentrer l'image d'accueil */ {
     background: linear-gradient(
         101.98deg,
         #3957a4 0%,
         rgba(57, 87, 164, 0) 69.37%
       ),
-      url('/home/home-picture-0.jpg') 66% / cover, #3957a4;
-
-    /* var(--largeUrl) var(--largeFocus) / cover, #3957a4; */
+      var(--large-url) var(--large-focus) / cover, #3957a4;
   }
 
   .TopSectionContent {
@@ -224,7 +210,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .TopSection {
     height: 380px;
     min-height: auto;
@@ -237,9 +223,7 @@ export default {
         #3957a4 0%,
         rgba(57, 87, 164, 0) 69.37%
       ),
-      url('/home/home-picture-0-mobile.jpg') 70% / cover, #3957a4;
-
-    /* var(--mobileUrl) var(--mobileFocus) / cover, #3957a4; */
+      var(--mobile-url) var(--mobile-focus) / cover, #3957a4;
   }
 
   .PictureGradient {
@@ -276,10 +260,10 @@ export default {
   }
 }
 
-@media screen and (max-width: 464px) {
+@media screen and (width <= 464px) {
   .TopSectionContent {
     top: 120px;
-  } 
+  }
 
   .PlayfairDisplayTypo {
     font-size: 35px;
@@ -287,7 +271,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 406px) {
+@media screen and (width <= 406px) {
   .PlayfairDisplayTypo {
     font-size: 28px;
     line-height: 37px;

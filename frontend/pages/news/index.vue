@@ -62,7 +62,7 @@ export default {
   },
   mounted() {
     this.$content('fr/actualites')
-      .where({ active: true, date: { $lte: new Date() },})
+      .where({ active: true, date: { $lte: new Date() } })
       .sortBy('date', 'desc')
       .fetch()
       .then((news) => {
@@ -73,7 +73,7 @@ export default {
             : Math.floor(this.newsItems.length / this.newsNumberPerPage) + 1
       })
       .catch((error) => {
-        console.log(error)
+        console.debug(`${error}`)
       })
       .finally(() => {
         if (this.$route.hash) {
@@ -112,7 +112,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   h2.fw-600 {
     font-weight: bold;
   }

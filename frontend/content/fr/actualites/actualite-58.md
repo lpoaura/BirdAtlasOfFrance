@@ -1,11 +1,11 @@
 ---
-title: "Colloque National Œdicnème criard 2023"
+title: 'Colloque National Œdicnème criard 2023'
 picture: actualite-58.webp
 credit: Oedicnème criard © Jean-Luc Pinaud
 centering: center
 author: Oiseaux de France
 date: '2023-02-20'
-tags: ['colloque', 'national','oedicnème']
+tags: ['colloque', 'national', 'oedicnème']
 active: true
 ---
 
@@ -19,15 +19,12 @@ Par la suite, les actions locales seront mises à l'honneur jusqu'en fin de mati
 
 L'après-midi, une session est prévue autour de l'évaluation et l'amélioration des recommandations de gestion favorable à l'espèce, nous terminerons enfin cette journée avec une session intitulée "estimer la population nationale" dans laquelle nous reviendrons sur le volet œdicnème de l'enquête LIMAT.
 
-Un [programme détaillé]( https://drive.google.com/file/d/1FH2mdKtv8FutQl60yuKdBkyu83RYH69l/edit?fbclid=IwAR0Ae1OHnPAMuOvJ2Iqx1dCS9cbIeUJLx3tHAJsvpk1dJMDjD30IpVdakUo) reprend les temps forts de cette journée.
+Un [programme détaillé](https://drive.google.com/file/d/1FH2mdKtv8FutQl60yuKdBkyu83RYH69l/edit?fbclid=IwAR0Ae1OHnPAMuOvJ2Iqx1dCS9cbIeUJLx3tHAJsvpk1dJMDjD30IpVdakUo) reprend les temps forts de cette journée.
 
 <div style="align-center">
 
 <a href="https://oedicneme.sciencesconf.org"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success"> Je m’inscris au webinaire </a>
 
+Un lien de visualisation des présentations en visioconférence sera disponible sur la [page Facebook du programme](https://www.facebook.com/ProjetNationalOedicnemecriard), ainsi que sur le [site web du programme](http://www.oedicneme-criard.ovh/).
 
-Un lien de visualisation des présentations en visioconférence sera disponible sur la [page Facebook du programme](https://www.facebook.com/ProjetNationalOedicnemecriard), ainsi que sur le [site web du programme]( http://www.oedicneme-criard.ovh/).
-
-Le Colloque est organisé par les responsables du Programme National Œdicnème criard, le [Centre d’Écologie Fonctionnelle et Évolutive]( https://www.cefe.cnrs.fr/fr/) de Montpellier (CEFE-[CNRS]( https://www.cnrs.fr/fr)) et [EcoInd-Consult](https://www.ecoind-consult.fr/), avec le soutien de la LPO France et CMSE.
-
-
+Le Colloque est organisé par les responsables du Programme National Œdicnème criard, le [Centre d’Écologie Fonctionnelle et Évolutive](https://www.cefe.cnrs.fr/fr/) de Montpellier (CEFE-[CNRS](https://www.cnrs.fr/fr)) et [EcoInd-Consult](https://www.ecoind-consult.fr/), avec le soutien de la LPO France et CMSE.

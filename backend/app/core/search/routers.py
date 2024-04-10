@@ -52,6 +52,6 @@ def search_taxa(
     limit: int = 10,
     search: Optional[str] = None,
     cd_nom: Optional[int] = None,
-) -> Any:
+):
     q = mv_search_taxa.get_search_list(db=db, limit=limit, search=search, cd_nom=cd_nom)
     return q

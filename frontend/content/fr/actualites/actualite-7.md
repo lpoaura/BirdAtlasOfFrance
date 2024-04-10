@@ -31,4 +31,4 @@ En zoomant sur votre lieu de résidence, vous vous apercevez que l’espèce est
 
 Petit exemple de mailles dans lesquelles le Pinson du Nord n’est pas noté : [E060N667](/prospecting?area=10kmL93E060N667&type=ATLAS_GRID), [E040N683](/prospecting?area=10kmL93E040N683&type=ATLAS_GRID), [E040N685](/prospecting?area=10kmL93E040N685&type=ATLAS_GRID), [E041N685](/prospecting?area=10kmL93E041N685&type=ATLAS_GRID), [E120N611](/prospecting?area=10kmL93E120N611&type=ATLAS_GRID).
 
-Belles observations et merci pour chacune de vos contributions à ODF ! 
+Belles observations et merci pour chacune de vos contributions à ODF !

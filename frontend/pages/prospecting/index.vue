@@ -102,8 +102,11 @@
             @click="openOrCloseTerritoriesBox"
           >
             <img class="MapSelectorIcon" src="/location.svg" />
-            <h5 v-if="currentTerritory.id" class="fw-600 right-margin-12">
-              {{ currentTerritory.name }}
+            <h5
+              v-if="currentTerritory.area_code"
+              class="fw-600 right-margin-12"
+            >
+              {{ currentTerritory.area_name }}
             </h5>
             <h5 v-else class="fw-600 right-margin-12">Territoires</h5>
             <img
@@ -111,11 +114,7 @@
               :src="territoryIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
             />
           </div>
-          <territories-selector
-            :select-is-open="territoryIsOpen"
-            :selected-territory="selectedTerritory"
-            @selectedTerritory="updateSelectedTerritory"
-          />
+          <commons-selectors-territories :select-is-open="territoryIsOpen" />
         </div>
       </div>
     </header>
@@ -156,9 +155,8 @@
 
 <script>
 import MapSearchBar from '~/components/prospecting/MapSearchBar.vue'
-import SeasonsSelector from '~/components/prospecting/SeasonsSelector.vue'
-import LayersSelector from '~/components/prospecting/LayersSelector.vue'
-import TerritoriesSelector from '~/components/prospecting/TerritoriesSelector.vue'
+import SeasonsSelector from '~/components/commons/Selectors/Seasons.vue'
+import LayersSelector from '~/components/commons/Selectors/Layers.vue'
 import KnowledgeLevelControl from '~/components/prospecting/KnowledgeLevelControl.vue'
 import CountTaxaControl from '~/components/prospecting/CountTaxaControl.vue'
 import FeatureDashboardControl from '~/components/prospecting/FeatureDashboardControl.vue'
@@ -170,7 +168,6 @@ export default {
     'map-search-bar': MapSearchBar,
     'seasons-selector': SeasonsSelector,
     'layers-selector': LayersSelector,
-    'territories-selector': TerritoriesSelector,
     'lazy-prospecting-map': () => {
       if (process.client) {
         return import('~/components/prospecting/ProspectingMap.vue')
@@ -206,16 +203,11 @@ export default {
       subtitle: null,
       permanent: true,
     },
-    selectedTerritory: {
-      // Territoire cliqué (FrMet ou DOM-TOM)
-      name: null,
-      icon: null,
-      isActive: null,
-    },
+    // selectedTerritory: {
+    //   // Territoire cliqué (FrMet ou DOM-TOM)
+    // },
     currentTerritory: {
       // Territoire sur lequel est centrée la carte (peut être non défini)
-      id: null,
-      name: null,
     },
     countTaxaClasses: {
       // Classes pour la couche "Nb d'espèces par maille"
@@ -271,15 +263,59 @@ export default {
       title: this.$getPageTitle(this.$route.path),
     }
   },
+  computed: {
+    selectedTerritory() {
+      return this.$store.state.species.selectedTerritory
+    },
+    territoriesList() {
+      return [...this.$store.state.species.territoriesList]
+    },
+  },
+  watch: {
+    selectedSpecies() {
+      this.getTerritoryList()
+    },
+    cdNom() {
+      this.getTerritoryList()
+    },
+  },
   mounted() {
     document.documentElement.style.overflow = 'hidden'
     document.body.style.position = 'fixed' // Needed for iOS
+    this.getTerritoryList()
   },
   beforeDestroy() {
     document.documentElement.style.removeProperty('overflow')
     document.body.style.removeProperty('position')
   },
   methods: {
+    async getTerritoryList() {
+      console.log('getTerritoryList', this.cdNom)
+      if (this.selectedSpecies?.code) {
+        console.log('getTerritoryList', this.selectedSpecies?.code)
+        const params = { cd_nom: this.selectedSpecies.code }
+        const territoryList = await this.$axios.$get(
+          '/api/v1/taxa/list/distribution',
+          { params }
+        )
+        this.$store.commit(
+          'species/setTerritoryDistribution',
+          territoryList.areas
+        )
+        this.initSelectedTerritory(territoryList.areas)
+        // this.initSelectedTerritory(territoryList.areas)
+      } else {
+        this.$store.commit('species/setTerritoryDistribution', [])
+      }
+    },
+    initSelectedTerritory(territoryList) {
+      const firstTerritory = this.territoriesList.find(
+        (territory) =>
+          territory.isActive && territoryList.includes(territory.area_code)
+      )
+      console.log('FIRST TERRITORY', firstTerritory)
+      this.$store.commit('species/setSelectedTerritory', firstTerritory)
+    },
     updateSelectedArea(data) {
       this.selectedArea = data
     },
@@ -303,11 +339,8 @@ export default {
     },
     updateSelectedTerritory(territory) {
       // Permet d'activer le watch de ProspectingMap et ainsi de recentrer la carte sur un territoire même si l'utilisateur se trouve déjà dessus
-      this.selectedTerritory = {
-        name: null,
-        icon: null,
-        isActive: null,
-      }
+      this.selectedTerritory = {}
+      console.log('TERRITORY', territory)
       setTimeout(() => {
         this.selectedTerritory = territory
       }, 1)
@@ -315,28 +348,28 @@ export default {
     },
     updateCurrentTerritory(territory) {
       this.currentTerritory = territory
-      if (territory.id) {
-        Promise.all([
-          this.$axios.$get(
-            `/api/v1/map/count_taxon_classes/${territory.id}?period=all_period`
-          ),
-          this.$axios.$get(
-            `/api/v1/map/count_taxon_classes/${territory.id}?period=breeding`
-          ),
-          this.$axios.$get(
-            `/api/v1/map/count_taxon_classes/${territory.id}?period=wintering`
-          ),
-        ])
+      const periods = ['all_period', 'breeding', 'wintering']
+      if (territory.area_code) {
+        Promise.all(
+          periods.map((i) => {
+            const params = {
+              id_area: territory.id,
+              period: i,
+            }
+            return this.$axios.$get(`/api/v1/map/count_taxon_classes`, {
+              params,
+            })
+          })
+        )
           .then((responses) => {
             if (responses[0]) {
-              const seasons = ['all_period', 'breeding', 'wintering']
               responses.forEach((item, index) => {
-                this.countTaxaClasses[seasons[index]] = item
-                this.countTaxaClasses[seasons[index]].forEach(
+                this.countTaxaClasses[periods[index]] = item
+                this.countTaxaClasses[periods[index]].forEach(
                   (taxaClass, i) => {
                     if (
                       i !==
-                      this.countTaxaClasses[seasons[index]].length - 1
+                      this.countTaxaClasses[periods[index]].length - 1
                     ) {
                       taxaClass.max -= 1
                     }
@@ -344,26 +377,20 @@ export default {
                 )
               })
             } else {
-              this.countTaxaClasses = {
-                all_period: [],
-                breeding: [],
-                wintering: [],
-              }
+              const emptyObj = {}
+              periods.forEach((i) => (emptyObj[i] = []))
+              this.countTaxaClasses = emptyObj
             }
           })
           .catch((errors) => {
-            console.log(errors)
+            console.debug(errors)
           })
       }
       if (
-        this.selectedTerritory.name &&
-        this.currentTerritory.name !== this.selectedTerritory.name
+        this.selectedTerritory.area_code &&
+        this.currentTerritory.area_code !== this.selectedTerritory.area_code
       ) {
-        this.selectedTerritory = {
-          name: null,
-          icon: null,
-          isActive: null,
-        }
+        this.selectedTerritory = {}
       }
     },
     updateClickedFeature(feature) {
@@ -440,7 +467,7 @@ header {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 950px) {
+@media screen and (width <= 950px) {
   header {
     padding: 0 10px;
   }

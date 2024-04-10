@@ -95,7 +95,7 @@ export default {
         subtitle: 'Limicoles et Anatidés Nicheurs',
         route: '/get-involved/limat',
         season: 'Reproduction',
-        speciesGroup: ["#water-birds"],
+        speciesGroup: ['#water-birds'],
       },
       {
         icon: '/get-involved/Wetlands-logo.svg',
@@ -103,7 +103,7 @@ export default {
         subtitle: "Recensement des Oiseaux d'Eau",
         route: '/get-involved/wetlands',
         season: 'Hivernage',
-        speciesGroup: ["#water-birds"],
+        speciesGroup: ['#water-birds'],
       },
       {
         icon: '/get-involved/complete-lists-logo.svg',
@@ -111,7 +111,7 @@ export default {
         subtitle: null,
         route: '/get-involved/complete-lists',
         season: null,
-        speciesGroup: ['#common-birds', '#raptors', "#water-birds"],
+        speciesGroup: ['#common-birds', '#raptors', '#water-birds'],
       },
     ],
   }),
@@ -139,7 +139,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   .ProtocolsCardsGrid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     grid-gap: 16px;

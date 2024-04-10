@@ -1,11 +1,11 @@
 ---
-title: "Participez aux suivis de la migration !"
+title: 'Participez aux suivis de la migration !'
 picture: actualite-42.webp
 credit: © Clive Lachlan / LPO Aquitaine
 centering: center
 author: Oiseaux de France
 date: '2022-10-17'
-tags: ['migration','suivis' ]
+tags: ['migration', 'suivis']
 active: true
 ---
 
@@ -17,15 +17,15 @@ Après les migrateurs transsahariens, c’est au tour des migrateurs du paléarc
 
 Les deux sites principaux pour le suivi de la migration post nuptiale sont :
 
-- le [col d'Organbidexka (64)]( https://www.lpo.fr/lpo-locales/la-lpo-en-nouvelle-aquitaine/lpo-aquitaine/agenda-aquitaine/agenda-2022-aquitaine/participez-a-l-etude-de-la-migration-a-nos-cotes8) : du 15 juillet au 15 novembre
-- le [Cap Ferret (33)]( https://www.lpo.fr/lpo-locales/la-lpo-en-nouvelle-aquitaine/lpo-aquitaine/agenda-aquitaine/agenda-2022-aquitaine/participez-a-l-etude-de-la-migration-a-nos-cotes7) : du 1er septembre au 15 novembre
-Ornithologue débutant ou confirmé, la participation aux suivis de la migration sur ces deux sites, se fait dans le cadre d’une démarche d’écovolontariat.
+- le [col d'Organbidexka (64)](https://www.lpo.fr/lpo-locales/la-lpo-en-nouvelle-aquitaine/lpo-aquitaine/agenda-aquitaine/agenda-2022-aquitaine/participez-a-l-etude-de-la-migration-a-nos-cotes8) : du 15 juillet au 15 novembre
+- le [Cap Ferret (33)](https://www.lpo.fr/lpo-locales/la-lpo-en-nouvelle-aquitaine/lpo-aquitaine/agenda-aquitaine/agenda-2022-aquitaine/participez-a-l-etude-de-la-migration-a-nos-cotes7) : du 1er septembre au 15 novembre
+  Ornithologue débutant ou confirmé, la participation aux suivis de la migration sur ces deux sites, se fait dans le cadre d’une démarche d’écovolontariat.
 
 <div style="align-center"><a href="<https://www.lpo.fr/lpo-locales/la-lpo-en-nouvelle-aquitaine/lpo-aquitaine/nos-publications/etude-de-la-migration"  target="_blank" class="v-btn v-btn--is-elevated  elevation-2 v-size--default success">Devenir écovolontaire</a></div>
 
 Mais vous pouvez aussi participer à des permanences « migration » sur des sites naturels comme :
 
-- [Le Crêt des roches](<https://www.lpo.fr/lpo-locales/lpo-bfc/agenda-bourgogne-franche-comte/agenda-2022-bourgogne-fc/doubs/permanence-migration-suivi-quotidien-de-la-migration-au-fort-des-roches>) à Pont-de-roide (25) : du 20 août 2022 au 21 novembre 2022 (tous les jours de 8h à 17h)
+- [Le Crêt des roches](https://www.lpo.fr/lpo-locales/lpo-bfc/agenda-bourgogne-franche-comte/agenda-2022-bourgogne-fc/doubs/permanence-migration-suivi-quotidien-de-la-migration-au-fort-des-roches) à Pont-de-roide (25) : du 20 août 2022 au 21 novembre 2022 (tous les jours de 8h à 17h)
 - la [montagne de la folie](https://www.lpo.fr/lpo-locales/lpo-bfc/agenda-bourgogne-franche-comte/agenda-2022-bourgogne-fc/saone-et-loire/decouverte-des-oiseaux-migrateurs-a-la-montagne-de-la-folie) à Bouzeron (71)] : du 1 octobre 2022 au 13 novembre 2022
 - la [pointe de l’Aiguillon](https://vendee.lpo.fr/nos-actions/connaissances-naturalistes-et-actions-de-protection/migration-a-pointe-de-laiguillon/) (85) : 1er septembre au 30 novembre
 

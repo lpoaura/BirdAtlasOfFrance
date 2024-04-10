@@ -11,7 +11,7 @@ from app.utils.config import settings
 logger = logging.getLogger(__name__)
 
 engine = create_engine(
-    settings.SQLALCHEMY_DATABASE_URI,
+    settings.SQLALCHEMY_DATABASE_URI.unicode_string(),
     pool_pre_ping=True,
     echo=False,
     connect_args={"application_name": settings.APP_SYSNAME},
@@ -23,7 +23,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 metadata = MetaData()
 
-database = databases.Database(url=settings.SQLALCHEMY_DATABASE_URI)
+database = databases.Database(url=settings.SQLALCHEMY_DATABASE_URI.unicode_string())
 
 
 @as_declarative()

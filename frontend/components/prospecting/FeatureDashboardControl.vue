@@ -38,20 +38,20 @@
         </div>
         <menu class="TabMenu">
           <span
-            v-for="(item, index) in menuItems"
+            v-for="(item, index) in tabs"
             :key="index"
             class="TabItem"
-            :class="item.value === selectedMenuItem.value ? 'selected' : ''"
-            @click="updateSelectedMenuItem(item)"
+            :class="item.label === selectedTab.label ? 'selected' : ''"
+            @click="updateSelectedTab(item)"
           >
             {{ item.label }}
           </span>
         </menu>
         <div class="MobileMapControlMenuWrapper">
           <dropdown-list
-            v-model="selectedMenuItem"
+            v-model="selectedTab"
             :z-index="3"
-            :items-list="menuItems"
+            :items-list="tabs"
           />
           <a
             v-if="featureProperties"
@@ -64,14 +64,12 @@
         </div>
         <div
           class="MapControlSplit main right-margin-16"
-          :class="
-            scrolled && selectedMenuItem.value === 'species' ? 'fixed' : ''
-          "
+          :class="scrolled && selectedTab.label === 'Espèces' ? 'fixed' : ''"
         ></div>
       </header>
       <!-- Onglet "Tableau de bord" -->
       <div
-        v-show="selectedMenuItem.value === 'dashboard'"
+        v-show="selectedTab.label === 'Tableau de bord'"
         class="MapControlOverflow"
       >
         <h4
@@ -91,9 +89,13 @@
             :class="selectedSeason.value"
           >
             {{
-              $toPercent(
-                featureProperties[selectedSeason.value].percent_knowledge
-              )
+              (!featureProperties[selectedSeason.value].old_count ||
+                featureProperties[selectedSeason.value].old_count == 0) &&
+              featureProperties[selectedSeason.value].new_count > 0
+                ? $toPercent(1)
+                : $toPercent(
+                    featureProperties[selectedSeason.value].percent_knowledge
+                  )
             }}%
           </h3>
           <h5 class="black03">
@@ -216,7 +218,7 @@
       </div>
       <!-- Onglet "Espèces" -->
       <div
-        v-show="selectedMenuItem.value === 'species'"
+        v-show="selectedTab.label === 'Espèces'"
         ref="speciesOverflow"
         class="MapControlOverflow"
       >
@@ -266,7 +268,7 @@
                 <h5>({{ filteredSpecies.old_count }} esp.)</h5>
               </span>
               <span class="TableColumn small black02 fw-500">
-                <div class="flex">
+                <div class="display-flex">
                   <font style="font-family: sans-serif">&lt;</font>&nbsp;2019
                 </div>
                 <h5>({{ filteredSpecies.old_count }} esp.)</h5>
@@ -276,7 +278,7 @@
                 <h5>({{ filteredSpecies.new_count }} esp.)</h5>
               </span>
               <span class="TableColumn small black02 fw-500">
-                <div class="flex">
+                <div class="display-flex">
                   <font style="font-family: sans-serif">&ge;</font>&nbsp;2019
                 </div>
                 <h5>({{ filteredSpecies.new_count }} esp.)</h5>
@@ -334,7 +336,7 @@
       </div>
       <!-- Onglet "Prospection" -->
       <div
-        v-show="selectedMenuItem.value === 'prospecting'"
+        v-show="selectedTab.label === 'Prospection'"
         class="MapControlOverflow"
       >
         <h4 class="black02 fw-bold top-margin-24 bottom-margin-16">
@@ -457,31 +459,31 @@
       </header>
       <div class="MapControlSplit right-margin-16 no-bottom-margin"></div>
       <div class="MapControlOverflow">
-        <div class="MapControlDataOption top-margin-24">
+        <li class="MapControlDataOption top-margin-24">
           <img
             class="MapControlDataOptionIcon"
             src="/nav-bar/burger-black.svg"
           />
           {{ clickedSpecies.all_period.new_count }} donnée(s) sur la période
           Atlas 2019-2024
-        </div>
-        <div class="MapControlDataOption">
+        </li>
+        <li class="MapControlDataOption">
           <img class="MapControlDataOptionIcon" src="/prospecting.svg" />
           Espèce observée pour la dernière fois en
           {{ clickedSpecies.all_period.last_obs }}
-        </div>
-        <div class="MapControlDataOption">
+        </li>
+        <li class="MapControlDataOption">
           <img class="MapControlDataOptionIcon" src="/book.svg" />
           {{
             clickedSpecies.all_period.old_count > 0
               ? 'Espèce observée avant 2019'
               : 'Espèce non observée avant 2019'
           }}
-        </div>
-        <div class="MapControlDataOption">
+        </li>
+        <li class="MapControlDataOption">
           <img class="MapControlDataOptionIcon" src="/calendar.svg" />
           Calendrier d'observation sur la période Atlas 2019-2024 :
-        </div>
+        </li>
         <div class="PhenologyWrapper">
           <div
             v-for="(item, index) in clickedSpeciesPhenology"
@@ -492,6 +494,13 @@
             <span class="black02">{{ item.label }}</span>
           </div>
         </div>
+        <nuxt-link
+          v-if="$config.speciesSheet"
+          :to="`/species/${clickedSpecies.cd_nom}`"
+          class="PrimaryButton flex-1"
+        >
+          Voir la fiche espèce
+        </nuxt-link>
       </div>
     </div>
     <!-- EPOC DASHBOARD -->
@@ -556,12 +565,12 @@ export default {
       'Nov',
       'Déc',
     ],
-    menuItems: [
-      { value: 'dashboard', label: 'Tableau de bord' },
-      { value: 'species', label: 'Espèces' },
-      { value: 'prospecting', label: 'Prospection' },
+    tabs: [
+      { label: 'Tableau de bord' },
+      { label: 'Espèces' },
+      { label: 'Prospection' },
     ],
-    selectedMenuItem: { value: 'dashboard', label: 'Tableau de bord' },
+    selectedTab: { label: 'Tableau de bord' },
     speciesStatusList: [
       { label: 'Toutes', value: 'all_period' },
       { label: 'Espèces nicheuses', value: 'breeding' },
@@ -576,9 +585,8 @@ export default {
         let filteredSpecies =
           this.featureTaxaList[this.selectedSpeciesStatus.value]
         if (this.search.length > 0) {
-          filteredSpecies = this.featureTaxaList[
-            this.selectedSpeciesStatus.value
-          ].filter(
+          console.debug('filteredSpecies this.search', this.search)
+          filteredSpecies = filteredSpecies.filter(
             (species) =>
               species[`common_name_${this.lang}`] &&
               species[`common_name_${this.lang}`]
@@ -666,7 +674,7 @@ export default {
       this.clickedSpecies = null
       this.clickedEpocItem = null
       this.seeMoreMunicipalitiesIsClicked = false
-      this.selectedMenuItem = { value: 'dashboard', label: 'Tableau de bord' }
+      this.selectedTab = { label: 'Tableau de bord' }
       this.initiateFeatureData(newVal)
     },
   },
@@ -684,14 +692,14 @@ export default {
   methods: {
     initiateFeatureData(feature) {
       this.featureID = feature.id
-      // console.log('----------------------------------------')
-      // console.log('ID : ' + this.featureID)
+      // console.debug('----------------------------------------')
+      // console.debug('ID : ' + this.featureID)
       this.featureProperties = feature.properties
       this.featureProperties.area_name = this.featureProperties.area_name
         .replace('10kmL93', '')
         .replace('10kmUTM22', '')
-      // console.log('Properties :')
-      // console.log(this.featureProperties)
+      // console.debug('Properties :')
+      // console.debug(this.featureProperties)
       this.$router.push({
         path: '/prospecting',
         query: {
@@ -702,8 +710,8 @@ export default {
       this.$axios
         .$get(`/api/v1/area/general_stats/${this.featureID}`)
         .then((data) => {
-          // console.log('General stats :')
-          // console.log(data)
+          // console.debug('General stats :')
+          // console.debug(data)
           if (data) {
             this.featureDataKey = data
           } else {
@@ -711,7 +719,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.debug(`${error}`)
         })
         .finally(() => {
           // Si la maille comporte des données...
@@ -720,7 +728,7 @@ export default {
             this.$axios
               .$get(`/api/v1/area/taxa_list/${this.featureID}`)
               .then((data) => {
-                // console.log(data)
+                // console.debug(data)
                 if (data) {
                   this.featureTaxaList = {}
                   this.featureTaxaList.all_period = data
@@ -735,50 +743,54 @@ export default {
                       item.wintering.old_count > 0
                     )
                   })
-                  // console.log('Liste des espèces par période :')
-                  // console.log(this.featureTaxaList)
+                  // console.debug('Liste des espèces par période :')
+                  // console.debug(this.featureTaxaList)
                 } else {
                   this.featureTaxaList = null
                 }
               })
               .catch((error) => {
-                console.log(error)
+                console.debug(`${error}`)
               })
           } else {
             // Sinon la liste des espèces est vide
             this.featureTaxaList = null
           }
         })
+      const params = {
+        id_area: this.featureID,
+        area_type: 'COM',
+      }
       this.$axios
-        .$get(`/api/v1/area/list_areas/${this.featureID}/COM`)
+        .$get(`/api/v1/area/list_areas`, { params })
         .then((data) => {
-          // console.log('Liste des communes :')
-          // console.log(data)
+          // console.debug('Liste des communes :')
+          // console.debug(data)
           this.featureMunicipalitiesList = data
         })
         .catch((error) => {
-          console.log(error)
+          console.debug(`${error}`)
         })
       this.$axios
         .$get(`/api/v1/epoc?id_area=${this.featureID}`)
         .then((data) => {
           if (data) {
-            // console.log('Liste des points EPOC ODF statiques :')
-            // console.log(data.features)
+            // console.debug('Liste des points EPOC ODF statiques :')
+            // console.debug(data.features)
             this.featureEpocOdfList = data.features
           } else {
             this.featureEpocOdfList = []
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.debug(`${error}`)
         })
       this.$axios
         .$get(`/api/v1/epoc/realized?id_area=${this.featureID}`)
         .then((data) => {
           if (data) {
-            // console.log('Liste des points EPOC réalisés :')
-            // console.log(data.features)
+            // console.debug('Liste des points EPOC réalisés :')
+            // console.debug(data.features)
             this.featureEpocOdfRealizedList = data.features.filter((epoc) => {
               return epoc.properties.project_code === 'EPOC-ODF'
             })
@@ -791,7 +803,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.debug(`${error}`)
         })
       // Si la maille comporte des données après 2019...
       if (this.featureProperties.all_period.new_count) {
@@ -799,7 +811,7 @@ export default {
         this.$axios
           .$get(`/api/v1/area/time_distrib/${this.featureID}/month`)
           .then((data) => {
-            // console.log(data)
+            // console.debug(data)
             if (data) {
               this.timeDistributionIsOn = true
               const formattedData = this.months.map((item, index) => {
@@ -815,7 +827,7 @@ export default {
             }
           })
           .catch((error) => {
-            console.log(error)
+            console.debug(`${error}`)
           })
       } else {
         // Sinon on n'affiche pas la répartition des données
@@ -921,12 +933,14 @@ export default {
             "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: 300; font-size: 11px; line-height: 12px; color: #000;"
           )
         // Update Y axis
-        const formatter = d3.formatLocale({
+        const formatter = d3
+          .formatLocale({
             decimal: '.',
             thousands: ' ',
             grouping: [3],
             currency: ['', ''],
-          }).format(',.0f')
+          })
+          .format(',.0f')
         d3.select(this.$el)
           .select('.yAxis')
           .call(d3.axisLeft(yAxis).tickFormat(formatter))
@@ -990,8 +1004,8 @@ export default {
     deleteClickedEpocItem() {
       this.clickedEpocItem = null
     },
-    updateSelectedMenuItem(item) {
-      this.selectedMenuItem = item
+    updateSelectedTab(item) {
+      this.selectedTab = item
     },
     updateSelectedSpeciesStatus(item) {
       this.selectedSpeciesStatus = item
@@ -1036,10 +1050,6 @@ export default {
   margin: 24px 0;
 }
 
-.pointer {
-  cursor: pointer;
-}
-
 .align-end {
   align-self: flex-end;
 }
@@ -1050,7 +1060,9 @@ export default {
 
 .TableHeader.fixed {
   position: sticky;
-  z-index: 1; /* Pour que les .Dot ne passent pas par-dessus */
+  z-index: 1;
+
+  /* Pour que les .Dot ne passent pas par-dessus */
   top: 0;
 }
 
@@ -1149,7 +1161,7 @@ span.TableColumn.small {
 
 .PhenologyWrapper {
   width: 100%;
-  margin-top: 16px;
+  margin: 16px 0 24px;
   display: flex;
   justify-content: space-between;
 }
@@ -1171,14 +1183,14 @@ span.TableColumn.small {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <=680px) {
   h3.MapControlKeyDataValue {
     font-size: 24px;
     line-height: 36px;
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (width <=400px) {
   .br,
   .MapControlSeeMore h5.large.green01,
   span.TableColumn.large,

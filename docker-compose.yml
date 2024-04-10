@@ -1,6 +1,10 @@
 version: "3"
 
 services:
+  redis:
+    image: redis:latest
+    networks:
+      - odf_internal
 
   backend:
     image: lpoaura/odf-backend:latest
@@ -8,6 +12,8 @@ services:
     container_name: odf_backend
     env_file:
       - .env
+    environment:
+      - CACHE_REDIS_HOST=redis
     ports:
       - ${API_PORT:-8888}:80
     networks:
@@ -19,15 +25,15 @@ services:
     container_name: odf_frontend
     env_file:
       - .env
-    environment: 
+    environment:
       API_URL: ${API_URL:-http://backend/}
     ports:
       - ${FRONT_PORT:-3000}:3000
     networks:
-      - proxy
+      # - proxy
       - odf_internal
 
 networks:
-  proxy:
-    external: true
+  # proxy:
+  # external: true
   odf_internal:

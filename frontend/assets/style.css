@@ -5,9 +5,14 @@ body {
 
 body {
   width: 100%;
+  font-family: 'Poppins', sans-serif;
 }
 
-.flex {
+.v-application {
+  font-family: 'Poppins', sans-serif;
+}
+
+.display-flex {
   display: flex;
 }
 
@@ -26,6 +31,18 @@ body {
   line-height: 75px;
   color: #fff;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+h1,
+h2,
+h3,
+h4,
+span,
+h5,
+h6,
+div,
+p {
+  font-family: 'Poppins', sans-serif;
 }
 
 h1,
@@ -166,6 +183,10 @@ h6 {
 
 .nowrap {
   white-space: nowrap;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 /********** GLOBAL COMPONENTS **********/
@@ -361,6 +382,11 @@ a.Vocabulary:hover::after {
   background: rgba(238, 206, 37, 0.2);
 }
 
+.RadioOption.inactive {
+  color: rgba(38, 38, 38, 0.2);
+  cursor: auto;
+}
+
 .RadioLabel {
   display: flex;
   align-items: center;
@@ -416,6 +442,10 @@ a.Vocabulary:hover::after {
   display: flex;
 }
 
+.TabMenu.vertical {
+  flex-direction: column;
+}
+
 .SelectorMenu {
   margin: -6px 0 18px 0;
   flex-wrap: wrap;
@@ -439,10 +469,19 @@ a.Vocabulary:hover::after {
   white-space: nowrap;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
-  font-weight: normal;
   font-size: 14px;
   line-height: 21px;
   color: #000;
+}
+
+.TabItem.vertical {
+  margin-right: 0;
+  margin-bottom: 6px;
+}
+
+.TabItem.vertical.atlas {
+  margin-bottom: 6px !important;
+  margin-left: 24px;
 }
 
 .TabItem.selected {
@@ -493,6 +532,10 @@ a.Vocabulary:hover::after {
 .SelectorItem:last-child,
 .ChipItem:last-child {
   margin-right: 0;
+}
+
+.TabItem.vertical:last-child {
+  margin-bottom: 0;
 }
 
 /* Cards */
@@ -1022,6 +1065,7 @@ a.Vocabulary:hover::after {
 .MapSelectorSelectedOption {
   cursor: pointer;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
@@ -1523,7 +1567,7 @@ button.v-pagination__navigation .theme--light.v-icon {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 1050px) {
+@media screen and (width <= 1050px) {
   /********** INFORMATIVE PAGES **********/
 
   .InformativePagePicture {
@@ -1531,9 +1575,9 @@ button.v-pagination__navigation .theme--light.v-icon {
   }
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (width <= 950px) {
   /********** MAP **********/
-  .MapSelectors {
+  header > .MapSelectors {
     display: none;
   }
   .leaflet-control .MapControl {
@@ -1573,7 +1617,7 @@ button.v-pagination__navigation .theme--light.v-icon {
   }
 }
 
-@media screen and (max-width: 920px) {
+@media screen and (width <= 920px) {
   /********** NAVBAR **********/
 
   .NavBar nav {
@@ -1597,7 +1641,7 @@ button.v-pagination__navigation .theme--light.v-icon {
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   /********** TYPOGRAPHY **********/
 
   .PlayfairDisplayTypo {

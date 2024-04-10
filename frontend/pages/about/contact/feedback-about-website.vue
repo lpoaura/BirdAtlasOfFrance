@@ -153,7 +153,7 @@ export default {
   methods: {
     updateSelectedSubject(subject) {
       this.selectedSubject = subject
-      // console.log(this.selectedSubject)
+      // console.debug(this.selectedSubject)
     },
     updateCaptchaUser(captcha) {
       this.captchaUser = captcha
@@ -191,14 +191,14 @@ export default {
             text: messageIntroduction + this.userMessage,
           })
           .then((response) => {
-            // console.log(response)
+            // console.debug(response)
             this.validForm = true
           })
           .catch((error) => {
             this.alerts.sendingFail = true
             this.disabledButton = false
             if (error.response) {
-              console.log(error.response.data)
+              console.debug(error.response.data)
             }
           })
       }

@@ -2,7 +2,7 @@
 """Search pydantic schemas module"""
 
 import logging
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 # Shared properties
 class MvSearchBaseSchema(BaseModel):
-    code: str
+    code: Union[str, int]
     name: str
     html_repr: str
 
@@ -23,7 +23,7 @@ class MvSearchAreasSchema(MvSearchBaseSchema):
     bounds: List[List]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class MvSearchTaxaSchema(MvSearchBaseSchema):
@@ -32,4 +32,4 @@ class MvSearchTaxaSchema(MvSearchBaseSchema):
     sci_name: Optional[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True

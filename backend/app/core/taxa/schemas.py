@@ -1,27 +1,59 @@
-from ast import Str
-from datetime import date
-from tokenize import String
 from typing import List, Optional
 
-from geojson_pydantic.features import Feature, FeatureCollection, Geometry
-from pydantic import BaseModel
-from sqlalchemy import Integer
+from geojson_pydantic.features import FeatureCollection
+from pydantic import BaseModel, Field
+
+from ..commons.schemas import BaseFeature, BaseFeatureCollection
+
+
+class TaxaTerritoryDistribution(BaseModel):
+    cd_nom: int
+    areas: List[str]
 
 
 class TaxaDistributionProperties(BaseModel):
     status: Optional[str]
-    radius: Optional[str]
+    radius: Optional[int] = Field(None)
 
 
-class TaxaDistributionFeature(Feature):
+class TaxaDistributionFeature(BaseFeature):
     properties: TaxaDistributionProperties
 
 
-class TaxaDistributionFeaturesCollection(FeatureCollection):
-    features: List[TaxaDistributionFeature]
+class TaxaDistributionFeaturesCollection(BaseFeatureCollection):
+    features: Optional[List[TaxaDistributionFeature]]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+
+class CommonDataStructure(BaseModel):
+    label: int
+    value: float
+
+    # class Config:
+    #     from_attributes = True
+
+
+class CommonBlockStructure(BaseModel):
+    label: str
+    data: List[CommonDataStructure]
+    color: str
+
+
+class TaxaAltitudinalApiData(BaseModel):
+    altitude: CommonBlockStructure
+    globalAltitude: CommonBlockStructure
+
+
+class TaxaPhenologyApiData(BaseModel):
+    phenology: CommonBlockStructure
+    frequency: CommonBlockStructure
+
+
+class TaxaBreedingPhenologyApiData(BaseModel):
+    breeding_start: CommonBlockStructure
+    breeding_end: CommonBlockStructure
 
 
 # class TaxaAltitudeDistributionSchema(BaseModel):
@@ -29,7 +61,7 @@ class TaxaDistributionFeaturesCollection(FeatureCollection):
 #     count: int
 
 #     class Config:
-#         orm_mode = True
+#         from_attributes = True
 
 
 # class HistoricAtlasProperties(BaseModel):
@@ -40,19 +72,77 @@ class TaxaDistributionFeaturesCollection(FeatureCollection):
 #     properties: HistoricAtlasProperties
 
 
-# class HistoricAtlasFeaturesCollection(FeatureCollection):
+# class HistoricAtlasFeaturesCollection(BaseFeatureCollection):
 #     features: List[HistoricAtlasFeature]
 
 #     class Config:
-#         orm_mode = True
+#         from_attributes = True
 
 
 class HistoricAtlasInfosSchema(BaseModel):
-    id: int
-    atlas_period: str
-    atlas_period: str
-    date_start: date
-    date_end: date
-    season_period: str
-    description: Optional[str]
-    # is_active: bool
+    label: str
+    name: str
+    slug: Optional[str]
+    seasons: List[str]
+
+    class Config:
+        from_attributes = True
+
+
+class SurveyMapDataProperties(BaseModel):
+    area_name: str
+    area_code: str
+    data: Optional[List[List[str]]]
+
+
+class SurveyMapDataFeature(BaseFeature):
+    properties: SurveyMapDataProperties
+
+
+class SurveyMapDataFeaturesCollection(BaseFeatureCollection):
+    features: List[SurveyMapDataFeature]
+
+
+class SurveyChartDataDetailProperties(BaseModel):
+    val: Optional[float]
+    val_min: Optional[float]
+    val_max: Optional[float]
+
+
+class SurveyChartDataItem(BaseModel):
+    year: int
+    unit: str
+    data: SurveyChartDataDetailProperties
+
+class SurveyChartDescItem(BaseModel):
+    title: str
+    desc: str
+    
+class SurveyChartData(BaseModel):
+    descriptions: List[SurveyChartDescItem]
+    data: List[SurveyChartDataItem]
+
+# class MigrationChartBaseModel(BaseModel):
+#     processing: str
+
+
+class MigrationDecadeDataItem(BaseModel):
+    decade: int
+    count: int
+    pivotal_decade: bool
+
+
+
+class MigrationQuantileDataItem(BaseModel):
+    phenology_period: str
+    q2_5: int
+    q5: int
+    q25: int
+    median: int
+    q75: int
+    q95: int
+    q2_5: int
+
+class MigrationChartData(BaseModel):
+    quantile: List[MigrationQuantileDataItem]
+    distribution: List[MigrationDecadeDataItem]

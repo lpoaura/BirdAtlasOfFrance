@@ -1,7 +1,8 @@
 import logging
 from typing import Any, Dict, Optional
 
-from pydantic import BaseSettings, PostgresDsn, validator
+from pydantic import ConfigDict, PostgresDsn, validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 logger = logging.getLogger(__name__)
 
@@ -24,37 +25,39 @@ class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
-    POSTGRES_HOST: Optional[str] = "localhost"
-    POSTGRES_PORT: Optional[str] = 5432
-    LOG_LEVEL: Optional[str] = "INFO"
-    APP_NAME: Optional[str] = "Bird atlas of France"
-    APP_SYSNAME: Optional[str] = "odf_api"
-    API_PREFIX: Optional[str] = "/api/v1"
+    POSTGRES_HOST: str = "localhost"
+    POSTGRES_PORT: int = 5432
+    LOG_LEVEL: str = "INFO"
+    APP_NAME: str = "Bird atlas of France"
+    APP_SYSNAME: str = "odf_api"
+    API_PREFIX: str = "/api/v1"
     APP_URL: str
     SENTRY_DSN: Optional[str] = None
-    SENTRY_TRACES_SAMPLE_RATE: Optional[float] = 0.2
+    SENTRY_TRACES_SAMPLE_RATE: float = 0.2
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
-    SQLALCHEMY_POOL_SIZE: Optional[int] = 5
-    SQLALCHEMY_MAX_OVERFLOW: Optional[int] = 10
+    SQLALCHEMY_POOL_SIZE: int = 5
+    SQLALCHEMY_MAX_OVERFLOW: int = 10
+    CACHE_REDIS_HOST: str = "localhost"
+    CACHE_REDIS_PORT: str = "6379"
+    CACHE_DURATION: int = 1440
+    model_config = SettingsConfigDict(case_sensitive=True, extra="ignore", env_file="../.env")
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
+        """Generate db connection string"""
         if isinstance(v, str):
             return v
         pg_uri = PostgresDsn.build(
             scheme="postgresql",
-            user=values.get("POSTGRES_USER"),
+            username=values.get("POSTGRES_USER"),
             password=values.get("POSTGRES_PASSWORD"),
             host=values.get("POSTGRES_HOST"),
             port=values.get("POSTGRES_PORT"),
             # path=f"/{values.get('POSTGRES_DB') or  ''}?application_name=odf_api",
-            path=f"/{values.get('POSTGRES_DB') or  ''}",
+            path=f"{values.get('POSTGRES_DB') or  ''}",
         )
+        logger.debug(f"PG_URI {type(pg_uri)}")
         return pg_uri
-
-    class Config:
-        case_sensitive = True
-        env_file = "../.env"
 
 
 settings = Settings()

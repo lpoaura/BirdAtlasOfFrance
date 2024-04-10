@@ -1,6 +1,6 @@
 ---
 title: Oiseaux de France évolue !
-picture: actualite-3.jpg
+picture: actualite-3.webp
 credit: Emile Barbelette
 centering: center
 author: Oiseaux de France

@@ -14,8 +14,8 @@
             </h5>
           </div>
         </div>
-        <h5 v-if="currentTerritory.id" class="fw-500 bottom-margin-24">
-          {{ currentTerritory.name }}
+        <h5 v-if="currentTerritory.area_code" class="fw-500 bottom-margin-24">
+          {{ currentTerritory.area_name }}
         </h5>
         <h5 v-else class="fw-500">
           Placez le centre de la carte sur un territoire français pour
@@ -29,8 +29,8 @@
       />
     </header>
     <div
-      v-show="currentTerritory.id && !noAvailableData"
-      class="KnowledgeLevelPieChartWrapper flex"
+      v-show="currentTerritory.area_code && !noAvailableData"
+      class="KnowledgeLevelPieChartWrapper display-flex"
     >
       <div class="KnowledgeLevelPieChart">
         <svg class="PieChartSvg"></svg>
@@ -59,7 +59,7 @@
         </div>
       </div>
     </div>
-    <span v-show="currentTerritory.id && noAvailableData" class="fw-500">
+    <span v-show="currentTerritory.area_code && noAvailableData" class="fw-500">
       Les données de ce territoire ne sont pas encore disponibles.
     </span>
   </section>
@@ -173,7 +173,7 @@ export default {
   },
   watch: {
     currentTerritory(newVal) {
-      if (newVal.id) {
+      if (newVal.area_code) {
         this.updateGlobalKnowledgeLevel()
       }
     },
@@ -249,23 +249,22 @@ export default {
         return color(d.data.label)
       })
     // Nécessaire pour la version mobile
-    if (this.currentTerritory.id) {
+    if (this.currentTerritory.area_code) {
       this.updateGlobalKnowledgeLevel()
     }
   },
   methods: {
     updateGlobalKnowledgeLevel() {
-      Promise.all([
-        this.$axios.$get(
-          `/api/v1/knowledge_level?id_area=${this.currentTerritory.id}&period=allperiod`
-        ),
-        this.$axios.$get(
-          `/api/v1/knowledge_level?id_area=${this.currentTerritory.id}&period=breeding`
-        ),
-        this.$axios.$get(
-          `/api/v1/knowledge_level?id_area=${this.currentTerritory.id}&period=wintering`
-        ),
-      ])
+      const periods = ['allperiod', 'breeding', 'wintering']
+      Promise.all(
+        periods.map((i) => {
+          const params = {
+            id_area: this.currentTerritory.id,
+            period: i,
+          }
+          return this.$axios.$get(`/api/v1/knowledge_level`, { params })
+        })
+      )
         .then((responses) => {
           if (responses[0].average !== 0) {
             this.noAvailableData = false
@@ -314,7 +313,7 @@ export default {
           }
         })
         .catch((errors) => {
-          console.log(errors)
+          console.debug(errors)
         })
     },
     // MOBILE
@@ -409,14 +408,14 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (max-width: 680px) {
+@media screen and (width <= 680px) {
   h3.KnowledgeLevelGlobalData {
     font-size: 24px;
     line-height: 36px;
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (width <= 400px) {
   .KnowledgeLevelPieChartWrapper {
     flex-direction: column;
     align-items: center;
