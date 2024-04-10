@@ -24,6 +24,7 @@ geoalchemy2 = "^0.14.7"
 websockets = "^12.0"
 fastapi-cache2 = {extras = ["redis"], version = "^0.2.1"}
 pydantic-settings = "^2.2.1"
+asyncpg = "^0.29.0"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.9.0"
