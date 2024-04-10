@@ -2,32 +2,17 @@
   <div v-click-outside="closeSearchBar" class="AutocompleteWrapper">
     <input v-model="search" type="text" placeholder="Rechercher" />
     <div class="AutocompleteGadgets">
-      <img
-        v-if="search.length > 0"
-        class="AutocompleteCloseIcon"
-        src="/close.svg"
-        @click="clearResults"
-      />
+      <img v-if="search.length > 0" class="AutocompleteCloseIcon" src="/close.svg" @click="clearResults" />
       <div class="AutocompleteSearchSplit"></div>
       <div class="AutocompleteDropdownWrapper">
-        <div
-          class="AutocompleteDropdownSelectedOption"
-          @click="openOrCloseSelectBox"
-        >
+        <div class="AutocompleteDropdownSelectedOption" @click="openOrCloseSelectBox">
           <h4 class="fw-500">{{ selectedType.label }}</h4>
-          <img
-            class="DropdownChevron"
-            :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'"
-          />
+          <img class="DropdownChevron" :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'" />
         </div>
         <div v-show="selectIsOpen" class="DropdownOptionsBox">
           <li
-            v-for="(type, index) in typeList"
-            :key="index"
-            class="DropdownOption"
-            :class="type.value === selectedType.value ? 'selected' : ''"
-            @click="updateSelectedType(type)"
-          >
+            v-for="(type, index) in typeList" :key="index" class="DropdownOption"
+            :class="type.value === selectedType.value ? 'selected' : ''" @click="updateSelectedType(type)">
             {{ type.label }}
           </li>
         </div>
@@ -38,26 +23,18 @@
     </div>
     <div v-show="autocompleteIsOpen" class="AutocompleteResultsSplit"></div>
     <div v-show="autocompleteIsOpen" class="AutocompleteResults">
-      <li
-        v-for="data in dataList"
-        :key="data.code"
-        class="AutocompleteResultsOption"
-        @click="updateSelectedData(data)"
-      >
+      <li v-for="data in dataList" :key="data.code" class="AutocompleteResultsOption" @click="updateSelectedData(data)">
         {{
-          selectedType.value === 'species'
-            ? data[`common_name_${lang}`]
-            : data.name.replace('10kmL93', '').replace('10kmUTM22', '') +
-              ' (' +
-              data.code.slice(0, -3) +
-              ')'
-        }}
+    selectedType.value === 'species'
+      ? data[`common_name_${lang}`]
+      : data.name.replace('10kmL93', '').replace('10kmUTM22', '') +
+      ' (' +
+      data.code.slice(0, -3) +
+      ')'
+  }}
         <i v-if="selectedType.value === 'species'">({{ data.sci_name }})</i>
       </li>
-      <span
-        v-if="!dataList.length"
-        class="black03 italic AutocompleteNoResults"
-      >
+      <span v-if="!dataList.length" class="black03 italic AutocompleteNoResults">
         Aucun résultat trouvé, vous recherchez peut-être une
         <nuxt-link to="/about/glossary">espèce sensible</nuxt-link>.
       </span>
@@ -115,6 +92,9 @@ export default {
       }
     },
   },
+  mounted() {
+    console.log('THIS this.$config.speciesSheet', this.$config.speciesSheet)
+  },
   methods: {
     openOrCloseSelectBox() {
       this.selectIsOpen = !this.selectIsOpen
@@ -145,8 +125,11 @@ export default {
     },
     updateSelectedData(data) {
       if (this.selectedType.value === 'species') {
-        this.$router.push({
-          path: `${this.selectedType.route}/${data.code}`,
+        this.$router.push(this.$config.speciesSheet ? {
+          path: `/species/${data.code}`,
+        } : {
+          path: '/prospecting',
+          query: { species: `${data.code}` },
         })
       } else {
         this.$router.push({
@@ -163,7 +146,7 @@ export default {
       this.autocompleteIsOpen = false
       this.selectIsOpen = false
     },
-  },
+  }
 }
 </script>
 
@@ -248,7 +231,7 @@ export default {
 
 /********** RESPONSIVE **********/
 
-@media screen and (width <= 680px) {
+@media screen and (width <=680px) {
   .AutocompleteWrapper input {
     height: 50px;
     padding-left: 20px;
@@ -331,7 +314,7 @@ export default {
   }
 }
 
-@media screen and (width <= 370px) {
+@media screen and (width <=370px) {
   .AutocompleteCloseIcon {
     display: none;
   }

@@ -15,39 +15,24 @@
             }}
           </h5>
         </div>
-        <img
-          class="MobileMapControlCloseIcon"
-          src="/cross.svg"
-          @click="closeMobileMapControl"
-        />
+        <img class="MobileMapControlCloseIcon" src="/cross.svg" @click="closeMobileMapControl" />
       </div>
     </header>
     <div class="MapControlOverflow">
       <div class="FeaturesLegend">
-        <div
-          v-for="(item, index) in selectedSeason.speciesDistributionColors"
-          :key="index"
-          class="FeaturesLegendLabel"
-        >
+        <div v-for="(item, index) in selectedSeason.speciesDistributionColors" :key="index" class="FeaturesLegendLabel">
           <i
             :style="{
               background: item,
-            }"
-          ></i>
+            }"></i>
           {{ featuresLabels[selectedSeason.value][index] }}
         </div>
       </div>
       <div class="Buttons">
-        <nuxt-link
-          :to="`/species/${selectedSpecies.code}`"
-          class="PrimaryButton flex-1"
-        >
+        <nuxt-link v-if="$config.speciesSheet" :to="`/species/${selectedSpecies.code}`" class="PrimaryButton flex-1">
           Voir la fiche espèce
         </nuxt-link>
-        <div
-          class="PrimaryButton outlined flex-1"
-          @click="deleteSelectedSpecies"
-        >
+        <div class="PrimaryButton outlined flex-1" @click="deleteSelectedSpecies">
           Fermer
         </div>
       </div>
