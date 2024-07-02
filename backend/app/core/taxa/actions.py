@@ -7,7 +7,6 @@ from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.orm import Query, Session, aliased
 from sqlalchemy.types import Integer
 
-from app.core.actions.crud import BaseReadOnlyActions
 from app.core.commons.models import AreaKnowledgeTaxaList
 from app.core.ref_geo.models import BibAreasTypes, LAreas
 
@@ -80,11 +79,13 @@ class TaxaDistributionActions:
                     phenology_period + "_count_data_" + atlas_period
                 ]
                 > 0,
-                "status": AreaKnowledgeTaxaList.__table__.c[  # pylint: disable=E1101
-                    phenology_period + "_status_" + atlas_period
-                ]
-                if phenology_period == "breeding"
-                else "Presence",
+                "status": (
+                    AreaKnowledgeTaxaList.__table__.c[  # pylint: disable=E1101
+                        phenology_period + "_status_" + atlas_period
+                    ]
+                    if phenology_period == "breeding"
+                    else "Presence"
+                ),
             }
 
         if atlas_period == "compare":
@@ -503,14 +504,14 @@ class SurveyChartDataActions:
         phenology_period: str,
         chart_type: str,
     ) -> List:
-        print('DESCRIPTION CHART')
+        print("DESCRIPTION CHART")
         query = db.query(MvSurveyChartDescs.data).filter(
-                MvSurveyChartDescs.cd_nom == cd_nom,
-                MvSurveyChartDescs.id_area_atlas_territory == id_area_atlas_territory,
-                MvSurveyChartDescs.phenology_period == phenology_period,
-                MvSurveyChartDescs.chart_type == chart_type,
-            )
-        print(f'QUERY {query}')
+            MvSurveyChartDescs.cd_nom == cd_nom,
+            MvSurveyChartDescs.id_area_atlas_territory == id_area_atlas_territory,
+            MvSurveyChartDescs.phenology_period == phenology_period,
+            MvSurveyChartDescs.chart_type == chart_type,
+        )
+        print(f"QUERY {query}")
         result = query.first()
         return result.data if result else None
 

@@ -1,6 +1,5 @@
 from typing import List, Optional
 
-from geojson_pydantic.features import FeatureCollection
 from pydantic import BaseModel, Field
 
 from ..commons.schemas import BaseFeature, BaseFeatureCollection
@@ -114,13 +113,16 @@ class SurveyChartDataItem(BaseModel):
     unit: str
     data: SurveyChartDataDetailProperties
 
+
 class SurveyChartDescItem(BaseModel):
     title: str
     desc: str
-    
+
+
 class SurveyChartData(BaseModel):
     descriptions: List[SurveyChartDescItem]
     data: List[SurveyChartDataItem]
+
 
 # class MigrationChartBaseModel(BaseModel):
 #     processing: str
@@ -132,7 +134,6 @@ class MigrationDecadeDataItem(BaseModel):
     pivotal_decade: bool
 
 
-
 class MigrationQuantileDataItem(BaseModel):
     phenology_period: str
     q2_5: int
@@ -142,6 +143,7 @@ class MigrationQuantileDataItem(BaseModel):
     q75: int
     q95: int
     q2_5: int
+
 
 class MigrationChartData(BaseModel):
     quantile: List[MigrationQuantileDataItem]
