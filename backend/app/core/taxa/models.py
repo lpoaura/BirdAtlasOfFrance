@@ -131,7 +131,8 @@ class MvSurveyChartData(Base):
     unit = Column(String)
     chart_type = Column(String)
     data = Column(JSON)
-    
+
+
 class MvSurveyChartDescs(Base):
     __tablename__ = "mv_survey_chart_descs"
     __table_args__ = {"schema": "atlas"}
@@ -141,7 +142,6 @@ class MvSurveyChartDescs(Base):
     phenology_period = Column(String)
     chart_type = Column(String)
     data = Column(JSON)
-
 
 
 class TTaxa(Base):

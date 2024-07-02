@@ -23,7 +23,6 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     CommonBlockStructure,
     HistoricAtlasInfosSchema,
     SurveyChartDataItem,
-    SurveyChartDataDetailProperties,
     SurveyChartData,
     SurveyMapDataFeature,
     SurveyMapDataFeaturesCollection,
@@ -76,7 +75,7 @@ Period choices must be one of following choices :
 * `wintering_old`: Wintering presence from previous atlas
 * `all_period_new`: All period presence for new atlas
 * `all_period_old`: All period presence from previous atlas
-* `breeding_aofm`: 
+* `breeding_aofm`:
 """,
 )
 @cache()
@@ -269,7 +268,7 @@ def phenology_distribution(
                 return TaxaBreedingPhenologyApiData(
                     breeding_start=breeding_start, breeding_end=breeding_end
                 )
-    except:
+    except Exception:
         return dict()
 
 
@@ -345,7 +344,7 @@ def get_survey_chart_data(
         chart_type=chart_type,
         phenology_period=phenology_period,
     )
-    print(f'descriptions {descriptions}')
+    print(f"descriptions {descriptions}")
     data = survey_chart_data.get_data(
         db,
         cd_nom=cd_nom,
@@ -356,7 +355,11 @@ def get_survey_chart_data(
     print(dir(data))
     return SurveyChartData(
         descriptions=descriptions or [],
-        data=[SurveyChartDataItem(year=d.year, unit=d.unit, data=d.data) for d in data] if len(data) > 0 else [],
+        data=(
+            [SurveyChartDataItem(year=d.year, unit=d.unit, data=d.data) for d in data]
+            if len(data) > 0
+            else []
+        ),
     )
 
 

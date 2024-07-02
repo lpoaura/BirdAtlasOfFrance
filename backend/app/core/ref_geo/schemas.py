@@ -1,5 +1,5 @@
 import logging
-from typing import List, Literal, Optional
+from typing import List, Optional
 
 from geojson_pydantic.features import FeatureCollection
 
