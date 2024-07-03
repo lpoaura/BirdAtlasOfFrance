@@ -40,19 +40,18 @@ $$
                           , TRUNC((EXTRACT(DOY FROM date_min) / 10))  AS day_decade
                           , (synthese.date_min > '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
                 AND synthese.date_min >= '2019-01-01'))               AS new_data_all_period
-                          , (synthese.date_min <= '2019-01-31'::DATE OR (tcse.bird_breed_code BETWEEN 2 AND 50
+                          , (t_sources.name_source LIKE 'AOFM%' OR (tcse.bird_breed_code BETWEEN 2 AND 50
                 AND synthese.date_min < '2019-01-01'))                AS old_data_all_period
-                          , (EXTRACT(MONTH FROM synthese.date_min) IN (12, 1)
-                AND synthese.date_min <= '2019-01-31')                AS old_data_wintering
+                          , (t_sources.name_source LIKE 'AOFM - hivernants (2009-2012)') AS old_data_wintering
                           , (EXTRACT(MONTH FROM synthese.date_min) IN (12, 1)
                 AND synthese.date_min > '2019-11-30')                 AS new_data_wintering
-                          , (tcse.bird_breed_code BETWEEN 2 AND 50
-                AND synthese.date_min < '2019-01-01')                 AS old_data_breeding
+                          , (t_sources.name_source LIKE 'AOFM - nicheurs (2009-2012)') AS old_data_breeding
                           , (tcse.bird_breed_code BETWEEN 2 AND 50
                 AND synthese.date_min >= '2019-01-01')                AS new_data_breeding
                           , tcse.bird_breed_code
                           , 'Migration active' = ANY (tcse.behaviour) AS active_migration
             FROM gn_synthese.synthese
+            		 JOIN gn_synthese.t_sources ON synthese.id_source = t_sources.id_source
                      JOIN src_lpodatas.t_c_synthese_extended tcse ON synthese.id_synthese = tcse.id_synthese
                      JOIN atlas.mv_taxa_groups groups ON synthese.cd_nom = groups.cd_nom
                      JOIN atlas.t_taxa ON t_taxa.cd_nom = groups.cd_group
