@@ -37,7 +37,7 @@ CREATE UNIQUE INDEX natureocentre_data_delete_entity_source_pk_value_idx ON odf_
 CREATE INDEX natureocentre_data_delete_entity_source_pk_value_idx1 ON odf_imports.natureocentre_data_delete USING btree(((entity_source_pk_value)::TEXT));
 
 
-CREATE OR REPLACE FUNCTION odf_imports.refreash_natureocentre()
+CREATE OR REPLACE FUNCTION odf_imports.refresh_natureocentre()
     RETURNS VOID
     LANGUAGE plpgsql
 AS
@@ -49,15 +49,15 @@ DECLARE
     the_insert_synthese_extended_count INT;
     the_delete_count                   INT;
 BEGIN
-    RAISE DEBUG '~~~ Start NOC Update ~~~';
+    RAISE NOTICE '~~~ Start NOC Update ~~~';
     /* Créer la variable the_last_update correspondant à la dernière maj */
     SELECT max(date_maj) INTO the_last_update FROM odf_imports.natureocentre_data;
-    RAISE DEBUG '-- Last update is %', the_last_update;
+    RAISE NOTICE '-- Last update is %', the_last_update;
     /* Réinitialisation/purge des données NatureOCentre */
-    RAISE DEBUG '-- Truncate odf_imports.natureocentre_data';
+    RAISE NOTICE '-- Truncate odf_imports.natureocentre_data';
     TRUNCATE odf_imports.natureocentre_data;
     /* Copie des données téléchargées dans la table data */
-    RAISE DEBUG '-- Copie des données téléchargées dans la table data';
+    RAISE NOTICE '-- Copie des données téléchargées dans la table data';
     COPY odf_imports.natureocentre_data(entity_source_pk_value, uuid, cd_nom, altitude_min, date_min, bird_breed_code,
                                         "Migration active", cd_nomenclature_observation_status, geom, cd_sig,
                                         commentaire,
@@ -65,7 +65,7 @@ BEGIN
 --         FROM '/home/gestionnaire/sql_scripts/do_not_delete/natureOcentre/odf.csv' HEADER CSV DELIMITER E'\t';
         FROM PROGRAM 'curl https://natureocentre.org/odf/odf.csv' WITH HEADER CSV DELIMITER E'\t';
     /* Insertion des la synthese et extended_synthese */
-    RAISE DEBUG '-- Insertion des données NOC dans la synthese et extended_synthese';
+    RAISE NOTICE '-- Insertion des données NOC dans la synthese et extended_synthese';
     WITH irows AS (
         INSERT INTO gn_synthese.synthese(unique_id_sinp, unique_id_sinp_grp, id_source, id_module,
                                          entity_source_pk_value,
@@ -155,9 +155,9 @@ BEGIN
     INTO the_insert_synthese_count
     FROM irows;
 
-    RAISE DEBUG '-- % rows inserted in synthese since %', the_insert_synthese_count::VARCHAR, the_last_update;
+    RAISE NOTICE '-- % rows inserted in synthese since %', the_insert_synthese_count::VARCHAR, the_last_update;
 
-    RAISE DEBUG '-- Insertion des données NOC dans synthese_extended';
+    RAISE NOTICE '-- Insertion des données NOC dans synthese_extended';
 
     WITH irows AS (INSERT INTO src_lpodatas.t_c_synthese_extended(id_synthese,
                                                                   bird_breed_code, bird_breed_status,
@@ -185,23 +185,23 @@ BEGIN
     SELECT count(*)
     INTO the_insert_synthese_extended_count
     FROM irows;
-    RAISE DEBUG '-- % rows inserted in synthese_extended', the_insert_synthese_extended_count::VARCHAR;
+    RAISE NOTICE '-- % rows inserted in synthese_extended', the_insert_synthese_extended_count::VARCHAR;
 
     /* Créer la variable the_last_delete correspondant à la dernière maj */
     SELECT max(date_sup)
     INTO the_last_delete
     FROM odf_imports.natureocentre_data_delete;
 
-    RAISE DEBUG '-- Last delete is %', the_last_update;
+    RAISE NOTICE '-- Last delete is %', the_last_update;
     /* Réinitialisation/purge des données delete NatureOCentre */
-    RAISE DEBUG '-- Truncate odf_imports.natureocentre_data';
+    RAISE NOTICE '-- Truncate odf_imports.natureocentre_data';
     TRUNCATE odf_imports.natureocentre_data_delete;
     /* Copie des données téléchargées dans la table data_delete */
-    RAISE DEBUG '-- Copie des données de suppression téléchargées dans la table delete';
+    RAISE NOTICE '-- Copie des données de suppression téléchargées dans la table delete';
     COPY odf_imports.natureocentre_data_delete(entity_source_pk_value, uuid, date_sup)
         FROM PROGRAM 'curl https://natureocentre.org/odf/supodf.csv' WITH HEADER CSV DELIMITER E'\t';
     /*Suppression des données dans la synthese et extended_synthese*/
-    RAISE DEBUG '-- Suppression des données NOC dans la synthese et extended_synthese';
+    RAISE NOTICE '-- Suppression des données NOC dans la synthese et extended_synthese';
     WITH drows AS (DELETE
         FROM gn_synthese.synthese
             WHERE entity_source_pk_value IN (SELECT entity_source_pk_value::VARCHAR
@@ -213,13 +213,12 @@ BEGIN
     SELECT count(*)
     INTO the_delete_count
     FROM drows;
-    RAISE DEBUG '-- % rows deleted in synthese since %', the_delete_count::VARCHAR, the_last_delete;
+    RAISE NOTICE '-- % rows deleted in synthese since %', the_delete_count::VARCHAR, the_last_delete;
 
 END
 $function$
 ;
 
-SET LOG_MIN_MESSAGES TO debug;
 
 /* Test grandeur nature */
-SELECT odf_imports.refreash_natureocentre();
+SELECT odf_imports.refresh_natureocentre();
