@@ -33,7 +33,7 @@ $$
         ORDER BY 1, 2, 4;
 
         TRUNCATE atlas.t_taxa_migration_quantile_data;
-        INSERT INTO atlas.t_taxa_migration_quantile_data(cd_nom, id_area, processing, period, q2_5, q5, q25, median,
+        INSERT INTO atlas.t_taxa_migration_quantile_data(cd_nom, id_area, processing, phenology_period, q2_5, q5, q25, median,
                                                          q75, q95,
                                                          q97_5)
         SELECT cd_nom,
