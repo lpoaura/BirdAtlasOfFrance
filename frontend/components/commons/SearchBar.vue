@@ -10,8 +10,7 @@
           <img class="DropdownChevron" :src="selectIsOpen ? '/chevron-up.svg' : '/chevron-down.svg'" />
         </div>
         <div v-show="selectIsOpen" class="DropdownOptionsBox">
-          <li
-            v-for="(type, index) in typeList" :key="index" class="DropdownOption"
+          <li v-for="(type, index) in typeList" :key="index" class="DropdownOption"
             :class="type.value === selectedType.value ? 'selected' : ''" @click="updateSelectedType(type)">
             {{ type.label }}
           </li>
@@ -25,13 +24,13 @@
     <div v-show="autocompleteIsOpen" class="AutocompleteResults">
       <li v-for="data in dataList" :key="data.code" class="AutocompleteResultsOption" @click="updateSelectedData(data)">
         {{
-    selectedType.value === 'species'
-      ? data[`common_name_${lang}`]
-      : data.name.replace('10kmL93', '').replace('10kmUTM22', '') +
-      ' (' +
-      data.code.slice(0, -3) +
-      ')'
-  }}
+          selectedType.value === 'species'
+            ? data[`common_name_${lang}`]
+            : data.name.replace('10kmL93', '').replace('10kmUTM22', '') +
+            ' (' +
+            data.code.slice(0, -3) +
+        ')'
+        }}
         <i v-if="selectedType.value === 'species'">({{ data.sci_name }})</i>
       </li>
       <span v-if="!dataList.length" class="black03 italic AutocompleteNoResults">

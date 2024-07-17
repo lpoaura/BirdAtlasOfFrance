@@ -17,7 +17,7 @@ Si les programmes standardisés répondent à des questions bien précises, les 
 
 ## Comment cibler les mailles sous prospectées ?
 
-<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-48-carte-mailles-sousprospectées.webp"/>
+<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-48-carte-mailles-sous-prospectees.webp"/>
 <span class="InformativePagePictureLegend">Couche « Indice de complétude » sur ODF © ODF</span>
 
 Pour savoir où apporter le plus de nouvelles informations, consultez les
