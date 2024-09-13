@@ -1,7 +1,7 @@
 --- 
 title: 'Comment les oiseaux migrateurs franchissent-ils les mers et les déserts ?'
 picture: actualite-76.webp 
-credit:  
+credit:  Huppe fasciée © Emile Barbelette
 centering: center 
 author: Oiseaux de France 
 date: '2024-10-10' 
