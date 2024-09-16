@@ -9,7 +9,7 @@ tags: ['EPOC','oiseaux communs','ODF', 'thèse']
 active: true
 ---
 
-**L’estimation du nombre de couples nicheurs pour 60 espèces d’oiseaux communs réévaluée. En tête du classement : la Fauvette à tête noire, le Rougegorge familier et le Pinson des arbres.** 
+**L’estimation du nombre de couples nicheurs pour 60 espèces d’oiseaux communs a été réévaluée. En tête du classement : la Fauvette à tête noire, le Rougegorge familier et le Pinson des arbres.** 
 
  Dans un contexte d’érosion de la biodiversité mondiale, l’estimation des tailles de populations des oiseaux communs, au même titre que les tendances démographiques et l’étendue des aires de répartition, sont de précieux outils pour l’évaluation de l’état de santé des populations d’oiseaux communs. Jusqu’en 2015, ces trois indicateurs étaient consignés dans des ouvrages de référence, les Atlas des Oiseaux de France, et mis à jour sur des pas de temps assez longs. Lancé en 2021 par la LPO, le projet ODF vise à réduire considérablement ce pas de temps et à permettre la mise à jour régulière et automatique des connaissances sur les oiseaux de France sur un site dédié : [le site ODF](https://www.oiseauxdefrance.org/). 
 
