@@ -14,7 +14,7 @@ active: true
 
 Comment les petits oiseaux migrateurs franchissent-ils le désert du Sahara ou une zone marine comme la mer Méditerranée ? Volent-ils tout le temps à la même hauteur ? La taille des ailes influence-t-elle la façon de voler des oiseaux migrateurs ? Dufour et al. se sont penchés sur ces questions dans une étude récente intulée "[Variations de la stratégie de vol des petits oiseaux migrateurs traversant les principales barrières écologiques](https://www.biorxiv.org/content/10.1101/2024.08.18.608464v1.full#page)".  
 
-# Les nouvelles technologies au service de l’étude du comportement des oiseaux en migration 
+## Les nouvelles technologies au service de l’étude du comportement des oiseaux en migration 
 
 C’est grâce à des capteurs multisensoriels - enregistrant des informations sur la lumière, la pression et l’activité - posés sur 59 individus issus de 16 espèces migratrices nocturnes (passereaux  insectivores, Petit-Duc scops et Huppe fasciée) du sud de l'Europe et couplés avec des méthodes de géolocalisation que les scientifiques ont pu déterminer où, quand et comment les petits oiseaux migrateurs nocturnes traversent deux types de barrières écologiques différents : des zones marines (le golfe de Gascogne et la mer Méditerranée) et un désert (le désert du Sahara). 
 
