@@ -4,7 +4,7 @@ picture: actualite-76.webp
 credit:  Huppe fasciée © Emile Barbelette
 centering: center 
 author: Oiseaux de France 
-date: '2024-10-10' 
+date: '2024-10-02' 
 tags: ['migration','barrière écologique', 'comportement'] 
 active: true 
 ---
