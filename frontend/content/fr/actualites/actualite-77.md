@@ -1,5 +1,5 @@
 --- 
-title: 'Première publication d’un bilan sur espèces nicheuses rares et menacées d’outremer'
+title: 'Première publication d’un bilan sur les espèces nicheuses rares et menacées d’outremer'
 picture: actualite-77.webp 
 credit: Frégate du pacifique © Florent Bignon 
 centering: center 
