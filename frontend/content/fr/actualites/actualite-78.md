@@ -1,6 +1,6 @@
 --- 
 title: 'Bientôt un nouvel Ornithos !'
-picture: actualite-78.webp 
+picture: actualite-78-ObservateurOrnithos.webp 
 credit: 
 centering: center 
 author: Oiseaux de France 
