@@ -10,10 +10,6 @@ active: true
 ---
 **Le Président Allain Bougrain Dubourg annonce la volonté de la LPO de redynamiser sa revue des ornithologues de terrain.**
 
-<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-78-ObservateurOrnithos.webp"/>
-<span class="InformativePagePictureLegend"></span>
-
-
 Voici 31 ans qu’Ornithos a pris son envol, 31 ans à promouvoir l'ornithologie de terrain, et ce n’est pas fini. Quelle fierté !  
 
 Un travail colossal que nous saluons, et un engagement sans faille de tous les membres du comité éditorial qui se sont succédé et des dizaines d'auteurs et d'autrices sans qui la revue ne serait pas ce qu'elle est. Nous saluons bien sur le travail exemplaire de Marc Duquet et de Philippe J. Dubois ! 
