@@ -1,7 +1,7 @@
 --- 
 title: 'Découvrez le premier atlas des oiseaux marins nicheurs d’outremer !'
 picture: actualite-80.webp
-credit: © Fabrice Cahez
+credit: 
 centering: center
 author: Oiseaux de France
 date: '2024-10-30'
