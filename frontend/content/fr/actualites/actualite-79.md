@@ -1,7 +1,7 @@
 --- 
 title: 'Entraînez votre oreille avant le SHOC avec AcouSHOC'
 picture: actualite-79.webp
-credit: © 
+credit: 
 centering: center
 author: Oiseaux de France
 date: '2024-10-23'
