@@ -27,5 +27,5 @@ A noter qu’il existe le même type d’outil pour se préparer au STOC, suivi 
 Vous avez obtenu au moins 6/10 au quiz et aux ambiances sonores ? Bravo ! Vous êtes probablement aptes à prendre en charge un carré SHOC si cela vous intéresse ! Votre carré sera tiré aléatoirement dans un rayon de 10km autour de votre commune. Le tirage aléatoire est nécessaire pour assurer la fiabilité des résultats.
 Vous souhaitez participer au SHOC ? Contactez votre coordinateur local ou, à défaut, la coordination nationale.
 
-Pour conclure, AcouSHOC est un très bon outil d’entrainement au suivi hivernal des oiseaux communs mais il peut aussi bien de simple quiz d’apprentissage à la reconnaissance des cris de contact ou d’alarme des oiseaux en hiver. Préparez votre casque (pour éviter les bruits parasites) et lancez-vous !
+Pour conclure, AcouSHOC est un très bon outil d’entrainement au suivi hivernal des oiseaux communs mais il peut aussi bien servir de simple quiz d’apprentissage à la reconnaissance des cris de contact ou d’alarme des oiseaux en hiver. Préparez votre casque (pour éviter les bruits parasites) et lancez-vous !
 
