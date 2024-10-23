@@ -14,7 +14,8 @@ Bientôt le [Suivi Hivernal des Oiseaux communs]( https://www.oiseauxdefrance.or
 
 ## Un entraînement ciblé pour le SHOC  
 Développé par deux chercheurs du Muséum d’histoire naturelle, [AcouSHOC](https://acoushoc.vigienature.fr/) est un site d’entrainement, d’apprentissage et d’évaluation des connaissances en reconnaissance acoustique des oiseaux communs en hiver.
-Il a été conçu dans le cadre du SHOC, Suivi Hivernal des Oiseaux Communs, un programme scientifique annuel qui permet de suivre l’évolution des populations d’oiseaux communs hivernants sur le territoire national. Il est coordonné par le Muséum national d’Histoire naturelle, la Ligue de Protection des Oiseaux et l’Office Français de la Biodiversité. Entre le 1er décembre (N) et le 31 janvier (N+1), 10 transects sont réalisés au sein d’un carré de 2 km de côté, tiré aléatoirement pour chaque observateur. Les oiseaux sont repérés et identifiés grâce aux émissions vocales, en général des cris de contact ou d’alarme, et si besoin, comme dans le cas des mésanges, les identifications sont confirmées aux jumelles.
+Il a été conçu dans le cadre du SHOC, un protocole scientifique effectué durant l'hiver et dans le cadre duquel les oiseaux sont repérés et identifiés grâce aux émissions vocales, en général des cris de contact ou d’alarme. Parfois les identifications sont confirmées aux jumelles, c'est le cas notamment des mésanges.
+Ce programme scientifique annuel est coordonné par le Muséum national d’Histoire naturelle, la Ligue de Protection des Oiseaux et l’Office Français de la Biodiversité. Il permet de suivre l’évolution des populations d’oiseaux communs hivernants sur le territoire national. 
 
 ## Quel genre d’exercices sont proposés dans AcouSHOC ? 
 AcouSHOC propose deux types d’exercices avec une gradation en termes de complexité : 
@@ -24,7 +25,7 @@ Vous pouvez l’utiliser comme un outil d’apprentissage déconnecté du SHOC, 
 A noter qu’il existe le même type d’outil pour se préparer au STOC, suivi des oiseaux communs pendant la période de reproduction. 
 
 ## J’ai réussi les tests et le SHOC m’intéresse, comment participer ? 
-Vous avez obtenu au moins 6/10 au quiz et aux ambiances sonores ? Bravo ! Vous êtes probablement apte à prendre en charge un carré SHOC si cela vous intéresse ! Votre carré sera tiré aléatoirement dans un rayon de 10km autour de votre commune. Le tirage aléatoire est nécessaire pour assurer la fiabilité des résultats.
+Vous avez obtenu au moins 6/10 au quiz et aux ambiances sonores ? Bravo ! Vous êtes probablement apte à prendre en charge un carré SHOC si cela vous intéresse ! Votre carré sera tiré aléatoirement dans un rayon de 10 km autour de votre commune (le tirage aléatoire est nécessaire pour assurer la fiabilité des résultats).
 Vous souhaitez participer au SHOC ? Contactez votre coordinateur local ou, à défaut, la coordination nationale.
 
 Pour conclure, AcouSHOC est un très bon outil d’entrainement au suivi hivernal des oiseaux communs mais il peut aussi bien servir de simple quiz d’apprentissage à la reconnaissance des cris de contact ou d’alarme des oiseaux en hiver. Préparez votre casque (pour éviter les bruits parasites) et lancez-vous !
