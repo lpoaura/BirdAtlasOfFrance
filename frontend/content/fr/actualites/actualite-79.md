@@ -14,7 +14,9 @@ Bientôt le [Suivi Hivernal des Oiseaux communs]( https://www.oiseauxdefrance.or
 
 ## Un entraînement ciblé pour le SHOC  
 Développé par deux chercheurs du Muséum d’histoire naturelle, [AcouSHOC](https://acoushoc.vigienature.fr/) est un site d’entrainement, d’apprentissage et d’évaluation des connaissances en reconnaissance acoustique des oiseaux communs en hiver.
+
 Il a été conçu dans le cadre du SHOC, un protocole scientifique effectué durant l'hiver et dans le cadre duquel les oiseaux sont repérés et identifiés grâce aux émissions vocales, en général des cris de contact ou d’alarme. Parfois les identifications sont confirmées aux jumelles, c'est le cas notamment des mésanges.
+
 Ce programme scientifique annuel est coordonné par le Muséum national d’Histoire naturelle, la Ligue de Protection des Oiseaux et l’Office Français de la Biodiversité. Il permet de suivre l’évolution des populations d’oiseaux communs hivernants sur le territoire national. 
 
 ## Quel genre d’exercices sont proposés dans AcouSHOC ? 
