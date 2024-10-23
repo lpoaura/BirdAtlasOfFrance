@@ -5,7 +5,7 @@ credit:
 centering: center
 author: Oiseaux de France
 date: '2024-10-23'
-tags: [’AcouSHOC', ‘identification auditive’, ‘entrainement’,‘oiseaux communs’ , ‘hiver’]
+tags: [AcouSHOC, identification auditive, entrainement,oiseaux communs , hiver]
 active: true
 ---
 **Bientôt le Suivi Hivernal des Oiseaux communs ?! C’est le moment idéal pour évaluer vos connaissances acoustiques sur les cris des oiseaux en hiver.**
