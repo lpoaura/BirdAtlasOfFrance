@@ -1,10 +1,10 @@
 --- 
 title: "Les monarques polynésiens, entre menace d'extinction et espoir de résilience"
-picture: actualite-79.webp
+picture: actualite-81.webp
 credit: Monarque de Fatu Hiva © Fabrice Cahez
 centering: center
 author: Oiseaux de France
-date: '2024-10-23'
+date: '2024-11-06'
 tags: [espèces menacée, endémisme, outremer, Polynésie française]
 active: true
 ---
