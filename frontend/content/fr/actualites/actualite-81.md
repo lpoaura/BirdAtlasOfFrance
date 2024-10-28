@@ -38,7 +38,7 @@ Pour conclure, le Monarques de Fatu Hiva et le Monarque de Tahiti sont deux esp�
 ### En savoir plus 
 - [Sur le Monarque de Tahiti](https://www.manu.pf/monarques-de-tahiti/)
 - [Sur le Monarque de Fatu Hiva](https://www.manu.pf/monarque-de-fatu-iva/)
-- Sur l’importance des espèces endémiques : [Pourquoi les espèces endémiques sont-elles si importantes ?](https://revue-gecko.com/pourquoi-les-especes-endemiques-sont-elles-si-importantes/)
+- [Sur l’importance des espèces endémiques](https://revue-gecko.com/pourquoi-les-especes-endemiques-sont-elles-si-importantes/)
 
 
 
