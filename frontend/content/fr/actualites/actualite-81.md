@@ -28,17 +28,17 @@ Les deux espèces de Monarques sont protégées au titre de la Directive Oiseaux
 Pour le Monarque de Tahiti, suivi depuis 1998, la lutte contre les oiseaux introduits et la préservation de certaines populations, notamment celle vivant au-delà des cascades de Maruapo, ont permis un rajeunissement notable de la population. « En 20 ans, plus de 50 jeunes se sont envolés et ont permis d’amener la population d’adultes autour de 79 adultes au début de l’année 2018. » Depuis la population a presque doublé, atteignant 149 adultes en 2023, offrant ainsi un nouvel espoir pour la survie de cette espèce.
 Le Monarque de Fatu Hiva, suivi depuis 2008, demeure en situation critique avec 19 individus. Cependant, le contrôle des chats sauvages présents et stérilisation des chattes du village d’Omoa, où subsiste la dernière population de Monarques, ont permis la naissance de plus de 20 jeunes au cours de ces 5 dernières années. En 2023, un programme d’élevage en captivité a été lancé en collaboration avec la Société Ornithologique de Polynésie (SOP Manu) et le Zoo d'Auckland en Nouvelle-Zélande, offrant un espoir pour la survie de cette espèce emblématique.
 
-Voir aussi : [Premier élevage en captivité de l’oiseau le plus menacé de France] (https://www.lpo.fr/qui-sommes-nous/toutes-nos-actualites/articles/actus-2024/premier-elevage-en-captivite-de-l-oiseau-le-plus-menace-de-france)
+Voir aussi : [Premier élevage en captivité de l’oiseau le plus menacé de France](https://www.lpo.fr/qui-sommes-nous/toutes-nos-actualites/articles/actus-2024/premier-elevage-en-captivite-de-l-oiseau-le-plus-menace-de-france)
 
 ## Contribuer à la sauvegarde des espèces endémiques 
-Pour contribuer à la sauvegarde des Monarques polynésiens, pratiquez un tourisme éco-responsable et [impliquez-vous] (https://www.manu.pf/saving-squad/) dans les actions menées au local. 
+Pour contribuer à la sauvegarde des Monarques polynésiens, pratiquez un tourisme éco-responsable et [impliquez-vous](https://www.manu.pf/saving-squad/) dans les actions menées au local. 
 
 Pour conclure, le Monarques de Fatu Hiva et le Monarque de Tahiti sont deux espèces en danger critique d’extinction avec des effectifs de population et un taux de renouvellement très faibles mais les effets positifs des programmes de conservation mis en place pour le Monarque de Tahiti laissent espérer à un renouvellement des populations de Monarque de Fatu Hiva grâce à la réintroduction dans les prochaines années. 
 
 ### En savoir plus 
-•	[Sur le Monarque de Tahiti](https://www.manu.pf/monarques-de-tahiti/)
-•	[Sur le Monarque de Fatu Hiva](https://www.manu.pf/monarque-de-fatu-iva/)
-•	Sur l’importance des espèces endémiques : [Pourquoi les espèces endémiques sont-elles si importantes ?](https://revue-gecko.com/pourquoi-les-especes-endemiques-sont-elles-si-importantes/)
+- [Sur le Monarque de Tahiti](https://www.manu.pf/monarques-de-tahiti/)
+- [Sur le Monarque de Fatu Hiva](https://www.manu.pf/monarque-de-fatu-iva/)
+- Sur l’importance des espèces endémiques : [Pourquoi les espèces endémiques sont-elles si importantes ?](https://revue-gecko.com/pourquoi-les-especes-endemiques-sont-elles-si-importantes/)
 
 
 
