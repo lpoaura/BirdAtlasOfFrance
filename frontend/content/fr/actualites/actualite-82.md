@@ -4,7 +4,7 @@ picture: actualite-82.webp
 credit:  © 
 centering: center
 author: Oiseaux de France
-date: '2024-11-05'
+date: ''
 tags: [STOC, indicateur écologique, politiques publiques,]
 active: true
 ---
