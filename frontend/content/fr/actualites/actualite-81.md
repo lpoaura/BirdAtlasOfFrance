@@ -4,7 +4,7 @@ picture: actualite-81.webp
 credit: Monarque de Fatu Hiva © Fabrice Cahez
 centering: center
 author: Oiseaux de France
-date: '2024-11-06'
+date: ''
 tags: [espèces menacée, endémisme, outremer, Polynésie française]
 active: true
 ---
