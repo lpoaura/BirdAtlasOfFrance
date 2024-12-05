@@ -15,14 +15,12 @@ La LPO France vient de publier les [résultats de l'enquête sur les rapaces noc
 
 Malgré la fascination qu’ils suscitent auprès des ornithologues, les rapaces nocturnes étaient jusque-là les grands oubliés des programmes de surveillance de l’avifaune française. Il a fallu attendre le lancement de cette enquête en 2015 et l’analyse des données collectées en 2024 pour avoir des estimations fiables de la taille des populations françaises et de leur distribution à l’échelle du territoire.  
 
-<p style="border: 1px solid black; padding: 10px;" ><body>
-    <bold>Les chiffres clés de l’enquête</bold>
-    <ul>
+<p style="border: 1px solid black; padding: 10px;" ><body><ul>
       <li>Le premier point de la liste</li>
       <li>Un autre point de la liste</li>
       <li>Encore un point de la liste</li>
     </ul>
-  </body> 885 carrés prospectés (44% des carrés) ; 35 000 points d’écoute réalisés ; 4 667 heures d’écoutes; 9 espèces de rapaces nocturnes étudiées dont 5 suffisamment abondantes pour obtenir des estimations ; 25 000 individus contactés</p>
+  </body></p> 885 carrés prospectés (44% des carrés) ; 35 000 points d’écoute réalisés ; 4 667 heures d’écoutes; 9 espèces de rapaces nocturnes étudiées dont 5 suffisamment abondantes pour obtenir des estimations ; 25 000 individus contactés
 
 ## Des estimations robustes pour 5 espèces sur les 9 étudiées 
 
