@@ -4,7 +4,7 @@ picture: actualite-83.webp
 credit: Chevêche d'Athéna © 
 centering: center
 author: Oiseaux de France
-date: '2024-11-12'
+date: ''
 tags: [rapaces nocturnes, enquête, taille de pop , répartition]
 active: true
 ---
