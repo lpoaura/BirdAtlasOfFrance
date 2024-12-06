@@ -1,11 +1,23 @@
----
+--- 
 title: "Rapaces nocturnes:les premières vraies estimations des effectifs et des distributions en France"
+picture: actualite-83.webp
+credit: Chevêche d'Athéna © 
+centering: center
+author: Oiseaux de France
+date: '2024-11-12'
+tags: [rapaces nocturnes, enquête, taille de pop , répartition]
+active: true
+---
+**Les indicateurs écologiques influencent l’action publique… mais comment sont-ils pris en compte ? Des chercheurs publie une enquête sociologique qui suit à la trace l’indicateur STOC, miroir de l’état des populations d’oiseaux en France, et son usage dans les politiques publiques.**
+
+---
+title: ""
 picture: actualite-83.webp 
 credit: Chevêche d’Athéna ©  
 centering: center 
 author: Oiseaux de France 
 date: '2024-12-12’
-tags: [STOC, indicateur écologique, politiques publiques,]
+tags: [STOC, indicateur écologique, politiques publiques]
 active: true
 ---
 
