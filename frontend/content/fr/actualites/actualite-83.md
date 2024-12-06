@@ -8,18 +8,6 @@ date: '2024-11-12'
 tags: [rapaces nocturnes, enquête, taille de pop , répartition]
 active: true
 ---
-**Les indicateurs écologiques influencent l’action publique… mais comment sont-ils pris en compte ? Des chercheurs publie une enquête sociologique qui suit à la trace l’indicateur STOC, miroir de l’état des populations d’oiseaux en France, et son usage dans les politiques publiques.**
-
----
-title: ""
-picture: actualite-83.webp 
-credit: Chevêche d’Athéna ©  
-centering: center 
-author: Oiseaux de France 
-date: '2024-12-12’
-tags: [STOC, indicateur écologique, politiques publiques]
-active: true
----
 
 **Des estimations inédites des populations de cinq espèces clés, comme la Chouette hulotte ou le Hibou moyen-duc grâce à l’enquête 2015-2018 sur les Rapaces nocturnes.**  
 
