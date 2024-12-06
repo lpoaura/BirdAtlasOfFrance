@@ -1,11 +1,11 @@
 ---
-title: "Rapaces nocturnes : les premières vraies estimations des effectifs et des distributions en France"  
+title: "Rapaces nocturnes:les premières vraies estimations des effectifs et des distributions en France"
 picture: actualite-83.webp 
 credit: Chevêche d’Athéna ©  
 centering: center 
 author: Oiseaux de France 
-date: '2024-12-12’ 
-tags: [rapaces nocturnes, enquête, tailles de pop, distribution] 
+date: '2024-12-12’
+tags: [STOC, indicateur écologique, politiques publiques,]
 active: true
 ---
 
