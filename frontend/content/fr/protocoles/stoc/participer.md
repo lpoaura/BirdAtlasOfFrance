@@ -16,7 +16,7 @@ Si ce suivi vous intéresse mais que vous n’avez pas le niveau requis en ornit
 
 </div>
 
- ## Ressources (protocole, tutoriel de saisie, fiches de terrain, …)
+ ## Ressources 
 
 <div class="InformativePageParagraph">
 
