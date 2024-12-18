@@ -15,7 +15,7 @@ Lancé en 2017, le protocole EPOC est un dispositif de sciences participatives q
 
 </div>
 
-## Qu'est-ce qu'un EPOC ?
+## Qu'est-ce qu'un EPOC et comment faire ?
 
 <div class="InformativePageParagraph">
 
@@ -23,7 +23,7 @@ Un EPOC est un **point d’écoute et d’observation de 5 minutes** pendant leq
 
 </div>
 
-## Où ?
+## L'EPOC, où l'on veut !
 
 <div class="InformativePageParagraph">
 
@@ -33,7 +33,7 @@ Dans le cadre des prospections ODF dans une maille atlas (10km de côté), l’i
 
 </div>
 
-## Quand ?
+## L'EPOC, quand on veut !
 
 <div class="InformativePageParagraph">
 
