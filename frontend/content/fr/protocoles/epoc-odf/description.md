@@ -36,7 +36,7 @@ Chaque année et dans chaque département métropolitain, 5 EPOC-ODF sont positi
 
 <div class="InformativePageParagraph">
 
-Le protocole EPOC-ODF est une **enquête périodique**. La première édition a eu lieu entre 2019 et 2023 pour alimenter le projet d’Atlas des Oiseaux de France. Les prochaines sessions auront lieu sur deux ans, d’abord en 2032-2033 puis tous les 6 ans. 
+Le protocole EPOC-ODF fait l'objet d'une **enquête périodique**. La première édition a eu lieu entre 2019 et 2023 pour alimenter le projet d’Atlas des Oiseaux de France. Les prochaines sessions auront lieu sur deux ans, d’abord en 2032-2033 puis tous les 6 ans. 
 
 Chaque EPOC-ODF doit être suivi **3 fois dans le printemps et une fois pendant l'hiver** :
 
