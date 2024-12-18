@@ -36,16 +36,20 @@ Chaque année et dans chaque département métropolitain, 5 EPOC-ODF sont positi
 
 <div class="InformativePageParagraph">
 
-Chaque EPOC-ODF doit être suivi **3 fois dans le printemps** :
+Le protocole EPOC-ODF est une **enquête périodique**. La première édition a eu lieu entre 2019 et 2023 pour alimenter le projet d’Atlas des Oiseaux de France. Les prochaines sessions auront lieu sur deux ans, d’abord en 2032-2033 puis tous les 6 ans. 
+
+Chaque EPOC-ODF doit être suivi **3 fois dans le printemps et une fois pendant l'hiver** :
 
 - Passage 1 entre le 1<sup>er</sup> et le 31 mars
 - Passage 2 entre le 1<sup>er</sup> avril et le 8 mai
 - Passage 3 entre le 9 mai et le 15 juin.
+- Passage 4  entre le 1<sup>er</sup> décembre de l'année N et le 31 janvier de l'année N+1 
 
-Chaque passage doit être espacé d’**au moins 30 jours** en respectant les périodes.
+Chaque passage doit être espacé d’**au moins 30 jours** en respectant les périodes données ci-dessus.
 
 En zone montagneuse, le premier passage n’est pas obligatoire, et les périodes des passages 2 et 3 sont modulables selon les conditions d’enneigement et l’accessibilité aux EPOC-ODF.
 
+Le passage hivernal, lui, sert à faire un état des lieux du statut des espèces d'oiseaux communs en hiver. Le protocole de terrain est identique à celui du printemps et se fait sur le tirage de l'année N. 
 </div>
 
 ## Comment ?
@@ -55,13 +59,5 @@ En zone montagneuse, le premier passage n’est pas obligatoire, et les période
 A l’instar des EPOC, un EPOC-ODF est un point d’écoute et d’observation durant lequel l’observateur note **tous les individus de toutes les espèces détectées**. Pour chaque observation, l’observateur évalue la distance qui le sépare de l’individu détecté et/ou si l’individu est en transit. La détection des espèces s’effectue à l’oreille mais les jumelles peuvent être utilisées pour identifier un oiseau détecté visuellement (par exemple un rapace).
 
 A la différence d’un EPOC qui ne dure que 5 minutes, un passage sur un EPOC-ODF se compose de **3 EPOC de 5 minutes successifs et indépendants** : on recommence à 0 entre chaque EPOC.
-
-</div>
-
-## EPOC-ODF, c'est aussi en hiver !
-
-<div class="InformativePageParagraph">
-
-Entre le 1er décembre de l'année N et le 31 janvier de l'année N+1, **un passage sur les 5 points EPOC-ODF, issus du tirage de l'année N (printemps précédent)** est à réaliser. Il servira à faire un état des lieux du statut des espèces d'oiseaux communs en hiver. Le protocole de terrain est identique à celui du printemps.
 
 </div>
