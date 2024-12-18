@@ -49,7 +49,8 @@ Chaque passage doit être espacé d’**au moins 30 jours** en respectant les p�
 
 En zone montagneuse, le premier passage n’est pas obligatoire, et les périodes des passages 2 et 3 sont modulables selon les conditions d’enneigement et l’accessibilité aux EPOC-ODF.
 
-Le passage hivernal, lui, sert à faire un état des lieux du statut des espèces d'oiseaux communs en hiver. Le protocole de terrain est identique à celui du printemps et se fait sur le tirage de l'année N. 
+Enfin, le passage hivernal sert à faire un état des lieux du statut des espèces d'oiseaux communs en hiver. Le protocole de terrain est identique à celui du printemps et se fait sur le tirage de l'année N. 
+
 </div>
 
 ## Comment ?
