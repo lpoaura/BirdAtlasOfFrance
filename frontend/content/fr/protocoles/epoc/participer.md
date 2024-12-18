@@ -12,8 +12,7 @@ Peu contraignant et ne nécessitant pas d’inscription, l’EPOC est ouvert à 
 
 Pour évaluer votre aptitude à reconnaitre les chants des oiseaux communs, rendez-vous sur [AcouSTOC]( https://acoustoc.vigienature.fr/). 
 
-Si ce suivi vous intéresse mais que vous n’avez pas le niveau requis en ornithologie de terrain vous pouvez envisager une formation avec [l’Ecole de l’Ornithologie](https://www.lpo.fr/decouvrir-la-nature/formations/ecole-d-ornithologie).
-
+Si ce suivi vous intéresse mais que vous n’avez pas le niveau requis en ornithologie de terrain vous pouvez envisager une formation en présentiel avec [l’Ecole de l’Ornithologie](https://www.lpo.fr/decouvrir-la-nature/formations/ecole-d-ornithologie) ou en distanciel avec le [MOOC Ornitho](https://mooc-ornitho.org/).
 
 </div>
 
