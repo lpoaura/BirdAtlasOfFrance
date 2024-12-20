@@ -23,7 +23,7 @@ Tout d’abord, autour de chez vous ou sur votre lieu de vacances, vous pouvez c
 
 En fonction du nombre d’espèces déjà notées dans la maille, vous pouvez orienter vos prospections pour détecter de nouvelles espèces, en privilégiant certains habitats ou bien certaines périodes de l’année (en fonction des périodes de retour des migrateurs par exemple).
 
-[Plus de conseils sur les prospections ciblées](https://oiseauxdefrance.org/news/actualite-66)
+**[Plus de conseils sur les prospections ciblées](https://oiseauxdefrance.org/news/actualite-66)**
 
 ## Quelle méthodologie choisir ? 
 
@@ -32,7 +32,7 @@ Parmi les différentes méthodes de recensement à utiliser lors des prospection
 - Les **points EPOC** : points d’écoutes de 5 minutes
 - Les **données d’occurrence** : des observations uniques (hors listes), détaillées et localisées réservées aux espèces peu communes ou avec des indices de reproduction élevés afin améliorer la connaissance sur le statut de reproduction. 
 
-[En savoir plus](https://oiseauxdefrance.org/get-involved)
+**[En savoir plus](https://oiseauxdefrance.org/get-involved)**
 
 ## Pourquoi participer aux prospections atlas ?
 
