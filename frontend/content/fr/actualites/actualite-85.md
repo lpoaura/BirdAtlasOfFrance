@@ -1,7 +1,7 @@
 ---
 title: "Prospections « atlas », ça continue !"
 picture: actualite-85.webp
-credit: 
+credit: Grosbec casse-noyaux © Farice Cahez
 centering: center
 author: Oiseaux de France
 date: '2024-12-20'
