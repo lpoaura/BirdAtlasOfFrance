@@ -1,5 +1,5 @@
 ---
-title: "Prospections « atlas », ça continue !"
+title: "Les prospections « atlas », ça continue !"
 picture: actualite-85.webp
 credit: Grosbec casse-noyaux © Farice Cahez
 centering: center
@@ -23,7 +23,7 @@ Tout d’abord, autour de chez vous ou sur votre lieu de vacances, vous pouvez c
 
 En fonction du nombre d’espèces déjà notées dans la maille, vous pouvez orienter vos prospections pour détecter de nouvelles espèces, en privilégiant certains habitats ou bien certaines périodes de l’année (en fonction des périodes de retour des migrateurs par exemple).
 
-En savoir plus > [Prospections ODF : 2 espèces de rapaces à rechercher dans les mailles en ce moment !](https://oiseauxdefrance.org/news/actualite-66)
+[Plus de conseils sur les prospections ciblées](https://oiseauxdefrance.org/news/actualite-66)
 
 ## Quelle méthodologie choisir ? 
 
