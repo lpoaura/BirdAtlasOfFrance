@@ -1,13 +1,14 @@
----
+--- 
 title: "Les prospections « atlas », ça continue !"
 picture: actualite-85.webp
 credit: Grosbec casse-noyaux © Farice Cahez
 centering: center
 author: Oiseaux de France
 date: '2024-12-20'
-tags: ['suivis ornitho', 'prospections’, 'Atlas ODF']
+tags: [suivis ornitho, prospections, Atlas ODF]
 active: true
 ---
+
 **Vous avez contribué à l’atlas des oiseaux de France entre 2019 et 2024 ? Vous pouvez continuer si vous le souhaitez !**
 
 Si la première phase de l’atlas digital des oiseaux de France 2019-2024 touche à sa fin avec la prochaine mise à jour des connaissances sur les espèces de France métropolitaine et d’outremer, les prospections « à la maille », elles, peuvent être faites continuellement et n’importe quand. On vous explique tout ça ! 
