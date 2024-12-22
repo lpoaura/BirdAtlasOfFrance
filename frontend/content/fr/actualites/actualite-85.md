@@ -19,7 +19,7 @@ Le terme anglosaxon de « bird atlassing » désigne l’action de réaliser un 
 ## Comment faire des prospections « atlas » ?
 
 Les prospections se font dans des mailles dites « atlas » de taille variable (10 km² pour la métropole) qui quadrillent le territoire. 
-Tout d’abord, autour de chez vous ou sur votre lieu de vacances, vous pouvez consulter l’état des connaissances récentes sur la présence d’espèces d’oiseaux dans les mailles, et leur statut (reproducteur, transit et/ou hivernant) en vous rendant dans le volet[ “Prospection” ](https://oiseauxdefrance.org/prospecting) du site oiseaux de France. 
+Tout d’abord, autour de chez vous ou sur votre lieu de vacances, vous pouvez consulter l’état des connaissances récentes sur la présence d’espèces d’oiseaux dans les mailles, et leur statut (reproducteur, transit et/ou hivernant) en vous rendant dans le volet[“Prospection”](https://oiseauxdefrance.org/prospecting) du site oiseaux de France. 
 
 En fonction du nombre d’espèces déjà notées dans la maille, vous pouvez orienter vos prospections pour détecter de nouvelles espèces, en privilégiant certains habitats ou bien certaines périodes de l’année (en fonction des périodes de retour des migrateurs par exemple).
 
