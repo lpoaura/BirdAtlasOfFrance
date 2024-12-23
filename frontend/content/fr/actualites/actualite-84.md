@@ -1,7 +1,7 @@
 --- 
 title: "Dénombrement des oiseaux d'eau hivernants : le bilan 2024 vient de paraitre !"
 picture: actualite-84.webp
-credit: Bécasseau variable © 
+credit: Bécasseau variable © Fabrice Cahez
 centering: center
 author: Oiseaux de France
 date: '2024-12-11'
