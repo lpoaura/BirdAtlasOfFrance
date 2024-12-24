@@ -1,7 +1,7 @@
 ---
 title: "Les 11 & 12 janvier 2025, c’est le comptage Wetlands !"
 picture: actualite-87.webp
-credit: Aigrette garzette © Ian Preston 
+credit: Aigrette garzette © Ian Preston - FlickR
 centering: center
 author: Oiseaux de France
 date: '2024-01-08'
