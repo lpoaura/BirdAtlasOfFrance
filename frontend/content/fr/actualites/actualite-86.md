@@ -4,7 +4,7 @@ picture: actualite-86.webp
 credit: Milan royal © Samuel Pelissier - FlickR
 centering: center
 author: Oiseaux de France
-date: '2024-01-02'
+date: 
 tags: [milan royal, comptage européen, dispositif annuel, comptage au dortoir]
 active: true
 ---
