@@ -4,7 +4,7 @@ picture: actualite-87.webp
 credit: Aigrette garzette © Ian Preston - FlickR
 centering: center
 author: Oiseaux de France
-date: '2024-01-08'
+date: '2025-01-08'
 tags: [Wetlands, oiseaux d’eau, zone humides, comptage international]
 active: true
 ---
