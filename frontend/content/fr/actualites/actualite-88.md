@@ -17,7 +17,7 @@ Et pour y répondre, pas besoin de documentation ! Ce qui nous intéresse ici c�
 
 Par avance un grand merci pour votre contribution.
 
-**Quiz disponible [<<ici>>](https://docs.google.com/forms/d/e/1FAIpQLSe34OmLF-5tgPPFlTeR4RpmOS2ZYQnn9OmjQuEfeksq4frbcw/viewform?usp=dialog)**
+**Quiz disponible <<[ici](https://docs.google.com/forms/d/e/1FAIpQLSe34OmLF-5tgPPFlTeR4RpmOS2ZYQnn9OmjQuEfeksq4frbcw/viewform?usp=dialog)>>**
 
 **A vos pifomètres !**
 
