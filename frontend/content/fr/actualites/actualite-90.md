@@ -2,11 +2,13 @@
 title: "Live Event Oiseaux des Jardins, le 22 janvier 2025 à 18h"
 picture: actualite-90.webp
 credit: Sittelle torchepot © Andrea Marzorati
+centering: center
 author: Oiseaux de France
 date: '2025-01-15'
 tags: [oiseaux des jardins, webconférence, comptage]
 active: true
 ---
+
 A l’occasion de l’organisation du week-end national de comptage des oiseaux des jardins qui se tiendra les 25 et 26 janvier 2025, la LPO a le plaisir de vous convier à une webconférence d’une heure le **mercredi 22 janvier 2025 à 18h00**, sur le **thème des sciences participatives**, en présence d'**Allain Bougrain Dubourg** et des experts de la LPO et du Muséum national d’Histoire naturelle.
 
 <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-90.webp"/>
