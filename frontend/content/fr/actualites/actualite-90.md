@@ -11,7 +11,7 @@ A l’occasion de l’organisation du week-end national de comptage des oiseaux 
 
 **[<<Je m'inscris >>](https://forms.office.com/e/zdKJS99Wn2)**
 
-Suite à votre inscription, un lien pour accéder à la webconférence vous sera envoyé quelques heures avant l'évènement le 22 janvier.**
+**Suite à votre inscription, un lien pour accéder à la webconférence vous sera envoyé quelques heures avant l'évènement le 22 janvier.**
 
 Initiés il y a plus d'un siècle, les projets participatifs tel que l'**Observatoire des oiseaux des jardins** s'inscrivent non seulement dans la longue histoire de la protection de la nature mais aussi dans la diffusion des connaissances sur la biodiversité auprès du plus grand nombre. **Grégoire Loïs (MNHN / OFB)** et **Marjorie Poitevin (LPO)** aborderont avec vous les enjeux autour des projets de sciences participatives au fil des siècles et vous présenteront les résultats de l’Observatoire des oiseaux des jardins.
 
