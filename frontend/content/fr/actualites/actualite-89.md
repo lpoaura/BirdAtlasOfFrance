@@ -41,11 +41,14 @@ Le Bruant des neiges est un passereau granivore qui niche autour du cercle polai
 
 Oiseau forestier discret, le Gros-bec casse-noyaux se laisse plus facilement observer en hiver en raison d’une plus grande dispersion de l’espèce à cette période, de son comportement grégaire et de l’apport de migrateurs venus du Nord de l’Europe. Le Gros-bec s’invite dans les vergers, les parcs et les jardins, notamment ceux avec mangeoires. Son cri sec caractéristique "tsic" vous permettra de le repérer facilement.
 
-**Si vous apercevez une de ces quatre espèces, n’hésitez pas à les noter sur [Faune France](https://www.faune-france.org) !** 
 
-## Quelle méthodologie utiliser ? 
+## Choix du mode de prospection et transmission des données 
 
 Dans le cadre de vos prospections, vous pouvez opter pour des [listes complètes]( https://www.youtube.com/watch?v=rFSgvLv3lj8&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=5) ou des [EPOC]( https://www.youtube.com/watch?v=TZt0Ri6xSaU&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=8) qui vous permettront d’inventorier toutes les autres espèces observées sur votre maille. 
+
 Les données d’occurrence localisées précisément, peuvent être utilisées lors d’une observation ponctuelle fortuite d’un individu (hors prospection). 
+
+La saisie avec **NaturaList** ou sur **[Faune France](https://www.faune-france.org) !** 
+
 **[Plus d’informations sur les prospections atlas à partir de 2025](https://oiseauxdefrance.org/news/actualite-85)**
 
