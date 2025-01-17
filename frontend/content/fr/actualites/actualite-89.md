@@ -42,13 +42,19 @@ Le Bruant des neiges est un passereau granivore qui niche autour du cercle polai
 Oiseau forestier discret, le Gros-bec casse-noyaux se laisse plus facilement observer en hiver en raison d’une plus grande dispersion de l’espèce à cette période, de son comportement grégaire et de l’apport de migrateurs venus du Nord de l’Europe. Le Gros-bec s’invite dans les vergers, les parcs et les jardins, notamment ceux avec mangeoires. Son cri sec caractéristique "tsic" vous permettra de le repérer facilement.
 
 
-## Choix du mode de prospection et transmission des données 
+## Choix du mode de prospection, de la méthodologie et transmission des données 
 
-Dans le cadre de vos prospections, vous pouvez opter pour des [listes complètes]( https://www.youtube.com/watch?v=rFSgvLv3lj8&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=5) ou des [EPOC]( https://www.youtube.com/watch?v=TZt0Ri6xSaU&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=8) qui vous permettront d’inventorier toutes les autres espèces observées sur votre maille. 
+Dans le cadre de vos prospections "atlas", vous avez le choix entre faire une prospection **complète** et une prospection **ciblée**. 
 
-Les données d’occurrence localisées précisément, peuvent être utilisées lors d’une observation ponctuelle fortuite d’un individu (hors prospection). 
+Lors d'une prospection **complète** vous inventoriez la maille choisie entièrement, en effectuant au minimum un point dans chaque habitat. Une étude préalable de la maille est nécessaire et son édition cartographique via le module carto d'ODF peut aider sur le terrain. Grâce au volet **[Prospection](https://oiseauxdefrance.org/prospecting)** d'ODF, vous pouvez **cibler** une maille où l'espèce n'a pas encore été notée sur la nouvelle période atlas alors qu'elle l'était sur la période précédente. Cela permettra de confirmer sa présence.  
 
-La saisie avec **NaturaList** ou sur **[Faune France](https://www.faune-france.org) !** 
+Lors d'une prospection **ciblée** sur une espèce en particulier, on cible l'habitat de prédilection de l'espèce on prospecte localement. 
+
+En terme de méthodologie, vous pouvez opter pour des [listes complètes]( https://www.youtube.com/watch?v=rFSgvLv3lj8&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=5) ou des [EPOC]( https://www.youtube.com/watch?v=TZt0Ri6xSaU&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=8) qui vous permettront d’inventorier toutes les autres espèces observées sur votre maille. 
+
+Les données d’occurrence, avec localisation précise, sont réservées à une observation ponctuelle fortuite d’un individu (hors prospection). 
+
+La saisie se fait avec **NaturaList** ou sur **[Faune France](https://www.faune-france.org) !** 
 
 **[Plus d’informations sur les prospections atlas à partir de 2025](https://oiseauxdefrance.org/news/actualite-85)**
 
