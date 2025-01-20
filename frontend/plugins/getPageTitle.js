@@ -97,11 +97,11 @@ export default ({ app }, inject) => {
       route: '/en/get-involved/wetlands',
     },
     {
-      title: 'Listes complètes et données ponctuelles',
+      title: 'Prospections Atlas',
       route: '/get-involved/complete-lists',
     },
     {
-      title: 'Listes complètes et données ponctuelles',
+      title: 'Prospections Atlas',
       route: '/en/get-involved/complete-lists',
     },
     {
