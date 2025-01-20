@@ -158,7 +158,7 @@ export default {
       'Observatoire Rapaces',
       'LIMAT',
       'Wetlands',
-      'Listes complètes et données ponctuelles',
+      'Prospections Atlas',
     ],
     emailConfigs: [
       'oiseauxdefrance',
