@@ -54,7 +54,7 @@ En terme de méthodologie, vous pouvez opter pour des [listes complètes]( https
 
 Les données d’occurrence, avec localisation précise, sont réservées à une observation ponctuelle fortuite d’un individu (hors prospection). 
 
-La saisie se fait avec **NaturaList** ou sur **[Faune France](https://www.faune-france.org) !** 
+La saisie se fait avec **NaturaList** ou sur **[Faune France](https://www.faune-france.org)!** 
 
 **[Plus d’informations sur les prospections atlas à partir de 2025](https://oiseauxdefrance.org/news/actualite-85)**
 
