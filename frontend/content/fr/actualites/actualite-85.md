@@ -29,8 +29,8 @@ En fonction du nombre d’espèces déjà notées dans la maille, vous pouvez or
 ## Quelle méthodologie choisir ? 
 
 Parmi les différentes méthodes de recensement à utiliser lors des prospections "atlas" citons : 
-- Les **listes complètes d’observations** : durant une période variable, on note toutes les espèces que l’on va détecter, de la plus commune à la plus rare. Si on est en période de reproduction, bien noter les codes de reproduction.
-- Les **points EPOC** : points d’écoutes de 5 minutes
+- Les **listes complètes d’observations** : durant une période variable, on note toutes les espèces que l’on va observer, de la plus commune à la plus rare. Si on est en période de reproduction, bien noter les codes de reproduction.
+- Les **points EPOC** : des point d’écoute et d’observation de 5 minutes pendant lequel on note tous les individus de toutes les espèces détectées
 - Les **données d’occurrence** : des observations uniques (hors listes), détaillées et localisées réservées aux espèces peu communes ou avec des indices de reproduction élevés afin améliorer la connaissance sur le statut de reproduction. 
 
 **[En savoir plus](https://oiseauxdefrance.org/get-involved)**
