@@ -6,7 +6,7 @@
       :to="card.route"
       class="ProtocolCard"
       :class="
-        card.title === 'Listes complètes et données ponctuelles'
+        card.title === 'Prospections Atlas'
           ? 'special'
           : ''
       "
