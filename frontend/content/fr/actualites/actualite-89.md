@@ -45,7 +45,7 @@ Oiseau forestier discret, le Grosbec casse-noyaux se laisse plus facilement obse
 
 Il s'agit de faire une prospection **ciblée** sur l'espèce recherchée et donc de cibler son habitat de prédilection pour déterminer le lieu de prospection autour de chez vous. 
 
-En terme de méthodologie, vous pouvez opter pour des [listes complètes](https://www.youtube.com/watch?v=rFSgvLv3lj8&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=5)(listes d'observations) ou des [EPOC](https://www.youtube.com/watch?v=TZt0Ri6xSaU&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=8)(points d'écoute et d'observation) qui vous permettront d’inventorier toutes les autres espèces observées sur votre llieu d'observation. 
+En terme de méthodologie, vous pouvez opter pour des [listes complètes](https://www.youtube.com/watch?v=rFSgvLv3lj8&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=5) (listes d'observations) ou des [EPOC](https://www.youtube.com/watch?v=TZt0Ri6xSaU&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=8) (points d'écoute et d'observation) qui vous permettront d’inventorier toutes les autres espèces observées sur votre llieu d'observation. 
 
 Les données d’occurrence détaillées et localisées (1 observation-1 point GPS), sont réservées aux observations ponctuelles fortuites (hors liste) et peuvent permettre de confirmer la présence d'une espèce rare. 
 
