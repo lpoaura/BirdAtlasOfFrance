@@ -15,16 +15,16 @@ Lancé en 2012 par la LPO et l’équipe Vigie-Nature du Muséum national d’Hi
 
 Inutile d’être un expert !
 
-Comment participer, seul ou en famille ?
+## Comment participer, seul ou en famille ?
 
-    Choisir un lieu d’observation : jardin, balcon ou parc public, en ville comme à la campagne.
-    Le 25 ou 26 janvier, observer pendant une heure les oiseaux et les identifier. Des fiches descriptives sont disponibles pour guider les novices.
-    Noter le nombre maximal d’individus vus simultanément pour chaque espèce.
-    Transmettre les observations sur le site oiseauxdesjardins.fr, en vous aidant de ce guide d’utilisation.
+- Choisir un lieu d’observation : jardin, balcon ou parc public, en ville comme à la campagne.
+- Le 25 ou 26 janvier, observer pendant une heure les oiseaux et les identifier. Des fiches descriptives sont disponibles pour guider les novices.
+- Noter le nombre maximal d’individus vus simultanément pour chaque espèce.
+- Transmettre les observations sur le site oiseauxdesjardins.fr, en vous aidant de ce guide d’utilisation.
 
 Les données collectées aident les scientifiques à mieux comprendre les comportements des oiseaux et suivre l’évolution de leurs populations. En janvier 2024, plus de 547 000 oiseaux ont été comptabilisés grâce à la mobilisation de 17 033 observateurs.
 
-Une année à grosbecs ?
+## Une année à grosbecs ?
 
 Si le Moineau domestique, les mésanges bleue et charbonnière, le Rougegorge familier ou le Merle noir figurent en général sur le podium des espèces les plus fréquemment rencontrées l’hiver, les surprises ne sont pas à exclure. Depuis octobre dernier, une augmentation significative des observations de Grosbec casse-noyaux est ainsi constatée en France. Ce phénomène, qui rappelle l’afflux exceptionnel de l’hiver 2017-2018, est en général lié à l’arrivée massive d’individus en provenance d’Europe centrale en raison de pénuries alimentaires ou d’une reproduction particulièrement réussie l’été précédent.
 
