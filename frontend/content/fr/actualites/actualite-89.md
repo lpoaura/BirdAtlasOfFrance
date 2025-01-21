@@ -4,7 +4,7 @@ picture: actualite-89.webp
 credit: Tichodrome échelette © Alain Boullah 
 centering: center
 author: Oiseaux de France
-date: '2025-01-22'
+date: '2025-01-23'
 tags: [hiver, prospections, oiseaux nordiques, oiseaux alpins]
 active: true
 ---
