@@ -4,7 +4,7 @@ picture: actualite-91.webp
 credit: Sittelle torchepot © Andrea Marzorati
 centering: center
 author: Oiseaux de France
-date: '2025-01-15'
+date: '2025-01-24'
 tags: [oiseaux des jardins, comptage, 2025]
 active: true
 ---
