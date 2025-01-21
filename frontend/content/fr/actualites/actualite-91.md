@@ -13,9 +13,9 @@ active: true
 
 Lancé en 2012 par la LPO et l’équipe Vigie-Nature du Muséum national d’Histoire naturelle (MNHN) et de l’Office français de la biodiversité (OFB), le grand comptage national des oiseaux des jardins est organisé deux fois par an en France métropolitaine, lors des derniers week-ends de janvier et de mai afin de disposer d’éléments de comparaison à des périodes très différentes en termes d’effectifs et de comportements : l’hivernage et la reproduction. Il suffit alors de consacrer une heure de son temps à recenser les différentes espèces présentes chez soi puis de transmettre ses observations sur une plateforme en ligne. La prochaine édition aura lieu les 25 et 26 janvier 2025.
 
-Inutile d’être un expert !
+## Inutile d’être un expert !
 
-## Comment participer, seul ou en famille ?
+Comment participer, seul ou en famille ?
 
 - Choisir un lieu d’observation : jardin, balcon ou parc public, en ville comme à la campagne.
 - Le 25 ou 26 janvier, observer pendant une heure les oiseaux et les identifier. Des fiches descriptives sont disponibles pour guider les novices.
