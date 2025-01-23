@@ -11,7 +11,7 @@ active: true
 
 **Amateur.ice de raretés ? Recherchez et notez le Tichodrome échelette, le Bruant des neiges, l'Accenteur alpin ou encore le Grosbec casse-noyaux dans les mailles !**
 
-Amateur.ice de rarés ? Au cœur de l’hiver les espèces montagnardes descendent dans les zones de basse altitude de la moitié sud du territoire tandis que les espèces les nordiques migrent vers des latitudes où le climat est plus clément. Partez à la recherche du Tichodrome échelette, de l’Accenteur alpin, du Bruant des neiges, ou encore du Gros-bec casse-noyaux dont les afflux sont particulièrement remarquables cette année. 
+Amateur.ice de raretés ? Au cœur de l’hiver les espèces montagnardes descendent dans les zones de basse altitude de la moitié sud du territoire tandis que les espèces les nordiques migrent vers des latitudes où le climat est plus clément. Partez à la recherche du Tichodrome échelette, de l’Accenteur alpin, du Bruant des neiges, ou encore du Gros-bec casse-noyaux dont les afflux sont particulièrement remarquables cette année. 
 
 ## Rechercher le Tichodrome échelette 
 
