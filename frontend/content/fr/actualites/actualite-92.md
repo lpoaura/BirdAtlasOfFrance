@@ -17,4 +17,4 @@ En 2025, l'accent sera mis sur une généralisation de l'utilisation des listes 
 
 L'Equipe animatrice de Faune-France relance les [Apéro-Faune](https://www.youtube.com/playlist?list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn) avec le soutien d’une communauté d’experts, crée du contenu pour les réseaux sociaux et, en partenariat avec Biolovision,  propose de nouveaux outils pour simplifier la saisie des protocoles nationaux.
 
-[**> Consulter en détail la rétrospective <**]()
+[**> Consulter en détail la rétrospective <**](content/fr/static/news/actualite-92-BilanFF_2024.pdf)
