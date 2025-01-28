@@ -1,7 +1,7 @@
 ---
 title: "Rétrospective 2024 de Faune-France : une année exceptionnelle !"
 picture: actualite-92.webp
-credit: Rougequeue noir © 
+credit: Rougequeue noir © Bernard Deceuninck
 centering: center
 author: Oiseaux de France
 date: '2025-01-29'
