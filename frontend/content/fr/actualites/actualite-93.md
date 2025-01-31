@@ -1,7 +1,7 @@
 ---
 title: "Mayotte : quelle suite après le passage du cyclone Chido ? "
 picture: actualite-93.webp
-credit: © 
+credit: Mangrove de Tsingoni © Emilien DAUTREY / GEPOMAY
 centering: center
 author: Oiseaux de France
 date: '2025-02-05'
