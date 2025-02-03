@@ -19,7 +19,7 @@ Vous pouvez contribuer à leur préservation en recensant les espèces qui en d�
 
 ## Envie de participer à une sortie organisée par la LPO ? 
 
-A l’occasion de cette journée mondiale de zones humides, la LPO propose un certain nombre d’animations sur toute la France. 
+A l’occasion de cette journée mondiale de zones humides, la LPO propose un certain nombre d’animations sur toute la France durant tout le mois de février. 
 [Consulter l’agenda des sorties](https://www.lpo.fr/decouvrir-la-nature/loisirs-nature/agenda-nature?Type_d%27activit%C3%A9s=Journ%C3%A9es+mondiales+des+zones+humides&page=1)
 
 [En savoir plus](https://www.lpo.fr/qui-sommes-nous/toutes-nos-actualites/articles/actus-2025/cap-sur-les-zones-humides-a-l-occasion-de-la-jmzh-2025)
