@@ -8,7 +8,7 @@ date: '2025-02-05'
 tags: [Mayotte, cyclone chido, crabier blanc, espèce emblématique]
 active: true
 ---
-**Une espèce emblématique de l'île aux parfums a été mise à mal par cet évènement climatique : le Crabier blanc.**
+**Parmi les très nombreuses victimes de cet évènement climatique, une espèce emblématique de l'île aux parfums : le Crabier blanc.**
 
 Bien que l’île de Mayotte n’abrite qu’une seule espèce nicheuse d’oiseau marin, le Phaéton à bec jaune, l’île aux parfums regorge malgré tout d’espèces d’oiseaux inféodées à cet espace terre-mer composé de nombreuses mangroves et vasières, utilisées comme sites d’alimentation et de reproduction. C’est notamment le cas pour des espèces emblématiques et menacées comme le héron Crabier blanc, la Grande aigrette, le Grèbe castagneux ou encore le Drome ardéole. 
 
