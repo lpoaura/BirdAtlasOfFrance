@@ -1,7 +1,7 @@
 ---
 title: 'Première mention française de Talève violacée'
 picture: actualite-95.webp
-credit: Talève violacée *Porphyrio martinica* © Martine Ribert
+credit: Talève violacée © Martine Ribert
 centering: center
 author: Oiseaux de France
 date: '2025-02-14'
