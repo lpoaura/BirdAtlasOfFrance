@@ -12,11 +12,11 @@ active: true
 **Un individu retrouvé mort à Chatelaillon-Plage en Charente-Martime.**
 
 ## Première mention Française 
-Une Talève violacée *Porphyrio martinica* a été retrouvée morte enchevêtrée dans un tas de branchages dans un jardin de Châtelaillon-Plage (Charente-Maritime), le jeudi 6 février. Les photos prises sur place confirment sans aucun doute l'identification de l'espèce : corps d’un violet éclatant, dos vert, région sous-caudale blanche, bec rouge à pointe jaune. Longues pattes jaunes et doigts démesurés lui permettant de marcher sur les feuilles de nénuphar.
+Une Talève violacée *Porphyrio martinica* a été retrouvée morte enchevêtrée dans un tas de branchages dans un jardin de Châtelaillon-Plage (Charente-Maritime), le jeudi 6 février. Les photos prises sur place confirment sans aucun doute l'identification de cette espèce très colorée : corps violet, dos vert, région sous-caudale blanche, bec rouge à pointe jaune. Longues pattes jaunes et doigts démesurés lui permettant de marcher sur les feuilles de nénuphar.
+
 
 
 ## Une espèce erratique orgininaire d'Amérique centrale 
-L'espèce est présente le long de la côte sud des États-Unis, en Amérique centrale, dans les Antilles et en Amérique du Sud.
+La Talève violacée est présente le long de la côte sud-est des États-Unis, en Amérique centrale, dans les Antilles et en Amérique du Sud. Les populations du nord et du sud de l'aire de répartition sont migratrices tandis que les populations tropicales sont sédentaires. Le comportement fortement erratique de cette espèce l'amène souvent hors de son aire de répartition, si bien qu'elle est retrouvée quasi annuellement en Afrique du sud. Les observations sont très rares en Europe, et concernent principalement des individus trouvés affaiblis ou morts.
 
-## Des observations rares en Europe 
-Les observations de Talève violacée en Europe sont très rares et concernent principalement des individus trouvés affaiblis ou morts.
+Sources : Faune-France, EBird, Birds of the world
