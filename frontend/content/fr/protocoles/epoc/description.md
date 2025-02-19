@@ -15,7 +15,7 @@ Lancé en 2017, le protocole EPOC est un dispositif de sciences participatives q
 
 </div>
 
-## Qu'est-ce qu'un EPOC ?
+## Qu'est-ce qu'un EPOC et comment faire ?
 
 <div class="InformativePageParagraph">
 
@@ -23,17 +23,17 @@ Un EPOC est un **point d’écoute et d’observation de 5 minutes** pendant leq
 
 </div>
 
-## Où ?
+## L'EPOC, où l'on veut !
 
 <div class="InformativePageParagraph">
 
-C’est l’observateur qui choisit lui-même le positionnement de ses EPOC : partout où l’observateur se rend et où il stationne au moins 5 minutes. Cela peut être un arrêt de bus, le parking de la boulangerie, le site de pause lors d'une randonnée, un point d'observation près d'un étang, dans le jardin...
+Choisissez vous même le positionnement de vos EPOC : partout où vous vous rendez et où vous stationnez au moins 5 minutes. Cela peut être un arrêt de bus, le parking de la boulangerie, un site de pause lors d'une randonnée, un point d'observation près d'un étang, dans le jardin...
 
-Dans le cadre des prospections ODF dans une maille atlas (10km de côté), l’idéal est de réaliser des EPOC tout au long de vos prospections en effectuant des pauses régulières, si possible dans tous les habitats représentés dans la maille (forêts, zones agricoles, milieu urbain, zones humides…).
+Dans le cadre des prospections ODF, au sein d'une maille atlas (10km de côté), l’idéal est de réaliser des EPOC tout au long de vos prospections en effectuant des pauses régulières, si possible dans tous les habitats représentés dans la maille (forêts, zones agricoles, milieu urbain, zones humides…).
 
 </div>
 
-## Quand ?
+## L'EPOC, quand on veut !
 
 <div class="InformativePageParagraph">
 
