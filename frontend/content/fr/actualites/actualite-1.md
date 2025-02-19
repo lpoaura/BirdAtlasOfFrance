@@ -18,7 +18,7 @@ Pour ne rien rater des actualités et des nouveautés du projet ODF, abonnez-vou
 - des témoignages,
 - des tutos…
 
-Pour s’abonner à la newsletter, cliquez sur le [lien suivant](http://eepurl.com/hi6NPj).
+Pour s’abonner à la newsletter, cliquez sur le [lien suivant](https://forms.sbc32.com/61d5874f4b4b811a82e72b33/1MXgMS_3T8WJ9urzheMtnA/M8LpI8NtRMOHnHVg0jvz-w/form.html).
 
 Pour retrouver les éditions précédentes :
 

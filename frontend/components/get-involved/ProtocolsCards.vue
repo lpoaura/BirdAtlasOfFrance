@@ -6,7 +6,7 @@
       :to="card.route"
       class="ProtocolCard"
       :class="
-        card.title === 'Listes complètes et données ponctuelles'
+        card.title === 'Prospections Atlas'
           ? 'special'
           : ''
       "
@@ -107,7 +107,7 @@ export default {
       },
       {
         icon: '/get-involved/complete-lists-logo.svg',
-        title: 'Listes complètes et données ponctuelles',
+        title: 'Prospections Atlas',
         subtitle: null,
         route: '/get-involved/complete-lists',
         season: null,
