@@ -33,7 +33,7 @@ Retrouvez les trois sessions susceptibles de vous intéresser dans le cas du STO
 -	L’Apéro-Faune sur les codes atlas : **[Visionner](https://www.youtube.com/watch?v=6iwRtPSAPgw&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=6)**
 -	L’Apéro Faune consacré aux raccourcis sur NaturaList, pour accélérer et simplifier la saisie : ** [Visionner](https://www.youtube.com/watch?v=NiP3Yk_f9l8&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=3)**
 
-## Des fiches techniques ou le module STOC : deux façons de faire ses relevés STOC 
+## Des fiches techniques ou le module STOC : deux façons de faire ses relevés sur le terrain
 Selon vos préférences ou la technologie que vous utilisez sur votre smartphone, vous avez plusieurs options pour la saisie du STOC sur le terrain : soit sur NaturaList grâce au module STOC (bientôt disponible), soit sur papier. 
 ### Sur papier 
 Les fiches techniques suivantes vous permettent d’effectuer les relevés sur le terrain. Dans ce cas la saisie du STOC se fait à postériori avec un ordinateur, sur Faune-France. 
