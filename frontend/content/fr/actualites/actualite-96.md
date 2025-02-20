@@ -31,7 +31,7 @@ Rendez-vous incontournable* des utilisateurs de la plateforme Faune-France et do
 Retrouvez les trois sessions susceptibles de vous intéresser dans le cas du STOC : 
 -	L’Apéro-Faune sur le STOC : **[Visionner](https://www.youtube.com/watch?v=xMLLRt4A9Oo&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=5&t=127s)**
 -	L’Apéro-Faune sur les codes atlas : **[Visionner](https://www.youtube.com/watch?v=6iwRtPSAPgw&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=6)**
--	L’Apéro Faune consacré aux raccourcis sur NaturaList, pour accélérer et simplifier la saisie : ** [Visionner](https://www.youtube.com/watch?v=NiP3Yk_f9l8&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=3)**
+-	L’Apéro Faune consacré aux raccourcis sur NaturaList, pour accélérer et simplifier la saisie : **[Visionner](https://www.youtube.com/watch?v=NiP3Yk_f9l8&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=3)**
 
 ## Des fiches techniques ou le module STOC : deux façons de faire ses relevés sur le terrain
 Selon vos préférences ou la technologie que vous utilisez sur votre smartphone, vous avez plusieurs options pour la saisie du STOC sur le terrain : soit sur NaturaList grâce au module STOC (bientôt disponible), soit sur papier. 
@@ -44,8 +44,8 @@ Les fiches techniques suivantes vous permettent d’effectuer les relevés sur l
 - Le [Mémo codes des habitats](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPSMmoCodeHabitat.pdf) est d’un soutien précieux lors de la phase non négligeable de caractérisation de l’habitat. Cette étape ne doit pas être négligée car elle permet de témoigner de l’évolution de l’habitat au fil des années. **
 ### Sur NaturaList
 
-Vous pouvez aussi saisir votre STOC directement sur votre smartphone grâce au module STOC (uniquement accessible sur Androïd pour le moment) sur l’appli NaturaList . 
-Le tutoriel est disponible en ligne : [Visionner](https://youtu.be/cpvuF1pQgz8?si=O5hWYWf0Ocar-Otk). 
+Vous pouvez aussi saisir votre STOC directement sur votre smartphone grâce au module STOC (uniquement accessible sur Androïd pour le moment) sur l’appli NaturaList. 
+Le tutoriel est disponible en ligne : **[Visionner](https://youtu.be/cpvuF1pQgz8?si=O5hWYWf0Ocar-Otk)**. 
 **Attention, le module n'est pas encore en libre accès et sera intégré à la prochaine version publique de l’application.** Elle devrait être ligne dans quelques jours. Pensez à **mettre à jour l’application** pour avoir la bonne version ! 
 
 ## Les autres ressources incontournables du STOC 
