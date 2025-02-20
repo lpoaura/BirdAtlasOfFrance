@@ -24,7 +24,8 @@ Le Guide du participant est très utile pour se rappeler des points clés du pro
 ## Un Mémo pour apprendre à bien utiliser les codes atlas 
 Les codes atlas de nidification des oiseaux sont un outil précieux pour les ornithologues et pour la conservation. En facilitant la collecte et l'analyse des données sur la reproduction des oiseaux, ils jouent un rôle clé dans la compréhension et la protection de ces espèces. Les codes atlas servent à **cartographier la répartition des espèces** selon leur **statut nicheur**, à étudier la **phénologie de reproduction et sa variation** dans le temps de façon à protéger l’espèce en adaptant les modalités de gestion de leurs populations et leurs habitats en fonction des périodes de sensibilité.
 **Conseil** Renseigner des codes uniquement en cas d’indices de nidification avérée, en période de nidification et en ignorant les propositions automatiques de codes, quand les indices ne sont pas probants. 
-**Téléchargez le mémo codes atlas pour vous aider à attribuer les bons codes atlas ce printemps grâce à des exemples concrets d’utilisation :[Mémo codes atlas](https://cdnfiles2.biolovision.net/www.faune-france.org/pdffiles/news/MmoCodeAtlasFichierComplet20241211-2164.pdf) **
+Le **mémo codes atlas** vous aide à attribuer les bons codes atlas ce printemps grâce à des exemples concrets d’utilisation :
+**[>Télécharger le Mémo codes atlas](https://cdnfiles2.biolovision.net/www.faune-france.org/pdffiles/news/MmoCodeAtlasFichierComplet20241211-2164.pdf) **
 
 ## Les Apéro-Faune, des tutos pour mieux utiliser Faune-France
 Rendez-vous incontournable* des utilisateurs de la plateforme Faune-France et donc de tout participant à un suivi de l’avifaune quel qu’il soit, les apéro-faune sont des outils d’approfondissement des connaissances sur l’utilisation de la plateforme Faune-France. 
