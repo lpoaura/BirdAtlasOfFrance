@@ -14,8 +14,9 @@ active: true
 La saison du STOC démarre au premier mars avec un passage sur le carré. Une étape de préparation de la phase de terrain est nécessaire pour effectuer le suivi dans de bonnes conditions. Tous les outils à suivre pour vous aider dans votre préparation. 
 
 ## AccouSTOC pour réviser les chants 
-AcouSTOC est un site d’entrainement, d’apprentissage et d’évaluation de vos connaissances en reconnaissance acoustique des oiseaux communs chanteurs au printemps. L’outil idéal pour vous remettre dans les ambiances sonores printanières. 
-Progresser sur la reconnaissance des chants des oiseaux communs avec **[AcouSTOC](https://acoustoc.vigienature.fr/)**. 
+AcouSTOC est un site d’entrainement, d’apprentissage et d’évaluation de vos connaissances en reconnaissance acoustique des oiseaux communs chanteurs au printemps. L’outil idéal pour vous remettre dans les ambiances sonores printanières et progresser sur la reconnaissance des chants des oiseaux communs. 
+**[Je révise les chants avec AcouSTOC](https://acoustoc.vigienature.fr/)**
+
 ## Le guide du participant et les fiches techniques pour préparer le terrain
 Vous le savez bien, une saison de STOC ne s’improvise pas, elle se prépare ! 
 Le Guide du participant est très utile pour se rappeler des points clés du protocole tout autant que pour débuter un STOC. 
