@@ -37,13 +37,16 @@ Retrouvez les trois sessions susceptibles de vous intéresser dans le cas du STO
 
 ## Des fiches techniques ou le module STOC : deux façons de faire ses relevés sur le terrain
 Selon vos préférences ou la technologie que vous utilisez sur votre smartphone, vous avez plusieurs options pour la saisie du STOC sur le terrain : soit sur NaturaList grâce au module STOC (bientôt disponible), soit sur papier. 
+
 ### Sur papier 
 Les fiches techniques suivantes vous permettent d’effectuer les relevés sur le terrain. Dans ce cas la saisie du STOC se fait à postériori avec un ordinateur, sur Faune-France. 
-**Les différentes ressources papier pour les relevés de terrain sont les suivantes : 
+
+Les différentes ressources papier pour les relevés de terrain sont les suivantes : 
 - [Fiche de relevé de terrain : tableau](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPS-FicheRelevTableauOiseaux.pdf)
 - [Fiche de relevé de terrain : cercles EPS](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPSFicheRelevEPS.pdf)
 - [Fiche de relevé de terrain : habitats oiseaux](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPSFicheRelevHabitatOiseaux.pdf)
-- Le [Mémo codes des habitats](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPSMmoCodeHabitat.pdf) est d’un soutien précieux lors de la phase non négligeable de caractérisation de l’habitat. Cette étape ne doit pas être négligée car elle permet de témoigner de l’évolution de l’habitat au fil des années. **
+- Le [Mémo codes des habitats](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPSMmoCodeHabitat.pdf) est d’un soutien précieux lors de la phase non négligeable de caractérisation de l’habitat. Cette étape ne doit pas être négligée car elle permet de témoigner de l’évolution de l’habitat au fil des années. 
+
 ### Sur NaturaList
 
 Vous pouvez aussi saisir votre STOC directement sur votre smartphone grâce au module STOC (uniquement accessible sur Androïd pour le moment) sur l’appli NaturaList. 
