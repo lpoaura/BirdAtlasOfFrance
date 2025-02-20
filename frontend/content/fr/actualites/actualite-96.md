@@ -50,8 +50,10 @@ Les différentes ressources papier pour les relevés de terrain sont les suivant
 ### Sur NaturaList
 
 Vous pouvez aussi saisir votre STOC directement sur votre smartphone grâce au module STOC sur l’appli NaturaList (uniquement accessible sur Androïd pour le moment). 
-**[Visionner le tutoriel](https://youtu.be/cpvuF1pQgz8?si=O5hWYWf0Ocar-Otk)**. 
-**Attention, le module n'est pas encore en libre accès et sera intégré à la prochaine version publique de l’application.** Elle devrait être ligne dans quelques jours. Pensez à **mettre à jour l’application** pour avoir la bonne version ! 
+
+**[Visionner le tutoriel](https://youtu.be/cpvuF1pQgz8?si=O5hWYWf0Ocar-Otk)**
+
+**Attention cependant, le module n'est pas encore en libre accès et sera intégré à la prochaine version publique de l’application.** Elle devrait être ligne dans quelques jours. Pensez à **mettre à jour l’application** pour avoir la bonne version ! 
 
 ## Les autres ressources incontournables du STOC 
 -	Le **bilan STOC 2023** est en cours de réalisation et sortira prochainement !
