@@ -38,17 +38,17 @@ Retrouvez les trois sessions susceptibles de vous intéresser dans le cas du STO
 -	L’Apéro-Faune sur les codes atlas : **[Visionner](https://www.youtube.com/watch?v=6iwRtPSAPgw&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=6)**
 -	L’Apéro Faune consacré aux raccourcis sur NaturaList, pour accélérer et simplifier la saisie : **[Visionner](https://www.youtube.com/watch?v=NiP3Yk_f9l8&list=PLrw_QRwQrnAUS1hX6g9ghYRNFsZKk8ywn&index=3)**
 
-## Des fiches techniques ou le module STOC : deux façons de faire ses relevés sur le terrain
-Selon vos préférences ou la technologie que vous utilisez sur votre smartphone, vous avez plusieurs options pour la saisie du STOC sur le terrain : soit sur NaturaList grâce au module STOC (bientôt disponible), soit sur papier. 
+## Des fiches de note papier ou le module STOC : deux façons de faire ses relevés sur le terrain
+Selon vos préférences mais aussi selon la technologie que vous utilisez sur votre smartphone, vous avez plusieurs options pour la saisie du STOC sur le terrain : soit sur NaturaList grâce au module STOC (bientôt disponible pour Andoïd), soit sur papier grâce aux fiches de notes. 
 
 ### Sur papier 
-Les fiches techniques suivantes vous permettent d’effectuer les relevés sur le terrain. Dans ce cas la saisie du STOC se fait à postériori avec un ordinateur, sur Faune-France. 
+Les fiches techniques suivantes vous permettent d’effectuer les relevés sur le terrain. Dans ce cas-là la saisie du STOC se fait à postériori avec un ordinateur, sur [Faune-France](https://www.faune-france.org). La saisie de données sur Faune-France est détaillée dans le [Guide du participant](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/Guide-Participant-TutorielSTOC-SHOC2025V2.pdf) présenté plus haut. 
 
 Les différentes ressources papier pour les relevés de terrain sont les suivantes : 
-- [Fiche de relevé de terrain : tableau](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPS-FicheRelevTableauOiseaux.pdf)
-- [Fiche de relevé de terrain : cercles EPS](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPSFicheRelevEPS.pdf)
-- [Fiche de relevé de terrain : habitats oiseaux](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPSFicheRelevHabitatOiseaux.pdf)
-- Le [Mémo codes des habitats](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPSMmoCodeHabitat.pdf) est d’un soutien précieux lors de la phase non négligeable de caractérisation de l’habitat. Cette étape ne doit pas être négligée car elle permet de témoigner de l’évolution de l’habitat au fil des années. 
+- [Le cercles EPS pour positionner les espèces selon la distance de détection](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPSFicheRelevEPS.pdf)
+- [Le tableau de relevé des espèces avec les classes de distance](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPS-FicheRelevTableauOiseaux.pdf)
+- [La fiche de relevé de l'habitats](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPSFicheRelevHabitatOiseaux.pdf)
+- Et le [Mémo sur les codes habitats](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/STOC-EPSMmoCodeHabitat.pdf) est d’un soutien précieux lors de la phase non négligeable de caractérisation de l’habitat. Cette étape ne doit pas être négligée car elle permet de témoigner de l’évolution de l’habitat au fil des années. 
 
 ### Sur NaturaList
 
