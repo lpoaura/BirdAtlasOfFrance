@@ -11,20 +11,23 @@ active: true
 
 **Le premier passage STOC approche à grands pas ! Voici les 5 outils essentiels pour préparer efficacement votre saison !**
 
-La saison du STOC démarre au premier mars avec un passage sur le carré. Une étape de préparation de la phase de terrain est nécessaire pour effectuer le suivi dans de bonnes conditions. Tous les outils à suivre pour vous aider dans votre préparation. 
+La saison du STOC démarrera au premier mars avec un premier passage sur votre carré. Une étape de préparation de la phase de terrain est nécessaire pour effectuer le suivi dans de bonnes conditions. On vous donne les outils principaux pour vous aider dans votre préparation !
 
 ## AccouSTOC pour réviser les chants 
 AcouSTOC est un site d’entrainement, d’apprentissage et d’évaluation de vos connaissances en reconnaissance acoustique des oiseaux communs chanteurs au printemps. L’outil idéal pour vous remettre dans les ambiances sonores printanières et progresser sur la reconnaissance des chants des oiseaux communs. 
+
 **[>Réviser les chants avec AcouSTOC](https://acoustoc.vigienature.fr/)**
 
 ## Le guide du participant et les fiches techniques pour préparer le terrain
-Vous le savez bien, une saison de STOC ne s’improvise pas, elle se prépare ! 
-Le Guide du participant est très utile pour se rappeler des points clés du protocole tout autant que pour débuter un STOC. 
+
+Le Guide du participant est très utile pour se rappeler des points clés du protocole et de la saisie tout autant que pour débuter un STOC.
+
 **[>Consulter le guide du participant au STOC-EPS](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/Guide-Participant-TutorielSTOC-SHOC2025V2.pdf)**
 ## Un Mémo pour apprendre à bien utiliser les codes atlas 
 Les codes atlas de nidification des oiseaux sont un outil précieux pour les ornithologues et pour la conservation. En facilitant la collecte et l'analyse des données sur la reproduction des oiseaux, ils jouent un rôle clé dans la compréhension et la protection de ces espèces. Les codes atlas servent à **cartographier la répartition des espèces** selon leur **statut nicheur**, à étudier la **phénologie de reproduction et sa variation** dans le temps de façon à protéger l’espèce en adaptant les modalités de gestion de leurs populations et leurs habitats en fonction des périodes de sensibilité.
 **Conseil** Renseigner des codes uniquement en cas d’indices de nidification avérée, en période de nidification et en ignorant les propositions automatiques de codes, quand les indices ne sont pas probants. 
-Le **mémo codes atlas** vous aide à attribuer les bons codes atlas ce printemps grâce à des exemples concrets d’utilisation :
+Le **mémo codes atlas** vous aidera à attribuer les bons codes atlas ce printemps grâce à des exemples concrets d’utilisation. 
+
 **[>Télécharger le Mémo codes atlas](https://cdnfiles2.biolovision.net/www.faune-france.org/pdffiles/news/MmoCodeAtlasFichierComplet20241211-2164.pdf)**
 
 ## Les Apéro-Faune, des tutos pour mieux utiliser Faune-France
@@ -53,7 +56,11 @@ Vous pouvez aussi saisir votre STOC directement sur votre smartphone grâce au m
 
 **[Visionner le tutoriel](https://youtu.be/cpvuF1pQgz8?si=O5hWYWf0Ocar-Otk)**
 
-**Attention cependant, le module n'est pas encore en libre accès et sera intégré à la prochaine version publique de l’application.** Elle devrait être ligne dans quelques jours. Pensez à **mettre à jour l’application** pour avoir la bonne version ! 
+Un tutoriel en PDF est également disponible. 
+
+**[Télécharger le tutoriel en PDF](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/TutoNaturaListSTOCV5compressed.pdf)**
+
+**Attention cependant, le module n'est pas encore en libre accès et sera intégré à la prochaine version publique de l’application.** Elle devrait être ligne sous peu. Pensez à **mettre à jour l’application** pour avoir la bonne version ! 
 
 ## Les autres ressources incontournables du STOC 
 -	Le **bilan STOC 2023** est en cours de réalisation et sortira prochainement !
