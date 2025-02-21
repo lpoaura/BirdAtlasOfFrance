@@ -18,7 +18,7 @@ AcouSTOC est un site d’entrainement, d’apprentissage et d’évaluation de v
 
 **[>Réviser les chants avec AcouSTOC](https://acoustoc.vigienature.fr/)**
 
-## Le guide du participant et les fiches techniques pour préparer le terrain
+## Le guide du participant pour préparer le terrain
 
 Le Guide du participant est très utile pour se rappeler des points clés du protocole et de la saisie tout autant que pour débuter un STOC.
 
