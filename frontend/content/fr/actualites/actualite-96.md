@@ -4,12 +4,12 @@ picture: actualite-96.webp
 credit: 
 centering: center
 author: Oiseaux de France
-date: '2025-02-24'
+date: '2025-02-25'
 tags: ['stoc 2025', 'oiseaux communs', 'suivi annuel']
 active: true
 ---
 
-**Le premier passage STOC approche à grands pas ! Voici les 5 outils essentiels pour préparer efficacement votre saison ! **
+**Le premier passage STOC approche à grands pas ! Voici les 5 outils essentiels pour préparer efficacement votre saison !**
 
 La saison du STOC démarre au premier mars avec un passage sur le carré. Une étape de préparation de la phase de terrain est nécessaire pour effectuer le suivi dans de bonnes conditions. Tous les outils à suivre pour vous aider dans votre préparation. 
 
