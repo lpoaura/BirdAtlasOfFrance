@@ -4,7 +4,7 @@ picture: actualite-96.webp
 credit: 
 centering: center
 author: Oiseaux de France
-date: '2025-02-25'
+date: '2025-02-26'
 tags: ['stoc 2025', 'oiseaux communs', 'suivi annuel']
 active: true
 ---
