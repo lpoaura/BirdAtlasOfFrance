@@ -8,11 +8,12 @@ date: '2024-02-25'
 tags: ['espèce à signaler', 'migration', 'grue cendrée']
 active: true
 ---
-Après un séjour en Espagne ou au Portugal, les Grues cendrées ont entamé leur migration de retour vers les sites de reproduction en Europe du nord-est et Scandinavie. Le couloir de migration traverse la France en diagonale du sud-ouest au nord-est. 
+Après un séjour en Espagne ou au Portugal, les Grues cendrées ont entamé leur migration de retour vers les sites de reproduction en Europe du nord-est et Fennoscandie. Le couloir de migration traverse la France en diagonale du sud-ouest au nord-est. Les Grues françaises 
 N’hésitez pas à noter vos observations de grues sur Faune-France ! 
 
-Cliquez sur la carte pour visualiser les observations de 2025 sur Faune-France.
->[Visualiser la carte de la grue cendrée 2025]( https://www.faune-france.org/index.php?m_id=30147)< 
+<img class="InformativePagePicture" style="width: 50%" src="/news/actualite-97-cartegrue.webp"/>
+<span class="InformativePagePictureLegend">Carte du moment sur la migration de la Grue cendrée © Faune-France</span>
+**[Visualiser la carte de la grue cendrée 2025 sur Faune-France]( https://www.faune-france.org/index.php?m_id=30147)**
 
 
 
