@@ -13,7 +13,7 @@ N’hésitez pas à noter vos observations de grues sur Faune-France !
 
 <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-97-cartegrue.webp"/>
 <span class="InformativePagePictureLegend">Carte du moment sur la migration de la Grue cendrée © Faune-France</span>
-**[Visualiser la carte de la grue cendrée 2025 sur Faune-France]( https://www.faune-france.org/index.php?m_id=30147)**
+**[Visualiser la carte de la grue cendrée 2025 sur Faune-France](https://www.faune-france.org/index.php?m_id=30147)**
 
 
 
