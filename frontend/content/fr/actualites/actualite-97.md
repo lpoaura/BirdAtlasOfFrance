@@ -11,7 +11,7 @@ active: true
 **Après un séjour au Maghreb, en Espagne ou au Portugal, les Grues cendrées ont entamé leur migration de retour vers les sites de reproduction.** 
 
 
-Chaque année, des centaine de milliers de Grues cendrées traversent la France en diagonale du sud-ouest au nord-est, après avoir hiverné au Maghreb ou dans la Pénidule ibérique. Les Grues hivernant en France se joignent alors à celles de passage pour rejoindre les sites de reproduction situés en Europe du nord-est et en Fennoscandie. 
+Chaque année, des centaines de milliers de Grues cendrées traversent la France en diagonale du sud-ouest au nord-est, après avoir hiverné au Maghreb ou dans la Pénidule ibérique. Les Grues hivernant en France se joignent alors à celles de passage pour rejoindre les sites de reproduction situés en Europe du nord-est et en Fennoscandie. 
 Depuis quelques décennies, un nouveau couloir migratoire s'est constitué. Il concerne les oiseaux qui hivernent en zone méditerranéenne et qui transitent par le sud des Alpes.
 
 Si avez la chance d'assister à ce ballet aérien, n’hésitez pas à noter vos observations sur [Faune-France](https://www.faune-france.org) ! 
