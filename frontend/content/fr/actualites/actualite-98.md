@@ -1,7 +1,7 @@
 ---
 title: 'Rapaces nocturnes : premières vraies estimations des effectifs et des distributions en France'
 picture: actualite-98.webp
-credit:  Grues cendrées en vol © Fabrice Cahez/LPO
+credit:  Hibou moyen-duc © Fabrice Cahez
 centering: center
 author: Oiseaux de France
 date: '2024-02-25'
