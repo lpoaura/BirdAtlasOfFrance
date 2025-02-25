@@ -4,7 +4,7 @@ picture: actualite-98.webp
 credit:  Hibou moyen-duc © Fabrice Cahez
 centering: center
 author: Oiseaux de France
-date: '2024-02-25'
+date: '2024-02-26'
 tags: [enquête rapaces nocturnes, premières tailles de pop, bilan]
 active: true
 ---
