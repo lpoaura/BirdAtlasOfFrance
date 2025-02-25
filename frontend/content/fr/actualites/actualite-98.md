@@ -17,11 +17,7 @@ Malgré la fascination qu’ils suscitent auprès des ornithologues, les rapaces
 <img class="InformativePagePicture" style="width: 50%" src="/news/actualite-98-couvbilan.webp"/>
 <span class="InformativePagePictureLegend"></span>
 
-<p align="center">
-  [Consulter le bilan de l’enquête](https://www.lpo.fr/media/read/38692/file/BILAN%20RAPACES%20NOCTURNES_Web%201.pdf)
-</p>
-
-
+                    **[Consulter le bilan de l’enquête](https://www.lpo.fr/media/read/38692/file/BILAN%20RAPACES%20NOCTURNES_Web%201.pdf)**
 
 
 
