@@ -4,7 +4,7 @@ picture: actualite-97.webp
 credit:  Grues cendrées en vol © Fabrice Cahez/LPO
 centering: center
 author: Oiseaux de France
-date: '2024-02-25'
+date: '2025-02-25'
 tags: ['espèce à signaler', 'migration', 'grue cendrée']
 active: true
 ---
