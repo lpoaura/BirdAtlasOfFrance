@@ -11,7 +11,7 @@ active: true
 
 **Le premier passage STOC approche à grands pas ! Voici les 5 outils essentiels pour préparer efficacement votre saison !**
 
-La saison du STOC démarrera au premier mars avec un premier passage sur votre carré. Une étape de préparation de la phase de terrain est nécessaire pour effectuer le suivi dans de bonnes conditions. On vous donne les outils principaux pour vous aider dans votre préparation !
+La saison du STOC a démarré au premier mars, vous pouvez désormais faire un premier passage sur votre carré. Une étape de préparation de la phase de terrain est cependant nécessaire pour effectuer le suivi dans de bonnes conditions. On vous donne les outils principaux pour vous aider dans votre préparation !
 
 ## AccouSTOC pour réviser les chants 
 AcouSTOC est un site d’entrainement, d’apprentissage et d’évaluation de vos connaissances en reconnaissance acoustique des oiseaux communs chanteurs au printemps. L’outil idéal pour vous remettre dans les ambiances sonores printanières et progresser sur la reconnaissance des chants des oiseaux communs. 
