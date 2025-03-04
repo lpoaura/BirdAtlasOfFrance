@@ -21,4 +21,14 @@ Organisé par la LPO, l’OFB et la SEOF, le Colloque Francophone d’Ornitholog
 
 Ce thème large couvre à la fois les bilans des enquêtes et des dispositifs de suivis mais aussi les méthodes et les outils d’acquisition de données ou encore les projets de conservation, aussi bien en métropole, en Outre-mer que chez nos partenaires francophones.
 
-<nuxt-link to="https://www.lpo.fr/la-lpo-en-actions/connaissance-des-especes-sauvages/colloque-francophone-d-ornithologie-2025" class="PrimaryButton">Plus d'informations< /nuxt-link>
+<div style="text-align: center; margin-bottom: 20px;">
+    <a
+        href="https://www.lpo.fr/la-lpo-en-actions/connaissance-des-especes-sauvages/colloque-francophone-d-ornithologie-2025"
+        target="_blank"
+        class="PrimaryButton"
+        style="display: inline-block; padding: 10px 20px; text-decoration: none; border-radius: 5px;"
+    >
+        Plus d'informations
+    </a>
+</div>
+ 
