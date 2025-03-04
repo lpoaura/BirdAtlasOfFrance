@@ -1,5 +1,5 @@
 ---
-title: 'Colloque francophone d’ornithologie : rendez-vous les 4-5-6 décembre 2025 !'
+title: 'Colloque Francophone d’Ornithologie : rendez-vous les 4-5-6 décembre 2025 !'
 picture: actualite-99.webp
 credit:  Bruant ortolan © Titouan Roguet
 centering: center
