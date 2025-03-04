@@ -52,7 +52,7 @@ Les différentes ressources papier pour les relevés de terrain sont les suivant
 
 ### Sur NaturaList
 
-Vous pouvez aussi saisir votre STOC directement sur votre smartphone grâce au module STOC sur l’appli NaturaList (uniquement accessible sur Androïd pour le moment). 
+Vous pouvez aussi saisir votre STOC directement sur votre smartphone grâce au module STOC sur l’appli NaturaList (uniquement accessible sur Androïd pour le moment). Pensez à **mettre à jour l’application** pour avoir la bonne version !  
 
 **[Visionner le tutoriel](https://youtu.be/cpvuF1pQgz8?si=O5hWYWf0Ocar-Otk)**
 
@@ -60,7 +60,7 @@ Un tutoriel en PDF est également disponible.
 
 **[Télécharger le tutoriel en PDF](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/TutoNaturaListSTOCV5compressed.pdf)**
 
-Pensez à **mettre à jour l’application** pour avoir la bonne version ! 
+
 
 ## Les autres ressources incontournables du STOC 
 -	Le **bilan STOC 2023** est en cours de réalisation et sortira prochainement !
