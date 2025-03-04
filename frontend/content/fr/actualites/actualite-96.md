@@ -60,7 +60,7 @@ Un tutoriel en PDF est également disponible.
 
 **[Télécharger le tutoriel en PDF](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFAltasEnqutes/TutoNaturaListSTOCV5compressed.pdf)**
 
-**Attention cependant, le module n'est pas encore en libre accès et sera intégré à la prochaine version publique de l’application.** Elle devrait être ligne sous peu. Pensez à **mettre à jour l’application** pour avoir la bonne version ! 
+Pensez à **mettre à jour l’application** pour avoir la bonne version ! 
 
 ## Les autres ressources incontournables du STOC 
 -	Le **bilan STOC 2023** est en cours de réalisation et sortira prochainement !
