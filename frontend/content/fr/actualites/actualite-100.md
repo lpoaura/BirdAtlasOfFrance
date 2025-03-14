@@ -1,5 +1,5 @@
 ---
-title: 'Dans la forêt lointaine…on entends le coucou…'
+title: 'Dans la forêt lointaine…'
 picture: actualite-100.webp
 credit:  Coucou gris © Jean-Luc Pinaud
 centering: center
