@@ -8,6 +8,7 @@ date: '2025-03-19'
 tags: [codes atlas, STOC 2025, Apéro-Faune, Faune-France]
 active: true
 ---
+
 **Quelques outils et conseils pour vous aider à utiliser au mieux les codes atlas.**
 
 En pleine période de STOC, rien de tel qu’un petit focus sur les codes atlas. Ces informations sur la nidification des oiseaux sont un outil précieux pour les ornithologues et pour la conservation. En facilitant la collecte et l'analyse des données sur la reproduction des oiseaux, ils jouent un rôle clé dans la compréhension et la protection de ces espèces. Les codes atlas servent à cartographier la répartition des espèces selon leur statut nicheur, à étudier la phénologie de reproduction et sa variation dans le temps de façon à protéger l’espèce en adaptant les modalités de gestion de leurs populations et leurs habitats en fonction des périodes de sensibilité.
