@@ -1,5 +1,5 @@
 ---
-title: ‘STOC & EPOC 2025 : Bien utiliser les codes atlas'
+title: 'STOC & EPOC 2025 : Bien utiliser les codes atlas'
 picture: actualite-101.webp
 credit:  © 
 centering: center
