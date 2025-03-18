@@ -27,7 +27,7 @@ Rendez-vous incontournable* des utilisateurs de la plateforme Faune-France et do
 
 L'enregistrement du webinaire du lundi 3 mars 2025 est disponible en 3 parties : 
 1)	Partie 1 : **[Les codes atlas l’approche facile]( https://youtu.be/sqQtMVILI0I?si=kog-4nA4q8vz-gqZ)**
-2)	Partie 2 : **[Les codes atlas :paramétrer NaturaList et saisir les codes]( https://youtu.be/bZ85fI2gRIk?si=Dcq-gZ9LKIPRWvTB)**
+2)	Partie 2 : **[Les codes atlas : paramétrer NaturaList et saisir les codes]( https://youtu.be/bZ85fI2gRIk?si=Dcq-gZ9LKIPRWvTB)**
 3)	Partie 3 : **[Les codes atlas de A à Z]( https://youtu.be/oP7xmUMpoVU?si=U4D7daBAc56ATExh)**
 
 Vous pouvez aussi répondre au [quizz codes atlas](https://www.facebook.com/profile.php?id=61572484803696) sur Facebook ! 
