@@ -38,6 +38,7 @@ Les dates d’attribution des codes atlas sont propres à chaque espèce. Si vou
 
 
 En savoir plus sur le STOC 2025 : [A vos STOC ! Prêt(e)s ? Partez](https://oiseauxdefrance.org/news/actualite-96)
+
 Faire des EPOC : https://oiseauxdefrance.org/get-involved/epoc
 
 
