@@ -23,7 +23,7 @@ Le **[mémo codes atlas](https://cdnfiles2.biolovision.net/www.faune-france.org/
 
 Rendez-vous incontournable* des utilisateurs de la plateforme Faune-France et donc de tout participant à un suivi de l’avifaune quel qu’il soit, les apéro-faune sont des outils d’approfondissement des connaissances sur l’utilisation de la plateforme Faune-France. 
 
-**Tous les premiers lundis de chaque mois à 18h !**
+**Tous les premiers lundis de chaque mois à 18h !*
 
 L'enregistrement du webinaire du lundi 3 mars 2025 est disponible en 3 parties : 
 1)	Partie 1 : **[Les codes atlas l’approche facile]( https://youtu.be/sqQtMVILI0I?si=kog-4nA4q8vz-gqZ)**
@@ -32,7 +32,7 @@ L'enregistrement du webinaire du lundi 3 mars 2025 est disponible en 3 parties :
 
 Vous pouvez aussi répondre au [quizz codes atlas](https://www.facebook.com/profile.php?id=61572484803696) sur Facebook ! 
 
-## Trop tôt pour les codes atlas, utilisez l’icône ou la case « chant « !
+## Trop tôt pour les codes atlas ? Utilisez l’icône ou la case « chant « !
 
 Les dates d’attribution des codes atlas sont propres à chaque espèce. Si vous détectez la présence d’une espèce par son chant et qu’il est trop tôt pour renseigner un code atlas, vous pouvez à la place cocher la **[case « chant » de Faune-France ou sélectionner l’icône « chant » de NaturaList]( https://www.faune-france.org/index.php?m_id=1164&a=3853#FN3853)**.
 
