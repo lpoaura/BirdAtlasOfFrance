@@ -1,7 +1,7 @@
 ---
 title: 'STOC & EPOC 2025 : Bien utiliser les codes atlas'
 picture: actualite-101.webp
-credit: Tourterelle des bois © Emile Barbelette
+credit: Tourterelles des bois © Emile Barbelette
 centering: center
 author: Oiseaux de France
 date: '2025-03-19'
