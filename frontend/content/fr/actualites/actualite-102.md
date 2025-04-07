@@ -4,7 +4,7 @@ picture: actualite-100.webp
 credit:  Coucou gris © Jean-Luc Pinaud
 centering: center
 author: Oiseaux de France
-date: '2025-03-12'
+date: '2025-04-07'
 tags: [ODF,fonctionnement,bug]
 active: true
 ---
