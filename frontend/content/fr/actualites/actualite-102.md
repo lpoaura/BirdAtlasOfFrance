@@ -1,7 +1,7 @@
 ---
 title: 'ODF : problème technique'
-picture: actualite-100.webp
-credit:  Coucou gris © Jean-Luc Pinaud
+picture: actualite-102.webp
+credit:  Problème technique ODF - IA generated
 centering: center
 author: Oiseaux de France
 date: '2025-04-07'
