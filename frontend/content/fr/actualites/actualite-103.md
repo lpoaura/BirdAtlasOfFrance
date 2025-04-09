@@ -1,7 +1,7 @@
 ---
 title: 'Recensement des sites de nidification et préservation des espèces du milieu bâti'
 picture: actualite-104.webp
-credit:  © 
+credit:  Martinet noir © David Alquier 
 centering: center
 author: Oiseaux de France
 date: '2025-04-15'
