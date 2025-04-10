@@ -25,7 +25,7 @@ Les travaux d’Isolation Thermique par l’Extérieur (ITE) et les ravalements 
 
 Bien que bon nombre de ces espèces (et leurs sites de nidification) soient protégées par le code de l’environnement (articles L 411-1 et suivants), elles ne sont malheureusement que peu prises en compte dans le cadre de ces opérations. 
 Les porteurs de projets ignorent souvent l’incidence de ces travaux sur la faune du bâti. C’est pourquoi la LPO a lancé le projet Rénovation du bâti et biodiversité qui vise la préservation et la restauration des habitats des espèces protégées inféodées à nos constructions.
-Les réflexions menées ont permis de recenser, dans le guide technique [Rénovation du bâti et biodiversité](https://lpo061-my.sharepoint.com/personal/charlotte_jourdain_lpo_fr/Documents/Cha/lpo.fr/guide-reno), les solutions permettant de concilier besoins des espèces et impératifs techniques des bâtiments. 
+Les réflexions menées ont permis de recenser, dans le guide technique [Rénovation du bâti et biodiversité](https://www.lpo.fr/la-lpo-en-actions/mobilisation-citoyenne/nature-en-ville/renovation-du-bati-et-biodiversite/renovation-du-bati-et-biodiversite-le-guide-technique), les solutions permettant de concilier besoins des espèces et impératifs techniques des bâtiments. 
 
 ## Un inventaire pour alerter les porteurs de projets
 
