@@ -4,7 +4,7 @@ picture: actualite-104.webp
 credit: Bruant ortolan © Titouan Roguet
 centering: center
 author: Oiseaux de France
-date: '2025-04-18'
+date: '2025-04-17'
 tags: [CFO2025 , évènement , formulaire, proposer un résumé]
 active: true
 ---
