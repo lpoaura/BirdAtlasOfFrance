@@ -8,7 +8,6 @@ date: '2025-04-24'
 tags: [nuits de la chouette , effraie des clochers , reproduction]
 active: true
 ---
-
 **Suivez la nidification d'effraies des clochers et partez à la découverte des rapaces nocturnes chaque vendredi matin sur BFMTV !**
 
 Dans le cadre des "Nuits de la Chouette", chaque vendredi matin, les bulletins météo de BFMTV de 6h28 et 7h28 seront suivis d'une séquence consacrée aux 9 espèces de chouettes et de hiboux présentes en France métropolitaine. 
