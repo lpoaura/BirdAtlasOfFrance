@@ -1,5 +1,5 @@
 ---
-title: 'Nuits de la Chouette 2025 : la reproduction de l'Effraie des clochers en direct !'
+title: 'Nuits de la Chouette 2025 : suivez la reproduction des effraies !'
 picture: actualite-105.webp
 credit: Jeunes effraies des clochers © Gregory Smellinckx
 centering: center
