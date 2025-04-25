@@ -1,11 +1,11 @@
 ---
-title: 'Plongez dans l'intimité de l'Effraies de clochers'
+title: 'Plongez dans l'intimité de l'Effraie des clochers'
 picture: actualite-105.webp
 credit: Jeunes effraies des clochers © Gregory Smellinckx
 centering: center
 author: Oiseaux de France
 date: '2025-04-24'
-tags: [nuits de la chouette , effraie des clochers , reproduction]
+tags: [nuits de la chouette,effraie des clochers,reproduction]
 active: true
 ---
 
