@@ -1,5 +1,5 @@
 ---
-title: 'Plongez dans l'intimité de l'Effraie des clochers !'
+title: 'CFO 2025 : valorisez vos travaux ornithologiques !'
 picture: actualite-105.webp
 credit: Jeunes effraies des clochers © Gregory Smellinckx
 centering: center
