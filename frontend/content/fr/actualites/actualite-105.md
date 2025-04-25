@@ -1,7 +1,7 @@
 ---
-title: 'Les Nuits de la Chouette : suivez la  !'
+title: 'Plongez dans l'intimité de l'Effraies de clochers...'
 picture: actualite-105.webp
-credit: © LPO
+credit: Jeunes effraies des clochers © Gregory Smellinckx
 centering: center
 author: Oiseaux de France
 date: '2025-04-24'
