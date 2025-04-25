@@ -1,5 +1,5 @@
 ---
-title: 'Plongez dans l'intimité de l'Effraies de clochers...'
+title: 'Plongez dans l'intimité de l'Effraies de clochers'
 picture: actualite-105.webp
 credit: Jeunes effraies des clochers © Gregory Smellinckx
 centering: center
