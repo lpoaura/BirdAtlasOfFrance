@@ -1,5 +1,5 @@
 ---
-title: 'Plongez dans l'intimité de l'Effraie des clochers !'
+title: 'L’EPOC, à l’honneur des Apéro-Faune pour la deuxième fois !'
 picture: actualite-105.webp
 credit: Jeunes effraies des clochers © Gregory Smellinckx
 centering: center
