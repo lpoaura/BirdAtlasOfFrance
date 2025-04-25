@@ -1,23 +1,13 @@
 ---
-title: 'CFO 2025 : valorisez vos travaux ornithologiques !'
-picture: actualite-104.webp
-credit: Bruant ortolan © Titouan Roguet
-centering: center
-author: Oiseaux de France
-date: '2025-04-17'
-tags: [CFO2025 , évènement , formulaire, proposer un résumé]
-active: true
----
-
-
-title: 'Plongez dans l'intimité de l'Effraie des clochers'
+title: 'Plongez dans l'intimité de l'Effraie des clochers '
 picture: actualite-105.webp
 credit: Jeunes effraies des clochers © Gregory Smellinckx
 centering: center
 author: Oiseaux de France
 date: '2025-04-24'
 tags: [nuits de la chouette,effraie des clochers,reproduction]
-
+active: true
+---
 
 **Suivez la nidification d'effraies des clochers et partez à la découverte des rapaces nocturnes chaque vendredi matin sur BFMTV !**
 
