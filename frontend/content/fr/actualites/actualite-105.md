@@ -1,5 +1,5 @@
 ---
-title: 'CFO 2025 : valorisez vos travaux ornithologiques !'
+title: 'Nuits de la Chouette 2025 : la reproduction de l'Effraie des clochers en direct !'
 picture: actualite-105.webp
 credit: Jeunes effraies des clochers © Gregory Smellinckx
 centering: center
