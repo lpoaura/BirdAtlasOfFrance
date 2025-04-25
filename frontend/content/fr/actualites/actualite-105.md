@@ -1,4 +1,18 @@
 ---
+title: 'L’EPOC, à l’honneur des Apéro-Faune pour la deuxième fois !'
+picture: actualite-106.webp
+credit: Illustration Apéro-Faune © Cécile Rousse
+centering: center
+author: Oiseaux de France
+date: '2025-04-25'
+tags: [EPOC , Apéro-Faune , Faune-France]
+active: true
+---
+
+
+
+
+---
 title: 'Plongez dans l'intimité de l'Effraie des clochers'
 picture: actualite-105.webp
 credit: Jeunes effraies des clochers © Gregory Smellinckx
@@ -8,7 +22,6 @@ date: '2025-04-24'
 tags: [nuits de la chouette,effraie des clochers,reproduction]
 active: true
 ---
-
 **Suivez la nidification d'effraies des clochers et partez à la découverte des rapaces nocturnes chaque vendredi matin sur BFMTV !**
 
 Dans le cadre des "Nuits de la Chouette", chaque vendredi matin, les bulletins météo de BFMTV de 6h28 et 7h28 seront suivis d'une séquence consacrée aux 9 espèces de chouettes et de hiboux présentes en France métropolitaine. 
