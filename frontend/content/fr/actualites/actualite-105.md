@@ -1,25 +1,11 @@
 ---
-title: 'L’EPOC, à l’honneur des Apéro-Faune pour la deuxième fois !'
-picture: actualite-106.webp
-credit: Illustration Apéro-Faune © Cécile Rousse
-centering: center
-author: Oiseaux de France
-date: '2025-04-25'
-tags: [EPOC , Apéro-Faune , Faune-France]
-active: true
----
-
-
-
-
----
-title: 'Plongez dans l'intimité de l'Effraie des clochers'
+title: 'Plongez dans l'intimité de l'Effraie des clochers !'
 picture: actualite-105.webp
 credit: Jeunes effraies des clochers © Gregory Smellinckx
 centering: center
 author: Oiseaux de France
 date: '2025-04-24'
-tags: [nuits de la chouette,effraie des clochers,reproduction]
+tags: [nuits de la chouette , effraie des clochers , reproduction]
 active: true
 ---
 **Suivez la nidification d'effraies des clochers et partez à la découverte des rapaces nocturnes chaque vendredi matin sur BFMTV !**
