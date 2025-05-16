@@ -4,8 +4,8 @@ picture: actualite-107.webp
 credit: image_credit
 centering: center
 author: Oiseaux de France
-date: '2025-05-16'
-tags: [ApéroFaune;CHN;espèces rares]
+date: '2025-05-21'
+tags: [ApéroFaune,CHN,espèces rares]
 active: true
 ---
 
