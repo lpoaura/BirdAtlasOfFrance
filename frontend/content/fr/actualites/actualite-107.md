@@ -23,5 +23,6 @@ Pierre-André Crochet, président du CHN et directeur de recherche au Centre d�
         class="PrimaryButton"
         style="display: inline-block; padding: 10px 20px; text-decoration: none; border-radius: 5px;"
     >
-
-
+        Participer
+    </a>
+</div>
