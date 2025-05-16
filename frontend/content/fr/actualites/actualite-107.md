@@ -5,7 +5,7 @@ credit: image_credit
 centering: center
 author: Oiseaux de France
 date: '2025-05-16'
-tags: []
+tags: [ApéroFaune;CHN;espèces rares]
 active: true
 ---
 
