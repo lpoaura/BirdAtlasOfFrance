@@ -1,7 +1,7 @@
 ---
-title: "24 & 25 mai: comptage national des oiseaux des jardins "
+title: "Les 24 & 25 mai 2025 : comptage national des oiseaux des jardins !"
 picture: actualite-108.webp
-credit: image_credit
+credit: Huppe fasciée © Fabrice Cahez
 centering: center
 author: Oiseaux de France
 date: '2025-05-21'
