@@ -5,7 +5,7 @@ credit:
 centering: center
 author: Oiseaux de France
 date: '2025-05-27'
-tags: [Wetlands,changement climatique,CTI,,conservation]
+tags: [Wetlands,changement climatique,CTI,conservation]
 active: true
 ---
 
