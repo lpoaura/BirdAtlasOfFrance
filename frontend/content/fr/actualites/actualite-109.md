@@ -9,7 +9,7 @@ tags: [Wetlands,changement climatique,CTI,conservation]
 active: true
 ---
 
-**Une étude combinant les données du Wetlands avec des données issues de programmes de conservation européens révèle l'importance de mettre l'accent sur la préservation des habitats pour soutenir l'adapation des espèces au changement climatique.**
+**Une étude combinant les données du Wetlands avec des données issues de programmes de conservation européens (LIFE) révèle l'importance de mettre l'accent sur la préservation des habitats pour soutenir l'adapation des espèces au changement climatique.**
  
 Le réchauffement climatique est une menace majeure pour la biodiversité. De nombreuses espèces réagissent en modifiant leur aire de répartition, mais ces changements sont souvent décalés par rapport aux variations de température. Les aires protégées, refuges pour les espèces, ne soutiennent pas leur adaptation de manière égale, cette capacité dépendant des mesures de gestion mises en place.
  
