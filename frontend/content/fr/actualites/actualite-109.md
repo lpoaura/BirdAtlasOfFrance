@@ -1,7 +1,7 @@
 ---
 title: "De l’utilité des données Wetlands pour la conservation des oiseaux d’eau"
 picture: actualite-109.webp
-credit: 
+credit: Canard souchet © Fabrice Cahez
 centering: center
 author: Oiseaux de France
 date: '2025-05-27'
