@@ -1,7 +1,7 @@
 ---
 title: "Une halte au jardin et c'est reparti !"
 picture: actualite-111.webp
-credit: Gobemouche gris © Jean Bisetti
+credit: Gobemouche gris © Fabrice Croset
 centering: center
 author: Oiseaux de France
 date: '2025-07-25'
