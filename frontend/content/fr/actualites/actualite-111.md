@@ -17,25 +17,33 @@ La plupart des migrateurs transsahariens (migrateurs au long cours) comme les hi
 Avant le grand départ, les oiseaux se dispersent à la recherche d’une nourriture abondante qui leur permettra de faire des réserves de graisses, de vitamines, de sucre et autres nutriments. C’est ce qui les pousse à visiter nos jardins, pourvoyeurs de nourriture (baies, fruits, insectes) et  zones de refuge, pour peu qu’ils contiennent des arbres ou arbustes ou un potager et qu’ils ne soient [pas trop entretenus](https://www.lpo.fr/qui-sommes-nous/toutes-nos-actualites/articles/actus-2025/nature-au-jardin-le-mieux-a-faire-c-est-de-ne-rien-faire).
 
 ## 8 espèces que vous pouvez trouver dans vos jardins en cette période 
-Ouvrez l’œil en cette saison, car il se pourrait bien qu’une ou plusieurs espèces migratrices se pose au sommet de votre haie, sur les branches de votre chêne ou passe simplement en vol au-dessus de votre jardin. Et parmi les plus sonores notez le **Guêpier d’Europe** que vous pourrez observer volant par dizaines. Ces groupes sont facilement repérables grâce aux nombreux [cris de vol caractéristiques](https://xeno-canto.org/938008). Les guêpiers nichent en colonies dans des zones sableuses (sablières, dunes, …) dans lesquelles ils creusent leurs nids. Les premiers migrateurs se rassemblent autour de la mi-juillet et préparent leur départ vers l’Afrique tropicale. Cette espèce, strictement méditerranéenne à la base, remonte chaque année un peu plus vers le nord et l’ouest de la France, sous l’effet du changement climatique. [Visualiser la carte du moment sur Faune France](https://www.faune-france.org/index.php?m_id=30221). 
+
+Ouvrez l’œil en cette saison, car il se pourrait bien qu’une ou plusieurs espèces migratrices se pose au sommet de votre haie, sur les branches de votre chêne ou passe simplement en vol au-dessus de votre jardin !
+
+Et parmi les plus sonores notez le **Guêpier d’Europe** que vous pourrez observer volant par dizaines. Ces groupes sont facilement repérables grâce aux nombreux [cris de vol caractéristiques](https://xeno-canto.org/938008). Les guêpiers nichent en colonies dans des zones sableuses (sablières, dunes, …) dans lesquelles ils creusent leurs nids. Les premiers migrateurs se rassemblent autour de la mi-juillet et préparent leur départ vers l’Afrique tropicale. Cette espèce, strictement méditerranéenne à la base, remonte chaque année un peu plus vers le nord et l’ouest de la France, sous l’effet du changement climatique. [Visualiser la carte du moment sur Faune France](https://www.faune-france.org/index.php?m_id=30221). 
 
 Plusieurs autres espèces fréquentent les jardins à cette période. Certaines, comme les fauvettes, sont plutôt discrètes et solitaires alors que les gobemouches se perchent bien en évidence :
 
 **Le Rougequeue à front blanc**
+
 En période de migration d’automne, le Rougequeue à front blanc effectue des haltes régulières dans la plupart des milieux ouverts ou semi-ouverts. Les jardins offrent un habitat favorable à cette espèce qui se perchent volontiers sur les piquets de clôture ou des branches basses. A cette période, les mâles ont un plumage moins coloré qu’au printemps. Loquace, son [cri de contact](https://xeno-canto.org/793103) permet de le repérer facilement.  
 
 **Les fauvettes grisette et des jardins**
+
 Malgré son nom, la Fauvette des jardins ne se reproduit pas dans les jardins mais préfère les habitats denses et buissonnants, les haies, les landes et les boisements humides. En revanche, en période de migration postnuptiale, il est fréquent d’observer des individus en halte migratoire dans les jardins, notamment si des ronciers sont présents. 
 De même, la Fauvette grisette devient un hôte régulier des jardins buissonnants au mois d’août et de septembre. 
 Pour observer ces deux espèces, il faut être patient et scruter avec attention les buissons de ronces riches en baies et en insectes. Au bout de quelques minutes, le mouvement de branches trahira la présence d’un petit sylvidés, qui pourra bien s’avérer être l’une de nos deux fauvettes.
 
 **Le Pouillot fitis**
-Le Pouillot fitis est un petit passereau particulièrement abondant dans le nord de l’Europe (il niche aussi dans le quart nord-est de la France). A partir de début août, des dizaines de millions d’individus s’élancent en direction du sud-ouest de l’Europe. Destination finale : l’Afrique de l’Ouest et les savanes arborées riches en insectes. Sur ce long trajet, ce migrateur va effectuer plusieurs haltes migratoires. Il devient alors très commun, souvent au cœur même des jardins. Son cri, un “u it” dissyllabique aide à le repérer dans les frondaisons des arbres. 
+
+Le Pouillot fitis est un petit passereau particulièrement abondant dans le nord de l’Europe (il niche aussi dans le quart nord-est de la France). A partir de début août, des dizaines de millions d’individus s’élancent en direction du sud-ouest de l’Europe. Destination finale : l’Afrique de l’Ouest et les savanes arborées riches en insectes. Sur ce long trajet, ce migrateur va effectuer plusieurs haltes migratoires. Il devient alors très commun, souvent au cœur même des jardins. Son [cri](https://xeno-canto.org/743077), un “u it” dissyllabique aide à le repérer dans les frondaisons des arbres. 
 
 **La Rousserolle effarvatte**
+
 A l’instar des fauvettes, la Rousserolle effarvatte fréquente des milieux diversifiés en halte migratoire, bien plus qu’en période de reproduction où elle se concentre sur les roselières. Particulièrement discrète, elle est difficile à observer, toujours dans l’ombre d’un buisson. Chez cette espèce, les stratégies de migration diffèrent selon l’âge des oiseaux. Les juvéniles, peu expérimentés, vont suivre le littoral de la Manche puis de l’Atlantique, effectuant des haltes régulières dans les grandes zones humides côtières riches en roselière. En revanche, les adultes, qui ont déjà réalisé plusieurs migrations ont une trajectoire plus directe et se rencontrent plus facilement à l’intérieur des terres, notamment dans les habitats éloignés de l’eau.
 
 **Les Gobemouche noir et Gobemouche gris**
+
 Ces deux passereaux migrateurs sont familiers des jardins en période de migration. Souvent bien visibles, ils chassent les insectes à l’affût mais peuvent aussi consommer de petites baies dans les buissons.  D’août à septembre, on assite à de véritables invasions de gobemouches dans les jardins, ce que les ornithologues appellent des “tombées”. En effet, ces deux espèces migrent de nuit, souvent par vague, et se posent au petit matin dans des zones favorables. De ce fait, certains jours, plusieurs dizaines d’oiseaux peuvent s’observer dans les jardins pour une halte de quelques heures avant de repartir le soir même en migration. Ouvrez bien les oreilles : le [cri du Gobemouche noir](https://xeno-canto.org/826448) rythme les matinées d’août au jardin. 
 
 ## Les 3 conseils pour attirer, observer et recenser les espèces migratrices au jardin
