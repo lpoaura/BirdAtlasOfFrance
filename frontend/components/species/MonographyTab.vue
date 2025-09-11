@@ -18,7 +18,7 @@
           </span>
         </div>
       </div>
-      <species-monography-pictures-carousel v-if="medias?.Photos" :pictures="medias.Photos" />
+      <!-- <species-monography-pictures-carousel v-if="medias?.Photos" :pictures="medias.Photos" /> -->
     </div>
 
     <div v-if="filteredTraits || filteredFurtherInfo" id="traits" class="Column">
