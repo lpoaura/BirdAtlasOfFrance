@@ -25,6 +25,7 @@ from .models import (
     TTaxaMigrationDecadeData,
     TTaxaMigrationQuantileData,
     TTaxa,
+    TaxaInfosCdnom,
 )
 
 # from .models import MvTaxaAltitudeDistribution
@@ -553,6 +554,41 @@ class MigrationChartDataActions:
         return {"quantile": quantile, "distribution": distribution}
 
 
+
+class TaxaInfosByCdnom:
+    def get_taxon_by_cd_nom(
+            self,
+            db: Session, 
+            cd_nom: int
+    ) -> Dict[str, Any]:
+        """Récupère les détails d'un taxon par son cd_nom"""
+        
+        # Correction de la requête
+        result = (
+            db.query(TaxaInfosCdnom)  # Correction: db.query au lieu de db.querry
+            .filter(TaxaInfosCdnom.cd_nom == cd_nom)  # Correction: filter au lieu de query
+            .first()  # Récupère un seul résultat
+        )
+        
+        if not result:
+            return {}
+        
+        # Formatez la réponse selon le format attendu par le frontend
+        return {
+            "cdNom": result.cd_nom,  # cd_group correspond à cd_nom
+            "frenchVernacularName": result.frenchvernacularname or "",
+            "latinName": result.latinname or "",
+            "nomComplet": result.nom_complet or "",
+            "rang": result.nom_rang or "",
+            "habitat": result.nom_habitat or "",
+            "statut": result.nom_statut or "",
+            "attributes": {},
+            "medias": {},
+            "redLists": None,
+            "protectionStatus": None,
+        }
+
+
 taxa_list_territory = TaxaTerritoryDistributionActions()
 taxa_distrib = TaxaDistributionActions()
 historic_atlas_distrib = HistoricAtlasesActions()
@@ -562,3 +598,4 @@ breeding_phenology_distrib = TaxaBreedingPhenologyActions()
 survey_map_data = SurveyMapDataActions()
 survey_chart_data = SurveyChartDataActions()
 migration_chart_distrib = MigrationChartDataActions()
+taxa_infos_cdnom = TaxaInfosByCdnom()
