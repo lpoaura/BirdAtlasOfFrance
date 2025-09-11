@@ -185,3 +185,14 @@ class TTaxaMigrationQuantileData(Base):
     q75 = Column(Integer)
     q95 = Column(Integer)
     q97_5 = Column(Integer)
+
+class TaxaInfosCdnom(Base):
+    __tablename__ = "mv_taxa_infos_cd_nom"
+    __table_args__ = {"schema": "atlas"}
+    cd_nom = Column(Integer, primary_key=True)
+    nom_complet = Column(String)
+    latinname = Column(String)
+    frenchvernacularname = Column(String)
+    nom_rang = Column(String)
+    nom_habitat = Column(String)
+    nom_statut = Column(String)
