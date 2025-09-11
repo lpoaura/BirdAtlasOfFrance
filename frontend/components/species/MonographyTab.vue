@@ -112,14 +112,14 @@
       <h4 class="black02 fw-bold bottom-margin-16">Liens</h4>
       <div class="LinksWrapper">
         <div class="LinksGrid">
-          <li class="LinkOption">
+          <!-- <li class="LinkOption">
             <img src="/eye-green.svg" class="LinkOptionIcon" />
             <span class="fw-500">
               <a :href="`https://inpn.mnhn.fr/espece/cd_nom/${species.id}`" target="_blank">
                 Visualiser la fiche INPN de l'espèce
               </a>
             </span>
-          </li>
+          </li> -->
           <li class="LinkOption">
             <img src="/pencil-green.svg" class="LinkOptionIcon" />
             <span class="fw-500">
@@ -283,7 +283,7 @@ export default {
     //   deep: true
     // },
     cdNom() {
-      this.getStatus()
+    // this.getStatus()
     },
     species() {
       this.initSubjectList()
@@ -326,12 +326,13 @@ export default {
   },
   methods: {
     async getStatus() {
-      await this.$axios
-        // .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}/status/lines`)
-        .$get(`/api/taxa/${this.cdNom}/status/lines`)
-        .then((data) => {
-          this.status = data._embedded.status
-        })
+      // await this.$axios
+      //   // .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}/status/lines`)
+      //   .$get(`/api/taxa/${this.cdNom}/status/lines`)
+      //   .then((data) => {
+      //     this.status = data._embedded.status
+      // })
+      this.status = [] # Enlève les statuts le temps de la panne MNHN
     },
     initStore() { },
     initSubjectList() {
