@@ -18,6 +18,7 @@ from .actions import (
     survey_map_data,
     taxa_distrib,
     taxa_list_territory,
+    taxa_infos_cdnom
 )
 from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection,
     CommonBlockStructure,
@@ -34,6 +35,7 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     TaxaPhenologyApiData,
     TaxaTerritoryDistribution,
     MigrationChartData,
+    TaxaDetailsResponse,
 )
 
 logger = logging.getLogger(__name__)
@@ -380,3 +382,21 @@ def get_migration_chart_data(
         id_area_atlas_territory=id_area,
     )
     return query
+
+# Endpoint API qui remplace le chargement des données taxons initialement prises sur le site 
+# taxref.mnhn.fr par les données dans la base de données locale
+@router.get(
+    "/{cd_nom}",
+    response_model=TaxaDetailsResponse,
+    tags=["taxa"],
+    summary="Get taxon details by cd_nom",
+    description="""Returns detailed information for a specific taxon by its cd_nom. 
+    This endpoint replaces the external TaxRef API call.""",
+)
+@cache()
+def get_taxon_details(
+    cd_nom: int,
+    db: Session = Depends(get_db),
+) -> Any:
+    """Get taxon details by cd_nom"""
+    return taxa_infos_cdnom.get_taxon_by_cd_nom(db, cd_nom)
