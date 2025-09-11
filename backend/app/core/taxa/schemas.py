@@ -146,3 +146,16 @@ class MigrationQuantileDataItem(BaseModel):
 class MigrationChartData(BaseModel):
     quantile: List[MigrationQuantileDataItem]
     distribution: List[MigrationDecadeDataItem]
+
+class TaxaDetailsResponse(BaseModel):
+    cdNom: Optional[int] = None
+    frenchVernacularName: Optional[str] = None
+    latinName: Optional[str] = None
+    nomComplet: Optional[str] = None
+    rang: Optional[str] = None
+    habitat: Optional[str] = None
+    statut: Optional[str] = None
+    attributes: Dict[str, Any] = {}
+    medias: Dict[str, Any] = {}
+    redLists: Optional[Any] = None
+    protectionStatus: Optional[Any] = None
