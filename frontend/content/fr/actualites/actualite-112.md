@@ -18,4 +18,4 @@ Vous trouverez ci-dessous le message d'Alice d'Orgeval, journaliste indépendant
 
 *Je vous propose dans ce cas un entretien (au téléphone ou en visio) de 30 minutes, afin de recueillir votre témoignage. Je m'engage toujours à faire relire les citations des personnes interviewées dans mes articles avant leur parution."* 
 
-Si vous souhaitez témoigner, vous pouvez contacter Alice d’Orgeval par mail : [alice@alicedorgeval.com](alice@alicedorgeval.com) 
+Si vous souhaitez témoigner, vous pouvez contacter Alice d’Orgeval par mail : [alice@alicedorgeval.com](mailto:alice@alicedorgeval.com) 
