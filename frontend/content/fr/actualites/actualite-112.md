@@ -4,7 +4,7 @@ picture: actualite-112.webp
 credit: Gobemouche gris © Jean Bisetti
 centering: center
 author: Oiseaux de France
-date: '2025-07-25'
+date: '2025-09-25'
 tags: [ornithérapie,ornithologie,LesEchosWeek-End,témoignage]
 active: true
 ---
