@@ -10,7 +10,7 @@ active: true
 ---
 **Les Échos week-end prépare une enquête sur l’ornithérapie, cette pratique qui associe observation des oiseaux et amélioration du bien-être. Vous avez trouvé dans ce rituel une aide précieuse, un réconfort ou même un chemin de guérison ? Votre témoignage nous intéresse !**
 
-Vous trouverez ci-dessous le message d'Alice d'Orgeval, journaliste indépendante spécialiste d'écologie, qui réalise cette enquête : 
+Vous trouverez ci-dessous le message d'Alice d'Orgeval, journaliste indépendante spécialiste en écologie, qui réalise cette enquête : 
 
 *"Je m'appelle Alice d'Orgeval. Je suis journaliste et réalise actuellement, pour Les Échos week-end, une enquête sur l'ornithérapie (améliorer son bien-être par l'observation des oiseaux). Une thérapie qui intéresse beaucoup, depuis la parution de deux livres, dont celui du britannique Joe Harkness en 2019, ainsi que la publication de plusieurs études scientifiques démontrant le phénomène (via la baisse de cortisol).* 
 
