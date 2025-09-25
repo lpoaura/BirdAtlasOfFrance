@@ -1,7 +1,7 @@
 ---
 title: "Appel à témoignages : l'observation des oiseaux, une pratique Bien-Être ?"
 picture: actualite-112.webp
-credit: Gobemouche gris © Jean Bisetti
+credit: Observateurs © Philippe Jourde
 centering: center
 author: Oiseaux de France
 date: '2025-09-25'
