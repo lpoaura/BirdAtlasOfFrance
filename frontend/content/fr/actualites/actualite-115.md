@@ -12,12 +12,9 @@ active: true
 
 La synthèse nationale du comptage Wetlands International – mi-janvier 2025 est désormais disponible en ligne, accompagnée de ses annexes, fiches-espèce & limicoles côtiers. 
 
-Ce bilan présente les principaux résultats du comptage 2025 : soit 2,5 millions d’oiseaux d’eau recensés sur près de 500 sites, grâce à la mobilisation de plus de 2 500 observateurs et coordinateurs/coordinatrices locaux.
+A tous les participants, vos données de comptage 2025 ont pu être transmises avec succès à Wetlands International ! Un immense merci à vous toutes et tous d'avoir contribué à cette nouvelle édition - observateurs, coordinateurs locaux, structures associatives et partenaires institutionnels.
 
-Vos données de comptage 2025 ont pu être transmises avec succès à Wetlands International !
-
-Un immense merci à toutes celles et ceux qui ont contribué à cette nouvelle édition - observateurs, coordinateurs locaux, structures associatives et partenaires institutionnels.
-
+Retrouvez le bilan 2025 avec les principaux résultats du comptage : soit 2,5 millions d’oiseaux d’eau recensés sur près de 500 sites, grâce à la mobilisation de plus de 2 500 observateurs et coordinateurs/coordinatrices locaux !
 
 <img class="InformativePagePicture" style="width: 100%" src="/news/actualite-115-couverturebilan2025.PNG" />
 <span class="InformativePagePictureLegend">Couverture de la synthèse Wetlands 2025</span>
