@@ -1,21 +1,18 @@
 ---
 title: "Wetlands : le bilan 2025 est paru !"
-picture: actualite-113.webp
+picture: actualite-115.webp
 credit: Canard souchet © Fabrice Cahez
 centering: center
 author: Oiseaux de France
 date: '2025-11-18'
-tags: [CFO,conférence,ornithologie]
+tags: [Wetlands,synthèse 2025,oiseaux d'eau,tendances]
 active: true
 ---
-**Découvrez le programme riche et détaillé de ce rendez-vous important pour la communauté ornithologique !**
+**Découvrez la nouvelle synthèse !**
 
-Toutes les places ont été vendues en l'espace dans le mois qui a suivi l'ouverture des inscriptions... Preuve que cet évènement était fortement attendu par la communauté ornithologique ! 
-
-Les 4/5/6 décembre 2025, LPO, l’OFB et la SEOF vous proposent trois jours d’échanges, de conférences et d’ateliers autour de la recherche, de la conservation et du partage des connaissances sur l'avifaune.
 
 <img class="InformativePagePicture" style="width: 100%" src="/news/actualite-114-programme_cfo.png" />
-<span class="InformativePagePictureLegend"></span>
+<span class="InformativePagePictureLegend">Couverture de la synthèse Wetlands 2025</span>
 
 🔗 [Télécharger le programme]([https://www.lpo.fr/la-lpo-en-actions/connaissance-des-especes-sauvages/colloque-francophone-d-ornithologie-2025/inscriptions)
 
