@@ -15,6 +15,6 @@ Toutes les places ont été vendues en l'espace dans le mois qui a suivi l'ouver
 Les 4/5/6 décembre 2025, LPO, l’OFB et la SEOF vous proposent trois jours d’échanges, de conférences et d’ateliers autour de la recherche, de la conservation et du partage des connaissances sur l'avifaune.
 
 <img class="InformativePagePicture" style="width: 100%" src="/news/actualite-114-programme_cfo.png" />
-<span class="InformativePagePictureLegend">Programme du CFO</span>
+<span class="InformativePagePictureLegend"></span>
 
 🔗 [Télécharger le programme]([https://www.lpo.fr/la-lpo-en-actions/connaissance-des-especes-sauvages/colloque-francophone-d-ornithologie-2025/inscriptions)
