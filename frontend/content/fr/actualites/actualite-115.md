@@ -19,7 +19,7 @@ Vos données de comptage 2025 ont pu être transmises avec succès à Wetlands I
 Un immense merci à toutes celles et ceux qui ont contribué à cette nouvelle édition - observateurs, coordinateurs locaux, structures associatives et partenaires institutionnels.
 
 
-<img class="InformativePagePicture" style="width: 100%" src="/news/actualite-115-couverturebilan2025.png" />
+<img class="InformativePagePicture" style="width: 100%" src="/news/actualite-115-couverturebilan2025.PNG" />
 <span class="InformativePagePictureLegend">Couverture de la synthèse Wetlands 2025</span>
 
 🔗 [Télécharger le bilan et les annexes](https://www.lpo.fr/la-lpo-en-actions/connaissance-des-especes-sauvages/suivis-ornithologiques/oiseaux-d-eau/wetlands-international/telechargez-les-bilans-wetlands)
