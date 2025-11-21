@@ -1,6 +1,6 @@
 ---
 title: "Wetlands : le bilan 2025 est paru !"
-picture: actualite-115.jpg
+picture: actualite-115.webp
 credit: Canard souchet © Fabrice Cahez
 centering: center
 author: Oiseaux de France
