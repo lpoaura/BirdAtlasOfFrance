@@ -7,4 +7,6 @@ vetur.config.js
 
 # Frontend
 frontend/node_modules/
-frontend/static/
+
+# Ignore tout le contenu de frontend/static/species
+/frontend/static/species/
