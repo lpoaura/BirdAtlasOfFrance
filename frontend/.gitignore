@@ -91,6 +91,3 @@ sw.*
 
 # Android build
 android/
-
-# Ignore tout le contenu de frontend/static/species
-/frontend/static/species/
