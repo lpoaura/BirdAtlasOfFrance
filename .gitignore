@@ -5,3 +5,6 @@ vetur.config.js
 .env
 
 
+# Frontend
+frontend/node_modules/
+frontend/static/

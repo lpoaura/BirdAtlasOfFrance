@@ -91,3 +91,7 @@ sw.*
 
 # Android build
 android/
+
+# Frontend
+frontend/node_modules/
+frontend/static/
