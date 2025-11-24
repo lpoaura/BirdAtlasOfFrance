@@ -40,7 +40,7 @@ class Settings(BaseSettings):
     CACHE_REDIS_HOST: str = "localhost"
     CACHE_REDIS_PORT: str = "6379"
     CACHE_DURATION: int = 1440
-    model_config = SettingsConfigDict(case_sensitive=True, extra="ignore", env_file="../.env")
+    model_config = SettingsConfigDict(case_sensitive=True, extra="ignore", env_file="/mnt/c/Documents and Settings/marine.teneur/Documents/dev/odf/backend/.env")
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
     def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:

@@ -1,3 +1,5 @@
+# models.py
+
 #!/usr/bin/python
 """Search sqlalchemy models module"""
 
@@ -11,7 +13,7 @@ from app.utils.db import Base
 
 logger = logging.getLogger(__name__)
 
-
+ 
 class MvTaxaTerritoryDistribution(Base):
     __tablename__ = "mv_taxa_territory_distribution"
     __table_args__ = {"schema": "atlas"}
@@ -85,7 +87,7 @@ class MvTaxaBreedingPhenology(Base):
 
 
 class THistoricAtlasesInfo(Base):
-    __tablename__ = "t_historic_atlases_info"
+    __tablename__ = "t_historic_atlases_info_new"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
     id_territory = Column(ForeignKey(LAreas.id_area), nullable=True)
@@ -99,7 +101,7 @@ class THistoricAtlasesInfo(Base):
 
 
 class MVHistoricAtlasesData(Base):
-    __tablename__ = "mv_historic_atlases_data"
+    __tablename__ = "mv_historic_atlases_data_new"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
     id_historic_atlas_info = Column(ForeignKey(THistoricAtlasesInfo.id), nullable=False)
@@ -134,7 +136,7 @@ class MvSurveyChartData(Base):
 
 
 class MvSurveyChartDescs(Base):
-    __tablename__ = "mv_survey_chart_descs"
+    __tablename__ = "mv_survey_chart_descs_new"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
     id_area_atlas_territory = Column(ForeignKey(LAreas.id_area), nullable=False)
@@ -142,6 +144,21 @@ class MvSurveyChartDescs(Base):
     phenology_period = Column(String)
     chart_type = Column(String)
     data = Column(JSON)
+    source = Column(JSON)
+
+
+class MvSurveyTabData (Base):
+    __tablename__ = "mv_survey_tab_data"
+    __table_args__ = {"schema": "atlas"}
+    id_tab = Column(Integer, primary_key=True)
+    id_area_atlas_territory = Column(ForeignKey(LAreas.id_area), nullable=False)
+    cd_nom = Column(Integer)
+    phenology_period = Column(String)
+    years = Column(String)
+    data = Column(String)
+    unit = Column(String)
+    source = Column(String)
+    localisation = Column(String)
 
 
 class TTaxa(Base):
@@ -156,6 +173,18 @@ class TTaxa(Base):
     wintering_area_type = Column(Integer)
     all_period_area_type = Column(Integer)
     breeding_area_type = Column(Integer)
+
+
+class TaxaInfosCdnom(Base):
+    __tablename__ = "mv_taxa_infos_cd_nom"
+    __table_args__ = {"schema": "atlas"}
+    cd_nom = Column(Integer, primary_key=True)
+    nom_complet = Column(String)
+    latinname = Column(String)
+    frenchvernacularname = Column(String)
+    nom_rang = Column(String)
+    nom_habitat = Column(String)
+    nom_statut = Column(String)
 
 
 class TTaxaMigrationDecadeData(Base):

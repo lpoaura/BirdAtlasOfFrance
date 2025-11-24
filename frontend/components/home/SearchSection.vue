@@ -8,6 +8,10 @@
         '--large-focus': `${homePicture.largeFocus}%`,
         '--mobile-focus': `${homePicture.mobileFocus}%`,
       }">
+      <!-- ✅ Logo en haut à gauche -->
+      <a href="https://www.lpo.fr/" target="_blank">
+        <img class="TopSectionLogo" src="LPO_logo_court.jpg" alt="LPO France" />
+      </a>
       <div class="PictureGradient"></div>
       <div class="TopSectionContent">
         <header>
@@ -177,6 +181,12 @@ export default {
 
 /********** RESPONSIVE **********/
 
+@media screen and (width <= 1370px) {
+  .TopSectionLogo {
+    display: none;
+  }
+}
+
 @media screen and (width <=920px) {
   .TopSectionPicture
 
@@ -259,6 +269,16 @@ export default {
   .MenuCardsContent {
     display: none;
   }
+}
+
+.TopSectionLogo {
+  position: absolute;
+  top: 190px;
+  left: 50px;
+  width: 150px;
+  height: auto;
+  z-index: 10;
+  object-fit: contain;
 }
 
 @media screen and (width <=464px) {

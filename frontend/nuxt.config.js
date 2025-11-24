@@ -148,9 +148,18 @@ export default {
   //   },
   // },
   proxy: {
-    '/api/taxa': process.env.TAXREF_URL || 'https://taxref.mnhn.fr',
-    '/api': process.env.API_URL || 'http://localhost:8888',
-    '/taxhub': process.env.GEONATURE_URL || 'https://geonature.alx.host',
+    // '/api/taxa': {
+    //   target: process.env.TAXREF_URL || 'https://taxref.mnhn.fr',
+    //   changeOrigin: true,
+    // // },
+    '/api': {
+      target: process.env.API_URL || 'http://localhost:8888',
+      changeOrigin: true,
+    },
+    '/taxhub': {
+      target: process.env.GEONATURE_URL || 'https://oiseauxdefrance.org',
+      changeOrigin: true,
+    }
   },
   // PWA module configuration
   pwa: {

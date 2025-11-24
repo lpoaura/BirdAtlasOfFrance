@@ -5,10 +5,7 @@
       class="MapTitle"
     >
       <h4 class="black02 fw-bold">
-        {{ selectedSubject.name
-        }}<span v-if="selectedSubject.slug != 'extra-map'">
-          - {{ selectedSeason?.label }}</span
-        >
+        {{ selectedSubject.name }}<span v-if="selectedSubject.slug != 'extra-map'"> - {{ selectedSeason?.label }}</span>
       </h4>
       <h5
         v-if="
@@ -181,5 +178,15 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.MapSelectorWrapper.seasons {
+  position: relative; /* nécessaire pour que z-index s'applique */
+  z-index: 10; /* priorité haute */
+}
+
+.ChartCard {
+  position: relative;
+  z-index: 1; /* en dessous du sélecteur */
 }
 </style>

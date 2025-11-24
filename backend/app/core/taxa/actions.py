@@ -1,5 +1,7 @@
+# actions.py
+
 import logging
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from geoalchemy2 import functions as geofunc
 from sqlalchemy import VARCHAR, String, and_, case, cast, distinct, func
@@ -16,11 +18,13 @@ from .models import (
     MvSurveyChartData,
     MvSurveyChartDescs,
     MvSurveyMapData,
+    MvSurveyTabData,
     MvTaxaAllPeriodPhenology,
     MvTaxaBreedingPhenology,
     MvTaxaTerritoryDistribution,
     MVHistoricAtlasesData,
     THistoricAtlasesInfo,
+    TaxaInfosCdnom,
     TTaxaMigrationDecadeData,
     TTaxaMigrationQuantileData,
     TTaxa,
@@ -256,6 +260,239 @@ class TaxaAltitudeDistributionActions:
         return q.all()
 
 
+class TaxaInfosByCdnom:
+    def get_taxon_by_cd_nom(
+            self,
+            db: Session, 
+            cd_nom: int
+    ) -> Dict[str, Any]:
+        """Récupère les détails d'un taxon par son cd_nom"""
+        
+        # Correction de la requête
+        result = (
+            db.query(TaxaInfosCdnom)  # Correction: db.query au lieu de db.querry
+            .filter(TaxaInfosCdnom.cd_nom == cd_nom)  # Correction: filter au lieu de query
+            .first()  # Récupère un seul résultat
+        )
+        
+        if not result:
+            return {}
+        
+        # Formatez la réponse selon le format attendu par le frontend
+        return {
+            "cdNom": result.cd_nom,  # cd_group correspond à cd_nom
+            "frenchVernacularName": result.frenchvernacularname or "",
+            "latinName": result.latinname or "",
+            "nomComplet": result.nom_complet or "",
+            "rang": result.nom_rang or "",
+            "habitat": result.nom_habitat or "",
+            "statut": result.nom_statut or "",
+            "attributes": {},
+            "medias": {},
+            "redLists": None,
+            "protectionStatus": None,
+        }
+
+
+class HistoricAtlasesActions:
+    """Get Historu"""
+
+    def historic_atlas_data(
+        self,
+        db: Session,
+        atlas_period: str,
+        id_historic_atlas: Optional[int],
+        cd_nom: int,
+        period: str = "all_period",
+        id_territory: Optional[int] = None,
+        envelope: Optional[List] = None,
+    ):
+        # Si on n’a pas un id explicite, on le récupère via les filtres
+        if not id_historic_atlas:
+            subquery = (
+                db.query(THistoricAtlasesInfo.id)
+                .filter(THistoricAtlasesInfo.atlas_period == atlas_period)
+                .filter(THistoricAtlasesInfo.season_period == period)
+            )
+            if id_territory:
+                subquery = subquery.filter(THistoricAtlasesInfo.id_territory == id_territory)
+            id_historic_atlas = subquery.scalar_subquery()  # ⚠️ important : retourne un seul résultat
+
+        q = (
+            db.query(
+                MVHistoricAtlasesData.id_area,
+                MVHistoricAtlasesData.status,
+                func.json_build_object("status", MVHistoricAtlasesData.status).label("properties"),
+                LAreas.geojson_4326.label("geometry"),
+            )
+            .join(LAreas, LAreas.id_area == MVHistoricAtlasesData.id_area)
+            .filter(MVHistoricAtlasesData.cd_nom == cd_nom)
+            .filter(MVHistoricAtlasesData.id_historic_atlas_info == id_historic_atlas)
+        )
+
+        if envelope:
+            q = q.filter(
+                geofunc.ST_Intersects(
+                    LAreas.geom,
+                    geofunc.ST_Transform(
+                        geofunc.ST_MakeEnvelope(envelope[0], envelope[1], envelope[2], envelope[3], 4326),
+                        4326,
+                    ),
+                )
+            )
+
+        return q.all()
+    
+    def list_historic_atlas(self, db: Session, cd_nom: int, id_area: int) -> Optional[List]:
+        """_summary_
+
+        :param db: Database session
+        :type db: Session
+        :param cd_nom: Taxa cd_nom, defaults to None
+        :type cd_nom: int, optional
+        :return: Historic atlases list
+        :rtype: List
+        """
+        seasons_agg = cast(
+            func.array_agg(distinct(THistoricAtlasesInfo.season_period), type_=VARCHAR),
+            ARRAY(String),
+        ).label("seasons")
+        query = (
+            db.query(
+                THistoricAtlasesInfo.atlas_period.label("label"),
+                THistoricAtlasesInfo.description.label("name"),
+                THistoricAtlasesInfo.code.label("slug"),
+                seasons_agg,
+            )
+            .filter(THistoricAtlasesInfo.is_active)
+            .filter(THistoricAtlasesInfo.id_territory == id_area)
+            .group_by(
+                THistoricAtlasesInfo.atlas_period,
+                THistoricAtlasesInfo.description,
+                THistoricAtlasesInfo.code,
+            )
+            .order_by(THistoricAtlasesInfo.atlas_period.desc())
+            .distinct()
+        )
+        if cd_nom:
+            query = query.join(
+                MVHistoricAtlasesData,
+                THistoricAtlasesInfo.id == MVHistoricAtlasesData.id_historic_atlas_info,
+            ).filter(MVHistoricAtlasesData.cd_nom == cd_nom)
+            
+        return query.all()
+
+    def compare_historic_atlases(
+        self,
+        db: Session,
+        cd_nom: int,
+        period: str,
+        id_territory: int,
+        atlas_period_1: str = "2009-2012",
+        atlas_period_2: str = "2019-2023",
+    ):
+        """
+        Compare deux atlas historiques et retourne les grilles avec leur statut.
+        """
+        from sqlalchemy import case, literal_column
+        
+        # Récupérer les id_historic_atlas pour les deux périodes
+        id_atlas_1 = (
+            db.query(THistoricAtlasesInfo.id)
+            .filter(THistoricAtlasesInfo.atlas_period == atlas_period_1)
+            .filter(THistoricAtlasesInfo.season_period == period)
+            .filter(THistoricAtlasesInfo.id_territory == id_territory)
+            .scalar()
+        )
+        
+        id_atlas_2 = (
+            db.query(THistoricAtlasesInfo.id)
+            .filter(THistoricAtlasesInfo.atlas_period == atlas_period_2)
+            .filter(THistoricAtlasesInfo.season_period == period)
+            .filter(THistoricAtlasesInfo.id_territory == id_territory)
+            .scalar()
+        )
+        
+        if not id_atlas_1 or not id_atlas_2:
+            return []
+        
+        # Alias pour les deux atlas
+        atlas_1 = aliased(MVHistoricAtlasesData)
+        atlas_2 = aliased(MVHistoricAtlasesData)
+        
+        # Requête avec FULL OUTER JOIN pour obtenir toutes les grilles
+        q = (
+            db.query(
+                func.coalesce(atlas_1.id_area, atlas_2.id_area).label("id_area"),
+                case(
+                    (
+                        and_(
+                            atlas_1.id_area.isnot(None),
+                            atlas_2.id_area.isnot(None)
+                        ),
+                        literal_column("'BOTH'")
+                    ),
+                    (
+                        and_(
+                            atlas_1.id_area.is_(None),
+                            atlas_2.id_area.isnot(None)
+                        ),
+                        literal_column("'NEW'")
+                    ),
+                    (
+                        and_(
+                            atlas_1.id_area.isnot(None),
+                            atlas_2.id_area.is_(None)
+                        ),
+                        literal_column("'OLD'")
+                    ),
+                    else_=literal_column("'UNKNOWN'")
+                ).label("status"),
+                LAreas.geojson_4326.label("geometry"),
+            )
+            .select_from(atlas_1)
+            .outerjoin(
+                atlas_2,
+                and_(
+                    atlas_1.id_area == atlas_2.id_area,
+                    atlas_2.cd_nom == cd_nom,
+                    atlas_2.id_historic_atlas_info == id_atlas_2
+                )
+            )
+            .outerjoin(
+                LAreas,
+                LAreas.id_area == func.coalesce(atlas_1.id_area, atlas_2.id_area)
+            )
+            .filter(atlas_1.cd_nom == cd_nom)
+            .filter(atlas_1.id_historic_atlas_info == id_atlas_1)
+        )
+        
+        # Ajouter aussi les grilles présentes uniquement dans atlas_2
+        q2 = (
+            db.query(
+                atlas_2.id_area.label("id_area"),
+                literal_column("'NEW'").label("status"),
+                LAreas.geojson_4326.label("geometry"),
+            )
+            .select_from(atlas_2)
+            .outerjoin(LAreas, LAreas.id_area == atlas_2.id_area)
+            .filter(atlas_2.cd_nom == cd_nom)
+            .filter(atlas_2.id_historic_atlas_info == id_atlas_2)
+            .filter(
+                ~atlas_2.id_area.in_(
+                    db.query(atlas_1.id_area)
+                    .filter(atlas_1.cd_nom == cd_nom)
+                    .filter(atlas_1.id_historic_atlas_info == id_atlas_1)
+                )
+            )
+        )
+        
+        # Union des deux requêtes
+        final_query = q.union(q2)
+        
+        return final_query.all()
+
+
 class TaxaGlobalPhenologyActions:
     """[summary]
 
@@ -320,97 +557,6 @@ class TaxaBreedingPhenologyActions:
             .order_by(MvTaxaBreedingPhenology.decade)
         )
         return q.all()
-
-
-class HistoricAtlasesActions:
-    """Get Historu"""
-
-    def historic_atlas_data(
-        self,
-        db: Session,
-        atlas_period: str,
-        id_historic_atlas: str,
-        cd_nom: int,
-        period: str = "all_period",
-        envelope: Optional[List] = None,
-    ) -> List:
-        if not id_historic_atlas and atlas_period:
-            id_historic_atlas = (
-                id_historic_atlas
-                if id_historic_atlas
-                else db.query(THistoricAtlasesInfo.id)
-                .filter(THistoricAtlasesInfo.atlas_period == atlas_period)
-                .filter(THistoricAtlasesInfo.season_period == period)
-            )
-
-        q = (
-            db.query(
-                MVHistoricAtlasesData.id_area.label("id"),
-                MVHistoricAtlasesData.status,
-                func.json_build_object("status", MVHistoricAtlasesData.status).label("properties"),
-                LAreas.geojson_4326.label("geometry"),
-            )
-            .join(LAreas, LAreas.id_area == MVHistoricAtlasesData.id_area)
-            .filter(MVHistoricAtlasesData.cd_nom == cd_nom)
-            .filter(MVHistoricAtlasesData.id_historic_atlas_info == id_historic_atlas)
-        )
-
-        if envelope:
-            q = q.filter(
-                geofunc.ST_Intersects(
-                    LAreas.geom,
-                    geofunc.ST_Transform(
-                        geofunc.ST_MakeEnvelope(
-                            envelope[0], envelope[1], envelope[2], envelope[3], 4326
-                        ),
-                        4326,
-                    ),
-                )
-            )
-
-        logger.debug(f"<taxa_distribution> q {q}")
-        return q.all()
-
-    def list_historic_atlas(self, db: Session, cd_nom: int, id_area: int) -> Optional[List]:
-        """_summary_
-
-        :param db: Database session
-        :type db: Session
-        :param cd_nom: Taxa cd_nom, defaults to None
-        :type cd_nom: int, optional
-        :return: Historic atlases list
-        :rtype: List
-        """
-        seasons_agg = cast(
-            func.array_agg(distinct(THistoricAtlasesInfo.season_period), type_=VARCHAR),
-            ARRAY(String),
-        ).label("seasons")
-        query = (
-            db.query(
-                THistoricAtlasesInfo.atlas_period.label("label"),
-                THistoricAtlasesInfo.description.label("name"),
-                THistoricAtlasesInfo.code.label("slug"),
-                seasons_agg,
-            )
-            .filter(THistoricAtlasesInfo.is_active)
-            .group_by(
-                THistoricAtlasesInfo.atlas_period,
-                THistoricAtlasesInfo.description,
-                THistoricAtlasesInfo.code,
-            )
-            .order_by(THistoricAtlasesInfo.atlas_period.desc())
-            .distinct()
-        )
-        if query:
-            if cd_nom and id_area:
-                query = query.join(
-                    MVHistoricAtlasesData,
-                    THistoricAtlasesInfo.id == MVHistoricAtlasesData.id_historic_atlas_info,
-                ).filter(
-                    MVHistoricAtlasesData.cd_nom == cd_nom,
-                    THistoricAtlasesInfo.id_territory == id_area,
-                )
-            return query.all()
 
 
 class SurveyMapDataActions:
@@ -515,6 +661,61 @@ class SurveyChartDataActions:
         result = query.first()
         return result.data if result else None
 
+    def get_source(
+        self,
+        db: Session,
+        cd_nom: int,
+        id_area_atlas_territory: str,
+        phenology_period: str,
+        chart_type: str,
+    ) -> List:
+        print("SOURCE CHART")
+        query = db.query(MvSurveyChartDescs.source).filter(
+            MvSurveyChartDescs.cd_nom == cd_nom,
+            MvSurveyChartDescs.id_area_atlas_territory == id_area_atlas_territory,
+            MvSurveyChartDescs.phenology_period == phenology_period,
+            MvSurveyChartDescs.chart_type == chart_type,
+        )
+        print(f"QUERY {query}")
+        result = query.first()
+        return result.source if result else None
+
+
+class SurveyTabDataActions:
+    def get_tab_data(
+        self,
+        db: Session,
+        cd_nom: int,
+        id_area_atlas_territory: str,
+        phenology_period: str,
+    ) -> List[dict]:
+        """Récupère les données tabulaires d'effectifs pour une espèce donnée"""
+        query = (
+            db.query(
+                MvSurveyTabData.data.label("valeur"),
+                MvSurveyTabData.years.label("annees"),
+                MvSurveyTabData.unit,
+                MvSurveyTabData.source,
+                MvSurveyTabData.localisation,
+            )
+            .filter(
+                MvSurveyTabData.cd_nom == cd_nom,
+                MvSurveyTabData.id_area_atlas_territory == id_area_atlas_territory,
+                MvSurveyTabData.phenology_period == phenology_period,
+                )
+            .order_by(MvSurveyTabData.unit.asc(), MvSurveyTabData.years.asc())
+        )
+        results = query.all()
+        return [{
+            "valeur": row.valeur,
+            "annees": row.annees,
+            "unite": row.unit,
+            "source": row.source,
+            "localisation": row.localisation,
+            }
+            for row in results
+            ]
+
 
 class MigrationChartDataActions:
     """Post actions with basic CRUD operations"""
@@ -557,9 +758,11 @@ class MigrationChartDataActions:
 taxa_list_territory = TaxaTerritoryDistributionActions()
 taxa_distrib = TaxaDistributionActions()
 historic_atlas_distrib = HistoricAtlasesActions()
+taxa_infos_cdnom = TaxaInfosByCdnom()
 altitude_distrib = TaxaAltitudeDistributionActions()
 all_period_phenology_distrib = TaxaGlobalPhenologyActions()
 breeding_phenology_distrib = TaxaBreedingPhenologyActions()
 survey_map_data = SurveyMapDataActions()
 survey_chart_data = SurveyChartDataActions()
+survey_tab_data = SurveyTabDataActions()
 migration_chart_distrib = MigrationChartDataActions()

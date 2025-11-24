@@ -100,7 +100,7 @@
           </h3>
           <h5 class="black03">
             des espèces de référence ont été signalées<br class="br" />
-            sur la période Atlas 2019-2024
+            sur la période Atlas 2019-{{ new Date().getFullYear() }}
           </h5>
         </div>
         <h4 v-else class="black02 fw-bold top-margin-24 bottom-margin-24">
@@ -162,7 +162,7 @@
             signalée{{
               featureProperties[selectedSeason.value].new_count > 1 ? 's' : ''
             }}
-            sur la période <b>Atlas 2019-2024</b>
+            sur la période <b>Atlas 2019-{{ new Date().getFullYear() }}</b>
           </h5>
         </div>
         <div v-if="featureDataKey" class="MapControlSplit"></div>
@@ -360,7 +360,7 @@
           >
             {{ prospectingHours }} h
           </h3>
-          <h5 class="black03">enregistrées sur la période Atlas 2019-2024</h5>
+          <h5 class="black03">enregistrées sur la période Atlas 2019-{{ new Date().getFullYear() }}</h5>
         </div>
         <div class="MapControlSplit"></div>
         <h4 class="black02 fw-bold bottom-margin-16">
@@ -465,7 +465,7 @@
             src="/nav-bar/burger-black.svg"
           />
           {{ clickedSpecies.all_period.new_count }} donnée(s) sur la période
-          Atlas 2019-2024
+          Atlas 2019-{{ new Date().getFullYear() }}
         </li>
         <li class="MapControlDataOption">
           <img class="MapControlDataOptionIcon" src="/prospecting.svg" />
@@ -482,7 +482,7 @@
         </li>
         <li class="MapControlDataOption">
           <img class="MapControlDataOptionIcon" src="/calendar.svg" />
-          Calendrier d'observation sur la période Atlas 2019-2024 :
+          Calendrier d'observation sur la période Atlas 2019-{{ new Date().getFullYear() }} :
         </li>
         <div class="PhenologyWrapper">
           <div

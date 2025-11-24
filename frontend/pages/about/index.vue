@@ -65,11 +65,11 @@ export default {
         route: '/about/what-is-ODF-project',
       },
       {
-        icon: '/mail.svg',
-        title: 'Nous contacter',
+        icon: '/ecrou.svg',
+        title: 'Matériel et méthodes',
         subtitle:
-          'Une question ? Contactez la coordination nationale ou votre référent local.',
-        route: '/about/contact',
+          'Données et méthodes utilisées pour le projet Oiseaux de France.',
+        route: '/about/materiel_methodes',
       },
       // {
       //   icon: '/protocol.svg',
@@ -82,7 +82,7 @@ export default {
         icon: '/information.svg',
         title: 'Lexique',
         subtitle:
-          'Retrouvez ici toutes les définitions des mots utilisés sur le projet ODF.',
+          'Retrouvez ici toutes les définitions des mots utilisés sur le projet Oiseaux de France.',
         route: '/about/glossary',
       },
     ],
