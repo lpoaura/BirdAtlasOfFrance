@@ -177,6 +177,14 @@ export default ({ app }, inject) => {
       route: '/en/about/glossary',
     },
     {
+      title: 'Matériel et méthodes',
+      route: '/about/materiel_methodes',
+    },
+    {
+      title: 'Materials and methods',
+      route: '/en/about/materiel_methodes',
+    },
+    {
       title: 'Mentions légales',
       route: '/about/legal-notices',
     },

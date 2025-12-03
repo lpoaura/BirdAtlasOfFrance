@@ -1,8 +1,10 @@
+# routers.py
+
 import json
 import logging
 from typing import Any, List, Optional, Union
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, Query
 from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 
@@ -10,11 +12,13 @@ from app.utils.db import get_db
 
 from .actions import (
     all_period_phenology_distrib,
+    taxa_infos_cdnom,
     altitude_distrib,
     breeding_phenology_distrib,
     historic_atlas_distrib,
     migration_chart_distrib,
     survey_chart_data,
+    survey_tab_data,
     survey_map_data,
     taxa_distrib,
     taxa_list_territory,
@@ -22,8 +26,11 @@ from .actions import (
 from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection,
     CommonBlockStructure,
     HistoricAtlasInfosSchema,
+    TaxaDetailsResponse,
     SurveyChartDataItem,
     SurveyChartData,
+    SurveyTabDataItem,
+    SurveyTabData,
     SurveyMapDataFeature,
     SurveyMapDataFeaturesCollection,
     TaxaAltitudinalApiData,
@@ -110,61 +117,188 @@ def list_lareas(
     return TaxaDistributionFeaturesCollection(features=features)
 
 
-@router.get(
-    "/map/historic/atlas",
-    response_model=TaxaDistributionFeaturesCollection,
-    tags=["taxa"],
-    summary="taxon geographic distribution (Historic atlases)",
-    description="""# Taxon geographic distribution
+############### Code de base pour les atlas historiques ###############
 
-    get historic atlases data
+# @router.get(
+#     "/map/historic/atlas",
+#     response_model=TaxaDistributionFeaturesCollection,
+#     tags=["taxa"],
+#     summary="taxon geographic distribution (Historic atlases)",
+#     description="""# Taxon geographic distribution
 
-""",
-)
-@cache()
-def historic_atlases(
-    cd_nom: int,
-    atlas_period: str,
-    period: str = "all_period",
-    db: Session = Depends(get_db),
-    envelope: Optional[str] = None,
-    id_historic_atlas: Optional[int] = None,
-) -> Any:
-    if envelope:
-        envelope = [float(c) for c in envelope.split(",")]
-    query = historic_atlas_distrib.historic_atlas_data(
-        db=db,
-        cd_nom=cd_nom,
-        atlas_period=atlas_period,
-        period=period,
-        id_historic_atlas=id_historic_atlas,
-        envelope=envelope,
-    )
-    features = [
-        TaxaDistributionFeature(
-            properties=row.properties,
-            geometry=json.loads(row.geometry),
-            id=row.id,
-        )
-        for row in query
-    ]
-    return TaxaDistributionFeaturesCollection(features=features)
+#     get historic atlases data
 
+# """,
+# )
+# @cache()
+# def historic_atlases(
+#     cd_nom: int,
+#     atlas_period: str,
+#     period: str = "all_period",
+#     db: Session = Depends(get_db),
+#     envelope: Optional[str] = None,
+#     id_historic_atlas: Optional[int] = None,
+# ) -> Any:
+#     if envelope:
+#         envelope = [float(c) for c in envelope.split(",")]
+#     query = historic_atlas_distrib.historic_atlas_data(
+#         db=db,
+#         cd_nom=cd_nom,
+#         atlas_period=atlas_period,
+#         period=period,
+#         id_historic_atlas=id_historic_atlas,
+#         envelope=envelope,
+#     )
+#     features = [
+#         TaxaDistributionFeature(
+#             properties=row.properties,
+#             geometry=json.loads(row.geometry),
+#             id=row.id,
+#         )
+#         for row in query
+#     ]
+#     return TaxaDistributionFeaturesCollection(features=features)
+
+
+# @router.get(
+#     "/list/historic/atlas",
+#     response_model=List[HistoricAtlasInfosSchema],
+#     tags=["taxa"],
+#     summary="List historic atlases",
+#     description="""# List historic atlases
+
+#     get historic atlases list
+# """,
+# )
+# # @cache()
+# def list_historic_atlases(cd_nom: int, id_area: int, db: Session = Depends(get_db)) -> Any:
+#     query = historic_atlas_distrib.list_historic_atlas(db=db, cd_nom=cd_nom, id_area=id_area)
+#     return query
 
 @router.get(
     "/list/historic/atlas",
-    response_model=List[HistoricAtlasInfosSchema],
-    tags=["taxa"],
-    summary="List historic atlases",
-    description="""# List historic atlases
-
-    get historic atlases list
-""",
+    tags=["historic_atlas"],
+    summary="Liste des atlas historiques disponibles pour une espèce et un territoire",
 )
-# @cache()
-def list_historic_atlases(cd_nom: int, id_area: int, db: Session = Depends(get_db)) -> Any:
-    query = historic_atlas_distrib.list_historic_atlas(db=db, cd_nom=cd_nom, id_area=id_area)
-    return query
+def list_historic_atlas(
+    cd_nom: int,
+    id_area: int,
+    db: Session = Depends(get_db),
+):
+    return historic_atlas_distrib.list_historic_atlas(db, cd_nom, id_area)
+
+
+@router.get(
+    "/map/historic/atlas",
+    tags=["historic_atlas"],
+    summary="Carte d’un atlas historique",
+)
+@cache()
+def map_historic_atlas(
+    cd_nom: int,
+    atlas_period: str,
+    period: str,
+    id_area: int,
+    id_historic_atlas: Optional[int] = None,
+    db: Session = Depends(get_db),
+):
+    
+    import json
+
+    rows = historic_atlas_distrib.historic_atlas_data(
+        db=db,
+        atlas_period=atlas_period,
+        id_historic_atlas=id_historic_atlas,
+        cd_nom=cd_nom,
+        period=period,
+        id_territory=id_area,
+    )
+
+    features = []
+    for row in rows:
+        # Parse la géométrie (GeoJSON stocké en texte dans la base)
+        try:
+            geom = json.loads(row.geometry)
+        except Exception:
+            continue  # ignore les géométries invalides
+
+        feature = {
+            "type": "Feature",
+            "id": row.id_area,
+            "properties": {"status": row.status},
+            "geometry": geom,
+        }
+        features.append(feature)
+
+    return {"type": "FeatureCollection", "features": features}
+
+
+@router.get(
+    "/map/compare/historic/atlas",
+    tags=["historic_atlas"],
+    summary="Comparaison entre deux atlas historiques",
+)
+@cache()
+def compare_historic_atlases(
+    cd_nom: int,
+    period: str,
+    id_area: int,
+    atlas_period_1: str = "2009-2012",
+    atlas_period_2: str = "2019-2023",
+    db: Session = Depends(get_db),
+):
+    """
+    Compare les grilles de présence entre deux atlas historiques.
+    Retourne:
+    - Rose (BOTH): grilles présentes dans les deux atlas
+    - Orange (NEW): grilles présentes uniquement dans l'atlas récent (2019-2023)
+    - Bleu (OLD): grilles présentes uniquement dans l'atlas ancien (2009-2012)
+    """
+    import json
+
+    rows = historic_atlas_distrib.compare_historic_atlases(
+        db=db,
+        cd_nom=cd_nom,
+        period=period,
+        id_territory=id_area,
+        atlas_period_1=atlas_period_1,
+        atlas_period_2=atlas_period_2,
+    )
+
+    features = []
+    for row in rows:
+        try:
+            geom = json.loads(row.geometry)
+        except Exception:
+            continue
+
+        feature = {
+            "type": "Feature",
+            "id": row.id_area,
+            "properties": {"status": row.status},
+            "geometry": geom,
+        }
+        features.append(feature)
+
+    return {"type": "FeatureCollection", "features": features}
+
+# Endpoint API qui remplace le chargement des données taxons initialement prises sur le site 
+# taxref.mnhn.fr par les données dans la base de données locale
+@router.get(
+    "/{cd_nom}",
+    response_model=TaxaDetailsResponse,
+    tags=["taxa"],
+    summary="Get taxon details by cd_nom",
+    description="""Returns detailed information for a specific taxon by its cd_nom. 
+    This endpoint replaces the external TaxRef API call.""",
+)
+@cache()
+def get_taxon_details(
+    cd_nom: int,
+    db: Session = Depends(get_db),
+) -> Any:
+    """Get taxon details by cd_nom"""
+    return taxa_infos_cdnom.get_taxon_by_cd_nom(db, cd_nom)
 
 
 @router.get(
@@ -345,6 +479,14 @@ def get_survey_chart_data(
         phenology_period=phenology_period,
     )
     print(f"descriptions {descriptions}")
+    source = survey_chart_data.get_source(
+        db,
+        cd_nom=cd_nom,
+        id_area_atlas_territory=id_area,
+        chart_type=chart_type,
+        phenology_period=phenology_period,
+    )
+    print(f"source {source}")
     data = survey_chart_data.get_data(
         db,
         cd_nom=cd_nom,
@@ -355,10 +497,42 @@ def get_survey_chart_data(
     print(dir(data))
     return SurveyChartData(
         descriptions=descriptions or [],
+        source=source or [],
         data=(
             [SurveyChartDataItem(year=d.year, unit=d.unit, data=d.data) for d in data]
             if len(data) > 0
             else []
+        ),
+    )
+
+
+@router.get(
+    "/tab/survey",
+    response_model=SurveyTabData,
+    tags=["taxa"],
+    summary="Taxon population sizes table",
+    description="""# Taxon population sizes data
+    Retourne les données tabulaires issues de mv_survey_tab_data pour un taxon donné sur un territoire et période de phénologie.""",
+)
+@cache()
+def get_survey_tab_data(
+    cd_nom: int,
+    id_area: int,
+    phenology_period: str,
+    db: Session = Depends(get_db),
+) -> Any:
+    data = survey_tab_data.get_tab_data(
+        db,
+        cd_nom=cd_nom,
+        id_area_atlas_territory=id_area,
+        phenology_period=phenology_period,
+    )
+    print(dir(data))
+    return SurveyTabData(
+        data=(
+            [SurveyTabDataItem(**item) for item in data]
+            if len(data) > 0
+                else []
         ),
     )
 

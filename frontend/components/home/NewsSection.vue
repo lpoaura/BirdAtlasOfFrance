@@ -253,7 +253,6 @@ h5.Subtitle {
 
 .CardTitle {
   max-height: 48px;
-  /*overflow-y: hidden;*/
 }
 
 .CardBlurring {

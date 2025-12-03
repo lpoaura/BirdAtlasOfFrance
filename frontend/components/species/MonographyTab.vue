@@ -46,6 +46,7 @@
         </div>
       </div>
     </div>
+  <!--
     <div v-if="redLists.length || species.protectionStatus" id="status" class="Column">
       <div class="StatusGrid">
         <div v-if="redLists.length" class="Column">
@@ -58,10 +59,7 @@
               <v-tooltip bottom>
                 <template #activator="{ on, attrs }">
                   <span v-bind="attrs" class="black02 flex-1 right-margin-8" v-on="on">
-                    {{ item.locationName }} (<span class="text--disabled">{{
-      item.statusTypeName
-    }}</span><span v-if="item.statusRemarks">
-                      - {{ item.statusRemarks }}</span>)
+                    {{ item.locationName }} (<span class="text--disabled">{{item.statusTypeName}}</span><span v-if="item.statusRemarks"> - {{ item.statusRemarks }}</span>)
                   </span>
                 </template>
                 <span class="text-white" v-html="item.source"></span>
@@ -70,9 +68,7 @@
               <div v-if="item.statusCode" class="black02 float-right">
                 <v-tooltip bottom>
                   <template #activator="{ on, attrs }">
-                    <div v-bind="attrs" class="RedListSticker" :style="{
-      background: $redLists(item.statusCode).bgColor,
-    }" v-on="on">
+                    <div v-bind="attrs" class="RedListSticker" :style="{background: $redLists(item.statusCode).bgColor,}" v-on="on">
                       <h5 class="fw-600" :style="{ color: $redLists(item.statusCode).fontColor }">
                         {{ item.statusCode }}
                       </h5>
@@ -91,35 +87,29 @@
           <div v-if="regulatories.length" id="Regulatory" class="StatusWrapper">
             <p v-for="(regulatory, index) in regulatories" :key="index" class="black02">
               <span class="fw-bold">
-                {{ regulatory.statusTypeName }} ({{
-      regulatory.locationName
-    }}) </span><br />
-              {{ regulatory.statusName }}
+                {{ regulatory.statusTypeName }} ({{regulatory.locationName}}) </span><br /> {{ regulatory.statusName }}
             </p>
           </div>
           <div v-if="europeenDirectives.length" class="StatusWrapper">
             <p v-for="(directive, index) in europeenDirectives" :key="index" class="black02">
-              <span class="fw-bold">{{ directive.statusTypeName }} ({{
-      directive.locationName
-    }})</span><br />
-              {{ directive.statusName }}
+              <span class="fw-bold">{{ directive.statusTypeName }} ({{directive.locationName}})</span><br />{{ directive.statusName }}
             </p>
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div id="links" class="Column">
       <h4 class="black02 fw-bold bottom-margin-16">Liens</h4>
       <div class="LinksWrapper">
         <div class="LinksGrid">
-          <li class="LinkOption">
+          <!-- <li class="LinkOption">
             <img src="/eye-green.svg" class="LinkOptionIcon" />
             <span class="fw-500">
               <a :href="`https://inpn.mnhn.fr/espece/cd_nom/${species.id}`" target="_blank">
                 Visualiser la fiche INPN de l'espèce
               </a>
             </span>
-          </li>
+          </li> -->
           <li class="LinkOption">
             <img src="/pencil-green.svg" class="LinkOptionIcon" />
             <span class="fw-500">
@@ -283,7 +273,7 @@ export default {
     //   deep: true
     // },
     cdNom() {
-      this.getStatus()
+      // this.getStatus()
     },
     species() {
       this.initSubjectList()
@@ -326,11 +316,12 @@ export default {
   },
   methods: {
     async getStatus() {
-      await this.$axios
-        .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}/status/lines`)
-        .then((data) => {
-          this.status = data._embedded.status
-        })
+      // await this.$axios
+      //   .$get(`https://taxref.mnhn.fr/api/taxa/${this.cdNom}/status/lines`)
+      //   .then((data) => {
+      //     this.status = data._embedded.status
+      //   })
+      this.status = []
     },
     initStore() { },
     initSubjectList() {

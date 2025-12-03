@@ -3,25 +3,28 @@
     <div
       v-if="
         subjectsList.length > 0 && subjectsList.filter((i) => i.status) == 0
-      "
+        "
       class="no-data-info"
     >
       Aucune donnée à restituer pour ce territoire et cette période
     </div>
-    <species-charts-phenology-all-period
+    <species-charts-phenology-all-period 
+      v-if="selectedSeason.value === 'all_period'" 
+    />
+    <species-charts-phenology-migration 
       v-if="selectedSeason.value === 'all_period'"
     />
-    <species-charts-phenology-migration
-      v-if="selectedSeason.value === 'all_period'"
-    />
-    <!-- <species-charts-phenology-breeding
+    <!-- <species-charts-phenology-breeding 
       v-if="selectedSeason.value === 'breeding'"
     /> -->
-    <species-charts-trend
+    <species-charts-trend 
       v-if="['wintering', 'breeding'].includes(selectedSeason.value)"
     />
-    <species-charts-populations-sizes
-      v-if="['wintering', 'breeding'].includes(selectedSeason.value)"
+    <!-- <species-charts-populations-sizes 
+      v-if="['wintering', 'breeding'].includes(selectedSeason.value)" 
+    /> -->
+    <species-charts-populations-sizes-tab 
+      v-if="['breeding'].includes(selectedSeason.value)" 
     />
     <species-charts-altitude />
   </div>

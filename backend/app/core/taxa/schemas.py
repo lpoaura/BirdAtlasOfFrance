@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from pydantic import BaseModel, Field
 
@@ -119,9 +119,27 @@ class SurveyChartDescItem(BaseModel):
     desc: str
 
 
+class SurveyChartSrcItem(BaseModel):
+    source: str
+    page : str
+
+
 class SurveyChartData(BaseModel):
     descriptions: List[SurveyChartDescItem]
     data: List[SurveyChartDataItem]
+    source: List [SurveyChartSrcItem]
+
+
+class SurveyTabDataItem(BaseModel):
+    valeur: str
+    annees: str
+    unite: str
+    source: Optional[str]
+    localisation: Optional[str]
+
+
+class SurveyTabData(BaseModel):
+    data: List[SurveyTabDataItem]
 
 
 # class MigrationChartBaseModel(BaseModel):
@@ -148,3 +166,18 @@ class MigrationQuantileDataItem(BaseModel):
 class MigrationChartData(BaseModel):
     quantile: List[MigrationQuantileDataItem]
     distribution: List[MigrationDecadeDataItem]
+
+
+class TaxaDetailsResponse(BaseModel):
+    cdNom: Optional[int] = None
+    frenchVernacularName: Optional[str] = None
+    latinName: Optional[str] = None
+    nomComplet: Optional[str] = None
+    rang: Optional[str] = None
+    habitat: Optional[str] = None
+    statut: Optional[str] = None
+    attributes: Dict[str, Any] = {}
+    medias: Dict[str, Any] = {}
+    redLists: Optional[Any] = None
+    protectionStatus: Optional[Any] = None
+

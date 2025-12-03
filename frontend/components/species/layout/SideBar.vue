@@ -34,7 +34,9 @@
         </div>
       </template>
     </menu>
+
     <menu v-if="selectedTab.value === 'maps'">
+      <!-- Code de base pour les atlas historiques -->
       <div class="SeeMoreWrapper" @click="atlasIsOpen = !atlasIsOpen">
         <span class="black02 fw-600 bottom-margin-">Atlas</span>
         <img
@@ -66,15 +68,17 @@
     </menu>
   </nav>
 </template>
-
+ 
 <script>
 export default {
+
   data: () => {
     return {
       atlasIsOpen: true,
       scrollDuration: 600,
     }
   },
+
   computed: {
     subjectsList() {
       const list = [...this.$store.state.species.subjectsList]
@@ -82,12 +86,15 @@ export default {
         return a.position - b.position
       })
     },
+
+    // Code de base : détermine quel atlas est marqué comme sélectionné
     selectedSubject() {
       return this.$store.state.species.selectedSubject
     },
     subjectsMapAtlasList() {
       return this.$store.state.species.subjectsMapAtlasList
     },
+
     subjectsMapOthersList() {
       return this.$store.state.species.subjectsMapOthersList
     },
@@ -114,7 +121,9 @@ export default {
     },
   },
   mounted() {},
+
   methods: {
+    // Code de base 
     updateSelectedSubject(item) {
       // if (document.getElementById(item.slug) && this.selectedSubject !== item) {
       if (
@@ -142,7 +151,7 @@ export default {
   },
 }
 </script>
-
+ 
 <style>
 .SeeMoreWrapper {
   margin: 0 0 18px 24px;
@@ -151,7 +160,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-
+ 
 .SeeMoreChevron {
   width: 11px;
 }

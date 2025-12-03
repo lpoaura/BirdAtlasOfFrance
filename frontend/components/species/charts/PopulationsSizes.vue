@@ -45,19 +45,38 @@ export default {
       return !!this.chartData?.filter((i) => i.data.val).length
     },
   },
+
   watch: {
     idArea(newVal) {
-      if (newVal) {
-        this.generateChart()
-      }
+      console.log('🔁 idArea changed:', newVal)
+      this.generateChart()
     },
     phenologyPeriod: {
-      handler() {
+      handler(newVal) {
+        console.log('🔁 phenologyPeriod changed:', newVal)
         this.generateChart()
       },
     },
   },
+
+  // watch: {
+  //   idArea(newVal) {
+  //     if (newVal) {
+  //       this.generateChart()
+  //     }
+  //   },
+  //   phenologyPeriod: {
+  //     handler() {
+  //       this.generateChart()
+  //     },
+  //   },
+  // },
   mounted() {
+    console.log('📌 Component mounted')
+    console.log('Initial idArea:', this.idArea)
+    console.log('Initial cdNom:', this.cdNom)
+    console.log('Initial phenologyPeriod:', this.phenologyPeriod)
+
     this.$nextTick(function () {
       this.generateChart()
     })
@@ -66,9 +85,15 @@ export default {
     generateChart() {
       this.getChartData().then(() => {
         if (this.chartData?.length) {
+          console.log('📈 chartData available, proceeding with render')
           if (this.hasValues || this.hasMinMaxValues) {
+            console.log('✅ has values or min/max, rendering chart')
             this.renderBarChart()
+          } else {
+            console.warn('⚠️ No valid values or min/max found in chartData')
           }
+        } else {
+          console.warn('🚫 chartData is empty, no chart to render')
         }
         this.$store.commit('species/pushSubjectsList', {
           label: 'Taille de population',
@@ -81,19 +106,40 @@ export default {
     async getChartData() {
       if (this.idArea) {
         const url = `api/v1/taxa/chart/survey`
+
+        try {
+          const raw = await this.$axios.$get(url, { params: this.query })
+          
+          // 🔍 Trace la réponse brute de l'API
+          console.log('🛬 Raw API response:', JSON.stringify(raw, null, 2))
+
+          this.chartData = raw
+
+          // 🔍 Vérifie ce que tu viens d’assigner
+          console.log('✅ Received chartData (JSON):', JSON.stringify(this.chartData, null, 2))
+          console.log("🚨 chartData.data length:", this.chartData?.data?.length)
+
+        } catch (error) {
+          console.error('Erreur lors de la récupération du chartData:', error)
+        }
+
         const params = {
           cd_nom: this.cdNom,
           id_area: this.idArea,
           phenology_period: this.phenologyPeriod,
           chart_type: 'pop_size',
         }
-        this.chartData = await this.$axios
-          .$get(url, {
-            params,
-          })
-          .catch((error) => {
-            console.debug(`${error}`)
-          })
+        
+        console.log('📡 Fetching chart data with params:', params)
+        try {
+            this.chartData = await this.$axios.$get(url, { params })
+            console.log('✅ Received chartData:', this.chartData)
+          } catch (error) {
+            console.error('❌ Error fetching chart data:', error)
+          }
+      } 
+      else {
+        console.warn('⚠️ idArea is missing, skipping chart data fetch')
       }
     },
     isRoundYear(year) {
@@ -124,6 +170,7 @@ export default {
           unit: i.unit,
         }
       })
+      console.log('📊 Processed chartData for D3:', data)
       // Get bar plot size
       const margin = { top: 10, right: 0, bottom: 24, left: 66 }
       // const minWidth = data.length * 30 + margin.left + margin.right
@@ -261,7 +308,7 @@ export default {
             return xAxisYears(d.label)
           })
           .attr('y', function (d) {
-            console.log(d.val)
+            console.log('📏 Bar value:',d.val)
             return yAxis(d.val)
           })
           .attr('width', xAxisYears.bandwidth() + 5)

@@ -9,6 +9,9 @@
         <nuxt-link to="/" class="NavBarODFLogoLink">
           <img class="ODFLogo" src="/nav-bar/ODF-logo-black.svg" />
         </nuxt-link>
+        <a href="https://www.lpo.fr/" class="NavBarLPOLogoLink" target="_blank">
+          <img class="LPOLogo" src="LPO_logo_court.jpg" />
+        </a>
       </div>
       <div class="NavBarIconsMenu">
         <img

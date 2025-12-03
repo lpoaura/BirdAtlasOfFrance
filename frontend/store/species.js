@@ -1,3 +1,7 @@
+// Ce store sert à centraliser toutes les données nécessaires pour naviguer entre 
+// les fiches d’espèces, les cartes historiques et les autres visualisations.
+
+// contient toutes les variables réactives du module
 export const state = () => ({
   atlasIsOpen: true,
   idArea: null,
@@ -9,6 +13,7 @@ export const state = () => ({
   },
   subjectsList: [],
   subjectsMapAtlasList: {},
+  subjectsMapAtlasListNEW: {},
   subjectsMapOthersList: {},
   selectedSubject: {},
   selectedTerritory: {},
@@ -97,13 +102,15 @@ export const state = () => ({
     },
   ],
 })
-
+ 
+// fonctions pour accéder à l’état
 export const getters = {
   getAtlasIsOpen(state) {
     return state.atlasIsOpen
   },
 }
-
+ 
+// fonctions qui modifient l’état
 export const mutations = {
   setIdArea(state, idArea) {
     state.idArea = idArea
@@ -156,18 +163,39 @@ export const mutations = {
   setSelectedSeason(state, season) {
     state.selectedSeason = season
   },
+
+  // Code de base 
+  // setSubjectsMapAtlasList(state, maps) {
+  //   state.subjectsMapAtlasList = maps
+  // },
+  // updateSubjectsMapAtlasList(state, maps) {
+  //   state.subjectsMapAtlasList = state.subjectsMapAtlasList.filter(
+  //     (i) => !i.slug.startsWith('aofm')
+  //   )
+  //   maps.forEach((i) => state.subjectsMapAtlasList.push(i))
+  // },
+  // pushSubjectsMapAtlasList(state, map) {
+  //   state.subjectsMapAtlasList.push(map)
+  // },
+
+  // Code d'essai
   setSubjectsMapAtlasList(state, maps) {
     state.subjectsMapAtlasList = maps
   },
   updateSubjectsMapAtlasList(state, maps) {
+    // Retirer uniquement les anciens atlas liés à ce cd_nom/territoire si besoin
     state.subjectsMapAtlasList = state.subjectsMapAtlasList.filter(
-      (i) => !i.slug.startsWith('aofm')
+      (i) => !['aofm', 'odf'].some(prefix => i.slug.startsWith(prefix))
     )
     maps.forEach((i) => state.subjectsMapAtlasList.push(i))
   },
   pushSubjectsMapAtlasList(state, map) {
     state.subjectsMapAtlasList.push(map)
   },
+  // FIN Code d'essai
+
+
+
   setSubjectsMapOthersList(state, maps) {
     state.subjectsMapOthersList = maps
   },
@@ -184,12 +212,12 @@ export const mutations = {
     state.territoryDistribution = distribution
   },
 }
-
+ 
 // export const actions = {
-// 	revertAtlasIsOpen(context, atlas) {
+//  revertAtlasIsOpen(context, atlas) {
 //     console.debug('actions context',context)
 //     console.debug('actions atlas',atlas)
-// 		const atlasState = !atlas
-// 		context.commit(atlasState)
-// 	},
+//    const atlasState = !atlas
+//    context.commit(atlasState)
+//  },
 // }
