@@ -11,7 +11,7 @@ active: true
 
 **La nouvelle Enquête Rapaces diurnes débute pour la période 2026-2027. Intéressé.e ? Venez assister au webinaire de lancement du lundi 16 février 2026 à 16h.**
 
-Auparavant appelée l'Observatoire Rapaces, cette enquête nationale se déroule désormais sur deux années tous les six ans et repose sur des points d'observation fixes. L'objectif final reste l'estimation des tailles de population de rapaces diurnes nicheurs, cette fois-ci à partir d’un protocole standardisé. 
+Auparavant appelée l'Observatoire Rapaces, cette enquête nationale se déroule désormais **sur deux années tous les six ans** et repose sur des **points d'observation fixes**. L'objectif final reste **l'estimation des tailles de population** de rapaces diurnes nicheurs, cette fois-ci à partir d’un protocole **standardisé**. 
 
 Le dispositif s’appuie sur: 
  - des carrés de **2,5 × 2,5 km**
