@@ -23,7 +23,7 @@ Vous participez déjà au STOC ? Valorisez le carré que vous suivez au printemp
 ## Transmettre ses données
 <div class="InformativePageParagraph">
 
-La création du carré par tirage aléatoire et la saisie des données se fait sur Faune France. 
+La création du carré par tirage aléatoire et la saisie des données se fait sur Faune-France. 
 
 </div>
 
