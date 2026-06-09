@@ -11,7 +11,7 @@ hash: ''
 
 <div class="InformativePageParagraph">
 
-Fruit d’une riche collaboration entre la LPO et l’OFB, l’enquête LIMAT a pour objectif d’estimer les effectifs nicheurs des différentes espèces d’Anatidés, Limicoles, Grèbes et Foulques sur le territoire métropolitain, soit près de 45 espèces. Deux types de prospections sont proposés selon l’abondance et la répartition des espèces.
+Fruit d’une riche collaboration entre la LPO et l’OFB, l’enquête LIMAT a pour objectif **d’estimer les effectifs nicheurs** des différentes espèces d’Anatidés, Limicoles, Grèbes et Foulques sur le territoire métropolitain, soit près de 45 espèces. Deux types de prospections sont proposés selon l’abondance et la répartition des espèces.
 
 </div>
 
