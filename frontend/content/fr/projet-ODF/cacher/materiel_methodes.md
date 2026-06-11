@@ -434,7 +434,7 @@ Consulter le [Guide d'utilisation des codes atlas](https://docomm.lpo.fr/LAR/%23
 
 ### 4.2. Saison d’hivernage
 
-La saison d’hivernage a été définie selon un filtre temporel. Quelque-soit les espèces, <b style="font-weight: 600;">les données collectées entre le 1er décembre de l’année N et le 31 janvier de l’année N+1 sont sélectionnées pour construire la carte de répartition en hiver.</b> Suivant les espèces, la période d’hivernage peut varier fortement. Ainsi, chez le Courlis cendré, des oiseaux peuvent arriver sur leur site d’hivernage courant juillet pour n’en repartir qu’en mars. Par opposition, chez la Grue cendrée, des déplacements migratoires sont encore notés en décembre ce qui suggère que certains oiseaux gagnent leur zone d’hivernage très tardivement. Au sein d’une même espèce, cette période d’hivernage peut donc varier fortement et il n’est pas possible la plupart du temps de différencier les populations qui ont des stratégies migratoires différentes à partir des observations collectées sur le terrain. Le compromis a donc été de déterminer une période d’hivernage resserrée de deux mois dans laquelle la grande majorité des oiseaux sont bel et bien en phase d’hivernage.
+La saison d’hivernage a été définie selon un filtre temporel. Quelles que soient les espèces, <b style="font-weight: 600;">les données collectées entre le 1er décembre de l’année N et le 31 janvier de l’année N+1 sont sélectionnées pour construire la carte de répartition en hiver.</b> Suivant les espèces, la période d’hivernage peut varier fortement. Ainsi, chez le Courlis cendré, des oiseaux peuvent arriver sur leur site d’hivernage courant juillet pour n’en repartir qu’en mars. Par opposition, chez la Grue cendrée, des déplacements migratoires sont encore notés en décembre ce qui suggère que certains oiseaux gagnent leur zone d’hivernage très tardivement. Au sein d’une même espèce, cette période d’hivernage peut donc varier fortement et il n’est pas possible la plupart du temps de différencier les populations qui ont des stratégies migratoires différentes à partir des observations collectées sur le terrain. Le compromis a donc été de déterminer une période d’hivernage resserrée de deux mois dans laquelle la grande majorité des oiseaux sont bel et bien en phase d’hivernage.
 
 ### 4.3. Toutes saisons
 
@@ -589,14 +589,14 @@ Pour les atlas historiques, le maillage peut avoir changé au cours du temps. Ou
 
 **6.1.2. Méthode**
 
-Les cartes de répartitions correspondent à l’information de la présence/absence d’une espèce dans une maille. Il s’agit d’une information qualitative et non quantitative, le nombre de données de l’espèce dans la maille n’ayant pas d’influence sur l’information donnée. Pour la période de reproduction, une gradation de la nidification est proposée en fonction du code-atlas le plus élevé qui a été obtenu pour l’espèce dans la maille. Ainsi les mailles peuvent être jaunes, oranges ou rouges pour respectivement un statut nicheur possible, probable ou certain. Lorsque la maille est vide, c’est que l’espèce n’y pas été détectée.  Pour les périodes « toutes saisons » et « hivernage », l’information représentée est la présence (couleur)/absence (vide) dans la maille. 
+Les cartes de répartitions correspondent à l’information de la présence/absence d’une espèce dans une maille. Il s’agit d’une information qualitative et non quantitative, le nombre de données de l’espèce dans la maille n’ayant pas d’influence sur l’information donnée. Pour la période de reproduction, une gradation de la nidification est proposée en fonction du code-atlas le plus élevé qui a été obtenu pour l’espèce dans la maille. Ainsi les mailles peuvent être jaunes, oranges ou rouges respectivement pour un statut nicheur possible, probable ou certain. Lorsque la maille est vide, c’est que l’espèce n’y pas été détectée.  Pour les périodes « toutes saisons » et « hivernage », l’information représentée est la présence (couleur)/absence (vide) dans la maille. 
 
 **6.1.3. Comparaison des répartitions entre les atlas**
 
 Lorsque cela est possible, nous avons réalisé des comparaisons des cartes de répartitions entre deux périodes d’atlas. Pour le territoire métropolitain il s’agit de comparer la carte de l’AOFM avec celle d’ODF. Quatre informations sont possibles pour une maille, elles sont symbolisées par une couleurparticulière :
 - <span style="color: #D599F1; font-weight: 600;">violet</span> pour une présence sur les deux périodes,
 - <span style="color: #5363F8; font-weight: 600;">bleu</span> pour une présence uniquement durant l’AOFM,
-- <span style="color: #E26900; font-weight: 600;">orange</span> pour une présence uniquement durant ODF (orange),
+- <span style="color: #E26900; font-weight: 600;">orange</span> pour une présence uniquement durant ODF,
 - vide pour une absence sur les deux périodes.
 
 **6.1.4. Cartes supplémentaires**
