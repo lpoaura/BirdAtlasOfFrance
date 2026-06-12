@@ -63,6 +63,6 @@ Tendances d’évolution des Oiseaux Communs en fonction des différents cortèg
 
 <div class="InformativePageParagraph">
 
-Il s'agit d'obtenir des effectifs fiables pour un maximum d'espèces. En complément du suivi des Espèces Nicheuses Rares et Menacées (ENRM), des carrés rapaces, de l'enquête LIMAT ou d’autres enquêtes ciblant des cortèges d’espèces (hérons coloniaux, oiseaux marins nicheurs), une méthode basée sur les EPOC-ODF va être déployée pour atteindre cet ambitieux objectif.
+Il s'agit d'obtenir des **effectifs fiables** pour un maximum d'espèces. En complément du suivi des **espèces nicheuses rares et menacées** (ENRM), des **carrés rapaces**, de **l'enquête LIMAT** ou d’autres enquêtes ciblant des cortèges d’espèces (de type hérons coloniaux, oiseaux marins nicheurs), une méthode basée sur les EPOC-ODF a été déployée pour atteindre cet ambitieux objectif.
 
 </div>
