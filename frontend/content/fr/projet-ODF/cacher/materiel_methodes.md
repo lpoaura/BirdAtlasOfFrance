@@ -13,9 +13,9 @@ hash: '#materiel_methodes'
 
 <div class="InformativePageParagraph">
 
-Le projet Oiseaux de France, véritable atlas dynamique des Oiseaux de France, s’appuie sur une grande diversité de jeux de données pour produire l’ensemble des informations valorisées dans les fiches-espèces, que ce soit pour la mise à jour des cartes de répartition, les diagrammes de phénologie, les tendances démographiques ou encore les tailles de population. Basées en grande partie sur des programmes de Sciences participatives, ces données se divisent en deux catégories : les données dites « brutes » et les données dites « de synthèse ».
+Le projet Oiseaux de France, véritable atlas dynamique, s’appuie sur une grande diversité de jeux de données pour produire l’ensemble des informations valorisées dans les **fiches-espèces**, que ce soit pour la mise à jour des **cartes de répartition**, les **diagrammes de phénologie**, les **tendances démographiques** ou encore les **tailles de population**. Basées en grande partie sur des programmes de **Sciences participatives**, ces données se divisent en deux catégories : les données dites « brutes » et les données dites « de synthèse ».
 
-Les données brutes, aussi appelées données primaires, sont des données non interprétées et  n’ayant subi aucune  manipulation.  Dans le monde du naturalisme et de l’ornithologie, il s’agit d’observations de terrain dont les informations  collectées sont à minima une date, un lieu, une espèce et un auteur.
+Les données **brutes**, aussi appelées données primaires, sont des données **non interprétées** et  n’ayant subi aucune manipulation.  Dans le monde du naturalisme et de l’ornithologie, il s’agit d’observations de terrain dont les informations collectées sont à minima une **date**, un **lieu**, une **espèce** et un **auteur**.
 
 On retrouve différents types de données d’occurrences utilisées dans le cadre d’ODF :
 <ul style="list-style-type: '- '; margin-left: 20px;">
