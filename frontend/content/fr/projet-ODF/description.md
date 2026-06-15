@@ -11,8 +11,7 @@ hash: ''
 
 <div class="InformativePageParagraph">
 
-Oiseaux de France (ODF) est le plus ambitieux projet de **science participative** en cours sur les oiseaux. Il vise à mettre à jour et diffuser l’état des connaissances de l'avifaune française en période de nidification et d'hivernage, **en France métropolitaine et en Outre-Mer**. Une première !
-
+Oiseaux de France (ODF) est un projet de **science participative** qui offre aujourd’hui une **diffusion de l’état des connaissances de l'avifaune française** en période de **nidification** et d'**hivernage**, pour la **France métropolitaine** et les territoires **ultramarins**. 
 </div>
 
 <img class="InformativePagePicture" style="width: 80%" src="/what-is-ODF-project/Manakin.webp" />
@@ -27,31 +26,32 @@ Oiseaux de France (ODF) est le plus ambitieux projet de **science participative*
 
 <div class="InformativePageParagraph">
 
-Il s'agit de cartographier précisément la **répartition** de toutes les espèces de France en période de nidification et d'hivernage. En France métropolitaine, les cartes seront restituées selon le maillage utilisé par les précédents Atlas, à savoir des mailles de 10 x 10 km. Dans les départements et territoires ultra-marins, le grain de restitution variera selon les contextes locaux.
+Il s'agit de cartographier précisément la **répartition** de toutes les espèces de France en période de nidification et d'hivernage. En France métropolitaine, les cartes sont restituées selon le maillage utilisé par les précédents Atlas, à savoir des **mailles de 10 x 10 km**. 
 
 </div>
 
-<img class="InformativePagePicture" style="width: 70%" src="/what-is-ODF-project/Atlas-illustration.svg" />
+<img class="InformativePagePicture" style="width: 70%" src="/what-is-ODF-project/Carte-répartition-busard-cendré-19-23.png" />
 
 <span class="InformativePagePictureLegend">
 
-Carte de répartition en période de reproduction du Busard cendré (extrait de Issa & Muller 2015)
+Carte de répartition en période de reproduction du Busard cendré sur la période 2019-2023 (extrait de la plateforme ODF)
 
 </span>
+
+Dans les départements et territoires ultra-marins, le grain de restitution varie selon les contextes locaux. Par exemple, en Guadeloupe, les mailles font 5km de côté. 
 
 ## Évaluer les tendances démographiques
 
 <div class="InformativePageParagraph">
 
-L'évaluation de la tendance des espèces se basera sur les dispositifs de surveillance nationaux existants (STOC, SHOC, STOM, Observatoire Rapaces, comptage Wetlands...).
-
+L'évaluation de la tendance des espèces se base sur plusieurs dispositifs de surveillance nationaux (STOC, SHOC, Observatoire Rapaces, comptage Wetlands...).
 </div>
 
-<img class="InformativePagePicture" style="width: 70%" src="/what-is-ODF-project/trends-chart.webp" />
+<img class="InformativePagePicture" style="width: 70%" src="/what-is-ODF-project/Tendance_alouettedeschamps_2001-2023.png" />
 
 <span class="InformativePagePictureLegend no-bottom-margin">
 
-Tendances d’évolution des Oiseaux Communs en fonction des différents cortèges (Vigie-Nature)
+Tendances d’évolution de l'Alouette des champs *(Alauda arvensis)* (visualisable sur la fiche-espèce)
 
 </span>
 
@@ -63,6 +63,18 @@ Tendances d’évolution des Oiseaux Communs en fonction des différents cortèg
 
 <div class="InformativePageParagraph">
 
-Il s'agit d'obtenir des **effectifs fiables** pour un maximum d'espèces. En complément du suivi des **espèces nicheuses rares et menacées** (ENRM), des **carrés rapaces**, de **l'enquête LIMAT** ou d’autres enquêtes ciblant des cortèges d’espèces (de type hérons coloniaux, oiseaux marins nicheurs), une méthode basée sur les EPOC-ODF a été déployée pour atteindre cet ambitieux objectif.
+Il s'agit d'obtenir des **effectifs fiables** pour un maximum d'espèces. Sont ainsi mobilisés les résultats des dispositifs comme : le **suivi des espèces nicheuses rares et menacées (ENRM)**, **l’enquête rapaces diurnes**, **l'enquête LIMAT**, **l'enquête EPOC-ODF** ainsi que d’autres enquêtes ciblant des cortèges d’espèces (de type hérons coloniaux, oiseaux marins nicheurs). 
+
+<img class="InformativePagePicture" style="width: 70%" src="/what-is-ODF-project/Effectifs_nicheurs_Alouette des champs.png" />
+
+<span class="InformativePagePictureLegend no-bottom-margin">
+
+Estimations des effectifs nicheurs de l'Alouette des champs *(Alauda arvensis)* (visualisable sur la fiche-espèce-rubrique )
+
+</span>
+
+Plus d’informations :
+- sur les suivis via [l’onglet Participer](https://oiseauxdefrance.org/get-involved) !
+- sur le fonctionnement de la plateforme grâce à [l'onglet « Matériel et méthodes »](https://oiseauxdefrance.org/about/materiel_methodes)
 
 </div>
