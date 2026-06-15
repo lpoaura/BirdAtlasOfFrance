@@ -11,9 +11,9 @@ hash: ''
 
 <div class="InformativePageParagraph">
 
-Lancé en 2017, le protocole EPOC est un dispositif de sciences participatives qui s’adresse aux ornithologues amateurs ou professionnels. Relativement peu contraignant pour les observateurs, l’EPOC a pour objectif d’estimer les effectifs nicheurs des oiseaux communs à l’échelle du territoire national. Ce programme est piloté par la LPO France, en collaboration avec le MNHN.
+Lancé en 2017, le protocole EPOC est un dispositif de sciences participatives qui s’adresse aux ornithologues amateurs ou professionnels. Relativement peu contraignant pour les observateurs, l’EPOC a pour objectif **d’estimer les effectifs nicheurs des oiseaux communs à l’échelle du territoire national**. Ce programme est piloté par la LPO France, en collaboration avec le MNHN.
 
-Dans le cadre du programme Oiseaux de France, un nouveau type d’EPOC a été déployé. Très proches des EPOC, les **EPOC-ODF** en diffèrent sur plusieurs points :
+Dans le cadre du projet d'atlas digital "Oiseaux de France", un nouveau type d’EPOC a été déployé. Très proches des EPOC, les **EPOC-ODF** en diffèrent sur plusieurs points :
 
 - Ils sont positionnés précisément sur la base d’une stratégie d’échantillonnage
 - 3 passages sur chaque EPOC-ODF par printemps et 1 passage hivernal
