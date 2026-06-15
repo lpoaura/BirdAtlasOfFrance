@@ -56,5 +56,3 @@ Chaque année, le réseau français de zones humides se complète. Depuis 2002, 
 Ces données servent à produire des informations régulières sur les statuts, les tendances ainsi que sur la taille et la répartition des populations d’oiseaux d’eau en France. Les objectifs sont d’identifier des enjeux de conservation et de désigner les sites à protéger en priorité.
 
 </div>
-
-<img class="InformativePagePicture" style="width: 80%" src="/get-involved/Wetlands-species-card.webp" />
