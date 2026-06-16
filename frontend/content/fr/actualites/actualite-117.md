@@ -1,30 +1,18 @@
 ---
-title: ''
+title: 'Colloque Francophone d'Ornithologie : le replay enfin disponible !'
 picture: actualite-117.webp
 credit: Epervier d'Europe (accipiter nisus) © Antoine Dusart
 centering: center
 author: Oiseaux de France
 date: '2026-07-14'
-tags: [webinaire, Enquête, Rapaces dirunes, reproduction]
+tags: [CFO, replay, conférence, ornithologie]
 active: true
 ---
 
-**La nouvelle Enquête Rapaces diurnes débute pour la période 2026-2027. Intéressé.e ? Venez assister au webinaire de lancement du lundi 16 février 2026 à 16h.**
+**Lors du CFO, début décembre 2025, Rochefort a accueilli plus de 350 participants venus de tout l’espace francophone pour présenter et débattre les dernières avancées en ornithologie.**
 
-Auparavant appelée l'Observatoire Rapaces, cette enquête nationale se déroule désormais **sur deux années tous les six ans** et repose sur des **points d'observation fixes**. L'objectif final reste **l'estimation des tailles de population** de rapaces diurnes nicheurs, cette fois-ci à partir d’un protocole **standardisé**. 
+Chercheurs, ornithologues professionnels et amateurs y ont partagé les dernières avancées scientifiques, les résultats de suivis de terrain et de nombreux retours d’expérience sur l’étude et la conservation des oiseaux.
 
-Le dispositif s’appuie sur: 
- - des carrés de **2,5 × 2,5 km**
- - prospectés selon **dix points d’observation fixes**
- - avec **six passages entre mars et juillet**.
+Que vous souhaitiez approfondir vos connaissances sur la migration, les comportements, les méthodes de suivi ou les enjeux de conservation, ces conférences constituent une formidable mine d’informations. Les thèmes principaux du CFO 2025 étaient la surveillance des populations d’oiseaux mais d’autres sujets ont aussi été abordés : techniques de suivis acoustiques, éolien, oiseaux marins, migration et changement climatique, oiseaux d’eau, habitats, sciences participatives, conservation, comportement, rapaces nécrophages…
 
-Les observations ciblent l’**ensemble** des rapaces diurnes, avec une attention particulière portée aux **indices de reproduction**, essentiels pour les analyses. Les observations sont à saisir avec **Naturalist ou Faune-France**, en utilisant le code projet **[FR_Rapaces 26-27]**. Nouveauté par rapport à l'ancien protocole, les observateurs seront amenés à **saisir des informations complémentaires à propos des couples cantonnés sur une interface en ligne**.
-
-## Webinaire de lancement
-
-Un webinaire de présentation de l'enquête et du protocole aura lieu le **lundi 16 février à 16h**. Il permettra de revenir sur les points importants du protocole et sur la préparation de la phase de terrain. Il sera aussi l'occasion de répondre aux questions des participants.
-
-
-Pour participer à ce webinaire, cliquez sur le lien de connexion << [ici](https://teams.microsoft.com/l/meetup-join/19%3ameeting_ODk5ZjVhOTktMDZjNy00MmI1LWJhYTEtMDc0MmI4NTk1NTdh%40thread.v2/0?context=%7b%22Tid%22%3a%22fbf094ff-916b-4a7f-96a7-cf00a58fb96a%22%2c%22Oid%22%3a%22ae35edee-fcbb-4818-b1cb-2b29ed20a115%22%7d) >>. 
-
-Les personnes souhaitant participer à l'enquête Rapaces diurnes sont invitées à contacter leur coordinateur local afin de choisir un carré et de prendre connaissance du protocole complet. Pour plus d'infos cliquez sur [ce lien](https://www.faune-france.org/index.php?m_id=20163).
+Retrouvez l’ensemble des enregistrements sur la [chaîne YouTube de la LPO](https://www.youtube.com/playlist?list=PLrw_QRwQrnAUw1V9eSwhcKpfPk2DLRYbF) et profitez-en pour picorer quelques conférences passionnantes !
