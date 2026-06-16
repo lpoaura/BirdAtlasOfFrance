@@ -20,7 +20,7 @@ hash: '#documents'
   </a>
      <a href="/get-involved/SyntheseWetland2025_AnnexeLimicolesCotiers.pdf" target="_blank" class="ProtocolsDocumentsCard">
     <img class="ProtocolsDocumentsPicture" src="/get-involved/Limicoles-sejournant-en-France-2025.webp" />
-    <span class="green01 fw-600">Annexe Limicoles Côtiers 2025/span>
+    <span class="green01 fw-600">Annexe Limicoles Côtiers 2025</span>
   </a>
   <a href="/get-involved/Synthese-Wetlands-2024-WEB.pdf" target="_blank" class="ProtocolsDocumentsCard">
     <img class="ProtocolsDocumentsPicture" src="/get-involved/Synthese-Wetlands-2024-WEB.webp" />
