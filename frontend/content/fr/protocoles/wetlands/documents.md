@@ -9,13 +9,13 @@ hash: '#documents'
     <img class="ProtocolsDocumentsPicture" src="/get-involved/Synthese-Wetlands-2025.webp" />
     <span class="green01 fw-600">Synthèse 2025</span>
   </a>
-  <a href="/get-involved/SyntheseWetland2025_AnnexeFicheEspeces-PART1p001-051(9).pdf" target="_blank" class="ProtocolsDocumentsCard">
-    <img class="ProtocolsDocumentsPicture" src="/get-involved/Annexe-Fiches-Especes-2025-WEB.webp" />
+  <a href="/get-involved/SyntheseWetland2025_AnnexeFicheEspeces-PART2p052-102(1).pdf" target="_blank" class="ProtocolsDocumentsCard">
+    <img class="ProtocolsDocumentsPicture" src="/get-involved/Annexe-synthèseWI-2025.webp" />
     <span class="green01 fw-600">Annexe Fiches Espèces 2025 Partie 1</span>
   </a>
   </a>
   <a href="/get-involved/SyntheseWetland2025_AnnexeFicheEspeces-PART2p052-102(1).pdf" target="_blank" class="ProtocolsDocumentsCard">
-    <img class="ProtocolsDocumentsPicture" src="/get-involved/Annexe-Fiches-Especes-2024-WEB.webp" />
+    <img class="ProtocolsDocumentsPicture" src="/get-involved/Annexe-synthèseWI-2025.png" />
     <span class="green01 fw-600">Annexe Fiches Espèces 2025 Partie 2</span>
   </a>
      <a href="/get-involved/SyntheseWetland2025_AnnexeLimicolesCotiers.pdf" target="_blank" class="ProtocolsDocumentsCard">
