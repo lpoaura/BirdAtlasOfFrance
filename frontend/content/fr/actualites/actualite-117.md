@@ -1,5 +1,5 @@
 ---
-title: 'Colloque Francophone d'ornithologie, le replay enfin disponible '
+title: 'Colloque Francophone d'ornithologie, le replay enfin disponible'
 picture: actualite-12.webp
 credit: Grive musicienne (Turdus philomelos) Caro!B De FlickR
 centering: center
