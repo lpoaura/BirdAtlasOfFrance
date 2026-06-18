@@ -1,5 +1,5 @@
 ---
-title: 'Webinaire : En quête des rapaces diurnes en 2026-2027 !'
+title: 'Colloque Francophone d'ornithologie : le replay enfin disponible !'
 picture: actualite-116.webp
 credit: Epervier d'Europe (accipiter nisus) © Antoine Dusart
 centering: center
