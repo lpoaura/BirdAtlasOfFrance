@@ -1,5 +1,5 @@
 ---
-title: 'Colloque Francophone d'ornithologie, le replay enfin disponible !'
+title:'Colloque Francophone d'ornithologie, le replay enfin disponible !'
 picture: actualite-113.webp
 credit: Bruant ortolan © Titouan Roguet
 centering: center
