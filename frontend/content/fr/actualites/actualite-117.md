@@ -1,5 +1,5 @@
 ---
-title: 'Prêt(e)s pour une nouvelle saison de suivis des oiseaux communs ?'
+title: 'Colloque Francophone d'ornithologie, le replay enfin disponible '
 picture: actualite-12.webp
 credit: Grive musicienne (Turdus philomelos) Caro!B De FlickR
 centering: center
@@ -11,7 +11,7 @@ active: true
 
 
 
-title: 'Colloque Francophone d'ornithologie, le replay enfin disponible !'
+title: '!'
 picture: actualite-113.webp
 credit: Bruant ortolan © Titouan Roguet
 centering: center
