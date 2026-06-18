@@ -4,7 +4,7 @@ picture: actualite-113.webp
 credit: Bruant ortolan © Titouan Roguet
 centering: center
 author: Oiseaux de France
-date: '2026-06-18'
+date: "2026-06-18"
 tags: [CFO, replay, conférence, ornithologie
 ---
 
