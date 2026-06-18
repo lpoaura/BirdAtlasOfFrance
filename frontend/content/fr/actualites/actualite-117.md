@@ -1,4 +1,14 @@
 ---
+title: 'Webinaire : En quête des rapaces diurnes en 2026-2027 !'
+picture: actualite-116.webp
+credit: Epervier d'Europe (accipiter nisus) © Antoine Dusart
+centering: center
+author: Oiseaux de France
+date: '2026-02-12'
+tags: [webinaire, Enquête, Rapaces dirunes, reproduction]
+active: true
+---
+---
 title: ' Colloque Francophone d'Ornithologie : le replay enfin disponible !'
 picture: actualite-113.webp
 credit: Bruant ortolan © Titouan Roguet
