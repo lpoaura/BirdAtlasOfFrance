@@ -1,14 +1,4 @@
 ---
-title: 'Webinaire : En quête des rapaces diurnes en 2026-2027 !'
-picture: actualite-116.webp
-credit: Epervier d'Europe (accipiter nisus) © Antoine Dusart
-centering: center
-author: Oiseaux de France
-date: '2026-02-12'
-tags: [webinaire, Enquête, Rapaces dirunes, reproduction]
-active: true
----
----
 title: 'Colloque Francophone d'Ornithologie : le replay enfin disponible !'
 picture: actualite-113.webp
 credit: Bruant ortolan © Titouan Roguet
@@ -18,6 +8,7 @@ date: '2026-06-18'
 tags: [CFO, replay, conférence, ornithologie]
 active: true
 ---
+
 **Lors du CFO, début décembre 2025, Rochefort a accueilli plus de 350 participants venus de tout l’espace francophone pour présenter et débattre les dernières avancées en ornithologie.**
 
 Chercheurs, ornithologues professionnels et amateurs y ont partagé les dernières avancées scientifiques, les résultats de suivis de terrain et de nombreux retours d’expérience sur l’étude et la conservation des oiseaux.
