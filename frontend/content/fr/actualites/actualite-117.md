@@ -1,13 +1,23 @@
 ---
+title: 'Prêt(e)s pour une nouvelle saison de suivis des oiseaux communs ?'
+picture: actualite-12.webp
+credit: Grive musicienne (Turdus philomelos) Caro!B De FlickR
+centering: center
+author: Oiseaux de France
+date: '2022-03-03'
+tags: ['STOC', 'EPOC-ODF']
+active: true
+---
+
+
+
 title: 'Colloque Francophone d'ornithologie, le replay enfin disponible !'
 picture: actualite-113.webp
 credit: Bruant ortolan © Titouan Roguet
 centering: center
 author: Oiseaux de France
 date: '2026-06-18'
-tags: [CFO, replay, conférence, ornithologie]
-active: true
----
+tags: [CFO, replay, conférence, ornithologie
 
 **Lors du CFO, début décembre 2025, Rochefort a accueilli plus de 350 participants venus de tout l’espace francophone pour présenter et débattre les dernières avancées en ornithologie.**
 
