@@ -6,6 +6,7 @@ centering: center
 author: Oiseaux de France
 date: '2026-06-23'
 tags: [baromètre de l'avifaune, surveillance , résultats scientifiques]
+active: true
 ---
 
 **La LPO publie le premier Baromètre de l’avifaune ! Fruit d'un demi-siècle de suivis scientifiques, ce document dresse un tableau contrasté : un déclin massif et préoccupant des espèces communes, mais aussi quelques succès de conservation qui prouvent que l'action collective peut inverser la tendance !**
