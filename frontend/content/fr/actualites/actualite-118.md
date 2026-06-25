@@ -16,4 +16,5 @@ Fruit d'un demi-siècle de suivis scientifiques, ce premier Baromètre de l’av
 
 Ce bilan démontre ainsi l’efficacité des mesures prises lorsque l’ambition est au rendez-vous, et invite à renforcer nos efforts pour réduire les pressions systémiques qui persistent.
 
-[Consultez ce premier baromètre !](https://www.lpo.fr/media/read/49373/file/BAROMETREAVIFAUNE_2026_ESSENTIEL_V4_WEB%203.pdf)
+[Consultez l'essentiel de ce tout premier baromètre !](https://www.lpo.fr/media/read/49373/file/BAROMETREAVIFAUNE_2026_ESSENTIEL_V4_WEB%203.pdf)
+[Consulter le rapport complet](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFnews/BAROMETREAVIFAUNE2026RAPPORTversdef.pdf)
