@@ -6,6 +6,7 @@ centering: center
 author: Oiseaux de France
 date: '2026-06-18'
 tags: [CFO, replay, conférence, ornithologie]
+active: true
 ---
 
 **Lors du CFO, début décembre 2025, Rochefort a accueilli plus de 350 participants venus de tout l’espace francophone pour présenter et débattre les dernières avancées en ornithologie.**
