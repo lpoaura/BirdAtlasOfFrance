@@ -1,7 +1,15 @@
 <template>
-  <div id="map-wrap" ref="test">
+  <div id="map-wrap" ref="test"> <!-- Conteneur principal de la carte -->
+    <!-- Composant Leaflet pour la carte avec respectivement 
+            - la référence pour accéder à l'objet carte dans les méthodes
+            - le niveau de zoom initial de la carte
+            - le centre initial de la carte
+            - désactive le contrôle de zoom par défaut
+            - appelle la méthode initMap lorsque la carte est prête
+            - met à jour l'enveloppe lorsque les limites de la carte changent
+     -->
     <l-map
-      ref="atlasMap"
+      ref="atlasMap" 
       :zoom="zoom"
       :center="center"
       :options="{ zoomControl: false }"
@@ -9,16 +17,19 @@
       @ready="initMap()"
       @update:bounds="updateEnvelope"
     >
+      <!-- Ajoute une couche de tuiles OpenStreetMap -->
       <l-tile-layer
         :url="osmUrl"
         :attribution="'© les contributeurs d’OpenStreetMap'"
       />
+      <!-- Ajoute une couche GeoJSON pour afficher les données de distribution des espèces -->
       <l-geo-json
         v-if="speciesDistributionGeojson"
         :geojson="speciesDistributionGeojson"
         :options="speciesDistributionGeojsonOptions"
         :options-style="speciesDistributionGeojsonStyle"
       />
+      <!-- Ajoute des contrôles personnalisés à la carte (chargement et légende) -->
       <l-control position="topright" :disable-scroll-propagation="true">
         <commons-map-loading-control :loading="speciesDistributionIsLoading" />
       </l-control>
@@ -30,8 +41,10 @@
 </template>
 
 <script>
+// Définit le composant Vue
 export default {
   props: {},
+  // Données réactives du composant
   data: () => ({
     // CONFIGURATION DE LA CARTE
     zoom: 6,
@@ -50,6 +63,8 @@ export default {
     speciesDistributionIsLoading: true,
     defaultColor: '#336950',
   }),
+
+  // Propriétés calculées :
   computed: {
     // selectedTab() {
     //   return this.$store.state.species.selectedTab
@@ -91,6 +106,7 @@ export default {
       return (feature, layer) => {
         if (this.selectedSeason.speciesDistributionColors) {
           if (!this.selectedSubject.slug.startsWith('compare')) {
+            // Cas standard (breeding, wintering, etc.)
             if (this.selectedSeason.value === 'breeding') {
               console.debug('CASE breeding')
               return {
@@ -118,17 +134,34 @@ export default {
                 fillOpacity: 0.7,
               }
             }
-          } else {
-            console.debug('CASE compare ODFvsAOFM')
+          } 
+          // Comparaison ODF vs Prospection (obsolète)
+          // else if (this.selectedSubject.slug === 'compare-aofm-odf') {
+          //   console.debug('CASE compare ODFvsAOFM')
+          //   return {
+          //     weight: 0,
+          //     color: 'rgba(0,0,0,0)',
+          //     fillColor:
+          //       feature.properties.status === 'ODF'
+          //         ? '#EB6A0A'
+          //         : feature.properties.status === 'AOFM'
+          //         ? '#4C61F4'
+          //         : '#D999EF',
+          //     fillOpacity: 0.7,
+          //   }
+          // } 
+          else if (this.selectedSubject.slug === 'compare-aofm-odf') {
+            // NOUVELLE COMPARAISON: 2009-2012 vs 2019-2023
+            console.debug('CASE compare Historic Atlases')
             return {
               weight: 0,
               color: 'rgba(0,0,0,0)',
               fillColor:
-                feature.properties.status === 'ODF'
-                  ? '#EB6A0A'
-                  : feature.properties.status === 'AOFM'
-                  ? '#4C61F4'
-                  : '#D999EF',
+                feature.properties.status === 'NEW'
+                  ? '#EB6A0A'  // Orange: uniquement 2019-2023
+                  : feature.properties.status === 'OLD'
+                  ? '#4C61F4'  // Bleu: uniquement 2009-2012
+                  : '#D999EF', // Rose: les deux
               fillOpacity: 0.7,
             }
           }
@@ -144,6 +177,8 @@ export default {
       }
     },
   },
+
+  // Observateurs pour réagir aux changements de certaines propriétés qui déclenchent des actions lorsque ces valeurs changent :
   watch: {
     envelope() {
       this.getSpecieData()
@@ -171,7 +206,10 @@ export default {
       deep: true,
     },
   },
+
+  // Méthodes du composant :
   methods: {
+    // Initialise la carte et charge les données
     initMap() {
       this.map = this.$refs.atlasMap.mapObject
       this.apiRequestController = this.$axios.CancelToken.source()
@@ -182,6 +220,8 @@ export default {
       this.getSpecieData()
       this.initiateEnvelope()
     },
+    
+    // Définit les limites de la carte en fonction du territoire sélectionné
     setBounds() {
       if (this.territoriesEnvelopes?.features) {
         const geojson = this.territoriesEnvelopes.features.find((item) => {
@@ -191,12 +231,14 @@ export default {
         const territory = this.$L.geoJSON(geojson)
         this.map.invalidateSize()
         this.map.fitBounds(territory.getBounds())
-        this.map.setMaxBounds(territory.getBounds())
+        // this.map.setMaxBounds(territory.getBounds())
         // this.$refs.atlasMap.mapObject.setMinZoom(
         //   this.$refs.atlasMap.mapObject.getZoom() - 1
         // )
       }
     },
+
+    // Gèrent l'enveloppe géographique :
     defineEnvelope(bounds) {
       const x = [bounds.getWest(), bounds.getEast()]
       const y = [bounds.getNorth(), bounds.getSouth()]
@@ -217,6 +259,8 @@ export default {
       this.bounds = newBounds
       this.envelope = this.defineEnvelope(newBounds)
     },
+
+    // Récupère les données des territoires
     async getTerritory() {
       const params = {
         bbox: true,
@@ -227,12 +271,12 @@ export default {
         { params }
       )
     },
+
+    // Récupère les données de distribution des espèces en fonction des paramètres sélectionnés
     async getSpecieData() {
-      console.log(
-        '/api/v1/taxa/map/distribution',
-        this.speciesDistributionIsLoading
-      )
+      console.log('/api/v1/taxa/map/distribution', this.speciesDistributionIsLoading )
       this.speciesDistributionIsLoading = true
+
       if (this.apiRequestController) {
         this.apiRequestController.cancel('Loading canceled')
       }
@@ -247,23 +291,43 @@ export default {
         envelope: this.envelope ? this.envelope.toString() : null,
       }
       let url = null
+
+      // Atlas ODF standard :
       if (this.selectedSubject.slug === 'odf') {
         console.debug('ODF data')
         url = `/api/v1/taxa/map/distribution`
         params = { ...params }
-      } else if (this.selectedSubject.slug.startsWith('aofm')) {
-        console.debug('AOFM data')
-        url = `/api/v1/taxa/map/historic/atlas`
-        params = { ...params }
-        params.atlas_period = this.selectedSubject.label
-        params.period = this.selectedSeason.value
-      } else if (this.selectedSubject.slug.startsWith('compare')) {
-        console.debug('ODF VS AOFM')
-        url = `/api/v1/taxa/map/distribution`
-        params = { ...params }
-        params.atlas_period = 'compare'
-        params.grid = false
+      } 
+      // Atlas historiques :
+      else if (this.selectedSubject.slug.startsWith('aofm') || this.selectedSubject.slug.startsWith('odf')) { 
+          console.debug('Historic atlas data')
+          url = `/api/v1/taxa/map/historic/atlas`
+          params = { ...params }
+          params.atlas_period = this.selectedSubject.label
+          params.period = this.selectedSeason.value
+          params.id_area = this.selectedTerritory.id_area
+      } 
+      // NOUVELLE COMPARAISON: AOFM/ODF (2009-2012 vs 2019-2023) :
+      else if (this.selectedSubject.slug === 'compare-aofm-odf') {
+        console.debug('Compare Historic Atlases 2009-2012 vs 2019-2023')
+        url = `/api/v1/taxa/map/compare/historic/atlas`
+        params = {
+          cd_nom: this.cdNom,
+          period: this.selectedSeason.value,
+          id_area: this.selectedTerritory.id_area,
+          atlas_period_1: '2009-2012',
+          atlas_period_2: '2019-2023',
+        }
       }
+      // // Comparaison AOFM vs Prospection :
+      // else if (this.selectedSubject.slug === 'compare-aofm-prospection') {
+      //   console.debug('ODF VS AOFM')
+      //   url = `/api/v1/taxa/map/distribution`
+      //   params = { ...params }
+      //   params.atlas_period = 'compare'
+      //   params.grid = false
+      // } 
+
       const axios = this.$axios
       this.speciesDistributionGeojson = await this.$axios
         .$get(url, {

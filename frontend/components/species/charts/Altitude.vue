@@ -1,5 +1,5 @@
 <template>
-  <div v-if="idArea && chartData" id="altitude" class="ChartCard">
+  <div v-if="idArea && hasValidChartData" id="altitude" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">
       Répartition altitudinale des observations
     </h4>
@@ -39,6 +39,13 @@ export default {
     selectedSeason() {
       return this.$store.state.species.selectedSeason?.value
     },
+    hasValidChartData() {
+      return (
+        this.chartData &&
+        this.chartData.altitude?.data?.length > 0 &&
+        this.chartData.globalAltitude?.data?.length > 0
+      )
+    },
   },
   watch: {
     idArea: {
@@ -74,8 +81,8 @@ export default {
         this.$store.commit('species/pushSubjectsList', {
           label: 'Répartition altitudinale',
           slug: 'altitude',
-          position: 5,
-          status: !!this.chartData,
+          position: 6,
+          status: !!this.hasValidChartData,
         })
       })
     },

@@ -4,6 +4,9 @@
       <nuxt-link to="/" class="NavBarODFLogoLink">
         <img class="ODFLogo" src="/nav-bar/ODF-logo-white.svg" />
       </nuxt-link>
+      <a href="https://www.lpo.fr/" class="NavBarLPOLogoLink" target="_blank">
+        <img class="LPOLogo" src="LPO_logo_court.jpg" />
+      </a>
     </div>
     <nav>
       <nuxt-link
@@ -65,5 +68,15 @@ export default {
 
 .NavBarIconsWrapper {
   background: rgba(252, 252, 252, 0.2);
+}
+
+.LPOLogo {
+  display: none; /* Caché par défaut */
+}
+
+@media screen and (width <= 920px){
+  .LPOLogo {
+    display: block; /* S’affiche à partir de 920px de largeur */
+  }
 }
 </style>

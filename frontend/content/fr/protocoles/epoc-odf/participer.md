@@ -20,7 +20,7 @@ En attendant la prochaine édition de l’enquête en 2032, entraînez-vous à f
 Deux approches pour collecter les données :
 
 - En direct sur le terrain avec l’application NaturaList et le module dédié \[EPOC-ODF\]
-- Sur fiche papier puis sur [Faune France](https://www.faune-france.org/) ou sur les portails locaux VisioNature avec le module dédié \[EPOC-ODF\]
+- Sur fiche papier puis sur [Faune-France](https://www.faune-france.org/) ou sur les portails locaux VisioNature avec le module dédié \[EPOC-ODF\]
 
 </div>
 

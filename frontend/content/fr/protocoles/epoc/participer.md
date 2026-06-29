@@ -23,7 +23,7 @@ Si ce suivi vous intéresse mais que vous n’avez pas le niveau requis en ornit
 Deux approches pour collecter les données :
 
 - En direct sur le terrain avec l’application NaturaList et le module dédié \[EPOC\]
-- Sur fiche papier puis sur [Faune France](https://www.faune-france.org/) ou sur les portails locaux VisioNature avec le module dédié \[EPOC\]
+- Sur fiche papier puis sur [Faune-France](https://www.faune-france.org/) ou sur les portails locaux VisioNature avec le module dédié \[EPOC\]
 
 </div> 
 

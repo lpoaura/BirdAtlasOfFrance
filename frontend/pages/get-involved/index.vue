@@ -29,63 +29,65 @@
         :z-index="1"
         :items-list="speciesGroups"
       />
-      <protocols-cards :species-group-filter="selectedSpeciesGroup" />
+      <component :is="currentComponent" />
     </section>
   </v-container>
 </template>
 
 <script>
 import ProtocolsCards from '~/components/get-involved/ProtocolsCards.vue'
+import CalendarSection from '~/components/get-involved/CalendarSection.vue'
 
 export default {
   components: {
-    'protocols-cards': ProtocolsCards,
+    ProtocolsCards,
+    CalendarSection,
   },
   data: () => ({
     speciesGroups: [
-      { hash: '', label: 'Tous les dispositifs' },
-      { hash: '#common-birds', label: 'Oiseaux communs' },
-      { hash: '#raptors', label: 'Rapaces' },
-      { hash: '#water-birds', label: "Oiseaux d'eau" },
-      // { hash: '#other-birds', label: 'autres' },
+      { hash: 'all', label: 'Tous les dispositifs' },
+      { hash: 'calendar', label: 'Calendrier' },
     ],
-    selectedSpeciesGroup: { hash: '', label: 'Tous les dispositifs' },
+    selectedSpeciesGroup: { hash: 'all', label: 'Tous les dispositifs' },
   }),
   head() {
     return {
       title: this.$getPageTitle(this.$route.path),
-    }
+    };
   },
   computed: {
     // Permet de mettre à jour selectedSpeciesGroup seulement après le $router.push
     selectedSpeciesGroupModel: {
       get() {
-        return this.selectedSpeciesGroup
+        return this.selectedSpeciesGroup;
       },
       set(value) {
-        this.$router.push(`${value.hash}`)
+        this.$router.push(`#${value.hash}`);
       },
+    },
+    currentComponent() {
+      return this.selectedSpeciesGroup.hash === 'calendar'
+        ? 'CalendarSection'
+        : 'ProtocolsCards';
     },
   },
   watch: {
     $route(newVal) {
       /* On utilise un watch pour prendre en compte les retours à l'onglet précédent */
-      this.selectedSpeciesGroup = this.speciesGroups.filter((item) => {
-        return item.hash === newVal.hash
-      })[0]
+      const hash = newVal.hash.replace('#', '') || 'all'; // Nettoyage du hash
+      this.selectedSpeciesGroup = this.speciesGroups.find((item) => item.hash === hash) || this.speciesGroups[0];
     },
   },
   mounted() {
-    this.selectedSpeciesGroup = this.speciesGroups.filter((item) => {
-      return item.hash === this.$route.hash
-    })[0]
+    const hash = this.$route.hash.replace('#', '') || 'all';
+    this.selectedSpeciesGroup = this.speciesGroups.find((item) => item.hash === hash) || this.speciesGroups[0];
   },
   methods: {
     updateSelectedSpeciesGroup(item) {
-      this.$router.push(`${item.hash}`)
+      this.$router.push(`#${item.hash}`);
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -108,7 +110,7 @@ export default {
 }
 
 .Section {
-  padding: 32px 5% 40px;
+  padding: 32px 0 0;
   align-items: center;
 }
 

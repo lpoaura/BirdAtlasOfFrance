@@ -33,12 +33,14 @@
             EPOC réalisés
           </div>
         </div>
+        <!--
         <div class="RadioOption epoc">
           <div class="RadioLabel">
             <switch-button v-model="epocOdfIsOn" />
             EPOC ODF {{ new Date().getFullYear() }}
           </div>
         </div>
+        -->
       </div>
       <!-- v-show="['Aucune', 'Points EPOC'].includes(selectedLayer)" -->
       <div class="BackgroundMapsWrapper">

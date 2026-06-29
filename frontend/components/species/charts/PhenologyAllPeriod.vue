@@ -123,7 +123,7 @@ export default {
         .select('.Chart')
         .append('svg')
         .attr('class', 'BarPlotSvg')
-      const margin = { top: 10, right: 60, bottom: 24, left: 66 }
+      const margin = { top: 10, right: 60, bottom: 40, left: 66 }
       const barPlotWidth = Math.max(
         parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
           margin.left -
@@ -170,6 +170,7 @@ export default {
         .call((g) =>
           g
             .selectAll('text')
+            .attr('dy', '1.5em') // <-- décalage vertical
             .attr(
               'style',
               "font-family: 'Poppins', sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 13px; color: #000;"
@@ -322,9 +323,9 @@ export default {
             d3
               .line()
               // .curve(d3.curveBumpX)
-              .curve(d3.curveNatural)
+              .curve(d3.curveMonotoneX)
               .x(function (d) {
-                return xAxisDecades(d.label)
+                return xAxisDecades(d.label) + xAxisDecades.bandwidth() / 2
               })
               .y(function (d) {
                 return yAxisRight(d.value)
@@ -338,7 +339,7 @@ export default {
           .enter()
           .append('circle')
           .attr('cx', function (d) {
-            return xAxisDecades(d.label)
+            return xAxisDecades(d.label) + xAxisDecades.bandwidth() / 2
           })
           .attr('cy', function (d) {
             return yAxisRight(d.value)

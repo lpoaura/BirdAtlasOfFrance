@@ -828,6 +828,7 @@ a.Vocabulary:hover::after {
 .NavBarODFLogoWrapper {
   flex: 1;
   display: flex;
+  gap: 30px;
 }
 
 .NavBarODFLogoLink {
@@ -837,6 +838,10 @@ a.Vocabulary:hover::after {
 
 .NavBarODFLogoWrapper .ODFLogo {
   height: 36px;
+}
+
+.NavBarODFLogoWrapper .LPOLogo {
+  height: 50px;
 }
 
 .NavBar nav {
