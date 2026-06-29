@@ -14,7 +14,7 @@
             }}
           </h2>
           <span class="black02 text-center">
-            espèces recensées<br />sur la période 2019 - {{ new Date().getFullYear() }}
+            espèces recensées<br />sur la période {{ $atlasPeriods.atlasCurrentPeriod() }}
           </span>
         </div>
         <div class="KeyDataColumn-2">
@@ -60,7 +60,7 @@
             }}
           </h2>
           <span class="black02 text-center">
-            heures de prospection<br />sur la période 2019 - {{ new Date().getFullYear() }}
+            heures de prospection<br />sur la période {{ $atlasPeriods.atlasCurrentPeriod() }}
           </span>
         </div>
         <div class="KeyDataColumn-2">

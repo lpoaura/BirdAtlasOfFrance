@@ -100,7 +100,7 @@
           </h3>
           <h5 class="black03">
             des espèces de référence ont été signalées<br class="br" />
-            sur la période Atlas 2019-{{ new Date().getFullYear() }}
+            sur la période {{ $atlasPeriods.atlasCurrentPeriodLong() }}
           </h5>
         </div>
         <h4 v-else class="black02 fw-bold top-margin-24 bottom-margin-24">
@@ -139,7 +139,7 @@
             signalée{{
               featureProperties[selectedSeason.value].old_count > 1 ? 's' : ''
             }}
-            sur la période <b>Avant 2019</b>
+            sur la période <b>{{ $atlasPeriods.atlasArchiveBefore() }}</b>
           </h5>
         </div>
         <div v-if="featureDataKey" class="MapControlKeyData">
@@ -162,7 +162,7 @@
             signalée{{
               featureProperties[selectedSeason.value].new_count > 1 ? 's' : ''
             }}
-            sur la période <b>Atlas 2019-{{ new Date().getFullYear() }}</b>
+            sur la période <b>{{ $atlasPeriods.atlasCurrentPeriodLong() }}</b>
           </h5>
         </div>
         <div v-if="featureDataKey" class="MapControlSplit"></div>
@@ -264,22 +264,26 @@
             </span>
             <div class="TableColumnsWrapper">
               <span class="TableColumn large black02 fw-500">
-                Avant 2019
+                {{ $atlasPeriods.atlasArchiveBefore() }}
                 <h5>({{ filteredSpecies.old_count }} esp.)</h5>
               </span>
               <span class="TableColumn small black02 fw-500">
                 <div class="display-flex">
-                  <font style="font-family: sans-serif">&lt;</font>&nbsp;2019
+                  <font style="font-family: sans-serif">&lt;</font>&nbsp;{{
+                    $atlasPeriods.ATLAS_CURRENT_START
+                  }}
                 </div>
                 <h5>({{ filteredSpecies.old_count }} esp.)</h5>
               </span>
               <span class="TableColumn large black02 fw-500">
-                Après 2019
+                {{ $atlasPeriods.atlasCurrentAfter() }}
                 <h5>({{ filteredSpecies.new_count }} esp.)</h5>
               </span>
               <span class="TableColumn small black02 fw-500">
                 <div class="display-flex">
-                  <font style="font-family: sans-serif">&ge;</font>&nbsp;2019
+                  <font style="font-family: sans-serif">&ge;</font>&nbsp;{{
+                    $atlasPeriods.ATLAS_CURRENT_START
+                  }}
                 </div>
                 <h5>({{ filteredSpecies.new_count }} esp.)</h5>
               </span>
@@ -360,7 +364,9 @@
           >
             {{ prospectingHours }} h
           </h3>
-          <h5 class="black03">enregistrées sur la période Atlas 2019-{{ new Date().getFullYear() }}</h5>
+          <h5 class="black03">
+            enregistrées sur la période {{ $atlasPeriods.atlasCurrentPeriodLong() }}
+          </h5>
         </div>
         <div class="MapControlSplit"></div>
         <h4 class="black02 fw-bold bottom-margin-16">
@@ -465,7 +471,7 @@
             src="/nav-bar/burger-black.svg"
           />
           {{ clickedSpecies.all_period.new_count }} donnée(s) sur la période
-          Atlas 2019-{{ new Date().getFullYear() }}
+          {{ $atlasPeriods.atlasCurrentPeriodLong() }}
         </li>
         <li class="MapControlDataOption">
           <img class="MapControlDataOptionIcon" src="/prospecting.svg" />
@@ -476,13 +482,14 @@
           <img class="MapControlDataOptionIcon" src="/book.svg" />
           {{
             clickedSpecies.all_period.old_count > 0
-              ? 'Espèce observée avant 2019'
-              : 'Espèce non observée avant 2019'
+              ? $atlasPeriods.speciesObservedInArchive()
+              : $atlasPeriods.speciesNotObservedInArchive()
           }}
         </li>
         <li class="MapControlDataOption">
           <img class="MapControlDataOptionIcon" src="/calendar.svg" />
-          Calendrier d'observation sur la période Atlas 2019-{{ new Date().getFullYear() }} :
+          Calendrier d'observation sur la période
+          {{ $atlasPeriods.atlasCurrentPeriodLong() }} :
         </li>
         <div class="PhenologyWrapper">
           <div
@@ -805,7 +812,7 @@ export default {
         .catch((error) => {
           console.debug(`${error}`)
         })
-      // Si la maille comporte des données après 2019...
+      // Si la maille comporte des données sur la période en cours...
       if (this.featureProperties.all_period.new_count) {
         // ... alors on récupère la répartition des données
         this.$axios

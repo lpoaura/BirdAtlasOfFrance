@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 
+from app.utils.atlas_periods import ATLAS_ARCHIVE_END, ATLAS_CURRENT_START
 from app.utils.db import get_db
 
 from .actions import (
@@ -43,14 +44,14 @@ router = APIRouter()
     response_model=AreaKnowledgeLevelGeoJson,
     tags=["prospecting"],
     summary="Areas list with general statistics per zone within a bounding box",
-    description="""# Area list
+    description=f"""# Area list
 
 This return a list of areas filtered by type (`type_code`)
 and within a geographic bounding box (`envelope`) with general stats:
 * All period:
-  * Count taxa in previous atlas as `old_count` ;
-  * Count taxa in this atlas as `new_count` ;
-  * Percent knowlegde calculated by Count taa in previous `(count_new/count_old)`.
+  * Count taxa in archive period (before {ATLAS_ARCHIVE_END}) as `old_count` ;
+  * Count taxa in current atlas cycle (from {ATLAS_CURRENT_START}) as `new_count` ;
+  * Percent knowledge calculated as `(count_new/count_old)`.
 * wintering, same as all period ;
 * Breeding, same as all period.
 

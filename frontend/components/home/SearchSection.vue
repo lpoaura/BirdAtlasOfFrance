@@ -41,7 +41,6 @@
 </template>
 
 <script>
-const ExifReader = require('exifreader')
 
 export default {
   data: () => ({
@@ -77,22 +76,19 @@ export default {
       },
     ],
   }),
-  created() {
+  async created() {
     this.randomInt = this.getRandom(0, 9)
+
     this.homePicture.largeUrl = `url('/home/home-picture-${this.randomInt}.webp')`
     this.homePicture.mobileUrl = `url('/home/home-picture-${this.randomInt}-mobile.webp')`
-    ExifReader.load(
-      `/home/home-picture-${this.randomInt.toString()}.webp`
-    ).then((tags) => {
-      this.homePicture.title = tags.title.description
-      this.homePicture.author = tags.creator.description.replace(
-        'type="Seq" ',
-        ''
-      )
-      const focusing = JSON.parse(tags.description.description)
-      this.homePicture.largeFocus = focusing.large
-      this.homePicture.mobileFocus = focusing.mobile
-    })
+
+    // 👉 récup metadata JSON (UNE SEULE FOIS ou ici simple)
+    const meta = await fetch('/home/home-pictures.json').then(r => r.json())
+
+    const pictureMeta = meta[this.randomInt]
+
+    this.homePicture.title = pictureMeta?.title || ''
+    this.homePicture.author = pictureMeta?.author || ''
   },
   methods: {
     getRandom(min, max) {

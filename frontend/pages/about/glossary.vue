@@ -16,8 +16,7 @@
       </span>
       <h4 class="black02 fw-600 bottom-margin-8">Indice de complétude</h4>
       <span class="black02 bottom-margin-24">
-        Rapport entre le nombre d'espèces observées sur la période 2019-{{ new Date().getFullYear() }} et
-        le nombre d’espèces observées sur les périodes précédentes.
+        {{ $atlasPeriods.completenessIndexDescription() }}
       </span>
       <h4 class="black02 fw-600 bottom-margin-8">Maille</h4>
       <span class="black02 bottom-margin-24">

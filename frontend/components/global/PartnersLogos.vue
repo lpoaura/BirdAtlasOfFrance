@@ -52,7 +52,7 @@ export default {
           'GOR.webp',
           'Indre-Nature.webp',
           'Loiret-Nature-Environnement.webp',
-          // 'LPO-France.webp',
+          'LPO_logo_court.jpg',
           // 'LPO-AuRA.webp',
           // 'LPO-Bourgogne-Franche-Comte.webp',
           // 'LPO-Bretagne.webp',

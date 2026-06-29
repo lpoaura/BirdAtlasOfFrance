@@ -9,7 +9,7 @@
             <div class="HelperTip"></div>
             <h5 class="HelperContent white02 nowrap">
               Rapport entre le nombre d'espèces<br />observées sur la période
-              2019-2024<br />et le nombre d’espèces observées<br />sur les
+              {{ $atlasPeriods.atlasCurrentPeriod() }}<br />et le nombre d’espèces observées<br />sur les
               périodes précédentes.
             </h5>
           </div> -->

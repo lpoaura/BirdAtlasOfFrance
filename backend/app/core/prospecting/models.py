@@ -7,7 +7,7 @@ from app.utils.db import Base, metadata
 
 
 class AreaKnowledgeLevel(Base):
-    __tablename__ = "mv_area_knowledge_level"
+    __tablename__ = "mv_area_knowledge_level_2"
     __table_args__ = {
         "schema": "atlas",
     }
@@ -51,7 +51,7 @@ MvAreaKnowledgeLevel = Table(
 
 
 class AreaDashboard(Base):
-    __tablename__ = "mv_area_dashboard"
+    __tablename__ = "mv_area_dashboard_2"
     __table_args__ = {
         "schema": "atlas",
     }
@@ -83,7 +83,7 @@ class Epoc(Base):
 
 
 class RealizedEpoc(Base):
-    __tablename__ = "mv_realized_epoc"
+    __tablename__ = "mv_realized_epoc_2"
     __table_args__ = {
         "schema": "atlas",
     }
@@ -98,7 +98,7 @@ class RealizedEpoc(Base):
 
 
 class TaxonCountClassesByTerritory(Base):
-    __tablename__ = "mv_taxon_count_classes_by_territory"
+    __tablename__ = "mv_taxon_count_classes_by_territory_2"
     __table_args__ = {
         "schema": "atlas",
     }

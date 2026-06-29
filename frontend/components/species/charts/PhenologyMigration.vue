@@ -2,7 +2,7 @@
   <div v-if="idArea && chartData?.distribution.length" id="phenology-migration" class="ChartCard">
     <h4 class="black02 fw-bold bottom-margin-8">Phénologie de migration</h4>
     <h5 class="black03 bottom-margin-24">
-      Nombre de données cumulées par décade du 1<sup>er</sup> janvier 2019 au 31
+      Nombre de données cumulées par décade du {{ $atlasPeriods.atlasPhenologyStartLabel() }} au 31
       décembre de l'année dernière.
     </h5>
     <div class="ChartWrapper">

@@ -409,8 +409,10 @@
         <h5 id="subsubsection5.2.1" class="h5texte">5.2.1. Indice de complétude</h5>
         <p>
           L’indice de complétude a été construit pour mettre en évidence l’état d’avancement de l’Atlas à l’échelle d’un territoire mais aussi à l’échelle 
-          d’une maille. Il s’agit de comparer la diversité spécifique d’une période dite « ancienne » par rapport à la période récente, celle de l’atlas en 
-          cours. Cet indice est décliné suivant les trois périodes.
+          d’une maille. Il s’agit de comparer la diversité spécifique d’une période dite « ancienne » (archives avant le
+          {{ $atlasPeriods.ATLAS_ARCHIVE_END }}) par rapport à la période récente, celle de l’atlas en cours depuis
+          {{ $atlasPeriods.ATLAS_CURRENT_START }}.
+          Cet indice est décliné suivant les trois périodes.
         </p>
         <P>Le calcul est relativement simple : </P>
         <p>
@@ -563,7 +565,8 @@
 
         <h5 id="subsubsection6.2.1" class="h5texte">6.2.1 Phénologies</h5>
         <p>
-          La phénologie annuelle de présence de l’espèce sur un territoire est calculée à partir du nombre de données collectées sur la période 2019-2023. Le 
+          La phénologie annuelle de présence de l’espèce sur un territoire est calculée à partir du nombre de données collectées depuis le
+          {{ $atlasPeriods.atlasPhenologyStartLabel() }}. Le
           nombre de données est calculé par décade, c’est-à-dire par période de 10 jours (3 décades par mois, 36 décades par an) et projeté sur un histogramme. 
           L’évolution saisonnière du nombre de données collectées renseigne sur la ou les périodes où l’espèce est la plus notée sur le territoire. Cette 
           phénologie peut être représentée d’une autre manière, en utilisant les données de listes complètes (cf. partie 1). Ainsi, en calculant la fréquence 

@@ -37,7 +37,7 @@ export default {
         mapAtlasBaseSubjects: [
             // // Catégorie "Prospection de la fiche espèce" :
             // {
-            // label: '2019 - 2024',
+            // label: '2024 - {currentYear}',
             // name: 'Oiseaux De France',
             // slug: 'odf',
             // seasons: ['all_period', 'breeding', 'wintering'],

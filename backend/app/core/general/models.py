@@ -4,7 +4,7 @@ from app.utils.db import Base, metadata
 
 
 class GeneralStats(Base):
-    __tablename__ = "mv_general_stats"
+    __tablename__ = "mv_general_stats_2"
     __table_args__ = {
         "schema": "atlas",
     }
@@ -18,7 +18,7 @@ class GeneralStats(Base):
 
 
 mv_general_stats = Table(
-    "mv_general_stats",
+    "mv_general_stats_2",
     metadata,
     Column("count_taxa_all_period", Integer),
     Column("count_taxa_breeding", Integer),

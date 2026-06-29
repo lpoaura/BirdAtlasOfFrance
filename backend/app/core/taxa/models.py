@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
  
 class MvTaxaTerritoryDistribution(Base):
-    __tablename__ = "mv_taxa_territory_distribution"
+    __tablename__ = "mv_taxa_territory_distribution_2"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
     cd_nom = Column(Integer)
@@ -27,7 +27,7 @@ class MvTaxaTerritoryDistribution(Base):
 class MvTerritoryAltitudeRanges(Base):
     """Territory altitude ranges"""
 
-    __tablename__ = "mv_territory_altitude_ranges"
+    __tablename__ = "mv_territory_altitude_ranges_2"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
     id_area = Column(Integer)
@@ -37,7 +37,7 @@ class MvTerritoryAltitudeRanges(Base):
 class MvAltitudeDistribution(Base):
     """Taxa altitude distribution"""
 
-    __tablename__ = "mv_alti_distribution"
+    __tablename__ = "mv_alti_distribution_2"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
     id_area = Column(Integer)
@@ -64,7 +64,7 @@ class MvAltitudeTerritory(Base):
 
 
 class MvTaxaAllPeriodPhenology(Base):
-    __tablename__ = "mv_taxa_allperiod_phenology"
+    __tablename__ = "mv_taxa_allperiod_phenology_2"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
     id_area = Column(Integer)
@@ -76,7 +76,7 @@ class MvTaxaAllPeriodPhenology(Base):
 
 
 class MvTaxaBreedingPhenology(Base):
-    __tablename__ = "mv_taxa_breeding_phenology"
+    __tablename__ = "mv_taxa_breeding_phenology_2"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
     id_area = Column(Integer)

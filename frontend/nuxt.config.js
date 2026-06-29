@@ -99,6 +99,7 @@ export default {
     '~/plugins/redLists.js',
     '~/plugins/animateScrollTo.js',
     '~/plugins/debounce.js',
+    '~/plugins/atlasPeriods.js',
     // { src: '~/plugins/vueLeaflet.js', ssr: false },
   ],
 
@@ -295,5 +296,7 @@ export default {
   publicRuntimeConfig: {
     speciesSheet: process.env.SPECIES_SHEET || true,
     newsletterUrl: process.env.NEWSLETTER_URL || false,
+    atlasArchiveEnd: '01/02/2024',
+    atlasCurrentStart: '2024',
   },
 }

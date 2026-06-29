@@ -222,8 +222,8 @@ export default {
     plan: {
       isOn: false,
       url:
-        'https://wxs.ign.fr/pratique/geoportail/wmts?' +
-        '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+        'https://data.geopf.fr/wmts?' +
+        'REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
         '&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&STYLE=normal&FORMAT=image/png' +
         '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
       opacity: '50',
@@ -233,8 +233,8 @@ export default {
     orthophoto: {
       isOn: false,
       url:
-        'https://wxs.ign.fr/pratique/geoportail/wmts?' +
-        '&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
+        'https://data.geopf.fr/wmts?' +
+        'REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&TILEMATRIXSET=PM' +
         '&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&STYLE=normal&FORMAT=image/jpeg' +
         '&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}',
       opacity: '50',

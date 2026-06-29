@@ -5,7 +5,7 @@ from app.utils.db import Base
 
 
 class DataForAtlas(Base):
-    __tablename__ = "mv_data_for_atlas"
+    __tablename__ = "mv_data_for_atlas_2"
     __table_args__ = {
         "schema": "atlas",
     }
@@ -27,7 +27,7 @@ class DataForAtlas(Base):
 
 
 class FormsForAtlas(Base):
-    __tablename__ = "mv_forms_for_atlas"
+    __tablename__ = "mv_forms_for_atlas_2"
     __table_args__ = {
         "schema": "atlas",
     }
@@ -48,7 +48,7 @@ class FormsForAtlas(Base):
 
 
 class AreaKnowledgeTaxaList(Base):
-    __tablename__ = "mv_area_knowledge_list_taxa"
+    __tablename__ = "mv_area_knowledge_list_taxa_2"
     __table_args__ = {"schema": "atlas"}
     id_area = Column(Integer, primary_key=True)
     cd_nom = Column(Integer, primary_key=True)
