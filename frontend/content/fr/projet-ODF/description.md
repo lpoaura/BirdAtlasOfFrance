@@ -55,10 +55,6 @@ Tendances d’évolution de l'Alouette des champs *(Alauda arvensis)* (visualisa
 
 </span>
 
-<!-- Légende du graphique -->
-
-<chart-legend></chart-legend>
-
 ## Estimer les tailles des populations
 
 <div class="InformativePageParagraph">
