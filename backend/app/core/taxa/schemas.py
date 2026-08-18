@@ -91,7 +91,7 @@ class HistoricAtlasInfosSchema(BaseModel):
 class SurveyMapDataProperties(BaseModel):
     area_name: str
     area_code: str
-    data: Optional[List[List[str]]]
+    data_by_year: Optional[Dict[str, List[List[str]]]] = None
 
 
 class SurveyMapDataFeature(BaseFeature):
@@ -100,12 +100,14 @@ class SurveyMapDataFeature(BaseFeature):
 
 class SurveyMapDataFeaturesCollection(BaseFeatureCollection):
     features: List[SurveyMapDataFeature]
+    years: List[str] = []
 
 
 class SurveyChartDataDetailProperties(BaseModel):
     val: Optional[float]
     val_min: Optional[float]
     val_max: Optional[float]
+    val_raw: Optional[float] = None
 
 
 class SurveyChartDataItem(BaseModel):

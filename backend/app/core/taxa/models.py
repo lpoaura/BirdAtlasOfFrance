@@ -111,13 +111,15 @@ class MVHistoricAtlasesData(Base):
 
 
 class MvSurveyMapData(Base):
-    __tablename__ = "mv_survey_map_data"
+    __tablename__ = "mv_survey_map_data_2"
     __table_args__ = {"schema": "atlas"}
     id = Column(Integer, primary_key=True)
     id_area_atlas_territory = Column(ForeignKey(LAreas.id_area), nullable=False)
     id_area = Column(ForeignKey(LAreas.id_area), nullable=False)
     cd_nom = Column(Integer)
     phenology_period = Column(String)
+    survey_year = Column(String)
+    sources = Column(ARRAY(String))
     data = Column(ARRAY(String, dimensions=2))
 
 
@@ -176,7 +178,7 @@ class TTaxa(Base):
 
 
 class TaxaInfosCdnom(Base):
-    __tablename__ = "mv_taxa_infos_cd_nom"
+    __tablename__ = "mv_taxa_infos_cd_nom_2"
     __table_args__ = {"schema": "atlas"}
     cd_nom = Column(Integer, primary_key=True)
     nom_complet = Column(String)

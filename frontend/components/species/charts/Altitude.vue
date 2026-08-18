@@ -28,6 +28,7 @@ const d3 = require('d3')
 export default {
   data: () => ({
     chartData: null,
+    fetchId: 0,
   }),
   computed: {
     idArea() {
@@ -58,13 +59,6 @@ export default {
         this.generateChart()
       },
     },
-    // chartData: {
-    //   deep: true,
-    //   handler() {
-    //     this.renderChart()
-    //     this.renderData()
-    //   },
-    // },
   },
   mounted() {
     this.$nextTick(function () {
@@ -72,35 +66,53 @@ export default {
     })
   },
   methods: {
-    generateChart() {
-      this.getChartData().then(() => {
-        if (this.chartData?.altitude) {
-          this.renderChart()
-          this.renderData()
+    async generateChart() {
+      const currentFetchId = ++this.fetchId
+      if (!this.idArea) {
+        this.chartData = null
+        return
+      }
+      await this.getChartData(currentFetchId)
+      if (currentFetchId !== this.fetchId) return
+
+      try {
+        if (this.hasValidChartData) {
+          // Attendre que le v-if ait monté le DOM avant d'appeler D3
+          await this.$nextTick()
+          if (currentFetchId !== this.fetchId) return
+          if (this.$el?.querySelector?.('.Chart')) {
+            this.renderChart()
+            this.renderData()
+          }
         }
-        this.$store.commit('species/pushSubjectsList', {
-          label: 'Répartition altitudinale',
-          slug: 'altitude',
-          position: 6,
-          status: !!this.hasValidChartData,
-        })
-      })
+      } finally {
+        if (currentFetchId === this.fetchId) {
+          this.$store.commit('species/pushSubjectsList', {
+            label: 'Répartition altitudinale',
+            slug: 'altitude',
+            position: 6,
+            status: !!this.hasValidChartData,
+          })
+        }
+      }
     },
-    async getChartData() {
-      if (this.idArea) {
-        const url = `/api/v1/taxa/chart/altitude`
-        const params = {
-          cd_nom: this.cdNom,
-          id_area: this.idArea,
-          period: this.selectedSeason.value,
-        }
-        this.chartData = await this.$axios
-          .$get(url, {
-            params,
-          })
-          .catch((error) => {
-            console.debug(`${error}`)
-          })
+    async getChartData(fetchId) {
+      const url = `/api/v1/taxa/chart/altitude`
+      const params = {
+        cd_nom: this.cdNom,
+        id_area: this.idArea,
+        period: this.selectedSeason,
+      }
+      const data = await this.$axios
+        .$get(url, {
+          params,
+        })
+        .catch((error) => {
+          console.debug(`${error}`)
+          return null
+        })
+      if (fetchId === this.fetchId) {
+        this.chartData = data
       }
     },
     renderData() {
@@ -244,34 +256,37 @@ export default {
         )
     },
     renderChart() {
-      d3.select(this.$el).select('.BarPlotSvg').remove()
+      const root = this.$el
+      if (!root?.querySelector) return
 
-      d3.select(this.$el)
-        .select('.Chart')
-        .append('svg')
-        .attr('class', 'BarPlotSvg')
+      d3.select(root).select('.BarPlotSvg').remove()
+
+      d3.select(root).select('.Chart').append('svg').attr('class', 'BarPlotSvg')
       // Get bar plot size
       this.margin = { top: 10, right: 0, bottom: 24, left: 70 }
+      const chartEl = d3.select(root).select('.Chart').node()
+      const chartRect = chartEl?.getBoundingClientRect?.()
+      const chartWidth = chartRect?.width ?? 0
+      const chartHeight = chartRect?.height ?? 0
+
       this.width = Math.max(
-        parseFloat(d3.select(this.$el).select('.Chart').style('width')) -
-          this.margin.left -
-          this.margin.right,
-        420
+        chartWidth - this.margin.left - this.margin.right,
+        0
       )
-      this.height =
-        parseFloat(d3.select(this.$el).select('.Chart').style('height')) -
-        this.margin.top -
-        this.margin.bottom
+      this.height = Math.max(
+        chartHeight - this.margin.top - this.margin.bottom,
+        0
+      )
       // Get bar plot svg and set size
       this.chart = d3
-        .select(this.$el)
+        .select(root)
         .select('.BarPlotSvg')
         .attr('width', this.width + this.margin.left + this.margin.right)
         .attr('height', this.height + this.margin.top + this.margin.bottom)
         .append('g')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
       // Set X axis and add it
-      this.xAxis = d3.scaleLinear().range([0, this.width - 20])
+      this.xAxis = d3.scaleLinear().range([0, this.width])
       this.yAxis = d3.scaleLinear().range([this.height, 0])
       // Bars
     },

@@ -118,7 +118,7 @@ export default {
           territory.isActive && territoryList.includes(territory.area_code)
       )
       console.log('FIRST TERRITORY', firstTerritory)
-      this.$store.commit('species/setSelectedTerritory', firstTerritory)
+      this.$store.dispatch('species/selectTerritory', firstTerritory)
     },
     // async getOldSpecieData_old() {
     //   const species = await this.$axios
@@ -540,7 +540,7 @@ nav.NavDrawer {
   width: 100%;
   max-width: 1050px;
   padding: 24px 32px;
-  margin-bottom: 40px;
+  margin: 0 auto 40px;
   border: 1px solid rgba(51, 105, 80, 0.2);
   box-sizing: border-box;
   border-radius: 16px;

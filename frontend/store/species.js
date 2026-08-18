@@ -144,21 +144,11 @@ export const mutations = {
   setSelectedSubject(state, subject) {
     state.selectedSubject = subject
   },
-  async setSelectedTerritory(state, territory) {
-    state.selectedTerritory = territory
-    console.log(
-      'STORE setSelectedTerritory',
-      state.selectedTerritory,
-      territory
-    )
-    // const data = {...territory}
-    await this.$axios
-      .$get(
-        `/api/v1/lareas/ATLAS_TERRITORY/${territory.area_code}?geom=false&bbox=false`
-      )
-      .then((resp) => {
-        state.selectedTerritory.id_area = resp.id_area
-      })
+  setSelectedTerritory(state, territory) {
+    state.selectedTerritory = {
+      ...territory,
+      id_area: territory.id_area ?? null,
+    }
   },
   setSelectedSeason(state, season) {
     state.selectedSeason = season
@@ -212,12 +202,26 @@ export const mutations = {
     state.territoryDistribution = distribution
   },
 }
- 
-// export const actions = {
-//  revertAtlasIsOpen(context, atlas) {
-//     console.debug('actions context',context)
-//     console.debug('actions atlas',atlas)
-//    const atlasState = !atlas
-//    context.commit(atlasState)
-//  },
-// }
+
+export const actions = {
+  async selectTerritory({ commit, state }, territory) {
+    commit('setSelectedTerritory', {
+      ...territory,
+      id_area: null,
+    })
+    console.log('STORE selectTerritory', territory)
+    try {
+      const resp = await this.$axios.$get(
+        `/api/v1/lareas/ATLAS_TERRITORY/${territory.area_code}?geom=false&bbox=false`
+      )
+      // Ignore si l'utilisateur a déjà changé de territoire entre-temps
+      if (state.selectedTerritory.area_code !== territory.area_code) return
+      commit('setSelectedTerritory', {
+        ...state.selectedTerritory,
+        id_area: resp.id_area,
+      })
+    } catch (error) {
+      console.debug('selectTerritory id_area fetch failed', error)
+    }
+  },
+}

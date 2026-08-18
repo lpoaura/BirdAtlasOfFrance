@@ -1,7 +1,7 @@
 # actions.py
 
 import logging
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 
 from geoalchemy2 import functions as geofunc
 from sqlalchemy import VARCHAR, String, and_, case, cast, distinct, func
@@ -562,6 +562,14 @@ class TaxaBreedingPhenologyActions:
 class SurveyMapDataActions:
     """Post actions with basic CRUD operations"""
 
+    @staticmethod
+    def _survey_year_sort_key(year: str) -> int:
+        if not year:
+            return 0
+        if "-" in year:
+            return int(year.split("-")[-1])
+        return int(year)
+
     def data_distribution(
         self,
         db: Session,
@@ -570,7 +578,7 @@ class SurveyMapDataActions:
         phenology_period: str,
         simplified_area_id_type: str = "DEP_SIMPLIFY",
         area_id_type: str = "DEP",
-    ) -> List:
+    ) -> Tuple[List[str], List]:
         dept = aliased(LAreas)
         dept_simp = aliased(LAreas)
 
@@ -589,16 +597,12 @@ class SurveyMapDataActions:
 
         query = (
             db.query(
-                MvSurveyMapData.id,
-                func.json_build_object(
-                    "area_name",
-                    dept.area_name,
-                    "area_code",
-                    dept.area_code,
-                    "data",
-                    MvSurveyMapData.data,
-                ).label("properties"),
+                dept.id_area,
+                dept.area_name,
+                dept.area_code,
                 dept_simp.geojson_4326.label("geometry"),
+                MvSurveyMapData.survey_year,
+                MvSurveyMapData.data,
             )
             .join(
                 MvSurveyMapData,
@@ -615,8 +619,48 @@ class SurveyMapDataActions:
                 dept.id_type == DEP_ID_TYPE,
                 dept_simp.id_type == DEP_SIMPLIFY_ID_TYPE,
             )
+            .order_by(dept.area_code, MvSurveyMapData.survey_year)
         )
-        return query.all()
+        rows = query.all()
+
+        areas: Dict[int, Dict[str, Any]] = {}
+        years = set()
+
+        for row in rows:
+            area_id = row.id_area
+            if area_id not in areas:
+                areas[area_id] = {
+                    "area_name": row.area_name,
+                    "area_code": row.area_code,
+                    "geometry": row.geometry,
+                    "data_by_year": {},
+                }
+
+            if row.survey_year and row.data:
+                areas[area_id]["data_by_year"][row.survey_year] = row.data
+                years.add(row.survey_year)
+
+        sorted_years = sorted(years, key=self._survey_year_sort_key)
+        features = []
+        for area_id, area_data in areas.items():
+            data_by_year = area_data["data_by_year"] or None
+            features.append(
+                type(
+                    "SurveyMapRow",
+                    (),
+                    {
+                        "id": area_id,
+                        "properties": {
+                            "area_name": area_data["area_name"],
+                            "area_code": area_data["area_code"],
+                            "data_by_year": data_by_year,
+                        },
+                        "geometry": area_data["geometry"],
+                    },
+                )()
+            )
+
+        return sorted_years, features
 
 
 class SurveyChartDataActions:

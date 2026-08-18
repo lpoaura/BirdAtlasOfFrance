@@ -34,6 +34,7 @@
 export default {
   data: () => ({
     apiData: null,
+    fetchId: 0,
   }),
 
   computed: {
@@ -89,24 +90,51 @@ export default {
     },
 
     async fetchData() {
+      const currentFetchId = ++this.fetchId
+      if (!this.idArea) {
+        this.apiData = null
+        return
+      }
+
+      const idArea = this.idArea
       const response = await fetch(
-        `/api/v1/taxa/tab/survey?cd_nom=${this.cdNom}&id_area=${this.idArea}&phenology_period=${this.phenologyPeriod}`
-      );
-      this.apiData = await response.json();
+        `/api/v1/taxa/tab/survey?cd_nom=${this.cdNom}&id_area=${idArea}&phenology_period=${this.phenologyPeriod}`
+      )
+      const data = await response.json()
+      if (currentFetchId !== this.fetchId) return
+
+      this.apiData = data
+      this.updateSubjectsList()
+    },
+
+    updateSubjectsList() {
+      const hasData = this.apiData?.data?.length > 0
+      this.$store.commit('species/pushSubjectsList', {
+        label: 'Taille de population',
+        slug: 'population-size',
+        position: 5,
+        status: hasData,
+      })
+    },
+  },
+
+  watch: {
+    idArea: {
+      handler() {
+        this.apiData = null
+        this.fetchData()
+      },
+    },
+    phenologyPeriod: {
+      handler() {
+        this.apiData = null
+        this.fetchData()
+      },
     },
   },
 
   mounted() {
-    this.fetchData().then(() => {
-    // Ajoute le sujet dans la navbar
-    const hasData = this.apiData?.data?.length > 0;
-    this.$store.commit('species/pushSubjectsList', {
-      label: "Taille de population", // Le nom qui s'affiche dans la navbar
-      slug: 'population-size',       // Doit correspondre au routeur ou usage interne
-      position: 5,                   // À adapter selon l'ordre souhaité
-      status: hasData                // Active si les données sont présentes
-    });
-  });
+    this.fetchData()
   },
 };
 </script>

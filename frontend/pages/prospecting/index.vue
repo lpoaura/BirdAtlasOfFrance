@@ -314,7 +314,7 @@ export default {
           territory.isActive && territoryList.includes(territory.area_code)
       )
       console.log('FIRST TERRITORY', firstTerritory)
-      this.$store.commit('species/setSelectedTerritory', firstTerritory)
+      this.$store.dispatch('species/selectTerritory', firstTerritory)
     },
     updateSelectedArea(data) {
       this.selectedArea = data

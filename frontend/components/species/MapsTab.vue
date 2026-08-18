@@ -34,6 +34,8 @@ export default {
     // Retourne un objet contenant les données locales du composant
     data: () => ({
         descriptionHeight: 0,
+        // Saisons où les deux atlas 2009-2012 et 2019-2023 sont disponibles
+        compareAvailableSeasons: [],
         mapAtlasBaseSubjects: [
             // // Catégorie "Prospection de la fiche espèce" :
             // {
@@ -88,6 +90,25 @@ export default {
         selectedTerritory() {
             return this.$store.state.species.selectedTerritory
         },
+        // Comparaison AOFM/ODF : FRMET + atlas 2009-2012 et 2019-2023 disponibles pour au moins une période
+        mapOthersSubjects() {
+            const isMetropole = this.selectedTerritory?.area_code === 'FRMET'
+            const hasCompare =
+                isMetropole && this.compareAvailableSeasons.length > 0
+            return this.mapOthersBaseSubjects
+                .filter(
+                    (subject) => subject.slug !== 'compare-aofm-odf' || hasCompare
+                )
+                .map((subject) => {
+                    if (subject.slug === 'compare-aofm-odf') {
+                        return {
+                            ...subject,
+                            seasons: [...this.compareAvailableSeasons],
+                        }
+                    }
+                    return subject
+                })
+        },
     },
     // Observe les changements sur selectedTerritory et appelle loadHistoricAtlasList() si newVal.id_area est défini.
     watch: {
@@ -95,6 +116,9 @@ export default {
             handler(newVal, oldVal) {
                 if (newVal.id_area) {
                     this.loadHistoricAtlasList()
+                } else {
+                    this.compareAvailableSeasons = []
+                    this.updateMapOthersSubjects()
                 }
             },
             deep: true,
@@ -109,13 +133,66 @@ export default {
         // Initialise les listes de sujets dans le state Vuex
         initSubjectsList() {
             this.$store.commit('species/setSubjectsMapAtlasList', this.mapAtlasBaseSubjects)
-            this.$store.commit('species/setSubjectsMapOthersList', this.mapOthersBaseSubjects)
-            // Si mapAtlasBaseSubjects est vide, utilisez le premier élément de mapOthersBaseSubjects
-            const defaultSubject = this.mapAtlasBaseSubjects.length > 0 ? this.mapAtlasBaseSubjects[0] : this.mapOthersBaseSubjects[0]
+            this.updateMapOthersSubjects()
+            // Si mapAtlasBaseSubjects est vide, utilisez le premier élément de mapOthersSubjects
+            const defaultSubject =
+                this.mapAtlasBaseSubjects.length > 0
+                    ? this.mapAtlasBaseSubjects[0]
+                    : this.mapOthersSubjects[0]
             this.$store.commit('species/setSelectedSubject', defaultSubject)
+        },
+        // Saisons communes aux atlas 2009-2012 et 2019-2023
+        getCompareAvailableSeasons(atlasList) {
+            const comparePeriods = ['2009-2012', '2019-2023']
+            const seasonsByPeriod = Object.fromEntries(
+                comparePeriods.map((period) => [period, new Set()])
+            )
+            ;(atlasList || []).forEach((atlas) => {
+                if (
+                    comparePeriods.includes(atlas.label) &&
+                    Array.isArray(atlas.seasons)
+                ) {
+                    atlas.seasons.forEach((season) =>
+                        seasonsByPeriod[atlas.label].add(season)
+                    )
+                }
+            })
+            const [periodOld, periodNew] = comparePeriods
+            if (
+                seasonsByPeriod[periodOld].size === 0 ||
+                seasonsByPeriod[periodNew].size === 0
+            ) {
+                return []
+            }
+            return [...seasonsByPeriod[periodOld]].filter((season) =>
+                seasonsByPeriod[periodNew].has(season)
+            )
+        },
+        // Met à jour la liste des sujets "autres" selon le territoire et la dispo des atlas
+        updateMapOthersSubjects() {
+            const subjects = this.mapOthersSubjects
+            this.$store.commit('species/setSubjectsMapOthersList', subjects)
+            const compareSubject = subjects.find(
+                (s) => s.slug === 'compare-aofm-odf'
+            )
+            if (this.selectedSubject?.slug === 'compare-aofm-odf') {
+                if (compareSubject) {
+                    this.$store.commit('species/setSelectedSubject', compareSubject)
+                } else {
+                    const atlasList = this.$store.state.species.subjectsMapAtlasList
+                    const fallback =
+                        Array.isArray(atlasList) && atlasList.length > 0
+                            ? atlasList[0]
+                            : subjects[0]
+                    if (fallback) {
+                        this.$store.commit('species/setSelectedSubject', fallback)
+                    }
+                }
+            }
         },
         // Charge la liste des atlas historiques depuis une API et met à jour le state Vuex avec les données reçues
         loadHistoricAtlasList() {
+          if (!this.cdNom || !this.idArea) return
           const url = `/api/v1/taxa/list/historic/atlas`
           const params = {
             cd_nom: this.cdNom,
@@ -126,10 +203,16 @@ export default {
               params,
             })
             .then((data) => {
-              this.$store.commit('species/updateSubjectsMapAtlasList', data || [])
+              const atlasList = data || []
+              this.$store.commit('species/updateSubjectsMapAtlasList', atlasList)
+              this.compareAvailableSeasons =
+                this.getCompareAvailableSeasons(atlasList)
+              this.updateMapOthersSubjects()
             })
             .catch((error) => {
               console.debug(`${error}`)
+              this.compareAvailableSeasons = []
+              this.updateMapOthersSubjects()
             })
         },
     },

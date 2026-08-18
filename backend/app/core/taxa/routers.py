@@ -28,6 +28,7 @@ from .schemas import (  # HistoricAtlasFeature,; HistoricAtlasFeaturesCollection
     HistoricAtlasInfosSchema,
     TaxaDetailsResponse,
     SurveyChartDataItem,
+    SurveyChartDataDetailProperties,
     SurveyChartData,
     SurveyTabDataItem,
     SurveyTabData,
@@ -436,7 +437,7 @@ def get_survey_map_data(
     :return: _description_
     :rtype: Any
     """
-    query = survey_map_data.data_distribution(
+    years, query = survey_map_data.data_distribution(
         db,
         cd_nom=cd_nom,
         id_area_atlas_territory=id_area_atlas_territory,
@@ -447,12 +448,12 @@ def get_survey_map_data(
     features = [
         SurveyMapDataFeature(
             properties=item.properties,
-            geometry=json.loads(item.geometry),
+            geometry=json.loads(item.geometry) if item.geometry else None,
             id=item.id,
         )
         for item in query
     ]
-    return SurveyMapDataFeaturesCollection(features=features)
+    return SurveyMapDataFeaturesCollection(features=features, years=years)
 
 
 @router.get(
@@ -495,14 +496,22 @@ def get_survey_chart_data(
         phenology_period=phenology_period,
     )
     print(dir(data))
+    chart_items = []
+    for d in data:
+        payload = d.data
+        if isinstance(payload, str):
+            payload = json.loads(payload)
+        chart_items.append(
+            SurveyChartDataItem(
+                year=d.year,
+                unit=d.unit,
+                data=SurveyChartDataDetailProperties.model_validate(payload),
+            )
+        )
     return SurveyChartData(
         descriptions=descriptions or [],
         source=source or [],
-        data=(
-            [SurveyChartDataItem(year=d.year, unit=d.unit, data=d.data) for d in data]
-            if len(data) > 0
-            else []
-        ),
+        data=chart_items if len(chart_items) > 0 else [],
     )
 
 

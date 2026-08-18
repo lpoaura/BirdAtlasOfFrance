@@ -203,7 +203,7 @@ export default {
     },
     updateSelectedTerritory(territory) {
       console.log('updateSelectedTerritory')
-      this.$store.commit('species/setSelectedTerritory', territory)
+      this.$store.dispatch('species/selectTerritory', territory)
     },
   },
 }

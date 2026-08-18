@@ -1,9 +1,7 @@
 <template>
   <div class="SpeciesCardContent">
     <div
-      v-if="
-        subjectsList.length > 0 && subjectsList.filter((i) => i.status) == 0
-        "
+      v-if="showNoDataMessage"
       class="no-data-info"
     >
       Aucune donnée à restituer pour ce territoire et cette période
@@ -36,11 +34,36 @@ export default {
     selectedSeason() {
       return this.$store.state.species.selectedSeason
     },
-    selectedTerritory() {
-      return this.$store.state.species.selectedTerritory
+    selectedTerritoryCode() {
+      return this.$store.state.species.selectedTerritory?.area_code
     },
     subjectsList() {
       return this.$store.state.species.subjectsList
+    },
+    expectedChartSlugs() {
+      const season = this.selectedSeason?.value
+      if (season === 'all_period') {
+        return ['phenology-all-period', 'phenology-migration', 'altitude']
+      }
+      if (season === 'wintering') {
+        return ['trend', 'altitude']
+      }
+      if (season === 'breeding') {
+        return ['trend', 'population-size', 'altitude']
+      }
+      return ['altitude']
+    },
+    chartsHaveAllReported() {
+      const reportedSlugs = this.subjectsList.map((s) => s.slug)
+      return this.expectedChartSlugs.every((slug) =>
+        reportedSlugs.includes(slug)
+      )
+    },
+    showNoDataMessage() {
+      return (
+        this.chartsHaveAllReported &&
+        this.subjectsList.filter((i) => i.status).length === 0
+      )
     },
   },
   watch: {
@@ -49,11 +72,10 @@ export default {
         this.initSubjectsList()
       },
     },
-    selectedTerritory: {
+    selectedTerritoryCode: {
       handler() {
         this.initSubjectsList()
       },
-      deep: true,
     },
   },
   mounted() {
