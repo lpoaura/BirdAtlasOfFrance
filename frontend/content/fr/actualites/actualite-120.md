@@ -25,7 +25,7 @@ Si vous détectez la présence d’une espèce par son chant et qu’il est **tr
 A présent, vous savez quels outils utiliser et dans quelles circonstances pour rendre compte du comportement des oiseaux en période de reproduction et en dehors ! 
 
 ## Pour approfondir  : 
-[Télécharger l’article Ornithos sur l’icone « Chant «] *https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFnews/ORNITHOS174Iconechant.pdf
-[Télécharger le mémo « codes atlas »]( https://cdnfiles2.biolovision.net/www.faune-france.org/pdffiles/news/MmoCodeAtlasFichierComplet20241211-2164.pdf)
+[Télécharger l’article Ornithos sur l’icone "Chant" ](https://cdnfiles1.biolovision.net/www.faune-france.org/userfiles/FauneFrance/FFnews/ORNITHOS174Iconechant.pdf)
+[Télécharger le mémo « codes atlas »](https://cdnfiles2.biolovision.net/www.faune-france.org/pdffiles/news/MmoCodeAtlasFichierComplet20241211-2164.pdf)
 
 
