@@ -1,7 +1,7 @@
 ---
 title: "Observations ornithologiques : chaque détail compte !"
 picture: actualite-120.webp
-credit:  © 
+credit: Merle noir © Bernard Deceuninck
 centering: center
 author: Oiseaux de France
 date: '2026-07-20'
