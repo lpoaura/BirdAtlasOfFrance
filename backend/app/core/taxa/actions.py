@@ -357,6 +357,7 @@ class HistoricAtlasesActions:
             func.array_agg(distinct(THistoricAtlasesInfo.season_period), type_=VARCHAR),
             ARRAY(String),
         ).label("seasons")
+        date_start_agg = func.max(THistoricAtlasesInfo.date_start)
         query = (
             db.query(
                 THistoricAtlasesInfo.atlas_period.label("label"),
@@ -371,7 +372,7 @@ class HistoricAtlasesActions:
                 THistoricAtlasesInfo.description,
                 THistoricAtlasesInfo.code,
             )
-            .order_by(THistoricAtlasesInfo.atlas_period.desc())
+            .order_by(date_start_agg.desc().nullslast())
             .distinct()
         )
         if cd_nom:
@@ -388,8 +389,8 @@ class HistoricAtlasesActions:
         cd_nom: int,
         period: str,
         id_territory: int,
-        atlas_period_1: str = "2009-2012",
-        atlas_period_2: str = "2019-2023",
+        atlas_period_1: str = "AOFM (2009-2012)",
+        atlas_period_2: str = "ODF (2019-2024)",
     ):
         """
         Compare deux atlas historiques et retourne les grilles avec leur statut.

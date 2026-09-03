@@ -173,11 +173,7 @@ export const mutations = {
     state.subjectsMapAtlasList = maps
   },
   updateSubjectsMapAtlasList(state, maps) {
-    // Retirer uniquement les anciens atlas liés à ce cd_nom/territoire si besoin
-    state.subjectsMapAtlasList = state.subjectsMapAtlasList.filter(
-      (i) => !['aofm', 'odf'].some(prefix => i.slug.startsWith(prefix))
-    )
-    maps.forEach((i) => state.subjectsMapAtlasList.push(i))
+    state.subjectsMapAtlasList = maps || []
   },
   pushSubjectsMapAtlasList(state, map) {
     state.subjectsMapAtlasList.push(map)

@@ -52,8 +52,7 @@ export default {
     // currentZoom: 11,
     center: [46.4, 2.2],
     bounds: null,
-    osmUrl:
-      'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    osmUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     envelope: null,
     // CONFIGURATION DES GEOJSON
     // Emprises des territoires
@@ -151,16 +150,16 @@ export default {
           //   }
           // } 
           else if (this.selectedSubject.slug === 'compare-aofm-odf') {
-            // NOUVELLE COMPARAISON: 2009-2012 vs 2019-2023
+            // Comparaison AOFM (2009-2012) vs ODF (2019-2024)
             console.debug('CASE compare Historic Atlases')
             return {
               weight: 0,
               color: 'rgba(0,0,0,0)',
               fillColor:
                 feature.properties.status === 'NEW'
-                  ? '#EB6A0A'  // Orange: uniquement 2019-2023
+                  ? '#EB6A0A'  // Orange: uniquement ODF (2019-2024)
                   : feature.properties.status === 'OLD'
-                  ? '#4C61F4'  // Bleu: uniquement 2009-2012
+                  ? '#4C61F4'  // Bleu: uniquement AOFM (2009-2012)
                   : '#D999EF', // Rose: les deux
               fillOpacity: 0.7,
             }
@@ -292,32 +291,53 @@ export default {
       }
       let url = null
 
-      // Atlas ODF standard :
-      if (this.selectedSubject.slug === 'odf') {
-        console.debug('ODF data')
-        url = `/api/v1/taxa/map/distribution`
-        params = { ...params }
-      } 
-      // Atlas historiques :
-      else if (this.selectedSubject.slug.startsWith('aofm') || this.selectedSubject.slug.startsWith('odf')) { 
-          console.debug('Historic atlas data')
-          url = `/api/v1/taxa/map/historic/atlas`
-          params = { ...params }
-          params.atlas_period = this.selectedSubject.label
-          params.period = this.selectedSeason.value
-          params.id_area = this.selectedTerritory.id_area
-      } 
-      // NOUVELLE COMPARAISON: AOFM/ODF (2009-2012 vs 2019-2023) :
-      else if (this.selectedSubject.slug === 'compare-aofm-odf') {
-        console.debug('Compare Historic Atlases 2009-2012 vs 2019-2023')
+      const atlasList = Array.isArray(
+        this.$store.state.species.subjectsMapAtlasList
+      )
+        ? this.$store.state.species.subjectsMapAtlasList
+        : []
+      const isHistoricAtlas = atlasList.some(
+        (atlas) =>
+          (atlas.slug && atlas.slug === this.selectedSubject.slug) ||
+          (atlas.label && atlas.label === this.selectedSubject.label)
+      )
+
+      // Comparaison AOFM (2009-2012) vs ODF (2019-2024) :
+      if (this.selectedSubject.slug === 'compare-aofm-odf') {
+        const aofmLabel =
+          this.selectedSubject.atlas_period_1 ||
+          atlasList.find((atlas) => atlas.label && atlas.label.includes('2009-2012'))
+            ?.label ||
+          'AOFM (2009-2012)'
+        const odfLabel =
+          this.selectedSubject.atlas_period_2 ||
+          atlasList.find(
+            (atlas) =>
+              atlas.label &&
+              (atlas.label.includes('2019-2024') ||
+                atlas.label.includes('2019-2023'))
+          )?.label ||
+          'ODF (2019-2024)'
+        console.debug('Compare Historic Atlases', aofmLabel, 'vs', odfLabel)
         url = `/api/v1/taxa/map/compare/historic/atlas`
         params = {
           cd_nom: this.cdNom,
           period: this.selectedSeason.value,
           id_area: this.selectedTerritory.id_area,
-          atlas_period_1: '2009-2012',
-          atlas_period_2: '2019-2023',
+          atlas_period_1: aofmLabel,
+          atlas_period_2: odfLabel,
         }
+      } else if (isHistoricAtlas) {
+        console.debug('Historic atlas data')
+        url = `/api/v1/taxa/map/historic/atlas`
+        params = { ...params }
+        params.atlas_period = this.selectedSubject.label
+        params.period = this.selectedSeason.value
+        params.id_area = this.selectedTerritory.id_area
+      } else if (this.selectedSubject.slug === 'odf') {
+        console.debug('ODF data')
+        url = `/api/v1/taxa/map/distribution`
+        params = { ...params }
       }
       // // Comparaison AOFM vs Prospection :
       // else if (this.selectedSubject.slug === 'compare-aofm-prospection') {

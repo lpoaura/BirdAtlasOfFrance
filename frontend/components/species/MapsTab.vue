@@ -34,8 +34,12 @@ export default {
     // Retourne un objet contenant les données locales du composant
     data: () => ({
         descriptionHeight: 0,
-        // Saisons où les deux atlas 2009-2012 et 2019-2023 sont disponibles
+        // Saisons où les deux atlas AOFM (2009-2012) et ODF (2019-2024) sont disponibles
         compareAvailableSeasons: [],
+        compareAtlasLabels: {
+            aofm: 'AOFM (2009-2012)',
+            odf: 'ODF (2019-2024)',
+        },
         mapAtlasBaseSubjects: [
             // // Catégorie "Prospection de la fiche espèce" :
             // {
@@ -90,7 +94,7 @@ export default {
         selectedTerritory() {
             return this.$store.state.species.selectedTerritory
         },
-        // Comparaison AOFM/ODF : FRMET + atlas 2009-2012 et 2019-2023 disponibles pour au moins une période
+        // Comparaison AOFM/ODF : FRMET + atlas AOFM (2009-2012) et ODF (2019-2024) disponibles
         mapOthersSubjects() {
             const isMetropole = this.selectedTerritory?.area_code === 'FRMET'
             const hasCompare =
@@ -104,6 +108,8 @@ export default {
                         return {
                             ...subject,
                             seasons: [...this.compareAvailableSeasons],
+                            atlas_period_1: this.compareAtlasLabels.aofm,
+                            atlas_period_2: this.compareAtlasLabels.odf,
                         }
                     }
                     return subject
@@ -141,32 +147,40 @@ export default {
                     : this.mapOthersSubjects[0]
             this.$store.commit('species/setSelectedSubject', defaultSubject)
         },
-        // Saisons communes aux atlas 2009-2012 et 2019-2023
-        getCompareAvailableSeasons(atlasList) {
-            const comparePeriods = ['2009-2012', '2019-2023']
-            const seasonsByPeriod = Object.fromEntries(
-                comparePeriods.map((period) => [period, new Set()])
+        isAofmAtlas(atlas) {
+            return Boolean(atlas?.label && atlas.label.includes('2009-2012'))
+        },
+        isOdfAtlas(atlas) {
+            return Boolean(
+                atlas?.label &&
+                    (atlas.label.includes('2019-2024') ||
+                        atlas.label.includes('2019-2023'))
             )
-            ;(atlasList || []).forEach((atlas) => {
-                if (
-                    comparePeriods.includes(atlas.label) &&
-                    Array.isArray(atlas.seasons)
-                ) {
-                    atlas.seasons.forEach((season) =>
-                        seasonsByPeriod[atlas.label].add(season)
-                    )
-                }
-            })
-            const [periodOld, periodNew] = comparePeriods
+        },
+        findCompareAtlases(atlasList) {
+            const list = atlasList || []
+            return {
+                aofm: list.find((atlas) => this.isAofmAtlas(atlas)),
+                odf: list.find((atlas) => this.isOdfAtlas(atlas)),
+            }
+        },
+        // Saisons communes aux atlas AOFM (2009-2012) et ODF (2019-2024)
+        getCompareAvailableSeasons(atlasList) {
+            const { aofm, odf } = this.findCompareAtlases(atlasList)
+            this.compareAtlasLabels = {
+                aofm: aofm?.label || 'AOFM (2009-2012)',
+                odf: odf?.label || 'ODF (2019-2024)',
+            }
             if (
-                seasonsByPeriod[periodOld].size === 0 ||
-                seasonsByPeriod[periodNew].size === 0
+                !aofm ||
+                !odf ||
+                !Array.isArray(aofm.seasons) ||
+                !Array.isArray(odf.seasons)
             ) {
                 return []
             }
-            return [...seasonsByPeriod[periodOld]].filter((season) =>
-                seasonsByPeriod[periodNew].has(season)
-            )
+            const odfSeasons = new Set(odf.seasons)
+            return aofm.seasons.filter((season) => odfSeasons.has(season))
         },
         // Met à jour la liste des sujets "autres" selon le territoire et la dispo des atlas
         updateMapOthersSubjects() {

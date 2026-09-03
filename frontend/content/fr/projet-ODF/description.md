@@ -11,7 +11,7 @@ hash: ''
 
 <div class="InformativePageParagraph">
 
-Oiseaux de France (ODF) est un projet de **science participative** qui offre aujourd’hui une **diffusion de l’état des connaissances de l'avifaune française** en période de **nidification** et d'**hivernage**, pour la **France métropolitaine** et les territoires **ultramarins**. 
+Oiseaux de France (ODF) est un projet de **sciences participatives** qui offre aujourd’hui une **diffusion de l’état des connaissances de l'avifaune française** en période de **nidification** et d'**hivernage**, pour la **France métropolitaine** et les territoires **ultramarins**. 
 </div>
 
 <img class="InformativePagePicture" style="width: 80%" src="/what-is-ODF-project/Manakin.webp" />
@@ -44,14 +44,14 @@ Dans les départements et territoires ultra-marins, le grain de restitution vari
 
 <div class="InformativePageParagraph">
 
-L'évaluation de la tendance des espèces se base sur plusieurs dispositifs de surveillance nationaux (STOC, SHOC, Observatoire Rapaces, comptage Wetlands...).
+L'évaluation de la tendance des espèces se base sur plusieurs dispositifs de surveillance nationaux (STOC, SHOC, Enquête Rapaces diurnes, comptage Wetlands...).
 </div>
 
 <img class="InformativePagePicture" style="width: 70%" src="/what-is-ODF-project/Tendance_alouettedeschamps_2001-2023.png" />
 
 <span class="InformativePagePictureLegend no-bottom-margin">
 
-Tendances d’évolution de l'Alouette des champs *(Alauda arvensis)* (visualisable sur la fiche-espèce)
+Tendances d’évolution de l'Alouette des champs (Alauda arvensis) (visualisable sur la fiche-espèce)
 
 </span>
 
@@ -65,7 +65,7 @@ Il s'agit d'obtenir des **effectifs fiables** pour un maximum d'espèces. Sont a
 
 <span class="InformativePagePictureLegend no-bottom-margin">
 
-Estimations des effectifs nicheurs de l'Alouette des champs *(Alauda arvensis)* (visualisable sur la fiche-espèce-rubrique )
+Estimations des effectifs nicheurs de l'Alouette des champs (Alauda arvensis) (visualisable sur la fiche-espèce)
 
 </span>
 

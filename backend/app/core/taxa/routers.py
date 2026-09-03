@@ -244,16 +244,16 @@ def compare_historic_atlases(
     cd_nom: int,
     period: str,
     id_area: int,
-    atlas_period_1: str = "2009-2012",
-    atlas_period_2: str = "2019-2023",
+    atlas_period_1: str = "AOFM (2009-2012)",
+    atlas_period_2: str = "ODF (2019-2024)",
     db: Session = Depends(get_db),
 ):
     """
     Compare les grilles de présence entre deux atlas historiques.
     Retourne:
     - Rose (BOTH): grilles présentes dans les deux atlas
-    - Orange (NEW): grilles présentes uniquement dans l'atlas récent (2019-2023)
-    - Bleu (OLD): grilles présentes uniquement dans l'atlas ancien (2009-2012)
+    - Orange (NEW): grilles présentes uniquement dans l'atlas récent ODF (2019-2024)
+    - Bleu (OLD): grilles présentes uniquement dans l'atlas ancien AOFM (2009-2012)
     """
     import json
 

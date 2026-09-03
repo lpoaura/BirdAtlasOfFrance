@@ -15,3 +15,7 @@ hash: '#partners'
 ## Nos partenaires techniques
 
 <partners-logos :partners-type="'technical'"></partners-logos>
+
+## Bases de données naturalistes qui alimentent ODF
+
+<partners-logos :partners-type="'bdd'"></partners-logos>

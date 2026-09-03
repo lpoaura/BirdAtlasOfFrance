@@ -18,6 +18,4 @@ S'engager dans des suivis plus standardisés exige plus de temps et une solide c
 
 </div>
 
-Pour plus d'informations sur le projet ODF, les dispositifs et les actions dans votre département, vous pouvez consulter les **référents locaux** en cliquant sur <a href="/get-involved/ODF-contacts-coordinateurs-locaux.pdf" target="_blank">ce lien</a>.
-
 <img class="InformativePagePicture" style="width: 64%" src="/what-is-ODF-project/protocols-outline.webp" />

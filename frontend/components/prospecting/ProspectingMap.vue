@@ -404,9 +404,7 @@ export default {
     isProgramaticZoom: false,
     center: [48.85341, 2.3488],
     bounds: null,
-    // url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    osmUrl:
-      'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    osmUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     envelope: null,
     // CONFIGURATION DES GEOJSON
     // Limites des territoires
