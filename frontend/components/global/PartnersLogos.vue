@@ -154,13 +154,13 @@ export default {
   width: 100%;
 }
 
-.PartnerLogoLink:hover .PartnerLogo {
-  opacity: 0.8;
-}
-
 .PartnerLogo {
   max-width: 100%;
   max-height: 100px;
   margin: auto;
+}
+
+.PartnerLogoLink:hover .PartnerLogo {
+  opacity: 0.8;
 }
 </style>

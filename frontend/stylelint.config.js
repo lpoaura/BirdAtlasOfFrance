@@ -23,11 +23,9 @@ module.exports = {
   // add your custom config here
   // https://stylelint.io/user-guide/configuration
   rules: {
+    // PascalCase, camelCase, kebab-case, BEM (block__element--modifier), Vue transitions
     'selector-class-pattern':
-      '^[A-Z][a-zA-Z0-9]+$' |
-      '^[a-z][a-zA-Z0-9]+$' |
-      '^([a-z][a-z0-9]*)(-[a-z0-9]+)*$' |
-      '^([a-z][a-z0-9]*)(_[a-z0-9]+)*$',
+      '^[a-zA-Z][a-zA-Z0-9]*(?:[-_]{1,2}[a-zA-Z0-9]+)*$',
     'color-function-notation': 'legacy',
     'alpha-value-notation': 'number',
     'font-family-name-quotes': 'always-unless-keyword',
